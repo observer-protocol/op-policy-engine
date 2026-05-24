@@ -1,0 +1,30 @@
+{
+  "_template": "treasury-ops",
+  "_description": "High-value treasury operations: large per-order ceilings, business-hours only, OP-first-party-attested counterparties only, jurisdictional allow-list, conservative drawdown.",
+  "allowedVenues": ["CEX-A", "CEX-B"],
+  "allowedInstruments": ["BTC", "ETH", "USDT-pairs"],
+  "maxNotionalPerOrder": 1000000,
+  "maxPosition": 25000000,
+  "unit": "USD",
+  "dailyDrawdownCap": { "limit": 1, "type": "percent", "window": "24h" },
+  "counterparty": {
+    "requireIssuerClassIn": ["op_first_party"]
+  },
+  "temporal": {
+    "allowedTimeWindows": [
+      {
+        "start": "09:00",
+        "end": "17:00",
+        "timezone": "America/New_York",
+        "daysOfWeek": ["mon", "tue", "wed", "thu", "fri"]
+      }
+    ]
+  },
+  "geographic": {
+    "allowedJurisdictionsOnly": ["US", "CH", "SG", "GB"]
+  },
+  "velocity": {
+    "dailyVolumeCap": 5000000,
+    "monthlyVolumeCap": 50000000
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "_template": "high-value-settlements",
+  "_description": "Multi-million-dollar OTC-style settlements. Wide-window operation (24/7 across time zones), strict counterparty attestation requirements, jurisdictional block-list against sanctioned regions, generous monthly velocity to support clustered settlements.",
+  "allowedVenues": ["CEX-A", "OTC-1"],
+  "allowedInstruments": ["BTC", "USDT-pairs"],
+  "maxNotionalPerOrder": 5000000,
+  "maxPosition": 50000000,
+  "unit": "USD",
+  "dailyDrawdownCap": { "limit": 2, "type": "percent", "window": "24h" },
+  "counterparty": {
+    "requireIssuerClassIn": ["op_first_party", "third_party_kyb"]
+  },
+  "temporal": {
+    "allowedTimeWindows": [
+      {
+        "start": "06:00",
+        "end": "22:00",
+        "timezone": "UTC",
+        "daysOfWeek": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+      }
+    ]
+  },
+  "geographic": {
+    "blockedJurisdictions": ["KP", "IR", "CU", "SY", "RU"]
+  },
+  "velocity": {
+    "dailyVolumeCap": 15000000,
+    "monthlyVolumeCap": 200000000
+  }
+}

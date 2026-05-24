@@ -1,0 +1,22 @@
+{
+  "_template": "agent-fleet",
+  "_description": "Moderate per-order limits, explicit counterparty allow-list, broader instrument coverage. Suitable for a fleet of trading agents settling with a known set of internal/external counterparties.",
+  "allowedVenues": ["CEX-A", "CEX-B", "CEX-C"],
+  "allowedInstruments": ["BTC", "ETH", "USDT-pairs", "USDC-pairs"],
+  "maxNotionalPerOrder": 50000,
+  "maxPosition": 500000,
+  "unit": "USD",
+  "dailyDrawdownCap": { "limit": 5, "type": "percent", "window": "24h" },
+  "counterparty": {
+    "allowList": [
+      "did:web:example.com:agents:treasury-bot-1",
+      "did:web:example.com:agents:settlement-bot-2",
+      "did:web:partner.example.com:agents:market-maker-7"
+    ],
+    "requireIssuerClassIn": ["op_first_party", "third_party_kyb", "partner"]
+  },
+  "velocity": {
+    "dailyVolumeCap": 250000,
+    "monthlyVolumeCap": 3000000
+  }
+}

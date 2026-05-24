@@ -1,0 +1,40 @@
+{
+  "name": "@observer-protocol/policy-interface",
+  "version": "0.1.0-draft",
+  "description": "TypeScript interfaces for the Observer Protocol Policy Engine (AIP v0.8). Types only — no runtime. The runtime evaluator implementation is in a separate, proprietary package.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/types.js",
+  "types": "./dist/types.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/observer-protocol/op-policy-engine.git",
+    "directory": "packages/policy-interface"
+  },
+  "keywords": [
+    "observer-protocol",
+    "policy-engine",
+    "verifiable-credentials",
+    "did",
+    "aip"
+  ],
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
