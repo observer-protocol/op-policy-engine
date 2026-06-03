@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://observerprotocol.org/schemas/policy-engine/policy.schema.json",
   "title": "Policy Engine — tradingMandate schema (AIP v0.8)",
-  "description": "Standalone JSON Schema for the tradingMandate sub-object of an ObserverDelegationCredential. Useful when authoring policy content before embedding it in a credential and signing. The authoritative on-credential schema is observerprotocol.org/schemas/delegation/v2.json; this schema mirrors the tradingMandate sub-tree of that document.",
+  "description": "Standalone JSON Schema for the tradingMandate sub-object of an ObserverDelegationCredential. Useful when authoring policy content before embedding it in a credential and signing. The authoritative on-credential schema for AIP v0.8 credentials is observerprotocol.org/schemas/delegation/v2.1.json; this schema mirrors the tradingMandate sub-tree of that document. The earlier observerprotocol.org/schemas/delegation/v2.json URL remains frozen for credentials issued under AIP v0.7 (e.g. the maxi-0001 demo). See the aip repository SCHEMA_POLICY.md for the immutability policy.",
   "type": "object",
   "properties": {
     "allowedVenues": {
