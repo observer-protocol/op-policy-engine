@@ -189,10 +189,13 @@ export interface EvaluationInput {
 
 export type RuleType =
   | "amountLimits"
+  | "venues"
+  | "instruments"
   | "counterparty"
   | "temporal"
   | "geographic"
-  | "velocity";
+  | "velocity"
+  | "spendingLimits";
 
 export interface DenyReason {
   ruleType: RuleType;
