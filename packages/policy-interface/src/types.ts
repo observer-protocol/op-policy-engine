@@ -195,6 +195,7 @@ export type RuleType =
   | "temporal"
   | "geographic"
   | "velocity"
+  | "drawdown"
   | "spendingLimits";
 
 export interface DenyReason {
