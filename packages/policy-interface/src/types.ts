@@ -94,11 +94,13 @@ export interface TradingMandate {
 // ---------------------------------------------------------------------------
 
 export interface CredentialProof {
-  type: "Ed25519Signature2026" | string;
+  type: "DataIntegrityProof" | string;
+  /** Cryptosuite identifier; present on DataIntegrityProof credentials (e.g. "eddsa-jcs-2022"). */
+  cryptosuite?: "eddsa-jcs-2022" | string;
   created: string;
   verificationMethod: string;
   proofPurpose: "assertionMethod" | string;
-  /** Multibase base58btc (`z`-prefixed) Ed25519 signature. */
+  /** Multibase base58btc (`z`-prefixed) signature bytes. */
   proofValue: string;
 }
 
