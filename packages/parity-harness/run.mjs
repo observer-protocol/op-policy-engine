@@ -14,7 +14,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OP_AT = join(HERE, '..', '..', '..', '..');
+const OP_AT = join(HERE, '..', '..', '..');
 
 // Resolve node and npm binaries. process.execPath is always available;
 // npm lives next to node in the nvm/n installation.
