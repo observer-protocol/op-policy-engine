@@ -2,12 +2,12 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:eccca2aa-8788-4309-80cf-cfdbdc501cc5",
+  "id": "urn:uuid:808d2e53-d435-4646-94df-24092712a07b",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
   ],
-  "issuer": "did:key:z6Mkna4qyPxGntcpD6bTwt4LiS1HUoes6metkRY5WfwHfnz8",
+  "issuer": "did:key:z6Mkox3nGe8gcpLULZ2ovXprXddqirH5H1x8T3e1g8odo4iW",
   "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSchema": {
@@ -53,11 +53,11 @@
     "type": "DataIntegrityProof",
     "cryptosuite": "eddsa-jcs-2022",
     "created": "2026-06-01T00:00:00Z",
-    "verificationMethod": "did:key:z6Mkna4qyPxGntcpD6bTwt4LiS1HUoes6metkRY5WfwHfnz8#z6Mkna4qyPxGntcpD6bTwt4LiS1HUoes6metkRY5WfwHfnz8",
+    "verificationMethod": "did:key:z6Mkox3nGe8gcpLULZ2ovXprXddqirH5H1x8T3e1g8odo4iW#z6Mkox3nGe8gcpLULZ2ovXprXddqirH5H1x8T3e1g8odo4iW",
     "proofPurpose": "assertionMethod",
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z3KHbexC8SfuXWn3rtbiNrzHEQSt4sn3aVugYjw1oUR8JpSA4pdXAyPXHuttUebsdKRj8a3dv1pFyRi119KFAiP8W"
+    "proofValue": "z5usRbaFyP4YYGC5sREKwa2UmXC7FhdSxrTViPogyx5fYqJukANFAnLVohtg89cwhC6EXggcYSZBVd2cCGCEizwjG"
   }
 }

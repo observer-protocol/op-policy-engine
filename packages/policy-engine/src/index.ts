@@ -37,3 +37,15 @@ export { appendAudit } from './core/audit.js';
 export { parseConfig } from './core/config.js';
 export { DEFAULT_EVM_TOKENS, DEFAULT_SOLANA_MINTS, SOLANA_PROGRAMS, SOLANA_BENIGN_PROGRAMS } from './core/tokens.js';
 export { base58Encode, base58Decode } from './core/base58.js';
+
+// Low-level pipeline steps — exported so engines that maintain their own inline
+// pipeline (OWS: steps 1–5 + rail-specific step 6) can import from the single
+// shared source instead of maintaining vendored copies.
+export { sha256, decodeEd25519Multibase } from './core/crypto.js';
+export { verifyEddsaJcs2022 } from './core/proof.js';
+export type { ProofCheckResult } from './core/proof.js';
+export { validateStructure, checkValidityWindow } from './core/schema.js';
+export { resolveDidDocument, findAssertionMethodKey, resolveDidKeyDocument } from './core/resolve.js';
+export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
+export { checkStatusEntry } from './core/revocation.js';
+export type { RevocationCheckOutcome } from './core/revocation.js';
