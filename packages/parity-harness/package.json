@@ -1,0 +1,13 @@
+{
+  "name": "@observer-protocol/parity-harness",
+  "version": "0.1.0",
+  "description": "Unified conformance matrix across all OP policy engines — the behavioral contract for PolicyEngine extraction",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node run.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
