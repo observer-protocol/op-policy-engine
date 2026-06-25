@@ -25,6 +25,7 @@ function findNpm() {
     join(nodeBinDir, 'npm'),
     '/usr/local/bin/npm',
     '/usr/bin/npm',
+    '/Users/agentic/.local/bin/npm',
   ];
   for (const c of candidates) if (existsSync(c)) return c;
   // Fall back to PATH-based lookup via spawnSync

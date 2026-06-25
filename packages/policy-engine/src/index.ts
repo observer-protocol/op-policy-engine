@@ -27,4 +27,13 @@ export type {
   AuthorizationConfig,
   VerifierConfig,
   RailDef,
+  AuditEntry,
+  TokenDefConfig,
 } from './core/types.js';
+
+// Adapter utilities — used by rail-specific engines after the core flip.
+// Rail-specific decode (resolveTransfer, evmtx, soltx) stays in each engine.
+export { appendAudit } from './core/audit.js';
+export { parseConfig } from './core/config.js';
+export { DEFAULT_EVM_TOKENS, DEFAULT_SOLANA_MINTS, SOLANA_PROGRAMS, SOLANA_BENIGN_PROGRAMS } from './core/tokens.js';
+export { base58Encode, base58Decode } from './core/base58.js';
