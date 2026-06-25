@@ -2,13 +2,13 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:141667ff-f13f-46ae-a288-cc4ef63ec6d0",
+  "id": "urn:uuid:7ea173da-84e7-4613-a293-1945e35fd6cc",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
   ],
   "issuer": "did:web:issuer.example",
-  "validFrom": "2026-12-31T00:00:00Z",
+  "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSchema": {
     "id": "https://observerprotocol.org/schemas/delegation/v2.1.json",
@@ -37,26 +37,25 @@
     "actionScope": {
       "allowed_rails": [
         "test-rail",
-        "test:1"
-      ],
-      "per_transaction_ceiling": {
-        "amount": "100",
-        "currency": "TUNIT"
-      }
+        "test:1",
+        "wdk-rail",
+        "test:wdk",
+        "mppx-rail",
+        "test:mppx",
+        "l402-rail",
+        "test:l402"
+      ]
     },
     "delegationScope": {
       "may_delegate_further": false
     },
     "enforcementMode": "pre_transaction_check",
     "tradingMandate": {
-      "maxNotionalPerOrder": 100,
       "unit": "TUNIT",
-      "counterparty": {
-        "blockList": [
-          "0xBAD0000000000000000000000000000000000003"
-        ]
-      }
-    }
+      "maxNotionalPerOrder": 100
+    },
+    "agentApproval": true,
+    "trustLevel": "ultimate"
   },
   "proof": {
     "type": "DataIntegrityProof",
@@ -67,6 +66,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z2hjNJPCXwnDrUdchvmJv8YgLukTZajkYwpsRmvACVbhZfje8fx7YZT3AsBjfYQmX5Bkgr1jwZqRsTmjVjLKrtF5Y"
+    "proofValue": "z4ENwS1HUVJCan1rqZaz3PtHdqeRZ3p4KaswebKsVEjYHy1ZPtAZZ1WDtXNjxirUaad7MePDGuKtEhE3SVtby5ETp"
   }
 }

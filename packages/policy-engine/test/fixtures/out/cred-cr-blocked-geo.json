@@ -2,13 +2,13 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:141667ff-f13f-46ae-a288-cc4ef63ec6d0",
+  "id": "urn:uuid:3a4f749b-73e0-4e5f-8e19-0949377264e3",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
   ],
   "issuer": "did:web:issuer.example",
-  "validFrom": "2026-12-31T00:00:00Z",
+  "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSchema": {
     "id": "https://observerprotocol.org/schemas/delegation/v2.1.json",
@@ -37,23 +37,25 @@
     "actionScope": {
       "allowed_rails": [
         "test-rail",
-        "test:1"
-      ],
-      "per_transaction_ceiling": {
-        "amount": "100",
-        "currency": "TUNIT"
-      }
+        "test:1",
+        "wdk-rail",
+        "test:wdk",
+        "mppx-rail",
+        "test:mppx",
+        "l402-rail",
+        "test:l402"
+      ]
     },
     "delegationScope": {
       "may_delegate_further": false
     },
     "enforcementMode": "pre_transaction_check",
     "tradingMandate": {
-      "maxNotionalPerOrder": 100,
       "unit": "TUNIT",
-      "counterparty": {
-        "blockList": [
-          "0xBAD0000000000000000000000000000000000003"
+      "maxNotionalPerOrder": 500,
+      "geographic": {
+        "blockedJurisdictions": [
+          "IR"
         ]
       }
     }
@@ -67,6 +69,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z2hjNJPCXwnDrUdchvmJv8YgLukTZajkYwpsRmvACVbhZfje8fx7YZT3AsBjfYQmX5Bkgr1jwZqRsTmjVjLKrtF5Y"
+    "proofValue": "z5DEwe14iv48jUn4XE4WXAZLwqdyuLgBQM1fvWronDtcTZhXfuKFBRChxqvwe8C81WgkxoGwYQ1esiUJXj1KaANV4"
   }
 }

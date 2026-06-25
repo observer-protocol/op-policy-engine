@@ -2,13 +2,13 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:141667ff-f13f-46ae-a288-cc4ef63ec6d0",
+  "id": "urn:uuid:33dfc45a-8d34-48a2-a729-f436a3072f82",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
   ],
   "issuer": "did:web:issuer.example",
-  "validFrom": "2026-12-31T00:00:00Z",
+  "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSchema": {
     "id": "https://observerprotocol.org/schemas/delegation/v2.1.json",
@@ -37,11 +37,24 @@
     "actionScope": {
       "allowed_rails": [
         "test-rail",
-        "test:1"
+        "test:1",
+        "wdk-rail",
+        "test:wdk",
+        "mppx-rail",
+        "test:mppx",
+        "l402-rail",
+        "test:l402"
       ],
-      "per_transaction_ceiling": {
-        "amount": "100",
-        "currency": "TUNIT"
+      "cumulative_budget": {
+        "amount": "1000",
+        "currency": "TUNIT",
+        "window": "30d"
+      },
+      "allowed_counterparty_types": [
+        "merchant"
+      ],
+      "geographic_restriction": {
+        "type": "advisory_only"
       }
     },
     "delegationScope": {
@@ -49,13 +62,8 @@
     },
     "enforcementMode": "pre_transaction_check",
     "tradingMandate": {
-      "maxNotionalPerOrder": 100,
       "unit": "TUNIT",
-      "counterparty": {
-        "blockList": [
-          "0xBAD0000000000000000000000000000000000003"
-        ]
-      }
+      "maxNotionalPerOrder": 500
     }
   },
   "proof": {
@@ -67,6 +75,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z2hjNJPCXwnDrUdchvmJv8YgLukTZajkYwpsRmvACVbhZfje8fx7YZT3AsBjfYQmX5Bkgr1jwZqRsTmjVjLKrtF5Y"
+    "proofValue": "z3vERcnTjmJTmVjhbhdChPUQsoh39tzZ3k7831m37mMfPEaWoRypGsVTstCp23hrPD3zmJ1RbqccCdufLycZbYGmz"
   }
 }

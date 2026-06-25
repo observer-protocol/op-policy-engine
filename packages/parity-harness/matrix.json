@@ -1,7 +1,7 @@
 {
-  "version": "1",
-  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Every case is an enforcement property the extracted engine must preserve. No engine switches to the shared core until its full suite passes against it.",
-  "totalCases": 136,
+  "version": "2",
+  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases in packages/policy-engine, bringing total to 173 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
+  "totalCases": 173,
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
@@ -30,6 +30,14 @@
       "expectedPass": 12,
       "parseMode": "per-case",
       "summaryPattern": "(\\d+)/(\\d+) conformance cases passed"
+    },
+    "policy-engine": {
+      "package": "@observer-protocol/policy-engine",
+      "dir": "op-policy-engine/packages/policy-engine",
+      "expectedPass": 72,
+      "parseMode": "aggregate",
+      "summaryPattern": "policy-engine conformance: (\\d+) passed, (\\d+) failed",
+      "note": "Step 2a/2c: 35 universal-core cases + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Proves shared core is rail-agnostic and fail-closed across all garbage inputs."
     }
   },
   "ruleCategories": {
@@ -183,6 +191,44 @@
     { "id": "l402-009", "engine": "l402", "name": "seller: bare credential, no holder proof -> REFUSE (bearer token)", "ruleCategory": "presentation", "ruleField": "holderProofRequired", "outcome": "deny" },
     { "id": "l402-010", "engine": "l402", "name": "seller: stolen credential (subject != holder) -> REFUSE", "ruleCategory": "presentation", "ruleField": "subjectHolderMatch", "outcome": "deny" },
     { "id": "l402-011", "engine": "l402", "name": "seller: tampered presentation -> REFUSE", "ruleCategory": "presentation", "ruleField": "presentationTamper", "outcome": "deny" },
-    { "id": "l402-012", "engine": "l402", "name": "seller: expired credential in a valid VP -> REFUSE", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" }
+    { "id": "l402-012", "engine": "l402", "name": "seller: expired credential in a valid VP -> REFUSE", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
+
+    { "id": "pe-001", "engine": "policy-engine", "name": "velocity/l402: 50 under cap 200 (daily=0)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "allow" },
+    { "id": "pe-002", "engine": "policy-engine", "name": "velocity/l402: 50 over cap 200 (daily=160)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
+    { "id": "pe-003", "engine": "policy-engine", "name": "velocity/l402: cap present, spending.daily_total missing", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
+    { "id": "pe-004", "engine": "policy-engine", "name": "temporal/wdk: inside 09:00-17:00 UTC at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
+    { "id": "pe-005", "engine": "policy-engine", "name": "temporal/wdk: outside 09:00-17:00 UTC at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
+    { "id": "pe-006", "engine": "policy-engine", "name": "temporal/mppx: inside window at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
+    { "id": "pe-007", "engine": "policy-engine", "name": "temporal/mppx: outside window at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
+    { "id": "pe-008", "engine": "policy-engine", "name": "temporal/l402: inside window at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
+    { "id": "pe-009", "engine": "policy-engine", "name": "temporal/l402: outside window at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
+    { "id": "pe-010", "engine": "policy-engine", "name": "geographic/wdk: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
+    { "id": "pe-011", "engine": "policy-engine", "name": "geographic/wdk: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
+    { "id": "pe-012", "engine": "policy-engine", "name": "geographic/mppx: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
+    { "id": "pe-013", "engine": "policy-engine", "name": "geographic/mppx: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
+    { "id": "pe-014", "engine": "policy-engine", "name": "geographic/l402: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
+    { "id": "pe-015", "engine": "policy-engine", "name": "geographic/l402: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
+    { "id": "pe-016", "engine": "policy-engine", "name": "operationClassification/wdk: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
+    { "id": "pe-017", "engine": "policy-engine", "name": "operationClassification/mppx: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
+    { "id": "pe-018", "engine": "policy-engine", "name": "operationClassification/l402: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
+    { "id": "pe-019", "engine": "policy-engine", "name": "operationClassification/wdk: matching transactionCategory → allow", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "allow" },
+    { "id": "pe-020", "engine": "policy-engine", "name": "operationClassification/wdk: wrong transactionCategory → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
+    { "id": "pe-021", "engine": "policy-engine", "name": "advisory: cumulative_budget + allowed_counterparty_types + geographic_restriction on test:1 → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
+    { "id": "pe-022", "engine": "policy-engine", "name": "advisory: same advisory fields on wdk-like rail → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
+    { "id": "pe-023", "engine": "policy-engine", "name": "advisory: same advisory fields on l402-like rail → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
+    { "id": "pe-024", "engine": "policy-engine", "name": "garbage/test:1: unknown actionScope field → deny fail-closed", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
+    { "id": "pe-025", "engine": "policy-engine", "name": "garbage/test:wdk: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
+    { "id": "pe-026", "engine": "policy-engine", "name": "garbage/test:mppx: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
+    { "id": "pe-027", "engine": "policy-engine", "name": "garbage/test:l402: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
+    { "id": "pe-028", "engine": "policy-engine", "name": "garbage/test:1: unknown tradingMandate field → deny fail-closed", "ruleCategory": "failClosed", "ruleField": "unknownMandateField", "outcome": "deny" },
+    { "id": "pe-029", "engine": "policy-engine", "name": "garbage/test:wdk: unknown tradingMandate field → deny", "ruleCategory": "failClosed", "ruleField": "unknownMandateField", "outcome": "deny" },
+    { "id": "pe-030", "engine": "policy-engine", "name": "garbage/l402: requireIssuerClassIn, no attestation → deny", "ruleCategory": "failClosed", "ruleField": "requireIssuerClassIn", "outcome": "deny" },
+    { "id": "pe-031", "engine": "policy-engine", "name": "garbage/test:1: maxNotionalPerOrder without unit → deny", "ruleCategory": "failClosed", "ruleField": "missingUnit", "outcome": "deny" },
+    { "id": "pe-032", "engine": "policy-engine", "name": "garbage/wdk: expired credential → deny", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
+    { "id": "pe-033", "engine": "policy-engine", "name": "garbage/l402: unenforceable proposal + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "unenforceable", "outcome": "deny" },
+    { "id": "pe-034", "engine": "policy-engine", "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
+    { "id": "pe-035", "engine": "policy-engine", "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
+    { "id": "pe-036", "engine": "policy-engine", "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
+    { "id": "pe-037", "engine": "policy-engine", "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" }
   ]
 }

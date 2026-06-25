@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:5480b5c6-dedc-4f47-9607-101e9299ae87",
+  "id": "urn:uuid:2d74e436-2527-469c-98aa-a1eaa92ebc11",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
@@ -63,6 +63,6 @@
     "created": "2026-06-01T00:00:00Z",
     "verificationMethod": "did:web:issuer.example#key-1",
     "proofPurpose": "assertionMethod",
-    "proofValue": "4jsxWRt7toyuqvLK5sSAsNJgp1K9Nqp6j2CeAs9hjwsTaRsKxQTekCE2N238QyQz2NY9jdARk6LJgzXKtdcqFvzT"
+    "proofValue": "65xyYE7N8o636Kmq45iTSZGMcoAqEDGw3Vyf9sXkSnosttgpZL9SNGhBqWfB2tZDPeAjcNkqNjT1XfBvbLCj2WRV"
   }
 }

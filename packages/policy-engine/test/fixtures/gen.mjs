@@ -111,6 +111,9 @@ credentials['key2-signed'] = sign(base(), key2.privateKey, VM2);
 // credentialIntegrity: no credentialStatus (noted, not fatal)
 credentials['no-status'] = sign((() => { const c = base(); delete c.credentialStatus; return c; })());
 
+// Cross-rail: all four synthetic rails in allowed_rails so the same credential works on any test rail
+const ALL_TEST_RAILS = ['test-rail', 'test:1', 'wdk-rail', 'test:wdk', 'mppx-rail', 'test:mppx', 'l402-rail', 'test:l402'];
+
 // amountLimits: wide ceiling (allow large amounts) — override actionScope to clear the 100-TUNIT base ceiling
 credentials['wide-ceiling'] = sign(base({ subject: {
   actionScope: { allowed_rails: ['test-rail', 'test:1'] },    // no per_transaction_ceiling
@@ -121,6 +124,86 @@ credentials['wide-ceiling'] = sign(base({ subject: {
 credentials['no-constraint'] = sign(base({ subject: {
   actionScope: { allowed_rails: ['test-rail', 'test:1'] },
   tradingMandate: undefined,
+} }));
+
+// ── Cross-rail generalizes credentials ───────────────────────────────────────
+// These credentials have allowed_rails covering all four synthetic rails so
+// the same credential can be tested on wdk/mppx/l402-configured verifiers.
+
+// velocity: daily cap 200 TUNIT, all rails
+credentials['cr-velocity'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500, velocity: { dailyVolumeCap: 200 } },
+} }));
+
+// temporal: 09:00-17:00 UTC, all rails
+credentials['cr-temporal'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500, temporal: { allowedTimeWindows: [{ start: '09:00', end: '17:00', timezone: 'UTC' }] } },
+} }));
+
+// counterparty: requireIssuerClassIn (fail-closed), all rails
+credentials['cr-require-issuer-class'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { counterparty: { requireIssuerClassIn: ['op_first_party'] } },
+} }));
+
+// geographic: allowedJurisdictionsOnly (fail-closed), all rails
+credentials['cr-geo-allow-only'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500, geographic: { allowedJurisdictionsOnly: ['US'] } },
+} }));
+
+// geographic: blockedJurisdictions only (fail-open, advisory), all rails
+credentials['cr-blocked-geo'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500, geographic: { blockedJurisdictions: ['IR'] } },
+} }));
+
+// ── Cross-rail rail-specific credentials ─────────────────────────────────────
+
+// operationClassification: allowed_transaction_categories (universal via shared core)
+credentials['cr-txcat-swap'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS, allowed_transaction_categories: ['swap'] },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+credentials['cr-txcat-transfer'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS, allowed_transaction_categories: ['transfer'] },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+// advisory-only actionScope fields (cumulative_budget, allowed_counterparty_types, geographic_restriction)
+credentials['cr-advisory-fields'] = sign(base({ subject: {
+  actionScope: {
+    allowed_rails: ALL_TEST_RAILS,
+    cumulative_budget: { amount: '1000', currency: 'TUNIT', window: '30d' },
+    allowed_counterparty_types: ['merchant'],
+    geographic_restriction: { type: 'advisory_only' },
+  },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+// ── Fail-closed garbage-input credentials ────────────────────────────────────
+
+// unknown rule: unrecognized actionScope field (must deny fail-closed)
+credentials['fc-unknown-scope-rule'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS, dailyLimitBypassKey: 'secret' },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+// unknown rule: unrecognized tradingMandate field
+credentials['fc-unknown-tm-rule'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500, agentOverride: true },
+} }));
+
+// agent-supplied grant at credential-subject level (extra field — engine must not honor it)
+credentials['fc-agent-grant-cred'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 100 },
+  agentApproval: true,         // injected field — must be IGNORED (not a grant)
+  trustLevel: 'ultimate',      // injected field — must be IGNORED
 } }));
 
 // amountLimits: currency mismatch (same-currency invariant)
@@ -146,19 +229,37 @@ for (const [name, cred] of Object.entries(credentials)) {
 }
 
 // ── Config export ─────────────────────────────────────────────────────────────
-// Write a config template tests can import and customize
-const configTemplate = {
-  credentialPath: join(OUT, 'cred-valid.json'),
+const BASE_CFG = {
   issuerDid: ISSUER,
   schemaAllowlist: [SCHEMA_URL],
   agentDid: AGENT,
-  rails: { 'test:1': { rail: 'test-rail', currency: 'TUNIT', decimals: 0, family: 'other' } },
   revocation: { maxStalenessHours: 24, onUnreachable: 'cache-then-deny', fetchTimeoutMs: 1500 },
   didCache: { maxStalenessHours: 24 },
   cacheDir: join(OUT, 'cache'),
   auditLog: join(OUT, 'audit.jsonl'),
   offline: { didDocumentPath: join(OUT, 'issuer-did.json'), statusListPath: join(OUT, 'status-clean.json') },
 };
-writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL }, null, 2));
+
+// Single-rail config (existing tests)
+const configTemplate = {
+  ...BASE_CFG,
+  credentialPath: join(OUT, 'cred-valid.json'),
+  rails: { 'test:1': { rail: 'test-rail', currency: 'TUNIT', decimals: 0, family: 'other' } },
+};
+
+// Multi-rail config: four synthetic rails modelling wdk/mppx/ows/l402 rail families.
+// The shared core is rail-agnostic — rail:family only affects allowContractCalls fallback.
+const multiRailConfig = {
+  ...BASE_CFG,
+  credentialPath: join(OUT, 'cred-valid.json'),
+  rails: {
+    'test:1':    { rail: 'test-rail',  currency: 'TUNIT', decimals: 0, family: 'other' },
+    'test:wdk':  { rail: 'wdk-rail',   currency: 'TUNIT', decimals: 0, family: 'evm'   },
+    'test:mppx': { rail: 'mppx-rail',  currency: 'TUNIT', decimals: 0, family: 'other' },
+    'test:l402': { rail: 'l402-rail',  currency: 'TUNIT', decimals: 0, family: 'other' },
+  },
+};
+
+writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL }, null, 2));
 
 console.log(`fixtures written: ${Object.keys(credentials).length} credentials → ${OUT}`);

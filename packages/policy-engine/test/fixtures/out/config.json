@@ -1,19 +1,10 @@
 {
   "configTemplate": {
-    "credentialPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cred-valid.json",
     "issuerDid": "did:web:issuer.example",
     "schemaAllowlist": [
       "https://observerprotocol.org/schemas/delegation/v2.1.json"
     ],
     "agentDid": "did:web:issuer.example:agents:test-agent",
-    "rails": {
-      "test:1": {
-        "rail": "test-rail",
-        "currency": "TUNIT",
-        "decimals": 0,
-        "family": "other"
-      }
-    },
     "revocation": {
       "maxStalenessHours": 24,
       "onUnreachable": "cache-then-deny",
@@ -27,6 +18,63 @@
     "offline": {
       "didDocumentPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/issuer-did.json",
       "statusListPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/status-clean.json"
+    },
+    "credentialPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cred-valid.json",
+    "rails": {
+      "test:1": {
+        "rail": "test-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "other"
+      }
+    }
+  },
+  "multiRailConfig": {
+    "issuerDid": "did:web:issuer.example",
+    "schemaAllowlist": [
+      "https://observerprotocol.org/schemas/delegation/v2.1.json"
+    ],
+    "agentDid": "did:web:issuer.example:agents:test-agent",
+    "revocation": {
+      "maxStalenessHours": 24,
+      "onUnreachable": "cache-then-deny",
+      "fetchTimeoutMs": 1500
+    },
+    "didCache": {
+      "maxStalenessHours": 24
+    },
+    "cacheDir": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cache",
+    "auditLog": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/audit.jsonl",
+    "offline": {
+      "didDocumentPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/issuer-did.json",
+      "statusListPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/status-clean.json"
+    },
+    "credentialPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cred-valid.json",
+    "rails": {
+      "test:1": {
+        "rail": "test-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "other"
+      },
+      "test:wdk": {
+        "rail": "wdk-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "evm"
+      },
+      "test:mppx": {
+        "rail": "mppx-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "other"
+      },
+      "test:l402": {
+        "rail": "l402-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "other"
+      }
     }
   },
   "ISSUER": "did:web:issuer.example",

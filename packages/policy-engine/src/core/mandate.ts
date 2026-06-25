@@ -242,6 +242,22 @@ export function evaluateMandate(
     }
   }
 
+  // 6b. Unknown/unrecognized actionScope fields — fail-closed.
+  // AIP v0.8 §1.2-§1.3 explicitly lists advisory fields; everything else is binding.
+  // A binding constraint this verifier cannot evaluate is a DENY.
+  const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
+    'allowed_rails', 'per_transaction_ceiling', 'allowed_transaction_categories',
+    'cumulative_budget', 'allowed_counterparty_types', 'geographic_restriction',
+  ]);
+  for (const key of Object.keys(scope)) {
+    if (!KNOWN_SCOPE_KEYS.has(key)) {
+      return deny(
+        `[unknown-rule] unrecognized actionScope constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,
+        notes,
+      );
+    }
+  }
+
   // 7. Authorization level configs (binding).
   const checkCounterpartyDid = (did: string, label: string): MandateOutcome | null => {
     const { matched, unmappedDids } = matchCounterparty(to as string, [did], config.counterpartyAddressMap);
@@ -413,6 +429,22 @@ export function evaluateMandate(
       notes.push(
         'order-plane constraints declared (allowedVenues/allowedInstruments/dailyDrawdownCap): NOT ENFORCED here — these require order context and belong to an order-aware Observer Protocol evaluator',
       );
+    }
+
+    // Fail-closed: unrecognized tradingMandate fields are treated as binding constraints
+    // we cannot evaluate. Order-plane fields are in the known set and handled above (surfaced
+    // as NOT-ENFORCED notes). Anything beyond the known set DENIES.
+    const KNOWN_TM_KEYS: ReadonlySet<string> = new Set([
+      'unit', 'maxNotionalPerOrder', 'counterparty', 'temporal', 'geographic', 'velocity',
+      'allowedVenues', 'allowedInstruments', 'maxPosition', 'dailyDrawdownCap',
+    ]);
+    for (const key of Object.keys(tm)) {
+      if (!KNOWN_TM_KEYS.has(key)) {
+        return deny(
+          `[unknown-rule] unrecognized tradingMandate constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,
+          notes,
+        );
+      }
     }
   }
 

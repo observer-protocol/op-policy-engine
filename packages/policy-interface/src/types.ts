@@ -20,7 +20,7 @@ export type IssuerClass =
   | "peer_agent";
 
 // ---------------------------------------------------------------------------
-// tradingMandate sub-objects (v0.7 core + v0.8 extensions)
+// Mandate sub-objects (v0.7 core + v0.8 extensions)
 // ---------------------------------------------------------------------------
 
 export interface DailyDrawdownCap {
@@ -64,29 +64,78 @@ export interface GeographicControls {
 }
 
 export interface VelocityControls {
-  /** Maximum aggregate transacted volume in any 24h rolling window, denominated by tradingMandate.unit. */
+  /** Maximum aggregate transacted volume in any 24h rolling window, denominated by mandate unit. */
   dailyVolumeCap?: number;
-  /** Maximum aggregate transacted volume in any 30d rolling window, denominated by tradingMandate.unit. */
+  /** Maximum aggregate transacted volume in any 30d rolling window, denominated by mandate unit. */
   monthlyVolumeCap?: number;
 }
 
-export interface TradingMandate {
-  // v0.7 core
+// ---------------------------------------------------------------------------
+// Mandate profiles — SpendMandate (community) and TradingMandate (enterprise)
+// ---------------------------------------------------------------------------
+
+/**
+ * Shared base for all mandate profiles.
+ * Fields here are evaluated by the shared policy core on every rail.
+ */
+export interface MandateBase {
+  /** REQUIRED when any amount or volume field is present. Denomination currency or asset code. */
+  unit?: string;
+  /** Counterparty controls: allowlist, blocklist, issuer-class requirements. */
+  counterparty?: CounterpartyControls;
+  /**
+   * Rolling-window volume caps.
+   * Generalizes to all rails (not l402 in current parity harness, but no architectural barrier).
+   * Note: velocity is a generalizes-to-all-rails rule, not strictly a universal-core rule.
+   */
+  velocity?: VelocityControls;
+  /** Temporal access controls. Generalizes to all rails. */
+  temporal?: TemporalControls;
+  /** Geographic jurisdiction controls. Generalizes to all rails. Fail-closed when jurisdiction unknown. */
+  geographic?: GeographicControls;
+}
+
+/**
+ * Community/default mandate profile. Deploy-and-go for operators who do not need order-plane
+ * infrastructure. Enforced entirely by the shared policy core:
+ *   amountLimits (maxPerTransaction), counterparty, velocity (maxPerDay), failClosed.
+ *
+ * Note: maxPerDay uses velocity, which is classified as generalizes-to-all-rails rather than
+ * strictly universal. Safe for SpendMandate — no rail-specific rules are included.
+ *
+ * On-the-wire credential field: credentialSubject.spendMandate
+ */
+export interface SpendMandate extends MandateBase {
+  /** Per-transaction ceiling denominated by `unit`. Maps to TradingMandate.maxNotionalPerOrder. */
+  maxPerTransaction?: number;
+  /** Daily aggregate cap denominated by `unit`. Shorthand for velocity.dailyVolumeCap. */
+  maxPerDay?: number;
+  /** Shorthand for counterparty.allowList. Permitted counterparties only. */
+  allowedCounterparties?: string[];
+  /** Shorthand for counterparty.blockList. Denied counterparties. */
+  blockedCounterparties?: string[];
+  /** Shorthand for counterparty.requireIssuerClassIn. Fail-closed if no attestation source. */
+  requireIssuerClassIn?: IssuerClass[];
+}
+
+/**
+ * Enterprise/DeFi mandate profile. Superset of SpendMandate fields plus order-plane constraints.
+ * Order-plane fields (allowedVenues, allowedInstruments, maxPosition, dailyDrawdownCap) require
+ * an order-aware evaluator and are surfaced as NOT-ENFORCED notes by the shared policy core.
+ *
+ * On-the-wire credential field: credentialSubject.tradingMandate
+ */
+export interface TradingMandate extends MandateBase {
+  // Universal-core transaction-plane fields (enforced by shared core)
+  /** Per-transaction ceiling denominated by `unit`. */
+  maxNotionalPerOrder?: number;
+  /** Maximum open position denominated by `unit`. Requires order-aware evaluator. */
+  maxPosition?: number;
+
+  // Order-plane fields (NOT enforced by shared core — noted as out-of-scope)
   allowedVenues?: string[];
   allowedInstruments?: string[];
-  /** Denominated by `unit`. */
-  maxNotionalPerOrder?: number;
-  /** Denominated by `unit`. */
-  maxPosition?: number;
-  /** Denomination currency or asset code. REQUIRED when any volume/notional field is present. */
-  unit?: string;
   dailyDrawdownCap?: DailyDrawdownCap;
-
-  // v0.8 additive extensions
-  counterparty?: CounterpartyControls;
-  temporal?: TemporalControls;
-  geographic?: GeographicControls;
-  velocity?: VelocityControls;
 }
 
 // ---------------------------------------------------------------------------
@@ -132,7 +181,9 @@ export interface ObserverDelegationCredentialSubject {
   enforcementMode?: "pre_transaction_check" | "protocol_native" | string;
   authorizationLevel?: "one-time" | "recurring" | "policy" | string;
   authorizationConfig?: Record<string, unknown>;
-  /** The policy itself, per AIP v0.7/v0.8. */
+  /** Community/default mandate profile. Enforced entirely by the shared policy core. */
+  spendMandate?: SpendMandate;
+  /** Enterprise/DeFi mandate profile. Superset of spendMandate. */
   tradingMandate?: TradingMandate;
   [k: string]: unknown;
 }
@@ -155,7 +206,7 @@ export interface ObserverDelegationCredential {
 // ---------------------------------------------------------------------------
 
 export interface TransactionProposal {
-  /** Rail identifier; matches the canonicalisation spec at docs/canonicalization/{rail}.md. */
+  /** Rail identifier; matches the canonicalization spec at docs/canonicalization/{rail}.md. */
   rail: string;
   /** Hex-encoded canonical pre-sign bytes of the unsigned transaction on this rail. */
   canonicalBytes: string;
@@ -167,13 +218,13 @@ export interface TransactionProposal {
  * Optional pre-fetched attestation context. When the engine runs in a
  * wallet-embedded mode without OP network access, the host SHOULD supply
  * counterparty attestations here; without them, attestation-dependent rules
- * (`counterparty.requireIssuerClassIn`, `geographic.*`) are skipped per
+ * (counterparty.requireIssuerClassIn, geographic.*) are skipped per
  * AIP v0.8 §2.3 fail modes.
  */
 export interface AttestationContext {
   /** Counterparty's primary identifier (DID or rail-specific address) keying this entry. */
   counterparty: string;
-  /** The counterparty's `issuer_class` per OP attestation taxonomy. */
+  /** The counterparty's issuer_class per OP attestation taxonomy. */
   issuerClass?: IssuerClass;
   /** Counterparty's jurisdiction (ISO 3166-1 alpha-2), if attested. */
   jurisdiction?: string;
@@ -191,12 +242,15 @@ export interface EvaluationInput {
 
 export type RuleType =
   | "amountLimits"
-  | "venues"
-  | "instruments"
   | "counterparty"
   | "temporal"
   | "geographic"
   | "velocity"
+  | "failClosed"
+  | "credentialIntegrity"
+  | "operationClassification"
+  | "venues"
+  | "instruments"
   | "drawdown"
   | "spendingLimits";
 
@@ -213,7 +267,7 @@ export interface DenyReason {
 }
 
 export interface EvaluatedAgainst {
-  /** The `id` of the ObserverDelegationCredential whose tradingMandate was evaluated. */
+  /** The id of the ObserverDelegationCredential whose mandate was evaluated. */
   delegationCredentialId: string;
   /** SHA-256 hex of the JCS-canonical bytes of the delegation credential. */
   delegationCredentialHash: string;
@@ -227,7 +281,7 @@ export interface ProposalBinding {
 }
 
 export interface Evaluator {
-  /** URN identifying the evaluator software, recommended form `urn:observer-protocol:evaluator:{implementation-id}`. */
+  /** URN identifying the evaluator software, recommended form urn:observer-protocol:evaluator:{implementation-id}. */
   id: string;
   /** Version string of the evaluator implementation. */
   version: string;
@@ -255,3 +309,20 @@ export interface PolicyEvaluationCredential {
   credentialSubject: PolicyEvaluationCredentialSubject;
   proof: CredentialProof;
 }
+
+// ---------------------------------------------------------------------------
+// IssuanceMode — dev vs full mode (Step 3 / WalletBindingCredential)
+// ---------------------------------------------------------------------------
+
+/**
+ * Two issuance modes, one gate. The signer-boundary invariant holds in both:
+ * the mandate must be signed by a key the agent cannot forge.
+ *
+ * dev:  operator-as-principal-and-issuer. The operator anoints their own agent
+ *       and issues the mandate with their own key. OP is not in the issuance
+ *       loop. NOT operator-self-issued means the operator key is distinct from
+ *       the agent key — the agent cannot mint or alter the mandate.
+ *
+ * full: OP-issued ODC, full multi-credential chain. Graduation target.
+ */
+export type IssuanceMode = "dev" | "full";
