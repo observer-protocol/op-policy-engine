@@ -41,7 +41,8 @@ export { base58Encode, base58Decode } from './core/base58.js';
 // Low-level pipeline steps — exported so engines that maintain their own inline
 // pipeline (OWS: steps 1–5 + rail-specific step 6) can import from the single
 // shared source instead of maintaining vendored copies.
-export { sha256, decodeEd25519Multibase } from './core/crypto.js';
+export { sha256, decodeEd25519Multibase, ed25519Verify } from './core/crypto.js';
+export { jcsBytes, jcsCanonicalize } from './core/jcs.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
