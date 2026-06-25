@@ -1,0 +1,52 @@
+{
+  "name": "@observer-protocol/policy-engine",
+  "version": "0.1.0",
+  "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic — verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist/",
+    "PROVENANCE.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
+    "typecheck": "tsc --noEmit",
+    "fixtures": "node test/fixtures/gen.mjs",
+    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs",
+    "prepublishOnly": "npm run typecheck && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/observer-protocol/op-policy-engine.git",
+    "directory": "packages/policy-engine"
+  },
+  "keywords": [
+    "observer-protocol",
+    "policy-engine",
+    "verifiable-credentials",
+    "did",
+    "eddsa-jcs-2022",
+    "aip",
+    "delegation"
+  ],
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

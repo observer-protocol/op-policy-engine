@@ -1,0 +1,14 @@
+{
+  "id": "did:web:evil.example",
+  "verificationMethod": [
+    {
+      "id": "did:web:evil.example#key-1",
+      "type": "Multikey",
+      "controller": "did:web:evil.example",
+      "publicKeyMultibase": "z6Mkq37FSLeSADcJSK4PNqVuRckuPxfm7zeKFH1g7FFAFHoc"
+    }
+  ],
+  "assertionMethod": [
+    "did:web:evil.example#key-1"
+  ]
+}

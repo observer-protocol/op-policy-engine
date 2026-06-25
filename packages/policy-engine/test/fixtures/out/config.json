@@ -1,0 +1,38 @@
+{
+  "configTemplate": {
+    "credentialPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cred-valid.json",
+    "issuerDid": "did:web:issuer.example",
+    "schemaAllowlist": [
+      "https://observerprotocol.org/schemas/delegation/v2.1.json"
+    ],
+    "agentDid": "did:web:issuer.example:agents:test-agent",
+    "rails": {
+      "test:1": {
+        "rail": "test-rail",
+        "currency": "TUNIT",
+        "decimals": 0,
+        "family": "other"
+      }
+    },
+    "revocation": {
+      "maxStalenessHours": 24,
+      "onUnreachable": "cache-then-deny",
+      "fetchTimeoutMs": 1500
+    },
+    "didCache": {
+      "maxStalenessHours": 24
+    },
+    "cacheDir": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/cache",
+    "auditLog": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/audit.jsonl",
+    "offline": {
+      "didDocumentPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/issuer-did.json",
+      "statusListPath": "/Users/agentic/Desktop/OP_AT/op-policy-engine/packages/policy-engine/test/fixtures/out/status-clean.json"
+    }
+  },
+  "ISSUER": "did:web:issuer.example",
+  "AGENT": "did:web:issuer.example:agents:test-agent",
+  "MERCHANT_ADDR": "0xA11CE00000000000000000000000000000000001",
+  "OTHER_ADDR": "0xB0B0000000000000000000000000000000000002",
+  "BLOCKED_ADDR": "0xBAD0000000000000000000000000000000000003",
+  "SCHEMA_URL": "https://observerprotocol.org/schemas/delegation/v2.1.json"
+}

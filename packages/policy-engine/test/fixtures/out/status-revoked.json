@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+  ],
+  "id": "https://issuer.example/status/1",
+  "type": [
+    "VerifiableCredential",
+    "BitstringStatusListCredential"
+  ],
+  "issuer": "did:web:issuer.example",
+  "validFrom": "2026-01-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "https://issuer.example/status/1#list",
+    "type": "BitstringStatusList",
+    "statusPurpose": "revocation",
+    "encodedList": "uH4sIAAAAAAAAE2NkGAWjYBSMglEwCkbBSAMA_QBeeQAIAAA"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-06-01T00:00:00Z",
+    "verificationMethod": "did:web:issuer.example#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+      "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zPEQRSFGUaqiugV6ehbZmAcNyuniKzvoZ8cXpaoTs6mRzwMpwVJmeQgmPQAKnEkKCrowHFNBdv2RxVBMSuKWbBDA"
+  }
+}

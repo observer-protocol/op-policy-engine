@@ -1,0 +1,20 @@
+{
+  "id": "did:web:issuer.example",
+  "verificationMethod": [
+    {
+      "id": "did:web:issuer.example#key-1",
+      "type": "Multikey",
+      "controller": "did:web:issuer.example",
+      "publicKeyMultibase": "z6MkuELXjJnUebwVUWrCuzmXDNrJePWZqRK8vpvjKT1XLDhe"
+    },
+    {
+      "id": "did:web:issuer.example#key-2",
+      "type": "Multikey",
+      "controller": "did:web:issuer.example",
+      "publicKeyMultibase": "z6MkiKKURxZdcZAgdAbGmTJz6DksRQUav3nz4PK882GtLUT3"
+    }
+  ],
+  "assertionMethod": [
+    "did:web:issuer.example#key-1"
+  ]
+}
