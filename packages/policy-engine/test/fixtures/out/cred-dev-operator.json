@@ -2,27 +2,18 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:8c58b7a6-dd33-47fa-a216-60a2c2cb326d",
+  "id": "urn:uuid:a53721ee-72fd-452e-8f39-ef6e7bc826f5",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
   ],
-  "issuer": "did:web:issuer.example",
+  "issuer": "did:key:z6Mkgp9hNAsb3vcRJ2B778bVn6JFUmpbvuQMjivssq8coMSa",
   "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSchema": {
     "id": "https://observerprotocol.org/schemas/delegation/v2.1.json",
     "type": "JsonSchema"
   },
-  "credentialStatus": [
-    {
-      "id": "https://issuer.example/status/1#7",
-      "type": "BitstringStatusListEntry",
-      "statusPurpose": "revocation",
-      "statusListIndex": "7",
-      "statusListCredential": "https://issuer.example/status/1"
-    }
-  ],
   "credentialSubject": {
     "id": "did:web:issuer.example:agents:test-agent",
     "authorizationLevel": "policy",
@@ -37,36 +28,36 @@
     "actionScope": {
       "allowed_rails": [
         "test-rail",
-        "test:1",
-        "wdk-rail",
-        "test:wdk",
-        "mppx-rail",
-        "test:mppx",
-        "l402-rail",
-        "test:l402"
+        "test:1"
       ],
-      "allowed_transaction_categories": [
-        "transfer"
-      ]
+      "per_transaction_ceiling": {
+        "amount": "100",
+        "currency": "TUNIT"
+      }
     },
     "delegationScope": {
       "may_delegate_further": false
     },
     "enforcementMode": "pre_transaction_check",
     "tradingMandate": {
+      "maxNotionalPerOrder": 100,
       "unit": "TUNIT",
-      "maxNotionalPerOrder": 500
+      "counterparty": {
+        "blockList": [
+          "0xBAD0000000000000000000000000000000000003"
+        ]
+      }
     }
   },
   "proof": {
     "type": "DataIntegrityProof",
     "cryptosuite": "eddsa-jcs-2022",
     "created": "2026-06-01T00:00:00Z",
-    "verificationMethod": "did:web:issuer.example#key-1",
+    "verificationMethod": "did:key:z6Mkgp9hNAsb3vcRJ2B778bVn6JFUmpbvuQMjivssq8coMSa#z6Mkgp9hNAsb3vcRJ2B778bVn6JFUmpbvuQMjivssq8coMSa",
     "proofPurpose": "assertionMethod",
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z339d7dYvWnHV27YcRBTL1Ct1MD9LGx8b4MmbEsu4ZURvU1mtsA62qBjAJRtxjhNatKVuN71FvChSUzih1HULPuKg"
+    "proofValue": "z4d5m5mcCQETkcBX3evKFLRN5i865sz4aaPVftYt5p5psnMLnSiBKgmrmDdwLqwtDzWLzznfMmyfqQ8GNpcNQ4Gxm"
   }
 }

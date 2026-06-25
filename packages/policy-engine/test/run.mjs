@@ -12,7 +12,7 @@ import { verifyCredential, enforceMandate } from '../dist/index.mjs';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT  = join(HERE, 'fixtures', 'out');
 
-const { configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL } =
+const { configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID } =
   JSON.parse(readFileSync(join(OUT, 'config.json'), 'utf8'));
 
 const NOW = Date.parse('2026-06-25T12:00:00Z'); // inside validity window, inside temporal window
@@ -308,14 +308,20 @@ await expectDeny('operationClassification/wdk: wrong transactionCategory → den
     return enforceMandate(c, verify.cred, config, resolved({ amount: 50n }));
   })(), 'category');
 
-// advisory-only actionScope fields: cumulative_budget, allowed_counterparty_types, geographic_restriction
+// advisory-only actionScope fields: cumulative_budget, geographic_restriction
 // Per AIP v0.8 §1.2-§1.3 these are advisory — MUST NOT ground a deny.
-await expectAllow('advisory/test:1: cumulative_budget + allowed_counterparty_types + geographic_restriction → allow',
+// Note: allowed_counterparty_types is NOT advisory — it is fail-closed (tested below).
+await expectAllow('advisory/test:1: cumulative_budget + geographic_restriction → allow',
   fullEval('cr-advisory-fields', { amount: 50n }));
-await expectAllow('advisory/wdk: same advisory fields on wdk-like rail → allow',
+await expectAllow('advisory/wdk: cumulative_budget + geographic_restriction on wdk-like rail → allow',
   evalOnRail('cr-advisory-fields', 'test:wdk', { amount: 50n }));
-await expectAllow('advisory/l402: same advisory fields on l402-like rail → allow',
+await expectAllow('advisory/l402: cumulative_budget + geographic_restriction on l402-like rail → allow',
   evalOnRail('cr-advisory-fields', 'test:l402', { amount: 50n }));
+
+// allowed_counterparty_types: fail-closed — no enforcement path, named "allowed" implies enforcement.
+// A mandate that sets it DENIES via the unknown-rule catch-all.
+await expectDeny('failClosed/allowed_counterparty_types: no enforcement path → deny (unknown-rule)',
+  evalOnRail('fc-allowed-cpty-types', 'test:1', { amount: 50n }), 'unknown-rule');
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: expanded fail-closed garbage set
@@ -403,6 +409,42 @@ await expectDeny('garbage/test:1: extra fields in resolved transfer + binding ce
     const hostileResolved = { kind: 'transfer', recipient: MERCHANT_ADDR, amount: 500n, assetSymbol: 'TUNIT', decimals: 0, notes: [], agentOverride: true, bypassPolicy: true };
     return enforceMandate(c, verify.cred, config, hostileResolved);
   })(), 'ceiling');
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 8: Step 3 identity — signer-boundary + did:key dev-mode
+// Boyd requirement Verify 2: mandate signing key must not be agent-controlled.
+// The check fires in verifyCredential before evaluateMandate is called.
+// ══════════════════════════════════════════════════════════════════════════════
+console.log('\n── Step 3: signer-boundary + did:key ──');
+
+// Signer-boundary: mandate signed by agentDid → DENY [signer-boundary].
+// Config: issuerDid = agentDid = AGENT. The credential is signed by AGENT's key.
+// Proof verifies (agentKey is in agent DID doc assertionMethod), then the
+// signer-boundary check fires because signingDid === config.agentDid.
+await expectDeny('signer-boundary: proof.verificationMethod DID == agentDid → deny',
+  verifyCredential({
+    ...configTemplate,
+    credentialPath: join(OUT, 'cred-agent-self-issued.json'),
+    issuerDid: AGENT,
+    agentDid: AGENT,
+    offline: { didDocumentPath: join(OUT, 'agent-did.json') },
+  }, NOW),
+  'signer-boundary');
+
+// Signer-boundary: normal valid credential — signing DID (ISSUER) != agentDid (AGENT) → allow.
+await expectAllow('signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)',
+  verifyCredential(cfg('valid'), NOW));
+
+// did:key dev-mode: operator issues credential with did:key principal.
+// The DID document is derived in-memory — no network, no offline file needed.
+// Config: issuerDid = OPERATOR_DID (did:key), agentDid = AGENT (different DID) → allow.
+await expectAllow('did:key dev-mode: operator credential with did:key issuer → allow',
+  verifyCredential({
+    ...configTemplate,
+    credentialPath: join(OUT, 'cred-dev-operator.json'),
+    issuerDid: OPERATOR_DID,
+    agentDid: AGENT,
+  }, NOW));
 
 // ══════════════════════════════════════════════════════════════════════════════
 console.log(`\npolicy-engine conformance: ${pass} passed, ${fail} failed`);

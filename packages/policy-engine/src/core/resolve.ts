@@ -104,8 +104,29 @@ export interface DidDocument {
 }
 
 /**
- * Resolve a DID document, from an offline override file when configured,
- * otherwise via did:web over HTTPS with refresh-first caching.
+ * Derive a DID document for a did:key DID in-memory per the did:key spec.
+ * No network access required — the public key is embedded in the DID string.
+ * The verificationMethod id uses the canonical did:key fragment (same as the
+ * multibase key identifier).
+ */
+export function resolveDidKeyDocument(did: string): DidDocument {
+  if (!did.startsWith('did:key:')) throw new Error(`not a did:key DID: ${did}`);
+  const keyId = did.slice('did:key:'.length);
+  if (!keyId.startsWith('z')) {
+    throw new Error(`did:key must use multibase base58btc (z prefix): ${did}`);
+  }
+  const vmId = `${did}#${keyId}`;
+  return {
+    id: did,
+    verificationMethod: [{ id: vmId, type: 'Multikey', controller: did, publicKeyMultibase: keyId }],
+    assertionMethod: [vmId],
+  };
+}
+
+/**
+ * Resolve a DID document. Dispatches by DID method:
+ *   did:key  — derived in-memory from the key material (no network, offlinePath ignored)
+ *   did:web  — offline override file when configured, otherwise HTTPS with refresh-first caching
  */
 export async function resolveDidDocument(
   did: string,
@@ -116,6 +137,9 @@ export async function resolveDidDocument(
     offlinePath?: string;
   },
 ): Promise<{ doc: DidDocument; note?: string }> {
+  if (did.startsWith('did:key:')) {
+    return { doc: resolveDidKeyDocument(did) };
+  }
   if (opts.offlinePath) {
     const doc = JSON.parse(readFileSync(opts.offlinePath, 'utf8')) as DidDocument;
     return { doc, note: `issuer DID document loaded from offline override ${opts.offlinePath}` };

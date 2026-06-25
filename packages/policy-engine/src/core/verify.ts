@@ -71,6 +71,21 @@ export async function verifyCredential(config: VerifierConfig, nowMs: number): P
     const proofResult = verifyEddsaJcs2022(cred as unknown as Record<string, unknown>, key);
     notes.push(...proofResult.notes);
     if (!proofResult.ok) return { allow: false, reason: `[proof] ${proofResult.reason}`, notes };
+
+    // Signer-boundary check: the mandate must not be signed by a key the agent controls.
+    // A mandate signed by the agent's own key means the agent could self-authorize — which
+    // inverts the delegation model into "do whatever the skill asked."
+    // String comparison is sufficient: step 4 proof verification already bound the
+    // verificationMethod to the actual signing key, so a match here is authoritative.
+    const signingDid = vmId.includes('#') ? vmId.split('#')[0] : vmId;
+    if (config.agentDid && signingDid === config.agentDid) {
+      return {
+        allow: false,
+        reason:
+          '[signer-boundary] mandate signing key is agent-controlled — a principal key is required (operator key in dev mode, OP key in full mode)',
+        notes,
+      };
+    }
   } catch (e) {
     return { allow: false, reason: `[proof] ${(e as Error).message}`, notes };
   }

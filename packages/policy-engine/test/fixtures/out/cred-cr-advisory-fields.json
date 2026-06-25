@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:33dfc45a-8d34-48a2-a729-f436a3072f82",
+  "id": "urn:uuid:538023a4-7e8a-4666-8b87-3d7c53307781",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
@@ -50,9 +50,6 @@
         "currency": "TUNIT",
         "window": "30d"
       },
-      "allowed_counterparty_types": [
-        "merchant"
-      ],
       "geographic_restriction": {
         "type": "advisory_only"
       }
@@ -75,6 +72,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z3vERcnTjmJTmVjhbhdChPUQsoh39tzZ3k7831m37mMfPEaWoRypGsVTstCp23hrPD3zmJ1RbqccCdufLycZbYGmz"
+    "proofValue": "z2srK7ngmBCE2fNq7PwPTXKvhg2KzbHC9HaWsUVk4ZBVZXe9deC1PmqjyYE78xv38yAbQie3Xge2wcyRfpXTQMiZm"
   }
 }

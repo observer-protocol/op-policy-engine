@@ -19,8 +19,10 @@ import type {
 // Fail-closed rule: a BINDING constraint this verifier cannot establish
 // from the available context is a DENY with an explicit reason — wrongful
 // acceptance is categorically worse than wrongful rejection. Advisory
-// fields (per AIP v0.8: cumulative_budget, allowed_counterparty_types,
-// actionScope.geographic_restriction) never ground a deny.
+// fields (per AIP v0.8: cumulative_budget, actionScope.geographic_restriction)
+// never ground a deny. Note: allowed_counterparty_types has no enforcement
+// path and is NOT in the advisory allowlist — any mandate that sets it is
+// DENIED via the unknown-rule catch-all.
 
 export interface MandateOutcome {
   ok: boolean;
@@ -247,7 +249,7 @@ export function evaluateMandate(
   // A binding constraint this verifier cannot evaluate is a DENY.
   const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
     'allowed_rails', 'per_transaction_ceiling', 'allowed_transaction_categories',
-    'cumulative_budget', 'allowed_counterparty_types', 'geographic_restriction',
+    'cumulative_budget', 'geographic_restriction',
   ]);
   for (const key of Object.keys(scope)) {
     if (!KNOWN_SCOPE_KEYS.has(key)) {
@@ -451,14 +453,13 @@ export function evaluateMandate(
   // 9. Advisory fields — surfaced, never deny (AIP v0.8 §1.2–§1.3).
   if (scope.cumulative_budget) {
     notes.push(
-      `cumulative_budget declared (${scope.cumulative_budget.amount} ${scope.cumulative_budget.currency} over ${scope.cumulative_budget.window}): advisory per AIP v0.8 — MUST NOT ground a deny; not enforced`,
+      `cumulative_budget declared (${scope.cumulative_budget.amount} ${scope.cumulative_budget.currency} over ${scope.cumulative_budget.window}): advisory per AIP v0.8 — not enforced at this layer; enforced path: tradingMandate.velocity.dailyVolumeCap or monthlyVolumeCap`,
     );
   }
-  if (scope.allowed_counterparty_types && scope.allowed_counterparty_types.length > 0) {
-    notes.push(`allowed_counterparty_types declared [${scope.allowed_counterparty_types.join(', ')}]: advisory in v0.8, not enforced`);
-  }
   if (scope.geographic_restriction) {
-    notes.push('actionScope.geographic_restriction declared: advisory in v0.8, not enforced');
+    notes.push(
+      'actionScope.geographic_restriction declared: advisory per AIP v0.8 — not enforced at this layer; enforced path: tradingMandate.geographic.allowedJurisdictionsOnly (fail-closed) or blockedJurisdictions (fail-open)',
+    );
   }
 
   return { ok: true, reason: 'mandate satisfied', notes };

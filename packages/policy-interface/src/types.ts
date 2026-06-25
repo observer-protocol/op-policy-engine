@@ -171,7 +171,6 @@ export interface ObserverDelegationCredentialSubject {
   id: string;
   actionScope?: {
     allowed_rails?: string[];
-    allowed_counterparty_types?: string[];
     [k: string]: unknown;
   };
   delegationScope?: {
@@ -319,10 +318,82 @@ export interface PolicyEvaluationCredential {
  * the mandate must be signed by a key the agent cannot forge.
  *
  * dev:  operator-as-principal-and-issuer. The operator anoints their own agent
- *       and issues the mandate with their own key. OP is not in the issuance
- *       loop. NOT operator-self-issued means the operator key is distinct from
- *       the agent key — the agent cannot mint or alter the mandate.
+ *       and issues the mandate with their own key (typically a did:key principal).
+ *       OP is not in the issuance loop. The agent key is distinct from the
+ *       operator key — the agent cannot mint or alter the mandate.
  *
  * full: OP-issued ODC, full multi-credential chain. Graduation target.
+ *       Principal is typically did:web. The did:key dev-mode principal is linked
+ *       to the did:web principal via a PrincipalContinuityAttestation at graduation
+ *       so the agent's accumulated identity and history are preserved.
  */
 export type IssuanceMode = "dev" | "full";
+
+// ---------------------------------------------------------------------------
+// WalletBindingCredential (Step 3 — binds a wallet address to a principal DID)
+// ---------------------------------------------------------------------------
+
+/**
+ * Subject of a WalletBindingCredential.
+ * The credential issuer (principal) attests that they control `walletAddress`
+ * on `rail`/`chainId`. In dev mode the issuer is the operator (did:key); in
+ * full mode the issuer is OP (did:web).
+ */
+export interface WalletBindingCredentialSubject {
+  /** DID of the principal who controls this wallet. */
+  id: string;
+  /** Rail-specific wallet address being bound. */
+  walletAddress: string;
+  /** Rail identifier (matches config.rails[chainId].rail). */
+  rail: string;
+  /** Chain ID scope. When absent the binding applies to all chains on the rail. */
+  chainId?: string;
+  /** Issuance mode context — informs the verifier which trust root to apply. */
+  issuanceMode: IssuanceMode;
+}
+
+export interface WalletBindingCredential {
+  "@context": string[];
+  id: string;
+  type: string[];
+  /** In dev mode: the operator's DID (typically did:key). In full mode: OP's DID (did:web). */
+  issuer: string;
+  validFrom: string;
+  validUntil?: string;
+  credentialSubject: WalletBindingCredentialSubject;
+  proof: CredentialProof;
+}
+
+// ---------------------------------------------------------------------------
+// PrincipalContinuityAttestation — graduation stub (design-for, not built in v1)
+// ---------------------------------------------------------------------------
+
+/**
+ * Links a prior did:key principal to a new did:web principal at graduation.
+ * Issued and signed by the new did:web principal; the signature proves control
+ * of the new identity. The prior did:key DID is preserved as `priorPrincipalDid`
+ * so the agent's accumulated history (AT-ARS, anointing) remains portable.
+ *
+ * Implementation: NOT built in v1. This type stub exists so the data model does
+ * not foreclose the migration path. Build when the first dev-mode operator
+ * actually graduates to full mode — not before.
+ */
+export interface PrincipalContinuityAttestationSubject {
+  /** The new did:web principal DID (issuer of this credential). */
+  id: string;
+  /** The prior did:key principal DID being superseded. */
+  priorPrincipalDid: string;
+  /** ISO 8601 timestamp of the continuity event. */
+  continuityAt: string;
+}
+
+export interface PrincipalContinuityAttestation {
+  "@context": string[];
+  id: string;
+  type: string[];
+  /** The new did:web principal — same as credentialSubject.id. */
+  issuer: string;
+  validFrom: string;
+  credentialSubject: PrincipalContinuityAttestationSubject;
+  proof: CredentialProof;
+}

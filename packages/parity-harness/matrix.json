@@ -1,7 +1,7 @@
 {
-  "version": "2",
-  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases in packages/policy-engine, bringing total to 173 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
-  "totalCases": 173,
+  "version": "3",
+  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Total: 177 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
+  "totalCases": 177,
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
@@ -34,10 +34,10 @@
     "policy-engine": {
       "package": "@observer-protocol/policy-engine",
       "dir": "op-policy-engine/packages/policy-engine",
-      "expectedPass": 72,
+      "expectedPass": 76,
       "parseMode": "aggregate",
       "summaryPattern": "policy-engine conformance: (\\d+) passed, (\\d+) failed",
-      "note": "Step 2a/2c: 35 universal-core cases + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Proves shared core is rail-agnostic and fail-closed across all garbage inputs."
+      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Proves shared core is rail-agnostic, fail-closed, and the identity step enforces signer-boundary."
     }
   },
   "ruleCategories": {
@@ -229,6 +229,10 @@
     { "id": "pe-034", "engine": "policy-engine", "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
     { "id": "pe-035", "engine": "policy-engine", "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
     { "id": "pe-036", "engine": "policy-engine", "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
-    { "id": "pe-037", "engine": "policy-engine", "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" }
+    { "id": "pe-037", "engine": "policy-engine", "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
+    { "id": "pe-038", "engine": "policy-engine", "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path, unknown-rule)", "ruleCategory": "failClosed", "ruleField": "allowedCounterpartyTypes", "outcome": "deny" },
+    { "id": "pe-039", "engine": "policy-engine", "name": "signer-boundary: proof.verificationMethod DID == agentDid → deny", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "deny" },
+    { "id": "pe-040", "engine": "policy-engine", "name": "signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "allow" },
+    { "id": "pe-041", "engine": "policy-engine", "name": "did:key dev-mode: operator credential with did:key issuer → allow", "ruleCategory": "credentialIntegrity", "ruleField": "didKeyDevMode", "outcome": "allow" }
   ]
 }

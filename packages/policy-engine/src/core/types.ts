@@ -72,7 +72,6 @@ export interface ActionScope {
   per_transaction_ceiling?: PerTransactionCeiling;
   allowed_transaction_categories?: string[];
   cumulative_budget?: { amount: string; currency: string; window: string };
-  allowed_counterparty_types?: string[];
   geographic_restriction?: { allowed?: string[]; disallowed?: string[] };
 }
 

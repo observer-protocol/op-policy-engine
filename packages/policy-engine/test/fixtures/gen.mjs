@@ -173,14 +173,22 @@ credentials['cr-txcat-transfer'] = sign(base({ subject: {
   tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
 } }));
 
-// advisory-only actionScope fields (cumulative_budget, allowed_counterparty_types, geographic_restriction)
+// advisory-only actionScope fields (cumulative_budget, geographic_restriction)
+// Note: allowed_counterparty_types is NOT advisory — it is fail-closed (unknown-rule DENY).
+// Tested separately via fc-allowed-cpty-types below.
 credentials['cr-advisory-fields'] = sign(base({ subject: {
   actionScope: {
     allowed_rails: ALL_TEST_RAILS,
     cumulative_budget: { amount: '1000', currency: 'TUNIT', window: '30d' },
-    allowed_counterparty_types: ['merchant'],
     geographic_restriction: { type: 'advisory_only' },
   },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+// fail-closed: allowed_counterparty_types is no longer advisory — it has no enforcement path,
+// naming it "allowed" implies enforcement. Any mandate that sets it DENIES via unknown-rule.
+credentials['fc-allowed-cpty-types'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS, allowed_counterparty_types: ['merchant'] },
   tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
 } }));
 
@@ -224,6 +232,41 @@ credentials['temporal'] = sign(base({ subject: { tradingMandate: { temporal: { a
 // geographic: allowedJurisdictionsOnly (fail-closed)
 credentials['geo-allow-only'] = sign(base({ subject: { tradingMandate: { geographic: { allowedJurisdictionsOnly: ['US'] } } } }));
 
+// ── Step 3 fixtures: signer-boundary + did:key dev-mode ──────────────────────
+
+// Agent's own key — used to sign the agent-self-issued credential.
+// Proves the signer-boundary check: a mandate signed by agentDid must DENY.
+const agentKey = newIssuerKeys();
+const AGENT_VM = `${AGENT}#key-1`;
+const agentDidDoc = makeDidDocument(AGENT, [
+  { fragment: 'key-1', multikey: agentKey.multikey, assertion: true },
+]);
+writeFileSync(join(OUT, 'agent-did.json'), JSON.stringify(agentDidDoc, null, 2));
+
+// Agent self-issues a credential: issuer = AGENT, signed by agentKey.
+// No credentialStatus (status list is signed by ISSUER not AGENT; remove to avoid mismatch).
+// With config { issuerDid: AGENT, agentDid: AGENT } this must DENY [signer-boundary].
+credentials['agent-self-issued'] = signEddsaJcs2022((() => {
+  const c = base();
+  c.issuer = AGENT;
+  delete c.credentialStatus;
+  return c;
+})(), agentKey.privateKey, AGENT_VM);
+
+// did:key dev-mode: operator issues credential using a did:key principal (no OP in the loop).
+// The DID document is derived in-memory from the key — no offline file or network needed.
+const operatorKey = newIssuerKeys();
+const OPERATOR_DID = `did:key:${operatorKey.multikey}`;
+const OPERATOR_VM = `${OPERATOR_DID}#${operatorKey.multikey}`;
+
+// No credentialStatus (would need OPERATOR-signed status list; omit for test clarity).
+credentials['dev-operator'] = signEddsaJcs2022((() => {
+  const c = base();
+  c.issuer = OPERATOR_DID;
+  delete c.credentialStatus;
+  return c;
+})(), operatorKey.privateKey, OPERATOR_VM);
+
 for (const [name, cred] of Object.entries(credentials)) {
   writeFileSync(join(OUT, `cred-${name}.json`), JSON.stringify(cred, null, 2));
 }
@@ -260,6 +303,6 @@ const multiRailConfig = {
   },
 };
 
-writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL }, null, 2));
+writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID }, null, 2));
 
 console.log(`fixtures written: ${Object.keys(credentials).length} credentials → ${OUT}`);

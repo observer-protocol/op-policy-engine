@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:8c58b7a6-dd33-47fa-a216-60a2c2cb326d",
+  "id": "urn:uuid:83afd1e2-6b73-4c47-aded-ac4514085217",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
@@ -45,8 +45,8 @@
         "l402-rail",
         "test:l402"
       ],
-      "allowed_transaction_categories": [
-        "transfer"
+      "allowed_counterparty_types": [
+        "merchant"
       ]
     },
     "delegationScope": {
@@ -67,6 +67,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z339d7dYvWnHV27YcRBTL1Ct1MD9LGx8b4MmbEsu4ZURvU1mtsA62qBjAJRtxjhNatKVuN71FvChSUzih1HULPuKg"
+    "proofValue": "z3engWVnjzuFiKAtM1KvZTNFTMCUpstX3rqSNZCqWTeGSzWvswq8SLu2iK56TFkU98yHQp8A7a6Z9myhnkFEiiXbC"
   }
 }
