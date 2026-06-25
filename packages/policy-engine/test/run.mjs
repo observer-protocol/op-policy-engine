@@ -7,12 +7,12 @@
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { verifyCredential, enforceMandate } from '../dist/index.mjs';
+import { verifyCredential, enforceMandate, runRuntimeAdapter } from '../dist/index.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT  = join(HERE, 'fixtures', 'out');
 
-const { configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID } =
+const { configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID, TEST_WALLET_ADDR } =
   JSON.parse(readFileSync(join(OUT, 'config.json'), 'utf8'));
 
 const NOW = Date.parse('2026-06-25T12:00:00Z'); // inside validity window, inside temporal window
@@ -445,6 +445,74 @@ await expectAllow('did:key dev-mode: operator credential with did:key issuer →
     issuerDid: OPERATOR_DID,
     agentDid: AGENT,
   }, NOW));
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SECTION 9: Step 4 — RuntimeAdapter BIND→LINK→AUTHORIZE gate
+// The three-step gate closes the cross-principal pairing attack:
+// a valid WBC for an attacker-controlled wallet cannot be paired with a mandate
+// issued by a different principal, because LINK rejects the combination.
+// Dev-mode LINK: explicit DID equality (wbc.issuer === mandate.issuer).
+// Full-mode LINK: scaffold fail-closed stub (L1 cosign_verify not wired in v1).
+// ══════════════════════════════════════════════════════════════════════════════
+console.log('\n── Step 4: RuntimeAdapter BIND→LINK→AUTHORIZE gate ──');
+
+// Helpers for Step 4 tests. Use cred-dev-operator.json (issuer = OPERATOR_DID did:key).
+// agentDid = AGENT (different from OPERATOR_DID) so signer-boundary does not fire.
+function devOpCfg(opts = {}) {
+  return {
+    ...configTemplate,
+    credentialPath: join(OUT, 'cred-dev-operator.json'),
+    issuerDid: OPERATOR_DID,
+    agentDid: AGENT,
+    issuanceMode: opts.issuanceMode ?? 'dev',
+    ...(opts.wbcFile ? { walletBindingCredentialPath: join(OUT, opts.wbcFile) } : {}),
+  };
+}
+
+function devOpCtx(walletId = TEST_WALLET_ADDR) {
+  return {
+    chain_id: 'test:1',
+    wallet_id: walletId,
+    api_key_id: 'test-api-key',
+    timestamp: '2026-06-25T12:00:00Z',
+    spending: { daily_total: '0', date: '2026-06-25' },
+    transaction: { to: MERCHANT_ADDR, value: '0' },
+    policy_config: {},
+  };
+}
+
+// Test 1: no WBC configured → passes through to verifyCredential + enforceMandate.
+// BIND+LINK steps are skipped entirely; credential verifies, mandate allows amount 50.
+await expectAllow('RuntimeAdapter: no WBC configured → allow (passthrough)',
+  runRuntimeAdapter(devOpCtx(), devOpCfg(), resolved({ amount: 50n }), NOW));
+
+// Test 2: valid WBC + same operator (dev mode) → all three steps pass → allow.
+// BIND: wbc.issuer = OPERATOR_DID, proof verifies, walletAddress = TEST_WALLET_ADDR = ctx.wallet_id.
+// LINK (dev): wbc.issuer (OPERATOR_DID) === mandate.issuer (OPERATOR_DID) → pass.
+// AUTHORIZE: amount 50 under ceiling 100 → allow.
+await expectAllow('RuntimeAdapter: valid WBC + same-operator dev-mode link → allow',
+  runRuntimeAdapter(devOpCtx(), devOpCfg({ wbcFile: 'wbc-valid.json' }), resolved({ amount: 50n }), NOW));
+
+// Test 3: WBC controller ≠ mandate principal (dev mode) → deny [issuer-linkage].
+// BIND: wbc-mislinked.json is issued by WRONG_OPERATOR_DID (a different did:key), proof verifies.
+// LINK (dev): wbc.issuer (WRONG_OPERATOR_DID) !== mandate.issuer (OPERATOR_DID) → deny.
+await expectDeny('RuntimeAdapter: WBC controller != mandate principal (dev) → deny [issuer-linkage]',
+  runRuntimeAdapter(devOpCtx(), devOpCfg({ wbcFile: 'wbc-mislinked.json' }), resolved({ amount: 50n }), NOW),
+  'issuer-linkage');
+
+// Test 4: WBC walletAddress ≠ ctx.wallet_id → deny [bind].
+// BIND address check: wbc-valid.json.walletAddress = TEST_WALLET_ADDR ≠ ctx.wallet_id.
+await expectDeny('RuntimeAdapter: WBC walletAddress != ctx.wallet_id → deny [bind]',
+  runRuntimeAdapter(devOpCtx('0xWRONG000000000000000000000000000000000F'), devOpCfg({ wbcFile: 'wbc-valid.json' }), resolved({ amount: 50n }), NOW),
+  'bind');
+
+// Test 5: full-mode LINK stub fail-closed → deny [issuer-linkage].
+// Full-mode link check is not implemented in v1 scaffold.
+// ANY full-mode request with a WBC denies here until cosign_verify is wired.
+// Tests "WBC-controller ≠ mandate-principal → DENY in full mode" per Boyd's requirement.
+await expectDeny('RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub fail-closed, L1 not wired)',
+  runRuntimeAdapter(devOpCtx(), devOpCfg({ wbcFile: 'wbc-mislinked.json', issuanceMode: 'full' }), resolved({ amount: 50n }), NOW),
+  'issuer-linkage');
 
 // ══════════════════════════════════════════════════════════════════════════════
 console.log(`\npolicy-engine conformance: ${pass} passed, ${fail} failed`);

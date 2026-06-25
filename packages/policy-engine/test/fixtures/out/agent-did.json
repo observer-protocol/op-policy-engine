@@ -5,7 +5,7 @@
       "id": "did:web:issuer.example:agents:test-agent#key-1",
       "type": "Multikey",
       "controller": "did:web:issuer.example:agents:test-agent",
-      "publicKeyMultibase": "z6Mki8hGFru5253Zjh5Zmgnoag6YeLeWUsPzd262ix7SeBQ5"
+      "publicKeyMultibase": "z6Mkgs1ZVZtMVXrfjuo79DusFrkzSLYiER3zCfDqAkzh4Nyd"
     }
   ],
   "assertionMethod": [

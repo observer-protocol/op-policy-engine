@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+  ],
+  "id": "urn:uuid:1b83e156-cd6c-43fd-90da-b811a29c1e35",
+  "type": [
+    "VerifiableCredential",
+    "WalletBindingCredential"
+  ],
+  "issuer": "did:key:z6MkoHN6zgNxoX3YeryUuUAbcXbAjrApyiVcpxenqGMah5WF",
+  "validFrom": "2026-01-01T00:00:00Z",
+  "validUntil": "2027-01-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:key:z6MkoHN6zgNxoX3YeryUuUAbcXbAjrApyiVcpxenqGMah5WF",
+    "walletAddress": "0xABCD000000000000000000000000000000001234",
+    "rail": "test-rail",
+    "issuanceMode": "dev"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-06-01T00:00:00Z",
+    "verificationMethod": "did:key:z6MkoHN6zgNxoX3YeryUuUAbcXbAjrApyiVcpxenqGMah5WF#z6MkoHN6zgNxoX3YeryUuUAbcXbAjrApyiVcpxenqGMah5WF",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+      "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zNroBx7qxXjEfLYxkXbv8Nif3smKdVypCoEGUfUizxcvdLqXmaGZd4a2u9TjNqdkQNpzKyzjwoxCviUGZbUzoXtV"
+  }
+}

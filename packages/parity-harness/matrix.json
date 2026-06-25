@@ -1,7 +1,7 @@
 {
-  "version": "3",
-  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Total: 177 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
-  "totalCases": 177,
+  "version": "4",
+  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND→LINK→AUTHORIZE gate cases. Total: 182 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
+  "totalCases": 182,
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
@@ -34,10 +34,10 @@
     "policy-engine": {
       "package": "@observer-protocol/policy-engine",
       "dir": "op-policy-engine/packages/policy-engine",
-      "expectedPass": 76,
+      "expectedPass": 81,
       "parseMode": "aggregate",
       "summaryPattern": "policy-engine conformance: (\\d+) passed, (\\d+) failed",
-      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Proves shared core is rail-agnostic, fail-closed, and the identity step enforces signer-boundary."
+      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Step 4 (+5): RuntimeAdapter BIND→LINK→AUTHORIZE gate — no-WBC passthrough, valid WBC+same-operator ALLOW, mislinked DENY [issuer-linkage] (dev+full), wrong wallet DENY [bind]. Proves shared core is rail-agnostic, fail-closed, identity step enforces signer-boundary, and BIND→LINK→AUTHORIZE closes the cross-principal pairing attack."
     }
   },
   "ruleCategories": {
@@ -233,6 +233,12 @@
     { "id": "pe-038", "engine": "policy-engine", "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path, unknown-rule)", "ruleCategory": "failClosed", "ruleField": "allowedCounterpartyTypes", "outcome": "deny" },
     { "id": "pe-039", "engine": "policy-engine", "name": "signer-boundary: proof.verificationMethod DID == agentDid → deny", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "deny" },
     { "id": "pe-040", "engine": "policy-engine", "name": "signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "allow" },
-    { "id": "pe-041", "engine": "policy-engine", "name": "did:key dev-mode: operator credential with did:key issuer → allow", "ruleCategory": "credentialIntegrity", "ruleField": "didKeyDevMode", "outcome": "allow" }
+    { "id": "pe-041", "engine": "policy-engine", "name": "did:key dev-mode: operator credential with did:key issuer → allow", "ruleCategory": "credentialIntegrity", "ruleField": "didKeyDevMode", "outcome": "allow" },
+
+    { "id": "pe-042", "engine": "policy-engine", "name": "RuntimeAdapter: no WBC configured → allow (passthrough to verifyCredential+enforceMandate)", "ruleCategory": "credentialIntegrity", "ruleField": "runtimeAdapter", "outcome": "allow" },
+    { "id": "pe-043", "engine": "policy-engine", "name": "RuntimeAdapter: valid WBC + same-operator dev-mode LINK → allow (BIND+LINK+AUTHORIZE all pass)", "ruleCategory": "credentialIntegrity", "ruleField": "runtimeAdapterBind", "outcome": "allow" },
+    { "id": "pe-044", "engine": "policy-engine", "name": "RuntimeAdapter: WBC controller != mandate principal (dev) → deny [issuer-linkage]", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterLink", "outcome": "deny" },
+    { "id": "pe-045", "engine": "policy-engine", "name": "RuntimeAdapter: WBC walletAddress != ctx.wallet_id → deny [bind]", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterBind", "outcome": "deny" },
+    { "id": "pe-046", "engine": "policy-engine", "name": "RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub fail-closed, L1 not wired)", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterLinkFull", "outcome": "deny" }
   ]
 }

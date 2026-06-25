@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:e4b0c15a-5aea-4409-a924-0a5e502002cc",
+  "id": "urn:uuid:23f1ad44-12d5-45cf-95b6-59bed5ca3d9d",
   "type": [
     "VerifiableCredential",
     "ObserverDelegationCredential"
@@ -67,6 +67,6 @@
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z4VtgQx5DtVEeVRxucsKdXRbQ42uRFC9DMpBRjXGbk2rXhEct9tQ6n5LTtiE84UFjYCyhybiUH2fth8wLXzab4PRC"
+    "proofValue": "z5PVA1ZjuSQLhS6Ug5BFVS1nPnwPQnZfJZcwueJdQZL6GohmT3nwr6NzMgFgQMM1Uvr6TdpepScu6Rwv6KmGBE9XR"
   }
 }

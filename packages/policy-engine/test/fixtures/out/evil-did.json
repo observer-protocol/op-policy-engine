@@ -5,7 +5,7 @@
       "id": "did:web:evil.example#key-1",
       "type": "Multikey",
       "controller": "did:web:evil.example",
-      "publicKeyMultibase": "z6MkptaK2s6ji6oFTKERsnwgSuhM1w1QjZYgH1qJc4R2sznv"
+      "publicKeyMultibase": "z6MksFRqpi24A7hhFj3qoLMDiYih6UrhViM44u1TKeVwVjvq"
     }
   ],
   "assertionMethod": [

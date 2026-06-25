@@ -271,6 +271,54 @@ for (const [name, cred] of Object.entries(credentials)) {
   writeFileSync(join(OUT, `cred-${name}.json`), JSON.stringify(cred, null, 2));
 }
 
+// ── Step 4 fixtures: WalletBindingCredential (WBC) ──────────────────────────
+// Tests the BIND→LINK→AUTHORIZE gate in runRuntimeAdapter.
+// WBCs are not ObserverDelegationCredentials, so they're written separately.
+
+const TEST_WALLET_ADDR = '0xABCD000000000000000000000000000000001234';
+
+// wbc-valid: OPERATOR_DID issues, binding TEST_WALLET_ADDR to itself.
+// Paired with cred-dev-operator.json (mandate.issuer = OPERATOR_DID).
+// LINK (dev): wbc.issuer === mandate.issuer → pass.
+const wbcValid = signEddsaJcs2022({
+  '@context': ['https://www.w3.org/ns/credentials/v2'],
+  id: `urn:uuid:${crypto.randomUUID()}`,
+  type: ['VerifiableCredential', 'WalletBindingCredential'],
+  issuer: OPERATOR_DID,
+  validFrom: '2026-01-01T00:00:00Z',
+  validUntil: '2027-01-01T00:00:00Z',
+  credentialSubject: {
+    id: OPERATOR_DID,
+    walletAddress: TEST_WALLET_ADDR,
+    rail: 'test-rail',
+    issuanceMode: 'dev',
+  },
+}, operatorKey.privateKey, OPERATOR_VM);
+writeFileSync(join(OUT, 'wbc-valid.json'), JSON.stringify(wbcValid, null, 2));
+
+// wbc-mislinked: a different did:key (WRONG_OPERATOR_DID) issues the WBC.
+// Paired with cred-dev-operator.json (mandate.issuer = OPERATOR_DID).
+// LINK (dev): wbc.issuer (WRONG_OPERATOR_DID) !== mandate.issuer (OPERATOR_DID) → deny [issuer-linkage].
+const wrongOperatorKey = newIssuerKeys();
+const WRONG_OPERATOR_DID = `did:key:${wrongOperatorKey.multikey}`;
+const WRONG_OPERATOR_VM = `${WRONG_OPERATOR_DID}#${wrongOperatorKey.multikey}`;
+
+const wbcMislinked = signEddsaJcs2022({
+  '@context': ['https://www.w3.org/ns/credentials/v2'],
+  id: `urn:uuid:${crypto.randomUUID()}`,
+  type: ['VerifiableCredential', 'WalletBindingCredential'],
+  issuer: WRONG_OPERATOR_DID,
+  validFrom: '2026-01-01T00:00:00Z',
+  validUntil: '2027-01-01T00:00:00Z',
+  credentialSubject: {
+    id: WRONG_OPERATOR_DID,
+    walletAddress: TEST_WALLET_ADDR,
+    rail: 'test-rail',
+    issuanceMode: 'dev',
+  },
+}, wrongOperatorKey.privateKey, WRONG_OPERATOR_VM);
+writeFileSync(join(OUT, 'wbc-mislinked.json'), JSON.stringify(wbcMislinked, null, 2));
+
 // ── Config export ─────────────────────────────────────────────────────────────
 const BASE_CFG = {
   issuerDid: ISSUER,
@@ -303,6 +351,6 @@ const multiRailConfig = {
   },
 };
 
-writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID }, null, 2));
+writeFileSync(join(OUT, 'config.json'), JSON.stringify({ configTemplate, multiRailConfig, ISSUER, AGENT, MERCHANT_ADDR, OTHER_ADDR, BLOCKED_ADDR, SCHEMA_URL, OPERATOR_DID, TEST_WALLET_ADDR }, null, 2));
 
 console.log(`fixtures written: ${Object.keys(credentials).length} credentials → ${OUT}`);
