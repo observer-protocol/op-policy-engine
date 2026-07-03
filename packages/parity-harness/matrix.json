@@ -1,7 +1,7 @@
 {
-  "version": "4",
-  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND→LINK→AUTHORIZE gate cases. Total: 182 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
-  "totalCases": 182,
+  "version": "5",
+  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8 + v2.2 crossRailBudget). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND→LINK→AUTHORIZE gate cases. Step 5 (x402/G8): +40 x402-op-authorize engine cases (5th engine) + 4 l402 crossRailBudget cases + 5 core crossRailBudget cases. Total: 231 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
+  "totalCases": 231,
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
@@ -27,23 +27,33 @@
     "l402": {
       "package": "@observer-protocol/l402-op-authorize",
       "dir": "l402-op-authorize",
-      "expectedPass": 12,
+      "expectedPass": 16,
       "parseMode": "per-case",
-      "summaryPattern": "(\\d+)/(\\d+) conformance cases passed"
+      "summaryPattern": "(\\d+)/(\\d+) conformance cases passed",
+      "note": "Step 5 (+4): crossRailBudget over the shared ledger — allow under budget with prior x402 spend, deny over budget, fail-closed with no counter, hook records allowed spends."
+    },
+    "x402": {
+      "package": "@observer-protocol/x402-op-authorize",
+      "dir": "x402-op-authorize",
+      "expectedPass": 40,
+      "parseMode": "per-case",
+      "summaryPattern": "(\\d+)/(\\d+) conformance cases passed",
+      "note": "5th engine — x402 exact/EVM (EIP-3009) at the viem signer boundary. Decoder classification (TransferWithAuthorization decode; Permit2 + receiveWithAuthorization deny as payment-bearing-undecoded; cancelAuthorization benign; undecodable fail-closed), credential pipeline (expired/tampered/agent-self-issued/unknown-rule), mandate gate both sides (notional, counterparty, velocity, from-mismatch, dead validBefore, unmapped chain, unknown token contract), crossRailBudget (allow, deny, no-counter, no-rate, bad-window, currency-mismatch, unpriceable in-window entry), ledger lifecycle (reserve counts/release restores/commit persists), account wrapper (deny → NO signature; signTransaction/signMessage/raw-sign default-deny; unknown typed data default-deny with explicit knob)."
     },
     "policy-engine": {
       "package": "@observer-protocol/policy-engine",
       "dir": "op-policy-engine/packages/policy-engine",
-      "expectedPass": 81,
+      "expectedPass": 86,
       "parseMode": "aggregate",
       "summaryPattern": "policy-engine conformance: (\\d+) passed, (\\d+) failed",
-      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Step 4 (+5): RuntimeAdapter BIND→LINK→AUTHORIZE gate — no-WBC passthrough, valid WBC+same-operator ALLOW, mislinked DENY [issuer-linkage] (dev+full), wrong wallet DENY [bind]. Proves shared core is rail-agnostic, fail-closed, identity step enforces signer-boundary, and BIND→LINK→AUTHORIZE closes the cross-principal pairing attack."
+      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Step 4 (+5): RuntimeAdapter BIND→LINK→AUTHORIZE gate — no-WBC passthrough, valid WBC+same-operator ALLOW, mislinked DENY [issuer-linkage] (dev+full), wrong wallet DENY [bind]. Step 5 (+5): crossRailBudget mandate-layer — allow under budget, deny over, no-counter fail-closed, no-rate fail-closed, unsupported-window fail-closed. Proves shared core is rail-agnostic, fail-closed, identity step enforces signer-boundary, and BIND→LINK→AUTHORIZE closes the cross-principal pairing attack."
     }
   },
   "ruleCategories": {
     "amountLimits": "Per-transaction amount ceiling enforcement (maxNotionalPerOrder / per_transaction_ceiling). Fail-closed on currency mismatch (same-currency invariant: no FX). Covers ETH, USDC, SOL, SAT denominations.",
     "counterparty": "Counterparty allowList / blockList / requireIssuerClassIn enforcement. Includes DID-map resolution and raw address matching.",
     "velocity": "Rolling volume cap enforcement (dailyVolumeCap, audit-log replay for counter recovery, close-time true-up for headroom release, concurrency serialization).",
+    "crossRailBudget": "One rolling-24h budget consumed across every rail a delegation spans (schema v2.2, G8). Conversion uses ONLY principal-attested rates inside the signed credential (oracle-free; same-currency invariant holds in the budget currency), per-entry round-up, shared CrossRailLedger with reserve/commit/release. Fail-closed on: no counter, no rate for the transfer asset, unpriceable in-window ledger entry, unsupported window, counter currency mismatch.",
     "temporal": "Time-window enforcement (allowedTimeWindows) and one-time authorization execution_deadline.",
     "geographic": "Jurisdiction enforcement (allowedJurisdictionsOnly fail-closed, blockedJurisdictions).",
     "credentialIntegrity": "Delegation credential validity: proof verification (eddsa-jcs-2022 only), expiry, not-yet-valid, revocation (BitstringStatusList, refresh-first cache-then-deny), issuer pin, schema allowlist, assertionMethod membership, legacy proof suite rejection, agent DID pin, staleness window.",
@@ -53,192 +63,1853 @@
     "configuration": "Configuration validation: missing policy_config, missing issuerDid, malformed stdin, audit log integrity."
   },
   "cases": [
-    { "id": "wdk-001", "engine": "wdk", "name": "sendTransaction USDC 50 -> merchant", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "wdk-002", "engine": "wdk", "name": "sendTransaction USDC 150 over ceiling", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "deny" },
-    { "id": "wdk-003", "engine": "wdk", "name": "sendTransaction USDC 50 -> non-allowlisted", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "wdk-004", "engine": "wdk", "name": "transfer USDC 50 -> merchant", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "wdk-005", "engine": "wdk", "name": "transfer USDC 50 -> non-allowlisted", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "wdk-006", "engine": "wdk", "name": "approve USDC 50 spender=merchant", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "wdk-007", "engine": "wdk", "name": "approve USDC 50 spender=non-allowlisted", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "wdk-008", "engine": "wdk", "name": "signTypedData Permit USDC 50 spender=merchant", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "wdk-009", "engine": "wdk", "name": "signTypedData non-Permit (undecodable) fails closed", "ruleCategory": "failClosed", "ruleField": "undecodable", "outcome": "deny" },
-    { "id": "wdk-010", "engine": "wdk", "name": "velocity transfer #1 (80)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "allow" },
-    { "id": "wdk-011", "engine": "wdk", "name": "velocity transfer #2 (80) trips dailyVolumeCap", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "wdk-012", "engine": "wdk", "name": "velocity recovered from audit-log replay (100+60>150)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "wdk-013", "engine": "wdk", "name": "H-3 + DID outage -> BLOCKED (no leak)", "ruleCategory": "failClosed", "ruleField": "missingDidDoc", "outcome": "deny" },
-    { "id": "wdk-014", "engine": "wdk", "name": "H-3 + valid in-mandate -> ALLOWED", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "wdk-015", "engine": "wdk", "name": "runtime unmapped wallet label -> fail closed", "ruleCategory": "failClosed", "ruleField": "unmappedWalletLabel", "outcome": "deny" },
-    { "id": "wdk-016", "engine": "wdk", "name": "registration-time label->rail mismatch -> throws ObserverConfigError", "ruleCategory": "failClosed", "ruleField": "configError", "outcome": "deny" },
-    { "id": "wdk-017", "engine": "wdk", "name": "fail-closed: base method NOT called on deny", "ruleCategory": "failClosed", "ruleField": "signerNotReached", "outcome": "deny" },
-    { "id": "wdk-018", "engine": "wdk", "name": "signTypedData Permit2 (verifyingContract != token) fails closed", "ruleCategory": "failClosed", "ruleField": "undecodable", "outcome": "deny" },
-    { "id": "wdk-019", "engine": "wdk", "name": "signTypedData unknown-contract w/ spender+value fails closed", "ruleCategory": "failClosed", "ruleField": "undecodable", "outcome": "deny" },
-    { "id": "wdk-020", "engine": "wdk", "name": "velocity accumulates correctly under concurrency (3 of 5 concurrent 40s, got N)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "mixed" },
-    { "id": "wdk-021", "engine": "wdk", "name": "mutex releases on THROW: 4 concurrent throwing evals all BLOCK, none hang", "ruleCategory": "failClosed", "ruleField": "mutexOnThrow", "outcome": "deny" },
-    { "id": "wdk-022", "engine": "wdk", "name": "lock recovers: a tx after the throw-batch still evaluates", "ruleCategory": "failClosed", "ruleField": "mutexOnThrow", "outcome": "deny" },
-    { "id": "wdk-023", "engine": "wdk", "name": "mutex releases on TIMEOUT: 4 concurrent slow evals all BLOCK, none hang", "ruleCategory": "failClosed", "ruleField": "mutexOnTimeout", "outcome": "deny" },
-    { "id": "wdk-024", "engine": "wdk", "name": "expired credential", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-    { "id": "wdk-025", "engine": "wdk", "name": "tampered credential", "ruleCategory": "credentialIntegrity", "ruleField": "proofVerification", "outcome": "deny" },
-    { "id": "wdk-026", "engine": "wdk", "name": "revoked credential", "ruleCategory": "credentialIntegrity", "ruleField": "revocation", "outcome": "deny" },
-
-    { "id": "mppx-001", "engine": "mppx", "name": "open under ceiling + velocity", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "allow" },
-    { "id": "mppx-002", "engine": "mppx", "name": "open over per-tx ceiling", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "deny" },
-    { "id": "mppx-003", "engine": "mppx", "name": "open payee not allowlisted", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "mppx-004", "engine": "mppx", "name": "open #1 (80) under velocity", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "allow" },
-    { "id": "mppx-005", "engine": "mppx", "name": "open #2 (80) trips daily velocity", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "mppx-006", "engine": "mppx", "name": "velocity recovered from audit-log replay", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "mppx-007", "engine": "mppx", "name": "velocity fails closed when counter unestablished", "ruleCategory": "failClosed", "ruleField": "counterUnestablished", "outcome": "deny" },
-    { "id": "mppx-008", "engine": "mppx", "name": "requestClose (benign)", "ruleCategory": "operationClassification", "ruleField": "benignSelector", "outcome": "allow" },
-    { "id": "mppx-009", "engine": "mppx", "name": "unknown escrow selector fails closed", "ruleCategory": "failClosed", "ruleField": "unknownSelector", "outcome": "deny" },
-    { "id": "mppx-010", "engine": "mppx", "name": "voucher within linked escrow cap", "ruleCategory": "amountLimits", "ruleField": "escrowCap", "outcome": "allow" },
-    { "id": "mppx-011", "engine": "mppx", "name": "voucher monotonic increase", "ruleCategory": "amountLimits", "ruleField": "escrowCap", "outcome": "allow" },
-    { "id": "mppx-012", "engine": "mppx", "name": "voucher rollback below last", "ruleCategory": "amountLimits", "ruleField": "escrowMonotonicity", "outcome": "deny" },
-    { "id": "mppx-013", "engine": "mppx", "name": "voucher over linked escrow cap", "ruleCategory": "amountLimits", "ruleField": "escrowCap", "outcome": "deny" },
-    { "id": "mppx-014", "engine": "mppx", "name": "voucher under REVOKED credential", "ruleCategory": "credentialIntegrity", "ruleField": "revocation", "outcome": "deny" },
-    { "id": "mppx-015", "engine": "mppx", "name": "undecodable voucher fails closed", "ruleCategory": "failClosed", "ruleField": "undecodable", "outcome": "deny" },
-    { "id": "mppx-016", "engine": "mppx", "name": "non-voucher typed data", "ruleCategory": "operationClassification", "ruleField": "nonVoucherTypedData", "outcome": "allow" },
-    { "id": "mppx-017", "engine": "mppx", "name": "topUp inherits allowlisted channel payee", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "allow" },
-    { "id": "mppx-018", "engine": "mppx", "name": "topUp on unknown channel fails closed under counterparty mandate", "ruleCategory": "failClosed", "ruleField": "unknownChannel", "outcome": "deny" },
-    { "id": "mppx-019", "engine": "mppx", "name": "open after close true-up (130<=150)", "ruleCategory": "velocity", "ruleField": "closeTrueUp", "outcome": "allow" },
-    { "id": "mppx-020", "engine": "mppx", "name": "without true-up, 2nd open trips velocity", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "mppx-021", "engine": "mppx", "name": "raw signMessage denied by default", "ruleCategory": "operationClassification", "ruleField": "signMessageDefault", "outcome": "deny" },
-    { "id": "mppx-022", "engine": "mppx", "name": "raw signMessage allowed when opted in", "ruleCategory": "operationClassification", "ruleField": "signMessageOptIn", "outcome": "allow" },
-    { "id": "mppx-023", "engine": "mppx", "name": "expired credential", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-    { "id": "mppx-024", "engine": "mppx", "name": "tampered credential", "ruleCategory": "credentialIntegrity", "ruleField": "proofVerification", "outcome": "deny" },
-    { "id": "mppx-025", "engine": "mppx", "name": "wrong issuer", "ruleCategory": "credentialIntegrity", "ruleField": "issuerPin", "outcome": "deny" },
-    { "id": "mppx-026", "engine": "mppx", "name": "schema not in allowlist", "ruleCategory": "credentialIntegrity", "ruleField": "schemaAllowlist", "outcome": "deny" },
-    { "id": "mppx-027", "engine": "mppx", "name": "signing key not in assertionMethod", "ruleCategory": "credentialIntegrity", "ruleField": "assertionMethod", "outcome": "deny" },
-    { "id": "mppx-028", "engine": "mppx", "name": "fail-closed: base.signTransaction MUST NOT run on a denied open", "ruleCategory": "failClosed", "ruleField": "signerNotReached", "outcome": "deny" },
-
-    { "id": "ows-001", "engine": "ows", "name": "allow: valid credential, in-scope transaction", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "allow" },
-    { "id": "ows-002", "engine": "ows", "name": "allow: counterparty allowList match via DID map", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "allow" },
-    { "id": "ows-003", "engine": "ows", "name": "allow: counterparty allowList match via raw address", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "allow" },
-    { "id": "ows-004", "engine": "ows", "name": "allow: inside temporal window", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
-    { "id": "ows-005", "engine": "ows", "name": "allow: one-time exact match", "ruleCategory": "amountLimits", "ruleField": "oneTime", "outcome": "allow" },
-    { "id": "ows-006", "engine": "ows", "name": "allow: velocity under cap", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "allow" },
-    { "id": "ows-007", "engine": "ows", "name": "allow: identity-only mandate on unparsed rail (tron)", "ruleCategory": "failClosed", "ruleField": "identityOnlyMandate", "outcome": "allow" },
-    { "id": "ows-008", "engine": "ows", "name": "allow: no credentialStatus (noted, not fatal)", "ruleCategory": "credentialIntegrity", "ruleField": "revocation", "outcome": "allow" },
-    { "id": "ows-009", "engine": "ows", "name": "allow: contract call permitted when explicitly configured", "ruleCategory": "failClosed", "ruleField": "contractCallConfig", "outcome": "allow" },
-    { "id": "ows-010", "engine": "ows", "name": "deny: expired credential", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-    { "id": "ows-011", "engine": "ows", "name": "deny: not-yet-valid credential", "ruleCategory": "credentialIntegrity", "ruleField": "validFrom", "outcome": "deny" },
-    { "id": "ows-012", "engine": "ows", "name": "deny: tampered credential (signature mismatch)", "ruleCategory": "credentialIntegrity", "ruleField": "proofVerification", "outcome": "deny" },
-    { "id": "ows-013", "engine": "ows", "name": "deny: legacy proof suite rejected", "ruleCategory": "credentialIntegrity", "ruleField": "proofSuite", "outcome": "deny" },
-    { "id": "ows-014", "engine": "ows", "name": "deny: issuer not the pinned issuer", "ruleCategory": "credentialIntegrity", "ruleField": "issuerPin", "outcome": "deny" },
-    { "id": "ows-015", "engine": "ows", "name": "deny: schema not in allowlist (v2 excluded)", "ruleCategory": "credentialIntegrity", "ruleField": "schemaAllowlist", "outcome": "deny" },
-    { "id": "ows-016", "engine": "ows", "name": "deny: signing key not in assertionMethod", "ruleCategory": "credentialIntegrity", "ruleField": "assertionMethod", "outcome": "deny" },
-    { "id": "ows-017", "engine": "ows", "name": "deny: revoked credential", "ruleCategory": "credentialIntegrity", "ruleField": "revocation", "outcome": "deny" },
-    { "id": "ows-018", "engine": "ows", "name": "deny: credential file missing", "ruleCategory": "credentialIntegrity", "ruleField": "fileReadable", "outcome": "deny" },
-    { "id": "ows-019", "engine": "ows", "name": "deny: agent DID pin mismatch", "ruleCategory": "credentialIntegrity", "ruleField": "agentDidPin", "outcome": "deny" },
-    { "id": "ows-020", "engine": "ows", "name": "deny: over per_transaction_ceiling", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "deny" },
-    { "id": "ows-021", "engine": "ows", "name": "deny: rail not in allowed_rails", "ruleCategory": "failClosed", "ruleField": "allowedRails", "outcome": "deny" },
-    { "id": "ows-022", "engine": "ows", "name": "deny: unmapped chain", "ruleCategory": "failClosed", "ruleField": "railMapping", "outcome": "deny" },
-    { "id": "ows-023", "engine": "ows", "name": "deny: counterparty on blockList", "ruleCategory": "counterparty", "ruleField": "blockList", "outcome": "deny" },
-    { "id": "ows-024", "engine": "ows", "name": "deny: counterparty not on allowList", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "ows-025", "engine": "ows", "name": "deny: outside temporal window", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
-    { "id": "ows-026", "engine": "ows", "name": "deny: one-time wrong amount", "ruleCategory": "amountLimits", "ruleField": "oneTime", "outcome": "deny" },
-    { "id": "ows-027", "engine": "ows", "name": "deny: one-time wrong counterparty", "ruleCategory": "counterparty", "ruleField": "oneTime", "outcome": "deny" },
-    { "id": "ows-028", "engine": "ows", "name": "deny: one-time past execution_deadline", "ruleCategory": "temporal", "ruleField": "executionDeadline", "outcome": "deny" },
-    { "id": "ows-029", "engine": "ows", "name": "deny: velocity cap exceeded", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "ows-030", "engine": "ows", "name": "deny: ceiling currency mismatch (no FX)", "ruleCategory": "amountLimits", "ruleField": "sameCurrencyInvariant", "outcome": "deny" },
-    { "id": "ows-031", "engine": "ows", "name": "deny: binding ceiling on unparsed rail (tron)", "ruleCategory": "failClosed", "ruleField": "unparsedRailWithCeiling", "outcome": "deny" },
-    { "id": "ows-032", "engine": "ows", "name": "deny: requireIssuerClassIn with no attestation source", "ruleCategory": "counterparty", "ruleField": "requireIssuerClassIn", "outcome": "deny" },
-    { "id": "ows-033", "engine": "ows", "name": "deny: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
-    { "id": "ows-034", "engine": "ows", "name": "deny: contract call under binding ceiling", "ruleCategory": "failClosed", "ruleField": "contractCallCeiling", "outcome": "deny" },
-    { "id": "ows-035", "engine": "ows", "name": "deny: per-rail aggregate cap exceeded (deny-side state)", "ruleCategory": "velocity", "ruleField": "aggregateCap", "outcome": "deny" },
-    { "id": "ows-036", "engine": "ows", "name": "allow: raw_hex EVM under ceiling (released engine shape)", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "allow" },
-    { "id": "ows-037", "engine": "ows", "name": "deny: raw_hex EVM over ceiling", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "deny" },
-    { "id": "ows-038", "engine": "ows", "name": "deny: raw_hex blocked counterparty", "ruleCategory": "counterparty", "ruleField": "blockList", "outcome": "deny" },
-    { "id": "ows-039", "engine": "ows", "name": "deny: raw_hex chain id mismatch", "ruleCategory": "failClosed", "ruleField": "chainMismatch", "outcome": "deny" },
-    { "id": "ows-040", "engine": "ows", "name": "deny: raw_hex undecodable", "ruleCategory": "failClosed", "ruleField": "undecodable", "outcome": "deny" },
-    { "id": "ows-041", "engine": "ows", "name": "deny: contract creation under counterparty binding", "ruleCategory": "counterparty", "ruleField": "noResolvableRecipient", "outcome": "deny" },
-    { "id": "ows-042", "engine": "ows", "name": "allow: ERC-20 USDC under ceiling (decoded from calldata, 6dec)", "ruleCategory": "amountLimits", "ruleField": "erc20Ceiling", "outcome": "allow" },
-    { "id": "ows-043", "engine": "ows", "name": "deny: ERC-20 USDC over ceiling", "ruleCategory": "amountLimits", "ruleField": "erc20Ceiling", "outcome": "deny" },
-    { "id": "ows-044", "engine": "ows", "name": "allow: EIP-3009 transferWithAuthorization USDC under ceiling (x402 path)", "ruleCategory": "amountLimits", "ruleField": "eip3009Ceiling", "outcome": "allow" },
-    { "id": "ows-045", "engine": "ows", "name": "deny: EIP-3009 USDC over ceiling", "ruleCategory": "amountLimits", "ruleField": "eip3009Ceiling", "outcome": "deny" },
-    { "id": "ows-046", "engine": "ows", "name": "allow: SOL transfer under ceiling (legacy)", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "allow" },
-    { "id": "ows-047", "engine": "ows", "name": "deny: SOL transfer over ceiling", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "deny" },
-    { "id": "ows-048", "engine": "ows", "name": "allow: SOL transfer under ceiling (v0 versioned)", "ruleCategory": "amountLimits", "ruleField": "per_transaction_ceiling", "outcome": "allow" },
-    { "id": "ows-049", "engine": "ows", "name": "allow: USDC under ceiling (TransferChecked)", "ruleCategory": "amountLimits", "ruleField": "spl_ceiling", "outcome": "allow" },
-    { "id": "ows-050", "engine": "ows", "name": "deny: USDC over ceiling", "ruleCategory": "amountLimits", "ruleField": "spl_ceiling", "outcome": "deny" },
-    { "id": "ows-051", "engine": "ows", "name": "deny: USDC TransferChecked decimals disagree with registry", "ruleCategory": "failClosed", "ruleField": "decimalsCheck", "outcome": "deny" },
-    { "id": "ows-052", "engine": "ows", "name": "deny: USDC transfer under a SOL-denominated ceiling (no FX)", "ruleCategory": "amountLimits", "ruleField": "sameCurrencyInvariant", "outcome": "deny" },
-    { "id": "ows-053", "engine": "ows", "name": "deny: plain SPL Transfer under token ceiling (asset unprovable)", "ruleCategory": "failClosed", "ruleField": "assetUnprovable", "outcome": "deny" },
-    { "id": "ows-054", "engine": "ows", "name": "allow: SOL transfer to allowlisted wallet", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "allow" },
-    { "id": "ows-055", "engine": "ows", "name": "deny: SOL transfer to non-allowlisted wallet", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "ows-056", "engine": "ows", "name": "allow: USDC to allowlisted token account", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "allow" },
-    { "id": "ows-057", "engine": "ows", "name": "deny: USDC to non-allowlisted token account", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "ows-058", "engine": "ows", "name": "allow: SOL transfer + ComputeBudget (benign) under ceiling", "ruleCategory": "operationClassification", "ruleField": "benignInstruction", "outcome": "allow" },
-    { "id": "ows-059", "engine": "ows", "name": "deny: SOL transfer + opaque instruction", "ruleCategory": "failClosed", "ruleField": "opaqueInstruction", "outcome": "deny" },
-    { "id": "ows-060", "engine": "ows", "name": "deny: two SOL transfers (multi-transfer attribution)", "ruleCategory": "failClosed", "ruleField": "multiTransfer", "outcome": "deny" },
-    { "id": "ows-061", "engine": "ows", "name": "deny: v0 tx with ALUT-referenced transfer account", "ruleCategory": "failClosed", "ruleField": "alutReference", "outcome": "deny" },
-    { "id": "ows-062", "engine": "ows", "name": "allow: identity-only Solana mandate tolerates opaque instruction", "ruleCategory": "failClosed", "ruleField": "identityOnlyMandate", "outcome": "allow" },
-    { "id": "ows-063", "engine": "ows", "name": "deny: missing policy_config", "ruleCategory": "configuration", "ruleField": "policyConfigPresent", "outcome": "deny" },
-    { "id": "ows-064", "engine": "ows", "name": "deny: config without issuerDid", "ruleCategory": "configuration", "ruleField": "issuerDidRequired", "outcome": "deny" },
-    { "id": "ows-065", "engine": "ows", "name": "deny: malformed stdin handled as deny", "ruleCategory": "configuration", "ruleField": "malformedInput", "outcome": "deny" },
-    { "id": "ows-066", "engine": "ows", "name": "allow: status list fetched fresh from live server", "ruleCategory": "credentialIntegrity", "ruleField": "revocationFreshFetch", "outcome": "allow" },
-    { "id": "ows-067", "engine": "ows", "name": "allow: server down, cache under staleness window", "ruleCategory": "credentialIntegrity", "ruleField": "revocationCacheFallback", "outcome": "allow" },
-    { "id": "ows-068", "engine": "ows", "name": "deny: server down, cache older than 24h window", "ruleCategory": "credentialIntegrity", "ruleField": "revocationStaleness", "outcome": "deny" },
-    { "id": "ows-069", "engine": "ows", "name": "deny: config-tightened staleness window honored", "ruleCategory": "credentialIntegrity", "ruleField": "revocationStaleness", "outcome": "deny" },
-    { "id": "ows-070", "engine": "ows", "name": "audit log: N JSONL decision entries recorded", "ruleCategory": "configuration", "ruleField": "auditLog", "outcome": "allow" },
-
-    { "id": "l402-001", "engine": "l402", "name": "buyer: 50k sats to allowlisted merchant -> ALLOW", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "l402-002", "engine": "l402", "name": "buyer: 150k sats over the 100k ceiling -> DENY", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "deny" },
-    { "id": "l402-003", "engine": "l402", "name": "buyer: non-allowlisted origin -> DENY", "ruleCategory": "counterparty", "ruleField": "allowList", "outcome": "deny" },
-    { "id": "l402-004", "engine": "l402", "name": "buyer: amountless invoice under a ceiling -> DENY (fail-closed)", "ruleCategory": "failClosed", "ruleField": "amountlessInvoice", "outcome": "deny" },
-    { "id": "l402-005", "engine": "l402", "name": "buyer: expired credential -> DENY", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-    { "id": "l402-006", "engine": "l402", "name": "buyer: Taproot-Asset USDT 5 (<=100k unit cap) -> ALLOW", "ruleCategory": "amountLimits", "ruleField": "maxNotionalPerOrder", "outcome": "allow" },
-    { "id": "l402-007", "engine": "l402", "name": "seller: valid holder-bound presentation -> SERVE", "ruleCategory": "presentation", "ruleField": "holderBinding", "outcome": "allow" },
-    { "id": "l402-008", "engine": "l402", "name": "seller: replay against a different challenge -> REFUSE", "ruleCategory": "presentation", "ruleField": "challengeBinding", "outcome": "deny" },
-    { "id": "l402-009", "engine": "l402", "name": "seller: bare credential, no holder proof -> REFUSE (bearer token)", "ruleCategory": "presentation", "ruleField": "holderProofRequired", "outcome": "deny" },
-    { "id": "l402-010", "engine": "l402", "name": "seller: stolen credential (subject != holder) -> REFUSE", "ruleCategory": "presentation", "ruleField": "subjectHolderMatch", "outcome": "deny" },
-    { "id": "l402-011", "engine": "l402", "name": "seller: tampered presentation -> REFUSE", "ruleCategory": "presentation", "ruleField": "presentationTamper", "outcome": "deny" },
-    { "id": "l402-012", "engine": "l402", "name": "seller: expired credential in a valid VP -> REFUSE", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-
-    { "id": "pe-001", "engine": "policy-engine", "name": "velocity/l402: 50 under cap 200 (daily=0)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "allow" },
-    { "id": "pe-002", "engine": "policy-engine", "name": "velocity/l402: 50 over cap 200 (daily=160)", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "pe-003", "engine": "policy-engine", "name": "velocity/l402: cap present, spending.daily_total missing", "ruleCategory": "velocity", "ruleField": "dailyVolumeCap", "outcome": "deny" },
-    { "id": "pe-004", "engine": "policy-engine", "name": "temporal/wdk: inside 09:00-17:00 UTC at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
-    { "id": "pe-005", "engine": "policy-engine", "name": "temporal/wdk: outside 09:00-17:00 UTC at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
-    { "id": "pe-006", "engine": "policy-engine", "name": "temporal/mppx: inside window at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
-    { "id": "pe-007", "engine": "policy-engine", "name": "temporal/mppx: outside window at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
-    { "id": "pe-008", "engine": "policy-engine", "name": "temporal/l402: inside window at 12:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "allow" },
-    { "id": "pe-009", "engine": "policy-engine", "name": "temporal/l402: outside window at 20:00", "ruleCategory": "temporal", "ruleField": "allowedTimeWindows", "outcome": "deny" },
-    { "id": "pe-010", "engine": "policy-engine", "name": "geographic/wdk: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
-    { "id": "pe-011", "engine": "policy-engine", "name": "geographic/wdk: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
-    { "id": "pe-012", "engine": "policy-engine", "name": "geographic/mppx: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
-    { "id": "pe-013", "engine": "policy-engine", "name": "geographic/mppx: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
-    { "id": "pe-014", "engine": "policy-engine", "name": "geographic/l402: allowedJurisdictionsOnly fail-closed", "ruleCategory": "geographic", "ruleField": "allowedJurisdictionsOnly", "outcome": "deny" },
-    { "id": "pe-015", "engine": "policy-engine", "name": "geographic/l402: blockedJurisdictions only fail-open", "ruleCategory": "geographic", "ruleField": "blockedJurisdictions", "outcome": "allow" },
-    { "id": "pe-016", "engine": "policy-engine", "name": "operationClassification/wdk: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
-    { "id": "pe-017", "engine": "policy-engine", "name": "operationClassification/mppx: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
-    { "id": "pe-018", "engine": "policy-engine", "name": "operationClassification/l402: allowed_transaction_categories without config → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
-    { "id": "pe-019", "engine": "policy-engine", "name": "operationClassification/wdk: matching transactionCategory → allow", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "allow" },
-    { "id": "pe-020", "engine": "policy-engine", "name": "operationClassification/wdk: wrong transactionCategory → deny", "ruleCategory": "operationClassification", "ruleField": "allowed_transaction_categories", "outcome": "deny" },
-    { "id": "pe-021", "engine": "policy-engine", "name": "advisory: cumulative_budget + allowed_counterparty_types + geographic_restriction on test:1 → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
-    { "id": "pe-022", "engine": "policy-engine", "name": "advisory: same advisory fields on wdk-like rail → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
-    { "id": "pe-023", "engine": "policy-engine", "name": "advisory: same advisory fields on l402-like rail → allow", "ruleCategory": "configuration", "ruleField": "advisoryFields", "outcome": "allow" },
-    { "id": "pe-024", "engine": "policy-engine", "name": "garbage/test:1: unknown actionScope field → deny fail-closed", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
-    { "id": "pe-025", "engine": "policy-engine", "name": "garbage/test:wdk: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
-    { "id": "pe-026", "engine": "policy-engine", "name": "garbage/test:mppx: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
-    { "id": "pe-027", "engine": "policy-engine", "name": "garbage/test:l402: unknown actionScope field → deny", "ruleCategory": "failClosed", "ruleField": "unknownScopeField", "outcome": "deny" },
-    { "id": "pe-028", "engine": "policy-engine", "name": "garbage/test:1: unknown tradingMandate field → deny fail-closed", "ruleCategory": "failClosed", "ruleField": "unknownMandateField", "outcome": "deny" },
-    { "id": "pe-029", "engine": "policy-engine", "name": "garbage/test:wdk: unknown tradingMandate field → deny", "ruleCategory": "failClosed", "ruleField": "unknownMandateField", "outcome": "deny" },
-    { "id": "pe-030", "engine": "policy-engine", "name": "garbage/l402: requireIssuerClassIn, no attestation → deny", "ruleCategory": "failClosed", "ruleField": "requireIssuerClassIn", "outcome": "deny" },
-    { "id": "pe-031", "engine": "policy-engine", "name": "garbage/test:1: maxNotionalPerOrder without unit → deny", "ruleCategory": "failClosed", "ruleField": "missingUnit", "outcome": "deny" },
-    { "id": "pe-032", "engine": "policy-engine", "name": "garbage/wdk: expired credential → deny", "ruleCategory": "credentialIntegrity", "ruleField": "validUntil", "outcome": "deny" },
-    { "id": "pe-033", "engine": "policy-engine", "name": "garbage/l402: unenforceable proposal + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "unenforceable", "outcome": "deny" },
-    { "id": "pe-034", "engine": "policy-engine", "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
-    { "id": "pe-035", "engine": "policy-engine", "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
-    { "id": "pe-036", "engine": "policy-engine", "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
-    { "id": "pe-037", "engine": "policy-engine", "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny", "ruleCategory": "failClosed", "ruleField": "agentSuppliedGrant", "outcome": "deny" },
-    { "id": "pe-038", "engine": "policy-engine", "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path, unknown-rule)", "ruleCategory": "failClosed", "ruleField": "allowedCounterpartyTypes", "outcome": "deny" },
-    { "id": "pe-039", "engine": "policy-engine", "name": "signer-boundary: proof.verificationMethod DID == agentDid → deny", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "deny" },
-    { "id": "pe-040", "engine": "policy-engine", "name": "signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)", "ruleCategory": "credentialIntegrity", "ruleField": "signerBoundary", "outcome": "allow" },
-    { "id": "pe-041", "engine": "policy-engine", "name": "did:key dev-mode: operator credential with did:key issuer → allow", "ruleCategory": "credentialIntegrity", "ruleField": "didKeyDevMode", "outcome": "allow" },
-
-    { "id": "pe-042", "engine": "policy-engine", "name": "RuntimeAdapter: no WBC configured → allow (passthrough to verifyCredential+enforceMandate)", "ruleCategory": "credentialIntegrity", "ruleField": "runtimeAdapter", "outcome": "allow" },
-    { "id": "pe-043", "engine": "policy-engine", "name": "RuntimeAdapter: valid WBC + same-operator dev-mode LINK → allow (BIND+LINK+AUTHORIZE all pass)", "ruleCategory": "credentialIntegrity", "ruleField": "runtimeAdapterBind", "outcome": "allow" },
-    { "id": "pe-044", "engine": "policy-engine", "name": "RuntimeAdapter: WBC controller != mandate principal (dev) → deny [issuer-linkage]", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterLink", "outcome": "deny" },
-    { "id": "pe-045", "engine": "policy-engine", "name": "RuntimeAdapter: WBC walletAddress != ctx.wallet_id → deny [bind]", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterBind", "outcome": "deny" },
-    { "id": "pe-046", "engine": "policy-engine", "name": "RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub fail-closed, L1 not wired)", "ruleCategory": "failClosed", "ruleField": "runtimeAdapterLinkFull", "outcome": "deny" }
+    {
+      "id": "wdk-001",
+      "engine": "wdk",
+      "name": "sendTransaction USDC 50 -> merchant",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-002",
+      "engine": "wdk",
+      "name": "sendTransaction USDC 150 over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-003",
+      "engine": "wdk",
+      "name": "sendTransaction USDC 50 -> non-allowlisted",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-004",
+      "engine": "wdk",
+      "name": "transfer USDC 50 -> merchant",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-005",
+      "engine": "wdk",
+      "name": "transfer USDC 50 -> non-allowlisted",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-006",
+      "engine": "wdk",
+      "name": "approve USDC 50 spender=merchant",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-007",
+      "engine": "wdk",
+      "name": "approve USDC 50 spender=non-allowlisted",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-008",
+      "engine": "wdk",
+      "name": "signTypedData Permit USDC 50 spender=merchant",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-009",
+      "engine": "wdk",
+      "name": "signTypedData non-Permit (undecodable) fails closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-010",
+      "engine": "wdk",
+      "name": "velocity transfer #1 (80)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-011",
+      "engine": "wdk",
+      "name": "velocity transfer #2 (80) trips dailyVolumeCap",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-012",
+      "engine": "wdk",
+      "name": "velocity recovered from audit-log replay (100+60>150)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-013",
+      "engine": "wdk",
+      "name": "H-3 + DID outage -> BLOCKED (no leak)",
+      "ruleCategory": "failClosed",
+      "ruleField": "missingDidDoc",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-014",
+      "engine": "wdk",
+      "name": "H-3 + valid in-mandate -> ALLOWED",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "wdk-015",
+      "engine": "wdk",
+      "name": "runtime unmapped wallet label -> fail closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "unmappedWalletLabel",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-016",
+      "engine": "wdk",
+      "name": "registration-time label->rail mismatch -> throws ObserverConfigError",
+      "ruleCategory": "failClosed",
+      "ruleField": "configError",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-017",
+      "engine": "wdk",
+      "name": "fail-closed: base method NOT called on deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "signerNotReached",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-018",
+      "engine": "wdk",
+      "name": "signTypedData Permit2 (verifyingContract != token) fails closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-019",
+      "engine": "wdk",
+      "name": "signTypedData unknown-contract w/ spender+value fails closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-020",
+      "engine": "wdk",
+      "name": "velocity accumulates correctly under concurrency (3 of 5 concurrent 40s, got N)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "mixed"
+    },
+    {
+      "id": "wdk-021",
+      "engine": "wdk",
+      "name": "mutex releases on THROW: 4 concurrent throwing evals all BLOCK, none hang",
+      "ruleCategory": "failClosed",
+      "ruleField": "mutexOnThrow",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-022",
+      "engine": "wdk",
+      "name": "lock recovers: a tx after the throw-batch still evaluates",
+      "ruleCategory": "failClosed",
+      "ruleField": "mutexOnThrow",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-023",
+      "engine": "wdk",
+      "name": "mutex releases on TIMEOUT: 4 concurrent slow evals all BLOCK, none hang",
+      "ruleCategory": "failClosed",
+      "ruleField": "mutexOnTimeout",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-024",
+      "engine": "wdk",
+      "name": "expired credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-025",
+      "engine": "wdk",
+      "name": "tampered credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "proofVerification",
+      "outcome": "deny"
+    },
+    {
+      "id": "wdk-026",
+      "engine": "wdk",
+      "name": "revoked credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocation",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-001",
+      "engine": "mppx",
+      "name": "open under ceiling + velocity",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-002",
+      "engine": "mppx",
+      "name": "open over per-tx ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-003",
+      "engine": "mppx",
+      "name": "open payee not allowlisted",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-004",
+      "engine": "mppx",
+      "name": "open #1 (80) under velocity",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-005",
+      "engine": "mppx",
+      "name": "open #2 (80) trips daily velocity",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-006",
+      "engine": "mppx",
+      "name": "velocity recovered from audit-log replay",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-007",
+      "engine": "mppx",
+      "name": "velocity fails closed when counter unestablished",
+      "ruleCategory": "failClosed",
+      "ruleField": "counterUnestablished",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-008",
+      "engine": "mppx",
+      "name": "requestClose (benign)",
+      "ruleCategory": "operationClassification",
+      "ruleField": "benignSelector",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-009",
+      "engine": "mppx",
+      "name": "unknown escrow selector fails closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownSelector",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-010",
+      "engine": "mppx",
+      "name": "voucher within linked escrow cap",
+      "ruleCategory": "amountLimits",
+      "ruleField": "escrowCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-011",
+      "engine": "mppx",
+      "name": "voucher monotonic increase",
+      "ruleCategory": "amountLimits",
+      "ruleField": "escrowCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-012",
+      "engine": "mppx",
+      "name": "voucher rollback below last",
+      "ruleCategory": "amountLimits",
+      "ruleField": "escrowMonotonicity",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-013",
+      "engine": "mppx",
+      "name": "voucher over linked escrow cap",
+      "ruleCategory": "amountLimits",
+      "ruleField": "escrowCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-014",
+      "engine": "mppx",
+      "name": "voucher under REVOKED credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocation",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-015",
+      "engine": "mppx",
+      "name": "undecodable voucher fails closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-016",
+      "engine": "mppx",
+      "name": "non-voucher typed data",
+      "ruleCategory": "operationClassification",
+      "ruleField": "nonVoucherTypedData",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-017",
+      "engine": "mppx",
+      "name": "topUp inherits allowlisted channel payee",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-018",
+      "engine": "mppx",
+      "name": "topUp on unknown channel fails closed under counterparty mandate",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownChannel",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-019",
+      "engine": "mppx",
+      "name": "open after close true-up (130<=150)",
+      "ruleCategory": "velocity",
+      "ruleField": "closeTrueUp",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-020",
+      "engine": "mppx",
+      "name": "without true-up, 2nd open trips velocity",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-021",
+      "engine": "mppx",
+      "name": "raw signMessage denied by default",
+      "ruleCategory": "operationClassification",
+      "ruleField": "signMessageDefault",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-022",
+      "engine": "mppx",
+      "name": "raw signMessage allowed when opted in",
+      "ruleCategory": "operationClassification",
+      "ruleField": "signMessageOptIn",
+      "outcome": "allow"
+    },
+    {
+      "id": "mppx-023",
+      "engine": "mppx",
+      "name": "expired credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-024",
+      "engine": "mppx",
+      "name": "tampered credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "proofVerification",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-025",
+      "engine": "mppx",
+      "name": "wrong issuer",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "issuerPin",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-026",
+      "engine": "mppx",
+      "name": "schema not in allowlist",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "schemaAllowlist",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-027",
+      "engine": "mppx",
+      "name": "signing key not in assertionMethod",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "assertionMethod",
+      "outcome": "deny"
+    },
+    {
+      "id": "mppx-028",
+      "engine": "mppx",
+      "name": "fail-closed: base.signTransaction MUST NOT run on a denied open",
+      "ruleCategory": "failClosed",
+      "ruleField": "signerNotReached",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-001",
+      "engine": "ows",
+      "name": "allow: valid credential, in-scope transaction",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-002",
+      "engine": "ows",
+      "name": "allow: counterparty allowList match via DID map",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-003",
+      "engine": "ows",
+      "name": "allow: counterparty allowList match via raw address",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-004",
+      "engine": "ows",
+      "name": "allow: inside temporal window",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-005",
+      "engine": "ows",
+      "name": "allow: one-time exact match",
+      "ruleCategory": "amountLimits",
+      "ruleField": "oneTime",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-006",
+      "engine": "ows",
+      "name": "allow: velocity under cap",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-007",
+      "engine": "ows",
+      "name": "allow: identity-only mandate on unparsed rail (tron)",
+      "ruleCategory": "failClosed",
+      "ruleField": "identityOnlyMandate",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-008",
+      "engine": "ows",
+      "name": "allow: no credentialStatus (noted, not fatal)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocation",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-009",
+      "engine": "ows",
+      "name": "allow: contract call permitted when explicitly configured",
+      "ruleCategory": "failClosed",
+      "ruleField": "contractCallConfig",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-010",
+      "engine": "ows",
+      "name": "deny: expired credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-011",
+      "engine": "ows",
+      "name": "deny: not-yet-valid credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validFrom",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-012",
+      "engine": "ows",
+      "name": "deny: tampered credential (signature mismatch)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "proofVerification",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-013",
+      "engine": "ows",
+      "name": "deny: legacy proof suite rejected",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "proofSuite",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-014",
+      "engine": "ows",
+      "name": "deny: issuer not the pinned issuer",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "issuerPin",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-015",
+      "engine": "ows",
+      "name": "deny: schema not in allowlist (v2 excluded)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "schemaAllowlist",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-016",
+      "engine": "ows",
+      "name": "deny: signing key not in assertionMethod",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "assertionMethod",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-017",
+      "engine": "ows",
+      "name": "deny: revoked credential",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocation",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-018",
+      "engine": "ows",
+      "name": "deny: credential file missing",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "fileReadable",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-019",
+      "engine": "ows",
+      "name": "deny: agent DID pin mismatch",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "agentDidPin",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-020",
+      "engine": "ows",
+      "name": "deny: over per_transaction_ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-021",
+      "engine": "ows",
+      "name": "deny: rail not in allowed_rails",
+      "ruleCategory": "failClosed",
+      "ruleField": "allowedRails",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-022",
+      "engine": "ows",
+      "name": "deny: unmapped chain",
+      "ruleCategory": "failClosed",
+      "ruleField": "railMapping",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-023",
+      "engine": "ows",
+      "name": "deny: counterparty on blockList",
+      "ruleCategory": "counterparty",
+      "ruleField": "blockList",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-024",
+      "engine": "ows",
+      "name": "deny: counterparty not on allowList",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-025",
+      "engine": "ows",
+      "name": "deny: outside temporal window",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-026",
+      "engine": "ows",
+      "name": "deny: one-time wrong amount",
+      "ruleCategory": "amountLimits",
+      "ruleField": "oneTime",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-027",
+      "engine": "ows",
+      "name": "deny: one-time wrong counterparty",
+      "ruleCategory": "counterparty",
+      "ruleField": "oneTime",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-028",
+      "engine": "ows",
+      "name": "deny: one-time past execution_deadline",
+      "ruleCategory": "temporal",
+      "ruleField": "executionDeadline",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-029",
+      "engine": "ows",
+      "name": "deny: velocity cap exceeded",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-030",
+      "engine": "ows",
+      "name": "deny: ceiling currency mismatch (no FX)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "sameCurrencyInvariant",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-031",
+      "engine": "ows",
+      "name": "deny: binding ceiling on unparsed rail (tron)",
+      "ruleCategory": "failClosed",
+      "ruleField": "unparsedRailWithCeiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-032",
+      "engine": "ows",
+      "name": "deny: requireIssuerClassIn with no attestation source",
+      "ruleCategory": "counterparty",
+      "ruleField": "requireIssuerClassIn",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-033",
+      "engine": "ows",
+      "name": "deny: allowedJurisdictionsOnly fail-closed",
+      "ruleCategory": "geographic",
+      "ruleField": "allowedJurisdictionsOnly",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-034",
+      "engine": "ows",
+      "name": "deny: contract call under binding ceiling",
+      "ruleCategory": "failClosed",
+      "ruleField": "contractCallCeiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-035",
+      "engine": "ows",
+      "name": "deny: per-rail aggregate cap exceeded (deny-side state)",
+      "ruleCategory": "velocity",
+      "ruleField": "aggregateCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-036",
+      "engine": "ows",
+      "name": "allow: raw_hex EVM under ceiling (released engine shape)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-037",
+      "engine": "ows",
+      "name": "deny: raw_hex EVM over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-038",
+      "engine": "ows",
+      "name": "deny: raw_hex blocked counterparty",
+      "ruleCategory": "counterparty",
+      "ruleField": "blockList",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-039",
+      "engine": "ows",
+      "name": "deny: raw_hex chain id mismatch",
+      "ruleCategory": "failClosed",
+      "ruleField": "chainMismatch",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-040",
+      "engine": "ows",
+      "name": "deny: raw_hex undecodable",
+      "ruleCategory": "failClosed",
+      "ruleField": "undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-041",
+      "engine": "ows",
+      "name": "deny: contract creation under counterparty binding",
+      "ruleCategory": "counterparty",
+      "ruleField": "noResolvableRecipient",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-042",
+      "engine": "ows",
+      "name": "allow: ERC-20 USDC under ceiling (decoded from calldata, 6dec)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "erc20Ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-043",
+      "engine": "ows",
+      "name": "deny: ERC-20 USDC over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "erc20Ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-044",
+      "engine": "ows",
+      "name": "allow: EIP-3009 transferWithAuthorization USDC under ceiling (x402 path)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "eip3009Ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-045",
+      "engine": "ows",
+      "name": "deny: EIP-3009 USDC over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "eip3009Ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-046",
+      "engine": "ows",
+      "name": "allow: SOL transfer under ceiling (legacy)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-047",
+      "engine": "ows",
+      "name": "deny: SOL transfer over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-048",
+      "engine": "ows",
+      "name": "allow: SOL transfer under ceiling (v0 versioned)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "per_transaction_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-049",
+      "engine": "ows",
+      "name": "allow: USDC under ceiling (TransferChecked)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "spl_ceiling",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-050",
+      "engine": "ows",
+      "name": "deny: USDC over ceiling",
+      "ruleCategory": "amountLimits",
+      "ruleField": "spl_ceiling",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-051",
+      "engine": "ows",
+      "name": "deny: USDC TransferChecked decimals disagree with registry",
+      "ruleCategory": "failClosed",
+      "ruleField": "decimalsCheck",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-052",
+      "engine": "ows",
+      "name": "deny: USDC transfer under a SOL-denominated ceiling (no FX)",
+      "ruleCategory": "amountLimits",
+      "ruleField": "sameCurrencyInvariant",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-053",
+      "engine": "ows",
+      "name": "deny: plain SPL Transfer under token ceiling (asset unprovable)",
+      "ruleCategory": "failClosed",
+      "ruleField": "assetUnprovable",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-054",
+      "engine": "ows",
+      "name": "allow: SOL transfer to allowlisted wallet",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-055",
+      "engine": "ows",
+      "name": "deny: SOL transfer to non-allowlisted wallet",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-056",
+      "engine": "ows",
+      "name": "allow: USDC to allowlisted token account",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-057",
+      "engine": "ows",
+      "name": "deny: USDC to non-allowlisted token account",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-058",
+      "engine": "ows",
+      "name": "allow: SOL transfer + ComputeBudget (benign) under ceiling",
+      "ruleCategory": "operationClassification",
+      "ruleField": "benignInstruction",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-059",
+      "engine": "ows",
+      "name": "deny: SOL transfer + opaque instruction",
+      "ruleCategory": "failClosed",
+      "ruleField": "opaqueInstruction",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-060",
+      "engine": "ows",
+      "name": "deny: two SOL transfers (multi-transfer attribution)",
+      "ruleCategory": "failClosed",
+      "ruleField": "multiTransfer",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-061",
+      "engine": "ows",
+      "name": "deny: v0 tx with ALUT-referenced transfer account",
+      "ruleCategory": "failClosed",
+      "ruleField": "alutReference",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-062",
+      "engine": "ows",
+      "name": "allow: identity-only Solana mandate tolerates opaque instruction",
+      "ruleCategory": "failClosed",
+      "ruleField": "identityOnlyMandate",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-063",
+      "engine": "ows",
+      "name": "deny: missing policy_config",
+      "ruleCategory": "configuration",
+      "ruleField": "policyConfigPresent",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-064",
+      "engine": "ows",
+      "name": "deny: config without issuerDid",
+      "ruleCategory": "configuration",
+      "ruleField": "issuerDidRequired",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-065",
+      "engine": "ows",
+      "name": "deny: malformed stdin handled as deny",
+      "ruleCategory": "configuration",
+      "ruleField": "malformedInput",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-066",
+      "engine": "ows",
+      "name": "allow: status list fetched fresh from live server",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocationFreshFetch",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-067",
+      "engine": "ows",
+      "name": "allow: server down, cache under staleness window",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocationCacheFallback",
+      "outcome": "allow"
+    },
+    {
+      "id": "ows-068",
+      "engine": "ows",
+      "name": "deny: server down, cache older than 24h window",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocationStaleness",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-069",
+      "engine": "ows",
+      "name": "deny: config-tightened staleness window honored",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "revocationStaleness",
+      "outcome": "deny"
+    },
+    {
+      "id": "ows-070",
+      "engine": "ows",
+      "name": "audit log: N JSONL decision entries recorded",
+      "ruleCategory": "configuration",
+      "ruleField": "auditLog",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-001",
+      "engine": "l402",
+      "name": "buyer: 50k sats to allowlisted merchant -> ALLOW",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-002",
+      "engine": "l402",
+      "name": "buyer: 150k sats over the 100k ceiling -> DENY",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-003",
+      "engine": "l402",
+      "name": "buyer: non-allowlisted origin -> DENY",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-004",
+      "engine": "l402",
+      "name": "buyer: amountless invoice under a ceiling -> DENY (fail-closed)",
+      "ruleCategory": "failClosed",
+      "ruleField": "amountlessInvoice",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-005",
+      "engine": "l402",
+      "name": "buyer: expired credential -> DENY",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-006",
+      "engine": "l402",
+      "name": "buyer: Taproot-Asset USDT 5 (<=100k unit cap) -> ALLOW",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-007",
+      "engine": "l402",
+      "name": "seller: valid holder-bound presentation -> SERVE",
+      "ruleCategory": "presentation",
+      "ruleField": "holderBinding",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-008",
+      "engine": "l402",
+      "name": "seller: replay against a different challenge -> REFUSE",
+      "ruleCategory": "presentation",
+      "ruleField": "challengeBinding",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-009",
+      "engine": "l402",
+      "name": "seller: bare credential, no holder proof -> REFUSE (bearer token)",
+      "ruleCategory": "presentation",
+      "ruleField": "holderProofRequired",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-010",
+      "engine": "l402",
+      "name": "seller: stolen credential (subject != holder) -> REFUSE",
+      "ruleCategory": "presentation",
+      "ruleField": "subjectHolderMatch",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-011",
+      "engine": "l402",
+      "name": "seller: tampered presentation -> REFUSE",
+      "ruleCategory": "presentation",
+      "ruleField": "presentationTamper",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-012",
+      "engine": "l402",
+      "name": "seller: expired credential in a valid VP -> REFUSE",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-001",
+      "engine": "policy-engine",
+      "name": "velocity/l402: 50 under cap 200 (daily=0)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-002",
+      "engine": "policy-engine",
+      "name": "velocity/l402: 50 over cap 200 (daily=160)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-003",
+      "engine": "policy-engine",
+      "name": "velocity/l402: cap present, spending.daily_total missing",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-004",
+      "engine": "policy-engine",
+      "name": "temporal/wdk: inside 09:00-17:00 UTC at 12:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-005",
+      "engine": "policy-engine",
+      "name": "temporal/wdk: outside 09:00-17:00 UTC at 20:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-006",
+      "engine": "policy-engine",
+      "name": "temporal/mppx: inside window at 12:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-007",
+      "engine": "policy-engine",
+      "name": "temporal/mppx: outside window at 20:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-008",
+      "engine": "policy-engine",
+      "name": "temporal/l402: inside window at 12:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-009",
+      "engine": "policy-engine",
+      "name": "temporal/l402: outside window at 20:00",
+      "ruleCategory": "temporal",
+      "ruleField": "allowedTimeWindows",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-010",
+      "engine": "policy-engine",
+      "name": "geographic/wdk: allowedJurisdictionsOnly fail-closed",
+      "ruleCategory": "geographic",
+      "ruleField": "allowedJurisdictionsOnly",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-011",
+      "engine": "policy-engine",
+      "name": "geographic/wdk: blockedJurisdictions only fail-open",
+      "ruleCategory": "geographic",
+      "ruleField": "blockedJurisdictions",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-012",
+      "engine": "policy-engine",
+      "name": "geographic/mppx: allowedJurisdictionsOnly fail-closed",
+      "ruleCategory": "geographic",
+      "ruleField": "allowedJurisdictionsOnly",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-013",
+      "engine": "policy-engine",
+      "name": "geographic/mppx: blockedJurisdictions only fail-open",
+      "ruleCategory": "geographic",
+      "ruleField": "blockedJurisdictions",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-014",
+      "engine": "policy-engine",
+      "name": "geographic/l402: allowedJurisdictionsOnly fail-closed",
+      "ruleCategory": "geographic",
+      "ruleField": "allowedJurisdictionsOnly",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-015",
+      "engine": "policy-engine",
+      "name": "geographic/l402: blockedJurisdictions only fail-open",
+      "ruleCategory": "geographic",
+      "ruleField": "blockedJurisdictions",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-016",
+      "engine": "policy-engine",
+      "name": "operationClassification/wdk: allowed_transaction_categories without config → deny",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowed_transaction_categories",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-017",
+      "engine": "policy-engine",
+      "name": "operationClassification/mppx: allowed_transaction_categories without config → deny",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowed_transaction_categories",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-018",
+      "engine": "policy-engine",
+      "name": "operationClassification/l402: allowed_transaction_categories without config → deny",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowed_transaction_categories",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-019",
+      "engine": "policy-engine",
+      "name": "operationClassification/wdk: matching transactionCategory → allow",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowed_transaction_categories",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-020",
+      "engine": "policy-engine",
+      "name": "operationClassification/wdk: wrong transactionCategory → deny",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowed_transaction_categories",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-021",
+      "engine": "policy-engine",
+      "name": "advisory: cumulative_budget + allowed_counterparty_types + geographic_restriction on test:1 → allow",
+      "ruleCategory": "configuration",
+      "ruleField": "advisoryFields",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-022",
+      "engine": "policy-engine",
+      "name": "advisory: same advisory fields on wdk-like rail → allow",
+      "ruleCategory": "configuration",
+      "ruleField": "advisoryFields",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-023",
+      "engine": "policy-engine",
+      "name": "advisory: same advisory fields on l402-like rail → allow",
+      "ruleCategory": "configuration",
+      "ruleField": "advisoryFields",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-024",
+      "engine": "policy-engine",
+      "name": "garbage/test:1: unknown actionScope field → deny fail-closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownScopeField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-025",
+      "engine": "policy-engine",
+      "name": "garbage/test:wdk: unknown actionScope field → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownScopeField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-026",
+      "engine": "policy-engine",
+      "name": "garbage/test:mppx: unknown actionScope field → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownScopeField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-027",
+      "engine": "policy-engine",
+      "name": "garbage/test:l402: unknown actionScope field → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownScopeField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-028",
+      "engine": "policy-engine",
+      "name": "garbage/test:1: unknown tradingMandate field → deny fail-closed",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownMandateField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-029",
+      "engine": "policy-engine",
+      "name": "garbage/test:wdk: unknown tradingMandate field → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownMandateField",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-030",
+      "engine": "policy-engine",
+      "name": "garbage/l402: requireIssuerClassIn, no attestation → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "requireIssuerClassIn",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-031",
+      "engine": "policy-engine",
+      "name": "garbage/test:1: maxNotionalPerOrder without unit → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "missingUnit",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-032",
+      "engine": "policy-engine",
+      "name": "garbage/wdk: expired credential → deny",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-033",
+      "engine": "policy-engine",
+      "name": "garbage/l402: unenforceable proposal + binding ceiling → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "unenforceable",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-034",
+      "engine": "policy-engine",
+      "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "agentSuppliedGrant",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-035",
+      "engine": "policy-engine",
+      "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "agentSuppliedGrant",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-036",
+      "engine": "policy-engine",
+      "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "agentSuppliedGrant",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-037",
+      "engine": "policy-engine",
+      "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny",
+      "ruleCategory": "failClosed",
+      "ruleField": "agentSuppliedGrant",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-038",
+      "engine": "policy-engine",
+      "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path, unknown-rule)",
+      "ruleCategory": "failClosed",
+      "ruleField": "allowedCounterpartyTypes",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-039",
+      "engine": "policy-engine",
+      "name": "signer-boundary: proof.verificationMethod DID == agentDid → deny",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "signerBoundary",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-040",
+      "engine": "policy-engine",
+      "name": "signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "signerBoundary",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-041",
+      "engine": "policy-engine",
+      "name": "did:key dev-mode: operator credential with did:key issuer → allow",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "didKeyDevMode",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-042",
+      "engine": "policy-engine",
+      "name": "RuntimeAdapter: no WBC configured → allow (passthrough to verifyCredential+enforceMandate)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "runtimeAdapter",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-043",
+      "engine": "policy-engine",
+      "name": "RuntimeAdapter: valid WBC + same-operator dev-mode LINK → allow (BIND+LINK+AUTHORIZE all pass)",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "runtimeAdapterBind",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-044",
+      "engine": "policy-engine",
+      "name": "RuntimeAdapter: WBC controller != mandate principal (dev) → deny [issuer-linkage]",
+      "ruleCategory": "failClosed",
+      "ruleField": "runtimeAdapterLink",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-045",
+      "engine": "policy-engine",
+      "name": "RuntimeAdapter: WBC walletAddress != ctx.wallet_id → deny [bind]",
+      "ruleCategory": "failClosed",
+      "ruleField": "runtimeAdapterBind",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-046",
+      "engine": "policy-engine",
+      "name": "RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub fail-closed, L1 not wired)",
+      "ruleCategory": "failClosed",
+      "ruleField": "runtimeAdapterLinkFull",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-001",
+      "engine": "x402",
+      "name": "decode: exact/EVM authorization -> all signed fields extracted",
+      "ruleCategory": "operationClassification",
+      "ruleField": "eip3009Decode",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-002",
+      "engine": "x402",
+      "name": "decode: Permit2 witness -> recognized payment-bearing, not decoded",
+      "ruleCategory": "operationClassification",
+      "ruleField": "permit2Classify",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-003",
+      "engine": "x402",
+      "name": "decode: ReceiveWithAuthorization -> recognized payment-bearing",
+      "ruleCategory": "operationClassification",
+      "ruleField": "receiveAuthClassify",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-004",
+      "engine": "x402",
+      "name": "decode: CancelAuthorization -> benign",
+      "ruleCategory": "operationClassification",
+      "ruleField": "cancelAuthClassify",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-005",
+      "engine": "x402",
+      "name": "decode: missing value -> unknown (undecodable fails closed downstream)",
+      "ruleCategory": "failClosed",
+      "ruleField": "eip3009Undecodable",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-006",
+      "engine": "x402",
+      "name": "convert: 1 USDC (6dp) at rate 1 -> 1.000000 USD",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "rateConversion",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-007",
+      "engine": "x402",
+      "name": "convert: 1000 sat (0dp) at rate 0.0005 -> 0.5 USD",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "rateConversion",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-008",
+      "engine": "x402",
+      "name": "convert: rounds UP (conservative)",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "rateConversionRounding",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-009",
+      "engine": "x402",
+      "name": "cred: expired -> deny [validity]",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "validUntil",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-010",
+      "engine": "x402",
+      "name": "cred: tampered budget -> deny [proof]",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "proofTamper",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-011",
+      "engine": "x402",
+      "name": "cred: agent-self-issued -> deny [signer-boundary]",
+      "ruleCategory": "credentialIntegrity",
+      "ruleField": "signerBoundary",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-012",
+      "engine": "x402",
+      "name": "cred: unknown tradingMandate rule -> deny [unknown-rule]",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownTmRule",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-013",
+      "engine": "x402",
+      "name": "x402: within ceiling + allowlisted payTo -> ALLOW",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-014",
+      "engine": "x402",
+      "name": "x402: over maxNotionalPerOrder -> deny [notional]",
+      "ruleCategory": "amountLimits",
+      "ruleField": "maxNotionalPerOrder",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-015",
+      "engine": "x402",
+      "name": "x402: payTo not on allowList -> deny [counterparty]",
+      "ruleCategory": "counterparty",
+      "ruleField": "allowList",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-016",
+      "engine": "x402",
+      "name": "x402: velocity under dailyVolumeCap -> ALLOW",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-017",
+      "engine": "x402",
+      "name": "x402: velocity over dailyVolumeCap -> deny [velocity]",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-018",
+      "engine": "x402",
+      "name": "x402: authorization.from is another wallet -> deny [from]",
+      "ruleCategory": "failClosed",
+      "ruleField": "fromMismatch",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-019",
+      "engine": "x402",
+      "name": "x402: validBefore already past -> deny [window]",
+      "ruleCategory": "temporal",
+      "ruleField": "validBefore",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-020",
+      "engine": "x402",
+      "name": "x402: unmapped chain -> deny [rails]",
+      "ruleCategory": "failClosed",
+      "ruleField": "unmappedRail",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-021",
+      "engine": "x402",
+      "name": "x402: unknown token contract under amount cap -> deny [unenforceable]",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownToken",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-022",
+      "engine": "x402",
+      "name": "cross-rail: x402 1.5 USDC after 3 USD Lightning spend (4.5/5) -> ALLOW",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-023",
+      "engine": "x402",
+      "name": "cross-rail: x402 2.5 USDC after 3 USD Lightning spend (5.5/5) -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-024",
+      "engine": "x402",
+      "name": "cross-rail: budget mandate with NO counter -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "counterMissing",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-025",
+      "engine": "x402",
+      "name": "cross-rail: transfer asset has no principal-attested rate -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "rateMissing",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-026",
+      "engine": "x402",
+      "name": "cross-rail: unsupported window P2D -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "windowUnsupported",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-027",
+      "engine": "x402",
+      "name": "cross-rail: counter currency mismatch -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "counterCurrencyMismatch",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-028",
+      "engine": "x402",
+      "name": "cross-rail: in-window spend with no rate in mandate -> deny (total unestablishable)",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "ledgerUnpriceable",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-029",
+      "engine": "x402",
+      "name": "ledger: reservation counts toward the window and release restores headroom",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "ledgerReserveRelease",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-030",
+      "engine": "x402",
+      "name": "ledger: commit converts a reservation to a permanent entry",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "ledgerCommit",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-031",
+      "engine": "x402",
+      "name": "account: allowed payment -> base signature produced + spend recorded",
+      "ruleCategory": "amountLimits",
+      "ruleField": "signerBoundaryGate",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-032",
+      "engine": "x402",
+      "name": "account: ledger holds the 1 USDC spend",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "ledgerRecord",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-033",
+      "engine": "x402",
+      "name": "account: over-budget payment -> ObserverDenyError, NO signature ever produced",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "denyMeansNoSignature",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-034",
+      "engine": "x402",
+      "name": "account: signTransaction denied by default",
+      "ruleCategory": "failClosed",
+      "ruleField": "signTransactionDefaultDeny",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-035",
+      "engine": "x402",
+      "name": "account: signMessage denied by default",
+      "ruleCategory": "failClosed",
+      "ruleField": "signMessageDefaultDeny",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-036",
+      "engine": "x402",
+      "name": "account: raw sign denied by default",
+      "ruleCategory": "failClosed",
+      "ruleField": "rawSignDefaultDeny",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-037",
+      "engine": "x402",
+      "name": "account: Permit2 typed data denied (payment-bearing, not decoded in v1)",
+      "ruleCategory": "failClosed",
+      "ruleField": "permit2Deny",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-038",
+      "engine": "x402",
+      "name": "account: unknown typed data denied by default",
+      "ruleCategory": "failClosed",
+      "ruleField": "unknownTypedDataDeny",
+      "outcome": "deny"
+    },
+    {
+      "id": "x402-039",
+      "engine": "x402",
+      "name": "account: unknown typed data allowed UNGATED only with explicit knob",
+      "ruleCategory": "operationClassification",
+      "ruleField": "allowNonPaymentTypedData",
+      "outcome": "allow"
+    },
+    {
+      "id": "x402-040",
+      "engine": "x402",
+      "name": "account: CancelAuthorization (benign) -> allowed",
+      "ruleCategory": "operationClassification",
+      "ruleField": "cancelAuthAllow",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-013",
+      "engine": "l402",
+      "name": "cross-rail: 3000 sats (1.5 USD) after 3 USD x402 spend (4.5/5) -> ALLOW",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "allow"
+    },
+    {
+      "id": "l402-014",
+      "engine": "l402",
+      "name": "cross-rail: 5000 sats (2.5 USD) after 3 USD x402 spend (5.5/5) -> DENY",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-015",
+      "engine": "l402",
+      "name": "cross-rail: budget mandate with no counter -> DENY (fail-closed)",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "counterMissing",
+      "outcome": "deny"
+    },
+    {
+      "id": "l402-016",
+      "engine": "l402",
+      "name": "cross-rail: hook allow records the sats spend into the shared ledger",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "ledgerRecord",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-047",
+      "engine": "policy-engine",
+      "name": "cross-rail: 1 TUNIT (1 USD) after 3 USD prior spend (4/5) -> allow",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "allow"
+    },
+    {
+      "id": "pe-048",
+      "engine": "policy-engine",
+      "name": "cross-rail: 3 TUNIT after 3 USD prior spend (6/5) -> deny [cross-rail]",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "crossRailBudget",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-049",
+      "engine": "policy-engine",
+      "name": "cross-rail: budget with NO supplied counter -> deny (fail-closed)",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "counterMissing",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-050",
+      "engine": "policy-engine",
+      "name": "cross-rail: transfer asset lacks a principal-attested rate -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "rateMissing",
+      "outcome": "deny"
+    },
+    {
+      "id": "pe-051",
+      "engine": "policy-engine",
+      "name": "cross-rail: unsupported window (P2D) -> deny",
+      "ruleCategory": "crossRailBudget",
+      "ruleField": "windowUnsupported",
+      "outcome": "deny"
+    }
   ]
 }

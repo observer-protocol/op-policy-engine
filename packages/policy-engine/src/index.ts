@@ -23,6 +23,7 @@ export type {
   PolicyResult,
   ResolvedTransfer,
   TradingMandate,
+  CrossRailBudget,
   ActionScope,
   AuthorizationConfig,
   VerifierConfig,
@@ -30,6 +31,16 @@ export type {
   AuditEntry,
   TokenDefConfig,
 } from './core/types.js';
+
+// Cross-rail budget accounting (G8): the shared rolling-24h ledger both buyer
+// gates write to, plus the oracle-free conversion helpers the evaluator uses.
+export {
+  CrossRailLedger,
+  convertToBudgetUnits,
+  formatBudgetUnits,
+  CROSS_RAIL_SCALE,
+} from './core/cross-rail.js';
+export type { CrossRailSpend, CrossRailTotal } from './core/cross-rail.js';
 
 // Adapter utilities — used by rail-specific engines after the core flip.
 // Rail-specific decode (resolveTransfer, evmtx, soltx) stays in each engine.

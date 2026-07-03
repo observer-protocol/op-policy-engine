@@ -81,7 +81,15 @@ const ENGINES = [
     id: 'l402',
     label: 'l402-op-authorize',
     dir: join(OP_AT, 'l402-op-authorize'),
-    expectedPass: 12,
+    expectedPass: 16,
+    parseMode: 'per-case',
+    summaryRe: /^(\d+)\/(\d+) conformance cases passed/m,
+  },
+  {
+    id: 'x402',
+    label: 'x402-op-authorize',
+    dir: join(OP_AT, 'x402-op-authorize'),
+    expectedPass: 40,
     parseMode: 'per-case',
     summaryRe: /^(\d+)\/(\d+) conformance cases passed/m,
   },
@@ -89,7 +97,7 @@ const ENGINES = [
 
 const engines = engineFilter ? ENGINES.filter(e => e.id === engineFilter) : ENGINES;
 if (engineFilter && engines.length === 0) {
-  console.error(`Unknown engine: ${engineFilter}. Valid: wdk, mppx, ows, l402`);
+  console.error(`Unknown engine: ${engineFilter}. Valid: wdk, mppx, ows, l402, x402`);
   process.exit(1);
 }
 
@@ -131,8 +139,8 @@ function runEngine(engine) {
       let passed = 0;
       let failed = 0;
       if (m) {
-        // l402 pattern is pass/total; everything else is pass, fail
-        if (engine.id === 'l402') {
+        // l402/x402 pattern is pass/total; everything else is pass, fail
+        if (engine.id === 'l402' || engine.id === 'x402') {
           passed = parseInt(m[1], 10);
           failed = parseInt(m[2], 10) - passed;
         } else {
@@ -160,7 +168,7 @@ function computeCoverage() {
   const categories = Object.keys(matrix.ruleCategories);
   const coverage = {};
   for (const cat of categories) {
-    coverage[cat] = { total: 0, byEngine: { wdk: 0, mppx: 0, ows: 0, l402: 0 } };
+    coverage[cat] = { total: 0, byEngine: { wdk: 0, mppx: 0, ows: 0, l402: 0, x402: 0, 'policy-engine': 0 } };
   }
   for (const c of matrix.cases) {
     if (coverage[c.ruleCategory]) {
@@ -186,7 +194,7 @@ function bar(count) {
 // --------------------------------------------------------------------------
 
 console.log(`\n${BOLD}=== OP Policy Engine — Parity Conformance Harness ===${RESET}`);
-console.log(`${DIM}Behavioral contract: ${matrix.totalCases} cases across 4 engines (AIP v0.8)${RESET}\n`);
+console.log(`${DIM}Behavioral contract: ${matrix.totalCases} cases across 5 engines + shared core (AIP v0.8 + v2.2 crossRailBudget)${RESET}\n`);
 
 if (skipBuild) console.log(`${DIM}--skip-build: invoking test runners directly${RESET}\n`);
 
@@ -220,7 +228,7 @@ for (const r of results) {
 console.log(`\n${BOLD}Rule Coverage (from matrix.json)${RESET}`);
 const coverage = computeCoverage();
 const maxCatLen = Math.max(...Object.keys(coverage).map(k => k.length));
-const engineOrder = ['wdk', 'mppx', 'ows', 'l402'];
+const engineOrder = ['wdk', 'mppx', 'ows', 'l402', 'x402', 'policy-engine'];
 
 for (const [cat, data] of Object.entries(coverage)) {
   const engineCovering = engineOrder.filter(e => data.byEngine[e] > 0);
@@ -228,7 +236,7 @@ for (const [cat, data] of Object.entries(coverage)) {
   const catPad = pad(cat, maxCatLen + 2);
   const totalStr = `(${data.total} case${data.total !== 1 ? 's' : ''})`;
   const blockCount = engineCovering.length;
-  const blockStr = '█'.repeat(blockCount) + '░'.repeat(4 - blockCount);
+  const blockStr = '█'.repeat(blockCount) + '░'.repeat(Math.max(0, engineOrder.length - blockCount));
   console.log(`  ${CYAN}${catPad}${RESET} ${blockStr}  ${DIM}${enginesStr.padEnd(22)} ${totalStr}${RESET}`);
 }
 

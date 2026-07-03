@@ -515,6 +515,38 @@ await expectDeny('RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub 
   'issuer-linkage');
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION: crossRailBudget (schema v2.2) — one rolling-24h budget across rails,
+// principal-attested rates, oracle-free. Mandate-layer only (enforceMandate
+// takes the credential as an argument; integrity is SECTION 1's job).
+// ══════════════════════════════════════════════════════════════════════════════
+console.log('\n── crossRailBudget (v2.2, cross-rail 24h budget) ──');
+
+function crbCred(budget) {
+  return {
+    credentialSubject: {
+      id: AGENT,
+      actionScope: {},
+      delegationScope: { may_delegate_further: false },
+      enforcementMode: 'pre_transaction_check',
+      tradingMandate: { crossRailBudget: budget },
+    },
+  };
+}
+const CRB = { amount: '5', currency: 'USD', window: 'P1D', rates: { TUNIT: '1', sat: '0.0005' } };
+const crbCtx = (crossRail) => ({ ...ctx(), ...(crossRail ? { cross_rail: crossRail } : {}) });
+
+await expectAllow('cross-rail: 1 TUNIT (1 USD) after 3 USD prior spend (4/5) → allow',
+  enforceMandate(crbCtx({ total: '3000000', currency: 'USD' }), crbCred(CRB), cfg('valid'), resolved({ amount: 1n })));
+await expectDeny('cross-rail: 3 TUNIT after 3 USD prior spend (6/5) → deny [cross-rail]',
+  enforceMandate(crbCtx({ total: '3000000', currency: 'USD' }), crbCred(CRB), cfg('valid'), resolved({ amount: 3n })), '[cross-rail]');
+await expectDeny('cross-rail: budget with NO supplied counter → deny (fail-closed)',
+  enforceMandate(crbCtx(), crbCred(CRB), cfg('valid'), resolved({ amount: 1n })), 'no cross-rail counter');
+await expectDeny('cross-rail: transfer asset lacks a principal-attested rate → deny',
+  enforceMandate(crbCtx({ total: '0', currency: 'USD' }), crbCred({ ...CRB, rates: { sat: '0.0005' } }), cfg('valid'), resolved({ amount: 1n })), 'no principal-attested rate');
+await expectDeny('cross-rail: unsupported window (P2D) → deny (cannot establish window)',
+  enforceMandate(crbCtx({ total: '0', currency: 'USD' }), crbCred({ ...CRB, window: 'P2D' }), cfg('valid'), resolved({ amount: 1n })), 'not supported');
+
+// ══════════════════════════════════════════════════════════════════════════════
 console.log(`\npolicy-engine conformance: ${pass} passed, ${fail} failed`);
 if (fail > 0) {
   console.error('\nFAILURES:');

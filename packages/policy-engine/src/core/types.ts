@@ -34,6 +34,11 @@ export interface PolicyContext {
   timestamp: string;
   typed_data?: OwsTypedData;
   policy_config?: unknown;
+  /** Rolling-24h spend already counted across ALL rails, converted into the
+   * mandate's crossRailBudget.currency at the mandate's principal-attested
+   * rates, scaled by CROSS_RAIL_SCALE. Supplied by the caller (the shared
+   * CrossRailLedger); a crossRailBudget mandate with no counter fails closed. */
+  cross_rail?: { total: string; currency: string };
 }
 
 export interface PolicyResult {
@@ -129,6 +134,20 @@ export interface TradingMandate {
     allowedJurisdictionsOnly?: string[];
   };
   velocity?: { dailyVolumeCap?: number; monthlyVolumeCap?: number };
+  crossRailBudget?: CrossRailBudget;
+}
+
+/** One rolling-24h budget consumed across every rail the delegation spans
+ * (schema v2.2). `rates` maps each spendable asset symbol to its value in
+ * `currency`, ATTESTED BY THE PRINCIPAL inside the signed credential — the
+ * evaluator performs no FX lookup and consults no oracle (AIP v0.8
+ * same-currency invariant holds: all comparisons happen in `currency` using
+ * only signed data). An asset with no rate cannot be scoped and fails closed. */
+export interface CrossRailBudget {
+  amount: string; // decimal string in `currency`
+  currency: string; // e.g. "USD"
+  window: string; // ISO-8601 duration; v1 evaluators support exactly "P1D" (rolling 24h)
+  rates: Record<string, string>; // asset symbol -> decimal price in `currency`
 }
 
 export interface DelegationCredentialSubject {

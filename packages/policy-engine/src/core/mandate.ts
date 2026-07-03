@@ -6,6 +6,7 @@ import type {
   TradingMandate,
   VerifierConfig,
 } from './types.js';
+import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cross-rail.js';
 
 // Mandate enforcement against the OWS PolicyContext.
 //
@@ -145,6 +146,7 @@ export function evaluateMandate(
     tm?.maxNotionalPerOrder !== undefined ||
     tm?.velocity?.dailyVolumeCap !== undefined ||
     tm?.velocity?.monthlyVolumeCap !== undefined ||
+    tm?.crossRailBudget !== undefined ||
     (level === 'one-time' && !!authCfg?.oneTime) ||
     (level === 'recurring' && !!authCfg?.recurring) ||
     (level === 'policy' && !!authCfg?.policy?.per_rail_caps);
@@ -427,6 +429,56 @@ export function evaluateMandate(
       notes.push('velocity caps: enforced deny-side via the per-key calendar-day counter (a lower bound on the rolling window); allow-side completeness needs a stateful evaluator');
     }
 
+    // crossRailBudget (binding, schema v2.2): one rolling-24h budget consumed
+    // across every rail. Conversion uses ONLY the principal-attested rates in
+    // the signed mandate (no FX lookup, no oracle — the same-currency invariant
+    // holds because every comparison happens in crb.currency on signed data).
+    // The cross-rail counter is caller-supplied (the shared CrossRailLedger);
+    // any piece we cannot establish denies.
+    const crb = tm.crossRailBudget;
+    if (crb) {
+      if (typeof crb.amount !== 'string' || typeof crb.currency !== 'string' || !crb.rates || typeof crb.rates !== 'object') {
+        return deny('[cross-rail] crossRailBudget requires amount, currency and rates — malformed budget cannot be evaluated', notes);
+      }
+      if (crb.window !== 'P1D') {
+        return deny(`[cross-rail] window ${JSON.stringify(crb.window)} is not supported by this evaluator (only P1D / rolling 24h) — cannot establish the accounting window`, notes);
+      }
+      if (asset === undefined || value === undefined) {
+        return deny('[cross-rail] the transfer asset/amount could not be established but the mandate carries a cross-rail budget', notes);
+      }
+      const rate = crb.rates[asset];
+      if (rate === undefined) {
+        return deny(`[cross-rail] no principal-attested rate for ${asset} in crossRailBudget.rates — this asset cannot be scoped against the ${crb.currency} budget`, notes);
+      }
+      const cr = ctx.cross_rail;
+      if (!cr) {
+        return deny('[cross-rail] mandate carries a crossRailBudget but the signing context supplied no cross-rail counter (ctx.cross_rail)', notes);
+      }
+      if (cr.currency !== crb.currency) {
+        return deny(`[cross-rail] supplied counter is denominated in ${cr.currency} but the budget is ${crb.currency} — totals are not comparable`, notes);
+      }
+      let converted: bigint;
+      let cap: bigint;
+      let priorTotal: bigint;
+      try {
+        converted = convertToBudgetUnits(value, decimals, rate);
+        cap = parseDecimalScaled(crb.amount, CROSS_RAIL_SCALE);
+        priorTotal = parseIntegerValue(cr.total);
+      } catch (e) {
+        return deny(`[cross-rail] ${(e as Error).message}`, notes);
+      }
+      const projected = priorTotal + converted;
+      if (projected > cap) {
+        return deny(
+          `[cross-rail] projected rolling-24h cross-rail spend ${formatBudgetUnits(projected)} ${crb.currency} exceeds the budget ${crb.amount} ${crb.currency} (this payment: ${formatBudgetUnits(converted)} ${crb.currency} as ${asset} at the principal-attested rate ${rate})`,
+          notes,
+        );
+      }
+      notes.push(
+        `cross-rail budget: ${formatBudgetUnits(projected)} of ${crb.amount} ${crb.currency} consumed including this payment — counter is the shared rolling-24h ledger; rates are principal-attested in the mandate (no oracle)`,
+      );
+    }
+
     if (tm.allowedVenues || tm.allowedInstruments || tm.dailyDrawdownCap) {
       notes.push(
         'order-plane constraints declared (allowedVenues/allowedInstruments/dailyDrawdownCap): NOT ENFORCED here — these require order context and belong to an order-aware Observer Protocol evaluator',
@@ -438,7 +490,7 @@ export function evaluateMandate(
     // as NOT-ENFORCED notes). Anything beyond the known set DENIES.
     const KNOWN_TM_KEYS: ReadonlySet<string> = new Set([
       'unit', 'maxNotionalPerOrder', 'counterparty', 'temporal', 'geographic', 'velocity',
-      'allowedVenues', 'allowedInstruments', 'maxPosition', 'dailyDrawdownCap',
+      'allowedVenues', 'allowedInstruments', 'maxPosition', 'dailyDrawdownCap', 'crossRailBudget',
     ]);
     for (const key of Object.keys(tm)) {
       if (!KNOWN_TM_KEYS.has(key)) {
