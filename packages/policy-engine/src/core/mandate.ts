@@ -51,15 +51,23 @@ function parseIntegerValue(value: string): bigint {
 }
 
 /** Match a recipient address against a mandate counterparty list. List
- * entries are raw addresses (case-insensitive compare) or DIDs expanded
- * through config.counterpartyAddressMap. Returns which DIDs could not be
- * expanded so callers can fail closed on them. */
+ * entries are raw addresses or DIDs expanded through
+ * config.counterpartyAddressMap. Returns which DIDs could not be expanded so
+ * callers can fail closed on them.
+ *
+ * Case handling is rail-family-aware (`caseExact`): EVM hex addresses are
+ * case-insensitive by definition (EIP-55 is only a checksum), so they fold.
+ * base58 addresses (TRON, Solana) are CASE-SENSITIVE — folding them makes a
+ * case-collision grindable (search a keypair whose address lowercases to an
+ * allowlisted one), so non-EVM rails compare exact bytes. */
 function matchCounterparty(
   to: string,
   list: string[],
   map: Record<string, string[]> | undefined,
+  caseExact: boolean,
 ): { matched: boolean; unmappedDids: string[] } {
-  const target = to.toLowerCase();
+  const norm = (s: string) => (caseExact ? s : s.toLowerCase());
+  const target = norm(to);
   const unmappedDids: string[] = [];
   for (const entry of list) {
     if (entry.startsWith('did:')) {
@@ -68,8 +76,8 @@ function matchCounterparty(
         unmappedDids.push(entry);
         continue;
       }
-      if (addrs.some((a) => a.toLowerCase() === target)) return { matched: true, unmappedDids };
-    } else if (entry.toLowerCase() === target) {
+      if (addrs.some((a) => norm(a) === target)) return { matched: true, unmappedDids };
+    } else if (norm(entry) === target) {
       return { matched: true, unmappedDids };
     }
   }
@@ -130,6 +138,9 @@ export function evaluateMandate(
       notes,
     );
   }
+
+  // Case discipline for counterparty compares on this rail (see matchCounterparty).
+  const cpCaseExact = railDef.family !== 'evm';
 
   // 2. Resolved transfer — the single {asset, amount, recipient} view from
   // either an EVM or Solana payload (see resolve-transfer.ts). Amount/currency
@@ -264,7 +275,7 @@ export function evaluateMandate(
 
   // 7. Authorization level configs (binding).
   const checkCounterpartyDid = (did: string, label: string): MandateOutcome | null => {
-    const { matched, unmappedDids } = matchCounterparty(to as string, [did], config.counterpartyAddressMap);
+    const { matched, unmappedDids } = matchCounterparty(to as string, [did], config.counterpartyAddressMap, cpCaseExact);
     if (matched) return null;
     if (unmappedDids.length > 0) {
       return deny(
@@ -374,11 +385,11 @@ export function evaluateMandate(
 
     const cp = tm.counterparty;
     if (cp?.blockList && cp.blockList.length > 0 && to) {
-      const { matched } = matchCounterparty(to, cp.blockList, config.counterpartyAddressMap);
+      const { matched } = matchCounterparty(to, cp.blockList, config.counterpartyAddressMap, cpCaseExact);
       if (matched) return deny(`[counterparty] recipient ${to} is on the mandate blockList`, notes);
     }
     if (cp?.allowList && cp.allowList.length > 0) {
-      const { matched, unmappedDids } = matchCounterparty(to as string, cp.allowList, config.counterpartyAddressMap);
+      const { matched, unmappedDids } = matchCounterparty(to as string, cp.allowList, config.counterpartyAddressMap, cpCaseExact);
       if (!matched) {
         const hint = unmappedDids.length > 0 ? ` (${unmappedDids.length} DID entr${unmappedDids.length === 1 ? 'y' : 'ies'} had no address mapping in config.counterpartyAddressMap)` : '';
         return deny(`[counterparty] recipient ${to} is not on the mandate allowList${hint}`, notes);

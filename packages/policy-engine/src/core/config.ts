@@ -80,6 +80,7 @@ export function parseConfig(raw: unknown): VerifierConfig {
     rails: { ...DEFAULT_RAILS, ...railsOverride },
     evmTokens: (c['evmTokens'] as Record<string, { symbol: string; decimals: number }>) ?? undefined,
     solanaMints: (c['solanaMints'] as Record<string, { symbol: string; decimals: number }>) ?? undefined,
+    trc20Tokens: (c['trc20Tokens'] as Record<string, { symbol: string; decimals: number }>) ?? undefined,
     allowContractCalls: c['allowContractCalls'] === true,
     transactionCategory: typeof c['transactionCategory'] === 'string' ? (c['transactionCategory'] as string) : undefined,
     counterpartyAddressMap: (c['counterpartyAddressMap'] as Record<string, string[]>) ?? undefined,

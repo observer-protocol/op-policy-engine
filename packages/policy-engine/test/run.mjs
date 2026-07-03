@@ -547,6 +547,42 @@ await expectDeny('cross-rail: unsupported window (P2D) → deny (cannot establis
   enforceMandate(crbCtx({ total: '0', currency: 'USD' }), crbCred({ ...CRB, window: 'P2D' }), cfg('valid'), resolved({ amount: 1n })), 'not supported');
 
 // ══════════════════════════════════════════════════════════════════════════════
+// SECTION: rail-family-aware counterparty case discipline. EVM hex folds case
+// (EIP-55 is only a checksum); base58 rails (TRON, Solana) compare EXACT — a
+// folded base58 compare makes a case-collision grindable.
+// ══════════════════════════════════════════════════════════════════════════════
+console.log('\n── counterparty case discipline (base58 exact vs EVM folded) ──');
+
+const TRON_MERCHANT = 'TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9';
+const caseCfg = cfg('valid', {
+  rails: {
+    ...cfg('valid').rails,
+    'tron:mainnet': { rail: 'usdt-trc20', currency: 'TRX', decimals: 6, family: 'other' },
+    'eip155:1': { rail: 'ethereum-mainnet', currency: 'ETH', decimals: 18, family: 'evm' },
+  },
+});
+const cpCred = (allowList) => ({
+  credentialSubject: {
+    id: AGENT,
+    actionScope: {},
+    delegationScope: { may_delegate_further: false },
+    enforcementMode: 'pre_transaction_check',
+    tradingMandate: { counterparty: { allowList } },
+  },
+});
+const railCtx = (chain, to) => ({ ...ctx(), chain_id: chain, transaction: { to, value: '0' } });
+
+await expectAllow('base58 rail: exact-case allowlisted recipient → allow',
+  enforceMandate(railCtx('tron:mainnet', TRON_MERCHANT), cpCred([TRON_MERCHANT]), caseCfg,
+    { kind: 'trc20-token', assetSymbol: 'USDT', amount: 1n, decimals: 6, recipient: TRON_MERCHANT, recipientKind: 'wallet', notes: [] }));
+await expectDeny('base58 rail: case-twiddled recipient → deny [counterparty] (no case folding on base58)',
+  enforceMandate(railCtx('tron:mainnet', TRON_MERCHANT.toLowerCase()), cpCred([TRON_MERCHANT]), caseCfg,
+    { kind: 'trc20-token', assetSymbol: 'USDT', amount: 1n, decimals: 6, recipient: TRON_MERCHANT.toLowerCase(), recipientKind: 'wallet', notes: [] }), '[counterparty]');
+await expectAllow('EVM rail: mixed-case hex still folds (EIP-55 is a checksum, not identity) → allow',
+  enforceMandate(railCtx('eip155:1', '0xa11ce00000000000000000000000000000000001'), cpCred(['0xA11CE00000000000000000000000000000000001']), caseCfg,
+    { kind: 'evm-token', assetSymbol: 'USDC', amount: 1n, decimals: 6, recipient: '0xa11ce00000000000000000000000000000000001', recipientKind: 'wallet', notes: [] }));
+
+// ══════════════════════════════════════════════════════════════════════════════
 console.log(`\npolicy-engine conformance: ${pass} passed, ${fail} failed`);
 if (fail > 0) {
   console.error('\nFAILURES:');

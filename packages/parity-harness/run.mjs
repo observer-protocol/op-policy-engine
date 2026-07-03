@@ -57,7 +57,7 @@ const ENGINES = [
     id: 'wdk',
     label: 'wdk-op-policy',
     dir: join(OP_AT, 'wdk-op-policy'),
-    expectedPass: 26,
+    expectedPass: 37,
     parseMode: 'per-case',
     summaryRe: /wdk-op-policy conformance: (\d+) passed, (\d+) failed/,
   },

@@ -198,7 +198,7 @@ export interface TokenDefConfig {
 // resolved from either an EVM or Solana payload. `amount` is raw (unscaled)
 // units of `assetSymbol`; `decimals` is that asset's scale.
 export interface ResolvedTransfer {
-  kind: 'native' | 'evm-token' | 'sol-system' | 'sol-spl-checked' | 'sol-spl' | 'unparsed';
+  kind: 'native' | 'evm-token' | 'trc20-token' | 'sol-system' | 'sol-spl-checked' | 'sol-spl' | 'unparsed';
   assetSymbol?: string; // e.g. "ETH", "SOL", "USDC" — undefined if undeterminable
   amount?: bigint; // raw units of assetSymbol
   decimals?: number;
@@ -225,7 +225,8 @@ export interface VerifierConfig {
   auditLog: string;
   rails: Record<string, RailDef>;
   evmTokens?: Record<string, TokenDefConfig>; // lowercased ERC-20 contract → asset
-  solanaMints?: Record<string, TokenDefConfig>; // base58 SPL mint → asset
+  solanaMints?: Record<string, TokenDefConfig>; // base58 SPL mint → asset (case-SENSITIVE)
+  trc20Tokens?: Record<string, TokenDefConfig>; // base58 TRC-20 contract → asset (case-SENSITIVE — base58 must never be case-folded)
   allowContractCalls: boolean;
   transactionCategory?: string;
   counterpartyAddressMap?: Record<string, string[]>; // DID -> rail addresses
