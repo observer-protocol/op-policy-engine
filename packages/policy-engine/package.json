@@ -1,6 +1,6 @@
 {
   "name": "@observer-protocol/policy-engine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic — verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
   "license": "MIT",
   "type": "module",

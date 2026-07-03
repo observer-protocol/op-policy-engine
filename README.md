@@ -1,5 +1,7 @@
 # Observer Protocol Policy Engine
 
+**The shared core of [OP Crossrail](https://observerprotocol.org)** — Observer Protocol's cross-rail authorization layer. The crossRailBudget vocabulary (schema v2.2), the shared CrossRailLedger, and the rail-agnostic mandate evaluator live here; the per-rail engines (OWS, mppx/Tempo, Tether WDK, L402/Lightning, x402) are its instances.
+
 [![Spec: AIP v0.8](https://img.shields.io/badge/Spec-AIP%20v0.8-blue)](https://github.com/observer-protocol/aip/blob/main/aip-v0.8-draft-1.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Interface-007ACC?logo=typescript&logoColor=white)](packages/policy-interface/)
