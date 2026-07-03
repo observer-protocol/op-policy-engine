@@ -440,7 +440,7 @@ export function evaluateMandate(
       notes.push('velocity caps: enforced deny-side via the per-key calendar-day counter (a lower bound on the rolling window); allow-side completeness needs a stateful evaluator');
     }
 
-    // crossRailBudget (binding, schema v2.2): one rolling-24h budget consumed
+    // crossRailBudget (binding, schema v2.3): one rolling-24h budget consumed
     // across every rail. Conversion uses ONLY the principal-attested rates in
     // the signed mandate (no FX lookup, no oracle — the same-currency invariant
     // holds because every comparison happens in crb.currency on signed data).

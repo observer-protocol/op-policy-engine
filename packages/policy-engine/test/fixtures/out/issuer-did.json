@@ -5,13 +5,13 @@
       "id": "did:web:issuer.example#key-1",
       "type": "Multikey",
       "controller": "did:web:issuer.example",
-      "publicKeyMultibase": "z6Mkp1raEaA3Bs1SGBWBd5z9NBoYGfTACmFyEGG2qqPiajg4"
+      "publicKeyMultibase": "z6MkfBaB83FzoxHTfiN4XEsjiqG9zawYiEA9wTPcrnVTjz2P"
     },
     {
       "id": "did:web:issuer.example#key-2",
       "type": "Multikey",
       "controller": "did:web:issuer.example",
-      "publicKeyMultibase": "z6Mkwde1qFJuYE1QJELunQLff2KM1Ze6Vd5uAsF4NJE1RTtP"
+      "publicKeyMultibase": "z6MksF2nv84rLx7ZPLBrjHV5uajJYGPTum9YQ84aju5Qu9HP"
     }
   ],
   "assertionMethod": [

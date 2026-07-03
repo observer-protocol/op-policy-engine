@@ -515,11 +515,11 @@ await expectDeny('RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub 
   'issuer-linkage');
 
 // ══════════════════════════════════════════════════════════════════════════════
-// SECTION: crossRailBudget (schema v2.2) — one rolling-24h budget across rails,
+// SECTION: crossRailBudget (schema v2.3) — one rolling-24h budget across rails,
 // principal-attested rates, oracle-free. Mandate-layer only (enforceMandate
 // takes the credential as an argument; integrity is SECTION 1's job).
 // ══════════════════════════════════════════════════════════════════════════════
-console.log('\n── crossRailBudget (v2.2, cross-rail 24h budget) ──');
+console.log('\n── crossRailBudget (v2.3, cross-rail 24h budget) ──');
 
 function crbCred(budget) {
   return {

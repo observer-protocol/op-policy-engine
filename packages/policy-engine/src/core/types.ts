@@ -138,7 +138,7 @@ export interface TradingMandate {
 }
 
 /** One rolling-24h budget consumed across every rail the delegation spans
- * (schema v2.2). `rates` maps each spendable asset symbol to its value in
+ * (schema v2.3). `rates` maps each spendable asset symbol to its value in
  * `currency`, ATTESTED BY THE PRINCIPAL inside the signed credential — the
  * evaluator performs no FX lookup and consults no oracle (AIP v0.8
  * same-currency invariant holds: all comparisons happen in `currency` using

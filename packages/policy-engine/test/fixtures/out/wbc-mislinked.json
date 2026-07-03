@@ -2,16 +2,16 @@
   "@context": [
     "https://www.w3.org/ns/credentials/v2"
   ],
-  "id": "urn:uuid:1a332d46-b7db-4a6f-bda9-aa7fc0b44889",
+  "id": "urn:uuid:458755ff-1348-4729-9170-27e2f904f648",
   "type": [
     "VerifiableCredential",
     "WalletBindingCredential"
   ],
-  "issuer": "did:key:z6MkvMZydaiKW5H89WC6XcL1Bt3fcr5nHBLxYk9yjAgX79oF",
+  "issuer": "did:key:z6MktBbqcHmE4NxEcxrCTFJenTV9Aroy8vDLVpriBn1w8q7M",
   "validFrom": "2026-01-01T00:00:00Z",
   "validUntil": "2027-01-01T00:00:00Z",
   "credentialSubject": {
-    "id": "did:key:z6MkvMZydaiKW5H89WC6XcL1Bt3fcr5nHBLxYk9yjAgX79oF",
+    "id": "did:key:z6MktBbqcHmE4NxEcxrCTFJenTV9Aroy8vDLVpriBn1w8q7M",
     "walletAddress": "0xABCD000000000000000000000000000000001234",
     "rail": "test-rail",
     "issuanceMode": "dev"
@@ -20,11 +20,11 @@
     "type": "DataIntegrityProof",
     "cryptosuite": "eddsa-jcs-2022",
     "created": "2026-06-01T00:00:00Z",
-    "verificationMethod": "did:key:z6MkvMZydaiKW5H89WC6XcL1Bt3fcr5nHBLxYk9yjAgX79oF#z6MkvMZydaiKW5H89WC6XcL1Bt3fcr5nHBLxYk9yjAgX79oF",
+    "verificationMethod": "did:key:z6MktBbqcHmE4NxEcxrCTFJenTV9Aroy8vDLVpriBn1w8q7M#z6MktBbqcHmE4NxEcxrCTFJenTV9Aroy8vDLVpriBn1w8q7M",
     "proofPurpose": "assertionMethod",
     "@context": [
       "https://www.w3.org/ns/credentials/v2"
     ],
-    "proofValue": "z5eBPDJd2dW7uCaJWQKrQFG1oavaqk3kDfNzRgTvhoEuaReCaNxL938togWDCy78LHtM5TZWALeqoUnRYt9d1S9qW"
+    "proofValue": "zJVJPTua4LSUbQd6dehX9Co8AjjXGL1C6yFEVPnsrTdEP6exD8SNGf8VUYgXPELHmuqUQ4rSt2xeKUd9B8VYRPXu"
   }
 }
