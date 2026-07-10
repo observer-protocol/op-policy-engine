@@ -1,0 +1,37 @@
+{
+  "name": "@observer-protocol/sd-jwt-substrate",
+  "version": "0.1.0",
+  "description": "SD-JWT VC (RFC 9901) issuance and verification with ES256/P-256 and RFC 7800 cnf key binding. The shared substrate for AP2 and Verifiable Intent mandate handling.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --packages=external --platform=node --target=node18 --format=esm --outfile=dist/index.mjs && esbuild src/index.ts --bundle --packages=external --platform=node --target=node18 --format=cjs --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck && npm run build && node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@sd-jwt/core": "^0.9.2",
+    "@sd-jwt/decode": "^0.9.2",
+    "@sd-jwt/sd-jwt-vc": "^0.9.2",
+    "jose": "^5.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0"
+  }
+}
