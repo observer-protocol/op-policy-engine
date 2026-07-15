@@ -94,6 +94,40 @@ const ENGINES = [
   },
 ];
 
+// Optional local-only engine extensions. A deployment may hold additional
+// (e.g. in-development or deployment-specific) engines to run against this same
+// behavioral contract without their identity or notes living in this repo.
+// Point PARITY_EXTRA_ENGINES at a JSON file of engine defs, or drop
+// a gitignored `parity-harness.local.json` next to this runner. Each entry:
+//   { id, label, dir, expectedPass, parseMode, summaryRe (string),
+//     npmScript?, runnerRel?, expectedRed? }
+// `summaryRe` is a string here and is compiled to a RegExp on load.
+function loadExtraEngines() {
+  const candidates = [];
+  if (process.env.PARITY_EXTRA_ENGINES) candidates.push(process.env.PARITY_EXTRA_ENGINES);
+  candidates.push(join(HERE, 'parity-harness.local.json'));
+  for (const path of candidates) {
+    if (!existsSync(path)) continue;
+    try {
+      const defs = JSON.parse(readFileSync(path, 'utf8'));
+      const list = Array.isArray(defs) ? defs : defs.engines ?? [];
+      const base = dirname(path);
+      return list.map(e => ({
+        parseMode: 'per-case',
+        ...e,
+        // Relative dirs resolve against the config file's location so a def
+        // shipped inside another repo stays portable.
+        dir: e.dir && !e.dir.startsWith('/') ? join(base, e.dir) : e.dir,
+        summaryRe: new RegExp(e.summaryRe, e.summaryReFlags ?? ''),
+      }));
+    } catch (err) {
+      console.error(`Failed to load extra engines from ${path}: ${err.message}`);
+    }
+  }
+  return [];
+}
+ENGINES.push(...loadExtraEngines());
+
 const engines = engineFilter ? ENGINES.filter(e => e.id === engineFilter) : ENGINES;
 if (engineFilter && engines.length === 0) {
   console.error(`Unknown engine: ${engineFilter}. Valid: wdk, mppx, ows, l402, x402`);
@@ -109,7 +143,9 @@ function runEngine(engine) {
     // If skip-build: call only the test runner directly (node test/run.mjs)
     // Otherwise: npm test (typecheck + build + fixtures + test runner)
     const cmd = skipBuild ? NODE_BIN : NPM_BIN;
-    const cmdArgs = skipBuild ? ['test/run.mjs'] : ['test'];
+    const cmdArgs = skipBuild
+      ? [engine.runnerRel ?? 'test/run.mjs']
+      : (engine.npmScript ? ['run', engine.npmScript] : ['test']);
 
     const child = spawn(cmd, cmdArgs, {
       cwd: engine.dir,
