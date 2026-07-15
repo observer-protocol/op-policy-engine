@@ -125,6 +125,23 @@ export function evaluateMandate(
 ): MandateOutcome {
   const notes: string[] = [];
   const subject = cred.credentialSubject;
+
+  // Fail-closed on an unrecognized constraint container. This engine evaluates
+  // constraints under actionScope / tradingMandate / authorizationConfig ONLY.
+  // A credential that instead carries constraints under credentialSubject.delegation
+  // (e.g. delegation.scope with per-rail limits) expresses authority this engine
+  // does not read; enforcing it would silently ignore those limits (fail-open).
+  // Refuse to enforce a mandate we cannot fully read.
+  // NB: identity-only mandates (no binding constraints) carry NO delegation
+  // container and remain allowed. Extend this guard's key set if new
+  // constraint-container shapes are introduced.
+  if ((subject as unknown as Record<string, unknown>).delegation !== undefined) {
+    return deny(
+      '[failClosed] credential carries a credentialSubject.delegation constraint container this engine does not evaluate (unrecognized mandate shape); refusing to enforce a mandate it cannot fully read',
+      notes,
+    );
+  }
+
   const scope = subject.actionScope;
   const tm = subject.tradingMandate;
   const nowMs = Date.parse(ctx.timestamp) || Date.now();

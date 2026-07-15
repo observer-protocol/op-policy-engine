@@ -194,6 +194,25 @@ await expectDeny('geographic: allowedJurisdictionsOnly → deny (fail-closed)',
 await expectAllow('identity-only mandate (no binding constraints) → allow',
   fullEval('no-constraint', { amount: 500n, to: '0x0000arbitrary' }));
 
+// Unrecognized mandate shape must FAIL CLOSED, not fail open.
+// A credential carrying its constraints under credentialSubject.delegation
+// (delegation.scope with per-rail limits) expresses caps this engine does not
+// read. It must DENY, not allow an over-cap transfer by omission. Distinct from
+// identity-only (which has NO delegation container and legitimately allows).
+{
+  const spendingShapeCred = {
+    credentialSubject: {
+      id: AGENT,
+      actionScope: {},
+      delegationScope: { may_delegate_further: false },
+      enforcementMode: 'pre_transaction_check',
+      delegation: { scope: { spending_limits: { per_rail: { 'test:1': { per_transaction: { max_amount: '100', currency: 'TUNIT' } } } } } },
+    },
+  };
+  await expectDeny('unrecognized mandate shape (delegation.scope.spending_limits) → deny (fail-closed, no silent no-enforce)',
+    enforceMandate(ctx(), spendingShapeCred, cfg('valid'), resolved({ amount: 999999n })), 'failClosed');
+}
+
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 5: cross-rail generalizes — velocity/temporal/geographic on non-ows rails
 // Proves: shared core enforces these rules regardless of rail family.
