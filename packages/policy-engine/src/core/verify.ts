@@ -21,11 +21,20 @@ import type {
 // this function never calls resolveTransfer — the resolved transfer is always
 // supplied by the caller.
 
+/** Structured record of the credential-verification checks that actually ran,
+ * produced BY the verifier as each step passes (not written alongside it). On a
+ * successful verify this lets an external reader reconstruct exactly which checks
+ * executed. String values only (no floats) so it stays JCS-verifiable when
+ * embedded in a signed credential. */
+export type CredentialChecks = Record<string, string>;
+
 export interface Verdict {
   allow: boolean;
   reason: string;
   notes: string[];
   cred?: ObserverDelegationCredential;
+  /** Present on a successful verify; the checks that ran, keyed by check name. */
+  checks?: CredentialChecks;
 }
 
 /** Steps 1–5: load + cryptographically verify the delegation credential.
@@ -67,9 +76,11 @@ export async function verifyCredentialCrypto(
   nowMs: number,
 ): Promise<Verdict> {
   const notes: string[] = [];
+  const checks: CredentialChecks = {};
 
   const window = checkValidityWindow(cred, nowMs);
   if (!window.ok) return { allow: false, reason: window.reason ?? '[validity] credential not currently valid', notes };
+  checks.validityWindow = 'passed';
 
   // W3C VC Data Integrity permits `issuer` as either a DID string or an object
   // with an `id`. Normalize to the DID string for resolution and key-binding.
@@ -93,6 +104,9 @@ export async function verifyCredentialCrypto(
     if (doc.id !== issuerId) {
       return { allow: false, reason: `[did] resolved DID document id ${doc.id} does not match issuer ${issuerId}`, notes };
     }
+    checks.issuerResolution = config.offline?.didDocumentPath
+      ? 'offline-pinned'
+      : issuerId.startsWith('did:key:') ? 'did:key-inline' : 'network';
     const vmId = cred.proof?.verificationMethod;
     if (!vmId) return { allow: false, reason: '[proof] proof.verificationMethod missing', notes };
     if (!vmId.startsWith(issuerId + '#')) {
@@ -107,6 +121,7 @@ export async function verifyCredentialCrypto(
     const proofResult = verifyEddsaJcs2022(cred as unknown as Record<string, unknown>, key);
     notes.push(...proofResult.notes);
     if (!proofResult.ok) return { allow: false, reason: `[proof] ${proofResult.reason}`, notes };
+    checks.issuerProof = 'eddsa-jcs-2022-verified';
 
     // Signer-boundary check: the mandate must not be signed by a key the agent controls.
     // A mandate signed by the agent's own key means the agent could self-authorize — which
@@ -122,6 +137,7 @@ export async function verifyCredentialCrypto(
         notes,
       };
     }
+    checks.signerBoundary = config.agentDid ? 'passed' : 'not-configured';
   } catch (e) {
     return { allow: false, reason: `[proof] ${(e as Error).message}`, notes };
   }
@@ -136,11 +152,13 @@ export async function verifyCredentialCrypto(
         return { allow: false, reason: `[revocation] status could not be established: ${(e as Error).message}`, notes };
       }
     }
+    checks.revocation = 'not-revoked';
   } else {
     notes.push('credential carries no credentialStatus entry — revocation not checkable for this credential');
+    checks.revocation = 'status-absent';
   }
 
-  return { allow: true, reason: 'credential verified', notes, cred };
+  return { allow: true, reason: 'credential verified', notes, cred, checks };
 }
 
 /** Steps 6–7: enforce the mandate against a pre-decoded transfer.

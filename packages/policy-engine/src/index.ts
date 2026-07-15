@@ -8,7 +8,7 @@
 // instead of maintaining their own vendored core/ copy.
 
 export { verifyCredential, verifyCredentialObject, verifyCredentialCrypto, enforceMandate } from './core/verify.js';
-export type { Verdict } from './core/verify.js';
+export type { Verdict, CredentialChecks } from './core/verify.js';
 
 export { evaluateMandate, parseDecimalScaled } from './core/mandate.js';
 export type { MandateOutcome } from './core/mandate.js';
