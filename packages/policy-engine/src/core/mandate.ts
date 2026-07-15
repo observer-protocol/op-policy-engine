@@ -165,7 +165,7 @@ export function evaluateMandate(
   // .scope.spending_limits.per_rail instead of actionScope/tradingMandate. Read
   // and enforce the per-rail per_transaction (and per_day) cap here, same-currency,
   // no FX. RECOGNIZED shape → enforce (item 3). UNRECOGNIZED delegation container,
-  // per_asset (hosted-only), unenforceable transfer, or missing cap → fail closed
+  // per_asset (out of scope for this engine), unenforceable transfer, or missing cap → fail closed
   // (item 4 — replaces the earlier blanket-deny 7337f61: recognized→enforce,
   // unrecognized→DENY, both hold).
   const delegation = (subject as unknown as { delegation?: Record<string, unknown> }).delegation;
@@ -180,7 +180,7 @@ export function evaluateMandate(
       return deny(`[spending-limits] no per_rail entry for ${railDef.rail} — no authority on this rail (fail-closed)`, notes);
     }
     if (perRail.per_asset !== undefined) {
-      return deny('[spending-limits] per_asset caps are not evaluated by this engine (per-asset enforcement is hosted-only) — fail-closed', notes);
+      return deny('[spending-limits] per_asset caps are not evaluated by this engine (per-asset enforcement is out of scope for this engine) — fail-closed', notes);
     }
     if (resolved.unenforceable) {
       return deny(`[unenforceable] ${resolved.unenforceable} — spending_limits cap cannot be established`, notes);

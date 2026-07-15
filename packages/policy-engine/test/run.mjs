@@ -217,7 +217,7 @@ await expectDeny('spending_limits.per_rail: cap TUNIT vs OUNIT transfer → deny
 // (4) UNRECOGNIZED delegation container (no spending_limits.per_rail) → DENY [failClosed]
 await expectDeny('delegation container without spending_limits.per_rail → deny [failClosed]',
   enforceMandate(ctx(), { credentialSubject: { id: AGENT, actionScope: {}, delegationScope: { may_delegate_further: false }, enforcementMode: 'pre_transaction_check', delegation: { scope: { something_unrecognized: {} } } } }, cfg('valid'), resolved({ amount: 50n })), 'failClosed');
-// (4) per_asset present → DENY (per-asset enforcement is hosted-only, fail-closed here)
+// (4) per_asset present → DENY (per-asset out of scope for this engine, fail-closed)
 await expectDeny('spending_limits.per_rail with per_asset → deny (hosted-only, fail-closed)',
   enforceMandate(ctx(), spendingCred({ 'test:1': { per_transaction: { max_amount: '1000', currency: 'TUNIT' }, per_asset: { 'asset-x': { per_transaction: { max_amount: '10', currency: 'TUNIT' } } } } }), cfg('valid'), resolved({ amount: 50n })), 'per_asset');
 
