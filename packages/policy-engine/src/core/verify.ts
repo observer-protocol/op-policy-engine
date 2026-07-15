@@ -31,36 +31,72 @@ export interface Verdict {
 /** Steps 1–5: load + cryptographically verify the delegation credential.
  * On success returns the parsed credential; on failure returns a deny Verdict. */
 export async function verifyCredential(config: VerifierConfig, nowMs: number): Promise<Verdict> {
-  const notes: string[] = [];
-
   let cred: ObserverDelegationCredential;
   try {
     cred = JSON.parse(readFileSync(config.credentialPath, 'utf8')) as ObserverDelegationCredential;
   } catch (e) {
-    return { allow: false, reason: `[credential] cannot read ${config.credentialPath}: ${(e as Error).message}`, notes };
+    return { allow: false, reason: `[credential] cannot read ${config.credentialPath}: ${(e as Error).message}`, notes: [] };
   }
+  return verifyCredentialObject(cred, config, nowMs);
+}
 
+/** Verify an in-memory delegation credential: structure/schema gate + full crypto.
+ * This is the file-independent half of verifyCredential — callers that already
+ * hold the parsed credential (resolved from a store, presented over the wire)
+ * use this instead of a credentialPath. Behavior is identical to verifyCredential
+ * after its read step. */
+export async function verifyCredentialObject(
+  cred: ObserverDelegationCredential,
+  config: VerifierConfig,
+  nowMs: number,
+): Promise<Verdict> {
   const structure = validateStructure(cred, config);
-  if (!structure.ok) return { allow: false, reason: `[schema] ${structure.reason}`, notes };
+  if (!structure.ok) return { allow: false, reason: `[schema] ${structure.reason}`, notes: [] };
+  return verifyCredentialCrypto(cred, config, nowMs);
+}
+
+/** Cryptographic trust checks ONLY, no structure/schema/issuer-pin gate:
+ * validity window → issuer DID resolution → eddsa-jcs-2022 proof → signer-boundary
+ * → revocation. Callers that must accept more than one credential body shape verify
+ * cryptographic integrity here and gate shape / trust-anchor by other means (e.g. a
+ * hash-match to a registered credential). verifyCredentialObject layers the v2.1
+ * structure gate on top of this; adapters that require that gate keep using it. */
+export async function verifyCredentialCrypto(
+  cred: ObserverDelegationCredential,
+  config: VerifierConfig,
+  nowMs: number,
+): Promise<Verdict> {
+  const notes: string[] = [];
 
   const window = checkValidityWindow(cred, nowMs);
   if (!window.ok) return { allow: false, reason: window.reason ?? '[validity] credential not currently valid', notes };
 
+  // W3C VC Data Integrity permits `issuer` as either a DID string or an object
+  // with an `id`. Normalize to the DID string for resolution and key-binding.
+  const rawIssuer: unknown = cred.issuer;
+  const issuerId =
+    typeof rawIssuer === 'string'
+      ? rawIssuer
+      : (rawIssuer && typeof rawIssuer === 'object' && typeof (rawIssuer as { id?: unknown }).id === 'string'
+          ? (rawIssuer as { id: string }).id
+          : undefined);
+  if (!issuerId) return { allow: false, reason: '[proof] credential issuer is missing or malformed', notes };
+
   try {
-    const { doc, note } = await resolveDidDocument(cred.issuer, {
+    const { doc, note } = await resolveDidDocument(issuerId, {
       cacheDir: config.cacheDir,
       timeoutMs: config.revocation.fetchTimeoutMs,
       maxStalenessHours: config.didCache.maxStalenessHours,
       offlinePath: config.offline?.didDocumentPath,
     });
     if (note) notes.push(note);
-    if (doc.id !== cred.issuer) {
-      return { allow: false, reason: `[did] resolved DID document id ${doc.id} does not match issuer ${cred.issuer}`, notes };
+    if (doc.id !== issuerId) {
+      return { allow: false, reason: `[did] resolved DID document id ${doc.id} does not match issuer ${issuerId}`, notes };
     }
     const vmId = cred.proof?.verificationMethod;
     if (!vmId) return { allow: false, reason: '[proof] proof.verificationMethod missing', notes };
-    if (!vmId.startsWith(cred.issuer + '#')) {
-      return { allow: false, reason: `[proof] verificationMethod ${vmId} is not a key of the issuer ${cred.issuer}`, notes };
+    if (!vmId.startsWith(issuerId + '#')) {
+      return { allow: false, reason: `[proof] verificationMethod ${vmId} is not a key of the issuer ${issuerId}`, notes };
     }
     const { entry } = findAssertionMethodKey(doc, vmId);
     if (!entry.publicKeyMultibase) {

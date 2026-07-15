@@ -7,7 +7,7 @@
 // Rail-specific adapters (wdk-op-policy, mppx-op-account, etc.) import from here
 // instead of maintaining their own vendored core/ copy.
 
-export { verifyCredential, enforceMandate } from './core/verify.js';
+export { verifyCredential, verifyCredentialObject, verifyCredentialCrypto, enforceMandate } from './core/verify.js';
 export type { Verdict } from './core/verify.js';
 
 export { evaluateMandate, parseDecimalScaled } from './core/mandate.js';
