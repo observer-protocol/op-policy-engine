@@ -1,6 +1,6 @@
 {
   "name": "@observer-protocol/policy-engine",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic — verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
   "license": "MIT",
   "type": "module",
@@ -18,7 +18,8 @@
     "dist/",
     "PROVENANCE.md",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
