@@ -194,24 +194,32 @@ await expectDeny('geographic: allowedJurisdictionsOnly → deny (fail-closed)',
 await expectAllow('identity-only mandate (no binding constraints) → allow',
   fullEval('no-constraint', { amount: 500n, to: '0x0000arbitrary' }));
 
-// Unrecognized mandate shape must FAIL CLOSED, not fail open.
-// A credential carrying its constraints under credentialSubject.delegation
-// (delegation.scope with per-rail limits) expresses caps this engine does not
-// read. It must DENY, not allow an over-cap transfer by omission. Distinct from
-// identity-only (which has NO delegation container and legitimately allows).
-{
-  const spendingShapeCred = {
-    credentialSubject: {
-      id: AGENT,
-      actionScope: {},
-      delegationScope: { may_delegate_further: false },
-      enforcementMode: 'pre_transaction_check',
-      delegation: { scope: { spending_limits: { per_rail: { 'test:1': { per_transaction: { max_amount: '100', currency: 'TUNIT' } } } } } },
-    },
-  };
-  await expectDeny('unrecognized mandate shape (delegation.scope.spending_limits) → deny (fail-closed, no silent no-enforce)',
-    enforceMandate(ctx(), spendingShapeCred, cfg('valid'), resolved({ amount: 999999n })), 'failClosed');
-}
+// Spending-delegation shape (rail-parity items 3+4). BOTH halves must hold:
+//   (3) a RECOGNIZED delegation.scope.spending_limits.per_rail is READ + enforced;
+//   (4) an UNRECOGNIZED delegation container still fails closed (the half that
+//       regresses invisibly if the guard is written carelessly).
+const spendingCred = (perRail) => ({
+  credentialSubject: {
+    id: AGENT, actionScope: {}, delegationScope: { may_delegate_further: false },
+    enforcementMode: 'pre_transaction_check',
+    delegation: { scope: { spending_limits: { per_rail: perRail } } },
+  },
+});
+// (3) recognized + in-cap → ALLOW
+await expectAllow('spending_limits.per_rail: 50 under cap 1000 → allow',
+  enforceMandate(ctx(), spendingCred({ 'test:1': { per_transaction: { max_amount: '1000', currency: 'TUNIT' } } }), cfg('valid'), resolved({ amount: 50n })));
+// (3) recognized + over-cap → DENY on the CAP (not failClosed) — the shape is now read
+await expectDeny('spending_limits.per_rail: 999999 over cap 100 → deny [spending-limits]',
+  enforceMandate(ctx(), spendingCred({ 'test:1': { per_transaction: { max_amount: '100', currency: 'TUNIT' } } }), cfg('valid'), resolved({ amount: 999999n })), 'spending-limits');
+// (3) same-currency invariant holds on the spending shape too
+await expectDeny('spending_limits.per_rail: cap TUNIT vs OUNIT transfer → deny (no FX)',
+  enforceMandate(ctx(), spendingCred({ 'test:1': { per_transaction: { max_amount: '1000', currency: 'TUNIT' } } }), cfg('valid'), resolved({ amount: 50n, asset: 'OUNIT' })), 'same-currency');
+// (4) UNRECOGNIZED delegation container (no spending_limits.per_rail) → DENY [failClosed]
+await expectDeny('delegation container without spending_limits.per_rail → deny [failClosed]',
+  enforceMandate(ctx(), { credentialSubject: { id: AGENT, actionScope: {}, delegationScope: { may_delegate_further: false }, enforcementMode: 'pre_transaction_check', delegation: { scope: { something_unrecognized: {} } } } }, cfg('valid'), resolved({ amount: 50n })), 'failClosed');
+// (4) per_asset present → DENY (per-asset enforcement is hosted-only, fail-closed here)
+await expectDeny('spending_limits.per_rail with per_asset → deny (hosted-only, fail-closed)',
+  enforceMandate(ctx(), spendingCred({ 'test:1': { per_transaction: { max_amount: '1000', currency: 'TUNIT' }, per_asset: { 'asset-x': { per_transaction: { max_amount: '10', currency: 'TUNIT' } } } } }), cfg('valid'), resolved({ amount: 50n })), 'per_asset');
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 5: cross-rail generalizes — velocity/temporal/geographic on non-ows rails

@@ -117,6 +117,13 @@ function railMatches(entry: string, railDef: RailDef, chainId: string): boolean 
   return entry === railDef.rail || entry === chainId;
 }
 
+interface DelegationCap { max_amount?: string; currency?: string }
+interface DelegationPerRail {
+  per_transaction?: DelegationCap;
+  per_day?: DelegationCap;
+  per_asset?: Record<string, unknown>;
+}
+
 export function evaluateMandate(
   ctx: PolicyContext,
   cred: ObserverDelegationCredential,
@@ -125,23 +132,10 @@ export function evaluateMandate(
 ): MandateOutcome {
   const notes: string[] = [];
   const subject = cred.credentialSubject;
-
-  // Fail-closed on an unrecognized constraint container. This engine evaluates
-  // constraints under actionScope / tradingMandate / authorizationConfig ONLY.
-  // A credential that instead carries constraints under credentialSubject.delegation
-  // (e.g. delegation.scope with per-rail limits) expresses authority this engine
-  // does not read; enforcing it would silently ignore those limits (fail-open).
-  // Refuse to enforce a mandate we cannot fully read.
-  // NB: identity-only mandates (no binding constraints) carry NO delegation
-  // container and remain allowed. Extend this guard's key set if new
-  // constraint-container shapes are introduced.
-  if ((subject as unknown as Record<string, unknown>).delegation !== undefined) {
-    return deny(
-      '[failClosed] credential carries a credentialSubject.delegation constraint container this engine does not evaluate (unrecognized mandate shape); refusing to enforce a mandate it cannot fully read',
-      notes,
-    );
-  }
-
+  // credentialSubject.delegation (the spending-delegation shape) is handled after
+  // rail mapping + resolved-transfer are available — see the spending_limits block
+  // below. A RECOGNIZED delegation.scope.spending_limits.per_rail shape is read and
+  // enforced; an UNRECOGNIZED delegation container fails closed there.
   const scope = subject.actionScope;
   const tm = subject.tradingMandate;
   const nowMs = Date.parse(ctx.timestamp) || Date.now();
@@ -165,6 +159,60 @@ export function evaluateMandate(
   // decimals), not the chain-native unit.
   notes.push(...resolved.notes);
   const tx = ctx.transaction ?? {};
+
+  // ── Spending-delegation shape (rail-parity items 3+4) ──────────────────────
+  // A credential may carry its constraints under credentialSubject.delegation
+  // .scope.spending_limits.per_rail instead of actionScope/tradingMandate. Read
+  // and enforce the per-rail per_transaction (and per_day) cap here, same-currency,
+  // no FX. RECOGNIZED shape → enforce (item 3). UNRECOGNIZED delegation container,
+  // per_asset (hosted-only), unenforceable transfer, or missing cap → fail closed
+  // (item 4 — replaces the earlier blanket-deny 7337f61: recognized→enforce,
+  // unrecognized→DENY, both hold).
+  const delegation = (subject as unknown as { delegation?: Record<string, unknown> }).delegation;
+  if (delegation !== undefined) {
+    const scopeObj = delegation.scope as Record<string, unknown> | undefined;
+    const spending = scopeObj?.spending_limits as { per_rail?: Record<string, DelegationPerRail> } | undefined;
+    if (!spending || typeof spending !== 'object' || typeof spending.per_rail !== 'object' || spending.per_rail === null) {
+      return deny('[failClosed] credentialSubject.delegation without a recognized scope.spending_limits.per_rail shape — refusing to enforce a mandate it cannot fully read', notes);
+    }
+    const perRail = spending.per_rail[railDef.rail] ?? spending.per_rail[ctx.chain_id];
+    if (!perRail || typeof perRail !== 'object') {
+      return deny(`[spending-limits] no per_rail entry for ${railDef.rail} — no authority on this rail (fail-closed)`, notes);
+    }
+    if (perRail.per_asset !== undefined) {
+      return deny('[spending-limits] per_asset caps are not evaluated by this engine (per-asset enforcement is hosted-only) — fail-closed', notes);
+    }
+    if (resolved.unenforceable) {
+      return deny(`[unenforceable] ${resolved.unenforceable} — spending_limits cap cannot be established`, notes);
+    }
+    const pt = perRail.per_transaction;
+    if (!pt || pt.max_amount === undefined || pt.currency === undefined) {
+      return deny('[spending-limits] per_transaction.{max_amount,currency} required to establish the cap (fail-closed)', notes);
+    }
+    if (resolved.assetSymbol !== undefined && pt.currency !== resolved.assetSymbol) {
+      return deny(`[spending-limits] same-currency invariant: cap currency ${pt.currency} != transferred ${resolved.assetSymbol} (no FX)`, notes);
+    }
+    if (resolved.amount === undefined || resolved.decimals === undefined) {
+      return deny('[spending-limits] transfer amount/decimals unavailable — cannot establish the per_transaction cap (fail-closed)', notes);
+    }
+    const cap = parseDecimalScaled(pt.max_amount, resolved.decimals);
+    if (resolved.amount > cap) {
+      return deny(`[spending-limits] value ${resolved.amount} exceeds per_transaction cap ${pt.max_amount} ${pt.currency} on ${railDef.rail}`, notes);
+    }
+    if (perRail.per_day !== undefined) {
+      const dailyTotal = ctx.spending?.daily_total !== undefined ? parseIntegerValue(ctx.spending.daily_total) : undefined;
+      if (dailyTotal === undefined) {
+        return deny('[spending-limits] per_day cap present but no daily counter supplied — fail-closed', notes);
+      }
+      if (perRail.per_day.max_amount !== undefined) {
+        const dcap = parseDecimalScaled(perRail.per_day.max_amount, resolved.decimals);
+        if (dailyTotal + resolved.amount > dcap) {
+          return deny(`[spending-limits] 24h volume would exceed per_day cap ${perRail.per_day.max_amount} ${perRail.per_day.currency ?? pt.currency} on ${railDef.rail}`, notes);
+        }
+      }
+    }
+    return { ok: true, reason: 'spending_limits satisfied', notes };
+  }
 
   // Which binding constraints require an established amount / recipient?
   const authCfg = subject.authorizationConfig;
