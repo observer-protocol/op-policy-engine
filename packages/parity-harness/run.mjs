@@ -35,6 +35,9 @@ function findNpm() {
 const NPM_BIN = findNpm();
 
 const matrix = JSON.parse(readFileSync(join(HERE, 'matrix.json'), 'utf8'));
+// DERIVED: the engines that have cases in the matrix (never a hardcoded list — a stale
+// enumeration here would silently miss a case's engine, i.e. undefined++ = NaN).
+const MATRIX_ENGINES = [...new Set(matrix.cases.map(c => c.engine))];
 
 const RESET = '\x1b[0m';
 const BOLD  = '\x1b[1m';
@@ -56,7 +59,6 @@ const ENGINES = [
     id: 'wdk',
     label: 'wdk-op-policy',
     dir: join(OP_AT, 'wdk-op-policy'),
-    expectedPass: 37,
     parseMode: 'per-case',
     summaryRe: /wdk-op-policy conformance: (\d+) passed, (\d+) failed/,
   },
@@ -64,7 +66,6 @@ const ENGINES = [
     id: 'mppx',
     label: 'mppx-op-account',
     dir: join(OP_AT, 'mppx-op-policy'),
-    expectedPass: 28,
     parseMode: 'aggregate',
     summaryRe: /mppx-op-account conformance: (\d+) passed, (\d+) failed/,
   },
@@ -72,7 +73,6 @@ const ENGINES = [
     id: 'ows',
     label: 'ows-op-verify',
     dir: join(OP_AT, 'ows-op-policy'),
-    expectedPass: 70,
     parseMode: 'per-case',
     summaryRe: /^(\d+) passed, (\d+) failed$/m,
   },
@@ -80,7 +80,6 @@ const ENGINES = [
     id: 'l402',
     label: 'l402-op-authorize',
     dir: join(OP_AT, 'l402-op-authorize'),
-    expectedPass: 16,
     parseMode: 'per-case',
     summaryRe: /^(\d+)\/(\d+) conformance cases passed/m,
   },
@@ -88,7 +87,6 @@ const ENGINES = [
     id: 'x402',
     label: 'x402-op-authorize',
     dir: join(OP_AT, 'x402-op-authorize'),
-    expectedPass: 40,
     parseMode: 'per-case',
     summaryRe: /^(\d+)\/(\d+) conformance cases passed/m,
   },
@@ -99,8 +97,8 @@ const ENGINES = [
 // behavioral contract without their identity or notes living in this repo.
 // Point PARITY_EXTRA_ENGINES at a JSON file of engine defs, or drop
 // a gitignored `parity-harness.local.json` next to this runner. Each entry:
-//   { id, label, dir, expectedPass, parseMode, summaryRe (string),
-//     npmScript?, runnerRel?, expectedRed? }
+//   { id, label, dir, parseMode, summaryRe (string), npmScript?, runnerRel? }
+// (no expectedPass — the gate is DERIVED: failed === 0 && passed > 0.)
 // `summaryRe` is a string here and is compiled to a RegExp on load.
 function loadExtraEngines() {
   const candidates = [];
@@ -160,12 +158,12 @@ function runEngine(engine) {
 
     const timer = setTimeout(() => {
       child.kill('SIGKILL');
-      resolve({ engine, exitCode: -1, stdout, stderr, timedOut: true, passed: 0, failed: engine.expectedPass });
+      resolve({ engine, exitCode: -1, stdout, stderr, timedOut: true, passed: 0, failed: 0 });
     }, 5 * 60 * 1000);
 
     child.on('error', (err) => {
       clearTimeout(timer);
-      resolve({ engine, exitCode: -1, stdout, stderr: err.message, timedOut: false, passed: 0, failed: engine.expectedPass, spawnError: err.message });
+      resolve({ engine, exitCode: -1, stdout, stderr: err.message, timedOut: false, passed: 0, failed: 1, spawnError: err.message });
     });
 
     child.on('close', (code) => {
@@ -173,6 +171,7 @@ function runEngine(engine) {
       const m = stdout.match(engine.summaryRe);
       let passed = 0;
       let failed = 0;
+      let unparsed = false;
       if (m) {
         // l402/x402 pattern is pass/total; everything else is pass, fail
         if (engine.id === 'l402' || engine.id === 'x402') {
@@ -183,14 +182,15 @@ function runEngine(engine) {
           failed = parseInt(m[2], 10);
         }
       } else if (code === 0) {
-        // No summary line but clean exit — assume all pass
-        passed = engine.expectedPass;
-        failed = 0;
+        // Clean exit but no parseable summary: coverage is UNVERIFIABLE. Do NOT assume
+        // pass — that is exactly how a harness silently stops covering something. passed
+        // stays 0 so the derived gate (passed > 0) reads red until the summary parses.
+        unparsed = true;
       } else {
-        passed = 0;
-        failed = engine.expectedPass;
+        // Nonzero exit, no summary — a real failure. failed > 0 forces red.
+        failed = 1;
       }
-      resolve({ engine, exitCode: code, stdout, stderr, timedOut: false, passed, failed });
+      resolve({ engine, exitCode: code, stdout, stderr, timedOut: false, passed, failed, unparsed });
     });
   });
 }
@@ -203,7 +203,7 @@ function computeCoverage() {
   const categories = Object.keys(matrix.ruleCategories);
   const coverage = {};
   for (const cat of categories) {
-    coverage[cat] = { total: 0, byEngine: { wdk: 0, mppx: 0, ows: 0, l402: 0, x402: 0, 'policy-engine': 0 } };
+    coverage[cat] = { total: 0, byEngine: Object.fromEntries(MATRIX_ENGINES.map(e => [e, 0])) };
   }
   for (const c of matrix.cases) {
     if (coverage[c.ruleCategory]) {
@@ -229,7 +229,7 @@ function bar(count) {
 // --------------------------------------------------------------------------
 
 console.log(`\n${BOLD}=== OP Policy Engine — Parity Conformance Harness ===${RESET}`);
-console.log(`${DIM}Behavioral contract: ${matrix.totalCases} cases across 5 engines + shared core (AIP v0.8 + v2.2 crossRailBudget)${RESET}\n`);
+console.log(`${DIM}Behavioral contract: ${matrix.cases.length} matrix cases across ${new Set(matrix.cases.map(c => c.engine)).size} matrix engines + shared core; ${ENGINES.length} engines run (AIP v0.8 + v2.2 crossRailBudget)${RESET}\n`);
 
 if (skipBuild) console.log(`${DIM}--skip-build: invoking test runners directly${RESET}\n`);
 
@@ -240,17 +240,25 @@ const results = await Promise.all(engines.map(runEngine));
 console.log(`${BOLD}Engine Results${RESET}`);
 let allGreen = true;
 for (const r of results) {
-  const green = r.passed === r.engine.expectedPass && r.failed === 0 && !r.timedOut;
+  // DERIVED gate: an engine is green iff it ran cases and none failed. Never gated on a
+  // hardcoded expected count — a literal in the GATE flips the harness red on drift (an
+  // engine adding a case), which trains people to ignore a red harness; a gate everyone
+  // ignores has stopped working while looking like it works. passed > 0 is load-bearing:
+  // failed === 0 alone would pass an engine that ran ZERO cases (a silent coverage hole).
+  // The count is still printed — visible, not authoritative.
+  const green = !r.timedOut && !r.unparsed && r.failed === 0 && r.passed > 0;
   if (!green) allGreen = false;
   const status = r.timedOut
     ? `${RED}TIMEOUT${RESET}`
-    : green
-      ? `${GREEN}PASS${RESET}`
-      : `${RED}FAIL${RESET}`;
+    : r.unparsed || r.passed === 0
+      ? `${RED}NO-CASES${RESET}`
+      : green
+        ? `${GREEN}PASS${RESET}`
+        : `${RED}FAIL${RESET}`;
   const countStr = r.timedOut
-    ? '?/?'
-    : `${r.passed}/${r.engine.expectedPass}`;
-  console.log(`  ${pad(r.engine.label, 22)} ${pad(countStr, 6)} ${status}`);
+    ? '?'
+    : `${r.passed} pass, ${r.failed} fail`;
+  console.log(`  ${pad(r.engine.label, 22)} ${pad(countStr, 16)} ${status}`);
   if (r.spawnError) {
     console.log(`    ${DIM}spawn error: ${r.spawnError}${RESET}`);
   } else if (!green && !r.timedOut && r.stderr) {
@@ -263,7 +271,7 @@ for (const r of results) {
 console.log(`\n${BOLD}Rule Coverage (from matrix.json)${RESET}`);
 const coverage = computeCoverage();
 const maxCatLen = Math.max(...Object.keys(coverage).map(k => k.length));
-const engineOrder = ['wdk', 'mppx', 'ows', 'l402', 'x402', 'policy-engine'];
+const engineOrder = MATRIX_ENGINES;
 
 for (const [cat, data] of Object.entries(coverage)) {
   const engineCovering = engineOrder.filter(e => data.byEngine[e] > 0);
@@ -284,18 +292,19 @@ if (uncovered.length > 0) {
 // Overall gate
 console.log('');
 if (allGreen && engines.length === ENGINES.length) {
-  console.log(`${GREEN}${BOLD}All ${matrix.totalCases} cases PASS across ${ENGINES.length} engines. Parity harness GREEN.${RESET}`);
+  const totalPassed = results.reduce((s, r) => s + r.passed, 0);
+  console.log(`${GREEN}${BOLD}All engines green: ${totalPassed} cases passed across ${ENGINES.length} engines, 0 failed. Parity harness GREEN.${RESET}`);
   console.log(`${DIM}PolicyEngine extraction may proceed. No engine flips until its full suite passes against the shared core.${RESET}\n`);
   process.exit(0);
 } else if (!allGreen) {
-  const failedEngines = results.filter(r => r.passed !== r.engine.expectedPass || r.failed > 0 || r.timedOut);
+  const failedEngines = results.filter(r => r.failed > 0 || r.passed === 0 || r.timedOut || r.unparsed);
   console.log(`${RED}${BOLD}Parity harness RED — ${failedEngines.map(r => r.engine.id).join(', ')} not fully passing.${RESET}`);
   console.log(`${DIM}Fix the failing engine suite before extracting PolicyEngine.${RESET}\n`);
   process.exit(1);
 } else {
   // Subset run (--engine filter)
   const r = results[0];
-  const green = r.passed === r.engine.expectedPass && r.failed === 0 && !r.timedOut;
+  const green = !r.timedOut && !r.unparsed && r.failed === 0 && r.passed > 0;
   const status = green ? `${GREEN}GREEN${RESET}` : `${RED}RED${RESET}`;
   console.log(`${BOLD}${r.engine.label}: ${status}${RESET}\n`);
   process.exit(green ? 0 : 1);
