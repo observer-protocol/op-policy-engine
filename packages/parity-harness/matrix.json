@@ -1,7 +1,7 @@
 {
   "version": "6",
   "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8 + v2.3 crossRailBudget). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND→LINK→AUTHORIZE gate cases. Step 5 (x402/G8): +40 x402-op-authorize engine cases (5th engine) + 4 l402 crossRailBudget cases + 5 core crossRailBudget cases. Step 6 (TRON/three-rail): +11 wdk TRON cases (structured TRC-20 decode, exact-case base58 counterparty, TRON velocity, shared-ledger crossRailBudget) + 3 core counterparty-case-discipline cases (base58 exact vs EVM folded). Total: 245 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
-  "totalCases": 245,
+  "_totalCases": "DERIVED at runtime from cases.length (run.mjs); not stored. A stored count drifts and misleads the next person who greps it — this harness read red for ~2 days (2026-07-15 17:06 onward) on exactly that class of stale count.",
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
