@@ -43,6 +43,16 @@ export {
 } from './core/cross-rail.js';
 export type { CrossRailSpend, CrossRailTotal } from './core/cross-rail.js';
 
+// Core version stamp (derived from package.json at build time, travels inside the
+// bundle) + the ledger-safety self-check an adapter can run at init.
+export {
+  CORE_VERSION,
+  LEDGER_SAFE_FLOOR,
+  compareCoreVersion,
+  assertLedgerCoreSafe,
+} from './core/version.js';
+export type { LedgerCoreStatus } from './core/version.js';
+
 // Adapter utilities — used by rail-specific engines after the core flip.
 // Rail-specific decode (resolveTransfer, evmtx, soltx) stays in each engine.
 export { appendAudit } from './core/audit.js';

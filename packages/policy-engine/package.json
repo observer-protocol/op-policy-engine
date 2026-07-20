@@ -1,6 +1,6 @@
 {
   "name": "@observer-protocol/policy-engine",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic — verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
   "license": "MIT",
   "type": "module",
@@ -22,10 +22,10 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
     "typecheck": "tsc --noEmit",
     "fixtures": "node test/fixtures/gen.mjs",
-    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs",
+    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs && node test/version-stamp.mjs",
     "prepublishOnly": "npm run typecheck && npm test"
   },
   "repository": {
