@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { randomBytes } from 'node:crypto';
+import { hostname } from 'node:os';
 import { parseDecimalScaled } from './mandate.js';
 
 // Cross-rail budget accounting (G8): one rolling-24h budget consumed across
@@ -32,15 +32,25 @@ const RESERVE_TTL_MS = 5 * 60 * 1000;
 // OP a misconfiguration resolves toward MORE spending. This guard makes a
 // concurrent writer fail CLOSED instead.
 //
-// Identity is per PROCESS, not per CrossRailLedger object: the legitimate
-// co-located case is N adapters (N ledger objects) sharing ONE path in ONE
-// process, so all of them must read as the SAME writer. `pid` alone is not
-// enough (pid reuse / networked paths across hosts), so we append a random
-// per-process nonce. PROCESS_START_MS distinguishes "a second process writing
-// concurrently" (DENY) from "this process's own records from a prior run after
-// a restart" and "older history from a previous writer" (both legitimate to
-// count): a foreign writer is contention ONLY if it wrote at/after we started.
-const PROCESS_INSTANCE = `${process.pid}-${randomBytes(6).toString('hex')}`;
+// Identity must be per OS PROCESS and STABLE across every copy of this module in
+// that process — because the legitimate co-located case is N adapters sharing
+// ONE ledger path in ONE process, and each adapter BUNDLES its own copy of this
+// package (esbuild --bundle), so one process holds several independent module
+// instances. A per-module random nonce would give each bundled copy a different
+// id and make the co-located adapters read as concurrent strangers — false
+// contention on the exact case we exist to serve. So the id is `hostname:pid`:
+//   • same across all bundled/duplicated module instances in one process (both
+//     hostname() and pid are process-global) → co-located adapters never contend;
+//   • distinct across genuinely different processes (pids are unique among live
+//     processes; hostname disambiguates same-pid collisions on a shared/NFS path
+//     across hosts) → a real second writer is caught.
+// PROCESS_START_MS distinguishes a concurrent writer (DENY) from this host/pid's
+// OWN prior-run records after a restart, a reused pid, or a serverless cold-start
+// on the same path (all legitimate to count): a foreign writer is contention ONLY
+// if it wrote at/after we started. Known edge: two containers with identical
+// hostname AND identical pid sharing a volume would not be distinguished — an
+// unusual shared-volume topology; documented, not defended here.
+const PROCESS_INSTANCE = `${hostname()}:${process.pid}`;
 const PROCESS_START_MS = Date.now();
 
 /** Thrown when a second writer is detected on the same ledger path concurrently
