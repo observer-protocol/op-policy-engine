@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
+import { randomBytes } from 'node:crypto';
 import { parseDecimalScaled } from './mandate.js';
 
 // Cross-rail budget accounting (G8): one rolling-24h budget consumed across
@@ -23,6 +24,51 @@ const RATE_SCALE = 12;
 const WINDOW_MS = 24 * 60 * 60 * 1000;
 const PRUNE_AFTER_MS = 25 * 60 * 60 * 1000;
 const RESERVE_TTL_MS = 5 * 60 * 1000;
+
+// ─── Single-writer guard (fail-closed on concurrent writers) ────────────────
+// The file ledger is a single-writer substrate: rewrite() (commit/release/
+// prune) is read-all→temp→rename, which RACES across processes and silently
+// under-counts (drops the other writer's committed spends) — the one place in
+// OP a misconfiguration resolves toward MORE spending. This guard makes a
+// concurrent writer fail CLOSED instead.
+//
+// Identity is per PROCESS, not per CrossRailLedger object: the legitimate
+// co-located case is N adapters (N ledger objects) sharing ONE path in ONE
+// process, so all of them must read as the SAME writer. `pid` alone is not
+// enough (pid reuse / networked paths across hosts), so we append a random
+// per-process nonce. PROCESS_START_MS distinguishes "a second process writing
+// concurrently" (DENY) from "this process's own records from a prior run after
+// a restart" and "older history from a previous writer" (both legitimate to
+// count): a foreign writer is contention ONLY if it wrote at/after we started.
+const PROCESS_INSTANCE = `${process.pid}-${randomBytes(6).toString('hex')}`;
+const PROCESS_START_MS = Date.now();
+
+/** Thrown when a second writer is detected on the same ledger path concurrently
+ * with this process. Fail-closed: callers MUST treat this as a DENY, never as a
+ * zero/low counter. The single-writer contract is deliberate — for a budget
+ * shared across processes/hosts, use a shared-counter service, not this file. */
+export class ObserverLedgerContentionError extends Error {
+  constructor(public readonly foreignWriter: string) {
+    super(
+      `cross-rail ledger contention: a second writer (${foreignWriter}) wrote the same ledger path ` +
+        `concurrently with this process (${PROCESS_INSTANCE}). The file ledger is single-writer per path ` +
+        `(rewrite races and under-counts across writers); refusing to race — fail-closed. Co-locate every ` +
+        `adapter sharing a budget in ONE process against ONE path, or use a shared-counter service for multi-process.`,
+    );
+    this.name = 'ObserverLedgerContentionError';
+  }
+}
+
+/** A record is a concurrent foreign writer iff it carries a writer id that is
+ * NOT ours AND was written at/after this process started. Records with no `w`
+ * (legacy files) and foreign records older than our start (prior sessions /
+ * pre-existing history) are legitimate and counted normally — the honest case,
+ * including a single writer that restarted, is unchanged. */
+function concurrentForeign(e: { w?: unknown; ts?: unknown }): string | null {
+  return typeof e.w === 'string' && e.w !== PROCESS_INSTANCE && typeof e.ts === 'number' && e.ts >= PROCESS_START_MS
+    ? e.w
+    : null;
+}
 
 /** Convert a raw asset amount into budget-currency units at CROSS_RAIL_SCALE,
  * using a principal-attested decimal rate (price of 1 whole asset unit in the
@@ -53,6 +99,8 @@ interface LedgerLine extends CrossRailSpend {
   state: 'committed' | 'reserved';
   reserveId?: string;
   expiresAt?: number;
+  /** Writer identity (per-process). Absent on legacy records. */
+  w?: string;
   [k: string]: unknown;
 }
 
@@ -77,14 +125,14 @@ export class CrossRailLedger {
   /** Record a committed spend immediately (signer-boundary path: the signature
    * IS the spend commitment — settlement timing is the facilitator's). */
   record(spend: CrossRailSpend): void {
-    this.append({ ...spend, ts: Date.now(), state: 'committed' });
+    this.append({ ...spend, ts: Date.now(), state: 'committed', w: PROCESS_INSTANCE });
   }
 
   /** Reserve budget headroom before an out-of-process payment executes.
    * Counted by sums immediately; expires after 5 minutes if abandoned. */
   reserve(spend: CrossRailSpend): string {
     const reserveId = Date.now().toString(36) + Math.random().toString(36).slice(2);
-    this.append({ ...spend, ts: Date.now(), state: 'reserved', reserveId, expiresAt: Date.now() + RESERVE_TTL_MS });
+    this.append({ ...spend, ts: Date.now(), state: 'reserved', reserveId, expiresAt: Date.now() + RESERVE_TTL_MS, w: PROCESS_INSTANCE });
     return reserveId;
   }
 
@@ -110,16 +158,22 @@ export class CrossRailLedger {
    * budget. */
   sumWindowConverted(rates: Record<string, string>, nowMs = Date.now()): CrossRailTotal {
     let total = 0n;
-    for (const e of this.window(nowMs)) {
-      const rate = rates[e.asset];
-      if (rate === undefined) {
-        return { ok: false, reason: `ledger holds an in-window ${e.asset} spend (rail ${e.rail}) with no principal-attested rate in the mandate — cross-rail total cannot be established` };
+    try {
+      for (const e of this.window(nowMs)) {
+        const rate = rates[e.asset];
+        if (rate === undefined) {
+          return { ok: false, reason: `ledger holds an in-window ${e.asset} spend (rail ${e.rail}) with no principal-attested rate in the mandate — cross-rail total cannot be established` };
+        }
+        try {
+          total += convertToBudgetUnits(BigInt(e.amountRaw), e.decimals, rate);
+        } catch (err) {
+          return { ok: false, reason: `ledger entry unparseable (${(err as Error).message}) — cross-rail total cannot be established` };
+        }
       }
-      try {
-        total += convertToBudgetUnits(BigInt(e.amountRaw), e.decimals, rate);
-      } catch (err) {
-        return { ok: false, reason: `ledger entry unparseable (${(err as Error).message}) — cross-rail total cannot be established` };
-      }
+    } catch (err) {
+      // A concurrent second writer on this path is fail-closed, not a low total.
+      if (err instanceof ObserverLedgerContentionError) return { ok: false, reason: err.message };
+      throw err;
     }
     return { ok: true, total };
   }
@@ -128,7 +182,9 @@ export class CrossRailLedger {
    * ctx.spending.daily_total. Rolling 24h is a superset of the calendar-day
    * counter the velocity note documents, so the cap trips early, never late.
    * Entries that do not parse are skipped here (they cannot lower a same-asset
-   * sum; the binding cross-rail path above still fails closed on them). */
+   * sum; the binding cross-rail path above still fails closed on them).
+   * @throws ObserverLedgerContentionError if a second writer is detected on this
+   * path — callers MUST treat the throw as a DENY (never a zero counter). */
   sumWindowRaw(asset: string, nowMs = Date.now()): bigint {
     let total = 0n;
     for (const e of this.window(nowMs)) {
@@ -170,6 +226,8 @@ export class CrossRailLedger {
       if (typeof e.ts !== 'number' || e.ts < cutoff) continue;
       if (e.state !== 'committed' && e.state !== 'reserved') continue;
       if (e.state === 'reserved' && e.expiresAt !== undefined && e.expiresAt < nowMs) continue;
+      const foreign = concurrentForeign(e);
+      if (foreign) throw new ObserverLedgerContentionError(foreign);
       yield e;
     }
   }
@@ -188,12 +246,25 @@ export class CrossRailLedger {
     const kept: string[] = [];
     for (const line of raw.split('\n')) {
       if (!line.trim()) continue;
+      let parsed: LedgerLine;
       try {
-        const out = transform(JSON.parse(line) as LedgerLine);
-        if (out !== null) kept.push(JSON.stringify(out));
+        parsed = JSON.parse(line) as LedgerLine;
+      } catch {
+        kept.push(line); // corrupt line preserved verbatim
+        continue;
+      }
+      // Never clobber a file a second writer is also mutating: fail closed
+      // BEFORE the temp-write/rename that would drop their committed spends.
+      const foreign = concurrentForeign(parsed);
+      if (foreign) throw new ObserverLedgerContentionError(foreign);
+      let out: LedgerLine | null;
+      try {
+        out = transform(parsed);
       } catch {
         kept.push(line);
+        continue;
       }
+      if (out !== null) kept.push(JSON.stringify(out));
     }
     const tmp = this.path + '.tmp';
     writeFileSync(tmp, kept.join('\n') + (kept.length ? '\n' : ''), { encoding: 'utf8', mode: 0o600 });

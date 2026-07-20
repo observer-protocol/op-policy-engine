@@ -36,6 +36,7 @@ export type {
 // gates write to, plus the oracle-free conversion helpers the evaluator uses.
 export {
   CrossRailLedger,
+  ObserverLedgerContentionError,
   convertToBudgetUnits,
   formatBudgetUnits,
   CROSS_RAIL_SCALE,
