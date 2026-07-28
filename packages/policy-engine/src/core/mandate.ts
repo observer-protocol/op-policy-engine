@@ -7,6 +7,7 @@ import type {
   VerifierConfig,
 } from './types.js';
 import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cross-rail.js';
+import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, declaredUnenforceable } from './vocabulary.js';
 
 // Mandate enforcement against the OWS PolicyContext.
 //
@@ -22,8 +23,11 @@ import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cro
 // acceptance is categorically worse than wrongful rejection. Advisory
 // fields (per AIP v0.8: cumulative_budget, actionScope.geographic_restriction)
 // never ground a deny. Note: allowed_counterparty_types has no enforcement
-// path and is NOT in the advisory allowlist — any mandate that sets it is
-// DENIED via the unknown-rule catch-all.
+// path and is NOT in the advisory allowlist. Any mandate that sets it is
+// DENIED, now via the DECLARED_UNENFORCEABLE path in vocabulary.ts rather than
+// the generic unknown-rule catch-all: the published schemas accept the field,
+// so the issuer is told it is declared-but-unenforceable instead of being told
+// the engine does not recognize a field its own schema permits.
 
 export interface MandateOutcome {
   ok: boolean;
@@ -325,12 +329,17 @@ export function evaluateMandate(
   // 6b. Unknown/unrecognized actionScope fields — fail-closed.
   // AIP v0.8 §1.2-§1.3 explicitly lists advisory fields; everything else is binding.
   // A binding constraint this verifier cannot evaluate is a DENY.
-  const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
-    'allowed_rails', 'per_transaction_ceiling', 'allowed_transaction_categories',
-    'cumulative_budget', 'geographic_restriction',
-  ]);
+  //
+  // Two denial shapes, same outcome, different cause. A property the published
+  // schema ACCEPTS but no engine enforces is declared-unenforceable and says so;
+  // anything else is genuinely unrecognized. Both deny — an issuer who writes a
+  // schema-valid field deserves to be told which of the two happened.
   for (const key of Object.keys(scope)) {
     if (!KNOWN_SCOPE_KEYS.has(key)) {
+      const known = declaredUnenforceable('actionScope', key);
+      if (known) {
+        return deny(`[unenforceable] actionScope.${key}: ${known.reason}`, notes);
+      }
       return deny(
         `[unknown-rule] unrecognized actionScope constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,
         notes,
@@ -564,12 +573,12 @@ export function evaluateMandate(
     // Fail-closed: unrecognized tradingMandate fields are treated as binding constraints
     // we cannot evaluate. Order-plane fields are in the known set and handled above (surfaced
     // as NOT-ENFORCED notes). Anything beyond the known set DENIES.
-    const KNOWN_TM_KEYS: ReadonlySet<string> = new Set([
-      'unit', 'maxNotionalPerOrder', 'counterparty', 'temporal', 'geographic', 'velocity',
-      'allowedVenues', 'allowedInstruments', 'maxPosition', 'dailyDrawdownCap', 'crossRailBudget',
-    ]);
     for (const key of Object.keys(tm)) {
       if (!KNOWN_TM_KEYS.has(key)) {
+        const known = declaredUnenforceable('tradingMandate', key);
+        if (known) {
+          return deny(`[unenforceable] tradingMandate.${key}: ${known.reason}`, notes);
+        }
         return deny(
           `[unknown-rule] unrecognized tradingMandate constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,
           notes,

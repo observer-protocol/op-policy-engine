@@ -13,6 +13,12 @@ export type { Verdict, CredentialChecks } from './core/verify.js';
 export { evaluateMandate, parseDecimalScaled } from './core/mandate.js';
 export type { MandateOutcome } from './core/mandate.js';
 
+// The constraint vocabulary, as data. Exported so the schema-vs-engine
+// conformance check can diff the published delegation schemas against what this
+// engine actually recognizes, instead of against a code comment.
+export { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, DECLARED_UNENFORCEABLE, declaredUnenforceable } from './core/vocabulary.js';
+export type { DeclaredUnenforceable } from './core/vocabulary.js';
+
 export { runRuntimeAdapter } from './core/runtime-adapter.js';
 export type { RuntimeAdapterConfig, IssuanceMode } from './core/runtime-adapter.js';
 

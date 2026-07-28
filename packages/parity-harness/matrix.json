@@ -1451,7 +1451,7 @@
     {
       "id": "pe-038",
       "engine": "policy-engine",
-      "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path, unknown-rule)",
+      "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path; tagged unenforceable, NOT unknown-rule — the published schemas accept this property)",
       "ruleCategory": "failClosed",
       "ruleField": "allowedCounterpartyTypes",
       "outcome": "deny"

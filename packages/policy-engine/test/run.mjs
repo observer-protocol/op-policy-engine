@@ -62,6 +62,16 @@ async function expectAllow(name, verdictOrPromise) {
   const v = await verdictOrPromise;
   assert(name, v.allow === true, v.allow ? '' : v.reason);
 }
+/** Assert a DENY whose reason does NOT contain a fragment. Used where the
+ * distinction between two denial tags is itself the property under test: the
+ * outcome being right is not enough if the stated cause is wrong. */
+async function expectDenyNotReason(name, verdictOrPromise, forbiddenFragment) {
+  const v = await verdictOrPromise;
+  const absent = !(v.reason ?? '').toLowerCase().includes(forbiddenFragment.toLowerCase());
+  assert(name, v.allow === false && absent,
+    v.allow ? 'expected DENY but got ALLOW' : `reason "${v.reason}" must not contain "${forbiddenFragment}"`);
+}
+
 async function expectDeny(name, verdictOrPromise, reasonFragment) {
   const v = await verdictOrPromise;
   const reasonOk = !reasonFragment || (v.reason ?? '').toLowerCase().includes(reasonFragment.toLowerCase());
@@ -346,9 +356,18 @@ await expectAllow('advisory/l402: cumulative_budget + geographic_restriction on 
   evalOnRail('cr-advisory-fields', 'test:l402', { amount: 50n }));
 
 // allowed_counterparty_types: fail-closed — no enforcement path, named "allowed" implies enforcement.
-// A mandate that sets it DENIES via the unknown-rule catch-all.
-await expectDeny('failClosed/allowed_counterparty_types: no enforcement path → deny (unknown-rule)',
+// A mandate that sets it DENIES. The tag is [unenforceable], NOT [unknown-rule]:
+// the published schemas v2.1/v2.3/v2.4 ACCEPT this property and AIP v0.8 §1.3
+// recommended it, so reporting it as unrecognized told the issuer nothing about
+// why a schema-valid credential was refused. Outcome unchanged; cause legible.
+await expectDeny('failClosed/allowed_counterparty_types: no enforcement path → deny (unenforceable)',
+  evalOnRail('fc-allowed-cpty-types', 'test:1', { amount: 50n }), 'unenforceable');
+// The distinction is load-bearing, so assert it does NOT regress to the generic tag.
+await expectDenyNotReason('failClosed/allowed_counterparty_types: NOT reported as unknown-rule',
   evalOnRail('fc-allowed-cpty-types', 'test:1', { amount: 50n }), 'unknown-rule');
+// A genuinely unrecognized actionScope key still takes the generic path.
+await expectDeny('failClosed/unknown actionScope key → deny (unknown-rule)',
+  evalOnRail('fc-unknown-scope-rule', 'test:1', { amount: 50n }), 'unknown-rule');
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 7: expanded fail-closed garbage set

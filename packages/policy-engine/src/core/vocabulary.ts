@@ -1,0 +1,86 @@
+// The constraint vocabulary this engine recognizes, as data.
+//
+// These sets were literals inside evaluateMandate, which made them invisible
+// to anything outside the evaluator. That is how `allowed_counterparty_types`
+// stayed broken: AIP v0.8 §1.3 defines it, §125 lists it in the CLOSED
+// actionScope property set, §121 tells issuers they SHOULD use it, and all
+// three published schemas accept it — while this engine denied every credential
+// carrying it through the generic unknown-rule catch-all. Nothing could compare
+// the schema's property list against the evaluator's, because the evaluator's
+// was not a list anyone could read.
+//
+// So the vocabulary is exported, and the schema-vs-engine conformance check
+// diffs these against the published schemas rather than against a code comment.
+//
+// Adding a key here is a behavioural change: an unrecognized key is a DENY, so
+// moving a key into KNOWN_* turns a denial into an evaluation. Never widen these
+// to make a test pass.
+
+/** `actionScope` properties this engine recognizes. Anything else DENIES via the
+ * unknown-rule catch-all (fail-closed per AIP v0.8). */
+export const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
+  'allowed_rails',
+  'per_transaction_ceiling',
+  'allowed_transaction_categories',
+  'cumulative_budget',
+  'geographic_restriction',
+]);
+
+/** `tradingMandate` properties this engine recognizes. Order-plane entries
+ * (allowedVenues, allowedInstruments, maxPosition, dailyDrawdownCap) are
+ * recognized-but-NOT-ENFORCED here and surface as notes; see mandate.ts §8. */
+export const KNOWN_TM_KEYS: ReadonlySet<string> = new Set([
+  'unit',
+  'maxNotionalPerOrder',
+  'counterparty',
+  'temporal',
+  'geographic',
+  'velocity',
+  'allowedVenues',
+  'allowedInstruments',
+  'maxPosition',
+  'dailyDrawdownCap',
+  'crossRailBudget',
+]);
+
+/** A property that appears in a published schema, and that this engine
+ * deliberately does not enforce. Distinct from an unknown key: the issuer
+ * wrote something the schema permits, so the denial should name the reason
+ * rather than report the key as unrecognized. */
+export interface DeclaredUnenforceable {
+  /** Where the property lives. */
+  container: 'actionScope' | 'tradingMandate' | 'delegation.scope.spending_limits';
+  property: string;
+  /** Why it is not enforced, rendered into the denial reason. */
+  reason: string;
+}
+
+/** Properties the published schemas accept and this engine will not evaluate.
+ *
+ * These DENY, like any binding constraint the evaluator cannot establish. The
+ * difference from the unknown-rule path is legibility: the issuer is told the
+ * property is declared-but-unenforceable and why, instead of being told the
+ * engine has never heard of a field its own schema accepts. */
+export const DECLARED_UNENFORCEABLE: readonly DeclaredUnenforceable[] = [
+  {
+    container: 'actionScope',
+    property: 'allowed_counterparty_types',
+    reason:
+      'declared in AIP v0.8 §1.3 and accepted by delegation schemas v2.1/v2.3/v2.4, but no enforcement path exists in any Observer Protocol engine. Withdrawn from the vocabulary at delegation v2.5; the AIP §1.3 recommendation to encode merchant taxonomy through this field is retracted. Credentials already issued against v2.1/v2.3/v2.4 carrying it will continue to deny',
+  },
+  {
+    container: 'delegation.scope.spending_limits',
+    property: 'per_asset',
+    reason:
+      'per-asset caps are not evaluated by this engine (out of scope); the enforced path is per_rail.per_transaction',
+  },
+];
+
+/** Lookup used by the evaluator to choose between the `[unenforceable]` and
+ * `[unknown-rule]` denial tags. */
+export function declaredUnenforceable(
+  container: DeclaredUnenforceable['container'],
+  property: string,
+): DeclaredUnenforceable | undefined {
+  return DECLARED_UNENFORCEABLE.find((d) => d.container === container && d.property === property);
+}

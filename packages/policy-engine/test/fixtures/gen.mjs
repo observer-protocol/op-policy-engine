@@ -186,7 +186,9 @@ credentials['cr-advisory-fields'] = sign(base({ subject: {
 } }));
 
 // fail-closed: allowed_counterparty_types is no longer advisory — it has no enforcement path,
-// naming it "allowed" implies enforcement. Any mandate that sets it DENIES via unknown-rule.
+// naming it "allowed" implies enforcement. Any mandate that sets it DENIES, tagged
+// [unenforceable] rather than [unknown-rule]: the published schemas accept the property,
+// so "unrecognized" would be a false statement about a schema-valid credential.
 credentials['fc-allowed-cpty-types'] = sign(base({ subject: {
   actionScope: { allowed_rails: ALL_TEST_RAILS, allowed_counterparty_types: ['merchant'] },
   tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
