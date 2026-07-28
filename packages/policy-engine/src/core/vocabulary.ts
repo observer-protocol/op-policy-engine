@@ -65,8 +65,12 @@ export const DECLARED_UNENFORCEABLE: readonly DeclaredUnenforceable[] = [
   {
     container: 'actionScope',
     property: 'allowed_counterparty_types',
+    // Deliberately names no unminted schema version. An earlier draft said
+    // "withdrawn at v2.5", which would ship stale the moment the reservation
+    // set moved. The frozen schema versions that ACCEPT the property are facts
+    // and safe to name; the version that drops it is not yet one.
     reason:
-      'declared in AIP v0.8 §1.3 and accepted by delegation schemas v2.1/v2.3/v2.4, but no enforcement path exists in any Observer Protocol engine. Withdrawn from the vocabulary at delegation v2.5; the AIP §1.3 recommendation to encode merchant taxonomy through this field is retracted. Credentials already issued against v2.1/v2.3/v2.4 carrying it will continue to deny',
+      'declared in AIP v0.8 §1.3 and accepted by delegation schemas v2.1/v2.3/v2.4, but no enforcement path exists in any Observer Protocol engine and none is planned. The property is withdrawn from the constraint vocabulary, and the AIP §1.3 recommendation to encode a merchant taxonomy through it is retracted. Credentials issued against a schema version that accepts it will continue to deny',
   },
   {
     container: 'delegation.scope.spending_limits',
