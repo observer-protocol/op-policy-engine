@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { guardedFetch } from './url-guard.js';
 import { join } from 'node:path';
 import { sha256 } from './crypto.js';
 
@@ -22,24 +23,22 @@ export function didWebToUrl(did: string): string {
   const parts = rest.split(':').map((p) => decodeURIComponent(p));
   const host = parts[0];
   if (!host) throw new Error(`malformed did:web DID: ${did}`);
-  // https always, except loopback hosts (local development/testing per the
-  // did:web spec's localhost allowance).
-  const bare = host.split(':')[0];
-  const scheme = bare === 'localhost' || bare === '127.0.0.1' ? 'http' : 'https';
-  if (parts.length === 1) return `${scheme}://${host}/.well-known/did.json`;
-  return `${scheme}://${host}/${parts.slice(1).join('/')}/did.json`;
+  // https ALWAYS. The did:web spec's localhost allowance used to be honoured
+  // here by downgrading to plain http for `localhost` / `127.0.0.1`, which put
+  // an unencrypted loopback dial one credential away from an engine that also
+  // dereferences credential-supplied URLs. The guard refuses loopback anyway,
+  // so the downgrade bought nothing except a second door into the same room.
+  // Local development uses config.offline.didDocumentPath, which is the
+  // supported air-gapped/test path and needs no network at all.
+  if (parts.length === 1) return `https://${host}/.well-known/did.json`;
+  return `https://${host}/${parts.slice(1).join('/')}/did.json`;
 }
 
+// Every outbound dereference in this engine goes through the URL guard: scheme,
+// address class, and a re-check on every redirect hop. See url-guard.ts for what
+// it does and does not close.
 async function fetchWithTimeout(url: string, timeoutMs: number): Promise<string> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, { signal: controller.signal, redirect: 'follow' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.text();
-  } finally {
-    clearTimeout(timer);
-  }
+  return guardedFetch(url, timeoutMs);
 }
 
 function cachePathFor(cacheDir: string, url: string): string {

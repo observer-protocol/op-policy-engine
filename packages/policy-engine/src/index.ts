@@ -61,6 +61,10 @@ export type { LedgerCoreStatus } from './core/version.js';
 
 // Adapter utilities — used by rail-specific engines after the core flip.
 // Rail-specific decode (resolveTransfer, evmtx, soltx) stays in each engine.
+// Outbound-fetch guard. Exported so adapters and hosted verifiers can apply the
+// same refusal set to any URL they dereference, rather than each inventing one.
+export { guardedFetch, assertFetchableUrl, blockedAddressReason, didWebOrigin, ObserverUrlRefusedError } from './core/url-guard.js';
+
 export { appendAudit } from './core/audit.js';
 export { parseConfig } from './core/config.js';
 export { DEFAULT_EVM_TOKENS, DEFAULT_SOLANA_MINTS, SOLANA_PROGRAMS, SOLANA_BENIGN_PROGRAMS } from './core/tokens.js';
