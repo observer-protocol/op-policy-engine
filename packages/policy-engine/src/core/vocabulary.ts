@@ -49,7 +49,7 @@ export const KNOWN_TM_KEYS: ReadonlySet<string> = new Set([
  * rather than report the key as unrecognized. */
 export interface DeclaredUnenforceable {
   /** Where the property lives. */
-  container: 'actionScope' | 'tradingMandate' | 'delegation.scope.spending_limits';
+  container: 'actionScope' | 'tradingMandate' | 'delegation.scope.spending_limits' | 'authorizationConfig.policy';
   property: string;
   /** Why it is not enforced, rendered into the denial reason. */
   reason: string;
@@ -71,6 +71,12 @@ export const DECLARED_UNENFORCEABLE: readonly DeclaredUnenforceable[] = [
     // and safe to name; the version that drops it is not yet one.
     reason:
       'declared in AIP v0.8 §1.3 and accepted by delegation schemas v2.1/v2.3/v2.4, but no enforcement path exists in any Observer Protocol engine and none is planned. The property is withdrawn from the constraint vocabulary, and the AIP §1.3 recommendation to encode a merchant taxonomy through it is retracted. Credentials issued against a schema version that accepts it will continue to deny',
+  },
+  {
+    container: 'authorizationConfig.policy',
+    property: 'escalation_threshold',
+    reason:
+      'declared here in the v2.1 lineage and never enforced: the evaluator emitted a NOTE saying human notification was expected upstream, which silently auto-approved every payment between the threshold and the per-transaction ceiling. Relocated to actionScope.escalationThreshold, which is an enumerated surface where an unknown key fails closed, and which requires actionScope.approvers so the band has somewhere to route. A credential declaring the old field names a constraint no evaluator honours, so it is refused rather than noted',
   },
   {
     container: 'delegation.scope.spending_limits',

@@ -366,6 +366,16 @@ await expectDeny('failClosed/allowed_counterparty_types: no enforcement path →
 await expectDenyNotReason('failClosed/allowed_counterparty_types: NOT reported as unknown-rule',
   evalOnRail('fc-allowed-cpty-types', 'test:1', { amount: 50n }), 'unknown-rule');
 // A genuinely unrecognized actionScope key still takes the generic path.
+// escalation_threshold at its OLD location: was a NOTE that silently auto-approved the
+// whole band between the threshold and the ceiling. Now [unenforceable], and the
+// must-still-pass half asserts the same shape WITHOUT the field still allows.
+await expectDeny('failClosed/old escalation_threshold location → deny (unenforceable)',
+  evalOnRail('old-escalation', 'test:1', { amount: 50n }), 'unenforceable');
+await expectDenyNotReason('failClosed/old escalation_threshold: NOT reported as unknown-rule',
+  evalOnRail('old-escalation', 'test:1', { amount: 50n }), 'unknown-rule');
+await expectAllow('policy shape WITHOUT escalation_threshold → allow (must still pass)',
+  evalOnRail('policy-no-escalation', 'test:1', { amount: 50n }));
+
 await expectDeny('failClosed/unknown actionScope key → deny (unknown-rule)',
   evalOnRail('fc-unknown-scope-rule', 'test:1', { amount: 50n }), 'unknown-rule');
 

@@ -437,11 +437,18 @@ export function evaluateMandate(
     if (pol.rail_preference && !pol.rail_preference.some((r) => railMatches(r, railDef, ctx.chain_id))) {
       notes.push(`rail ${railDef.rail} is outside the policy rail_preference list (preference ordering is advisory)`);
     }
-    if (pol.escalation_threshold?.amount && pol.escalation_threshold.currency === asset) {
-      const th = parseDecimalScaled(pol.escalation_threshold.amount, decimals);
-      if ((value as bigint) > th) {
-        notes.push(`transaction exceeds escalation_threshold ${pol.escalation_threshold.amount} ${asset} — human notification expected upstream (not performed by this verifier)`);
-      }
+    if (pol.escalation_threshold !== undefined) {
+      // Was a NOTE: "human notification expected upstream (not performed by this
+      // verifier)". A note here silently auto-approved every payment between the
+      // threshold and the per-transaction ceiling, in a field already issuable
+      // against v2.1/v2.3/v2.4. The enforced path is actionScope.escalationThreshold,
+      // which sits on an enumerated surface and requires actionScope.approvers so the
+      // band has somewhere to route.
+      const known = declaredUnenforceable('authorizationConfig.policy', 'escalation_threshold');
+      return deny(
+        `[unenforceable] authorizationConfig.policy.escalation_threshold: ${known?.reason ?? 'not enforced at this layer'}`,
+        notes,
+      );
     }
   }
 

@@ -233,6 +233,23 @@ credentials['velocity'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT'
 // tripped if one rolling-24h window exceeded it.
 credentials['velocity-monthly'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT', velocity: { dailyVolumeCap: 100, monthlyVolumeCap: 1000 }, maxNotionalPerOrder: 100 } } }));
 
+// authorizationConfig.policy.escalation_threshold at its OLD location. Issuable
+// against v2.1/v2.3/v2.4 and, until now, a note rather than a deny.
+credentials['old-escalation'] = sign(base({ subject: {
+  authorizationLevel: 'policy',
+  authorizationConfig: { policy: { policy_id: 'p1', rail_preference: ALL_TEST_RAILS, escalation_threshold: { amount: '50', currency: 'TUNIT' } } },
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
+// Same shape WITHOUT the field: must still allow. The must-still-pass half.
+credentials['policy-no-escalation'] = sign(base({ subject: {
+  authorizationLevel: 'policy',
+  authorizationConfig: { policy: { policy_id: 'p1', rail_preference: ALL_TEST_RAILS } },
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500 },
+} }));
+
 // temporal: allowedTimeWindows
 credentials['temporal'] = sign(base({ subject: { tradingMandate: { temporal: { allowedTimeWindows: [{ start: '09:00', end: '17:00', timezone: 'UTC' }] } } } }));
 
