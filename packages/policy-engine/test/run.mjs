@@ -381,7 +381,7 @@ await expectDeny('counterparty/kind this engine cannot match → deny (not skipp
 await expectAllow('counterparty/mixed list, recipient matched a READABLE entry → allow',
   evalOnRail('cpty-mixed-kind', 'test:1', { amount: 50n, to: MERCHANT_ADDR }));
 await expectDeny('counterparty/mixed list, recipient matched NOTHING readable → deny naming the kind',
-  evalOnRail('cpty-mixed-kind', 'test:1', { amount: 50n, to: OTHER_ADDR }), 'mcc');
+  evalOnRail('cpty-mixed-kind', 'test:1', { amount: 50n, to: OTHER_ADDR }), 'acquirer-ref');
 
 // escalation_threshold at its OLD location: was a NOTE that silently auto-approved the
 // whole band between the threshold and the ceiling. Now [unenforceable], and the

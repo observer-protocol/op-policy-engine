@@ -254,7 +254,10 @@ credentials['cpty-unknown-kind'] = sign(base({ subject: {
 credentials['cpty-mixed-kind'] = sign(base({ subject: {
   actionScope: { allowed_rails: ALL_TEST_RAILS },
   tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500,
-    counterparty: { allowList: [MERCHANT_ADDR, { kind: 'mcc', value: '5812' }] } },
+    // NOT an MCC. A merchant category code is a CLASS, and a class in an identity
+    // list would mean "any merchant in this category" while reading like a named
+    // counterparty. acquirer-ref is a genuine identifier this engine cannot yet match.
+    counterparty: { allowList: [MERCHANT_ADDR, { kind: 'acquirer-ref', value: 'ACQ-99182' }] } },
 } }));
 
 // authorizationConfig.policy.escalation_threshold at its OLD location. Issuable

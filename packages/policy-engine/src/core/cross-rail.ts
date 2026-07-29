@@ -107,6 +107,17 @@ export interface CrossRailSpend {
   asset: string; // symbol as the mandate rates key it, e.g. "sat", "USDC"
   amountRaw: string; // raw (unscaled) units of `asset`
   decimals: number;
+  /** The counterparty this spend went to, AS THE MANDATE MATCHED IT rather than as
+   * the rail names it, so a later per-counterparty cap can re-match it against the
+   * same allowList. Optional because some rails have no counterparty to record: on
+   * Lightning a payment resolves to a node pubkey that may aggregate many payees.
+   *
+   * ADDED BEFORE IT IS USED, deliberately, and that is not the reserved-and-unused
+   * shape it resembles. This is an append-only ledger: a field added later means
+   * every historical line lacks it permanently, so a per-counterparty cap would have
+   * no history to evaluate against and would start from the day someone thought of
+   * it. Populated from the first line or never useful. */
+  counterparty?: string;
 }
 
 interface LedgerLine extends CrossRailSpend {

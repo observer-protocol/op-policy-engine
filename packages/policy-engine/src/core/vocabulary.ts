@@ -107,7 +107,15 @@ export function declaredUnenforceable(
  * ignored: an unrecognized identifier that fell through would mean an allowlist
  * silently matched nothing, which is the permissive direction.
  *
- * So a credential can be issued with `merchant-descriptor` today and will deny
- * until an engine implements it. That is the fail-closed direction and it is the
- * cost of not needing a mint per kind. */
+ * So a credential can be issued with an unrecognized kind today and will deny until
+ * an engine implements it. That is the fail-closed direction and it is the cost of not
+ * needing a mint per kind.
+ *
+ * IDENTITIES ONLY, NEVER CLASSES. An identity list matches equality; a class list
+ * matches membership. A merchant category code is a class, and admitting one here
+ * would let an allowList mean "any merchant in this category" while reading like a
+ * list of named counterparties, so the breadth of the grant would be invisible in the
+ * signed artifact. Class constraints belong in a separate field; that role was
+ * actionScope.allowed_counterparty_types, withdrawn as premature, expected back with a
+ * rail that has classes. Do not add a class kind here to save a field. */
 export const KNOWN_COUNTERPARTY_KINDS: ReadonlySet<string> = new Set(['address', 'did']);
