@@ -94,3 +94,20 @@ export function declaredUnenforceable(
 ): DeclaredUnenforceable | undefined {
   return DECLARED_UNENFORCEABLE.find((d) => d.container === container && d.property === property);
 }
+
+/** Counterparty identifier kinds this engine can match on.
+ *
+ * The SCHEMA constrains the shape of a typed counterparty entry and deliberately
+ * does NOT enumerate the kinds: a card rail names its counterparty by merchant
+ * descriptor, an issuer-native rail will name it some third way, and a new kind
+ * must not require a new schema version. Same discipline as capability names.
+ *
+ * The price of an open vocabulary is that this set is the closed half. A kind the
+ * engine does not recognize DENIES, naming the kind and this set, rather than being
+ * ignored: an unrecognized identifier that fell through would mean an allowlist
+ * silently matched nothing, which is the permissive direction.
+ *
+ * So a credential can be issued with `merchant-descriptor` today and will deny
+ * until an engine implements it. That is the fail-closed direction and it is the
+ * cost of not needing a mint per kind. */
+export const KNOWN_COUNTERPARTY_KINDS: ReadonlySet<string> = new Set(['address', 'did']);

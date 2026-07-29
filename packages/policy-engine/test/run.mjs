@@ -366,6 +366,23 @@ await expectDeny('failClosed/allowed_counterparty_types: no enforcement path →
 await expectDenyNotReason('failClosed/allowed_counterparty_types: NOT reported as unknown-rule',
   evalOnRail('fc-allowed-cpty-types', 'test:1', { amount: 50n }), 'unknown-rule');
 // A genuinely unrecognized actionScope key still takes the generic path.
+// Typed counterparty entries. The object is closed, the KIND vocabulary is open, and
+// an unrecognized kind DENIES rather than being skipped. Must-still-pass first: the
+// bare-string form is what every issued credential uses.
+await expectAllow('counterparty/typed {kind:address} matches → allow',
+  evalOnRail('cpty-typed', 'test:1', { amount: 50n, to: MERCHANT_ADDR }));
+await expectDeny('counterparty/kind this engine cannot match → deny (not skipped)',
+  evalOnRail('cpty-unknown-kind', 'test:1', { amount: 50n, to: MERCHANT_ADDR }), 'merchant-descriptor');
+// MUST STILL PASS, and my first assertion here was wrong. A recipient that matched a
+// READABLE allowList entry is permitted, whatever else the list contains: an unreadable
+// entry can only widen an allowlist, so it cannot cause a wrongful allow of this
+// recipient. Asserting a deny here would have made the engine refuse a payment the
+// principal plainly permitted.
+await expectAllow('counterparty/mixed list, recipient matched a READABLE entry → allow',
+  evalOnRail('cpty-mixed-kind', 'test:1', { amount: 50n, to: MERCHANT_ADDR }));
+await expectDeny('counterparty/mixed list, recipient matched NOTHING readable → deny naming the kind',
+  evalOnRail('cpty-mixed-kind', 'test:1', { amount: 50n, to: OTHER_ADDR }), 'mcc');
+
 // escalation_threshold at its OLD location: was a NOTE that silently auto-approved the
 // whole band between the threshold and the ceiling. Now [unenforceable], and the
 // must-still-pass half asserts the same shape WITHOUT the field still allows.

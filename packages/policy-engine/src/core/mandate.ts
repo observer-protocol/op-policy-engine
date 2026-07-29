@@ -7,7 +7,7 @@ import type {
   VerifierConfig,
 } from './types.js';
 import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cross-rail.js';
-import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, declaredUnenforceable } from './vocabulary.js';
+import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, KNOWN_COUNTERPARTY_KINDS, declaredUnenforceable } from './vocabulary.js';
 import { capDetail, formatScaled, NON_NEGOTIABLE, type DenialDetail } from './denial.js';
 
 // Mandate enforcement against the OWS PolicyContext.
@@ -73,28 +73,49 @@ function parseIntegerValue(value: string): bigint {
  * base58 addresses (TRON, Solana) are CASE-SENSITIVE — folding them makes a
  * case-collision grindable (search a keypair whose address lowercases to an
  * allowlisted one), so non-EVM rails compare exact bytes. */
+/** A counterparty list entry: the legacy bare string, or a typed {kind, value}.
+ * Both forms are live: every credential issued against v2.1/v2.3/v2.4 uses the
+ * string and keeps working unchanged. */
+export type CounterpartyEntry = string | { kind: string; value: string };
+
+/** Flatten an entry to the string the matcher compares, or report the kind as
+ * unrecognized. Unrecognized DENIES upstream rather than being skipped: a skipped
+ * entry means an allowlist silently matched nothing, which is permissive. */
+function entryValue(e: CounterpartyEntry): { value: string } | { unknownKind: string } {
+  if (typeof e === 'string') return { value: e };
+  if (!KNOWN_COUNTERPARTY_KINDS.has(e.kind)) return { unknownKind: e.kind };
+  return { value: e.value };
+}
+
 function matchCounterparty(
   to: string,
-  list: string[],
+  list: CounterpartyEntry[],
   map: Record<string, string[]> | undefined,
   caseExact: boolean,
-): { matched: boolean; unmappedDids: string[] } {
+): { matched: boolean; unmappedDids: string[]; unknownKinds: string[] } {
   const norm = (s: string) => (caseExact ? s : s.toLowerCase());
   const target = norm(to);
   const unmappedDids: string[] = [];
-  for (const entry of list) {
+  const unknownKinds: string[] = [];
+  for (const raw of list) {
+    const flat = entryValue(raw);
+    if ('unknownKind' in flat) {
+      unknownKinds.push(flat.unknownKind);
+      continue;
+    }
+    const entry = flat.value;
     if (entry.startsWith('did:')) {
       const addrs = map?.[entry];
       if (!addrs) {
         unmappedDids.push(entry);
         continue;
       }
-      if (addrs.some((a) => norm(a) === target)) return { matched: true, unmappedDids };
+      if (addrs.some((a) => norm(a) === target)) return { matched: true, unmappedDids, unknownKinds };
     } else if (norm(entry) === target) {
-      return { matched: true, unmappedDids };
+      return { matched: true, unmappedDids, unknownKinds };
     }
   }
-  return { matched: false, unmappedDids };
+  return { matched: false, unmappedDids, unknownKinds };
 }
 
 function inTimeWindows(
@@ -490,11 +511,33 @@ export function evaluateMandate(
 
     const cp = tm.counterparty;
     if (cp?.blockList && cp.blockList.length > 0 && to) {
-      const { matched } = matchCounterparty(to, cp.blockList, config.counterpartyAddressMap, cpCaseExact);
-      if (matched) return deny(`[counterparty] recipient ${to} is on the mandate blockList`, notes);
+      const { matched, unknownKinds } = matchCounterparty(to, cp.blockList, config.counterpartyAddressMap, cpCaseExact);
+      if (unknownKinds.length > 0) {
+        return deny(
+          `[counterparty] blockList carries counterparty identifier kind(s) [${unknownKinds.join(', ')}] this engine cannot match; recognized: [${[...KNOWN_COUNTERPARTY_KINDS].join(', ')}]. An unmatched blockList entry would mean the list silently blocked nothing, so this fails closed`,
+          notes,
+          { tag: 'counterparty', constraint: 'tradingMandate.counterparty.blockList', terminal: true },
+        );
+      }
+      if (matched) return deny(`[counterparty] recipient ${to} is on the mandate blockList`, notes,
+        { tag: 'counterparty', constraint: 'tradingMandate.counterparty.blockList', terminal: true });
     }
     if (cp?.allowList && cp.allowList.length > 0) {
-      const { matched, unmappedDids } = matchCounterparty(to as string, cp.allowList, config.counterpartyAddressMap, cpCaseExact);
+      const { matched, unmappedDids, unknownKinds } = matchCounterparty(to as string, cp.allowList, config.counterpartyAddressMap, cpCaseExact);
+      // ASYMMETRY, and it is the same one as geographicAllowedOnly vs geographicBlocked.
+      // An unreadable entry on an ALLOWlist can only ever make the list MORE permissive,
+      // so it cannot cause a wrongful allow of a recipient that matched a READABLE entry:
+      // the unreadable entry is about some other counterparty. It matters only when
+      // nothing readable matched, because then the recipient might have been permitted by
+      // the entry we cannot read, and refusing with "not on the allowList" would be a
+      // false statement about why.
+      if (!matched && unknownKinds.length > 0) {
+        return deny(
+          `[counterparty] recipient ${to} matched no readable allowList entry, and the list carries identifier kind(s) [${unknownKinds.join(', ')}] this engine cannot match; recognized: [${[...KNOWN_COUNTERPARTY_KINDS].join(', ')}]. The kind vocabulary is open by design so a new rail needs no new schema version; an unreadable entry means this engine cannot say whether the recipient was permitted, which is not the same as saying it was not`,
+          notes,
+          { tag: 'counterparty', constraint: 'tradingMandate.counterparty.allowList', terminal: true },
+        );
+      }
       if (!matched) {
         const hint = unmappedDids.length > 0 ? ` (${unmappedDids.length} DID entr${unmappedDids.length === 1 ? 'y' : 'ies'} had no address mapping in config.counterpartyAddressMap)` : '';
         return deny(`[counterparty] recipient ${to} is not on the mandate allowList${hint}`, notes);

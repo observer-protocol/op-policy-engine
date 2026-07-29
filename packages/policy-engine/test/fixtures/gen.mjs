@@ -233,6 +233,30 @@ credentials['velocity'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT'
 // tripped if one rolling-24h window exceeded it.
 credentials['velocity-monthly'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT', velocity: { dailyVolumeCap: 100, monthlyVolumeCap: 1000 }, maxNotionalPerOrder: 100 } } }));
 
+// Counterparty entries in the TYPED form. Both are live: the bare string must keep
+// working (cr-allowlist / allowlist above) and the typed form must work alongside it.
+credentials['cpty-typed'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500,
+    counterparty: { allowList: [{ kind: 'address', value: MERCHANT_ADDR }] } },
+} }));
+
+// A kind the SCHEMA accepts (open vocabulary) and this ENGINE cannot match.
+// Must deny, not be skipped: a skipped entry means an allowList that matched nothing.
+credentials['cpty-unknown-kind'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500,
+    counterparty: { allowList: [{ kind: 'merchant-descriptor', value: 'ACME SUPPLIES' }] } },
+} }));
+
+// Mixed: one matchable address plus one unrecognized kind. Must still deny, because
+// the unrecognized entry means the list is not fully readable.
+credentials['cpty-mixed-kind'] = sign(base({ subject: {
+  actionScope: { allowed_rails: ALL_TEST_RAILS },
+  tradingMandate: { unit: 'TUNIT', maxNotionalPerOrder: 500,
+    counterparty: { allowList: [MERCHANT_ADDR, { kind: 'mcc', value: '5812' }] } },
+} }));
+
 // authorizationConfig.policy.escalation_threshold at its OLD location. Issuable
 // against v2.1/v2.3/v2.4 and, until now, a note rather than a deny.
 credentials['old-escalation'] = sign(base({ subject: {
