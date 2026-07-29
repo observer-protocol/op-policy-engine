@@ -508,10 +508,26 @@ export function evaluateMandate(
       if (vel.dailyVolumeCap !== undefined && projected > BigInt(vel.dailyVolumeCap) * scale) {
         return deny(`[velocity] projected daily volume exceeds dailyVolumeCap ${vel.dailyVolumeCap} ${tm.unit}`, notes);
       }
-      if (vel.monthlyVolumeCap !== undefined && projected > BigInt(vel.monthlyVolumeCap) * scale) {
-        return deny(`[velocity] today's observed volume alone exceeds monthlyVolumeCap ${vel.monthlyVolumeCap} ${tm.unit}`, notes);
+      if (vel.monthlyVolumeCap !== undefined) {
+        // The monthly cap gets the MONTHLY counter. It previously got daily_total,
+        // so a 30,000 monthly cap spent at 1,000/day for thirty days never denied:
+        // the field named the window and the code used a different one.
+        const monthlyTotal =
+          ctx.spending?.monthly_total !== undefined ? parseIntegerValue(ctx.spending.monthly_total) : undefined;
+        if (monthlyTotal === undefined) {
+          return deny(
+            '[velocity] mandate carries monthlyVolumeCap but the signing context provided no spending.monthly_total counter (30-day window cannot be established) — fail-closed',
+            notes,
+          );
+        }
+        if (monthlyTotal + (value as bigint) > BigInt(vel.monthlyVolumeCap) * scale) {
+          return deny(
+            `[velocity] projected 30-day volume exceeds monthlyVolumeCap ${vel.monthlyVolumeCap} ${tm.unit}`,
+            notes,
+          );
+        }
       }
-      notes.push('velocity caps: enforced deny-side via the per-key calendar-day counter (a lower bound on the rolling window); allow-side completeness needs a stateful evaluator');
+      notes.push('velocity caps enforced against the supplied rolling counters; a cap whose counter is unestablished denies rather than being skipped');
     }
 
     // crossRailBudget (binding, schema v2.3): one rolling-24h budget consumed

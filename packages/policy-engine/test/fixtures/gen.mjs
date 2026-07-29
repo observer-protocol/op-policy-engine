@@ -228,6 +228,11 @@ credentials['require-issuer-class'] = sign(base({ subject: { tradingMandate: { c
 // velocity: dailyVolumeCap
 credentials['velocity'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT', velocity: { dailyVolumeCap: 200 }, maxNotionalPerOrder: 100 } } }));
 
+// velocity: BOTH caps. Daily 200, monthly 1000. The monthly cap is what the
+// pre-fix engine compared against the DAILY counter, so a month's budget only
+// tripped if one rolling-24h window exceeded it.
+credentials['velocity-monthly'] = sign(base({ subject: { tradingMandate: { unit: 'TUNIT', velocity: { dailyVolumeCap: 100, monthlyVolumeCap: 1000 }, maxNotionalPerOrder: 100 } } }));
+
 // temporal: allowedTimeWindows
 credentials['temporal'] = sign(base({ subject: { tradingMandate: { temporal: { allowedTimeWindows: [{ start: '09:00', end: '17:00', timezone: 'UTC' }] } } } }));
 

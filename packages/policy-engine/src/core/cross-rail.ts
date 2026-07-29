@@ -22,7 +22,12 @@ export const CROSS_RAIL_SCALE = 6;
 
 const RATE_SCALE = 12;
 const WINDOW_MS = 24 * 60 * 60 * 1000;
-const PRUNE_AFTER_MS = 25 * 60 * 60 * 1000;
+const MONTH_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+// Prune must outlive the LONGEST window the ledger serves, not the shortest. It
+// was 25h while the only window was 24h; a 30-day counter needs 30 days of
+// history or it silently under-counts, which is the direction that permits more
+// spending. One hour of slack, as before.
+const PRUNE_AFTER_MS = MONTH_WINDOW_MS + 60 * 60 * 1000;
 const RESERVE_TTL_MS = 5 * 60 * 1000;
 
 // ─── Single-writer guard (fail-closed on concurrent writers) ────────────────
@@ -208,7 +213,25 @@ export class CrossRailLedger {
     return total;
   }
 
-  /** Drop entries older than 25h and expired reservations. Atomic rewrite. */
+  /** Rolling 30-day raw total for ONE asset, for tm.velocity.monthlyVolumeCap.
+   * Same shape and same conservative posture as sumWindowRaw: unparseable entries
+   * are skipped (they cannot lower a same-asset sum) and the binding cross-rail
+   * path still fails closed on them.
+   * @throws ObserverLedgerContentionError if a second writer is detected. */
+  sumMonthWindowRaw(asset: string, nowMs = Date.now()): bigint {
+    let total = 0n;
+    for (const e of this.window(nowMs, MONTH_WINDOW_MS)) {
+      if (e.asset !== asset) continue;
+      try {
+        total += BigInt(e.amountRaw);
+      } catch {
+        continue;
+      }
+    }
+    return total;
+  }
+
+  /** Drop entries older than the longest served window and expired reservations. */
   prune(nowMs = Date.now()): void {
     this.rewrite((e) => {
       if (e.ts < nowMs - PRUNE_AFTER_MS) return null;
@@ -217,8 +240,8 @@ export class CrossRailLedger {
     });
   }
 
-  private *window(nowMs: number): Generator<LedgerLine> {
-    const cutoff = nowMs - WINDOW_MS;
+  private *window(nowMs: number, spanMs: number = WINDOW_MS): Generator<LedgerLine> {
+    const cutoff = nowMs - spanMs;
     let raw: string;
     try {
       raw = readFileSync(this.path, 'utf8');

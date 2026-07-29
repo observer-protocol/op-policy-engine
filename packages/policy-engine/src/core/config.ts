@@ -50,6 +50,23 @@ export function parseConfig(raw: unknown): VerifierConfig {
   }
 
   const revocationRaw = (c['revocation'] ?? {}) as Record<string, unknown>;
+  // types.ts claimed "no quiet defaults for staleness behavior" while this block
+  // defaulted three values on a `typeof` test, so `revocation: { maxStalnessHours: 1 }`
+  // silently yielded 24. A typo must never restore a limit someone lowered.
+  const KNOWN_REVOCATION_KEYS = new Set(['maxStalenessHours', 'onUnreachable', 'fetchTimeoutMs']);
+  for (const k of Object.keys(revocationRaw)) {
+    if (!KNOWN_REVOCATION_KEYS.has(k)) {
+      throw new Error(
+        `config.revocation.${k} is not a recognized key [${[...KNOWN_REVOCATION_KEYS].join(', ')}] — refusing rather than silently applying a default`,
+      );
+    }
+  }
+  const KNOWN_DIDCACHE_KEYS = new Set(['maxStalenessHours']);
+  for (const k of Object.keys((c['didCache'] ?? {}) as Record<string, unknown>)) {
+    if (!KNOWN_DIDCACHE_KEYS.has(k)) {
+      throw new Error(`config.didCache.${k} is not a recognized key [maxStalenessHours] — refusing rather than silently applying a default`);
+    }
+  }
   const maxStalenessHours =
     typeof revocationRaw['maxStalenessHours'] === 'number' ? revocationRaw['maxStalenessHours'] : 24;
   const onUnreachable = revocationRaw['onUnreachable'] ?? 'cache-then-deny';

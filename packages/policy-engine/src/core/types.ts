@@ -13,6 +13,12 @@ export interface OwsTransaction {
 
 export interface OwsSpending {
   daily_total?: string; // cumulative value signed today (wei), per API key
+  /** Cumulative value signed in the trailing 30 days, same units as daily_total.
+   * REQUIRED whenever the mandate carries tradingMandate.velocity.monthlyVolumeCap:
+   * that cap was previously compared against daily_total, so a month's budget only
+   * tripped when a single day exceeded it. A monthly cap with no monthly counter
+   * now fails closed, matching per_day, dailyVolumeCap and crossRailBudget. */
+  monthly_total?: string;
   date?: string;
 }
 
@@ -178,9 +184,10 @@ export interface ObserverDelegationCredential {
 
 // Configuration injected via the OWS policy file's `config` object
 // (arrives as PolicyContext.policy_config). Every behavioral knob is
-// explicit here and documented in the README — no quiet defaults for
-// staleness behavior: the shipped policy template always writes
-// `revocation.maxStalenessHours` and `revocation.onUnreachable` out loud.
+// explicit here and documented in the README. Staleness values still have
+// defaults, but an UNRECOGNIZED key under `revocation` or `didCache` now throws
+// rather than being ignored, so a typo cannot silently restore a limit someone
+// lowered. The shipped policy template writes them out loud regardless.
 
 export interface RailDef {
   rail: string; // Observer Protocol rail name, e.g. "ethereum-mainnet"

@@ -1,7 +1,7 @@
 {
   "version": "6",
-  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8 + v2.3 crossRailBudget). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND→LINK→AUTHORIZE gate cases. Step 5 (x402/G8): +40 x402-op-authorize engine cases (5th engine) + 4 l402 crossRailBudget cases + 5 core crossRailBudget cases. Step 6 (TRON/three-rail): +11 wdk TRON cases (structured TRC-20 decode, exact-case base58 counterparty, TRON velocity, shared-ledger crossRailBudget) + 3 core counterparty-case-discipline cases (base58 exact vs EVM folded). Total: 245 tracked cases. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
-  "_totalCases": "DERIVED at runtime from cases.length (run.mjs); not stored. A stored count drifts and misleads the next person who greps it — this harness read red for ~2 days (2026-07-15 17:06 onward) on exactly that class of stale count.",
+  "description": "Behavioral contract for the shared OP PolicyEngine (AIP v0.8 + v2.3 crossRailBudget). Step 1 (538e034): 136 cases across 4 engines. Step 2c augmentation: +37 cross-rail + garbage-input cases. Step 3: +4 identity cases (allowed_counterparty_types fail-closed, signer-boundary, did:key dev-mode). Step 4: +5 RuntimeAdapter BIND\u2192LINK\u2192AUTHORIZE gate cases. Step 5 (x402/G8): +40 x402-op-authorize engine cases (5th engine) + 4 l402 crossRailBudget cases + 5 core crossRailBudget cases. Step 6 (TRON/three-rail): +11 wdk TRON cases (structured TRC-20 decode, exact-case base58 counterparty, TRON velocity, shared-ledger crossRailBudget) + 3 core counterparty-case-discipline cases (base58 exact vs EVM folded). Total: 250 tracked cases. Step 7: +5 monthly-velocity cases \u2014 monthlyVolumeCap was compared against the DAILY counter, so a month's budget only tripped when one rolling-24h window exceeded it; zero of the prior 245 cases covered it. Flip gate: engine flips only when (full existing suite green) AND (full augmented matrix green) against shared core.",
+  "_totalCases": "DERIVED at runtime from cases.length (run.mjs); not stored. A stored count drifts and misleads the next person who greps it \u2014 this harness read red for ~2 days (2026-07-15 17:06 onward) on exactly that class of stale count.",
   "engines": {
     "wdk": {
       "package": "@observer-protocol/wdk-op-policy",
@@ -9,7 +9,7 @@
       "expectedPass": 37,
       "parseMode": "per-case",
       "summaryPattern": "wdk-op-policy conformance: (\\d+) passed, (\\d+) failed",
-      "note": "Step 6 (+11): TRON rail — structured WDK TRC-20 transfer decode (trc20Tokens registry, exact-case base58), ceiling/counterparty/case-twiddle/unknown-token denies, velocity both sides, crossRailBudget over the shared ledger (allow, record-proof, over-budget deny, no-ledger fail-closed)."
+      "note": "Step 6 (+11): TRON rail \u2014 structured WDK TRC-20 transfer decode (trc20Tokens registry, exact-case base58), ceiling/counterparty/case-twiddle/unknown-token denies, velocity both sides, crossRailBudget over the shared ledger (allow, record-proof, over-budget deny, no-ledger fail-closed)."
     },
     "mppx": {
       "package": "@observer-protocol/mppx-op-account",
@@ -31,7 +31,7 @@
       "expectedPass": 16,
       "parseMode": "per-case",
       "summaryPattern": "(\\d+)/(\\d+) conformance cases passed",
-      "note": "Step 5 (+4): crossRailBudget over the shared ledger — allow under budget with prior x402 spend, deny over budget, fail-closed with no counter, hook records allowed spends."
+      "note": "Step 5 (+4): crossRailBudget over the shared ledger \u2014 allow under budget with prior x402 spend, deny over budget, fail-closed with no counter, hook records allowed spends."
     },
     "x402": {
       "package": "@observer-protocol/x402-op-authorize",
@@ -39,7 +39,7 @@
       "expectedPass": 40,
       "parseMode": "per-case",
       "summaryPattern": "(\\d+)/(\\d+) conformance cases passed",
-      "note": "5th engine — x402 exact/EVM (EIP-3009) at the viem signer boundary. Decoder classification (TransferWithAuthorization decode; Permit2 + receiveWithAuthorization deny as payment-bearing-undecoded; cancelAuthorization benign; undecodable fail-closed), credential pipeline (expired/tampered/agent-self-issued/unknown-rule), mandate gate both sides (notional, counterparty, velocity, from-mismatch, dead validBefore, unmapped chain, unknown token contract), crossRailBudget (allow, deny, no-counter, no-rate, bad-window, currency-mismatch, unpriceable in-window entry), ledger lifecycle (reserve counts/release restores/commit persists), account wrapper (deny → NO signature; signTransaction/signMessage/raw-sign default-deny; unknown typed data default-deny with explicit knob)."
+      "note": "5th engine \u2014 x402 exact/EVM (EIP-3009) at the viem signer boundary. Decoder classification (TransferWithAuthorization decode; Permit2 + receiveWithAuthorization deny as payment-bearing-undecoded; cancelAuthorization benign; undecodable fail-closed), credential pipeline (expired/tampered/agent-self-issued/unknown-rule), mandate gate both sides (notional, counterparty, velocity, from-mismatch, dead validBefore, unmapped chain, unknown token contract), crossRailBudget (allow, deny, no-counter, no-rate, bad-window, currency-mismatch, unpriceable in-window entry), ledger lifecycle (reserve counts/release restores/commit persists), account wrapper (deny \u2192 NO signature; signTransaction/signMessage/raw-sign default-deny; unknown typed data default-deny with explicit knob)."
     },
     "policy-engine": {
       "package": "@observer-protocol/policy-engine",
@@ -47,7 +47,7 @@
       "expectedPass": 89,
       "parseMode": "aggregate",
       "summaryPattern": "policy-engine conformance: (\\d+) passed, (\\d+) failed",
-      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Step 4 (+5): RuntimeAdapter BIND→LINK→AUTHORIZE gate — no-WBC passthrough, valid WBC+same-operator ALLOW, mislinked DENY [issuer-linkage] (dev+full), wrong wallet DENY [bind]. Step 5 (+5): crossRailBudget mandate-layer — allow under budget, deny over, no-counter fail-closed, no-rate fail-closed, unsupported-window fail-closed. Proves shared core is rail-agnostic, fail-closed, identity step enforces signer-boundary, and BIND→LINK→AUTHORIZE closes the cross-principal pairing attack. Step 6 (+3): counterparty case discipline — base58 exact-case allow/deny, EVM hex folding preserved."
+      "note": "Step 2a/2c: 35 universal-core + 15 cross-rail generalizes + 8 cross-rail rail-specific + 14 garbage-input. Step 3 (+4): allowed_counterparty_types fail-closed, signer-boundary (agent-self-issued DENY + valid ALLOW), did:key dev-mode ALLOW. Step 4 (+5): RuntimeAdapter BIND\u2192LINK\u2192AUTHORIZE gate \u2014 no-WBC passthrough, valid WBC+same-operator ALLOW, mislinked DENY [issuer-linkage] (dev+full), wrong wallet DENY [bind]. Step 5 (+5): crossRailBudget mandate-layer \u2014 allow under budget, deny over, no-counter fail-closed, no-rate fail-closed, unsupported-window fail-closed. Proves shared core is rail-agnostic, fail-closed, identity step enforces signer-boundary, and BIND\u2192LINK\u2192AUTHORIZE closes the cross-principal pairing attack. Step 6 (+3): counterparty case discipline \u2014 base58 exact-case allow/deny, EVM hex folding preserved."
     }
   },
   "ruleCategories": {
@@ -1275,7 +1275,7 @@
     {
       "id": "pe-016",
       "engine": "policy-engine",
-      "name": "operationClassification/wdk: allowed_transaction_categories without config → deny",
+      "name": "operationClassification/wdk: allowed_transaction_categories without config \u2192 deny",
       "ruleCategory": "operationClassification",
       "ruleField": "allowed_transaction_categories",
       "outcome": "deny"
@@ -1283,7 +1283,7 @@
     {
       "id": "pe-017",
       "engine": "policy-engine",
-      "name": "operationClassification/mppx: allowed_transaction_categories without config → deny",
+      "name": "operationClassification/mppx: allowed_transaction_categories without config \u2192 deny",
       "ruleCategory": "operationClassification",
       "ruleField": "allowed_transaction_categories",
       "outcome": "deny"
@@ -1291,7 +1291,7 @@
     {
       "id": "pe-018",
       "engine": "policy-engine",
-      "name": "operationClassification/l402: allowed_transaction_categories without config → deny",
+      "name": "operationClassification/l402: allowed_transaction_categories without config \u2192 deny",
       "ruleCategory": "operationClassification",
       "ruleField": "allowed_transaction_categories",
       "outcome": "deny"
@@ -1299,7 +1299,7 @@
     {
       "id": "pe-019",
       "engine": "policy-engine",
-      "name": "operationClassification/wdk: matching transactionCategory → allow",
+      "name": "operationClassification/wdk: matching transactionCategory \u2192 allow",
       "ruleCategory": "operationClassification",
       "ruleField": "allowed_transaction_categories",
       "outcome": "allow"
@@ -1307,7 +1307,7 @@
     {
       "id": "pe-020",
       "engine": "policy-engine",
-      "name": "operationClassification/wdk: wrong transactionCategory → deny",
+      "name": "operationClassification/wdk: wrong transactionCategory \u2192 deny",
       "ruleCategory": "operationClassification",
       "ruleField": "allowed_transaction_categories",
       "outcome": "deny"
@@ -1315,7 +1315,7 @@
     {
       "id": "pe-021",
       "engine": "policy-engine",
-      "name": "advisory: cumulative_budget + allowed_counterparty_types + geographic_restriction on test:1 → allow",
+      "name": "advisory: cumulative_budget + allowed_counterparty_types + geographic_restriction on test:1 \u2192 allow",
       "ruleCategory": "configuration",
       "ruleField": "advisoryFields",
       "outcome": "allow"
@@ -1323,7 +1323,7 @@
     {
       "id": "pe-022",
       "engine": "policy-engine",
-      "name": "advisory: same advisory fields on wdk-like rail → allow",
+      "name": "advisory: same advisory fields on wdk-like rail \u2192 allow",
       "ruleCategory": "configuration",
       "ruleField": "advisoryFields",
       "outcome": "allow"
@@ -1331,7 +1331,7 @@
     {
       "id": "pe-023",
       "engine": "policy-engine",
-      "name": "advisory: same advisory fields on l402-like rail → allow",
+      "name": "advisory: same advisory fields on l402-like rail \u2192 allow",
       "ruleCategory": "configuration",
       "ruleField": "advisoryFields",
       "outcome": "allow"
@@ -1339,7 +1339,7 @@
     {
       "id": "pe-024",
       "engine": "policy-engine",
-      "name": "garbage/test:1: unknown actionScope field → deny fail-closed",
+      "name": "garbage/test:1: unknown actionScope field \u2192 deny fail-closed",
       "ruleCategory": "failClosed",
       "ruleField": "unknownScopeField",
       "outcome": "deny"
@@ -1347,7 +1347,7 @@
     {
       "id": "pe-025",
       "engine": "policy-engine",
-      "name": "garbage/test:wdk: unknown actionScope field → deny",
+      "name": "garbage/test:wdk: unknown actionScope field \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "unknownScopeField",
       "outcome": "deny"
@@ -1355,7 +1355,7 @@
     {
       "id": "pe-026",
       "engine": "policy-engine",
-      "name": "garbage/test:mppx: unknown actionScope field → deny",
+      "name": "garbage/test:mppx: unknown actionScope field \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "unknownScopeField",
       "outcome": "deny"
@@ -1363,7 +1363,7 @@
     {
       "id": "pe-027",
       "engine": "policy-engine",
-      "name": "garbage/test:l402: unknown actionScope field → deny",
+      "name": "garbage/test:l402: unknown actionScope field \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "unknownScopeField",
       "outcome": "deny"
@@ -1371,7 +1371,7 @@
     {
       "id": "pe-028",
       "engine": "policy-engine",
-      "name": "garbage/test:1: unknown tradingMandate field → deny fail-closed",
+      "name": "garbage/test:1: unknown tradingMandate field \u2192 deny fail-closed",
       "ruleCategory": "failClosed",
       "ruleField": "unknownMandateField",
       "outcome": "deny"
@@ -1379,7 +1379,7 @@
     {
       "id": "pe-029",
       "engine": "policy-engine",
-      "name": "garbage/test:wdk: unknown tradingMandate field → deny",
+      "name": "garbage/test:wdk: unknown tradingMandate field \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "unknownMandateField",
       "outcome": "deny"
@@ -1387,7 +1387,7 @@
     {
       "id": "pe-030",
       "engine": "policy-engine",
-      "name": "garbage/l402: requireIssuerClassIn, no attestation → deny",
+      "name": "garbage/l402: requireIssuerClassIn, no attestation \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "requireIssuerClassIn",
       "outcome": "deny"
@@ -1395,7 +1395,7 @@
     {
       "id": "pe-031",
       "engine": "policy-engine",
-      "name": "garbage/test:1: maxNotionalPerOrder without unit → deny",
+      "name": "garbage/test:1: maxNotionalPerOrder without unit \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "missingUnit",
       "outcome": "deny"
@@ -1403,7 +1403,7 @@
     {
       "id": "pe-032",
       "engine": "policy-engine",
-      "name": "garbage/wdk: expired credential → deny",
+      "name": "garbage/wdk: expired credential \u2192 deny",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "validUntil",
       "outcome": "deny"
@@ -1411,7 +1411,7 @@
     {
       "id": "pe-033",
       "engine": "policy-engine",
-      "name": "garbage/l402: unenforceable proposal + binding ceiling → deny",
+      "name": "garbage/l402: unenforceable proposal + binding ceiling \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "unenforceable",
       "outcome": "deny"
@@ -1419,7 +1419,7 @@
     {
       "id": "pe-034",
       "engine": "policy-engine",
-      "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "name": "garbage/test:1: agent-supplied credSubject grant fields + mandate ceiling \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "agentSuppliedGrant",
       "outcome": "deny"
@@ -1427,7 +1427,7 @@
     {
       "id": "pe-035",
       "engine": "policy-engine",
-      "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "name": "garbage/test:wdk: agent-supplied credSubject grant fields + mandate ceiling \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "agentSuppliedGrant",
       "outcome": "deny"
@@ -1435,7 +1435,7 @@
     {
       "id": "pe-036",
       "engine": "policy-engine",
-      "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling → deny",
+      "name": "garbage/test:l402: agent-supplied credSubject grant fields + mandate ceiling \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "agentSuppliedGrant",
       "outcome": "deny"
@@ -1443,7 +1443,7 @@
     {
       "id": "pe-037",
       "engine": "policy-engine",
-      "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling → deny",
+      "name": "garbage/test:1: extra fields in resolved transfer + binding ceiling \u2192 deny",
       "ruleCategory": "failClosed",
       "ruleField": "agentSuppliedGrant",
       "outcome": "deny"
@@ -1451,7 +1451,7 @@
     {
       "id": "pe-038",
       "engine": "policy-engine",
-      "name": "failClosed: allowed_counterparty_types set → deny (no enforcement path; tagged unenforceable, NOT unknown-rule — the published schemas accept this property)",
+      "name": "failClosed: allowed_counterparty_types set \u2192 deny (no enforcement path; tagged unenforceable, NOT unknown-rule \u2014 the published schemas accept this property)",
       "ruleCategory": "failClosed",
       "ruleField": "allowedCounterpartyTypes",
       "outcome": "deny"
@@ -1459,7 +1459,7 @@
     {
       "id": "pe-039",
       "engine": "policy-engine",
-      "name": "signer-boundary: proof.verificationMethod DID == agentDid → deny",
+      "name": "signer-boundary: proof.verificationMethod DID == agentDid \u2192 deny",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "signerBoundary",
       "outcome": "deny"
@@ -1467,7 +1467,7 @@
     {
       "id": "pe-040",
       "engine": "policy-engine",
-      "name": "signer-boundary: signing DID != agentDid → allow (signer-boundary does not fire)",
+      "name": "signer-boundary: signing DID != agentDid \u2192 allow (signer-boundary does not fire)",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "signerBoundary",
       "outcome": "allow"
@@ -1475,7 +1475,7 @@
     {
       "id": "pe-041",
       "engine": "policy-engine",
-      "name": "did:key dev-mode: operator credential with did:key issuer → allow",
+      "name": "did:key dev-mode: operator credential with did:key issuer \u2192 allow",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "didKeyDevMode",
       "outcome": "allow"
@@ -1483,7 +1483,7 @@
     {
       "id": "pe-042",
       "engine": "policy-engine",
-      "name": "RuntimeAdapter: no WBC configured → allow (passthrough to verifyCredential+enforceMandate)",
+      "name": "RuntimeAdapter: no WBC configured \u2192 allow (passthrough to verifyCredential+enforceMandate)",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "runtimeAdapter",
       "outcome": "allow"
@@ -1491,7 +1491,7 @@
     {
       "id": "pe-043",
       "engine": "policy-engine",
-      "name": "RuntimeAdapter: valid WBC + same-operator dev-mode LINK → allow (BIND+LINK+AUTHORIZE all pass)",
+      "name": "RuntimeAdapter: valid WBC + same-operator dev-mode LINK \u2192 allow (BIND+LINK+AUTHORIZE all pass)",
       "ruleCategory": "credentialIntegrity",
       "ruleField": "runtimeAdapterBind",
       "outcome": "allow"
@@ -1499,7 +1499,7 @@
     {
       "id": "pe-044",
       "engine": "policy-engine",
-      "name": "RuntimeAdapter: WBC controller != mandate principal (dev) → deny [issuer-linkage]",
+      "name": "RuntimeAdapter: WBC controller != mandate principal (dev) \u2192 deny [issuer-linkage]",
       "ruleCategory": "failClosed",
       "ruleField": "runtimeAdapterLink",
       "outcome": "deny"
@@ -1507,7 +1507,7 @@
     {
       "id": "pe-045",
       "engine": "policy-engine",
-      "name": "RuntimeAdapter: WBC walletAddress != ctx.wallet_id → deny [bind]",
+      "name": "RuntimeAdapter: WBC walletAddress != ctx.wallet_id \u2192 deny [bind]",
       "ruleCategory": "failClosed",
       "ruleField": "runtimeAdapterBind",
       "outcome": "deny"
@@ -1515,7 +1515,7 @@
     {
       "id": "pe-046",
       "engine": "policy-engine",
-      "name": "RuntimeAdapter: full-mode WBC → deny [issuer-linkage] (stub fail-closed, L1 not wired)",
+      "name": "RuntimeAdapter: full-mode WBC \u2192 deny [issuer-linkage] (stub fail-closed, L1 not wired)",
       "ruleCategory": "failClosed",
       "ruleField": "runtimeAdapterLinkFull",
       "outcome": "deny"
@@ -2023,6 +2023,46 @@
       "ruleCategory": "counterparty",
       "ruleField": "evmCaseFold",
       "outcome": "allow"
+    },
+    {
+      "id": "core-monthly-001",
+      "engine": "core",
+      "name": "velocity: under both caps, 30-day counter supplied \u2192 allow",
+      "ruleCategory": "velocity",
+      "ruleField": "monthlyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "core-monthly-002",
+      "engine": "core",
+      "name": "velocity: daily fine, 30-day window exhausted \u2192 deny",
+      "ruleCategory": "velocity",
+      "ruleField": "monthlyVolumeCap",
+      "outcome": "deny"
+    },
+    {
+      "id": "core-monthly-003",
+      "engine": "core",
+      "name": "velocity: monthlyVolumeCap with NO monthly_total \u2192 deny (fail-closed)",
+      "ruleCategory": "failClosed",
+      "ruleField": "counterUnestablished",
+      "outcome": "deny"
+    },
+    {
+      "id": "core-monthly-004",
+      "engine": "core",
+      "name": "velocity: dailyVolumeCap only, no monthly counter \u2192 allow (no new requirement)",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "allow"
+    },
+    {
+      "id": "core-monthly-005",
+      "engine": "core",
+      "name": "velocity: daily trips while 30-day window has room \u2192 deny on daily",
+      "ruleCategory": "velocity",
+      "ruleField": "dailyVolumeCap",
+      "outcome": "deny"
     }
   ]
 }
