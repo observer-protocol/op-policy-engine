@@ -11,6 +11,11 @@ export { verifyCredential, verifyCredentialObject, verifyCredentialCrypto, enfor
 export type { Verdict, CredentialChecks } from './core/verify.js';
 
 export { evaluateMandate, parseDecimalScaled } from './core/mandate.js';
+
+// Structured denials. DENIAL_TAGS is exported as data for the same reason the
+// constraint vocabulary is: a taxonomy nothing can enumerate is one nothing can check.
+export { DENIAL_TAGS, capDetail, formatScaled, NON_NEGOTIABLE } from './core/denial.js';
+export type { DenialTag, DenialDetail } from './core/denial.js';
 export type { MandateOutcome } from './core/mandate.js';
 
 // The constraint vocabulary, as data. Exported so the schema-vs-engine

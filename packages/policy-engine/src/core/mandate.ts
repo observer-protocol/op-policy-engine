@@ -8,6 +8,7 @@ import type {
 } from './types.js';
 import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cross-rail.js';
 import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, declaredUnenforceable } from './vocabulary.js';
+import { capDetail, formatScaled, NON_NEGOTIABLE, type DenialDetail } from './denial.js';
 
 // Mandate enforcement against the OWS PolicyContext.
 //
@@ -33,9 +34,17 @@ export interface MandateOutcome {
   ok: boolean;
   reason: string;
   notes: string[];
+  /** Machine-readable detail. Optional so every existing caller keeps working: a
+   * new required field on a returned type is a breaking change, which is the same
+   * over-refusal as a new required config field. */
+  detail?: DenialDetail;
 }
 
-const deny = (reason: string, notes: string[]): MandateOutcome => ({ ok: false, reason, notes });
+/** `detail` is the second argument rather than the third because every call site
+ * that has one has notes too, and putting it last would mean threading `notes`
+ * past it at 51 sites. */
+const deny = (reason: string, notes: string[], detail?: DenialDetail): MandateOutcome =>
+  detail ? { ok: false, reason, notes, detail } : { ok: false, reason, notes };
 
 /** Parse a decimal string ("0.5") into a bigint scaled by `decimals`. */
 export function parseDecimalScaled(amount: string, decimals: number): bigint {
@@ -201,7 +210,11 @@ export function evaluateMandate(
     }
     const cap = parseDecimalScaled(pt.max_amount, resolved.decimals);
     if (resolved.amount > cap) {
-      return deny(`[spending-limits] value ${resolved.amount} exceeds per_transaction cap ${pt.max_amount} ${pt.currency} on ${railDef.rail}`, notes);
+      return deny(
+        `[spending-limits] value ${formatScaled(resolved.amount, resolved.decimals)} exceeds per_transaction cap ${pt.max_amount} ${pt.currency} on ${railDef.rail}. ${NON_NEGOTIABLE}`,
+        notes,
+        capDetail({ tag: 'spending-limits', constraint: 'delegation.scope.spending_limits.per_rail.per_transaction.max_amount', cap, observed: resolved.amount, decimals: resolved.decimals, unit: pt.currency }),
+      );
     }
     if (perRail.per_day !== undefined) {
       const dailyTotal = ctx.spending?.daily_total !== undefined ? parseIntegerValue(ctx.spending.daily_total) : undefined;
@@ -211,7 +224,11 @@ export function evaluateMandate(
       if (perRail.per_day.max_amount !== undefined) {
         const dcap = parseDecimalScaled(perRail.per_day.max_amount, resolved.decimals);
         if (dailyTotal + resolved.amount > dcap) {
-          return deny(`[spending-limits] 24h volume would exceed per_day cap ${perRail.per_day.max_amount} ${perRail.per_day.currency ?? pt.currency} on ${railDef.rail}`, notes);
+          return deny(
+            `[spending-limits] 24h volume would exceed per_day cap ${perRail.per_day.max_amount} ${perRail.per_day.currency ?? pt.currency} on ${railDef.rail}. ${NON_NEGOTIABLE}`,
+            notes,
+            capDetail({ tag: 'spending-limits', constraint: 'delegation.scope.spending_limits.per_rail.per_day.max_amount', cap: dcap, observed: dailyTotal + resolved.amount, priorTotal: dailyTotal, decimals: resolved.decimals, unit: perRail.per_day.currency ?? pt.currency }),
+          );
         }
       }
     }
@@ -303,8 +320,9 @@ export function evaluateMandate(
     const ceiling = parseDecimalScaled(c.amount, decimals);
     if ((value as bigint) > ceiling) {
       return deny(
-        `[ceiling] transaction value exceeds per_transaction_ceiling of ${c.amount} ${c.currency}`,
+        `[ceiling] transaction value exceeds per_transaction_ceiling of ${c.amount} ${c.currency}. ${NON_NEGOTIABLE}`,
         notes,
+        capDetail({ tag: 'ceiling', constraint: 'actionScope.per_transaction_ceiling', cap: ceiling, observed: value as bigint, decimals, unit: c.currency }),
       );
     }
   }
@@ -338,11 +356,13 @@ export function evaluateMandate(
     if (!KNOWN_SCOPE_KEYS.has(key)) {
       const known = declaredUnenforceable('actionScope', key);
       if (known) {
-        return deny(`[unenforceable] actionScope.${key}: ${known.reason}`, notes);
+        return deny(`[unenforceable] actionScope.${key}: ${known.reason}`, notes,
+          { tag: 'unenforceable', constraint: `actionScope.${key}`, terminal: true });
       }
       return deny(
         `[unknown-rule] unrecognized actionScope constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,
         notes,
+        { tag: 'unknown-rule', constraint: `actionScope.${key}`, terminal: true },
       );
     }
   }
@@ -460,7 +480,11 @@ export function evaluateMandate(
       if (mismatch) return mismatch;
       const cap = BigInt(tm.maxNotionalPerOrder) * 10n ** BigInt(decimals);
       if ((value as bigint) > cap) {
-        return deny(`[notional] transaction value exceeds maxNotionalPerOrder ${tm.maxNotionalPerOrder} ${tm.unit}`, notes);
+        return deny(
+          `[notional] transaction value exceeds maxNotionalPerOrder ${tm.maxNotionalPerOrder} ${tm.unit}. ${NON_NEGOTIABLE}`,
+          notes,
+          capDetail({ tag: 'notional', constraint: 'tradingMandate.maxNotionalPerOrder', cap, observed: value as bigint, decimals, unit: tm.unit }),
+        );
       }
     }
 
@@ -513,7 +537,11 @@ export function evaluateMandate(
       const projected = dailyTotal + (value as bigint);
       const scale = 10n ** BigInt(decimals);
       if (vel.dailyVolumeCap !== undefined && projected > BigInt(vel.dailyVolumeCap) * scale) {
-        return deny(`[velocity] projected daily volume exceeds dailyVolumeCap ${vel.dailyVolumeCap} ${tm.unit}`, notes);
+        return deny(
+          `[velocity] projected daily volume exceeds dailyVolumeCap ${vel.dailyVolumeCap} ${tm.unit}. ${NON_NEGOTIABLE}`,
+          notes,
+          capDetail({ tag: 'velocity', constraint: 'tradingMandate.velocity.dailyVolumeCap', cap: BigInt(vel.dailyVolumeCap) * scale, observed: projected, priorTotal: dailyTotal, decimals, unit: tm.unit }),
+        );
       }
       if (vel.monthlyVolumeCap !== undefined) {
         // The monthly cap gets the MONTHLY counter. It previously got daily_total,
@@ -529,8 +557,9 @@ export function evaluateMandate(
         }
         if (monthlyTotal + (value as bigint) > BigInt(vel.monthlyVolumeCap) * scale) {
           return deny(
-            `[velocity] projected 30-day volume exceeds monthlyVolumeCap ${vel.monthlyVolumeCap} ${tm.unit}`,
+            `[velocity] projected 30-day volume exceeds monthlyVolumeCap ${vel.monthlyVolumeCap} ${tm.unit}. ${NON_NEGOTIABLE}`,
             notes,
+            capDetail({ tag: 'velocity', constraint: 'tradingMandate.velocity.monthlyVolumeCap', cap: BigInt(vel.monthlyVolumeCap) * scale, observed: monthlyTotal + (value as bigint), priorTotal: monthlyTotal, decimals, unit: tm.unit }),
           );
         }
       }
@@ -600,7 +629,8 @@ export function evaluateMandate(
       if (!KNOWN_TM_KEYS.has(key)) {
         const known = declaredUnenforceable('tradingMandate', key);
         if (known) {
-          return deny(`[unenforceable] tradingMandate.${key}: ${known.reason}`, notes);
+          return deny(`[unenforceable] tradingMandate.${key}: ${known.reason}`, notes,
+            { tag: 'unenforceable', constraint: `tradingMandate.${key}`, terminal: true });
         }
         return deny(
           `[unknown-rule] unrecognized tradingMandate constraint "${key}" — cannot evaluate; fail-closed per AIP v0.8`,

@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import type { DenialDetail } from './denial.js';
 import { validateStructure, checkValidityWindow } from './schema.js';
 import { resolveDidDocument, findAssertionMethodKey } from './resolve.js';
 import { verifyEddsaJcs2022, decodeEd25519Multibase } from './proof.js';
@@ -32,6 +33,9 @@ export interface Verdict {
   allow: boolean;
   reason: string;
   notes: string[];
+  /** Machine-readable denial detail, present on a mandate deny. Optional: a new
+   * required field on a returned type breaks every caller. */
+  detail?: DenialDetail;
   cred?: ObserverDelegationCredential;
   /** Present on a successful verify; the checks that ran, keyed by check name. */
   checks?: CredentialChecks;
@@ -176,6 +180,13 @@ export function enforceMandate(
     return { allow: false, reason: `[rails] chain ${ctx.chain_id} has no rail mapping in config.rails`, notes: [] };
   }
   const mandate = evaluateMandate(ctx, cred, config, resolved);
-  if (!mandate.ok) return { allow: false, reason: mandate.reason, notes: mandate.notes };
+  if (!mandate.ok) {
+    // Carry the detail through. Dropping it here would have made the whole
+    // structured-denial change invisible to every adapter, since enforceMandate is
+    // what they call.
+    return mandate.detail
+      ? { allow: false, reason: mandate.reason, notes: mandate.notes, detail: mandate.detail }
+      : { allow: false, reason: mandate.reason, notes: mandate.notes };
+  }
   return { allow: true, reason: mandate.reason, notes: mandate.notes };
 }
