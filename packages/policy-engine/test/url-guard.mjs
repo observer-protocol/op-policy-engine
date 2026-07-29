@@ -79,6 +79,22 @@ await refuses('refuses localhost by name', 'http://localhost:8080/x', 'localhost
 await refuses('refuses a .localhost name', 'https://evil.localhost/x', 'localhost');
 await refuses('refuses RFC1918 literal', 'https://10.0.0.5/status.json', 'RFC1918');
 
+console.log('\n── operator-sanctioned origins bypass the ADDRESS check only ──');
+async function sanctionedOk(name, url, origins) {
+  try { await assertFetchableUrl(url, origins); assert(name, true); }
+  catch (e) { assert(name, false, e.message); }
+}
+await sanctionedOk('a sanctioned loopback origin is fetchable (operator opted in)',
+  'http://127.0.0.1:62104/status/1', ['http://127.0.0.1:62104']);
+await sanctionedOk('a sanctioned RFC1918 origin is fetchable',
+  'https://10.0.0.5/status.json', ['https://10.0.0.5']);
+await refuses('a DIFFERENT loopback port is still refused (origin is exact)',
+  'http://127.0.0.1:9999/x', 'loopback');
+await refuses('sanctioning does not defeat the SCHEME check',
+  'file:///etc/passwd', 'not http');
+await refuses('an unsanctioned private host is refused as before',
+  'http://169.254.169.254/latest/', 'link-local');
+
 console.log('\n── did:web origin derivation (the status-list pin depends on it) ──');
 assert('did:web maps to https origin', didWebOrigin('did:web:observerprotocol.org') === 'https://observerprotocol.org',
   `got ${didWebOrigin('did:web:observerprotocol.org')}`);

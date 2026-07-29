@@ -230,6 +230,11 @@ export interface VerifierConfig {
   allowContractCalls: boolean;
   transactionCategory?: string;
   counterpartyAddressMap?: Record<string, string[]>; // DID -> rail addresses
+  /** Origins a credential-supplied status list may be fetched from, beyond the
+   * did:web issuer's own origin. EMPTY BY DEFAULT, so the default posture is
+   * same-origin only and a did:key issuer permits nothing until configured.
+   * Entries are exact origins (scheme, host and port), never prefixes. */
+  statusListOriginAllowlist?: string[];
   offline?: {
     didDocumentPath?: string; // air-gapped/test override for the issuer DID document
     statusListPath?: string; // air-gapped/test override for the status list credential

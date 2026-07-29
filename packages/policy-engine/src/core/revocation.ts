@@ -1,5 +1,5 @@
 import { gunzipSync } from 'node:zlib';
-import { didWebOrigin } from './url-guard.js';
+import { statusListOriginDecision } from './url-guard.js';
 import { readFileSync } from 'node:fs';
 import { cachedFetch, resolveDidDocument, findAssertionMethodKey } from './resolve.js';
 import { verifyEddsaJcs2022, decodeEd25519Multibase } from './proof.js';
@@ -69,23 +69,12 @@ export async function checkStatusEntry(
   // A did:key issuer has no domain to pin against. Those fall through to the
   // url-guard alone, which is weaker; it is the honest limit of pinning to an
   // issuer identity that carries no origin.
-  const pinnedOrigin = didWebOrigin(config.issuerDid);
-  if (pinnedOrigin !== null) {
-    let listOrigin: string;
-    try {
-      listOrigin = new URL(entry.statusListCredential).origin;
-    } catch {
-      throw new Error(
-        `statusListCredential ${JSON.stringify(entry.statusListCredential)} is not a parseable absolute URL`,
-      );
-    }
-    if (listOrigin !== pinnedOrigin) {
-      throw new Error(
-        `statusListCredential origin ${listOrigin} is not the pinned issuer's origin ${pinnedOrigin} ` +
-          `(issuer ${config.issuerDid}) -- refusing to dereference a credential-supplied URL off the issuer's own domain`,
-      );
-    }
-  }
+  const originDecision = statusListOriginDecision(
+    config.issuerDid,
+    entry.statusListCredential,
+    config.statusListOriginAllowlist,
+  );
+  if (!originDecision.ok) throw new Error(originDecision.reason);
 
   let body: string;
   if (config.offline?.statusListPath) {
@@ -97,6 +86,7 @@ export async function checkStatusEntry(
       config.cacheDir,
       config.revocation.fetchTimeoutMs,
       config.revocation.maxStalenessHours,
+      config.statusListOriginAllowlist,
     );
     if (res.note) notes.push(res.note);
     body = res.body;

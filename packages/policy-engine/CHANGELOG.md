@@ -21,10 +21,27 @@ inside a hosted multi-tenant verifier whose issuer allowlist has more than one e
 
 Two controls, both fail-closed:
 
-- **Origin pin, before the fetch.** For a `did:web` issuer, `statusListCredential` must be
-  same-origin with the issuer's own domain, checked before any request is made. A `did:key`
-  issuer carries no origin, so those fall through to the guard alone; that is the honest
-  limit of pinning to an identity with no domain.
+- **Origin pin, before the fetch.** A `statusListCredential` URL is dereferenced only when it
+  is same-origin with a `did:web` issuer's own domain, **or** its origin appears in
+  `config.statusListOriginAllowlist`. That list is **empty by default**, so the default posture
+  is same-origin only, and a `did:key` issuer (which carries no origin to pin against) permits
+  nothing until configured.
+
+  The allowlist exists because a strict pin made a legitimate deployment impossible: a
+  `did:web` issuer serving its status list from a CDN or object store is the normal way to
+  serve a static file at scale, and a control with no escape hatch for it is over-refusal
+  rather than security. An operator-listed origin also satisfies the URL guard's address-class
+  check, and only that check: the scheme test still applies and every redirect hop is still
+  re-validated, so a sanctioned origin cannot redirect into an unsanctioned private one. Once
+  the operator has named an origin, a credential can only choose among destinations already
+  sanctioned, which is the whole of the anti-SSRF property.
+
+  **Intended successor, recorded so the allowlist is understood as a bridge:** the permitted
+  off-origin location is the issuer's business, not the verifier operator's. A service entry in
+  the issuer's DID document, which the verifier already resolves, would carry it over a channel
+  the issuer controls cryptographically, with no operator configuration and no list that grows
+  with every issuer. `did:key` would still need the allowlist. That is a normative addition for
+  a spec revision.
 - **URL guard on every outbound dereference** (`src/core/url-guard.ts`, exported): http(s)
   only; refuses loopback, RFC1918, CGNAT, link-local (including cloud metadata), ULA,
   multicast, reserved, documentation and NAT64 ranges, as literals and as DNS answers,

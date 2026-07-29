@@ -37,8 +37,8 @@ export function didWebToUrl(did: string): string {
 // Every outbound dereference in this engine goes through the URL guard: scheme,
 // address class, and a re-check on every redirect hop. See url-guard.ts for what
 // it does and does not close.
-async function fetchWithTimeout(url: string, timeoutMs: number): Promise<string> {
-  return guardedFetch(url, timeoutMs);
+async function fetchWithTimeout(url: string, timeoutMs: number, sanctionedOrigins?: readonly string[]): Promise<string> {
+  return guardedFetch(url, timeoutMs, sanctionedOrigins ? { sanctionedOrigins } : {});
 }
 
 function cachePathFor(cacheDir: string, url: string): string {
@@ -55,12 +55,13 @@ export async function cachedFetch(
   cacheDir: string,
   timeoutMs: number,
   maxStalenessHours: number,
+  sanctionedOrigins?: readonly string[],
 ): Promise<CachedFetchResult> {
   mkdirSync(cacheDir, { recursive: true });
   const cachePath = cachePathFor(cacheDir, url);
   let fetchError: string | undefined;
   try {
-    const body = await fetchWithTimeout(url, timeoutMs);
+    const body = await fetchWithTimeout(url, timeoutMs, sanctionedOrigins);
     writeFileSync(cachePath, JSON.stringify({ fetchedAt: new Date().toISOString(), url, body }));
     return { body, fresh: true, ageHours: 0 };
   } catch (e) {

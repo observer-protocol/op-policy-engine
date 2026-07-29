@@ -66,6 +66,21 @@ export function parseConfig(raw: unknown): VerifierConfig {
     typeof didCacheRaw['maxStalenessHours'] === 'number' ? didCacheRaw['maxStalenessHours'] : maxStalenessHours;
 
   const railsOverride = (c['rails'] ?? {}) as Record<string, RailDef>;
+  // Empty by default. An operator who does not set it gets same-origin-only,
+  // which is the safe posture; the failure mode of a permissive default is nine
+  // config values quietly becoming decorative.
+  const slOriginRaw = c['statusListOriginAllowlist'];
+  if (slOriginRaw !== undefined && (!Array.isArray(slOriginRaw) || !slOriginRaw.every((x) => typeof x === 'string'))) {
+    throw new Error('config.statusListOriginAllowlist must be an array of origin strings when present');
+  }
+  const statusListOriginAllowlist = ((slOriginRaw as string[] | undefined) ?? []).map((o) => {
+    try {
+      return new URL(o).origin;
+    } catch {
+      throw new Error(`config.statusListOriginAllowlist entry ${JSON.stringify(o)} is not a parseable origin`);
+    }
+  });
+
   const offlineRaw = c['offline'] as { didDocumentPath?: string; statusListPath?: string } | undefined;
 
   return {
@@ -84,6 +99,7 @@ export function parseConfig(raw: unknown): VerifierConfig {
     allowContractCalls: c['allowContractCalls'] === true,
     transactionCategory: typeof c['transactionCategory'] === 'string' ? (c['transactionCategory'] as string) : undefined,
     counterpartyAddressMap: (c['counterpartyAddressMap'] as Record<string, string[]>) ?? undefined,
+    statusListOriginAllowlist,
     offline: offlineRaw
       ? {
           didDocumentPath: offlineRaw.didDocumentPath ? expandHome(offlineRaw.didDocumentPath) : undefined,

@@ -63,7 +63,7 @@ export type { LedgerCoreStatus } from './core/version.js';
 // Rail-specific decode (resolveTransfer, evmtx, soltx) stays in each engine.
 // Outbound-fetch guard. Exported so adapters and hosted verifiers can apply the
 // same refusal set to any URL they dereference, rather than each inventing one.
-export { guardedFetch, assertFetchableUrl, blockedAddressReason, didWebOrigin, ObserverUrlRefusedError } from './core/url-guard.js';
+export { guardedFetch, assertFetchableUrl, blockedAddressReason, didWebOrigin, statusListOriginDecision, ObserverUrlRefusedError } from './core/url-guard.js';
 
 export { appendAudit } from './core/audit.js';
 export { parseConfig } from './core/config.js';
