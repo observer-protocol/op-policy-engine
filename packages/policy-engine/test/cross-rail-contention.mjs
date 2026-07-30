@@ -100,6 +100,52 @@ console.log('\n── cross-rail ledger: single-writer fail-closed guard ──'
   A('symmetry: the FIRST process also denies (neither wins)', r.ok === false && /contention/.test(r.reason || ''), r.ok ? '' : r.reason);
 }
 
+
+// 10. WALL-CLOCK REGRESSION — the class this guard no longer has.
+//
+//     The guard used to ask `e.ts >= PROCESS_START_MS`. Date.now() is wall-clock and
+//     not monotonic: an NTP step, a VM suspend/resume, a live migration or a host
+//     clock corrected after drift can place a PREDECESSOR's records in a restarted
+//     process's future. Every one of its own prior records then read as a concurrent
+//     writer, and the service restarted and denied every payment, on a self-hosted
+//     box, with a symptom pointing nowhere near its cause.
+//
+//     A test could only ever have proved correct behaviour on a regression we
+//     simulated. The dependency was removed instead: the file is append-only, so it
+//     already carries a total order, and byte offset answers "before or after we
+//     opened" without a clock. This case exists to prove the class is closed, not to
+//     defend against a trigger.
+{
+  const f = p('clock-regression.jsonl');
+  const future = Date.now() + 6 * 60 * 60 * 1000; // predecessor's clock ran 6h fast
+  appendFileSync(f, JSON.stringify({
+    rail: 'x402', asset: 'USDC', amountRaw: '3000000', decimals: 6,
+    ts: future, state: 'committed', w: `${hostname()}:999999`,
+  }) + '\n');
+  const l = new CrossRailLedger(f);
+  const r = l.sumWindowConverted(rates);
+  A('a predecessor record timestamped in OUR FUTURE is history, not contention',
+    r.ok === true, r.ok ? '' : r.reason);
+  // And it must still be COUNTED. Treating it as history is only correct if the spend
+  // is included; silently dropping it would trade a false denial for an under-count,
+  // which is the direction that permits more spending.
+  A('...and is still counted, so the fix does not under-count instead',
+    r.ok === true && r.total === 3000000n, r.ok ? String(r.total) : r.reason);
+
+  // The same record appended AFTER we opened is still contention: the offset boundary
+  // is doing the work, so a foreign writer cannot hide behind a backdated timestamp
+  // either.
+  const l2 = new CrossRailLedger(p('clock-regression-2.jsonl'));
+  l2.record({ rail: 'x402', asset: 'USDC', amountRaw: '1000000', decimals: 6 });
+  appendFileSync(p('clock-regression-2.jsonl'), JSON.stringify({
+    rail: 'x402', asset: 'USDC', amountRaw: '1000000', decimals: 6,
+    ts: 1, state: 'committed', w: `${hostname()}:999998`, // backdated to the epoch
+  }) + '\n');
+  const r2 = l2.sumWindowConverted(rates);
+  A('a foreign record appended after we opened is contention even if BACKDATED',
+    r2.ok === false, r2.ok ? String(r2.total) : '');
+}
+
 rmSync(DIR, { recursive: true, force: true });
 console.log(`\ncross-rail contention: ${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);

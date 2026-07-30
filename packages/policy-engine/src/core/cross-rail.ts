@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync, renameSync } from 'node:fs';
+import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync, renameSync, statSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { hostname } from 'node:os';
 import { parseDecimalScaled } from './mandate.js';
@@ -49,14 +49,34 @@ const RESERVE_TTL_MS = 5 * 60 * 1000;
 //   • distinct across genuinely different processes (pids are unique among live
 //     processes; hostname disambiguates same-pid collisions on a shared/NFS path
 //     across hosts) → a real second writer is caught.
-// PROCESS_START_MS distinguishes a concurrent writer (DENY) from this host/pid's
-// OWN prior-run records after a restart, a reused pid, or a serverless cold-start
-// on the same path (all legitimate to count): a foreign writer is contention ONLY
-// if it wrote at/after we started. Known edge: two containers with identical
-// hostname AND identical pid sharing a volume would not be distinguished — an
-// unusual shared-volume topology; documented, not defended here.
+// "Is this record from before we started" is answered by the FILE'S OWN APPEND
+// ORDER, not by a clock. See CLAIM_OFFSET on the class.
+//
+// It used to be answered by `e.ts >= PROCESS_START_MS`, with PROCESS_START_MS from
+// Date.now(). That worked and had a failure nobody could have found in the field:
+// Date.now() is wall-clock and not monotonic, so an NTP step, a VM suspend/resume,
+// a live migration or a host clock corrected after drift can place a predecessor's
+// records in a restarted process's FUTURE. Every one of its own prior records then
+// reads as a concurrent writer, and the service restarts and denies every payment,
+// on a self-hosted box, with a symptom pointing nowhere near its cause.
+//
+// A test would only have proved correct behaviour on a regression we simulated. The
+// dependency is removable instead: this is an APPEND-ONLY file, so it already has a
+// total order, and the guard only ever needed "before or after we opened". Byte
+// offset answers that and cannot go backwards.
+//
+// Removing it also closes a second edge that was going to need its own assertion: a
+// predecessor's final write and a successor's start landing in the same millisecond,
+// where `>=` read the old record as concurrent. There is no timestamp comparison
+// left for either hazard to act on.
+//
+// `ts` stays on the record. It orders history for humans and drives the window and
+// prune cutoffs. It no longer decides identity.
+//
+// Known edge, unchanged: two containers with identical hostname AND identical pid
+// sharing a volume are not distinguished. An unusual shared-volume topology;
+// documented, not defended here.
 const PROCESS_INSTANCE = `${hostname()}:${process.pid}`;
-const PROCESS_START_MS = Date.now();
 
 /** Thrown when a second writer is detected on the same ledger path concurrently
  * with this process. Fail-closed: callers MUST treat this as a DENY, never as a
@@ -74,15 +94,15 @@ export class ObserverLedgerContentionError extends Error {
   }
 }
 
-/** A record is a concurrent foreign writer iff it carries a writer id that is
- * NOT ours AND was written at/after this process started. Records with no `w`
- * (legacy files) and foreign records older than our start (prior sessions /
- * pre-existing history) are legitimate and counted normally — the honest case,
- * including a single writer that restarted, is unchanged. */
-function concurrentForeign(e: { w?: unknown; ts?: unknown }): string | null {
-  return typeof e.w === 'string' && e.w !== PROCESS_INSTANCE && typeof e.ts === 'number' && e.ts >= PROCESS_START_MS
-    ? e.w
-    : null;
+/** A record is a concurrent foreign writer iff it carries a writer id that is NOT
+ * ours AND sits at or beyond the byte offset the file had when we opened it.
+ *
+ * Records with no `w` (legacy files) and foreign records that were already in the
+ * file when we opened (prior sessions, pre-existing history) are legitimate and
+ * counted normally, so the honest case including a single writer that restarted is
+ * unchanged. `claimOffset` is that boundary; see CLAIM_OFFSET on the class. */
+function concurrentForeign(e: { w?: unknown }, offset: number, claimOffset: number): string | null {
+  return typeof e.w === 'string' && e.w !== PROCESS_INSTANCE && offset >= claimOffset ? e.w : null;
 }
 
 /** Convert a raw asset amount into budget-currency units at CROSS_RAIL_SCALE,
@@ -141,11 +161,34 @@ export type CrossRailTotal = { ok: true; total: bigint } | { ok: false; reason: 
 export class CrossRailLedger {
   private readonly path: string;
 
+  /** CLAIM_OFFSET: the file's size when this instance opened it.
+   *
+   * Everything before it was already there and is history, whoever wrote it.
+   * Everything at or after it was appended while we were live, so a foreign writer
+   * there is genuinely concurrent. That is the whole of the single-writer guard, and
+   * it needs no clock: an append-only file already carries a total order, and a byte
+   * offset cannot go backwards when the host's clock does.
+   *
+   * Reset after a successful `rewrite`, because a rewrite compacts the file and
+   * invalidates every offset. Safe to reset: `rewrite` runs the same guard over every
+   * line first and throws before compacting, so a file it has just written contains
+   * no concurrent foreign records by construction. */
+  private claimOffset: number;
+
   constructor(path: string) {
     if (!path) throw new Error('CrossRailLedger: path required');
     this.path = path;
     mkdirSync(dirname(path), { recursive: true });
     if (!existsSync(path)) writeFileSync(path, '', { encoding: 'utf8', mode: 0o600 });
+    this.claimOffset = this.fileSize();
+  }
+
+  private fileSize(): number {
+    try {
+      return statSync(this.path).size;
+    } catch {
+      return 0;
+    }
   }
 
   /** Record a committed spend immediately (signer-boundary path: the signature
@@ -259,7 +302,14 @@ export class CrossRailLedger {
     } catch {
       return;
     }
+    // Offset tracked explicitly: split() discards position, and position is what the
+    // guard now reads. Byte length rather than character count, because the file is
+    // written as utf8 and a multi-byte payee or memo would otherwise drift the offset
+    // against the size statSync reported.
+    let offset = 0;
     for (const line of raw.split('\n')) {
+      const lineStart = offset;
+      offset += Buffer.byteLength(line, 'utf8') + 1; // +1 for the newline split removed
       if (!line.trim()) continue;
       let e: LedgerLine;
       try {
@@ -267,11 +317,14 @@ export class CrossRailLedger {
       } catch {
         continue; // a corrupt line never lowers the sum; nothing to price either
       }
+      // The guard runs BEFORE the window and state filters. A concurrent writer whose
+      // record falls outside the window is still a concurrent writer, and skipping it
+      // would make contention detection depend on how old the other process's spend was.
+      const foreign = concurrentForeign(e, lineStart, this.claimOffset);
+      if (foreign) throw new ObserverLedgerContentionError(foreign);
       if (typeof e.ts !== 'number' || e.ts < cutoff) continue;
       if (e.state !== 'committed' && e.state !== 'reserved') continue;
       if (e.state === 'reserved' && e.expiresAt !== undefined && e.expiresAt < nowMs) continue;
-      const foreign = concurrentForeign(e);
-      if (foreign) throw new ObserverLedgerContentionError(foreign);
       yield e;
     }
   }
@@ -288,7 +341,10 @@ export class CrossRailLedger {
       return;
     }
     const kept: string[] = [];
+    let offset = 0;
     for (const line of raw.split('\n')) {
+      const lineStart = offset;
+      offset += Buffer.byteLength(line, 'utf8') + 1;
       if (!line.trim()) continue;
       let parsed: LedgerLine;
       try {
@@ -299,7 +355,7 @@ export class CrossRailLedger {
       }
       // Never clobber a file a second writer is also mutating: fail closed
       // BEFORE the temp-write/rename that would drop their committed spends.
-      const foreign = concurrentForeign(parsed);
+      const foreign = concurrentForeign(parsed, lineStart, this.claimOffset);
       if (foreign) throw new ObserverLedgerContentionError(foreign);
       let out: LedgerLine | null;
       try {
@@ -313,5 +369,9 @@ export class CrossRailLedger {
     const tmp = this.path + '.tmp';
     writeFileSync(tmp, kept.join('\n') + (kept.length ? '\n' : ''), { encoding: 'utf8', mode: 0o600 });
     renameSync(tmp, this.path);
+    // Offsets from before the compaction are meaningless now. Everything in the file is
+    // content this process just wrote, and the loop above threw if any concurrent foreign
+    // record existed, so the whole file is history from here.
+    this.claimOffset = this.fileSize();
   }
 }
