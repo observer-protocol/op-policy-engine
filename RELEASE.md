@@ -64,6 +64,43 @@ would ship a bundle that warns or refuses at init.
    in its own terms, including what a consumer parsing reason strings would see differently.
 6. Publish the five. Only now has the change reached anyone.
 
+## Behaviour changes currently riding the next fanout
+
+Named individually rather than summarised, because a shared banner is how a behaviour change
+stops being noticed. **Four entries, and they are different in kind.** Each needs its own line
+in each of the five packages' notes.
+
+**1. Ledger contention detection no longer depends on the age of the other writer's spend.
+FIXES A FAIL-OPEN.**
+
+The single-writer guard ran *after* the 24-hour window and record-state filters, so a
+concurrent writer whose most recent spend fell outside the window was skipped before the check
+ever saw it. Two processes on one ledger were detected only if the other one had written
+recently; a quiet second writer was invisible.
+
+That is a fail-open in the control whose entire job is failing closed. **This is the entry a
+consumer needs to read**, because it changes *what the guard detects*, not how it decides. A
+deployment that has been running two writers on one path and seeing no contention error has not
+been safe; it has been unobserved.
+
+**2. Writer identity is decided by file offset, not by comparing timestamps. REMOVES A HAZARD
+CLASS.**
+
+`e.ts >= PROCESS_START_MS` became a byte-offset boundary. `Date.now()` is wall-clock and not
+monotonic, so an NTP step, a VM suspend/resume, a live migration or a corrected host clock could
+place a predecessor's records in a restarted process's future, and every one of its own prior
+records would read as a concurrent writer: **a service that restarts and then denies every
+payment.** No consumer action; the honest cases, including restart and cold-start, behave as
+before.
+
+**3. `[unenforceable]` denial tag**, distinct from `[unknown-rule]`. A consumer parsing reason
+strings sees a new tag for a constraint the engine declares it cannot enforce, where it
+previously saw the generic unknown-rule text.
+
+**4. Monthly window accounting.** A 30-day counter alongside the rolling 24-hour one, with the
+prune horizon extended to match. A shorter prune would have silently under-counted the longer
+window, which is the direction that permits more spending.
+
 ## Security releases
 
 Build and **hold** the five rather than publishing as you go. A partially-published fleet is a

@@ -8,7 +8,7 @@
 // across REAL processes; helper is ledger-child.mjs.
 import { CrossRailLedger, ObserverLedgerContentionError } from '../dist/index.mjs';
 import { execFileSync, spawn } from 'node:child_process';
-import { appendFileSync, writeFileSync, rmSync, mkdtempSync } from 'node:fs';
+import { appendFileSync, writeFileSync, readFileSync, rmSync, mkdtempSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { tmpdir, hostname } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -144,6 +144,38 @@ console.log('\n── cross-rail ledger: single-writer fail-closed guard ──'
   const r2 = l2.sumWindowConverted(rates);
   A('a foreign record appended after we opened is contention even if BACKDATED',
     r2.ok === false, r2.ok ? String(r2.total) : '');
+}
+
+
+// 11. THE ORDERING claimOffset's SAFETY ARGUMENT RESTS ON.
+//
+//     Resetting claimOffset after a rewrite is safe ONLY because rewrite runs the guard
+//     over every line and throws BEFORE the temp-write/rename. If someone later moves the
+//     compaction ahead of the check for a plausible reason, that argument silently becomes
+//     false: a rewrite would drop a concurrent writer's committed spends and then reset the
+//     boundary so the loss was never detectable.
+//
+//     So the ordering is asserted directly rather than left as a comment. Rule-at-the-
+//     violation-site with a test behind it.
+{
+  const f = p('rewrite-ordering.jsonl');
+  const l = new CrossRailLedger(f);
+  // A record old enough that prune() WOULD remove it, so the compaction has real work to
+  // do and a passing test cannot be explained by there being nothing to drop.
+  appendFileSync(f, JSON.stringify({
+    rail: 'x402', asset: 'USDC', amountRaw: '1000000', decimals: 6,
+    ts: Date.now() - 400 * 24 * 60 * 60 * 1000, state: 'committed', w: `${hostname()}:${process.pid}`,
+  }) + '\n');
+  execFileSync('node', [CHILD, 'write', f, 'USDC', '5000000', '6']); // a real second process
+  const before = readFileSync(f, 'utf8');
+
+  let threw = false;
+  try { l.prune(); } catch (e) { threw = e instanceof ObserverLedgerContentionError; }
+  A('rewrite throws on a foreign record', threw);
+  A('...and left the file UNCOMPACTED, which is what makes resetting claimOffset safe',
+    readFileSync(f, 'utf8') === before);
+  A('...including the prunable record it would otherwise have dropped',
+    readFileSync(f, 'utf8').includes('"amountRaw":"1000000"'));
 }
 
 rmSync(DIR, { recursive: true, force: true });
