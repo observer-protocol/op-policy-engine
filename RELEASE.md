@@ -64,11 +64,18 @@ would ship a bundle that warns or refuses at init.
    in its own terms, including what a consumer parsing reason strings would see differently.
 6. Publish the five. Only now has the change reached anyone.
 
-## Behaviour changes currently riding the next fanout
+## Behaviour changes riding 0.4.0
 
 Named individually rather than summarised, because a shared banner is how a behaviour change
-stops being noticed. **Four entries, and they are different in kind.** Each needs its own line
-in each of the five packages' notes.
+stops being noticed. **Five entries, and they are different in kind.** Each needs its own line
+in each of the five packages' notes, describing what a consumer would OBSERVE differently
+rather than what we changed internally.
+
+**0. SSRF guard on outbound dereference.** Origin pin, operator allowlist defaulting to empty,
+and the loopback-http downgrade removed. **The DNS-rebinding residual is stated in the module
+header and the CHANGELOG in the words already written, and a release note must not soften it.**
+A guard described as complete when a residual is known is worse than no guard, because it
+stops anyone looking.
 
 **1. Ledger contention detection no longer depends on the age of the other writer's spend.
 FIXES A FAIL-OPEN.**
@@ -93,13 +100,15 @@ records would read as a concurrent writer: **a service that restarts and then de
 payment.** No consumer action; the honest cases, including restart and cold-start, behave as
 before.
 
-**3. `[unenforceable]` denial tag**, distinct from `[unknown-rule]`. A consumer parsing reason
-strings sees a new tag for a constraint the engine declares it cannot enforce, where it
-previously saw the generic unknown-rule text.
+**3. `allowed_counterparty_types` denies with `[unenforceable]`** rather than through the
+unknown-rule catch-all. Same verdict, legible cause: the issuer is told the property is
+declared-but-unenforceable and why, instead of being told the engine has never heard of a
+field its own schema accepts.
 
-**4. Monthly window accounting.** A 30-day counter alongside the rolling 24-hour one, with the
-prune horizon extended to match. A shorter prune would have silently under-counted the longer
-window, which is the direction that permits more spending.
+**4. `monthlyVolumeCap` enforces a real 30-day window** rather than comparing against today's
+counter, with the prune horizon extended to match. A cap named for a month that measured a day
+permitted roughly thirty times what it declared. A shorter prune would have silently
+under-counted the longer window, which is the same direction.
 
 ## Security releases
 
