@@ -79,6 +79,25 @@ export const DECLARED_UNENFORCEABLE: readonly DeclaredUnenforceable[] = [
       'declared here in the v2.1 lineage and never enforced: the evaluator emitted a NOTE saying human notification was expected upstream, which silently auto-approved every payment between the threshold and the per-transaction ceiling. Relocated to actionScope.escalationThreshold, which is an enumerated surface where an unknown key fails closed, and which requires actionScope.approvers so the band has somewhere to route. A credential declaring the old field names a constraint no evaluator honours, so it is refused rather than noted',
   },
   {
+    container: 'actionScope',
+    property: 'cancellationAuthority',
+    // NAMES THE SERVED SCHEMA VERSIONS, WHICH ARE FACTS. v2.5 is published and frozen at
+    // observerprotocol.org/schemas/delegation/v2.5.json, so naming it here cannot go stale
+    // the way "withdrawn at v2.5" would have.
+    //
+    // THE CASE THIS EXISTS FOR IS ABSENCE, NOT PRESENCE. A credential issued against v2.1,
+    // v2.3 or v2.4 carries no cancellationAuthority, because the field did not exist. That
+    // is not a mandate refusing cancellation; it is a mandate that never spoke to the
+    // question. Without this entry the two are indistinguishable, and the reassuring reading
+    // wins: every cancellation under an older credential refuses, which is a blanket refusal
+    // arriving through the credential's AGE rather than through any decision.
+    //
+    // So the engine reports not-expressed rather than no, and an agent is told to seek a
+    // reissued credential instead of being told it may not cancel.
+    reason:
+      'introduced in delegation schema v2.5 and absent from v2.1/v2.3/v2.4, which predate it. A credential issued against those versions expressed NO cancellation authority, which is not the same as expressing that nobody may cancel. Cancellation under such a credential resolves to not-expressed rather than refused, and the remedy is a reissued credential rather than an escalation. The engine does not infer an authority the issuer never declared',
+  },
+  {
     container: 'delegation.scope.spending_limits',
     property: 'per_asset',
     reason:
