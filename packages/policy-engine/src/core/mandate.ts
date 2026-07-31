@@ -7,7 +7,7 @@ import type {
   VerifierConfig,
 } from './types.js';
 import { convertToBudgetUnits, formatBudgetUnits, CROSS_RAIL_SCALE } from './cross-rail.js';
-import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, KNOWN_COUNTERPARTY_KINDS, declaredUnenforceable } from './vocabulary.js';
+import { KNOWN_SCOPE_KEYS, KNOWN_TM_KEYS, KNOWN_COUNTERPARTY_KINDS, KNOWN_PURCHASE_TERMS_TYPES, declaredUnenforceable } from './vocabulary.js';
 import { capDetail, formatScaled, NON_NEGOTIABLE, type DenialDetail } from './denial.js';
 
 // Mandate enforcement against the OWS PolicyContext.
@@ -182,6 +182,56 @@ export function evaluateMandate(
       `[rails] chain ${ctx.chain_id} has no rail mapping in config.rails — cannot establish mandate scope on an unmapped chain`,
       notes,
     );
+  }
+
+  // ── requiredPurchaseTerms ──────────────────────────────────────────────────
+  //
+  // THE ONLY REAL CONSTRAINT ON A PAYOUT RAIL. actionScope.allowList cannot bound a claims payout at
+  // all: a third-party administrator's payees are the customer's customers, thousands of claimants
+  // unknown when the mandate is issued, and allowList matches identities by equality. What bounds
+  // the payment is whether it matches an adjudicated claim.
+  //
+  // Placed BEFORE the amount and counterparty checks because it asks a prior question: not "is this
+  // payment within bounds" but "did anyone other than the agent state that this is owed".
+  if (Array.isArray(scope?.requiredPurchaseTerms) && scope.requiredPurchaseTerms.length > 0) {
+    const accepted = scope.requiredPurchaseTerms as string[];
+    const presented = ctx.purchase_terms;
+
+    // UNRECOGNIZED TYPES IN THE CREDENTIAL DENY. The vocabulary is open so a new scheme needs no
+    // schema version; the price of that is that this set is the closed half, and a mandate naming a
+    // type this engine cannot evaluate is a mandate whose control we cannot perform.
+    const unknownAccepted = accepted.filter((t) => !KNOWN_PURCHASE_TERMS_TYPES.has(t));
+    if (unknownAccepted.length > 0) {
+      return deny(
+        `[purchase-terms] mandate accepts artifact type(s) this engine does not recognize: ${unknownAccepted.join(', ')}. ` +
+        `Recognized: ${[...KNOWN_PURCHASE_TERMS_TYPES.keys()].join(', ')}. An open vocabulary is not an open door: ` +
+        'a type we cannot evaluate is a control we cannot perform, so the credential is refused rather than partially honoured',
+        notes,
+      );
+    }
+
+    if (!presented) {
+      return deny(
+        `[purchase-terms] this mandate requires a signed statement of what is owed (${accepted.join(' or ')}) and none was presented. ` +
+        'ABSENT IS NOT EMPTY: a payment with no stated terms is the agent asserting, unchallenged, what the other party wanted',
+        notes,
+      );
+    }
+    if (!presented.verified) {
+      return deny(
+        `[purchase-terms] the presented ${presented.type} was not verified. This engine refuses an unverified artifact rather than ` +
+        'accepting one on the strength of its shape: an artifact read as evidence of itself is not evidence',
+        notes,
+      );
+    }
+    if (!accepted.includes(presented.type)) {
+      return deny(
+        `[purchase-terms] presented ${presented.type}, which this mandate does not accept (accepts ${accepted.join(', ')})`,
+        notes,
+      );
+    }
+    const known = KNOWN_PURCHASE_TERMS_TYPES.get(presented.type);
+    notes.push(`[purchase-terms] ${presented.type} accepted, signed by ${known?.signer ?? 'an unrecorded party'}`);
   }
 
   // Case discipline for counterparty compares on this rail (see matchCounterparty).

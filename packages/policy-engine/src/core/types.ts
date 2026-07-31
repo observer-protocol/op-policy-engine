@@ -45,6 +45,17 @@ export interface PolicyContext {
    * rates, scaled by CROSS_RAIL_SCALE. Supplied by the caller (the shared
    * CrossRailLedger); a crossRailBudget mandate with no counter fails closed. */
   cross_rail?: { total: string; currency: string };
+  /** The counterparty-or-payor-signed statement of what is owed, when one was presented.
+   *
+   * ABSENT IS NOT EMPTY. A mandate carrying actionScope.requiredPurchaseTerms and a context with no
+   * artifact is a payment nobody stated the terms of, which DENIES. A context that supplies one is
+   * making a claim the engine checks against the accepted types.
+   *
+   * `verified` is the CALLER'S claim that it checked the signature. The engine does not verify
+   * signatures here and does not pretend to: it refuses an unverified artifact rather than
+   * accepting one on the strength of its shape. That boundary is stated because an engine that
+   * silently accepted `verified: false` would be reading an artifact as evidence of itself. */
+  purchase_terms?: { type: string; verified: boolean };
 }
 
 export interface PolicyResult {
@@ -84,6 +95,10 @@ export interface ActionScope {
   allowed_transaction_categories?: string[];
   cumulative_budget?: { amount: string; currency: string; window: string };
   geographic_restriction?: { allowed?: string[]; disallowed?: string[] };
+  /** Artifact types acceptable as a signed statement of what is owed. See
+   * KNOWN_PURCHASE_TERMS_TYPES, which names the SIGNER of each because one of them contradicts
+   * v2.5's frozen description. */
+  requiredPurchaseTerms?: string[];
 }
 
 export interface AuthorizationConfig {

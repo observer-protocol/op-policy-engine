@@ -19,6 +19,9 @@
 /** `actionScope` properties this engine recognizes. Anything else DENIES via the
  * unknown-rule catch-all (fail-closed per AIP v0.8). */
 export const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
+  // Registered here or the unknown-rule gate refuses the credential, which is fail-closed working:
+  // a field the engine reads but never declared would be a control nobody could audit from this set.
+  'requiredPurchaseTerms',
   'allowed_rails',
   'per_transaction_ceiling',
   'allowed_transaction_categories',
