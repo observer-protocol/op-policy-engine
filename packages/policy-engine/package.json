@@ -25,7 +25,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
     "typecheck": "tsc --noEmit",
     "fixtures": "node test/fixtures/gen.mjs",
-    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs && node test/version-stamp.mjs && node test/url-guard.mjs && node test/status-list-origin.mjs && node test/monthly-velocity.mjs && node test/structured-denial.mjs",
+    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs && node test/version-stamp.mjs && node test/url-guard.mjs && node test/status-list-origin.mjs && node test/monthly-velocity.mjs && node test/structured-denial.mjs && node --experimental-strip-types test/vocabulary-purchase-terms.mjs",
     "prepublishOnly": "npm run typecheck && npm test"
   },
   "repository": {

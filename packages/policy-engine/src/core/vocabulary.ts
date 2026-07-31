@@ -138,3 +138,55 @@ export function declaredUnenforceable(
  * actionScope.allowed_counterparty_types, withdrawn as premature, expected back with a
  * rail that has classes. Do not add a class kind here to save a field. */
 export const KNOWN_COUNTERPARTY_KINDS: ReadonlySet<string> = new Set(['address', 'did']);
+
+/** Artifact types acceptable for actionScope.requiredPurchaseTerms, WITH THE PARTY THAT SIGNS EACH.
+ *
+ * THE SIGNER IS NAMED HERE BECAUSE THE FROZEN SCHEMA'S PROSE IS NARROWER THAN THE MECHANISM.
+ * v2.5's description says "COUNTERPARTY-SIGNED statements", and the payout walkthrough falsified
+ * that: on a claims payout the artifact is signed by the PAYOR, who is neither the counterparty nor
+ * the agent, while the counterparty is a claimant who signs nothing.
+ *
+ * The field always worked. The signer is a property of the ARTIFACT TYPE and that vocabulary is
+ * open, so `payor-adjudication` was expressible the day v2.5 shipped. Only the description was
+ * wrong, and it cost no schema version to be wrong.
+ *
+ * v2.5's bytes are frozen and stay frozen. The correction is carried in v2.6-draft and BESIDE the
+ * record here, which is where an integrator reads recognized values. THIS IS THE FIRST VOCABULARY
+ * ENTRY THAT CONTRADICTS THE FROZEN PROSE, so the contradiction is stated rather than left for
+ * someone to notice.
+ *
+ * AN UNRECOGNIZED TYPE DENIES, so the open vocabulary is not an open door. */
+export const KNOWN_PURCHASE_TERMS_TYPES: ReadonlyMap<string, { signer: string; why: string }> = new Map([
+  ['ap2-cart-mandate', {
+    signer: 'merchant',
+    why: 'AP2 CartMandate. The merchant states items and an exact price and signs it, which is the price guarantee the protocol is built around.',
+  }],
+  ['x402-payment-required', {
+    signer: 'resource server',
+    why: 'The 402 response IS the price statement on this rail, which is why x402 could never surface the need for this field.',
+  }],
+  ['signed-invoice', {
+    signer: 'counterparty',
+    why: 'The party being paid states what is owed. The ordinary case, and the one v2.5 described as if it were the only one.',
+  }],
+  ['payor-adjudication', {
+    signer: 'payor, who is NOT the counterparty',
+    why: 'A claims payout. The payor adjudicates and signs; the TPA is the constrained party; the counterparty is a claimant who signs nothing. NAIC model law requires that claims paid by a third-party administrator be paid only as authorized by the payor, so this is statutory rather than contractual. It is also the FIRST artifact requirement with a natural signer: the party who benefits from the control is not the party producing the evidence, which is the defect that sent payer consent to an external artifact.',
+  }],
+]);
+
+/** Why counterparty allowlists cannot bound a claims payout, recorded where someone would try.
+ *
+ * A third-party administrator's payees are the customer's customers: thousands of claimants,
+ * unknown when the mandate is issued. actionScope.allowList matches IDENTITIES BY EQUALITY and
+ * holds identities never classes, so it cannot be written for this rail at all.
+ *
+ * The field that would have expressed it was allowed_counterparty_types, and it is in
+ * DECLARED_UNENFORCEABLE above. THE WITHDRAWAL WAS CORRECT AND SHOULD NOT BE REVISITED: a class
+ * list matches membership and an identity list matches equality, and conflating them is how an
+ * allowlist stops being a bound.
+ *
+ * What bounds a claims payout is not the payee's identity. It is whether the payment matches an
+ * adjudicated claim, which is `payor-adjudication` above. */
+export const PAYOUT_BOUND_IS_NOT_THE_ALLOWLIST = true;
+
