@@ -21,6 +21,14 @@
 export const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
   // Registered here or the unknown-rule gate refuses the credential, which is fail-closed working:
   // a field the engine reads but never declared would be a control nobody could audit from this set.
+  // Registered 2026-08-01. Until then a credential declaring an escalation threshold was REFUSED by the
+  // catch-all below — fail-closed, and the correct half of an earlier fix: the v2.1-lineage
+  // authorizationConfig.policy.escalation_threshold emitted a NOTE and silently auto-approved the whole
+  // band between the threshold and the ceiling. Relocating it to this enumerated surface turned that
+  // silent auto-approval into a refusal. THE RELOCATION HAPPENED AND THE REGISTRATION DID NOT, so the
+  // constraint was unusable rather than unenforced.
+  'escalationThreshold',
+  'approvers',
   'requiredPurchaseTerms',
   'allowed_rails',
   'per_transaction_ceiling',

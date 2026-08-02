@@ -39,6 +39,21 @@ export interface Verdict {
   cred?: ObserverDelegationCredential;
   /** Present on a successful verify; the checks that ran, keyed by check name. */
   checks?: CredentialChecks;
+  /** THE THIRD STATE: permitted, but a human must authorise it.
+   *
+   * `allow` STAYS A BOOLEAN AND IS `false` WHEN THIS IS PRESENT. That is the whole safety argument and
+   * it is not stylistic. A consumer that does not know about this field sees `allow: false` and DENIES —
+   * the payment does not happen. Had this been `allow: true` plus an escalation, an unaware consumer
+   * would let an unapproved payment through, invisibly, which is exactly the shape of the v2.1 defect
+   * one layer up: a signal that unaware readers treat as permission.
+   *
+   * Additive and optional, so the 25 read sites of `.allow` across 8 published packages compile and
+   * behave identically. A consumer opts in by reading this; one that never does keeps failing closed. */
+  escalation?: {
+    threshold: { amount: string; currency: string };
+    requested: { amount: string; currency: string };
+    approvers: unknown[];
+  };
 }
 
 /** Steps 1–5: load + cryptographically verify the delegation credential.
@@ -180,6 +195,11 @@ export function enforceMandate(
     return { allow: false, reason: `[rails] chain ${ctx.chain_id} has no rail mapping in config.rails`, notes: [] };
   }
   const mandate = evaluateMandate(ctx, cred, config, resolved);
+  // AN ESCALATION IS NOT A DENIAL, and carrying it through as one would lose the reason a human could
+  // still authorise this. `allow` is false either way; `escalation` is what distinguishes them.
+  if (!mandate.ok && mandate.escalation) {
+    return { allow: false, reason: mandate.reason, notes: mandate.notes, escalation: mandate.escalation };
+  }
   if (!mandate.ok) {
     // Carry the detail through. Dropping it here would have made the whole
     // structured-denial change invisible to every adapter, since enforceMandate is

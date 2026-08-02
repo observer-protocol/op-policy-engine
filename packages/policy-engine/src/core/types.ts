@@ -90,6 +90,15 @@ export interface PerTransactionCeiling {
 }
 
 export interface ActionScope {
+  /** Above this, a payment routes to a human approver rather than proceeding. Same shape as
+   * per_transaction_ceiling and evaluated in the same currency, deliberately: an escalation band that
+   * needed an FX rate would put an oracle inside a policy decision. */
+  escalationThreshold?: { amount: string; currency: string };
+  /** Keys permitted to approve a payment escalation routes to a human. Registered alongside
+   * escalationThreshold because the schema requires the band to have somewhere to route, and a
+   * threshold whose approver list still denied would leave the credential unusable for a second
+   * reason. Carried to the verdict; not otherwise evaluated here. */
+  approvers?: unknown[];
   allowed_rails?: string[];
   per_transaction_ceiling?: PerTransactionCeiling;
   allowed_transaction_categories?: string[];

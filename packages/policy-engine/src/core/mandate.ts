@@ -34,6 +34,14 @@ export interface MandateOutcome {
   ok: boolean;
   reason: string;
   notes: string[];
+  /** Present when the payment is permitted BUT requires a human. `ok` is false because the payment must
+   * not proceed unattended, and an outcome that said otherwise would be read as permission by anything
+   * not looking for this field. Optional, so every existing caller keeps working unchanged. */
+  escalation?: {
+    threshold: { amount: string; currency: string };
+    requested: { amount: string; currency: string };
+    approvers: unknown[];
+  };
   /** Machine-readable detail. Optional so every existing caller keeps working: a
    * new required field on a returned type is a breaking change, which is the same
    * over-refusal as a new required config field. */
@@ -395,6 +403,37 @@ export function evaluateMandate(
         notes,
         capDetail({ tag: 'ceiling', constraint: 'actionScope.per_transaction_ceiling', cap: ceiling, observed: value as bigint, decimals, unit: c.currency }),
       );
+    }
+  }
+
+  // 5b. actionScope.escalationThreshold (binding, same-currency) — THE THIRD STATE.
+  //
+  // AFTER THE CEILING, DELIBERATELY. Above the ceiling is a DENY and stays one: a payment nobody may
+  // authorise must not be offered to a human as though approving it were an option. So the order is
+  // deny, then escalate, then allow, and the band this covers is [threshold, ceiling].
+  //
+  // THIS IS THE BAND THE v2.1 DEFECT AUTO-APPROVED. The old field emitted a note saying human
+  // notification was expected upstream and then allowed the payment, so everything between the
+  // threshold and the ceiling proceeded with nobody asked. It now escalates.
+  //
+  // NOT A DENIAL. `ok: false` here would tell an agent it may never do this, which is false and would
+  // send it looking for a different route. The escalation is carried out separately.
+  if (scope.escalationThreshold) {
+    const t = scope.escalationThreshold;
+    const mismatch = sameCurrencyOrDeny(t.currency, 'escalationThreshold');
+    if (mismatch) return mismatch;
+    const threshold = parseDecimalScaled(t.amount, decimals);
+    if ((value as bigint) >= threshold) {
+      return {
+        ok: false,
+        reason: `[escalation] transaction value ${formatScaled(value as bigint, decimals)} ${t.currency} is at or above the escalationThreshold of ${t.amount} ${t.currency}; a human approver must authorise it`,
+        notes,
+        escalation: {
+          threshold: { amount: t.amount, currency: t.currency },
+          requested: { amount: formatScaled(value as bigint, decimals), currency: t.currency },
+          approvers: Array.isArray(scope.approvers) ? scope.approvers : [],
+        },
+      };
     }
   }
 
