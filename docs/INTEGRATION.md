@@ -1,5 +1,12 @@
 # Integration patterns
 
+> **Corrected 2026-08-03.** These snippets named `@observer-protocol/policy-core` and a function
+> `evaluate({...})`. Neither exists: the published package is
+> [`@observer-protocol/policy-engine`](https://www.npmjs.com/package/@observer-protocol/policy-engine)
+> and the exported entry point is `enforceMandate(ctx, credential, config, resolvedTransfer)`.
+> Signatures below are taken from the published type definitions.
+
+
 The Policy Engine supports two integration patterns. Both produce identical `PolicyEvaluationCredential` outputs. The choice is purely a deployment-shape concern.
 
 ## Pattern 1: Wallet-embedded (recommended)
@@ -12,9 +19,10 @@ The wallet imports the engine as a library and runs the evaluator **in-process, 
 │                                                            │
 │   user / agent → propose transaction                       │
 │                       ↓                                    │
-│   import { evaluate } from '@observer-protocol/policy-core'│
-│   const decision = await evaluate({                        │
-│     proposal, delegationCredential, attestations? })       │
+│   import { enforceMandate } from                           │
+│                  '@observer-protocol/policy-engine'        │
+│   const decision = enforceMandate(                         │
+│     ctx, credential, config, resolvedTransfer)             │
 │                       ↓                                    │
 │   if (decision.allowed) → wallet signs + broadcasts        │
 │   else                  → wallet does NOT sign;            │
@@ -55,7 +63,7 @@ When to choose:
 
 Trade-offs vs. embedded:
 - Adds ~5ms localhost-HTTP overhead per call.
-- Adds one service to monitor (systemd + healthcheck recommended; see [policy-core-impl/systemd](https://github.com/observer-protocol/policy-core-impl)).
+- Adds one service to monitor (systemd + healthcheck recommended). Deployment manifests are not published; the evaluator the sidecar runs is `@observer-protocol/policy-engine`.
 - "Key never touched" still holds at the wallet — the wallet must still not sign on deny.
 
 ## Wire format (both patterns)
@@ -87,8 +95,8 @@ A transaction proposal + the delegation credential + optional fetched attestatio
 
 ### Output
 
-A `PolicyEvaluationCredential`. Same shape regardless of integration pattern. See [SPEC.md](./SPEC.md) and the [TypeScript types](../packages/policy-interface/src/types.ts).
+A `PolicyEvaluationCredential`. Same shape regardless of integration pattern. See [SPEC.md](./SPEC.md) and the [TypeScript types](../packages/policy-engine/src/core/types.ts).
 
 ## On the "single source of truth" claim
 
-Both integration patterns are backed by the same evaluator code (the `policy-core` package). Different deployment shapes, identical logic, identical signed output. There is no embedded-mode vs sidecar-mode behavioural drift.
+Both integration patterns are backed by the same evaluator code (the `@observer-protocol/policy-engine` package). Different deployment shapes, identical logic, identical signed output. There is no embedded-mode vs sidecar-mode behavioural drift.

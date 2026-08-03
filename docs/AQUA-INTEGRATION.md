@@ -17,7 +17,7 @@ The Policy Engine runs as a long-running localhost service on the same machine a
 └──────────────────────────┘                     └───────────────────┘
 ```
 
-The sidecar systemd unit ships with [policy-core-impl](https://github.com/observer-protocol/policy-core-impl).
+The sidecar systemd unit is not published. The evaluator it runs is `@observer-protocol/policy-engine`, built from this repository.
 
 ## Pre-settlement call
 
@@ -69,4 +69,4 @@ A healthcheck endpoint (`GET /health`) is provided so Aqua can pre-flight the si
 
 ## Reference deployment
 
-For desktop Aqua, the policy-core sidecar can ship as a bundled Node binary launched alongside the wallet. For server-side / hosted Aqua deployments, the sidecar runs as a separate systemd unit on the same host. The proprietary `policy-core-impl` repository carries the deployment manifests, healthcheck wiring, and the per-rail canonicalisation modules.
+For desktop Aqua, the sidecar can ship as a bundled Node binary launched alongside the wallet. For server-side / hosted Aqua deployments, the sidecar runs as a separate systemd unit on the same host. The evaluator it runs is `@observer-protocol/policy-engine`, built from [`packages/policy-engine/`](../packages/policy-engine) in this repository. Deployment manifests and healthcheck wiring are not published.

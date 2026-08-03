@@ -1,5 +1,12 @@
 # WDK integration (Tether)
 
+> **Corrected 2026-08-03.** These snippets named `@observer-protocol/policy-core` and a function
+> `evaluate({...})`. Neither exists: the published package is
+> [`@observer-protocol/policy-engine`](https://www.npmjs.com/package/@observer-protocol/policy-engine)
+> and the exported entry point is `enforceMandate(ctx, credential, config, resolvedTransfer)`.
+> Signatures below are taken from the published type definitions.
+
+
 This guide describes how to integrate the Observer Protocol Policy Engine as a pre-settlement hook inside the [Tether WDK](https://wallet.tether.io/). The pattern is wallet-embedded (see [INTEGRATION.md](./INTEGRATION.md) for pattern selection).
 
 ## What gets added to the WDK build
@@ -7,18 +14,18 @@ This guide describes how to integrate the Observer Protocol Policy Engine as a p
 One npm dependency:
 
 ```bash
-npm install @observer-protocol/policy-core
+npm install @observer-protocol/policy-engine
 ```
 
-(The package is published from the proprietary `policy-core-impl` repository. The public `@observer-protocol/policy-interface` package carries the types only and is sufficient for type-checking integrations that defer the runtime to a sidecar.)
+(The package is published from [`packages/policy-engine/`](../packages/policy-engine) in this repository — runtime and types together, MIT. `PROVENANCE.md` in that directory records where each core module came from.)
 
 ## Where the hook lives
 
 Inside the WDK's transaction-signing pipeline, **immediately before** the call that signs the unsigned transaction. The hook receives the unsigned tx + the delegation credential that authorises the signing agent, and returns a decision.
 
 ```ts
-import { evaluate } from '@observer-protocol/policy-core';
-import type { PolicyEvaluationCredential } from '@observer-protocol/policy-interface';
+import { enforceMandate } from '@observer-protocol/policy-engine';
+import type { PolicyEvaluationCredential } from '@observer-protocol/policy-engine';
 
 async function preSettlementHook(
   unsignedTx: WDKUnsignedTransaction,
