@@ -78,7 +78,13 @@ export { base58Encode, base58Decode } from './core/base58.js';
 // Low-level pipeline steps — exported so engines that maintain their own inline
 // pipeline (OWS: steps 1–5 + rail-specific step 6) can import from the single
 // shared source instead of maintaining vendored copies.
-export { sha256, decodeEd25519Multibase } from './core/crypto.js';
+// `ed25519Verify` is RAW ed25519 over bytes, distinct from `verifyEddsaJcs2022`, which verifies a
+// proof OBJECT on a credential. Exported because verifying a decision attestation needs the raw form:
+// the attestation is signed over canonical bytes with no proof object around them, so a consumer with
+// only `verifyEddsaJcs2022` would have to hand-roll SPKI wrapping over `node:crypto` to check our
+// artifact. That is a way to get a false negative that looks like a forgery, and it is worth one
+// export to remove. The function already existed and is unchanged; only its visibility moved.
+export { sha256, decodeEd25519Multibase, ed25519Verify } from './core/crypto.js';
 export { jcsBytes } from './core/jcs.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
