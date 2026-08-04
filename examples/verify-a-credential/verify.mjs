@@ -90,9 +90,16 @@ console.log(verdict.allow
 // Ask the hosted verifier the same question and compare. If the two disagree, the offline answer is
 // the one to trust: it is the one you ran. Skipped with SKIP_HOSTED=1, and a network failure here is
 // not a verification failure — the verdict above already stands on its own.
+//
+// OP_VERIFY_URL RETARGETS THE CROSS-CHECK, and defaults to the hosted endpoint so this file's
+// output is unchanged for everyone who does not set it. It exists so a SELF-HOSTED verifier can be
+// checked by the same example rather than by a second one written to agree with it — the container
+// in op-verify-service points its smoke test here. Two implementations of the same assertion drift,
+// and the drift is invisible until they disagree about something that matters.
 if (!process.env.SKIP_HOSTED) {
+  const endpoint = (process.env.OP_VERIFY_URL ?? 'https://verify.observerprotocol.org').replace(/\/+$/, '');
   try {
-    const r = await fetch('https://verify.observerprotocol.org/v1/verify', {
+    const r = await fetch(`${endpoint}/v1/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ agentDid: credential.credentialSubject?.id, mandate: credential }),
@@ -102,7 +109,11 @@ if (!process.env.SKIP_HOSTED) {
     const hostedValid = hosted?.mandate?.valid;
     const hostedReason = hosted?.mandate?.reason ?? '(none)';
     console.log('');
-    console.log('cross-check against verify.observerprotocol.org (no token required)');
+    // NAME THE ENDPOINT ACTUALLY CALLED. This label was the hosted hostname regardless of where the
+    // request went, so a retargeted run would have reported agreement with verify.observerprotocol.org
+    // while agreeing with something else entirely. The scheme is stripped so the default run's output
+    // is unchanged to the byte — the package README quotes it.
+    console.log(`cross-check against ${endpoint.replace(/^https?:\/\//, '')} (no token required)`);
     console.log(`  hosted ALLOW  ${hostedValid}`);
     console.log(`  hosted reason ${hostedReason}`);
     console.log(hostedValid === verdict.allow
