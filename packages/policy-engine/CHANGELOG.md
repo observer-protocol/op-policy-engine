@@ -2,6 +2,68 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.3
+
+**Decision attestation moves into this package.** Issuing and verifying a decision attestation was
+previously reachable only from `op-mcp-payment-server`, which is `"private": true` and unpublished, so
+a consumer who wanted to attest DECISIONS rather than payments needed a private service present to
+reach a builder and a verifier they would never otherwise run. Both are pure over injected primitives
+and never required that service.
+
+**Still an rc, and the label is deliberate.** Three named gaps remain in this direction: `did:web`
+deciders are refused so an organisation cannot be named as the decider, no published schema can
+require an attestation, and `vocabularyRef.source: 'op-starter-set'` is declared but refused because no
+starter vocabulary is published. See the README, which states all three.
+
+### What a decision-only consumer can now do that they could not
+
+Install this package, bring their own signing key, and **issue and verify a decision attestation end to
+end with no Observer service present and no network call.** Previously neither half was reachable: the
+builder and the verifier both lived behind a private package. Verification was already standalone for
+*credentials* via `verifyCredentialObject`; it was not for *attestations*.
+
+### Added
+
+- `issueDecisionAttestation`, `verifyDecisionAttestation`, `acceptDecisionAttestation`
+- `checkDecisionRefs`, `checkDeciderArtifactRef` — the same well-formedness checks issuance runs, so a
+  verifier can refuse a malformed claim carrying a good signature
+- `assertNoObservation`, `ObservationRefused`, `FORBIDDEN_ATTESTATION_FIELDS`, `ATTESTATION_ESTABLISHES`
+- Types: `DecisionAttestation`, `PolicyRef`, `VocabularyRef`, `DeciderArtifactRef`, `AttestedAmount`,
+  `AttestationCitation`, `AttestationAssurance`, `AttestationSigner`, `IssueResult`,
+  `AttestationState`, `AttestationBlock`, `VerifierCapabilities`, `AcceptResult`
+- **`ed25519Verify`** — raw ed25519 over bytes, distinct from `verifyEddsaJcs2022`, which verifies a
+  proof object on a credential. It existed in this package and was not exported, so a consumer had to
+  hand-roll SPKI wrapping over `node:crypto` to check an attestation. It carries a 32-byte key length
+  guard: a wrong-length key throws rather than returning a bad-signature result, because a false
+  negative there is indistinguishable from a forgery.
+
+### Deliberately NOT exported
+
+The restricted canonicaliser that decision attestations sign through. This package now holds two
+canonicalisers, and they produce identical bytes over the attestation domain **only because every
+attestation field is a string** — measured across seven cases including unicode, absent optionals,
+nested key reordering and arrays. A number entering that type diverges them silently and
+asymmetrically: `jcsBytes` serialises it, the restricted one throws. Leaving it unexported means there
+is no surface on which a caller can pick the wrong one and sign bytes no other implementation
+reproduces. `jcsBytes` remains the public canonicaliser.
+
+### Fixed
+
+- `credentialStatus` given as a single object rather than an array is now checked rather than skipped
+  on the `verifyCredentialCrypto` path. `.length` on an object is `undefined` and `undefined > 0` is
+  false, so the revocation branch never ran: a revoked credential verified as valid, silently, in the
+  direction that grants authority. Demonstrated against a real issued-and-revoked credential before and
+  after. `verifyCredentialObject` was never affected — its structure gate rejects the object form — and
+  still does, so the array remains canonical. A `credentialStatus` that is neither array nor object now
+  refuses with a stated reason.
+
+### Known limits
+
+`KNOWN-LIMITS.md` now ships in the package. It records that a status list hosted on a different origin
+from its issuer is refused until allowlisted — including Observer's own clause-zero revocation demo,
+with the exact `statusListOriginAllowlist` value it needs — and that a `did:key` decider proves a key
+signed rather than that an organisation decided.
+
 ## 1.0.0-rc.2
 
 First publish since 0.4.0. `1.0.0-rc.1` was tagged in-tree but never published, so everything

@@ -102,11 +102,50 @@ answer is the one to trust — it is the one you ran.**
 - The schemas are published and immutable: `https://observerprotocol.org/schemas/delegation/`
 - Revocation status lists are static public files
 
+## Attest a decision, not only a payment
+
+A decision attestation records **what an agent or a person determined and under which policy
+artifact**, whether or not money moved. A denied claim produces a record; an attestation that only
+exists when money moves is a record biased toward approvals.
+
+```js
+import { issueDecisionAttestation, verifyDecisionAttestation, ed25519Verify, base58Decode }
+  from '@observer-protocol/policy-engine';
+
+// Issuance takes YOUR signer. Your key never reaches this package or Observer.
+const result = await issueDecisionAttestation(attestation, {
+  deciderDid: async () => 'did:key:z6Mk…',
+  sign: async (payload) => yourEd25519Signature(payload),
+  assurance: () => 'self-declared',
+});
+```
+
+Verification needs no network and no Observer service: `verifyDecisionAttestation` takes an ed25519
+verifier and a `did:key` decoder, both exported here.
+
+**`outcome` is a value from a vocabulary you declare, and we never interpret it.** We attest that the
+decider chose this value from *this* enumerated set, fixed by hash. What it means is yours.
+
+**`vocabularyRef.source` accepts `client-defined` and `op-starter-set`, and `op-starter-set` is
+currently REFUSED.** No OP starter vocabulary is published, so an attestation claiming one would
+assert a provenance nobody can resolve. **Use `client-defined` and name your own vocabulary by id,
+version and hash.** The value is declared in the type rather than added later so that publishing a
+starter set is a code change here and not a change to a shape you have already signed.
+
+Two further limits, so you can size them before building:
+
+- **The decider must be a `did:key`.** `did:web` is refused by name rather than accepted unverified,
+  because resolving it puts a network call in the verification path. A `did:key` proves *a key
+  signed*, not *this organisation decided*.
+- **Nothing can yet require an attestation.** A delegation credential cannot compel a payment to cite
+  one; that field is not in a published schema.
+
 ## What else is exported
 
 `enforceMandate` and `evaluateMandate` for evaluating a proposed transfer against a credential's
-`tradingMandate`; `verifyEddsaJcs2022`, `jcsBytes`, `resolveDidDocument`, `checkStatusEntry` and the
-`CrossRailLedger` for building on the pieces directly. Types in `dist/index.d.ts` are the reference.
+`tradingMandate`; `verifyEddsaJcs2022`, `jcsBytes`, `ed25519Verify`, `resolveDidDocument`,
+`checkStatusEntry` and the `CrossRailLedger` for building on the pieces directly. Types in
+`dist/index.d.ts` are the reference.
 
 ## Provenance
 
