@@ -134,9 +134,22 @@ starter set is a code change here and not a change to a shape you have already s
 
 Two further limits, so you can size them before building:
 
-- **The decider must be a `did:key`.** `did:web` is refused by name rather than accepted unverified,
-  because resolving it puts a network call in the verification path. A `did:key` proves *a key
-  signed*, not *this organisation decided*.
+- **`did:web` deciders are opt-in.** Pass a resolver as the sixth argument to
+  `verifyDecisionAttestation` and a `did:web` decider verifies; omit it and `did:web` is refused by
+  name rather than accepted unverified. **The default is no resolver**, so upgrading never adds a
+  network call to your verification path without you asking for one.
+
+  **A `did:web` decider proves the holder of a key that domain publishes signed. It does not prove
+  the organisation authorised the decision internally.** No cryptography here can establish the
+  second. A `did:key` decider proves less again: that *a key* signed, with nothing tying it to a
+  named party.
+
+  **A decider that cannot be resolved is `cited-unresolvable`, not a denial.** An unreachable status
+  list fails closed because the credential may have been revoked and the unknown is adverse. An
+  unreachable decider document is a different fact: it means we cannot say *who* signed, and an
+  attestation is evidence carried alongside a payment rather than the authority for it. So the
+  citation is shown marked unverified instead of a decider's outage becoming a payment outage.
+  Nothing fails open: an unresolved decider never renders as verified.
 - **Nothing can yet require an attestation.** A delegation credential cannot compel a payment to cite
   one; that field is not in a published schema.
 

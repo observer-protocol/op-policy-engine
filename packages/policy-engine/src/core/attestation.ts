@@ -681,19 +681,43 @@ function isAttestedAmount(v: unknown): v is AttestedAmount {
     && typeof a.asset === 'string' && a.asset.length > 0;
 }
 
+/** Resolve a `did:web` decider to its raw ed25519 public key.
+ *
+ * SUPPLIED BY THE DEPLOYMENT, NOT BY THIS PACKAGE, and that is the whole design. Returning a key means
+ * "this domain publishes this key in its assertionMethod". Returning undefined means "I could not
+ * establish that", and the caller must not distinguish a 404 from a timeout here — both are the same
+ * fact to a verifier: nothing was established.
+ *
+ * THROWING IS DIFFERENT FROM RETURNING UNDEFINED, deliberately. A resolver that throws is reporting a
+ * refusal it made on purpose — the url-guard rejecting a private address, for instance — and that is
+ * surfaced with its reason rather than flattened into "unavailable". */
+export type DeciderResolver = (did: string) => Uint8Array | undefined;
+
 /** Verify a decision attestation carried alongside a payment.
  *
- * did:key ONLY, AND did:web IS REFUSED BY NAME.
+ * did:key ALWAYS. did:web ONLY IF THE DEPLOYMENT SUPPLIES A RESOLVER, and REFUSED BY NAME otherwise.
  *
  * A did:key encodes its own public key, so verification needs no network, no DID document and no trust in
- * the transporter. `did:web` would put the FIRST OUTBOUND CALL into the evaluation path, and with it
- * deny-on-unavailable, a timeout budget this path does not have, and cache-invalidation-as-
- * rotation-correctness. **An approval surface that stops working when a customer's website is down is a
- * worse product than one that refuses a method it cannot check.**
+ * the transporter. `did:web` needs an outbound call, so it is **opt-in per deployment**: pass
+ * `resolveDeciderDidWeb` and this function will use it; omit it and `did:web` is refused exactly as
+ * before. **A consumer of this package does not silently acquire a network call in its evaluation path
+ * by upgrading.** That default is the point, not an oversight.
  *
- * SAME CONSTRUCTION AS `device-bound` ON `approvers.assurance`: the value is expressible, it cannot be
- * EARNED here, and it is REFUSED rather than accepted-and-labelled. A claim nobody can check must not
- * reach an approver as though someone had.
+ * UNRESOLVABLE IS `cited-unresolvable`, NOT A DENIAL, AND THIS IS NOT THE STATUS-LIST SHAPE.
+ * An unreachable status list means the credential MAY HAVE BEEN REVOKED and we cannot tell: the unknown
+ * is adverse, so it fails closed. An unreachable decider document means WE CANNOT SAY WHO SIGNED — and
+ * the attestation is evidence carried ALONGSIDE a payment, not the authority FOR it. The mandate
+ * authorises the payment. So the payment escalates carrying a citation marked unverified, a human sees
+ * "a decision was cited and we could not check it", and a decider's DNS outage does not become a payment
+ * outage. Never fail-open: an unresolved decider never renders as `attested`.
+ *
+ * SAME CONSTRUCTION AS `device-bound` ON `approvers.assurance` WHEN NO RESOLVER IS SUPPLIED: the value is
+ * expressible, it cannot be EARNED here, and it is REFUSED rather than accepted-and-labelled. A claim
+ * nobody can check must not reach an approver as though someone had.
+ *
+ * WHAT A RESOLVED did:web ESTABLISHES, AND ITS LIMIT: that the holder of a key the domain publishes
+ * signed this. NOT that the organisation authorised the decision internally. No cryptography here can
+ * establish the second, and the first is what a counterparty needs to begin diligence.
  *
  * THE CITATION IS CHECKED AGAINST THE DOCUMENT. An agent that cites one decision and ships another would
  * otherwise have the approver read the shipped one. */
@@ -703,6 +727,7 @@ export function verifyDecisionAttestation(
   signature: string | undefined,
   verifyEd25519: (message: string, signature: Buffer, publicKey: Buffer) => boolean,
   decodeDidKey: (did: string) => Uint8Array | undefined,
+  resolveDeciderDidWeb?: DeciderResolver,
 ): AttestationBlock {
   if (citedDecisionId === undefined) return { state: 'not-cited' };
 
@@ -721,25 +746,61 @@ export function verifyDecisionAttestation(
   if (typeof decider !== 'string') {
     return { state: 'cited-invalid', reason: 'The attestation document names no decider, so nothing identifies who decided.' };
   }
-  if (decider.startsWith('did:web:')) {
-    return {
-      state: 'cited-unresolvable',
-      reason:
-        `The decider is a did:web and this deployment cannot verify one. Resolving it would require an ` +
-        `outbound call from the evaluation path, and an approval surface that stops working when a ` +
-        `counterparty's website is down is worse than one that refuses a method it cannot check. This is ` +
-        `REFUSED rather than accepted unverified, on the same reasoning as 'device-bound' on ` +
-        `approvers.assurance: a claim nobody can check must not reach an approver as though someone had. ` +
-        `A did:key decider verifies here today.`,
-    };
-  }
-  if (!decider.startsWith('did:key:z')) {
-    return { state: 'cited-unresolvable', reason: `The decider uses an unsupported DID method: ${decider.slice(0, 24)}. Only did:key is verifiable here.` };
-  }
+  // ─── WHOSE KEY, AND WHETHER WE CAN ESTABLISH IT ─────────────────────────────────────────────────
+  //
+  // Both branches below end at ONE `publicKey`, so the signature check that follows is identical for
+  // a did:key and a resolved did:web. The methods differ in how the key is obtained, never in how
+  // hard the artifact is then checked.
+  let publicKey: Buffer;
 
-  const raw = decodeDidKey(decider);
-  if (raw === undefined || raw.length !== 34 || raw[0] !== DID_KEY_ED25519_PREFIX[0] || raw[1] !== DID_KEY_ED25519_PREFIX[1]) {
-    return { state: 'cited-invalid', reason: 'The decider is not a well-formed ed25519 did:key, so no key can be recovered from it.' };
+  if (decider.startsWith('did:web:')) {
+    if (resolveDeciderDidWeb === undefined) {
+      return {
+        state: 'cited-unresolvable',
+        reason:
+          `The decider is a did:web and this deployment supplies no resolver for one. Resolving it ` +
+          `requires an outbound call from the evaluation path, so it is OPT-IN: a deployment that wants ` +
+          `organisational deciders passes a resolver, and one that does not keeps a verification path ` +
+          `that makes no network call. This is REFUSED rather than accepted unverified, on the same ` +
+          `reasoning as 'device-bound' on approvers.assurance: a claim nobody can check must not reach ` +
+          `an approver as though someone had. A did:key decider verifies here with no resolver.`,
+      };
+    }
+    let resolved: Uint8Array | undefined;
+    try {
+      resolved = resolveDeciderDidWeb(decider);
+    } catch (e) {
+      // A THROW IS A DELIBERATE REFUSAL, NOT AN OUTAGE, so its reason is surfaced rather than
+      // flattened into "unavailable". The url-guard rejecting a private address arrives here, and
+      // "we refused to dial that" and "we dialled and nobody answered" are different facts.
+      return {
+        state: 'cited-unresolvable',
+        reason: `The decider's DID document was refused rather than fetched: ${(e as Error).message}`,
+      };
+    }
+    if (resolved === undefined || resolved.length !== 32) {
+      // NOT A DENIAL, AND NOT `cited-invalid`. Nothing about the artifact failed a check — we could
+      // not establish WHO signed it. See the note on this function: the mandate authorises the
+      // payment, the attestation is evidence carried alongside it, so a decider's outage escalates
+      // with the citation marked unverified rather than refusing the payment.
+      return {
+        state: 'cited-unresolvable',
+        reason:
+          `The decider's DID document could not be resolved to an ed25519 assertion key ` +
+          `(${decider.slice(0, 48)}). This is not a failed check on the attestation: it is an inability ` +
+          `to establish who signed it, so the decision is shown as cited and unverified rather than ` +
+          `read as a decision.`,
+      };
+    }
+    publicKey = Buffer.from(resolved);
+  } else if (decider.startsWith('did:key:z')) {
+    const raw = decodeDidKey(decider);
+    if (raw === undefined || raw.length !== 34 || raw[0] !== DID_KEY_ED25519_PREFIX[0] || raw[1] !== DID_KEY_ED25519_PREFIX[1]) {
+      return { state: 'cited-invalid', reason: 'The decider is not a well-formed ed25519 did:key, so no key can be recovered from it.' };
+    }
+    publicKey = Buffer.from(raw.subarray(2));
+  } else {
+    return { state: 'cited-unresolvable', reason: `The decider uses an unsupported DID method: ${decider.slice(0, 24)}. Only did:key and did:web are verifiable here.` };
   }
 
   // THE CITATION MUST NAME THE DOCUMENT THAT ARRIVED.
@@ -772,7 +833,7 @@ export function verifyDecisionAttestation(
 
   let ok = false;
   try {
-    ok = verifyEd25519(canonicalise(att), Buffer.from(signature, 'base64'), Buffer.from(raw.subarray(2)));
+    ok = verifyEd25519(canonicalise(att), Buffer.from(signature, 'base64'), publicKey);
   } catch (e) {
     return { state: 'cited-invalid', reason: `The attestation signature could not be checked: ${String(e)}` };
   }

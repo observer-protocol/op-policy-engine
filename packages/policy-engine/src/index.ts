@@ -112,7 +112,7 @@ export {
 export type {
   DecisionAttestation, PolicyRef, VocabularyRef, DeciderArtifactRef, AttestedAmount,
   AttestationCitation, AttestationAssurance, AttestationSigner, IssueResult,
-  AttestationState, AttestationBlock, VerifierCapabilities, AcceptResult,
+  AttestationState, AttestationBlock, VerifierCapabilities, AcceptResult, DeciderResolver,
 } from './core/attestation.js';
 
 export { checkStatusEntry } from './core/revocation.js';
