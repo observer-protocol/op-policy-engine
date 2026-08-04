@@ -2,6 +2,46 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.2
+
+First publish since 0.4.0. `1.0.0-rc.1` was tagged in-tree but never published, so everything
+it contained ships here.
+
+### Package contents — the reason for this release
+
+A README and a LICENSE file are now included in the published tarball. Until now the npm page
+for this package was blank: the `license` metadata field said MIT but no licence text shipped,
+and there was no README at all. That page is where integrators land first.
+
+Also added: `examples/verify-a-credential/`, a runnable example that verifies a real published
+credential against the live schemas and cross-checks the hosted verifier. It is pointed at a
+credential that **denies**, deliberately — an example that only prints success demonstrates
+neither what a failure looks like nor that the check does anything.
+
+### Why this is a release candidate and not 1.0.0
+
+`actionScope.escalationThreshold` and the approver vocabulary exist in this build and nothing
+in production resolves them. The deployed engine is still 0.4.0. Separately, an inlined copy of
+this engine moves 0.3.0 → 1.0.0-rc.1 inside a sidecar bundle when a downstream change ships,
+because a `file:` dependency carries no version to pin — a major version change riding
+invisibly into a deployed artifact. Cutting 1.0.0 would announce a stability that has not been
+established.
+
+### Since 0.4.0
+
+- `actionScope.escalationThreshold` registered and evaluated as a third state, distinct from
+  allow and deny, refusing at the old location rather than noting it
+- `requiredPurchaseTerms` enforced, closing the gap between a declared field and a control
+- counterparty entries are typed `{kind, value}` with an open kind vocabulary; unrecognised
+  kinds deny, and the ledger records identities only, never classes
+- structured denials: the denial tag is a value reaching the caller, with headroom
+- `monthlyVolumeCap` gets a monthly counter; the config parser no longer defaults typos
+- vocabulary additions: payor-adjudication, and `cancellationAuthority` absence in pre-v2.5
+  credentials treated as absence rather than refusal
+- single-writer guard keyed on the file's own append order rather than a wall clock
+- origin pin gains a configured escape hatch, because the strict form made a real deployment
+  impossible
+
 ## 0.4.0
 
 ### Security — outbound fetch guard (behavior narrowing)
