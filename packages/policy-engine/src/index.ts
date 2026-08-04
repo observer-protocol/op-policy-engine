@@ -91,5 +91,29 @@ export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
 export { resolveDidDocument, findAssertionMethodKey, resolveDidKeyDocument } from './core/resolve.js';
 export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
+// ─── DECISION ATTESTATION ────────────────────────────────────────────────────────────────────────
+//
+// Moved here from `op-mcp-payment-server` on 2026-08-04. It was reachable only from a package that is
+// `"private": true` and unpublished, so a customer who wanted to attest DECISIONS rather than payments
+// had to have the private service present to reach a builder and a verifier they would never otherwise
+// run. Issuance and verification are both pure over injected primitives — a signer for issuance,
+// `ed25519Verify` and a did:key decoder for verification, all exported above — so nothing about this
+// requires our infrastructure.
+//
+// `canonicalise` IS DELIBERATELY NOT EXPORTED. See `core/attestation-jcs.ts`: this package now holds
+// two canonicalisers that agree only because every attestation field is a string, and exporting the
+// restricted one would create the surface on which a caller could pick the wrong one and sign bytes no
+// other implementation reproduces.
+export {
+  issueDecisionAttestation, verifyDecisionAttestation, acceptDecisionAttestation,
+  checkDecisionRefs, checkDeciderArtifactRef,
+  assertNoObservation, ObservationRefused, FORBIDDEN_ATTESTATION_FIELDS, ATTESTATION_ESTABLISHES,
+} from './core/attestation.js';
+export type {
+  DecisionAttestation, PolicyRef, VocabularyRef, DeciderArtifactRef, AttestedAmount,
+  AttestationCitation, AttestationAssurance, AttestationSigner, IssueResult,
+  AttestationState, AttestationBlock, VerifierCapabilities, AcceptResult,
+} from './core/attestation.js';
+
 export { checkStatusEntry } from './core/revocation.js';
 export type { RevocationCheckOutcome } from './core/revocation.js';
