@@ -111,6 +111,24 @@ credentials['key2-signed'] = sign(base(), key2.privateKey, VM2);
 // credentialIntegrity: no credentialStatus (noted, not fatal)
 credentials['no-status'] = sign((() => { const c = base(); delete c.credentialStatus; return c; })());
 
+// credentialIntegrity: credentialStatus as a bare OBJECT rather than an array.
+//
+// The array is canonical: delegation schemas v2.4-v2.6 all type credentialStatus
+// as `type: array`, and validateStructure rejects anything else. This fixture is
+// NOT schema-conformant and is not meant to be. It reproduces what the deployed
+// clause-zero issuer emits (observer-protocol-api/demo_clause_zero.py), which
+// reaches the revocation check through verifyCredentialCrypto — the path that
+// skips validateStructure. Same status list index (7) as the base credential, so
+// status-revoked.json marks THIS credential revoked too.
+credentials['object-status'] = sign(base({ top: {
+  credentialStatus: { id: `${STATUS_URL}#7`, type: 'BitstringStatusListEntry', statusPurpose: 'revocation', statusListIndex: '7', statusListCredential: STATUS_URL },
+} }));
+
+// credentialIntegrity: credentialStatus that is neither array nor object. Nothing
+// can be checked against it, so the only correct outcome is a refusal — never the
+// silent "no status entry, carry on" that a truthy non-array value used to take.
+credentials['scalar-status'] = sign(base({ top: { credentialStatus: 'revoked' } }));
+
 // Cross-rail: all four synthetic rails in allowed_rails so the same credential works on any test rail
 const ALL_TEST_RAILS = ['test-rail', 'test:1', 'wdk-rail', 'test:wdk', 'mppx-rail', 'test:mppx', 'l402-rail', 'test:l402'];
 

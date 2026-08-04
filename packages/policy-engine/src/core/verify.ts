@@ -6,6 +6,7 @@ import { verifyEddsaJcs2022, decodeEd25519Multibase } from './proof.js';
 import { checkStatusEntry } from './revocation.js';
 import { evaluateMandate } from './mandate.js';
 import type {
+  BitstringStatusListEntry,
   ObserverDelegationCredential,
   PolicyContext,
   ResolvedTransfer,
@@ -161,8 +162,46 @@ export async function verifyCredentialCrypto(
     return { allow: false, reason: `[proof] ${(e as Error).message}`, notes };
   }
 
-  if (cred.credentialStatus && cred.credentialStatus.length > 0) {
-    for (const entry of cred.credentialStatus) {
+  // SHAPE. The array is canonical: delegation schemas v2.4-v2.6 all type
+  // credentialStatus as `type: array`, and validateStructure rejects anything
+  // else. An issuer emitting a bare object is the defect. The tolerance below is
+  // a COMPATIBILITY SHIM for the crypto path, not a widening of the shape.
+  //
+  // It is needed because this function is the one entry point with no structure
+  // gate in front of it — verifyCredentialCrypto skips validateStructure by
+  // design, and policy-core-impl/src/gate.ts casts an arbitrary inbound
+  // credential straight into it. The previous guard read `.length` directly:
+  // undefined on an object, and `undefined > 0` is false, so an object-shaped
+  // credentialStatus took the else branch, recorded 'status-absent' and
+  // ALLOWED. A revoked credential verified as valid, silently, in the direction
+  // that grants authority. Same array-read-as-dict defect the Python verifier
+  // fixed in observer-protocol-api/delegation_routes.py.
+  //
+  // A value that is neither array nor object is NOT tolerated. Nothing can be
+  // checked against it, so it refuses. Note this case already denied before the
+  // fix, but by accident: a truthy string has a .length, so the loop iterated
+  // its CHARACTERS and checkStatusEntry threw on the first one. Right outcome,
+  // wrong cause, and it would have flipped to a silent allow for any truthy
+  // non-string scalar (a number has no .length). It is now stated, not incidental.
+  const rawStatus: unknown = cred.credentialStatus;
+  let statusEntries: BitstringStatusListEntry[];
+  if (rawStatus === undefined || rawStatus === null) {
+    statusEntries = [];
+  } else if (Array.isArray(rawStatus)) {
+    statusEntries = rawStatus as BitstringStatusListEntry[];
+  } else if (typeof rawStatus === 'object') {
+    statusEntries = [rawStatus as BitstringStatusListEntry];
+    notes.push('credentialStatus was a single object, not an array — accepted for compatibility; the schema requires an array');
+  } else {
+    return {
+      allow: false,
+      reason: `[revocation] credentialStatus must be an array or a single entry object, got ${typeof rawStatus}`,
+      notes,
+    };
+  }
+
+  if (statusEntries.length > 0) {
+    for (const entry of statusEntries) {
       try {
         const outcome = await checkStatusEntry(entry, config);
         notes.push(...outcome.notes);

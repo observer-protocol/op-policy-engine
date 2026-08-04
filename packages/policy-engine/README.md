@@ -52,6 +52,14 @@ anything, it is agreeing. `issuerDid` is what you expect; a mismatch is a denial
 status list cannot be fetched, a cached answer is used and then the credential is denied. Nothing is
 allowed through on a fetch failure.
 
+**A status list hosted on a different origin from its issuer is refused until you allowlist it.**
+`statusListOriginAllowlist` is empty by default, so a credential whose `statusListCredential` does
+not live on the pinned `did:web` issuer's own origin denies with
+`[revocation] status could not be established`. Observer's own clause-zero revocation demo is such a
+pair and needs `statusListOriginAllowlist: ['https://api.observerprotocol.org']`. See
+[KNOWN-LIMITS.md](./KNOWN-LIMITS.md), which also records why `credentialStatus` as a bare object is
+tolerated on one path and when that tolerance is meant to end.
+
 ## A runnable example
 
 [`examples/verify-a-credential/`](https://github.com/observer-protocol/op-policy-engine/tree/main/examples/verify-a-credential)
