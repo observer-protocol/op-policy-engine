@@ -106,7 +106,7 @@ export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
 // other implementation reproduces.
 export {
   issueDecisionAttestation, verifyDecisionAttestation, acceptDecisionAttestation,
-  checkDecisionRefs, checkDeciderArtifactRef,
+  checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary,
   assertNoObservation, ObservationRefused, FORBIDDEN_ATTESTATION_FIELDS, ATTESTATION_ESTABLISHES,
 } from './core/attestation.js';
 export type {

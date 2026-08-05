@@ -165,6 +165,18 @@ export interface VocabularyRef {
    * is published. See `checkDecisionRefs`. It is declared here rather than added later so that
    * publishing one is a code change and not a change to a signed shape. */
   source: 'op-starter-set' | 'client-defined';
+  /** THE DECLARED SET ITSELF, so membership is CHECKABLE rather than asserted.
+   *
+   * WITHOUT THIS THE HASH COMMITS TO NOTHING A VERIFIER CAN REACH. `id`, `version` and `hash` named a
+   * vocabulary that lived somewhere else, so nothing could tell whether `outcome` was actually drawn
+   * from it. Measured on a real run: three adjudicating agents produced eighteen determinations, every
+   * one of their outcome strings fell outside the set the attestation cited, and every one issued. An
+   * attestation asserting membership in a set it is not in is a false statement in the field a
+   * compliance buyer compares across decisions.
+   *
+   * CARRIED RATHER THAN RESOLVED, because verification makes no network call. The set travels with the
+   * artifact and a verifier checks membership offline, with no registry and no fetch. */
+  values: readonly string[];
 }
 
 /** WHETHER THE DECIDER SUPPLIED AN ARTIFACT OF ITS OWN, as a positive state.
@@ -400,6 +412,24 @@ export function checkDecisionRefs(policyRef: PolicyRef | undefined, vocabularyRe
   // refusing costs one line to reverse and changes no signed shape. Same construction as
   // `device-bound` on approver assurance and `did:web` on deciders: a value that is expressible,
   // unearnable here, and REFUSED rather than quietly trusted.
+  // ─── THE DECLARED SET MUST BE A SET ─────────────────────────────────────────────────────────
+  const values = vocabularyRef!.values;
+  if (!Array.isArray(values) || values.length === 0) {
+    return (
+      'Cannot issue an attestation whose vocabularyRef declares no values. The set has to travel with ' +
+      'the artifact or membership cannot be checked by anyone: an id and a hash name a vocabulary that ' +
+      'lives somewhere a verifier cannot reach.'
+    );
+  }
+  if (!values.every((v) => typeof v === 'string' && v !== '')) {
+    return 'Cannot issue an attestation whose vocabularyRef.values contains a non-string or empty entry.';
+  }
+  if (new Set(values).size !== values.length) {
+    return (
+      'Cannot issue an attestation whose vocabularyRef.values repeats a value. A set with a duplicate ' +
+      'is two different declarations of the same outcome and nothing can say which was meant.'
+    );
+  }
   if (vocabularyRef!.source === 'op-starter-set') {
     return (
       "Cannot issue an attestation whose vocabularyRef.source is 'op-starter-set': no OP starter " +
@@ -410,6 +440,40 @@ export function checkDecisionRefs(policyRef: PolicyRef | undefined, vocabularyRe
     );
   }
   return null;
+}
+
+/** Is `outcome` a member of the set `vocabularyRef` declares? Returns a refusal reason, or null.
+ *
+ * REFUSED, NOT WARNED, AND NOT RECORDED AS AN ANOMALY. Ruled 2026-08-05. An attestation whose
+ * `outcome` is outside the set it cites is a FALSE STATEMENT in the one field a compliance buyer
+ * compares across decisions — it asserts membership in a set the value is not in. A warning would
+ * leave that statement signed and shipped.
+ *
+ * WHAT IT COSTS, STATED BECAUSE IT IS THE POINT RATHER THAN A SIDE EFFECT. This makes a vocabulary a
+ * real onboarding decision instead of a formality. If a client's agents produce outcomes outside their
+ * declared set, either the set is wrong or the agents are — and both are worth learning at ISSUANCE,
+ * where one artifact fails loudly, rather than at AUDIT, where a year of them read as comparable and
+ * are not.
+ *
+ * EXACT MATCH, NO NORMALISATION. No case folding, no trimming, no fuzzy mapping. Normalising here
+ * would be this system deciding that "Compensation owed" means `compensation_due`, which is
+ * interpreting the determination — the thing we do not do. Mapping a decider's prose onto a declared
+ * value is the DECIDER's act, and its prose belongs in its own artifact where reasons belong. */
+export function checkOutcomeInVocabulary(outcome: unknown, vocabularyRef: VocabularyRef | undefined): string | null {
+  if (vocabularyRef === undefined || !Array.isArray(vocabularyRef.values)) return null;   // shape errors are checkDecisionRefs' job
+  if (typeof outcome !== 'string' || outcome === '') {
+    return 'Cannot issue an attestation with no outcome. A decision that decided nothing is not a decision.';
+  }
+  if (vocabularyRef.values.includes(outcome)) return null;
+  const shown = vocabularyRef.values.slice(0, 6).map((v) => JSON.stringify(v)).join(', ');
+  return (
+    `Cannot issue an attestation whose outcome ${JSON.stringify(outcome.slice(0, 60))} is not a member of ` +
+    `the vocabulary it cites (${vocabularyRef.id} v${vocabularyRef.version}), whose values are ` +
+    `[${shown}${vocabularyRef.values.length > 6 ? `, +${vocabularyRef.values.length - 6} more` : ''}]. ` +
+    `The attestation would assert that the decider chose this value FROM THAT SET, which is not true. ` +
+    `Either the decider must select a declared value — its own wording belongs in its artifact, bound ` +
+    `by deciderArtifactDigest — or the vocabulary is wrong and needs a new version.`
+  );
 }
 
 export function checkDeciderArtifactRef(ref: DeciderArtifactRef | undefined): string | null {
@@ -473,6 +537,9 @@ export async function issueDecisionAttestation(
 
   const refsRefusal = checkDecisionRefs(input.policyRef, input.vocabularyRef);
   if (refsRefusal !== null) return { kind: 'refused', reason: refsRefusal };
+
+  const membershipRefusal = checkOutcomeInVocabulary(input.outcome, input.vocabularyRef);
+  if (membershipRefusal !== null) return { kind: 'refused', reason: membershipRefusal };
 
   const actual = signer.assurance();
   if (requestedAssurance !== undefined && requestedAssurance !== actual) {
@@ -830,6 +897,10 @@ export function verifyDecisionAttestation(
   if (refsRefusal !== null) return { state: 'cited-invalid', reason: refsRefusal };
   const artifactRefusal = checkDeciderArtifactRef(att.deciderArtifactDigest);
   if (artifactRefusal !== null) return { state: 'cited-invalid', reason: artifactRefusal };
+  // THE SAME MEMBERSHIP RULE ON A DOCUMENT WE DID NOT ISSUE. A good signature over a false claim is
+  // still a false claim, and this one is false in the field a reader compares across deciders.
+  const membershipFailure = checkOutcomeInVocabulary(att.outcome, att.vocabularyRef);
+  if (membershipFailure !== null) return { state: 'cited-invalid', reason: membershipFailure };
 
   let ok = false;
   try {

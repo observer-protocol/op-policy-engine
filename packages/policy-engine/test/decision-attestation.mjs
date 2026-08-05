@@ -36,6 +36,7 @@ const INPUT = {
   vocabularyRef: {
     id: 'https://insurer.example/vocab/claims-disposition', version: '1.0.0',
     hash: 'sha256:v0cab', hashMethod: 'sha256', source: 'client-defined',
+    values: ['approved', 'denied', 'referred', 'ok', 'cleared', 'compensation_due', 'no_compensation_due', 'partial'],
   },
   deciderArtifactDigest: { state: 'digest', value: 'sha256:determination-letter' },
   inputsDigest: 'sha256:claims-file', decidedAt: '2026-08-04T09:00:00.000Z',
@@ -83,7 +84,7 @@ console.log('\n── the restricted canonicaliser is NOT reachable ──');
 
 console.log('\n── the refusals travel with the code ──');
 {
-  const r = await issueDecisionAttestation({ ...INPUT, vocabularyRef: { ...INPUT.vocabularyRef, source: 'op-starter-set' } }, signer);
+  const r = await issueDecisionAttestation({ ...INPUT, vocabularyRef: { ...INPUT.vocabularyRef, source: 'op-starter-set', values: ['approved', 'denied', 'referred', 'ok', 'cleared', 'compensation_due', 'no_compensation_due', 'partial'] } }, signer);
   assert('op-starter-set is refused, because no starter vocabulary is published', r.kind === 'refused');
   assert('checkDecisionRefs is usable standalone', checkDecisionRefs(INPUT.policyRef, INPUT.vocabularyRef) === null);
   assert('checkDeciderArtifactRef is usable standalone', checkDeciderArtifactRef(INPUT.deciderArtifactDigest) === null);
