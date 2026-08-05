@@ -30,7 +30,7 @@ const mk = (deciderDid) => ({
 const INPUT = {
   decisionId: 'CLM-1', subject: 'claimant:1', outcome: 'denied',
   policyRef: { id: 'https://insurer.example/policy/v7', hash: 'sha256:p', hashMethod: 'sha256' },
-  vocabularyRef: { id: 'https://insurer.example/vocab/v1', version: '1.0.0', hash: 'sha256:v', hashMethod: 'sha256', source: 'client-defined' },
+  vocabularyRef: { id: 'https://insurer.example/vocab/v1', version: '1.0.0', hash: 'sha256:v', hashMethod: 'sha256', source: 'client-defined', values: ['approved', 'denied', 'referred', 'ok', 'cleared', 'compensation_due', 'no_compensation_due', 'partial'] },
   deciderArtifactDigest: { state: 'digest', value: 'sha256:letter' },
   inputsDigest: 'sha256:file', decidedAt: '2026-08-04T09:00:00.000Z', resolvableUntil: '2033-01-01T00:00:00.000Z',
 };
