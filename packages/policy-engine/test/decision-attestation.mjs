@@ -40,7 +40,7 @@ const INPUT = {
   },
   deciderArtifactDigest: { state: 'digest', value: 'sha256:determination-letter' },
   inputsDigest: 'sha256:claims-file', decidedAt: '2026-08-04T09:00:00.000Z',
-  resolvableUntil: '2033-01-01T00:00:00.000Z',
+  resolvableUntil: '2033-01-01T00:00:00.000Z', counterparty: '0x9999999999999999999999999999999999999999', rail: 'eip155:8453',
 };
 
 console.log('\n── issue and verify, from this package alone ──');

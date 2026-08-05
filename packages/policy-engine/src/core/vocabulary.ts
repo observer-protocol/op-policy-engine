@@ -161,7 +161,9 @@ export const KNOWN_COUNTERPARTY_KINDS: ReadonlySet<string> = new Set(['address',
  * open, so `payor-adjudication` was expressible the day v2.5 shipped. Only the description was
  * wrong, and it cost no schema version to be wrong.
  *
- * v2.5's bytes are frozen and stay frozen. The correction is carried in v2.6-draft and BESIDE the
+ * v2.5's bytes are frozen and stay frozen. The correction is carried in v2.6-draft — now MINTED as
+ * `v2.6.json`, so the correction is in a frozen schema and the current draft is `v2.7-draft.json` —
+ * and BESIDE the
  * record here, which is where an integrator reads recognized values. THIS IS THE FIRST VOCABULARY
  * ENTRY THAT CONTRADICTS THE FROZEN PROSE, so the contradiction is stated rather than left for
  * someone to notice.
