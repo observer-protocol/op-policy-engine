@@ -1,0 +1,15 @@
+{
+  "name": "@observer-protocol/policy-core-impl",
+  "version": "0.1.0-draft",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}
