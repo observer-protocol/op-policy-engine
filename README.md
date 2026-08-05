@@ -78,6 +78,31 @@ A separate private repository, `observer-protocol/policy-core-impl`, exists and 
 
 Other implementations are welcome and encouraged; this repository's spec, schema and interfaces are sufficient to build an interoperable evaluator.
 
+## Adapter support tiers
+
+Seven per-rail adapters build on this engine. **They are not equally supported, and the difference is
+not cosmetic.** Each adapter's own README carries its tier at the top; this table is the single place
+they are listed together.
+
+| adapter | tier | what backs it |
+|---|---|---|
+| [`l402-op-authorize`](https://github.com/observer-protocol/l402-op-authorize) | **Proven against a live system, not yet deployable** | In-process consumer in `op-lnd-interceptor`; mainnet existence proof on lnd v0.20.1-beta. No install path yet, and real issuance is the binding constraint. |
+| [`x402-op-authorize`](https://github.com/observer-protocol/x402-op-authorize) | Reference implementation | Exercised by our conformance harness. No production consumer found. |
+| [`mppx-op-account`](https://github.com/observer-protocol/mppx-op-account) | Reference implementation | Exercised by our conformance harness. No production consumer found. |
+| [`wdk-op-policy`](https://github.com/observer-protocol/wdk-op-policy) | Reference implementation | Exercised by our conformance harness. Two declared dependents do not survive contact: one pins a range excluding the published version, the other injects a stand-in and never runs the engine. |
+| [`ap2-op-authorize`](https://github.com/observer-protocol/ap2-op-authorize) | Reference implementation | Exercised by our conformance harness; interop-proven against the AP2 reference SDK. **No npm artifact** — publication is blocked by a `file:` dependency on an unpublished package. |
+| [`ows-op-policy`](https://github.com/observer-protocol/ows-op-policy) (publishes `ows-op-verify`) | Reference implementation, **no consumer found** | No import found in our estate or on the production host, not even in our harness. Its rail-registry entry is read only by that registry's validator, never by the running server. |
+| [`fireblocks-op-authorize`](https://github.com/observer-protocol/fireblocks-op-authorize) | Reference implementation, **no consumer found** | Only its own examples import it. **No npm artifact.** |
+
+**"No consumer found" is an absence with a scope, not an assertion that nobody uses it.** The search
+covered the Observer Protocol estate and the production host. An external adopter would be invisible
+to us, and both of those adapters target someone else's stack.
+
+**Registry pins are not current versions.** The Observer Protocol API's `rails.registry.json` names
+these packages, and every pin in it is behind the published version, some by two minors. Read the
+registry as a declaration of which rails exist, never as a statement of what version is current.
+Whether it should track publication or deliberately lag is an open decision.
+
 ## Contributing
 
 This repository hosts the public specification, the integration surface and the runtime that ships as `@observer-protocol/policy-engine`.
