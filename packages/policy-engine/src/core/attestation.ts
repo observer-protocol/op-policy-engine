@@ -1010,6 +1010,46 @@ export function verifyDecisionAttestation(
   const membershipFailure = checkOutcomeInVocabulary(att.outcome, att.vocabularyRef);
   if (membershipFailure !== null) return { state: 'cited-invalid', reason: membershipFailure };
 
+  // ─── AN ASSURANCE LEVEL THIS VERIFIER CANNOT CHECK IS DECLINED ──────────────────────────────────
+  //
+  // `acceptDecisionAttestation` exists to do exactly this and had ZERO PRODUCTION CALL SITES. The
+  // repository's own `callsite-census.mjs` reported it as ORPHAN, with its acceptance criterion
+  // written out, and nothing acted on it — a detector that fires and is never read. Verification
+  // never examined `assurance` at all.
+  //
+  // WHAT THAT LEFT OPEN. `independently-observed` is a STRICTLY STRONGER claim than `self-declared`
+  // and is wholly unverifiable here, because no partner integration exists and nothing can resolve an
+  // observer reference. So an attestation we did not issue could declare the stronger level, carry a
+  // fabricated `observerRef`, and reach an approver rendered as `attested` — with the strongest claim
+  // on the document being the one nobody checked. An agent gains by claiming more.
+  //
+  // `cited-unresolvable`, NOT `cited-invalid`, AND THE DISTINCTION IS THE WHOLE RULING. Nothing about
+  // the document failed a check: the signature is fine, the fields are well formed. We cannot RUN the
+  // check. `cited-invalid` is documented as the only state indicating hostility, and an attestation
+  // legitimately co-signed by an observer we cannot resolve is not hostile — it is unverifiable here.
+  //
+  // AND IT COMPOSES WITH REQUIRED-MODE FOR FREE. Under a voluntary citation this proceeds while
+  // rendering honestly, which is already an improvement on rendering `attested` falsely. Under
+  // `requiresDecisionAttestation` it becomes ATTESTATION_UNRESOLVED and refuses, with no extra code.
+  // That the correct state choice also produced the correct enforcement is the confirmation it was
+  // right rather than convenient.
+  //
+  // MINIMAL, AND THE LIMIT IS STATED. This declines a level; it does not verify an observer. Nothing
+  // here resolves `observerRef` and `acceptDecisionAttestation` remains an orphan. Full wiring is a
+  // separate piece of work, and what is closed is the concrete exposure above.
+  if (att.assurance !== undefined && att.assurance !== 'self-declared') {
+    return {
+      state: 'cited-unresolvable',
+      reason:
+        `This attestation declares assurance '${String(att.assurance)}' and this verifier can check only ` +
+        `'self-declared'. Establishing anything stronger requires resolving an observer's reference, and ` +
+        `no such integration exists here — so the claim is DECLINED rather than accepted at face value. ` +
+        `This is not a failed check on the document: its signature and fields are sound, and the level ` +
+        `it claims is one nobody here can establish. The same attestation re-issued as 'self-declared' ` +
+        `verifies today.`,
+    };
+  }
+
   let ok = false;
   try {
     ok = verifyEd25519(canonicalise(att), Buffer.from(signature, 'base64'), publicKey);
