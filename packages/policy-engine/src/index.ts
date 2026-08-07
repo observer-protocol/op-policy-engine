@@ -104,9 +104,15 @@ export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
 // two canonicalisers that agree only because every attestation field is a string, and exporting the
 // restricted one would create the surface on which a caller could pick the wrong one and sign bytes no
 // other implementation reproduces.
+// `checkPaymentBinding` IS EXPORTED, AND ITS ABSENCE WAS AN ACCIDENT RATHER THAN A DECISION.
+// It arrived in `core/attestation.ts` with the counterparty and rail mirror and this barrel was not
+// updated, so it was defined, correct, tested in the other copy, and unreachable from outside the
+// package. That is the hand-mirror cost this release exists to end: the function moved, the export
+// line did not, and nothing failed. `canonicalise` above is what a deliberate omission looks like,
+// stated with its reason; this had none.
 export {
   issueDecisionAttestation, verifyDecisionAttestation, acceptDecisionAttestation,
-  checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary,
+  checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary, checkPaymentBinding,
   assertNoObservation, ObservationRefused, FORBIDDEN_ATTESTATION_FIELDS, ATTESTATION_ESTABLISHES,
 } from './core/attestation.js';
 export type {
