@@ -27,6 +27,33 @@ export const KNOWN_SCOPE_KEYS: ReadonlySet<string> = new Set([
   // band between the threshold and the ceiling. Relocating it to this enumerated surface turned that
   // silent auto-approval into a refusal. THE RELOCATION HAPPENED AND THE REGISTRATION DID NOT, so the
   // constraint was unusable rather than unenforced.
+  // ─── NUMBER 22 ON THE NOT-ENFORCED LIST, AND IT IS A COMPROMISE RATHER THAN A DECISION ─────────
+  //
+  // `requiredEnforcement` names the capabilities an evaluator must honour to evaluate this credential
+  // at all. Its whole purpose is PREVENTING PARTIAL EVALUATION. Registering it here as
+  // recognised-and-passing means this engine reads it and does nothing with it, which is that purpose
+  // unenforced. Recorded plainly so nobody later reads the registration as enforcement.
+  //
+  // WHY NOT THE CAPABILITY CHECK, which is the right fix. The engine would have to compare the
+  // credential's capabilities against its own and refuse the difference. Measured 2026-08-08, this
+  // engine can honour almost none of them: `budget.period-accounting` is unenforced (999999 USDC
+  // against a 10 USDC cumulative_budget ALLOWS), `approval.assurance-verification` is never read, and
+  // `attestation.citation-required` lives in the payment server rather than here.
+  //
+  // AND REFUSING ON THOSE WOULD BE WRONG, which is the actual argument. THE ENGINE IS NOT THE
+  // EVALUATOR; it is one component of it. Required-mode citation enforcement is in
+  // `op-mcp-payment-server`, and the approval channel is its queue. An engine refusing on capabilities
+  // IT personally lacks would refuse credentials the composed system genuinely honours.
+  //
+  // THE REAL FIX IS QUEUED AND HAS A FOURTH PART: the HOST declares its capability set, the engine
+  // compares against THAT, and refuses the difference. That needs a new input threaded through
+  // `evaluateMandate` and every caller updated, which is why it is not this change.
+  //
+  // WITHOUT THIS REGISTRATION the unknown-rule catch-all denies every schema-valid credential carrying
+  // the field, and the schema REQUIRES it alongside fifteen other actionScope fields. So the choice was
+  // between a field enforced at schema validation and ignored here, and an estate with no evaluable
+  // credential at all.
+  'requiredEnforcement',
   'escalationThreshold',
   'approvers',
   'requiredPurchaseTerms',

@@ -161,3 +161,23 @@ console.log('\n── THE ESCALATION CARRIES THE APPROVERS THE CREDENTIAL NAMES 
 
 console.log(`\nescalation-threshold: ${pass} passed, ${fail} failed`);
 if (fail) { console.log('\nFAILURES:'); for (const f of failures) console.log(`  ✗ ${f}`); process.exit(1); }
+
+console.log('\n── requiredEnforcement IS RECOGNISED AND ENFORCES NOTHING (item 22) ──');
+{
+  // NUMBER 22, ASSERTED RATHER THAN NOTED. Registering a key turns a denial into an evaluation, so the
+  // pair below is what "recognised and passing" means: it no longer denies, and it changes no outcome.
+  // If either half stops holding, this is the check that says so.
+  const withField = run('10', { requiredEnforcement: { capabilities: ['approval.channel'] } });
+  a('a credential carrying requiredEnforcement is no longer denied by the catch-all',
+    !/unknown-rule/.test(withField.reason ?? ''), why(withField));
+
+  // AND IT IS ENFORCED BY NOTHING HERE. A capability this engine cannot honour changes no outcome,
+  // which is the compromise stated at the registration site rather than hidden by it.
+  const impossible = run('10', { requiredEnforcement: { capabilities: ['budget.period-accounting', 'approval.assurance-verification'] } });
+  const without = run('10', {});
+  a('...and a capability this engine CANNOT honour changes nothing',
+    impossible.ok === without.ok, `${impossible.ok} vs ${without.ok}`);
+}
+
+console.log(`\nitem-22: ${pass} passed, ${fail} failed`);
+if (fail) process.exit(1);
