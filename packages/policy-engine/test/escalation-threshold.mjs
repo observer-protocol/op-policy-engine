@@ -6,7 +6,7 @@
 // silently auto-approved everything between the threshold and the ceiling. Relocating it to an
 // enumerated surface turned that silent auto-approval into a refusal. THE RELOCATION HAPPENED AND THE
 // REGISTRATION DID NOT.
-import { evaluateMandate } from '../dist/index.mjs';
+import { evaluateMandate, KNOWN_SCOPE_KEYS } from '../dist/index.mjs';
 
 let pass = 0, fail = 0; const failures = [];
 const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } else { fail++; failures.push(n); console.log(`  FAIL  ${n}  <<< ${d}`); } };
@@ -91,6 +91,33 @@ console.log('\n── same currency only. No FX inside a policy decision ──'
   const r = run('80', { escalationThreshold: { amount: '50', currency: 'EUR' } });
   a('a threshold in another currency DENIES rather than converting', r.ok === false, why(r));
   a('...and is not treated as an escalation', r.escalation === undefined);
+}
+
+console.log('\n── THE ESCALATION NAMES THE RULE THAT ROUTED IT ──');
+{
+  // WHY THIS EXISTS. The escalation said a human must authorise the payment and never said which rule
+  // decided that, so three consecutive downstream fixes in op-mcp-payment-server each supplied the name
+  // themselves: a hardcoded default, then a refusal to default, then a proposal to assert it under a
+  // better field name. All three were this omission. A consumer can only pass the name through if the
+  // engine says it.
+  const r = run('80', { escalationThreshold: { amount: '50', currency: 'USDC' } });
+  a('an escalation carries a constraint', typeof r.escalation?.constraint === 'string' && r.escalation.constraint.length > 0, why(r));
+  a('...naming the actionScope rule that routed it', r.escalation?.constraint === 'actionScope.escalationThreshold', r.escalation?.constraint);
+
+  // THE KEY IS REGISTERED, so the path cannot name a rule this engine does not recognise. Without this
+  // the constraint could name a key the unknown-rule catch-all would have refused.
+  const key = r.escalation?.constraint?.replace(/^actionScope\./, '');
+  a('...and that key is in the engine vocabulary', KNOWN_SCOPE_KEYS.has(key), key);
+
+  // NOT A BREACH, AND THE DISTINCTION IS THE WHOLE POINT. Nothing was breached: a threshold was crossed
+  // and a person decides. An escalation carrying a DenialDetail would be the category error this field
+  // was added to avoid, one level out.
+  a('an escalation is NOT a denial and carries no denial detail', r.detail === undefined, JSON.stringify(r.detail));
+
+  // A DENIAL STILL NAMES ITS CONSTRAINT THE OTHER WAY. The two vocabularies stay separate.
+  const denied = run('80', { per_transaction_ceiling: { amount: '50', currency: 'USDC' } });
+  a('a ceiling breach still DENIES rather than escalating', denied.ok === false && denied.escalation === undefined, why(denied));
+  a('...and names its constraint on detail, not on an escalation', denied.detail?.constraint === 'actionScope.per_transaction_ceiling', JSON.stringify(denied.detail));
 }
 
 console.log(`\nescalation-threshold: ${pass} passed, ${fail} failed`);

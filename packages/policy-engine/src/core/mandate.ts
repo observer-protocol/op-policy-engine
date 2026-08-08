@@ -41,12 +41,40 @@ export interface MandateOutcome {
     threshold: { amount: string; currency: string };
     requested: { amount: string; currency: string };
     approvers: unknown[];
+    /** WHICH CONSTRAINT ROUTED THIS TO A HUMAN, as a dotted path, and NOT a breach.
+     *
+     * ADDED IN 1.0.0-rc.5 BECAUSE ITS ABSENCE WAS BEING WORKED AROUND DOWNSTREAM THREE TIMES. The
+     * escalation said a human must authorise the payment and never said which rule decided that, so
+     * every consumer that needed the answer supplied its own: `op-mcp-payment-server` defaulted it to
+     * `actionScope.escalationThreshold`, then refused to default it, then proposed to assert it under
+     * a better field name. Each was diagnosed as a defect in that service. All three were this
+     * omission, and naming it here is what makes a consumer able to pass it through without inventing
+     * anything.
+     *
+     * REQUIRED INSIDE `escalation`, not optional. Optional would mean the next escalating rule could
+     * ship without naming itself and nothing would report it, which is the state this field exists to
+     * end. `escalation` itself stays optional, so no existing caller breaks.
+     *
+     * THE VALUE COMES FROM THE RULE, NOT FROM THE SITE. There is exactly ONE escalation site in this
+     * engine today, which is why a consumer asserting `actionScope.escalationThreshold` would be
+     * correct right now and silently wrong at the second site. Being unique is a fact about today, so
+     * the path is built from the same symbol the rule reads rather than written out beside it. */
+    constraint: string;
   };
   /** Machine-readable detail. Optional so every existing caller keeps working: a
    * new required field on a returned type is a breaking change, which is the same
    * over-refusal as a new required config field. */
   detail?: DenialDetail;
 }
+
+/** THE `actionScope` PROPERTY THE ESCALATION RULE EVALUATES, as one symbol.
+ *
+ * Read THREE ways below: the property access, the currency-mismatch label, and the `constraint` path
+ * on the escalation itself. A literal at any of those sites would agree with the rule by coincidence
+ * and would keep agreeing after the property was renamed, which is a name borrowing the credibility of
+ * a field nobody read. It is registered in `KNOWN_SCOPE_KEYS`, asserted by the vocabulary suite, so the
+ * path cannot name a key this engine does not recognise. */
+const ESCALATION_SCOPE_KEY = 'escalationThreshold' as const;
 
 /** `detail` is the second argument rather than the third because every call site
  * that has one has notes too, and putting it last would mean threading `notes`
@@ -406,7 +434,7 @@ export function evaluateMandate(
     }
   }
 
-  // 5b. actionScope.escalationThreshold (binding, same-currency) — THE THIRD STATE.
+  // 5b. actionScope[ESCALATION_SCOPE_KEY] (binding, same-currency) — THE THIRD STATE.
   //
   // AFTER THE CEILING, DELIBERATELY. Above the ceiling is a DENY and stays one: a payment nobody may
   // authorise must not be offered to a human as though approving it were an option. So the order is
@@ -418,9 +446,9 @@ export function evaluateMandate(
   //
   // NOT A DENIAL. `ok: false` here would tell an agent it may never do this, which is false and would
   // send it looking for a different route. The escalation is carried out separately.
-  if (scope.escalationThreshold) {
-    const t = scope.escalationThreshold;
-    const mismatch = sameCurrencyOrDeny(t.currency, 'escalationThreshold');
+  if (scope[ESCALATION_SCOPE_KEY]) {
+    const t = scope[ESCALATION_SCOPE_KEY];
+    const mismatch = sameCurrencyOrDeny(t.currency, ESCALATION_SCOPE_KEY);
     if (mismatch) return mismatch;
     const threshold = parseDecimalScaled(t.amount, decimals);
     if ((value as bigint) >= threshold) {
@@ -432,6 +460,8 @@ export function evaluateMandate(
           threshold: { amount: t.amount, currency: t.currency },
           requested: { amount: formatScaled(value as bigint, decimals), currency: t.currency },
           approvers: Array.isArray(scope.approvers) ? scope.approvers : [],
+          // WHICH RULE ROUTED THIS, from the same symbol the rule reads. See ESCALATION_SCOPE_KEY.
+          constraint: `actionScope.${ESCALATION_SCOPE_KEY}`,
         },
       };
     }
