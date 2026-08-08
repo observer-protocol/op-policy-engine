@@ -459,7 +459,13 @@ export function evaluateMandate(
         escalation: {
           threshold: { amount: t.amount, currency: t.currency },
           requested: { amount: formatScaled(value as bigint, decimals), currency: t.currency },
-          approvers: Array.isArray(scope.approvers) ? scope.approvers : [],
+          // FROM `approvers.keys`, WHICH IS THE SHAPE THE SCHEMA DEFINES. This read
+          // `Array.isArray(scope.approvers)`, and delegation v2.6 defines the field as an OBJECT
+          // carrying `keys`. So a schema-VALID credential naming an approver escalated with
+          // `approvers: []`: the mandate panel showed a named approver and the approval record showed
+          // nobody. Fixed here rather than downstream, because a consumer filling the list in from the
+          // credential would be producing a verdict's contents rather than reading them.
+          approvers: Array.isArray(scope.approvers?.keys) ? scope.approvers.keys : [],
           // WHICH RULE ROUTED THIS, from the same symbol the rule reads. See ESCALATION_SCOPE_KEY.
           constraint: `actionScope.${ESCALATION_SCOPE_KEY}`,
         },

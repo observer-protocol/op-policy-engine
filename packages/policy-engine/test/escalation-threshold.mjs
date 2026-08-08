@@ -14,7 +14,9 @@ const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } 
 const CONFIG = { rails: { 'eip155:84532': { family: 'evm', decimals: 6, symbol: 'USDC' } }, counterpartyAddressMap: {} };
 const scope = (over = {}) => ({ credentialSubject: { actionScope: {
   escalationThreshold: { amount: '50', currency: 'USDC' },
-  approvers: ['did:web:approver.example'],
+  // THE SCHEMA SHAPE: an object carrying `keys`, not a bare array. This fixture WAS an array, and it
+  // passed because the engine read arrays and nothing validated a fixture against the schema it cites.
+  approvers: { keys: [{ id: 'did:web:approver.example', assurance: 'operator-held' }] },
   per_transaction_ceiling: { amount: '100', currency: 'USDC' },
   ...over } } });
 const ctx = () => ({ chain_id: 'eip155:84532', wallet_id: 'w', api_key_id: 'k', transaction: {}, timestamp: '2026-08-01T00:00:00Z' });
@@ -118,6 +120,43 @@ console.log('\n── THE ESCALATION NAMES THE RULE THAT ROUTED IT ──');
   const denied = run('80', { per_transaction_ceiling: { amount: '50', currency: 'USDC' } });
   a('a ceiling breach still DENIES rather than escalating', denied.ok === false && denied.escalation === undefined, why(denied));
   a('...and names its constraint on detail, not on an escalation', denied.detail?.constraint === 'actionScope.per_transaction_ceiling', JSON.stringify(denied.detail));
+}
+
+console.log('\n── THE ESCALATION CARRIES THE APPROVERS THE CREDENTIAL NAMES ──');
+{
+  // WHY THIS EXISTS. This engine read `Array.isArray(scope.approvers)` while delegation schema v2.6
+  // defines the field as an OBJECT carrying `keys`. So a SCHEMA-VALID credential naming an approver
+  // escalated with `approvers: []`, and a viewer comparing the mandate panel to the approval record
+  // saw a named approver on one and nobody on the other.
+  const APPROVER = 'did:key:z6MkjvPLHN8zFqeXqpXcTqBtT8ayTMfCfRiUSGDjhBhHdKec';
+  const r = run('80', {
+    escalationThreshold: { amount: '50', currency: 'USDC' },
+    approvers: { keys: [{ id: APPROVER, assurance: 'operator-held' }] },
+  });
+  a('a schema-shaped approvers object escalates', r.escalation !== undefined, why(r));
+  a('...carrying the approver the credential names, not an empty list',
+    r.escalation?.approvers?.length === 1, JSON.stringify(r.escalation?.approvers));
+  a('...as the key entry the schema defines',
+    r.escalation?.approvers?.[0]?.id === APPROVER, JSON.stringify(r.escalation?.approvers?.[0]));
+
+  // THE ARRAY FORM IS NOT A LEGACY SHAPE TO SUPPORT. No schema version permits it, so a credential
+  // written that way was never valid against the schema it cites. It yields an empty list rather than
+  // a silent read, and the fixture-schema gate is what stops one being written again.
+  const legacy = run('80', {
+    escalationThreshold: { amount: '50', currency: 'USDC' },
+    approvers: [APPROVER],
+  });
+  a('a bare ARRAY of approvers yields an EMPTY list, because no schema permits that shape',
+    Array.isArray(legacy.escalation?.approvers) && legacy.escalation.approvers.length === 0,
+    JSON.stringify(legacy.escalation?.approvers));
+
+  // AND AN ESCALATION WITH NO APPROVERS DECLARED STILL ESCALATES. The engine does not require the
+  // field; the schema does. Recorded so the difference stays visible.
+  // `approvers: undefined` IS LOAD-BEARING: `run` merges over a default scope that declares one, so
+  // without this the case tests the default rather than the absence it names.
+  const none = run('80', { escalationThreshold: { amount: '50', currency: 'USDC' }, approvers: undefined });
+  a('no approvers declared still escalates, with an empty list',
+    none.escalation !== undefined && none.escalation.approvers.length === 0, JSON.stringify(none.escalation));
 }
 
 console.log(`\nescalation-threshold: ${pass} passed, ${fail} failed`);
