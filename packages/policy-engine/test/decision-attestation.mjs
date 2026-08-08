@@ -69,6 +69,41 @@ console.log('\n── the controls, so a pass above means something ──');
   assert('citing one decision and shipping another does NOT verify', d.state === 'cited-invalid');
 }
 
+console.log('\n── THE STATES ARE DISTINCT, AND COLLAPSING ANY TWO MUST BREAK SOMETHING ──');
+{
+  // ADDED 2026-08-07 BECAUSE A MUTATION SWEEP FOUND THEM UNHELD. `scripts/sweep-attestation-states.mjs`
+  // collapsed each state into its neighbour and ran the suite: two of four SURVIVED, meaning the
+  // distinction existed only in prose. Both are distinctions this estate states in writing —
+  // aip/POLICY_ARTIFACT.md, the attestation source, and the refusal projection all say that an
+  // INABILITY TO CHECK is a different fact from a FAILED CHECK.
+  //
+  // These assert the two that survived. Each names the state it must NOT be, because asserting only
+  // the positive would pass under exactly the collapse being guarded against.
+
+  // A1: NOTHING CITED is not the same as CITED AND UNOBTAINABLE.
+  //
+  // A payment that claims nothing has made no claim to check. Reporting that as
+  // `cited-unresolvable` would say a citation existed and could not be reached, which invents a
+  // claim on the payer's behalf and reads on a panel as a verification failure.
+  const none = verifyDecisionAttestation(undefined, issued.attestation, issued.signature, verifyAdapter, decodeDidKey);
+  assert('citing NOTHING yields not-cited', none.state === 'not-cited', JSON.stringify(none).slice(0, 140));
+  assert('...and NOT cited-unresolvable, which would invent a claim nobody made',
+    none.state !== 'cited-unresolvable');
+
+  // A3: A MALFORMED DECIDER KEY IS A FAILED CHECK, not an inability to check.
+  //
+  // The did:key is present and this verifier can decode that method — it decoded it and the bytes
+  // are wrong. That is a document that failed a check we ran. `cited-unresolvable` is for a decider
+  // we could not reach or a method we do not support, and using it here would report hostility as
+  // an outage.
+  const badKey = { ...issued.attestation, decider: 'did:key:z6MkNOTAREALKEY' };
+  const bad = verifyDecisionAttestation('CLM-1', badKey, issued.signature, verifyAdapter, decodeDidKey);
+  assert('a malformed ed25519 did:key decider yields cited-invalid',
+    bad.state === 'cited-invalid', JSON.stringify(bad).slice(0, 160));
+  assert('...and NOT cited-unresolvable, which would report a failed check as an outage',
+    bad.state !== 'cited-unresolvable');
+}
+
 console.log('\n── the restricted canonicaliser is NOT reachable ──');
 {
   // THE HAZARD THIS ASSERTS AGAINST. This package now holds two canonicalisers that agree only
