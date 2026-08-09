@@ -12,7 +12,7 @@
 //
 // THE FIXTURES ARE REAL RECORDS from the 2026-08-08 citation demo corpus, not shapes invented here: a
 // fixture built to match the implementation cannot catch the implementation drifting.
-import { refusalPayload, signableFromRefusal, resolutionPayload, lapsePayload, canonicalise, stripUndefinedDeep } from '../dist/index.mjs';
+import { refusalPayload, signableFromRefusal, resolutionPayload, lapsePayload, stripUndefinedDeep } from '../dist/index.mjs';
 
 let pass = 0, fail = 0; const failures = [];
 const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } else { fail++; failures.push(n); console.log(`  FAIL  ${n}  <<< ${d}`); } };
@@ -120,13 +120,24 @@ console.log('\n── resolution and lapse ──');
   a('a lapse canonicalises', typeof l === 'string' && l.includes('op.approval.lapse.v1'));
 }
 
-console.log('\n── the primitives that were already here and merely unexported ──');
+console.log('\n── the canonicalisation, asserted THROUGH the public surface ──');
 {
-  a('canonicalise sorts keys', canonicalise({ b: '2', a: '1' }) === '{"a":"1","b":"2"}');
-  a('...and refuses a number rather than guessing a representation',
-    (() => { try { canonicalise({ n: 1 }); return false; } catch { return true; } })());
+  // ASSERTED VIA `refusalPayload` RATHER THAN VIA `canonicalise`, because `canonicalise` is
+  // deliberately internal: two canonicalisers on a public surface agree only while every field is a
+  // string and diverge silently the moment a number appears. A test importing it would be asserting a
+  // property of a function no counterparty can call, and an earlier draft of this file did exactly
+  // that — it imported `canonicalise` and CRASHED the suite rather than failing a line, which is why
+  // the publish gate caught it and a grep for failure counts did not.
+  const p = refusalPayload(signableFromRefusal(REFUSAL));
+  a('keys are sorted in the payload a counterparty reconstructs',
+    p.indexOf('"agentId"') < p.indexOf('"at"') && p.indexOf('"at"') < p.indexOf('"code"'), p.slice(0, 100));
+
+  // stripUndefinedDeep IS public, from core/jcs.ts, and is asserted directly because a counterparty
+  // building a signable object needs it and it cannot produce bytes.
   a('stripUndefinedDeep drops undefined without touching null',
     JSON.stringify(stripUndefinedDeep({ a: undefined, b: null, c: '1' })) === '{"b":null,"c":"1"}');
+  a('...and returns an object rather than a string, so it is not a canonicaliser',
+    typeof stripUndefinedDeep({ x: '1' }) === 'object');
 }
 
 console.log(`\nrecord-payloads: ${pass} passed, ${fail} failed`);
