@@ -16,6 +16,38 @@ was read as if it described runtime, and it does not. Had the disclosure gone ou
 reading, it would have told a counterparty to take a package that would have left them exactly
 as exposed, while believing they were covered. That is why this file exists.
 
+## WHERE THE PUBLISHED RELEASE CANDIDATES ACTUALLY LIVE
+
+**Stated because it is a fact about our own provenance, and it should be discoverable by anyone who
+looks rather than something they discover.** Two repositories are in this posture; documenting only one
+is worse than documenting neither, because an auditor who finds a note in `aip` and none here concludes
+there is nothing here to find.
+
+**`main` does not carry the commits that produced `1.0.0-rc.4` through `1.0.0-rc.7`.** They are on
+branch `feat/vocabulary-membership-rule`, pushed 2026-08-08:
+
+| npm version | commit |
+|---|---|
+| `1.0.0-rc.4` | `cf74450` |
+| `1.0.0-rc.5` | `42249f4` |
+| `1.0.0-rc.6` | `4763df0` |
+| `1.0.0-rc.7` | `d11c5f9d787c8724acfa519c88cfd7128cffb305` (branch head) |
+
+Anyone verifying what a published package contains should cite the **commit**, not the branch: a branch
+ref moves, and provenance that can change after the package is immutable on npm is not provenance.
+
+**WHY THE MERGE WAS DEFERRED, so it does not read as an oversight.** `origin/main` has DIVERGED rather
+than fallen behind: it carries `b958115` (*"Refuse an outcome outside the vocabulary it cites, and carry
+the set so membership is checkable"*), which this branch does not. There is no fast-forward. Force was
+refused outright — it would delete published work from public history.
+
+**WHAT CLOSES IT.** Someone with the context merges `feat/vocabulary-membership-rule` into `main`,
+reconciling it against `b958115`. No published artifact changes and no hash changes; only where the
+source lives. Until then the commits above are the citable originals and they are real public objects.
+
+The same deferral exists in `observer-protocol/aip` for `schemas/delegation/v2.7.json`, recorded in that
+repo's `SCHEMA_POLICY.md`.
+
 ## The fanout list
 
 A core change with **security or behaviour consequence** requires all five to be rebuilt and
