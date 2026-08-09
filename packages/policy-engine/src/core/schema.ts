@@ -2,12 +2,48 @@ import type { ObserverDelegationCredential, VerifierConfig } from './types.js';
 
 // Structural validation derived from schemas/delegation/v2.1.json.
 //
-// Deliberate deviation, documented: the frozen v2.1 schema's `proof` block
-// predates the eddsa-jcs-2022 migration (it pins the legacy suite name).
-// This verifier validates the credential BODY against the v2.1 structure
-// and verifies the proof cryptographically per W3C VC Data Integrity
-// (eddsa-jcs-2022) instead of schema-validating the proof block. Tracked
-// upstream in the AIP repo as a spec/implementation alignment item.
+// ─── STANDING CONSTRAINT. DO NOT "TIDY THIS UP" INTO SCHEMA VALIDATION. ──────────────
+//
+// THIS VERIFIER DELIBERATELY DOES NOT SCHEMA-VALIDATE THE `proof` BLOCK, and that
+// deviation is LOAD-BEARING rather than technical debt. It validates the credential
+// BODY against the v2.1 structure and verifies the proof CRYPTOGRAPHICALLY per W3C VC
+// Data Integrity (eddsa-jcs-2022).
+//
+// WHY, MEASURED 2026-08-09 ACROSS THE WHOLE CORPUS. Delegation schemas v2, v2.1 and
+// v2.3 pin `proof.type` to the constant "Ed25519Signature2026". That name is NOT a
+// registered W3C cryptosuite: it was fabricated, and the signing construction behind it
+// omitted the SHA-256 hashing step and the proofConfig contribution, leaving a real
+// malleability gap. It was removed across eight emitters by observer-protocol-api
+// commit f251ec6, which replaced it with the registered standard. v2.4 onward pin
+// `DataIntegrityProof` + `eddsa-jcs-2022` correctly.
+//
+// THE SCHEMAS CANNOT BE FIXED. Published schema URLs are immutable under
+// aip/SCHEMA_POLICY.md; the bytes at a URL never change. So three URLs require a
+// fabricated proof type FOREVER, and every credential that cites one and carries the
+// CORRECTED proof fails the schema it declares.
+//
+// THE NUMBERS, so nobody has to re-derive them before deciding:
+//   127 pre-v2.5 delegation credentials in the estate
+//   104 fail the schema they themselves cite
+//   102 of those fail on `/proof/type must be equal to constant` and nothing else
+//    13 of 13 credentials citing v2.4 CONFORM  <- the control: conformance tracks the
+//                                                 cited VERSION, not the issuer
+//
+// SO: schema-validating the proof block here would reject 102 credentials whose proofs
+// are cryptographically valid and whose suite is the CORRECT one. They are more correct
+// than their own declarations, permanently. This deviation is the only reason they
+// verify at all.
+//
+// The tidy-up is attractive and the person who attempts it will have good reasons:
+// "the schema is the contract", "we validate everything else against it", "this is an
+// inconsistency". All true. It still breaks the entire delegation corpus. If you are
+// here to remove it, the thing to change is not this file — it is whether anything is
+// ever expected to schema-validate a v2/v2.1/v2.3 proof block, and the answer recorded
+// here is no.
+//
+// Full derivation: op-at-specs/2026-08-09-the-104-and-the-working-revocation-path.md §3.
+// See also KNOWN-LIMITS.md, "The proof block is verified cryptographically, never
+// schema-validated".
 
 const W3C_VC_V2_CONTEXT = 'https://www.w3.org/ns/credentials/v2';
 
@@ -26,6 +62,33 @@ export function validateStructure(
   if (!Array.isArray(cred.type) || !cred.type.includes('VerifiableCredential') || cred.type.length < 2) {
     return fail('type must be an array containing VerifiableCredential plus a concrete type');
   }
+  // ─── WIDENING THIS TO ACCEPT W3C's OBJECT FORM? READ THE NEXT CHECK FIRST. ─────────────
+  //
+  // W3C VC permits `issuer` as a DID string OR an object with an `id`, and this refuses the
+  // object form. That is NOT a conformance gap in this engine: delegation schemas v2 through
+  // v2.7 ALL type `issuer` as `{"type":"string","pattern":"^did:[a-z]+:.+"}` — the same regex
+  // used below — so an object-form issuer fails the schema the credential itself cites. This
+  // check is the schema being enforced. Three estate credentials use the object form and all
+  // three are non-conformant against their own declaration.
+  //
+  // THE TRAP: THE PIN THREE LINES DOWN COMPARES THE RAW VALUE. `cred.issuer !== config.issuerDid`
+  // is a string comparison, and an object never equals a string. So relaxing the type check here
+  // WITHOUT normalizing first does not admit the object form — it moves the refusal to the
+  // TRUST-ANCHOR check, which then reports
+  //   `issuer [object Object] does not match the pinned trusted issuer did:web:...`
+  // for a credential whose issuer is correct. Fail-closed, so not dangerous, and FALSE ABOUT ITS
+  // SUBJECT: it names a trust-anchor mismatch that did not happen. Anyone widening the type check
+  // will not think to look three lines down, which is exactly why this note is here and not there.
+  //
+  // If the object form is ever adopted: normalize ONCE, before both checks, and use the
+  // normalized value for the pin. `verify.ts` already contains that normalization — moving it,
+  // not writing it. And grep for string concatenation on an issuer first: `runtime-adapter.ts:96`
+  // does `vmId.startsWith(wbc.issuer + '#')`, which yields `"[object Object]#"` on an object.
+  //
+  // Adopting the object form is a DECISION, not a fix: the form in use carries `name` alongside
+  // `id`, so accepting it means accepting a place for display data inside the issuer field.
+  //
+  // Full scope: op-at-specs/2026-08-09-issuer-object-form-engine-or-schema.md
   if (typeof cred.issuer !== 'string' || !/^did:[a-z]+:.+/.test(cred.issuer)) {
     return fail('issuer must be a DID string');
   }

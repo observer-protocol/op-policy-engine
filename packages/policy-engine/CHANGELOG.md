@@ -2,6 +2,52 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.11
+
+**Additive only. Two new value exports, two new types, nothing removed and no behaviour changed.**
+
+### The evaluation verdict payload is exported
+
+`evaluationVerdictPayload`, `EVALUATION_VERDICT_PAYLOAD_TYPE`, and the types
+`SignableEvaluationVerdict` and `SignedDenialDetail`.
+
+A counterparty could already rebuild the bytes a REFUSAL was signed over, since `refusalPayload` moved
+here at rc.8, and could not rebuild a verdict's. **A verdict exists for every payment while a refusal
+exists only for stopped ones**, so this is the larger half of the same gap.
+
+**The rc.9 withdrawal of `resolutionPayload` was answered rather than routed around.** Its four
+objections, each taken separately: adjacency does not apply, because this package computes the decision
+and a verdict is that decision signed; no payment-server concept travels, because the payload is
+thirteen strings and one nested object of four optional strings; the canonicaliser question was measured
+rather than argued, with this package's two canonicalisers and the payment server's producing identical
+461 bytes for the worst-case deny.
+
+**The fourth objection was real and is why the names are what they are.** This package already exports
+`DenialDetail` (eight members, including a vocabulary `tag` and a boolean `terminal`) and `Verdict` (the
+decision AS COMPUTED, with `allow: boolean`). Exported under their original names, the verdict's
+four-string signed detail and its payload type would have put two `denialDetail` shapes and two verdict
+concepts on one imported surface, with nothing saying which one a signature covers. So they are
+`SignedDenialDetail` and `SignableEvaluationVerdict`, each stating what it is not, on the
+`ApproverKeyAssurance` precedent this surface already set.
+
+**`resolutionPayload` remains withdrawn**, and its absence is now asserted by a test rather than left as
+an omission.
+
+### The parity condition is enforced by the compiler
+
+The three canonicalisers agree only because every signed field is a string. `_PARITY_OBLIGATION` in
+`core/records/verdict.ts` fails to COMPILE if a non-string field enters the payload, and the error names
+the offending field. A note could not enforce that, and the failure it guards against breaks no test: it
+would make every already-stored signature unverifiable by the exported function while both sides looked
+correct.
+
+### Fixed
+
+- `test/public-exports.mjs` did not cover the payload builders at all. `refusalPayload` moved here at
+  rc.8 so counterparties could rebuild bytes, and its reachability was asserted nowhere. All five
+  builders and all three domain separators are now checked, with the separator VALUES pinned rather than
+  their names, because a changed value invalidates every signature already written over it.
+
 ## 1.0.0-rc.4
 
 **Why this release exists.** `attestation.ts` has existed in TWO copies, here and in

@@ -69,6 +69,32 @@ console.log('\n── the decision-attestation surface is reachable from the ent
   assert('FORBIDDEN_ATTESTATION_FIELDS is reachable', mod.FORBIDDEN_ATTESTATION_FIELDS !== undefined);
   assert('ATTESTATION_ESTABLISHES is reachable', mod.ATTESTATION_ESTABLISHES !== undefined);
 
+  // ─── THE PAYLOAD BUILDERS, WHICH ARE THE WHOLE REASON A COUNTERPARTY IMPORTS THIS PACKAGE ──────
+  //
+  // ADDED 2026-08-09 WITH `evaluationVerdictPayload`, AND THE OTHER THREE WERE MISSING FROM THIS LIST.
+  // `refusalPayload` moved here at rc.8 so a counterparty could rebuild the bytes a refusal was signed
+  // over, and its reachability — the entire point of the move — was asserted nowhere. The list is the
+  // coverage, and it did not cover the exports the package exists to provide.
+  assert('evaluationVerdictPayload is reachable', typeof mod.evaluationVerdictPayload === 'function');
+  assert('refusalPayload is reachable', typeof mod.refusalPayload === 'function');
+  assert('signableFromRefusal is reachable', typeof mod.signableFromRefusal === 'function');
+  assert('lapsePayload is reachable', typeof mod.lapsePayload === 'function');
+  assert('stripUndefinedDeep is reachable', typeof mod.stripUndefinedDeep === 'function');
+
+  // THE DOMAIN SEPARATORS, BY VALUE. A renamed constant is survivable; a changed VALUE invalidates
+  // every signature already written over it, so the value is pinned here rather than the name alone.
+  assert('EVALUATION_VERDICT_PAYLOAD_TYPE is reachable AND unchanged',
+    mod.EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3', mod.EVALUATION_VERDICT_PAYLOAD_TYPE);
+  assert('REFUSAL_PAYLOAD_TYPE is reachable', mod.REFUSAL_PAYLOAD_TYPE !== undefined);
+  assert('LAPSE_PAYLOAD_TYPE is reachable', mod.LAPSE_PAYLOAD_TYPE !== undefined);
+
+  // AND `resolutionPayload` MUST STAY ABSENT. Withdrawn at rc.9 for a recorded reason, so its absence
+  // is a DECISION and needs a check like any other. A second negative control beside `canonicalise`,
+  // pointed at the export whose return would be the easiest to justify by adjacency to the verdict one.
+  assert('resolutionPayload is still NOT exported, which is a ruling rather than an omission',
+    mod.resolutionPayload === undefined,
+    'withdrawn at rc.9: a resolution actor is a payment-server concept and its assurance field collided');
+
   // AND IT DISCRIMINATES: a name that is not exported must fail this check, or the loop above is
   // measuring nothing. Without this, a broken import would make every assertion above pass as
   // `typeof undefined === 'undefined'`... which is exactly what the loop tests for, so prove the

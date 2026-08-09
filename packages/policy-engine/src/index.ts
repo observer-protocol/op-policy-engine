@@ -8,6 +8,16 @@
 // instead of maintaining their own vendored core/ copy.
 
 export { verifyCredential, verifyCredentialObject, verifyCredentialCrypto, enforceMandate } from './core/verify.js';
+// `Verdict` IS THE DECISION AS COMPUTED. `SignableEvaluationVerdict`, exported further down, is a
+// decision AS SIGNED, and the two are NOT two forms of one type — their fields do not correspond:
+// `allow: boolean` against `decision: string`, and `detail?: DenialDetail` (eight members, with a
+// vocabulary and a boolean) against `denialDetail?: SignedDenialDetail` (four strings).
+//
+// NAMED ON BOTH SIDES, 2026-08-09, rather than only on the new one. A reader who meets this export
+// first and the signable one later needs the distinction at whichever they reach first, which is the
+// half the `ApproverKeyAssurance` fix got right: the defence is the name AND the comment, in both
+// places. This one answers "what does this engine conclude about this request"; that one answers "what
+// did a named evaluator commit to, in bytes anyone can rebuild".
 export type { Verdict, CredentialChecks } from './core/verify.js';
 
 export { evaluateMandate, parseDecimalScaled } from './core/mandate.js';
@@ -113,6 +123,8 @@ export { jcsBytes } from './core/jcs.js';
 export { stripUndefinedDeep } from './core/jcs.js';
 export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2 } from './core/records/refusal.js';
 export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
+export { evaluationVerdictPayload, EVALUATION_VERDICT_PAYLOAD_TYPE } from './core/records/verdict.js';
+export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/records/verdict.js';
 // `resolutionPayload` AND `ResolutionActor` WERE EXPORTED IN rc.8 AND ARE WITHDRAWN IN rc.9.
 //
 // THEY CAME ALONG BECAUSE THEY WERE ADJACENT TO `refusalPayload`, AND ADJACENCY IS NOT A REASON. A
@@ -122,6 +134,36 @@ export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
 //
 // What a counterparty needs is `refusalPayload`: a refusal is the only artifact of a stopped payment,
 // and reconstructing its bytes is the check that needs nothing from us.
+//
+// ─── THE VERDICT PAYLOAD IS EXPORTED BELOW, AND THE NOTE ABOVE IS WHY ITS NAMES ARE WHAT THEY ARE ─
+//
+// Added 2026-08-09. **The four objections above were answered before it was written, not routed
+// around**, and the third one was REAL:
+//
+//   ADJACENCY — no. This package computes the decision; a verdict is that decision signed, so it is
+//   here by subject. The note's own positive test is met more strongly than by the refusal: a refusal
+//   is the artifact of a STOPPED payment, and a verdict is the artifact of EVERY payment.
+//
+//   A FOREIGN CONCEPT — none to carry. Thirteen strings and one nested object of four optional
+//   strings. No actor, no vocabulary, no union, no boolean, no number.
+//
+//   A COLLIDING TYPE MADE PERMANENT — **this WOULD have happened.** This package already exports
+//   `DenialDetail` (eight members, including a vocabulary `tag` and a boolean `terminal`), and the
+//   verdict's signed detail is a four-string SUBSET of it. Exported inline and unnamed, two
+//   `denialDetail` shapes would have sat two exports apart with nothing saying which one a signature
+//   covers — the `assurance` collision inside one file instead of across two repositories. So it is
+//   named `SignedDenialDetail` and says what it excludes and why. Same for the payload type: this
+//   package exports `Verdict`, the decision AS COMPUTED, so the signed one is
+//   `SignableEvaluationVerdict`, the decision AS SIGNED. `ApproverKeyAssurance` is the precedent for
+//   both, and it is the precedent this surface already set.
+//
+//   TWO CANONICALISERS — measured, not argued. `op-mcp-payment-server/src/jcs.ts`,
+//   `core/attestation-jcs.ts` and `core/jcs.ts` produce identical 461 bytes for the worst-case deny.
+//   The new file uses `attestation-jcs`, the one `refusalPayload` already uses, so the two payload
+//   builders share a canonicaliser rather than presenting a reader with a choice.
+//
+// **The parity result holds only because every signed field is a string, and that condition is enforced
+// by a compile-time assertion in the file rather than by this paragraph.**
 export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ApproverKeyAssurance } from './core/records/types.js';
 // THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
 // `assurance` field rather than merely type one needs the list at runtime, and needs to know which

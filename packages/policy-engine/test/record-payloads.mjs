@@ -10,9 +10,18 @@
 // rename. So the constructions are asserted against FIXED EXPECTED BYTES captured from real records
 // before the move, not against themselves.
 //
-// THE FIXTURES ARE REAL RECORDS from the 2026-08-08 citation demo corpus, not shapes invented here: a
-// fixture built to match the implementation cannot catch the implementation drifting.
-import { refusalPayload, signableFromRefusal, lapsePayload, stripUndefinedDeep } from '../dist/index.mjs';
+// THE FIXTURES ARE REAL RECORDS, not shapes invented here: a fixture built to match the implementation
+// cannot catch the implementation drifting.
+//
+// **THEY ARE NOT ALL FROM THE SAME SOURCE, AND THE DIFFERENCE IS A REAL DIFFERENCE IN STRENGTH.** The
+// refusal is a line lifted verbatim from the 2026-08-08 citation demo corpus. The two verdicts added
+// 2026-08-09 were driven end to end through `op-mcp-payment-server`'s HTTP route into an EPHEMERAL
+// store, because both demonstration services were started before the verdict record existed and must
+// not be restarted, so no corpus on disk contains one. Same code path, same real key, weaker
+// provenance. Stated here rather than only beside the verdicts, because this header is what a reader
+// checks the whole file's provenance against.
+import { refusalPayload, signableFromRefusal, lapsePayload, stripUndefinedDeep,
+  evaluationVerdictPayload, EVALUATION_VERDICT_PAYLOAD_TYPE } from '../dist/index.mjs';
 
 let pass = 0, fail = 0; const failures = [];
 const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } else { fail++; failures.push(n); console.log(`  FAIL  ${n}  <<< ${d}`); } };
@@ -126,6 +135,82 @@ console.log('\n── the canonicalisation, asserted THROUGH the public surface 
     JSON.stringify(stripUndefinedDeep({ a: undefined, b: null, c: '1' })) === '{"b":null,"c":"1"}');
   a('...and returns an object rather than a string, so it is not a canonicaliser',
     typeof stripUndefinedDeep({ x: '1' }) === 'object');
+}
+
+console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against real driven records ──');
+{
+  // ─── WHERE THESE FIXTURES CAME FROM, STATED PRECISELY BECAUSE IT IS A NARROWER CLAIM ───────────
+  //
+  // Both records were DRIVEN END TO END through `op-mcp-payment-server`'s HTTP route with a real
+  // ed25519 evaluator key, and read back from the store's log by a fresh reader. They are the bytes
+  // that service actually signed and persisted, not shapes assembled here — a fixture built to match
+  // the implementation cannot catch the implementation drifting.
+  //
+  // **THE LIMIT: they are NOT from the two demonstration corpora.** Those services were started before
+  // the verdict record existed and must not be restarted, so no corpus on disk contains one. These come
+  // from an ephemeral store driven through the same code path. That is the strongest evidence available
+  // today and it is weaker than `REFUSAL` above, which is a line lifted from the 2026-08-08 corpus.
+  // When either corpus is next driven, replace these with records from it.
+  //
+  // TWO RECORDS, BECAUSE ONE EXERCISES HALF THE CONSTRUCTION. `breachedConstraint` and `denialDetail`
+  // are in the signed bytes for a deny and REFUSED on a release, so a single fixture would leave the
+  // conditional guards and the detail subsetting untested.
+  const RELEASE_PAYLOAD = { decision: 'release', mandateId: 'urn:uuid:m1', agentId: 'did:web:agent',
+    issuerId: 'did:web:principal', rail: 'eip155:8453', asset: 'USDC', amountRaw: '318740000',
+    decimals: '6', counterpartyMatchedAs: 'vendor-alpha',
+    notBefore: '2026-08-03T00:00:00.000Z', notAfter: '2026-08-04T00:00:00.000Z' };
+  const RELEASE_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"release","issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","type":"op.evaluation.verdict.v3"}';
+
+  const DENY_PAYLOAD = { ...RELEASE_PAYLOAD, decision: 'deny',
+    breachedConstraint: 'tradingMandate.perPaymentCap',
+    denialDetail: { limit: '25.00', observed: '318.74', headroom: '0', unit: 'USDC' } };
+  const DENY_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","breachedConstraint":"tradingMandate.perPaymentCap","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"deny","denialDetail":{"headroom":"0","limit":"25.00","observed":"318.74","unit":"USDC"},"issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","type":"op.evaluation.verdict.v3"}';
+
+  a('the moved builder reproduces a real RELEASE verdict\'s bytes exactly',
+    evaluationVerdictPayload(RELEASE_PAYLOAD) === RELEASE_BYTES, evaluationVerdictPayload(RELEASE_PAYLOAD));
+  a('...and a real DENY verdict\'s, which carries the constraint and the detail',
+    evaluationVerdictPayload(DENY_PAYLOAD) === DENY_BYTES, evaluationVerdictPayload(DENY_PAYLOAD));
+  a('the payload type value is unchanged by the rename of its constant',
+    EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3');
+
+  // ─── `terminal` IS NOT SIGNED, ASSERTED AGAINST THE REAL REQUEST THAT CARRIED IT ───────────────
+  //
+  // The driven deny above was posted with `denialDetail.terminal: true`. The stored signed payload does
+  // not contain it, so the exclusion is a behaviour rather than a docstring. It matters because
+  // `terminal` is a BOOLEAN: the canonicaliser refuses booleans, and carrying it as the string 'true'
+  // would be read as a value rather than a flag.
+  a('a `terminal` a caller attaches cannot reach the signed bytes',
+    !evaluationVerdictPayload({ ...DENY_PAYLOAD,
+      denialDetail: { ...DENY_PAYLOAD.denialDetail, terminal: true } }).includes('terminal'));
+  a('...and the bytes are IDENTICAL to the deny without it, so nothing shifted to make room',
+    evaluationVerdictPayload({ ...DENY_PAYLOAD,
+      denialDetail: { ...DENY_PAYLOAD.denialDetail, terminal: true } }) === DENY_BYTES);
+  // Nor can the vocabulary or the advice fields, which are the other three exclusions.
+  for (const f of ['tag', 'constraint', 'remedy']) {
+    a(`...nor can \`${f}\`, which is excluded because it is not signed`,
+      !evaluationVerdictPayload({ ...DENY_PAYLOAD,
+        denialDetail: { ...DENY_PAYLOAD.denialDetail, [f]: 'x' } }).includes(`"${f}"`));
+  }
+
+  // ─── THE CONDITIONAL GUARDS, BOTH DIRECTIONS ──────────────────────────────────────────────────
+  const threw = (fn) => { try { fn(); return null; } catch (e) { return e; } };
+  a('a deny with no breachedConstraint refuses',
+    threw(() => evaluationVerdictPayload({ ...DENY_PAYLOAD, breachedConstraint: undefined })) !== null);
+  a('a RELEASE carrying a breachedConstraint refuses, which is the same defect in the other direction',
+    threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, breachedConstraint: 'x' })) !== null);
+  a('an escalate with no routingConstraint refuses',
+    threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, decision: 'escalate' })) !== null);
+  a('a release carrying a routingConstraint refuses',
+    threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, routingConstraint: 'x' })) !== null);
+  for (const f of ['decision', 'mandateId', 'agentId', 'issuerId', 'rail', 'asset', 'amountRaw',
+                   'decimals', 'counterpartyMatchedAs', 'notBefore', 'notAfter']) {
+    const e = threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, [f]: undefined }));
+    a(`an absent ${f} refuses, naming it`, e !== null && e.message.includes(f), e?.message);
+  }
+  // A NUMERIC decimals is the parity condition's whole subject, so it is asserted at runtime too rather
+  // than only pinned by the compile-time obligation in the source file.
+  a('a NUMERIC decimals refuses rather than being coerced, which is the parity condition',
+    threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, decimals: 6 })) !== null);
 }
 
 console.log(`\nrecord-payloads: ${pass} passed, ${fail} failed`);
