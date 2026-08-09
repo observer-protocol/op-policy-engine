@@ -40,5 +40,43 @@ console.log('\n── ed25519Verify, both outcomes ──');
     'a false negative here is indistinguishable from a forgery');
 }
 
+// ── THE DECISION-ATTESTATION SURFACE, ASSERTED BY NAME ──────────────────────────────────────────
+//
+// `checkPaymentBinding` was defined in core/attestation.ts, correct, and covered by tests in the
+// OTHER copy of that file, while being unreachable from the package entry point. Nothing failed,
+// because nothing asserted the surface. This list is what turns "it exists" into "a consumer can
+// reach it".
+//
+// THE LIST IS THE COVERAGE, and it is a hand-written list, so it is the weak kind of control: a
+// name added to core/attestation.ts and not added here is invisible again. The STRONG control is
+// downstream — op-mcp-payment-server imports these from the package and has deleted its own copy,
+// so its build fails if any of them stops being exported. This list catches the gap earlier; that
+// one cannot be forgotten.
+console.log('\n── the decision-attestation surface is reachable from the entry point ──');
+{
+  const mod = await import('../dist/index.mjs');
+  const REQUIRED = [
+    'issueDecisionAttestation', 'verifyDecisionAttestation', 'acceptDecisionAttestation',
+    'checkDecisionRefs', 'checkDeciderArtifactRef', 'checkOutcomeInVocabulary',
+    'checkPaymentBinding',
+    'assertNoObservation', 'ObservationRefused',
+  ];
+  for (const name of REQUIRED) {
+    assert(`${name} is reachable from the package entry point`, typeof mod[name] === 'function',
+      `typeof was ${typeof mod[name]}`);
+  }
+  // Value exports, which are not functions and would pass a typeof-function check vacuously.
+  assert('FORBIDDEN_ATTESTATION_FIELDS is reachable', mod.FORBIDDEN_ATTESTATION_FIELDS !== undefined);
+  assert('ATTESTATION_ESTABLISHES is reachable', mod.ATTESTATION_ESTABLISHES !== undefined);
+
+  // AND IT DISCRIMINATES: a name that is not exported must fail this check, or the loop above is
+  // measuring nothing. Without this, a broken import would make every assertion above pass as
+  // `typeof undefined === 'undefined'`... which is exactly what the loop tests for, so prove the
+  // negative case reports absence rather than presence.
+  assert('a name the package does NOT export is reported absent',
+    typeof mod.canonicalise !== 'function',
+    'canonicalise is deliberately withheld; if this passes as a function the check is inverted');
+}
+
 console.log(`\npublic-exports: ${pass} passed, ${fail} failed`);
 if (fail > 0) { console.error('\nFAILURES:'); failures.forEach(f => console.error('  ✗ ' + f)); process.exit(1); }

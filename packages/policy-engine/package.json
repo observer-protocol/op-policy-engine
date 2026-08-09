@@ -1,7 +1,7 @@
 {
   "name": "@observer-protocol/policy-engine",
-  "version": "1.0.0-rc.3",
-  "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic \u2014 verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
+  "version": "1.0.0-rc.10",
+  "description": "Shared policy enforcement core for Observer Protocol delegation credentials (AIP v0.8). Rail-agnostic — verifies credentials and evaluates tradingMandate constraints without rail-specific decode.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,7 +26,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --target=node18 --format=cjs --define:__OP_CORE_VERSION__=\\\"$npm_package_version\\\" --outfile=dist/index.cjs && tsc --emitDeclarationOnly --outDir dist",
     "typecheck": "tsc --noEmit",
     "fixtures": "node test/fixtures/gen.mjs",
-    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs && node test/version-stamp.mjs && node test/url-guard.mjs && node test/status-list-origin.mjs && node test/monthly-velocity.mjs && node test/structured-denial.mjs && node --experimental-strip-types test/vocabulary-purchase-terms.mjs && node test/escalation-threshold.mjs && node test/credential-status-shape.mjs && node test/public-exports.mjs && node test/decision-attestation.mjs && node test/decider-didweb.mjs",
+    "test": "npm run typecheck && npm run build && npm run fixtures && node test/run.mjs && node test/cross-rail-contention.mjs && node test/version-stamp.mjs && node test/url-guard.mjs && node test/status-list-origin.mjs && node test/monthly-velocity.mjs && node test/structured-denial.mjs && node --experimental-strip-types test/vocabulary-purchase-terms.mjs && node test/escalation-threshold.mjs && node test/credential-status-shape.mjs && node test/public-exports.mjs && node test/decision-attestation.mjs && node test/decider-didweb.mjs && node test/attestation-source-invariants.mjs && node test/record-payloads.mjs && node test/approver-assurance-vocabulary.mjs",
     "prepublishOnly": "npm run typecheck && npm test"
   },
   "repository": {

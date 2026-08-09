@@ -284,6 +284,25 @@ export interface Evaluator {
   id: string;
   /** Version string of the evaluator implementation. */
   version: string;
+  /** WHICH BUILD PRODUCED THIS CREDENTIAL, so a holder can tell one evaluator build from another.
+   *
+   * `id` and `version` identify the SOFTWARE and move rarely — the sidecar's sat unchanged for months
+   * while its behaviour changed underneath. A credential issued by a build that allowed an
+   * unrecognised mandate and one issued by the build that refuses it were indistinguishable by their
+   * own evaluator identity, so a holder could not tell whether the evaluator that produced it read a
+   * single constraint.
+   *
+   * DETERMINISTIC IDENTIFIERS ONLY. Commits, not timestamps or hostnames: a bundle's provenance rests
+   * on rebuilding it byte-for-byte from its inputs, and anything varying per build ends that.
+   *
+   * OPTIONAL, because an unbundled build cannot know it and must not guess. An implementation that
+   * cannot determine its own provenance should omit this rather than assert one. */
+  build?: {
+    /** Short commit of the implementation, suffixed `-dirty` if built from a modified tree. */
+    policyCore: string;
+    /** `<version>@<short-commit>` of the policy engine inlined at build time. */
+    engine: string;
+  };
 }
 
 export interface PolicyEvaluationCredentialSubject {

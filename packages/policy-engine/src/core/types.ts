@@ -89,6 +89,21 @@ export interface PerTransactionCeiling {
   currency: string;
 }
 
+/** `actionScope.approvers`, IN THE SHAPE THE SCHEMA DEFINES.
+ *
+ * AN OBJECT WITH `keys`, NOT AN ARRAY. Delegation schema v2.6 defines this as
+ * `{ keys: [{ id, assurance }] }` and this engine read `Array.isArray(scope.approvers)`, so a
+ * SCHEMA-VALID credential naming an approver produced an escalation carrying `approvers: []`. The
+ * mandate panel showed a named approver and the approval record showed nobody, which is a
+ * contradiction a viewer reads off two screens.
+ *
+ * The array form the engine used to read is not a legacy shape to support: no schema version permits
+ * it. Fixtures written that way were never valid against the schema they cite, and nothing had ever
+ * validated one. */
+export interface ApproverSet {
+  keys: { id: string; assurance?: string }[];
+}
+
 export interface ActionScope {
   /** Above this, a payment routes to a human approver rather than proceeding. Same shape as
    * per_transaction_ceiling and evaluated in the same currency, deliberately: an escalation band that
@@ -98,7 +113,7 @@ export interface ActionScope {
    * escalationThreshold because the schema requires the band to have somewhere to route, and a
    * threshold whose approver list still denied would leave the credential unusable for a second
    * reason. Carried to the verdict; not otherwise evaluated here. */
-  approvers?: unknown[];
+  approvers?: ApproverSet;
   allowed_rails?: string[];
   per_transaction_ceiling?: PerTransactionCeiling;
   allowed_transaction_categories?: string[];

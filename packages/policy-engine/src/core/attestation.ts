@@ -260,6 +260,36 @@ export interface DecisionAttestation {
    * That is the whole of the computed-amount case — a fee charge is only meaningful if the amount
    * paid is the amount the calculation produced, and `outcome` is free prose that nothing can check. */
   amount?: AttestedAmount;
+  /** WHO THE DECISION AUTHORISES PAYING. NOT `subject`, AND THE TWO MUST NOT COLLAPSE.
+   *
+   * `subject` is what the decision was ABOUT: the claimant, the account, the obligation. This is who
+   * the money goes to. They are frequently different parties — an exception cleared on account A is
+   * settled to the counterparty on the instruction — and reading one as the other would bind a
+   * payment to the wrong party while appearing to bind it.
+   *
+   * PRESENT AND SIGNED FROM THE FIRST ATTESTATION. NOT YET COMPARED AGAINST ANY PAYMENT.
+   *
+   * WHY IT EXISTS BEFORE IT IS ENFORCED, WHICH IS THE OPPOSITE OF THE USUAL ORDER HERE. The cost of
+   * this field is not in the comparison, which is four lines. It is in the SIGNATURE: an attestation
+   * is signed over its own bytes, so a field added later is absent from every attestation already
+   * issued. Adding it then forces a choice between invalidating every prior attestation and accepting
+   * its absence — and accepting absence is exactly the bypass that an optional `amount` already
+   * demonstrates, where a requirement to cite a decision is satisfied by citing one that binds
+   * nothing. Deferring the field once is a judgement. Deferring it twice is how the bypass becomes
+   * permanent, because the body of attestations lacking it only grows.
+   *
+   * SO: the signed surface exists now, and the enforcement ruling is made ONCE, later, with the
+   * comparison and a real client structure in view. Until then this is PRESENT-BUT-UNENFORCED, which
+   * is a materially different statement from absent and is the one on the honest-limits list. */
+  counterparty: string;
+  /** WHICH RAIL THE DECISION AUTHORISES SETTLING ON. Present, signed, and NOT YET COMPARED.
+   *
+   * The same argument as `counterparty` above, and the same status. `amount` already carries `asset`
+   * and `decimals`, so the figure is bound to a unit; nothing binds it to a RAIL. A decision cleared
+   * for one rail therefore verifies against a payment moving the same figure on another, which is a
+   * live shape rather than a hypothetical: the mandate's own `allowed_rails` refusals exist because
+   * agents do propose payments on rails they were not granted. */
+  rail: string;
   /** What this attestation's provenance rests on. See ATTESTATION_ASSURANCE. */
   assurance: AttestationAssurance;
   /** Who observed, when assurance is `independently-observed`. Absent under `self-declared`, and its
@@ -502,6 +532,64 @@ export function checkDeciderArtifactRef(ref: DeciderArtifactRef | undefined): st
   );
 }
 
+/** Validate the payment-binding surface: who the decision authorises paying, and on which rail.
+ *
+ * ─── AN ARTIFACT THAT NAMES NOTHING CONSTRAINS NOTHING ───────────────────────────────────────────
+ *
+ * BOTH ARE REQUIRED ON EVERY ATTESTATION, INCLUDING A DENIAL, AND THAT IS THE INTERESTING CASE. The
+ * objection is obvious: a denial pays nobody, so naming a payee looks like filling in a field for the
+ * sake of it.
+ *
+ * IT IS THE OPPOSITE. A denial that named no counterparty would be the single easiest artifact in
+ * this system to cite falsely. A later payment to ANY party could attach it, and a binding check
+ * would have nothing to compare against — so the one document that refuses a payment would authorise
+ * every payment. The weakest legal value of an optional field is "no constraint".
+ *
+ * THE NARROWER RULE WAS CONSIDERED AND REJECTED: requiring the pair only when `amount` is present.
+ * That reintroduces, inside the mechanism built to prevent it, exactly the defect that made `amount`
+ * itself insufficient — an attestation that commits to nothing satisfies a requirement to cite
+ * something. Same shape, new field.
+ *
+ * THIS GENERALISES AND IS NOT A LOCAL DECISION. Any field added to bind one artifact to another must
+ * be mandatory on every instance of that artifact, or the instances lacking it become the preferred
+ * thing to cite. A binding surface with holes routes traffic to the holes.
+ *
+ * REFUSED AT ISSUANCE, DELIBERATELY NOT AT VERIFICATION, WHICH BREAKS THE PARITY RULE THIS FILE
+ * OTHERWISE APPLIES. Everywhere else here, "a state this service will not sign is a state it must not
+ * accept either" — `checkDecisionRefs`, `checkDeciderArtifactRef` and `checkOutcomeInVocabulary` are
+ * all run against documents we did not issue, for the reason that a good signature over a malformed
+ * claim is still a malformed claim.
+ *
+ * These two are not run there, and the difference is that an absent `counterparty` is not a MALFORMED
+ * claim. It is an OLDER SHAPE. Refusing it at verification would make every attestation issued before
+ * today `cited-invalid`, which is the state documented as the only one indicating hostility, for
+ * documents whose only defect is their age. That is a caption asserting an outcome the facts
+ * disprove.
+ *
+ * THE ASYMMETRY IS THE WHOLE POINT AND IS TEMPORARY. We refuse to SIGN one without these fields, so
+ * every attestation this estate issues from now on carries them; we ACCEPT one without them, so the
+ * enforcement ruling can be made once, later, against a corpus where the field is universal rather
+ * than against a mixed population where it is not. When that ruling lands, this comment is the thing
+ * to delete, and the parity rule reasserts itself. */
+export function checkPaymentBinding(counterparty: unknown, rail: unknown): string | null {
+  if (!nonEmpty(counterparty)) {
+    return (
+      'Cannot issue a decision attestation with no counterparty. This is WHO THE DECISION AUTHORISES ' +
+      'PAYING, and it is not `subject`: subject is what was decided about, this is where the money ' +
+      'goes, and they are routinely different parties. An attestation that names neither cannot ever ' +
+      'be bound to a payment, and a field added after the signatures exist cannot be required of them.'
+    );
+  }
+  if (!nonEmpty(rail)) {
+    return (
+      'Cannot issue a decision attestation with no rail. `amount` binds the figure to an asset and to ' +
+      'a number of decimals, and nothing binds it to a rail, so a decision cleared for one rail would ' +
+      'verify against the same figure moving on another.'
+    );
+  }
+  return null;
+}
+
 /** Issue a decision attestation.
  *
  * The assurance recorded is the SIGNER's, never the caller's. A caller asking for
@@ -540,6 +628,11 @@ export async function issueDecisionAttestation(
 
   const membershipRefusal = checkOutcomeInVocabulary(input.outcome, input.vocabularyRef);
   if (membershipRefusal !== null) return { kind: 'refused', reason: membershipRefusal };
+
+  // THE PAYMENT-BINDING SURFACE MUST EXIST BEFORE IT CAN EVER BE COMPARED. See `checkPaymentBinding`
+  // for why this is refused here and deliberately NOT refused at verification.
+  const bindingRefusal = checkPaymentBinding(input.counterparty, input.rail);
+  if (bindingRefusal !== null) return { kind: 'refused', reason: bindingRefusal };
 
   const actual = signer.assurance();
   if (requestedAssurance !== undefined && requestedAssurance !== actual) {
@@ -712,6 +805,21 @@ export type AttestationBlock =
       /** The figure the decision produced, when it produced one. Absent for decisions that are not
        * calculations, which is a complete attestation rather than a missing field. */
       amount?: AttestedAmount;
+      /** WHO THE DECISION AUTHORISED PAYING, AND ON WHICH RAIL. Carried from the verified document
+       * and COMPARED AGAINST NOTHING.
+       *
+       * OPTIONAL HERE WHILE REQUIRED AT ISSUANCE, and the difference is not an oversight. Issuance
+       * refuses to sign an attestation lacking them; verification accepts a document that lacks them,
+       * because a document issued before the fields existed is old rather than malformed. See
+       * `checkPaymentBinding`.
+       *
+       * ON SCREEN THIS MUST NOT READ AS A CHECKED FIELD. A surface that renders `counterparty` beside
+       * a verified badge invites the reading that the payment was bound to it, which is the exact
+       * defect the amount comparison was built to close: two unrelated facts on one screen with
+       * nothing binding them. Until the comparison exists, these are the decider's claims about its
+       * own decision, verified as having been SAID and not as being TRUE of this payment. */
+      counterparty?: string;
+      rail?: string;
     }
   | { state: 'not-cited' }
   | { state: 'cited-unresolvable'; reason: string }
@@ -902,6 +1010,46 @@ export function verifyDecisionAttestation(
   const membershipFailure = checkOutcomeInVocabulary(att.outcome, att.vocabularyRef);
   if (membershipFailure !== null) return { state: 'cited-invalid', reason: membershipFailure };
 
+  // ─── AN ASSURANCE LEVEL THIS VERIFIER CANNOT CHECK IS DECLINED ──────────────────────────────────
+  //
+  // `acceptDecisionAttestation` exists to do exactly this and had ZERO PRODUCTION CALL SITES. The
+  // repository's own `callsite-census.mjs` reported it as ORPHAN, with its acceptance criterion
+  // written out, and nothing acted on it — a detector that fires and is never read. Verification
+  // never examined `assurance` at all.
+  //
+  // WHAT THAT LEFT OPEN. `independently-observed` is a STRICTLY STRONGER claim than `self-declared`
+  // and is wholly unverifiable here, because no partner integration exists and nothing can resolve an
+  // observer reference. So an attestation we did not issue could declare the stronger level, carry a
+  // fabricated `observerRef`, and reach an approver rendered as `attested` — with the strongest claim
+  // on the document being the one nobody checked. An agent gains by claiming more.
+  //
+  // `cited-unresolvable`, NOT `cited-invalid`, AND THE DISTINCTION IS THE WHOLE RULING. Nothing about
+  // the document failed a check: the signature is fine, the fields are well formed. We cannot RUN the
+  // check. `cited-invalid` is documented as the only state indicating hostility, and an attestation
+  // legitimately co-signed by an observer we cannot resolve is not hostile — it is unverifiable here.
+  //
+  // AND IT COMPOSES WITH REQUIRED-MODE FOR FREE. Under a voluntary citation this proceeds while
+  // rendering honestly, which is already an improvement on rendering `attested` falsely. Under
+  // `requiresDecisionAttestation` it becomes ATTESTATION_UNRESOLVED and refuses, with no extra code.
+  // That the correct state choice also produced the correct enforcement is the confirmation it was
+  // right rather than convenient.
+  //
+  // MINIMAL, AND THE LIMIT IS STATED. This declines a level; it does not verify an observer. Nothing
+  // here resolves `observerRef` and `acceptDecisionAttestation` remains an orphan. Full wiring is a
+  // separate piece of work, and what is closed is the concrete exposure above.
+  if (att.assurance !== undefined && att.assurance !== 'self-declared') {
+    return {
+      state: 'cited-unresolvable',
+      reason:
+        `This attestation declares assurance '${String(att.assurance)}' and this verifier can check only ` +
+        `'self-declared'. Establishing anything stronger requires resolving an observer's reference, and ` +
+        `no such integration exists here — so the claim is DECLINED rather than accepted at face value. ` +
+        `This is not a failed check on the document: its signature and fields are sound, and the level ` +
+        `it claims is one nobody here can establish. The same attestation re-issued as 'self-declared' ` +
+        `verifies today.`,
+    };
+  }
+
   let ok = false;
   try {
     ok = verifyEd25519(canonicalise(att), Buffer.from(signature, 'base64'), publicKey);
@@ -935,6 +1083,12 @@ export function verifyDecisionAttestation(
     inputsDigest: att.inputsDigest as string,
     deciderArtifactDigest: att.deciderArtifactDigest as DeciderArtifactRef,
     ...(isAttestedAmount(att.amount) ? { amount: att.amount } : {}),
+    // CARRIED, NEVER COMPARED, AND NEVER DEFAULTED. An absent one stays absent rather than becoming
+    // an empty string: `''` is a value, and a consumer comparing it would find two documents with no
+    // counterparty "agreeing". The comparison does not exist yet; when it does, it must be able to
+    // tell a document that named nobody from one that named someone.
+    ...(nonEmpty(att.counterparty) ? { counterparty: att.counterparty } : {}),
+    ...(nonEmpty(att.rail) ? { rail: att.rail } : {}),
   };
 }
 

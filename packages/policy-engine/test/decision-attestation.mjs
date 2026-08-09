@@ -40,7 +40,7 @@ const INPUT = {
   },
   deciderArtifactDigest: { state: 'digest', value: 'sha256:determination-letter' },
   inputsDigest: 'sha256:claims-file', decidedAt: '2026-08-04T09:00:00.000Z',
-  resolvableUntil: '2033-01-01T00:00:00.000Z',
+  resolvableUntil: '2033-01-01T00:00:00.000Z', counterparty: '0x9999999999999999999999999999999999999999', rail: 'eip155:8453',
 };
 
 console.log('\n── issue and verify, from this package alone ──');
@@ -69,6 +69,41 @@ console.log('\n── the controls, so a pass above means something ──');
   assert('citing one decision and shipping another does NOT verify', d.state === 'cited-invalid');
 }
 
+console.log('\n── THE STATES ARE DISTINCT, AND COLLAPSING ANY TWO MUST BREAK SOMETHING ──');
+{
+  // ADDED 2026-08-07 BECAUSE A MUTATION SWEEP FOUND THEM UNHELD. `scripts/sweep-attestation-states.mjs`
+  // collapsed each state into its neighbour and ran the suite: two of four SURVIVED, meaning the
+  // distinction existed only in prose. Both are distinctions this estate states in writing —
+  // aip/POLICY_ARTIFACT.md, the attestation source, and the refusal projection all say that an
+  // INABILITY TO CHECK is a different fact from a FAILED CHECK.
+  //
+  // These assert the two that survived. Each names the state it must NOT be, because asserting only
+  // the positive would pass under exactly the collapse being guarded against.
+
+  // A1: NOTHING CITED is not the same as CITED AND UNOBTAINABLE.
+  //
+  // A payment that claims nothing has made no claim to check. Reporting that as
+  // `cited-unresolvable` would say a citation existed and could not be reached, which invents a
+  // claim on the payer's behalf and reads on a panel as a verification failure.
+  const none = verifyDecisionAttestation(undefined, issued.attestation, issued.signature, verifyAdapter, decodeDidKey);
+  assert('citing NOTHING yields not-cited', none.state === 'not-cited', JSON.stringify(none).slice(0, 140));
+  assert('...and NOT cited-unresolvable, which would invent a claim nobody made',
+    none.state !== 'cited-unresolvable');
+
+  // A3: A MALFORMED DECIDER KEY IS A FAILED CHECK, not an inability to check.
+  //
+  // The did:key is present and this verifier can decode that method — it decoded it and the bytes
+  // are wrong. That is a document that failed a check we ran. `cited-unresolvable` is for a decider
+  // we could not reach or a method we do not support, and using it here would report hostility as
+  // an outage.
+  const badKey = { ...issued.attestation, decider: 'did:key:z6MkNOTAREALKEY' };
+  const bad = verifyDecisionAttestation('CLM-1', badKey, issued.signature, verifyAdapter, decodeDidKey);
+  assert('a malformed ed25519 did:key decider yields cited-invalid',
+    bad.state === 'cited-invalid', JSON.stringify(bad).slice(0, 160));
+  assert('...and NOT cited-unresolvable, which would report a failed check as an outage',
+    bad.state !== 'cited-unresolvable');
+}
+
 console.log('\n── the restricted canonicaliser is NOT reachable ──');
 {
   // THE HAZARD THIS ASSERTS AGAINST. This package now holds two canonicalisers that agree only
@@ -76,7 +111,23 @@ console.log('\n── the restricted canonicaliser is NOT reachable ──');
   // can sign with the wrong one and produce bytes no other implementation reproduces.
   assert('canonicalise is not exported', pkg.canonicalise === undefined);
   assert('canonicalBytes is not exported', pkg.canonicalBytes === undefined);
-  assert('stripUndefinedDeep is not exported', pkg.stripUndefinedDeep === undefined);
+
+  // ─── `stripUndefinedDeep` WAS ON THIS LIST AND LEFT THE MODULE IN rc.8 ─────────────────────────
+  //
+  // IT IS NOT AN EXEMPTION. The guard's subject is the restricted MODULE, and this helper is no longer
+  // in it: it moved to `core/jcs.ts`, beside the public canonicaliser, and is exported from there.
+  // Dropping the assertion because the name became public would have been the guard losing its subject
+  // to stay convenient; the code moved so the guard did not have to.
+  //
+  // SO THE ASSERTION BECOMES THE OPPOSITE ONE, and it is stronger. It is public AND it does not
+  // canonicalise, which is the property that made it safe to export at all. If someone later moves it
+  // back, or gives it serialisation behaviour, this fails.
+  assert('stripUndefinedDeep IS exported, from the public module', typeof pkg.stripUndefinedDeep === 'function');
+  assert('...and it does not canonicalise: it strips undefined and returns an OBJECT, not bytes',
+    (() => { const r = pkg.stripUndefinedDeep({ a: undefined, b: null, c: '1' });
+             return typeof r === 'object' && r.b === null && r.c === '1' && !('a' in r); })());
+  assert('...so it cannot be used to sign with the restricted canonicaliser',
+    typeof pkg.stripUndefinedDeep({ x: '1' }) !== 'string');
   // MUST STILL PASS: the public canonicaliser IS reachable, so the three above are a deliberate
   // absence and not a broken build.
   assert('jcsBytes, the public canonicaliser, IS exported', typeof pkg.jcsBytes === 'function');

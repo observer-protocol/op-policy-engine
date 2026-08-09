@@ -1,5 +1,11 @@
 // JCS canonicalisation (RFC 8785), RESTRICTED TO THE DECISION-ATTESTATION DOMAIN, refusing the rest.
 //
+// `stripUndefinedDeep` USED TO LIVE HERE AND MOVED TO `core/jcs.ts` IN rc.8. It is not a canonicaliser
+// — it strips `undefined` and touches nothing about serialisation — but while it sat in this file it
+// could only be made public by exporting FROM this file, and the control in `decision-attestation.mjs`
+// asserts that NOTHING here is reachable. The unit that guard protects is the MODULE, not a list of
+// names, so the helper moved rather than the guard weakening.
+//
 // ─── THERE ARE TWO CANONICALISERS IN THIS PACKAGE. READ THIS BEFORE USING EITHER ────────────────
 //
 // `core/jcs.ts` exports `jcsBytes`, the full RFC 8785 canonicaliser, and it is the package's PUBLIC
@@ -68,39 +74,6 @@ export function canonicalise(value: unknown, path = '$'): string {
   );
 }
 
-/** Remove every key whose value is `undefined`, recursively, before canonicalising.
- *
- * ─── WHY THIS EXISTS WHEN `canonicalise` ALREADY OMITS THEM ──────────────────────────────────────
- *
- * `canonicalise` filters undefined OBJECT MEMBERS at the point it serialises them, so for a plain
- * object this is already equivalent. Two reasons it is still applied at the signing site:
- *
- *   1. ARRAYS. A hole or an explicit `undefined` inside an array is not filtered above — it reaches
- *      the type check and THROWS. This turns it into an omission, matching `JSON.stringify`.
- *   2. THE CONTRACT IS STATED WHERE IT IS RELIED ON. "An optional field left unset does not change
- *      the bytes" is a property signers and verifiers both depend on, and burying it in a filter
- *      inside the canonicaliser makes it something a reader has to go and discover.
- *
- * ─── ABSENT IS NOT PRESENT-BUT-EMPTY ─────────────────────────────────────────────────────────────
- *
- * This strips `undefined`. It does NOT strip `''`. A field left unset and a field set to the empty
- * string are DIFFERENT BYTES, deliberately: a bound that was never supplied and one supplied as blank
- * are different facts, and collapsing them would make an unsupplied limit indistinguishable from an
- * empty one.
- *
- * From the Sovereign claim bug: `title: principalTitle || undefined` made an OWN key whose value was
- * `undefined`, RFC 8785 has no encoding for it, and the whole claim died before any network call. */
-export function stripUndefinedDeep<T>(value: T): T {
-  if (Array.isArray(value)) return value.filter((v) => v !== undefined).map(stripUndefinedDeep) as unknown as T;
-  if (value !== null && typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>)
-        .filter(([, v]) => v !== undefined)
-        .map(([k, v]) => [k, stripUndefinedDeep(v)]),
-    ) as T;
-  }
-  return value;
-}
 
 /** The bytes to sign. */
 export const canonicalBytes = (value: unknown): Buffer => Buffer.from(canonicalise(value), 'utf8');
