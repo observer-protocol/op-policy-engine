@@ -16,12 +16,86 @@ was read as if it described runtime, and it does not. Had the disclosure gone ou
 reading, it would have told a counterparty to take a package that would have left them exactly
 as exposed, while believing they were covered. That is why this file exists.
 
-## 1.0.0-rc.10 IS PREPARED AND **NOT PUBLISHED**. npm's `latest` IS STILL rc.9.
+## 1.0.0-rc.10 IS PUBLISHED. npm `latest` IS rc.10.
 
-**Nothing below has shipped.** `package.json` says `1.0.0-rc.10` because the version travels with the
-change in this repository, not because anything was pushed to npm. Until it is published, a
-counterparty installing `@observer-protocol/policy-engine` gets **rc.9 and the stale vocabulary this
-release exists to fix**.
+**Published 2026-08-09.** Confirmed from the registry rather than from the publish command's own
+output: `latest` resolves to `1.0.0-rc.10`, and a fresh `npm install @observer-protocol/policy-engine`
+into an empty directory returns the three-value vocabulary and `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`
+of `'v2.7'`.
+
+**This paragraph said the opposite until the publish landed**, and said it deliberately: it read
+*"Nothing below has shipped… until it is published, a counterparty gets rc.9 and the stale vocabulary
+this release exists to fix."* A not-published banner left standing after a publish is the same class of
+defect as the stale vocabulary itself, so it is corrected here rather than in a later pass.
+
+| | |
+|---|---|
+| dist shasum | `d9e9d3c92f0745fc5658e558e88fccf84b07f9c6` |
+| npm `gitHead` | `c91aec025cbc87ef10ff461d77ebee712783ddaa` |
+| tag | `v1.0.0-rc.10` |
+
+**`gitHead` is the merge commit on `main`, and that is new.** rc.4 through rc.9 were published from
+commits that lived only on `feat/vocabulary-membership-rule`, with their tags the one thing keeping
+them findable. `main` now carries all seven and every tag is an ancestor of it. **rc.10 is the first
+release candidate whose published artifact resolves to `main`.**
+
+**THE FANOUT HAS NOT RUN, AND MEASURING IT FIRST CHANGED WHAT IT IS.** Read the six-step warning at
+the top of this file: no bundled consumer receives this vocabulary fix through a version bump.
+
+### What the five actually carry, measured 2026-08-09 rather than assumed
+
+**All five bundle engine `0.4.0`.** Installed, locked and bundled — `CORE_VERSION = "0.4.0"` is in
+every one of their `dist` files. All five sit on branch `release/policy-engine-0.4.0`, all clean.
+
+**No release candidate has ever reached a bundled consumer.** rc.4 through rc.10 have shipped to npm
+and none of them is in any of the five.
+
+**They cannot receive one through their declared range, and this is not the floor problem this file
+already describes.** Every one declares `>=0.4.0 <1.0.0`. Measured with `semver`:
+
+| version | satisfies `>=0.4.0 <1.0.0` |
+|---|---|
+| `0.4.0` | **true** |
+| `1.0.0-rc.9` | false |
+| `1.0.0-rc.10` | false |
+
+`maxSatisfying` over the whole published set returns **`0.4.0`**. So **rebuilding any of the five today
+without editing its range would re-bundle 0.4.0 and change nothing** — a fanout that runs, passes,
+publishes five versions, and delivers exactly what was already there. The range needs widening to admit
+a prerelease before a rebuild means anything.
+
+### And for rc.10 specifically, the fanout delivers nothing
+
+**None of the five imports any attestation or vocabulary symbol.** Measured by parsing every
+`import ... from '@observer-protocol/policy-engine'` in each `src/`:
+
+| package | engine symbols imported | attestation/vocabulary surface |
+|---|---|---|
+| `x402-op-authorize` | 14 | **none** |
+| `l402-op-authorize` | 19 | **none** |
+| `wdk-op-policy` | 18 | **none** |
+| `mppx-op-account` | 22 | **none** |
+| `ows-op-verify` | 24 | **none** |
+
+`ApproverKeyAssurance`, `checkOutcomeInVocabulary`, `issueDecisionAttestation` and everything around
+them are unreachable in all five. **rc.10's entire substance is invisible to them**, so the fanout is
+not a delivery of this fix. It would be a `0.4.0` to `1.0.0-rc.10` migration that happens to be
+triggered by it.
+
+### What that migration looks like, so far as it has been measured
+
+- **The public surface is purely additive**: 77 exports at `0.4.0`, 119 at rc.10, **none removed**. No
+  consumer's imports break.
+- **rc.4's BREAKING entries are entirely in the attestation surface**, which none of the five touch.
+- **`evaluateMandate` agreed on 24 of 24** mandate-by-transfer pairs across caps, cumulative budgets,
+  counterparty allowlists and escalation thresholds. **That is a spread constructed for this check, not
+  their own corpora**, and it does not exercise the rc.5/rc.6 escalation enrichment or every rail. It
+  is a signal that verdicts do not move, not a proof.
+- Each of the five runs a 3-to-4 step suite: typecheck, build, fixtures, `test/run.mjs`.
+
+**The decision this leaves open** is whether the five move to the rc line at all, which is a bigger
+question than this release and should not be answered by it. Nothing about rc.10 forces it.
+
 
 **What it changes: `ApproverKeyAssurance` gains `org-attested`, and nothing else at runtime.** Measured
 by diffing the built bundle before and after: the entire delta is two new declarations
@@ -50,9 +124,9 @@ The vocabulary is now exported as VALUES as well as a type, and the type is deri
 (`typeof APPROVER_KEY_ASSURANCE[number]`), so there is one representation rather than a union and a
 list that can disagree.
 
-**To publish:** `npm test` (17 suites, needs a network for the two schema checks), then publish, then
-**re-read the six-step warning at the top of this file** — no consumer receives this through a version
-bump.
+**How it was published:** `npm test` (17 suites, needs a network for the two schema checks), `npm
+publish` from `packages/policy-engine` with an OTP, then the registry confirmed independently and the
+commit tagged. **The five-package fanout is a separate decision and has not been taken.**
 
 ## 1.0.0-rc.9 CORRECTS TWO EXPORTS THAT rc.8 SHIPPED WRONGLY
 
