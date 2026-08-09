@@ -62,6 +62,33 @@ export function validateStructure(
   if (!Array.isArray(cred.type) || !cred.type.includes('VerifiableCredential') || cred.type.length < 2) {
     return fail('type must be an array containing VerifiableCredential plus a concrete type');
   }
+  // ─── WIDENING THIS TO ACCEPT W3C's OBJECT FORM? READ THE NEXT CHECK FIRST. ─────────────
+  //
+  // W3C VC permits `issuer` as a DID string OR an object with an `id`, and this refuses the
+  // object form. That is NOT a conformance gap in this engine: delegation schemas v2 through
+  // v2.7 ALL type `issuer` as `{"type":"string","pattern":"^did:[a-z]+:.+"}` — the same regex
+  // used below — so an object-form issuer fails the schema the credential itself cites. This
+  // check is the schema being enforced. Three estate credentials use the object form and all
+  // three are non-conformant against their own declaration.
+  //
+  // THE TRAP: THE PIN THREE LINES DOWN COMPARES THE RAW VALUE. `cred.issuer !== config.issuerDid`
+  // is a string comparison, and an object never equals a string. So relaxing the type check here
+  // WITHOUT normalizing first does not admit the object form — it moves the refusal to the
+  // TRUST-ANCHOR check, which then reports
+  //   `issuer [object Object] does not match the pinned trusted issuer did:web:...`
+  // for a credential whose issuer is correct. Fail-closed, so not dangerous, and FALSE ABOUT ITS
+  // SUBJECT: it names a trust-anchor mismatch that did not happen. Anyone widening the type check
+  // will not think to look three lines down, which is exactly why this note is here and not there.
+  //
+  // If the object form is ever adopted: normalize ONCE, before both checks, and use the
+  // normalized value for the pin. `verify.ts` already contains that normalization — moving it,
+  // not writing it. And grep for string concatenation on an issuer first: `runtime-adapter.ts:96`
+  // does `vmId.startsWith(wbc.issuer + '#')`, which yields `"[object Object]#"` on an object.
+  //
+  // Adopting the object form is a DECISION, not a fix: the form in use carries `name` alongside
+  // `id`, so accepting it means accepting a place for display data inside the issuer field.
+  //
+  // Full scope: op-at-specs/2026-08-09-issuer-object-form-engine-or-schema.md
   if (typeof cred.issuer !== 'string' || !/^did:[a-z]+:.+/.test(cred.issuer)) {
     return fail('issuer must be a DID string');
   }
