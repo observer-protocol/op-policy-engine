@@ -16,6 +16,44 @@ was read as if it described runtime, and it does not. Had the disclosure gone ou
 reading, it would have told a counterparty to take a package that would have left them exactly
 as exposed, while believing they were covered. That is why this file exists.
 
+## 1.0.0-rc.10 IS PREPARED AND **NOT PUBLISHED**. npm's `latest` IS STILL rc.9.
+
+**Nothing below has shipped.** `package.json` says `1.0.0-rc.10` because the version travels with the
+change in this repository, not because anything was pushed to npm. Until it is published, a
+counterparty installing `@observer-protocol/policy-engine` gets **rc.9 and the stale vocabulary this
+release exists to fix**.
+
+**What it changes: `ApproverKeyAssurance` gains `org-attested`, and nothing else at runtime.** Measured
+by diffing the built bundle before and after: the entire delta is two new declarations
+(`APPROVER_KEY_ASSURANCE`, `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`) and their two export names. **No
+existing code path changed**, which is the answer to "does this change what any existing record
+validates as": it cannot. Nothing in `src/` branches on these values and `validateStructure` never
+reads `approvers` at all.
+
+**Why.** `approvers.keys.assurance` entered `delegation` at v2.5 as `operator-held | device-bound` and
+**gained `org-attested` at v2.6**. This package carried v2.5's two values through rc.9, so **a
+counterparty validating with the published type would reject an `org-attested` approver key the current
+schema permits** — the exact failure the export exists to prevent. A type exported so a counterparty has
+the vocabulary must match the vocabulary the schema publishes.
+
+**Two things came with it, and they are the reason this does not recur.**
+
+1. **The type declares which schema version it mirrors.** `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION` is
+   `'v2.7'`, exported. A vocabulary type with no version is a claim about a moving target.
+2. **`test/approver-assurance-vocabulary.mjs` compares the published union against the served schema
+   and fails on divergence in either direction** — too narrow (rejecting a permitted value) and too
+   wide (claiming a value no issuer can sign). It builds the URL FROM the declared version, so the two
+   cannot drift apart, it fails rather than skips when the origin is unreachable, and it asserts that
+   **the real rc.9 union would have failed it**.
+
+The vocabulary is now exported as VALUES as well as a type, and the type is derived from the array
+(`typeof APPROVER_KEY_ASSURANCE[number]`), so there is one representation rather than a union and a
+list that can disagree.
+
+**To publish:** `npm test` (17 suites, needs a network for the two schema checks), then publish, then
+**re-read the six-step warning at the top of this file** — no consumer receives this through a version
+bump.
+
 ## 1.0.0-rc.9 CORRECTS TWO EXPORTS THAT rc.8 SHIPPED WRONGLY
 
 **If you took rc.8 in the hour it was current, read this.** rc.8 was published 2026-08-09 and rc.9
@@ -24,11 +62,22 @@ in both, verified against 14 real records — but rc.8 exported two names it sho
 
 **`ApprovalAssurance` (rc.8) is `ApproverKeyAssurance` (rc.9).** The rc.8 name collided with an existing
 `ApprovalAssurance` in `op-mcp-payment-server` that means something else entirely. This one is about
-**how an approver key named in a credential is held** (`operator-held | device-bound`, from
-`actionScope.approvers[].keys[].assurance`). That one is about **what a resolution's signature
-establishes about who approved** (`org-attested | operator-held`). Two different ideas wearing one name,
-overlapping on a single member by coincidence of vocabulary. Merging them would have made the
-coincidence permanent in a package counterparties import.
+**how an approver key named in a credential is held** (from `actionScope.approvers[].keys[].assurance`).
+That one is about **what a resolution's signature establishes about who approved**. Two different ideas
+wearing one name. Merging them would have made the resemblance permanent in a package counterparties
+import.
+
+> **CORRECTED 2026-08-08, and the correction matters because it is the argument people will reach
+> for.** The paragraph above said the two unions overlapped "on a single member by coincidence of
+> vocabulary", gave this one as `operator-held | device-bound` and the payment server's as
+> `org-attested | operator-held`.
+>
+> **The payment server's has four members** — `org-attested | operator-held | approver-held |
+> device-bound`, measured at `src/approvals.ts:287` — so rc.9's union was a **strict subset** of it,
+> overlapping on two of two rather than one. **rc.10 adds `org-attested` and the overlap becomes
+> three.** RULED 2026-08-08: they stay two types. The overlap was never the argument. They answer
+> different questions, and a type published so a counterparty has the vocabulary must track the
+> schema rather than its neighbour's type.
 
 **`resolutionPayload` and `ResolutionActor` are WITHDRAWN in rc.9.** They were exported in rc.8 because
 they sat next to `refusalPayload`, and adjacency is not a reason. A resolution actor is a payment-server

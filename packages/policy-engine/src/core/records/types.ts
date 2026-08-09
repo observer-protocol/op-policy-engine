@@ -47,21 +47,62 @@ export type AppliedBound =
   | { state: 'recorded'; limit: string; unit?: string; observed?: string; headroom?: string; note?: string }
   | { state: 'not-supplied'; constraint?: string; note?: string };
 
-/** HOW AN APPROVER KEY NAMED IN A CREDENTIAL IS HELD. `actionScope.approvers[].keys[].assurance`.
+/** THE SCHEMA VERSION `ApproverKeyAssurance` MIRRORS. A vocabulary type with no version is a claim
+ * about a moving target: it says "these are the values" without saying values of WHAT, at WHEN.
+ *
+ * READ BY `test/approver-assurance-vocabulary.mjs`, which fetches this exact version and fails if the
+ * served enum and the union below have diverged. **So this constant is not documentation — changing it
+ * changes which document the check compares against.** Bump it and the union together, never alone. */
+export const APPROVER_KEY_ASSURANCE_SCHEMA_VERSION = 'v2.7';
+
+/** HOW AN APPROVER KEY NAMED IN A CREDENTIAL IS HELD. `actionScope.approvers[].keys[].assurance`,
+ * mirroring `delegation/{@link APPROVER_KEY_ASSURANCE_SCHEMA_VERSION}.json`.
  *
  * NAMED `ApproverKeyAssurance` AND NOT `ApprovalAssurance`, AFTER rc.8 SHIPPED THE WRONG NAME.
- * `op-mcp-payment-server` already had an `ApprovalAssurance` meaning something else entirely — what a
- * RESOLUTION'S SIGNATURE establishes about who approved, with members `org-attested | operator-held`.
- * Two different ideas wearing one name, overlapping on a single member by coincidence of vocabulary.
+ * `op-mcp-payment-server` has an `ApprovalAssurance` meaning something else entirely — what a
+ * RESOLUTION'S SIGNATURE establishes about who approved.
  *
- * THIS ONE IS ABOUT KEY CUSTODY DECLARED IN A CREDENTIAL: `operator-held` needs only DID resolution and
- * signature verification; `device-bound` requires verifying the key IS device-bound, which is not
- * honourable until enrolment publishes something checkable, and which the schema couples to the
- * `approval.assurance-verification` capability.
+ * ─── THEY OVERLAP ON THREE MEMBERS AND THEY ARE STILL DIFFERENT IDEAS ────────────────────────────
  *
- * NOTHING ELSE IN THIS PACKAGE CONSUMES IT. It is exported because a counterparty reading an
- * `actionScope.approvers` entry needs the vocabulary. */
-export type ApproverKeyAssurance = 'operator-held' | 'device-bound';
+ * The rc.9 note here said the overlap was "a single member by coincidence of vocabulary". **That was
+ * wrong twice.** Measured 2026-08-08: `op-mcp-payment-server`'s `ApprovalAssurance` is
+ * `org-attested | operator-held | approver-held | device-bound`, four members, and this union was a
+ * strict SUBSET of it. Adding `org-attested` below makes the overlap three.
+ *
+ * **THE OVERLAP IS NOT THE ARGUMENT AND NEVER WAS.** RULED 2026-08-08: these stay two types at three
+ * shared members exactly as they were at two, because they answer different questions. This one asks
+ * how a key named in a CREDENTIAL is held. That one asks what a RESOLUTION'S SIGNATURE establishes
+ * about who approved. **A type exported so a counterparty has the vocabulary must match the vocabulary
+ * the schema publishes**, and being wrong about a served artifact is worse than two types resembling
+ * each other. The defence against conflating them is this name and this comment, not a stale union.
+ *
+ * So: do not widen this to reconcile it with `ApprovalAssurance`, and do not narrow that one to meet
+ * this. Neither is a superset of the other by intent; the resemblance is what the schema happens to
+ * need, and it will move again.
+ *
+ * ─── THE MEMBERS ────────────────────────────────────────────────────────────────────────────────
+ *
+ * `operator-held` needs only DID resolution and signature verification. `device-bound` requires
+ * verifying the key IS device-bound, which is not honourable until enrolment publishes something
+ * checkable, and which the schema couples to the `approval.assurance-verification` capability — **that
+ * coupling triggers on this VALUE, not on the field being present**, and is unchanged v2.5 through
+ * v2.7. `org-attested` entered the schema at **v2.6** and requires no capability.
+ *
+ * NOTHING ELSE IN THIS PACKAGE CONSUMES IT — measured, not assumed: no runtime code in `src/` branches
+ * on these values and `validateStructure` never reads `approvers` at all. It is exported because a
+ * counterparty reading an `actionScope.approvers` entry needs the vocabulary, which is exactly why it
+ * being two versions stale was a published package rejecting a value the schema permits.
+ *
+ * ─── THE LIST IS THE VALUE AND THE TYPE IS DERIVED FROM IT ──────────────────────────────────────
+ *
+ * A hand-written union plus a separate array for the check would be two representations of one fact,
+ * and the check would pass while they disagreed with each other and with the schema. **The union
+ * below is `typeof ... [number]`, so there is exactly one place to edit and the check reads the same
+ * bytes the type is built from.** A counterparty needing the values at runtime gets them here rather
+ * than retyping them. */
+export const APPROVER_KEY_ASSURANCE = ['org-attested', 'operator-held', 'device-bound'] as const;
+
+export type ApproverKeyAssurance = typeof APPROVER_KEY_ASSURANCE[number];
 
 /** A refused payment, as the store records it. The signable subset is derived from this by
  * `signableFromRefusal`; this is the shape a reader holds. */

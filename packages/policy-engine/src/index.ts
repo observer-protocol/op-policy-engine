@@ -123,6 +123,10 @@ export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
 // What a counterparty needs is `refusalPayload`: a refusal is the only artifact of a stopped payment,
 // and reconstructing its bytes is the check that needs nothing from us.
 export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ApproverKeyAssurance } from './core/records/types.js';
+// THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
+// `assurance` field rather than merely type one needs the list at runtime, and needs to know which
+// served document it corresponds to. Exporting the type alone left both unanswerable from outside.
+export { APPROVER_KEY_ASSURANCE, APPROVER_KEY_ASSURANCE_SCHEMA_VERSION } from './core/records/types.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
