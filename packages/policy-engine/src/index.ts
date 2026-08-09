@@ -86,6 +86,47 @@ export { base58Encode, base58Decode } from './core/base58.js';
 // export to remove. The function already existed and is unchanged; only its visibility moved.
 export { sha256, decodeEd25519Multibase, ed25519Verify } from './core/crypto.js';
 export { jcsBytes } from './core/jcs.js';
+
+// ─── THE RECORD SHAPES AND THE PAYLOADS SIGNED OVER THEM, ADDED IN 1.0.0-rc.8 ────────────────────
+//
+// A COUNTERPARTY CAN NOW CONSTRUCT THE BYTES, NOT ONLY CHECK A SIGNATURE OVER THEM. Until rc.8 this
+// package exported `jcsBytes` and `verifyEddsaJcs2022` — primitives, not shapes — and every payload
+// construction lived in `op-mcp-payment-server`. Verification therefore required us, which is the one
+// thing this protocol claims it does not.
+//
+// `canonicalise` and `stripUndefinedDeep` were already here and merely unexported. That is worth
+// stating: the primitive side was not complete either, and phase 2 would have hit the same wall.
+// ONLY `stripUndefinedDeep`. `canonicalise` AND `canonicalBytes` STAY INTERNAL, DELIBERATELY.
+//
+// TWO CANONICALISERS ON A PUBLIC SURFACE IS THE TWO-REPRESENTATIONS CLASS AT ITS WORST. `jcsBytes` is
+// this package's public canonicaliser; `core/attestation-jcs.ts` is the attestation-domain one, and its
+// own header records that they agree ONLY because every attestation field is a string — the moment a
+// number enters they diverge silently and asymmetrically, one serialising it and the other throwing. A
+// counterparty picking the wrong one gets bytes that verify nowhere and nothing tells them which they
+// picked.
+//
+// AND NOBODY NEEDS IT. A counterparty calls `refusalPayload`, which canonicalises for them.
+//
+// `test/public-exports.mjs` uses `canonicalise` as its NEGATIVE CONTROL — the name that must not be a
+// function, or its export loop is measuring nothing. That control fired on rc.8 when this line briefly
+// exported it, catching a widening past both a ruling and the decision recorded in that file's header.
+export { stripUndefinedDeep } from './core/jcs.js';
+export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2 } from './core/records/refusal.js';
+export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
+// `resolutionPayload` AND `ResolutionActor` WERE EXPORTED IN rc.8 AND ARE WITHDRAWN IN rc.9.
+//
+// THEY CAME ALONG BECAUSE THEY WERE ADJACENT TO `refusalPayload`, AND ADJACENCY IS NOT A REASON. A
+// resolution actor is a payment-server concept — who signed an approval — and its `assurance` field
+// collided with a type of the same name and a different meaning in that repository. Shipping it here
+// would have made that collision permanent in a package counterparties import.
+//
+// What a counterparty needs is `refusalPayload`: a refusal is the only artifact of a stopped payment,
+// and reconstructing its bytes is the check that needs nothing from us.
+export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ApproverKeyAssurance } from './core/records/types.js';
+// THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
+// `assurance` field rather than merely type one needs the list at runtime, and needs to know which
+// served document it corresponds to. Exporting the type alone left both unanswerable from outside.
+export { APPROVER_KEY_ASSURANCE, APPROVER_KEY_ASSURANCE_SCHEMA_VERSION } from './core/records/types.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
@@ -104,9 +145,15 @@ export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
 // two canonicalisers that agree only because every attestation field is a string, and exporting the
 // restricted one would create the surface on which a caller could pick the wrong one and sign bytes no
 // other implementation reproduces.
+// `checkPaymentBinding` IS EXPORTED, AND ITS ABSENCE WAS AN ACCIDENT RATHER THAN A DECISION.
+// It arrived in `core/attestation.ts` with the counterparty and rail mirror and this barrel was not
+// updated, so it was defined, correct, tested in the other copy, and unreachable from outside the
+// package. That is the hand-mirror cost this release exists to end: the function moved, the export
+// line did not, and nothing failed. `canonicalise` above is what a deliberate omission looks like,
+// stated with its reason; this had none.
 export {
   issueDecisionAttestation, verifyDecisionAttestation, acceptDecisionAttestation,
-  checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary,
+  checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary, checkPaymentBinding,
   assertNoObservation, ObservationRefused, FORBIDDEN_ATTESTATION_FIELDS, ATTESTATION_ESTABLISHES,
 } from './core/attestation.js';
 export type {

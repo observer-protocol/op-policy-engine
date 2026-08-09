@@ -2,6 +2,47 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.4
+
+**Why this release exists.** `attestation.ts` has existed in TWO copies, here and in
+`op-mcp-payment-server`, differing by exactly one line (an import path) and staying identical only
+because someone mirrored every change by hand. Three hand-mirrors in two days. The cost is not
+hypothetical: the duplicate stayed importable, and an EU261 harness imported *published* issuance
+while verifying with the *local* copy, turning two correct refusals into silent passes. This release
+is the publish half so the duplicate can be deleted.
+
+**And the hand-mirror cost is visible inside this release.** `checkPaymentBinding` arrived here with
+the counterparty and rail mirror and the entry point was never updated, so it was defined, correct,
+and covered by tests in the *other* copy while being unreachable by any consumer. Nothing failed,
+because nothing asserted the surface.
+
+### BREAKING
+
+- **`DecisionAttestation` now REQUIRES `counterparty: string` and `rail: string`.** An attestation
+  that names neither the party paid nor the rail it is paid over constrains nothing that a payment
+  can be checked against, so the binding surface must exist before it can ever be compared.
+  Issuance refuses a missing or empty value via `checkPaymentBinding`.
+- **The refusal is at ISSUANCE and deliberately NOT at verification.** A verifier receiving an older
+  attestation without these fields does not newly reject it; the asymmetry is intentional, so this
+  breaks producers rather than invalidating artifacts already issued.
+
+### Added
+
+- **`checkPaymentBinding`** is now exported. Its absence was an accident rather than a decision:
+  compare `canonicalise`, which is withheld deliberately and says so with its reason.
+- `test/public-exports.mjs` now asserts the **decision-attestation surface by name** from the built
+  entry point, with a discriminating negative case so the loop cannot pass vacuously. It is a
+  hand-written list and therefore the weak kind of control; the strong one is downstream, where
+  `op-mcp-payment-server` imports these from the package and has deleted its own copy, so its build
+  fails if any of them stops being exported.
+
+### Changed
+
+- **Verification declines any `assurance` above `self-declared` as `cited-unresolvable`** rather than
+  attesting it. Nothing about the document failed a check: the check cannot be RUN, and
+  `cited-invalid` is reserved for hostility. An **absent** `assurance` still verifies, because
+  silence is not a claim.
+
 ## 1.0.0-rc.3
 
 **Decision attestation moves into this package.** Issuing and verifying a decision attestation was

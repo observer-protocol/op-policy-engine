@@ -6,7 +6,7 @@
 // silently auto-approved everything between the threshold and the ceiling. Relocating it to an
 // enumerated surface turned that silent auto-approval into a refusal. THE RELOCATION HAPPENED AND THE
 // REGISTRATION DID NOT.
-import { evaluateMandate } from '../dist/index.mjs';
+import { evaluateMandate, KNOWN_SCOPE_KEYS } from '../dist/index.mjs';
 
 let pass = 0, fail = 0; const failures = [];
 const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } else { fail++; failures.push(n); console.log(`  FAIL  ${n}  <<< ${d}`); } };
@@ -14,7 +14,9 @@ const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } 
 const CONFIG = { rails: { 'eip155:84532': { family: 'evm', decimals: 6, symbol: 'USDC' } }, counterpartyAddressMap: {} };
 const scope = (over = {}) => ({ credentialSubject: { actionScope: {
   escalationThreshold: { amount: '50', currency: 'USDC' },
-  approvers: ['did:web:approver.example'],
+  // THE SCHEMA SHAPE: an object carrying `keys`, not a bare array. This fixture WAS an array, and it
+  // passed because the engine read arrays and nothing validated a fixture against the schema it cites.
+  approvers: { keys: [{ id: 'did:web:approver.example', assurance: 'operator-held' }] },
   per_transaction_ceiling: { amount: '100', currency: 'USDC' },
   ...over } } });
 const ctx = () => ({ chain_id: 'eip155:84532', wallet_id: 'w', api_key_id: 'k', transaction: {}, timestamp: '2026-08-01T00:00:00Z' });
@@ -93,5 +95,89 @@ console.log('\n── same currency only. No FX inside a policy decision ──'
   a('...and is not treated as an escalation', r.escalation === undefined);
 }
 
+console.log('\n── THE ESCALATION NAMES THE RULE THAT ROUTED IT ──');
+{
+  // WHY THIS EXISTS. The escalation said a human must authorise the payment and never said which rule
+  // decided that, so three consecutive downstream fixes in op-mcp-payment-server each supplied the name
+  // themselves: a hardcoded default, then a refusal to default, then a proposal to assert it under a
+  // better field name. All three were this omission. A consumer can only pass the name through if the
+  // engine says it.
+  const r = run('80', { escalationThreshold: { amount: '50', currency: 'USDC' } });
+  a('an escalation carries a constraint', typeof r.escalation?.constraint === 'string' && r.escalation.constraint.length > 0, why(r));
+  a('...naming the actionScope rule that routed it', r.escalation?.constraint === 'actionScope.escalationThreshold', r.escalation?.constraint);
+
+  // THE KEY IS REGISTERED, so the path cannot name a rule this engine does not recognise. Without this
+  // the constraint could name a key the unknown-rule catch-all would have refused.
+  const key = r.escalation?.constraint?.replace(/^actionScope\./, '');
+  a('...and that key is in the engine vocabulary', KNOWN_SCOPE_KEYS.has(key), key);
+
+  // NOT A BREACH, AND THE DISTINCTION IS THE WHOLE POINT. Nothing was breached: a threshold was crossed
+  // and a person decides. An escalation carrying a DenialDetail would be the category error this field
+  // was added to avoid, one level out.
+  a('an escalation is NOT a denial and carries no denial detail', r.detail === undefined, JSON.stringify(r.detail));
+
+  // A DENIAL STILL NAMES ITS CONSTRAINT THE OTHER WAY. The two vocabularies stay separate.
+  const denied = run('80', { per_transaction_ceiling: { amount: '50', currency: 'USDC' } });
+  a('a ceiling breach still DENIES rather than escalating', denied.ok === false && denied.escalation === undefined, why(denied));
+  a('...and names its constraint on detail, not on an escalation', denied.detail?.constraint === 'actionScope.per_transaction_ceiling', JSON.stringify(denied.detail));
+}
+
+console.log('\n── THE ESCALATION CARRIES THE APPROVERS THE CREDENTIAL NAMES ──');
+{
+  // WHY THIS EXISTS. This engine read `Array.isArray(scope.approvers)` while delegation schema v2.6
+  // defines the field as an OBJECT carrying `keys`. So a SCHEMA-VALID credential naming an approver
+  // escalated with `approvers: []`, and a viewer comparing the mandate panel to the approval record
+  // saw a named approver on one and nobody on the other.
+  const APPROVER = 'did:key:z6MkjvPLHN8zFqeXqpXcTqBtT8ayTMfCfRiUSGDjhBhHdKec';
+  const r = run('80', {
+    escalationThreshold: { amount: '50', currency: 'USDC' },
+    approvers: { keys: [{ id: APPROVER, assurance: 'operator-held' }] },
+  });
+  a('a schema-shaped approvers object escalates', r.escalation !== undefined, why(r));
+  a('...carrying the approver the credential names, not an empty list',
+    r.escalation?.approvers?.length === 1, JSON.stringify(r.escalation?.approvers));
+  a('...as the key entry the schema defines',
+    r.escalation?.approvers?.[0]?.id === APPROVER, JSON.stringify(r.escalation?.approvers?.[0]));
+
+  // THE ARRAY FORM IS NOT A LEGACY SHAPE TO SUPPORT. No schema version permits it, so a credential
+  // written that way was never valid against the schema it cites. It yields an empty list rather than
+  // a silent read, and the fixture-schema gate is what stops one being written again.
+  const legacy = run('80', {
+    escalationThreshold: { amount: '50', currency: 'USDC' },
+    approvers: [APPROVER],
+  });
+  a('a bare ARRAY of approvers yields an EMPTY list, because no schema permits that shape',
+    Array.isArray(legacy.escalation?.approvers) && legacy.escalation.approvers.length === 0,
+    JSON.stringify(legacy.escalation?.approvers));
+
+  // AND AN ESCALATION WITH NO APPROVERS DECLARED STILL ESCALATES. The engine does not require the
+  // field; the schema does. Recorded so the difference stays visible.
+  // `approvers: undefined` IS LOAD-BEARING: `run` merges over a default scope that declares one, so
+  // without this the case tests the default rather than the absence it names.
+  const none = run('80', { escalationThreshold: { amount: '50', currency: 'USDC' }, approvers: undefined });
+  a('no approvers declared still escalates, with an empty list',
+    none.escalation !== undefined && none.escalation.approvers.length === 0, JSON.stringify(none.escalation));
+}
+
 console.log(`\nescalation-threshold: ${pass} passed, ${fail} failed`);
 if (fail) { console.log('\nFAILURES:'); for (const f of failures) console.log(`  ✗ ${f}`); process.exit(1); }
+
+console.log('\n── requiredEnforcement IS RECOGNISED AND ENFORCES NOTHING (item 22) ──');
+{
+  // NUMBER 22, ASSERTED RATHER THAN NOTED. Registering a key turns a denial into an evaluation, so the
+  // pair below is what "recognised and passing" means: it no longer denies, and it changes no outcome.
+  // If either half stops holding, this is the check that says so.
+  const withField = run('10', { requiredEnforcement: { capabilities: ['approval.channel'] } });
+  a('a credential carrying requiredEnforcement is no longer denied by the catch-all',
+    !/unknown-rule/.test(withField.reason ?? ''), why(withField));
+
+  // AND IT IS ENFORCED BY NOTHING HERE. A capability this engine cannot honour changes no outcome,
+  // which is the compromise stated at the registration site rather than hidden by it.
+  const impossible = run('10', { requiredEnforcement: { capabilities: ['budget.period-accounting', 'approval.assurance-verification'] } });
+  const without = run('10', {});
+  a('...and a capability this engine CANNOT honour changes nothing',
+    impossible.ok === without.ok, `${impossible.ok} vs ${without.ok}`);
+}
+
+console.log(`\nitem-22: ${pass} passed, ${fail} failed`);
+if (fail) process.exit(1);
