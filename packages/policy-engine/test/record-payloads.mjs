@@ -12,7 +12,7 @@
 //
 // THE FIXTURES ARE REAL RECORDS from the 2026-08-08 citation demo corpus, not shapes invented here: a
 // fixture built to match the implementation cannot catch the implementation drifting.
-import { refusalPayload, signableFromRefusal, resolutionPayload, lapsePayload, stripUndefinedDeep } from '../dist/index.mjs';
+import { refusalPayload, signableFromRefusal, lapsePayload, stripUndefinedDeep } from '../dist/index.mjs';
 
 let pass = 0, fail = 0; const failures = [];
 const a = (n, ok, d = '') => { if (ok) { pass++; console.log(`  PASS  ${n}`); } else { fail++; failures.push(n); console.log(`  FAIL  ${n}  <<< ${d}`); } };
@@ -97,27 +97,15 @@ console.log('\n── a change to any signed field changes the bytes ──');
     refusalPayload(signableFromRefusal({ ...REFUSAL, reason: 'entirely different prose' })) === base);
 }
 
-console.log('\n── resolution and lapse ──');
+console.log('\n── lapse, which carries no payment-server concepts ──');
 {
-  const r = resolutionPayload({
-    handleId: 'ph_live_1', how: 'approved', at: '2026-08-09T00:32:57.000Z',
-    actor: { issuer: 'did:web:observerprotocol.org', approverRef: 'did:key:zApprover', assurance: 'operator-held' },
-  });
-  a('an approval canonicalises', typeof r === 'string' && r.includes('op.approval.resolution.v1'));
-  // OMITTED ON AN APPROVAL, NOT SENT EMPTY: an empty reason is a value, and a reader would be entitled
-  // to read it as "denied for no stated reason".
-  a('...and carries no reason, because an approval has none to state', !r.includes('"reason"'));
-  const d = resolutionPayload({
-    handleId: 'ph_live_1', how: 'denied', at: '2026-08-09T00:32:57.000Z',
-    actor: { issuer: 'did:web:observerprotocol.org', approverRef: 'did:key:zApprover', assurance: 'operator-held' },
-    reason: 'Duplicate of an earlier clearance.',
-  });
-  a('a denial carries its reason inside the signature', d.includes('Duplicate of an earlier clearance.'));
-  a('...and a denial with no reason REFUSES to sign',
-    (() => { try { resolutionPayload({ handleId: 'h', how: 'denied', at: '2026-08-09T00:00:00.000Z', actor: { issuer: 'i', approverRef: 'a', assurance: 'operator-held' } }); return false; } catch { return true; } })());
-
+  // `resolutionPayload` WAS HERE IN rc.8 AND IS WITHDRAWN. A resolution actor is a payment-server
+  // concept and its `assurance` collided with a same-named, different-meaning type there. CHECKED
+  // RATHER THAN ASSUMED for this one: SignableLapse is { handleId, at, expiresAt }, all strings, and it
+  // deliberately has no actor — an actor here would name somebody for FAILING TO ACT.
   const l = lapsePayload({ handleId: 'ph_live_2', at: '2026-08-09T00:33:00.000Z', expiresAt: '2026-08-09T00:32:00.000Z' });
   a('a lapse canonicalises', typeof l === 'string' && l.includes('op.approval.lapse.v1'));
+  a('...and names no actor, because nobody acted', !l.includes('actor') && !l.includes('approver'));
 }
 
 console.log('\n── the canonicalisation, asserted THROUGH the public surface ──');

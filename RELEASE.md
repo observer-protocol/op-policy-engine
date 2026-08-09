@@ -16,6 +16,33 @@ was read as if it described runtime, and it does not. Had the disclosure gone ou
 reading, it would have told a counterparty to take a package that would have left them exactly
 as exposed, while believing they were covered. That is why this file exists.
 
+## 1.0.0-rc.9 CORRECTS TWO EXPORTS THAT rc.8 SHIPPED WRONGLY
+
+**If you took rc.8 in the hour it was current, read this.** rc.8 was published 2026-08-09 and rc.9
+followed within the hour. Nothing about the BYTES changed — `refusalPayload` produces identical output
+in both, verified against 14 real records — but rc.8 exported two names it should not have.
+
+**`ApprovalAssurance` (rc.8) is `ApproverKeyAssurance` (rc.9).** The rc.8 name collided with an existing
+`ApprovalAssurance` in `op-mcp-payment-server` that means something else entirely. This one is about
+**how an approver key named in a credential is held** (`operator-held | device-bound`, from
+`actionScope.approvers[].keys[].assurance`). That one is about **what a resolution's signature
+establishes about who approved** (`org-attested | operator-held`). Two different ideas wearing one name,
+overlapping on a single member by coincidence of vocabulary. Merging them would have made the
+coincidence permanent in a package counterparties import.
+
+**`resolutionPayload` and `ResolutionActor` are WITHDRAWN in rc.9.** They were exported in rc.8 because
+they sat next to `refusalPayload`, and adjacency is not a reason. A resolution actor is a payment-server
+concept, and it dragged the colliding type above. `resolutionPayload` remains in `op-mcp-payment-server`.
+
+`refusalPayload`, `signableFromRefusal`, `lapsePayload`, `stripUndefinedDeep` and the record types are
+unchanged between rc.8 and rc.9. **`lapsePayload` was checked rather than assumed** to carry no
+payment-server concepts: `SignableLapse` is `{ handleId, at, expiresAt }`, all strings, and it
+deliberately has no actor.
+
+**What caught it, because it is worth knowing.** TypeScript, at the seam, the moment
+`op-mcp-payment-server` tried to use both types. The engine's suite was green and the payment server's
+was green: **a name collision between two repositories is invisible to either repository's tests.**
+
 ## WHERE THE PUBLISHED RELEASE CANDIDATES ACTUALLY LIVE
 
 **Stated because it is a fact about our own provenance, and it should be discoverable by anyone who

@@ -47,17 +47,21 @@ export type AppliedBound =
   | { state: 'recorded'; limit: string; unit?: string; observed?: string; headroom?: string; note?: string }
   | { state: 'not-supplied'; constraint?: string; note?: string };
 
-/** The approver identity a resolution is signed under. */
-export interface ResolutionActor {
-  issuer: string;
-  approverRef: string;
-  assurance: ApprovalAssurance;
-}
-
-/** How the approver's key custody is established. `operator-held` needs DID resolution and signature
- * verification; `device-bound` requires verifying the key IS device-bound, which is not honourable
- * until enrolment publishes something checkable. */
-export type ApprovalAssurance = 'operator-held' | 'device-bound';
+/** HOW AN APPROVER KEY NAMED IN A CREDENTIAL IS HELD. `actionScope.approvers[].keys[].assurance`.
+ *
+ * NAMED `ApproverKeyAssurance` AND NOT `ApprovalAssurance`, AFTER rc.8 SHIPPED THE WRONG NAME.
+ * `op-mcp-payment-server` already had an `ApprovalAssurance` meaning something else entirely — what a
+ * RESOLUTION'S SIGNATURE establishes about who approved, with members `org-attested | operator-held`.
+ * Two different ideas wearing one name, overlapping on a single member by coincidence of vocabulary.
+ *
+ * THIS ONE IS ABOUT KEY CUSTODY DECLARED IN A CREDENTIAL: `operator-held` needs only DID resolution and
+ * signature verification; `device-bound` requires verifying the key IS device-bound, which is not
+ * honourable until enrolment publishes something checkable, and which the schema couples to the
+ * `approval.assurance-verification` capability.
+ *
+ * NOTHING ELSE IN THIS PACKAGE CONSUMES IT. It is exported because a counterparty reading an
+ * `actionScope.approvers` entry needs the vocabulary. */
+export type ApproverKeyAssurance = 'operator-held' | 'device-bound';
 
 /** A refused payment, as the store records it. The signable subset is derived from this by
  * `signableFromRefusal`; this is the shape a reader holds. */

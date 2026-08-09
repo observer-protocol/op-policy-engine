@@ -112,9 +112,17 @@ export { jcsBytes } from './core/jcs.js';
 // exported it, catching a widening past both a ruling and the decision recorded in that file's header.
 export { stripUndefinedDeep } from './core/jcs.js';
 export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2 } from './core/records/refusal.js';
-export { resolutionPayload, RESOLUTION_PAYLOAD_TYPE } from './core/records/resolution.js';
 export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
-export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ResolutionActor, ApprovalAssurance } from './core/records/types.js';
+// `resolutionPayload` AND `ResolutionActor` WERE EXPORTED IN rc.8 AND ARE WITHDRAWN IN rc.9.
+//
+// THEY CAME ALONG BECAUSE THEY WERE ADJACENT TO `refusalPayload`, AND ADJACENCY IS NOT A REASON. A
+// resolution actor is a payment-server concept — who signed an approval — and its `assurance` field
+// collided with a type of the same name and a different meaning in that repository. Shipping it here
+// would have made that collision permanent in a package counterparties import.
+//
+// What a counterparty needs is `refusalPayload`: a refusal is the only artifact of a stopped payment,
+// and reconstructing its bytes is the check that needs nothing from us.
+export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ApproverKeyAssurance } from './core/records/types.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
