@@ -111,7 +111,23 @@ console.log('\n── the restricted canonicaliser is NOT reachable ──');
   // can sign with the wrong one and produce bytes no other implementation reproduces.
   assert('canonicalise is not exported', pkg.canonicalise === undefined);
   assert('canonicalBytes is not exported', pkg.canonicalBytes === undefined);
-  assert('stripUndefinedDeep is not exported', pkg.stripUndefinedDeep === undefined);
+
+  // ─── `stripUndefinedDeep` WAS ON THIS LIST AND LEFT THE MODULE IN rc.8 ─────────────────────────
+  //
+  // IT IS NOT AN EXEMPTION. The guard's subject is the restricted MODULE, and this helper is no longer
+  // in it: it moved to `core/jcs.ts`, beside the public canonicaliser, and is exported from there.
+  // Dropping the assertion because the name became public would have been the guard losing its subject
+  // to stay convenient; the code moved so the guard did not have to.
+  //
+  // SO THE ASSERTION BECOMES THE OPPOSITE ONE, and it is stronger. It is public AND it does not
+  // canonicalise, which is the property that made it safe to export at all. If someone later moves it
+  // back, or gives it serialisation behaviour, this fails.
+  assert('stripUndefinedDeep IS exported, from the public module', typeof pkg.stripUndefinedDeep === 'function');
+  assert('...and it does not canonicalise: it strips undefined and returns an OBJECT, not bytes',
+    (() => { const r = pkg.stripUndefinedDeep({ a: undefined, b: null, c: '1' });
+             return typeof r === 'object' && r.b === null && r.c === '1' && !('a' in r); })());
+  assert('...so it cannot be used to sign with the restricted canonicaliser',
+    typeof pkg.stripUndefinedDeep({ x: '1' }) !== 'string');
   // MUST STILL PASS: the public canonicaliser IS reachable, so the three above are a deliberate
   // absence and not a broken build.
   assert('jcsBytes, the public canonicaliser, IS exported', typeof pkg.jcsBytes === 'function');

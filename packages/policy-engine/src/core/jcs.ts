@@ -33,3 +33,29 @@ export function jcsCanonicalize(value: unknown): string {
 export function jcsBytes(value: unknown): Buffer {
   return Buffer.from(jcsCanonicalize(value), 'utf8');
 }
+
+/** Drop `undefined` members, recursively, without touching `null`.
+ *
+ * MOVED HERE FROM `core/attestation-jcs.ts` IN rc.8, AND THE MOVE IS THE POINT. It is not a
+ * canonicaliser and cannot produce bytes, so exporting it opens no door — but it lived in the
+ * restricted module, and `decision-attestation.mjs` asserts that NOTHING in that module is reachable,
+ * because a caller who reaches the restricted canonicaliser can sign with the wrong one and produce
+ * bytes no other implementation reproduces.
+ *
+ * THE GUARD IS DRAWN AT THE MODULE RATHER THAN AT A LIST OF NAMES, which is what made this available:
+ * the helper could be made public by MOVING it, instead of by narrowing a three-part assertion to two
+ * and leaving the next function added to that file exported by default rather than by decision.
+ *
+ * `undefined` and `null` are different facts. An absent member is a field nobody set; `null` is a value
+ * someone chose, and collapsing them would sign bytes that say something the caller did not. */
+export function stripUndefinedDeep<T>(value: T): T {
+  if (Array.isArray(value)) return value.filter((v) => v !== undefined).map(stripUndefinedDeep) as unknown as T;
+  if (value !== null && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, v]) => v !== undefined)
+        .map(([k, v]) => [k, stripUndefinedDeep(v)]),
+    ) as unknown as T;
+  }
+  return value;
+}
