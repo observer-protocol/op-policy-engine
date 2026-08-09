@@ -11,6 +11,11 @@ it does not describe what the consumer runs.
 **So no published package receives a core fix through a version bump.** Publishing this package
 changes nothing for anyone until each consumer is rebuilt and republished.
 
+**AND SINCE 2026-08-09, REBUILDING THEM IS NOT ENOUGH EITHER.** All five declare a range that excludes
+prereleases, so a rebuild today re-bundles `0.4.0` and delivers what was already there. **Measure
+before treating the fanout as an outstanding step — see "The fanout list" below.** The sentence above
+is still true; it is no longer the whole condition.
+
 This was discovered on 2026-07-28 while preparing a security disclosure. The dependency graph
 was read as if it described runtime, and it does not. Had the disclosure gone out on that
 reading, it would have told a counterparty to take a package that would have left them exactly
@@ -42,91 +47,12 @@ release candidate whose published artifact resolves to `main`.**
 **THE FANOUT HAS NOT RUN, AND MEASURING IT FIRST CHANGED WHAT IT IS.** Read the six-step warning at
 the top of this file: no bundled consumer receives this vocabulary fix through a version bump.
 
-### What the five actually carry, measured 2026-08-09 rather than assumed
+### The fanout was measured for this release and is a no-op
 
-**All five bundle engine `0.4.0`.** Installed, locked and bundled — `CORE_VERSION = "0.4.0"` is in
-every one of their `dist` files. All five sit on branch `release/policy-engine-0.4.0`, all clean.
-
-**No release candidate has ever reached a bundled consumer.** rc.4 through rc.10 have shipped to npm
-and none of them is in any of the five.
-
-**They cannot receive one through their declared range, and this is not the floor problem this file
-already describes.** Every one declares `>=0.4.0 <1.0.0`. Measured with `semver`:
-
-| version | satisfies `>=0.4.0 <1.0.0` |
-|---|---|
-| `0.4.0` | **true** |
-| `1.0.0-rc.9` | false |
-| `1.0.0-rc.10` | false |
-
-`maxSatisfying` over the whole published set returns **`0.4.0`**. So **rebuilding any of the five today
-without editing its range would re-bundle 0.4.0 and change nothing** — a fanout that runs, passes,
-publishes five versions, and delivers exactly what was already there. The range needs widening to admit
-a prerelease before a rebuild means anything.
-
-### And for rc.10 specifically, the fanout delivers nothing
-
-**None of the five imports any attestation or vocabulary symbol.** Measured by parsing every
-`import ... from '@observer-protocol/policy-engine'` in each `src/`:
-
-| package | engine symbols imported | attestation/vocabulary surface |
-|---|---|---|
-| `x402-op-authorize` | 14 | **none** |
-| `l402-op-authorize` | 19 | **none** |
-| `wdk-op-policy` | 18 | **none** |
-| `mppx-op-account` | 22 | **none** |
-| `ows-op-verify` | 24 | **none** |
-
-`ApproverKeyAssurance`, `checkOutcomeInVocabulary`, `issueDecisionAttestation` and everything around
-them are unreachable in all five. **rc.10's entire substance is invisible to them**, so the fanout is
-not a delivery of this fix. It would be a `0.4.0` to `1.0.0-rc.10` migration that happens to be
-triggered by it.
-
-### What that migration looks like, so far as it has been measured
-
-- **The public surface is purely additive**: 77 exports at `0.4.0`, 119 at rc.10, **none removed**. No
-  consumer's imports break.
-- **rc.4's BREAKING entries are entirely in the attestation surface**, which none of the five touch.
-- **`evaluateMandate` agreed on 24 of 24** mandate-by-transfer pairs across caps, cumulative budgets,
-  counterparty allowlists and escalation thresholds. **That is a spread constructed for this check, not
-  their own corpora**, and it does not exercise the rc.5/rc.6 escalation enrichment or every rail. It
-  is a signal that verdicts do not move, not a proof.
-- Each of the five runs a 3-to-4 step suite: typecheck, build, fixtures, `test/run.mjs`.
-
-**The decision this leaves open** is whether the five move to the rc line at all, which is a bigger
-question than this release and should not be answered by it. Nothing about rc.10 forces it.
-
-
-**What it changes: `ApproverKeyAssurance` gains `org-attested`, and nothing else at runtime.** Measured
-by diffing the built bundle before and after: the entire delta is two new declarations
-(`APPROVER_KEY_ASSURANCE`, `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`) and their two export names. **No
-existing code path changed**, which is the answer to "does this change what any existing record
-validates as": it cannot. Nothing in `src/` branches on these values and `validateStructure` never
-reads `approvers` at all.
-
-**Why.** `approvers.keys.assurance` entered `delegation` at v2.5 as `operator-held | device-bound` and
-**gained `org-attested` at v2.6**. This package carried v2.5's two values through rc.9, so **a
-counterparty validating with the published type would reject an `org-attested` approver key the current
-schema permits** — the exact failure the export exists to prevent. A type exported so a counterparty has
-the vocabulary must match the vocabulary the schema publishes.
-
-**Two things came with it, and they are the reason this does not recur.**
-
-1. **The type declares which schema version it mirrors.** `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION` is
-   `'v2.7'`, exported. A vocabulary type with no version is a claim about a moving target.
-2. **`test/approver-assurance-vocabulary.mjs` compares the published union against the served schema
-   and fails on divergence in either direction** — too narrow (rejecting a permitted value) and too
-   wide (claiming a value no issuer can sign). It builds the URL FROM the declared version, so the two
-   cannot drift apart, it fails rather than skips when the origin is unreachable, and it asserts that
-   **the real rc.9 union would have failed it**.
-
-The vocabulary is now exported as VALUES as well as a type, and the type is derived from the array
-(`typeof APPROVER_KEY_ASSURANCE[number]`), so there is one representation rather than a union and a
-list that can disagree.
-
-**How it was published:** `npm test` (17 suites, needs a network for the two schema checks), `npm
-publish` from `packages/policy-engine` with an OTP, then the registry confirmed independently and the
-commit tagged. **The five-package fanout is a separate decision and has not been taken.**
+**Do not treat the five bundled consumers as an outstanding obligation for rc.10.** They cannot resolve
+a prerelease through their declared ranges, and none of them imports the surface this release changes.
+Both facts, with the numbers, are under **The fanout list** below, where they belong to every release
+rather than to this one.
 
 ## 1.0.0-rc.9 CORRECTS TWO EXPORTS THAT rc.8 SHIPPED WRONGLY
 
@@ -210,6 +136,63 @@ republished before it reaches anyone:
 | `@observer-protocol/wdk-op-policy` | `wdk-op-policy` |
 | `@observer-protocol/mppx-op-account` | `mppx-op-policy` (directory name differs from the package name) |
 | `@observer-protocol/ows-op-verify` | `ows-op-policy` (same) |
+
+### THE FANOUT IS CURRENTLY A NO-OP, AND THAT IS A FACT ABOUT THE RANGES RATHER THAN A DEFERRAL
+
+**MEASURED 2026-08-09. Read this before treating any unpublished consumer as an outstanding
+obligation, because it is not one.**
+
+All five declare `>=0.4.0 <1.0.0`, and **that range excludes prereleases**. `1.0.0-rc.10` does not
+satisfy it; `maxSatisfying` over the whole published set returns **`0.4.0`**. All five currently have
+`0.4.0` installed, locked, and bundled — `CORE_VERSION = "0.4.0"` is in every one of their `dist`
+files.
+
+**So running the fanout today would rebuild five packages against 0.4.0, pass, publish five new
+versions, and deliver exactly what was already there.** It is not a step waiting to be done. **It is a
+no-op until a range changes**, and a range change to admit a prerelease is a deliberate migration onto
+the rc line rather than the mechanical widen described above under "Declared dependency range".
+
+**And no release candidate has ever reached a bundled consumer.** rc.4 through rc.10 have all shipped
+to npm; none of them is inside any of the five.
+
+### NONE OF THE FIVE IMPORTS THE SURFACE THE rc LINE CHANGED
+
+Measured by parsing every `import … from '@observer-protocol/policy-engine'` in each `src/`:
+
+| package | engine symbols imported | attestation / vocabulary symbols |
+|---|---|---|
+| `x402-op-authorize` | 14 | **none** |
+| `l402-op-authorize` | 19 | **none** |
+| `wdk-op-policy` | 18 | **none** |
+| `mppx-op-account` | 22 | **none** |
+| `ows-op-verify` | 24 | **none** |
+
+They use mandate evaluation, credential verification, the ledger, tokens and DID resolution.
+`issueDecisionAttestation`, `checkOutcomeInVocabulary`, `ApproverKeyAssurance` and everything around
+them are **unreachable in all five**. A release whose substance is confined to that surface — rc.10 is
+one — reaches none of them even after a rebuild.
+
+**Check this per release rather than inheriting it.** It is true today and it stops being true the
+first time one of them imports an attestation symbol.
+
+### If the migration onto the rc line is ever taken, this is what was measured for it
+
+**Measured 2026-08-09 and NOT acted on. Boyd did not take the migration; it is a separate decision.**
+
+- **The public surface is purely additive.** 77 exports at `0.4.0`, **119** at `1.0.0-rc.10`, **none
+  removed**. No consumer's imports break.
+- **rc.4's BREAKING entries are confined to the attestation surface**, which none of the five touch.
+- **`evaluateMandate` agreed on 24 of 24** mandate-by-transfer pairs, across `max_transaction_value`,
+  `cumulative_budget`, `allowed_counterparties`, an escalation threshold and an empty mandate, at four
+  transfer amounts.
+- Each of the five runs a 3-to-4 step suite: typecheck, build, fixtures, `test/run.mjs`.
+
+**AND THE LIMIT ON THAT, IN THE SAME PLACE AS THE NUMBER, BECAUSE IT IS WHAT MAKES IT USABLE LATER.**
+Those 24 pairs were **constructed for this check**. They are not any consumer's own corpus, they do not
+exercise the rc.5/rc.6 escalation enrichment, and they do not cover every rail. **It is a signal that
+verdicts do not move between `0.4.0` and rc.10 for those shapes. It is not a proof that they do not
+move.** Anyone taking the migration should re-measure against the consumers' own fixtures rather than
+citing this line as clearance.
 
 `@observer-protocol/ap2-op-authorize` and `@observer-protocol/op-verify-service` resolve the
 engine at install rather than bundling it, so they would receive a fix through a range bump.
