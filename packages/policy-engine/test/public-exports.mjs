@@ -83,8 +83,19 @@ console.log('\n── the decision-attestation surface is reachable from the ent
 
   // THE DOMAIN SEPARATORS, BY VALUE. A renamed constant is survivable; a changed VALUE invalidates
   // every signature already written over it, so the value is pinned here rather than the name alone.
+  //
+  // MOVED v3 -> v4 ON 2026-08-10, AND THE MOVE IS THE ONLY REASON THIS LINE CHANGED. This assertion did
+  // its job: it failed the moment the separator moved, which is exactly what it exists for. It was
+  // retargeted rather than relaxed, because the guard is against an ACCIDENTAL rename and this was a
+  // ruled one — v4 binds `reservationId` to close a replay that let a captured verdict authorise a
+  // second identical payment inside its window.
+  //
+  // IF YOU ARE HERE BECAUSE THIS FAILED AGAIN, the question is not "what is the new value". It is
+  // whether somebody decided to move it and what happens to the signatures already written over the
+  // old one. Answer that first; the population was 63 records when it moved to v4, and it was safe to
+  // break because all of them were about to be re-driven. That is unlikely to be true a second time.
   assert('EVALUATION_VERDICT_PAYLOAD_TYPE is reachable AND unchanged',
-    mod.EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3', mod.EVALUATION_VERDICT_PAYLOAD_TYPE);
+    mod.EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v4', mod.EVALUATION_VERDICT_PAYLOAD_TYPE);
   assert('REFUSAL_PAYLOAD_TYPE is reachable', mod.REFUSAL_PAYLOAD_TYPE !== undefined);
   assert('LAPSE_PAYLOAD_TYPE is reachable', mod.LAPSE_PAYLOAD_TYPE !== undefined);
 

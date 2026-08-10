@@ -42,12 +42,45 @@
 // The thing creating the obligation and the thing discharging it are in one unit.
 import { canonicalise } from '../attestation-jcs.js';
 
-/** The domain separator. **THE STRING VALUE IS FROZEN; ONLY THE CONSTANT'S NAME CHANGED.**
+/** The domain separator.
  *
- * Renaming the value would invalidate every signature in existence over `op.evaluation.verdict.v3`.
+ * ─── v3 -> v4: THE PAYLOAD NOW BINDS THE RESERVATION, AND THAT CLOSES A CAP BYPASS ───────────────
+ *
+ * v3 signed WHO, WHAT, HOW MUCH, WHERE and FOR HOW LONG, and nothing identifying WHICH PAYMENT. Two
+ * payments identical on those eleven fields inside one window were therefore the same document, and
+ * ed25519 here is deterministic, so they were not merely permitted to share a signature: they
+ * PRODUCED the same one. A captured verdict authorised a second identical payment until the window
+ * closed. That is a bypass of the spending cap, which is the guarantee the product is for.
+ *
+ * `reservationId` is what makes a verdict about one payment. A verdict bound to reservation X cannot
+ * be presented for Y, because the bytes differ and the signature fails; and X itself is single-use,
+ * refused on reuse by `paymentReservations`. The binding and the enforcement are in different repos
+ * and both are needed — this alone makes replay DETECTABLE, and the reservation store is what makes
+ * it IMPOSSIBLE.
+ *
+ * NO MULTI-VERSION VERIFY PATH, AND THAT IS A DATED DECISION RATHER THAN A PRINCIPLE. The entire v3
+ * population on 2026-08-10 was 63 records in one unfilmed demo corpus; the two frozen corpora predate
+ * verdict persistence and hold none. After that corpus is re-driven no v3 verdict survives anywhere,
+ * so carrying a second verifier forever would be maintaining a path with no population. **This stops
+ * being true the moment anything is built on a v3 corpus.** If that has happened by the time you read
+ * this, the `KNOWN_PREIMAGE_VERSIONS` pattern in the payment server's `identity.ts` is the shape to
+ * copy, and this comment is the record that it was skipped deliberately and why.
+ *
  * The identifier is `EVALUATION_VERDICT_PAYLOAD_TYPE` rather than `VERDICT_PAYLOAD_TYPE` for the same
  * reason the type below is not called `SignableVerdict`. */
-export const EVALUATION_VERDICT_PAYLOAD_TYPE = 'op.evaluation.verdict.v3';
+export const EVALUATION_VERDICT_PAYLOAD_TYPE = 'op.evaluation.verdict.v4';
+
+/** The ceiling `reservationId` must fit, and it is not this system's number.
+ *
+ * ISO 20022's `EndToEndId` is the one field that survives a fiat clearing chain: remittance
+ * information breaks reconciliation and `SplmtryData` is stripped by CBPR+. It is 31 characters of
+ * Basic Latin printable ASCII, so a reference that does not fit it cannot travel on that rail at all.
+ *
+ * ENFORCED HERE RATHER THAN ASSUMED, because `reservationId` is CALLER-SUPPLIED and the payment server
+ * checks only that it is a non-empty string. Every value in use today happens to fit — 24 characters,
+ * hyphens only — which is exactly the condition under which a convention is mistaken for a rule and
+ * records accumulate under it. The guard is what makes it a rule. */
+export const RESERVATION_ID_MAX = 31;
 
 /** The FOUR `denialDetail` fields a verdict signature covers.
  *
@@ -115,6 +148,14 @@ export interface SignableEvaluationVerdict {
   mandateId: string;
   agentId: string;
   issuerId: string;
+  /** WHICH PAYMENT THIS VERDICT IS ABOUT. Added at v4; see the domain separator above for why.
+   *
+   * Without it the payload described a KIND of payment rather than one, and two identical payments in
+   * one window shared a signature. It is also the reference an external rail can carry: bounded to
+   * `RESERVATION_ID_MAX` so it fits an ISO 20022 `EndToEndId`, which is the only field that survives
+   * a fiat clearing chain. Those are two requirements met by one field, which is why it is this one
+   * and not a nonce — a nonce would close the replay and travel nowhere. */
+  reservationId: string;
   /** From the SPEND. These four are what bind the money to the decision: signing the verdict facts
    * alone would leave the amount free, so a verdict signed for 1.00 presented with a spend of 1000.00
    * would verify. */
@@ -138,8 +179,8 @@ export interface SignableEvaluationVerdict {
 }
 
 const SIGNED_FIELDS = [
-  'decision', 'mandateId', 'agentId', 'issuerId', 'rail', 'asset', 'amountRaw', 'decimals',
-  'counterpartyMatchedAs', 'notBefore', 'notAfter',
+  'decision', 'mandateId', 'agentId', 'issuerId', 'reservationId', 'rail', 'asset', 'amountRaw',
+  'decimals', 'counterpartyMatchedAs', 'notBefore', 'notAfter',
 ] as const;
 
 const SIGNED_DETAIL_FIELDS = ['limit', 'observed', 'headroom', 'unit'] as const;
@@ -164,6 +205,32 @@ export function evaluationVerdictPayload(v: SignableEvaluationVerdict): string {
         `evaluator believes it says.`,
       );
     }
+  }
+  // ─── THE RESERVATION ID MUST FIT A RAIL THIS PACKAGE WILL NEVER SEE ─────────────────────────────
+  //
+  // REFUSED HERE RATHER THAN TRUNCATED. Truncating would make two reservations share a reference, and a
+  // shared reference merges two payments in a clearing system's view — the failure the derived
+  // instruction id already avoids by refusing to shorten. Rejecting an over-long id costs a caller one
+  // error; truncating costs somebody a reconciliation.
+  //
+  // BASIC LATIN PRINTABLE ONLY. The bytes are RFC 8785 JCS and would happily canonicalise any Unicode
+  // string, so this is not about what can be signed: it is about what can be CARRIED. A reference the
+  // fiat rail cannot represent is one that silently stops being a reference at the boundary, and the
+  // boundary is the place nobody is looking.
+  if (v.reservationId.length > RESERVATION_ID_MAX) {
+    throw new Error(
+      `Cannot sign a verdict whose reservationId is ${v.reservationId.length} characters. The limit is ` +
+      `${RESERVATION_ID_MAX}, which is ISO 20022's EndToEndId: the one field that survives a fiat clearing ` +
+      'chain. Refusing rather than truncating, because a truncated reference can collide and a collision ' +
+      'merges two payments.',
+    );
+  }
+  if (!/^[\x20-\x7E]+$/.test(v.reservationId)) {
+    throw new Error(
+      'Cannot sign a verdict whose reservationId is not Basic Latin printable ASCII. It is the reference ' +
+      'an external rail carries, and a character that rail cannot represent stops being a reference at ' +
+      'the boundary rather than at signing time.',
+    );
   }
   const decision = v.decision;
   if (decision === 'deny' && v.breachedConstraint === undefined) {

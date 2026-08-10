@@ -20,6 +20,13 @@
 // not be restarted, so no corpus on disk contains one. Same code path, same real key, weaker
 // provenance. Stated here rather than only beside the verdicts, because this header is what a reader
 // checks the whole file's provenance against.
+//
+// **AND THAT PARAGRAPH STOPPED BEING TRUE OF THE VERDICT BYTES ON 2026-08-10.** `reservationId` entered
+// the signed set at v4, so the captured v3 strings could not survive it and were REGENERATED from the
+// builder. The verdict SHAPES are still real; the two byte strings are now a regression pin rather than
+// independent evidence. Corrected HERE as well as at the fixtures, because this header is what a reader
+// checks provenance against, and a header that keeps asserting the stronger claim is the more expensive
+// half of the error.
 import { refusalPayload, signableFromRefusal, lapsePayload, stripUndefinedDeep,
   evaluationVerdictPayload, EVALUATION_VERDICT_PAYLOAD_TYPE } from '../dist/index.mjs';
 
@@ -152,26 +159,72 @@ console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against 
   // today and it is weaker than `REFUSAL` above, which is a line lifted from the 2026-08-08 corpus.
   // When either corpus is next driven, replace these with records from it.
   //
+  // ─── AT v4 THE BYTE STRINGS BECAME WEAKER THAN THAT. READ THIS BEFORE TRUSTING THEM ─────────────
+  //
+  // Everything above is still true of the SHAPES. It is NO LONGER TRUE OF THE TWO BYTE STRINGS.
+  // `reservationId` entered the signed set on 2026-08-10, so the captured v3 bytes could not survive the
+  // change: they were REGENERATED from the v4 builder rather than captured from a signing event.
+  //
+  // SO THESE TWO ASSERTIONS ARE NOW A REGRESSION PIN AND NOT INDEPENDENT EVIDENCE. A golden produced by
+  // the implementation cannot catch that implementation being wrong today, only its drifting tomorrow.
+  // Both are worth having; they are not the same claim; and the paragraph above would have gone on
+  // asserting the stronger one after it stopped holding.
+  //
+  // The `reservationId` value is `res-live-1786339035155-1`, lifted from a real driven record in the
+  // 2026-08-10 corpus, so the value and its 24-character length are real even though the bytes are not
+  // captured. **Replace both strings with captured ones at the next drive** — the same instruction as
+  // above, now with a second reason.
+  //
   // TWO RECORDS, BECAUSE ONE EXERCISES HALF THE CONSTRUCTION. `breachedConstraint` and `denialDetail`
   // are in the signed bytes for a deny and REFUSED on a release, so a single fixture would leave the
   // conditional guards and the detail subsetting untested.
   const RELEASE_PAYLOAD = { decision: 'release', mandateId: 'urn:uuid:m1', agentId: 'did:web:agent',
-    issuerId: 'did:web:principal', rail: 'eip155:8453', asset: 'USDC', amountRaw: '318740000',
+    issuerId: 'did:web:principal', reservationId: 'res-live-1786339035155-1',
+    rail: 'eip155:8453', asset: 'USDC', amountRaw: '318740000',
     decimals: '6', counterpartyMatchedAs: 'vendor-alpha',
     notBefore: '2026-08-03T00:00:00.000Z', notAfter: '2026-08-04T00:00:00.000Z' };
-  const RELEASE_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"release","issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","type":"op.evaluation.verdict.v3"}';
+  const RELEASE_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"release","issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","reservationId":"res-live-1786339035155-1","type":"op.evaluation.verdict.v4"}';
 
   const DENY_PAYLOAD = { ...RELEASE_PAYLOAD, decision: 'deny',
     breachedConstraint: 'tradingMandate.perPaymentCap',
     denialDetail: { limit: '25.00', observed: '318.74', headroom: '0', unit: 'USDC' } };
-  const DENY_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","breachedConstraint":"tradingMandate.perPaymentCap","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"deny","denialDetail":{"headroom":"0","limit":"25.00","observed":"318.74","unit":"USDC"},"issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","type":"op.evaluation.verdict.v3"}';
+  const DENY_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","breachedConstraint":"tradingMandate.perPaymentCap","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"deny","denialDetail":{"headroom":"0","limit":"25.00","observed":"318.74","unit":"USDC"},"issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","reservationId":"res-live-1786339035155-1","type":"op.evaluation.verdict.v4"}';
 
   a('the moved builder reproduces a real RELEASE verdict\'s bytes exactly',
     evaluationVerdictPayload(RELEASE_PAYLOAD) === RELEASE_BYTES, evaluationVerdictPayload(RELEASE_PAYLOAD));
   a('...and a real DENY verdict\'s, which carries the constraint and the detail',
     evaluationVerdictPayload(DENY_PAYLOAD) === DENY_BYTES, evaluationVerdictPayload(DENY_PAYLOAD));
   a('the payload type value is unchanged by the rename of its constant',
-    EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3');
+    EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v4');
+
+  // ─── `reservationId` IS WHAT MAKES A VERDICT ABOUT ONE PAYMENT, AND IT MUST FIT A FIAT RAIL ──────
+  //
+  // THE FIRST ASSERTION IS THE POINT OF v4. Two payments identical on every other signed field inside
+  // one window were the same document under v3, and ed25519 here is deterministic, so they produced the
+  // SAME signature — a captured verdict authorised a second identical payment. Asserted by DIFFERENCE
+  // rather than by inspecting the string, because what matters is that the bytes diverge at all.
+  // Local, because the file's `threw` is declared further down and this block runs first.
+  const refused = (fn) => { try { fn(); return null; } catch (e) { return e; } };
+  a('two otherwise-identical payments no longer share bytes, which is the replay v4 closes',
+    evaluationVerdictPayload({ ...RELEASE_PAYLOAD, reservationId: 'res-live-1786339035155-2' })
+      !== evaluationVerdictPayload(RELEASE_PAYLOAD));
+
+  // AND THE BOUND IS ISO 20022's, NOT OURS. 31 characters of Basic Latin printable is what an
+  // `EndToEndId` carries, and it is the only field that survives a fiat clearing chain. Boundary
+  // asserted on BOTH sides: an off-by-one in the comparison would pass a 31-only test and a 32-only
+  // test tells you nothing about what is allowed.
+  a('a 31-character reservationId is accepted, which is the EndToEndId limit exactly',
+    typeof evaluationVerdictPayload({ ...RELEASE_PAYLOAD, reservationId: 'x'.repeat(31) }) === 'string');
+  a('...and 32 is REFUSED rather than truncated, because a truncated reference can collide',
+    refused(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, reservationId: 'x'.repeat(32) })) !== null);
+  a('a non-ASCII reservationId is refused, because the rail cannot carry it',
+    refused(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, reservationId: 'res-café-1' })) !== null);
+  a('...and so is one with a control character, which JCS would have signed happily',
+    refused(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, reservationId: 'res\tlive' })) !== null);
+  a('an absent reservationId is refused BY NAME, not by producing shorter bytes',
+    /reservationId/.test(String(refused(() => {
+      const { reservationId, ...without } = RELEASE_PAYLOAD; return evaluationVerdictPayload(without);
+    }))));
 
   // ─── `terminal` IS NOT SIGNED, ASSERTED AGAINST THE REAL REQUEST THAT CARRIED IT ───────────────
   //
