@@ -189,7 +189,42 @@ export function evaluationVerdictPayload(v: SignableEvaluationVerdict): string {
       `Cannot sign a ${decision} carrying a routingConstraint. Only an escalate asked anybody.`,
     );
   }
+  // ─── TWO GUARDS RESTORED AT rc.12 AFTER THE MOVE DROPPED THEM ───────────────────────────────────
+  //
+  // rc.11 moved this construction out of `op-mcp-payment-server` and I verified BYTE PARITY: three
+  // canonicalisers, identical 461 bytes, real driven fixtures. **Byte parity over valid inputs cannot
+  // detect a lost refusal**, and two refusals were lost. Both were caught by the payment server's own
+  // suite when it imported this function — the downstream control `test/public-exports.mjs` names, doing
+  // exactly what that comment says it would.
+  //
+  // The lesson is the verification's, not the code's: a moved payload builder needs its REFUSALS
+  // enumerated against the original, not only its output compared. Agreement on what two
+  // implementations ACCEPT is silent about what one of them stopped rejecting.
   const detail = v.denialDetail;
+  if (detail !== undefined) {
+    // ONLY A DENY HAS A BOUND. An escalate breached nothing and a release breached nothing, so a signed
+    // detail on either asserts a comparison that did not happen — the same class as v2 signing
+    // `breachedConstraint` on an escalate, which is why v3 exists.
+    if (decision !== 'deny') {
+      throw new Error(
+        `Cannot sign a ${decision} carrying a denialDetail. Only a deny has one: it is the bound the ` +
+        'mandate refused against, and an escalate or a release did not refuse.',
+      );
+    }
+    for (const f of SIGNED_DETAIL_FIELDS) {
+      const value = (detail as Record<string, unknown>)[f];
+      // ABSENT IS FINE — every one of these is optional. A PRESENT NON-STRING IS NOT, and it is refused
+      // HERE so the message names the FIELD. The canonicaliser would refuse a number anyway, one layer
+      // down, reporting a type rather than which bound was wrong.
+      if (value !== undefined && typeof value !== 'string') {
+        throw new Error(
+          `Cannot sign a denialDetail whose ${f} is a ${typeof value}. Every signed bound is a string, ` +
+          'because RFC 8785\'s number rules are where canonicalisers diverge and a bound compared as a ' +
+          'number here would be compared as text by whoever verifies it.',
+        );
+      }
+    }
+  }
   return canonicalise({
     type: EVALUATION_VERDICT_PAYLOAD_TYPE,
     ...Object.fromEntries(SIGNED_FIELDS.map((f) => [f, (v as unknown as Record<string, string>)[f]])),

@@ -202,6 +202,34 @@ console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against 
     threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, decision: 'escalate' })) !== null);
   a('a release carrying a routingConstraint refuses',
     threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, routingConstraint: 'x' })) !== null);
+
+  // ─── THE TWO GUARDS rc.11 DROPPED IN THE MOVE, ASSERTED AT rc.12 ───────────────────────────────
+  //
+  // rc.11's parity was verified by comparing BYTES over valid inputs, and both of these are refusals
+  // rather than outputs, so nothing in that comparison could have noticed them missing. The payment
+  // server's suite caught them the moment it imported this function. **Asserted here so the next move
+  // of this construction cannot lose them the same way.**
+  const denyDetailOn = (decision) => threw(() => evaluationVerdictPayload({
+    ...RELEASE_PAYLOAD, decision,
+    ...(decision === 'escalate' ? { routingConstraint: 'escalationThreshold' } : {}),
+    denialDetail: { limit: '25.00' } }));
+  a('an ESCALATE carrying a denialDetail refuses, because only a deny compared a bound',
+    denyDetailOn('escalate') !== null, String(denyDetailOn('escalate')));
+  a('...and a RELEASE carrying one refuses too, which is the same defect in the other direction',
+    denyDetailOn('release') !== null, String(denyDetailOn('release')));
+  a('...naming the decision rather than the field, because the decision is what makes it wrong',
+    /carrying a denialDetail/.test(denyDetailOn('release')?.message ?? ''));
+
+  // A NON-STRING BOUND IS REFUSED BY NAME. The canonicaliser would refuse a number one layer down and
+  // report a TYPE; this reports WHICH BOUND, which is what an operator needs.
+  for (const f of ['limit', 'observed', 'headroom', 'unit']) {
+    const e = threw(() => evaluationVerdictPayload({ ...DENY_PAYLOAD,
+      denialDetail: { ...DENY_PAYLOAD.denialDetail, [f]: 25 } }));
+    a(`a numeric denialDetail.${f} refuses, naming the field`, e !== null && e.message.includes(f), e?.message);
+  }
+  a('a BOOLEAN bound refuses too, not only a number',
+    threw(() => evaluationVerdictPayload({ ...DENY_PAYLOAD,
+      denialDetail: { ...DENY_PAYLOAD.denialDetail, limit: true } })) !== null);
   for (const f of ['decision', 'mandateId', 'agentId', 'issuerId', 'rail', 'asset', 'amountRaw',
                    'decimals', 'counterpartyMatchedAs', 'notBefore', 'notAfter']) {
     const e = threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, [f]: undefined }));

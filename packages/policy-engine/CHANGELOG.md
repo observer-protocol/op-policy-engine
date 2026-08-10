@@ -2,6 +2,30 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.12
+
+**A DEFECT IN rc.11. Two refusals were lost when the verdict payload moved, and rc.11 is weaker than the
+implementation it replaced. Anyone on rc.11 should move.**
+
+`evaluationVerdictPayload` was missing two guards the `op-mcp-payment-server` original had:
+
+- **A `denialDetail` on a non-deny is refused.** An escalate breached nothing and a release breached
+  nothing, so a signed bound on either asserts a comparison that did not happen. Same class as v2 signing
+  `breachedConstraint` on an escalate, which is why v3 exists.
+- **A present `denialDetail` field that is not a string is refused BY NAME.** The canonicaliser would
+  refuse a number one layer down and report a type; this reports which bound.
+
+### How it got through, which is the part worth keeping
+
+rc.11's parity was verified by comparing BYTES across three canonicalisers over real driven records, and
+they were identical. **Byte parity over valid inputs cannot detect a lost refusal.** Both guards are
+about what the function REJECTS, and nothing in an output comparison reaches them.
+
+They were caught by `op-mcp-payment-server`'s own suite the moment it imported this function — the
+downstream control `test/public-exports.mjs` describes as the strong one, doing exactly what that comment
+says it would. Both are now asserted here, so the next move of this construction cannot lose them the
+same way.
+
 ## 1.0.0-rc.11
 
 **Additive only. Two new value exports, two new types, nothing removed and no behaviour changed.**
