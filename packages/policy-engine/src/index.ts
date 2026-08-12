@@ -123,6 +123,12 @@ export { jcsBytes } from './core/jcs.js';
 export { stripUndefinedDeep } from './core/jcs.js';
 export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2 } from './core/records/refusal.js';
 export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
+// `resolutionPayload` RETURNS IN rc.13, AND THE rc.9 WITHDRAWAL NOTE BELOW IS LEFT INTACT. Its two
+// objections are answered in `core/records/resolution.ts` rather than deleted here: the adjacency
+// charge was fair and no longer applies, and the `assurance` collision was REAL and was answered by
+// this package's own later export of `ApproverKeyAssurance` under a distinguishing name.
+export { resolutionPayload, RESOLUTION_PAYLOAD_TYPE } from './core/records/resolution.js';
+export type { SignableResolution, ResolutionActor } from './core/records/resolution.js';
 export { evaluationVerdictPayload, EVALUATION_VERDICT_PAYLOAD_TYPE } from './core/records/verdict.js';
 export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/records/verdict.js';
 // `resolutionPayload` AND `ResolutionActor` WERE EXPORTED IN rc.8 AND ARE WITHDRAWN IN rc.9.
