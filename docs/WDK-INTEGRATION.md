@@ -14,7 +14,8 @@ This guide describes how to integrate the Observer Protocol Policy Engine as a p
 One npm dependency:
 
 ```bash
-npm install @observer-protocol/policy-engine
+npm install @observer-protocol/policy-engine@rc   # `@rc` is required: a bare name resolves to
+                                                  # `latest`, which is held at the last non-rc release
 ```
 
 (The package is published from [`packages/policy-engine/`](../packages/policy-engine) in this repository — runtime and types together, MIT. `PROVENANCE.md` in that directory records where each core module came from.)

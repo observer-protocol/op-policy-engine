@@ -6,7 +6,7 @@ No API key, no bearer token, no call back to Observer at verification time. Ever
 public: the issuer's DID document, the schemas, the revocation status lists.
 
 ```bash
-npm install @observer-protocol/policy-engine
+npm install @observer-protocol/policy-engine@rc   # bare name -> `latest`, held off the rc line
 ```
 
 ## Verify a credential you were given

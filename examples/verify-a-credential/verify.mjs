@@ -5,7 +5,7 @@
  * Fetches the credential and resolves everything it references over plain public HTTPS. No API key,
  * no bearer token, no call to any Observer endpoint that could refuse you.
  *
- *   npm install @observer-protocol/policy-engine
+ *   npm install @observer-protocol/policy-engine@rc
  *   node verify.mjs
  *
  * Exit code is 0 if the verdict was produced, 1 if the engine could not reach a verdict at all.
