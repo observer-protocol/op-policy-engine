@@ -88,12 +88,29 @@ console.log('\n── the decision-attestation surface is reachable from the ent
   assert('REFUSAL_PAYLOAD_TYPE is reachable', mod.REFUSAL_PAYLOAD_TYPE !== undefined);
   assert('LAPSE_PAYLOAD_TYPE is reachable', mod.LAPSE_PAYLOAD_TYPE !== undefined);
 
-  // AND `resolutionPayload` MUST STAY ABSENT. Withdrawn at rc.9 for a recorded reason, so its absence
-  // is a DECISION and needs a check like any other. A second negative control beside `canonicalise`,
-  // pointed at the export whose return would be the easiest to justify by adjacency to the verdict one.
-  assert('resolutionPayload is still NOT exported, which is a ruling rather than an omission',
-    mod.resolutionPayload === undefined,
-    'withdrawn at rc.9: a resolution actor is a payment-server concept and its assurance field collided');
+  // ─── `resolutionPayload` RETURNS AT rc.13, AND THIS ASSERTION IS INVERTED, NOT DELETED ──────────
+  //
+  // IT PREVIOUSLY PINNED THE OPPOSITE, and failing when the ruling changed is what it is for: "still
+  // NOT exported, which is a ruling rather than an omission — withdrawn at rc.9". That check was
+  // correct and it did its job. Ruled by Boyd 2026-08-12; the rc.9 objections are answered in
+  // `core/records/resolution.ts` rather than routed around.
+  //
+  // IT IS NOT WEAKENED TO A PRESENCE CHECK. The rc.9 objection was that the actor's `assurance` would
+  // enter the surface as a SECOND meaning of a name this package already uses, so the assertion that
+  // matters is not "the function is reachable" but "the type it carries is the one already exported".
+  assert('resolutionPayload is exported at rc.13', typeof mod.resolutionPayload === 'function');
+  assert('...and RESOLUTION_PAYLOAD_TYPE is the payment server\'s string, NOT renamed to op.enforcement.*',
+    mod.RESOLUTION_PAYLOAD_TYPE === 'op.approval.resolution.v1', mod.RESOLUTION_PAYLOAD_TYPE);
+  assert('...and ApproverKeyAssurance is still the ONE assurance vocabulary this package exports',
+    Array.isArray(mod.APPROVER_KEY_ASSURANCE) && mod.ApprovalAssurance === undefined,
+    `APPROVER_KEY_ASSURANCE=${JSON.stringify(mod.APPROVER_KEY_ASSURANCE)}`);
+  // THE FUNCTION REFUSES RATHER THAN SIGNING A RECORD THAT DOES NOT SAY WHAT IT SEEMS TO. Asserted
+  // here because a reachable constructor that silently accepts a missing actor would be worse than an
+  // absent one: a counterparty would rebuild bytes that verify against nothing and blame the signature.
+  let refused = false;
+  try { mod.resolutionPayload({ handleId: 'h', how: 'approved', at: '2026-01-01T00:00:00.000Z' }); }
+  catch { refused = true; }
+  assert('...and it refuses to build a payload with no actor', refused);
 
   // AND IT DISCRIMINATES: a name that is not exported must fail this check, or the loop above is
   // measuring nothing. Without this, a broken import would make every assertion above pass as
