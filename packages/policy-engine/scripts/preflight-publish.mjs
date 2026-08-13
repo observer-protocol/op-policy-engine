@@ -171,6 +171,27 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(`\n── publish preflight: ${version} ──`);
   const r = preflightPublish({ repoDir, version });
 
+  // RUNS BEFORE THE SUCCESS EXIT, AND THAT PLACEMENT IS THE POINT. The first cut sat below
+  // `if (r.ok) { … process.exit(0) }`, so it would have run ONLY when the preflight was already
+  // refusing — a control reachable only on the path where it is not needed.
+  // ─── THE ARTIFACT GATE, LANDED DISARMED. ARMING IS THE ONE LINE MARKED BELOW. ──────────────────
+  //
+  // The six checks above assert six properties of the COMMIT and none of the artifact, and an
+  // untracked `dist/` is invisible to TREE_DIRTY by design. `preflight-artifact.mjs` closes that;
+  // see its header for the near-misses that motivated it.
+  //
+  // DISARMED ON PURPOSE. Arming a gate that refuses publishes while other sessions are mid-block
+  // converts spare capacity here into blocked capacity there. So it RUNS and REPORTS on every
+  // preflight — the finding is visible from today — and does not change the exit code. That is the
+  // whole difference between disarmed and absent: a disarmed gate is measured every time it would
+  // have fired, so arming it later is a decision made on evidence rather than on a hope.
+  //
+  // TO ARM: change ARTIFACT_GATE_ARMED to true. Nothing else. Reversible by changing it back.
+  // The coordinator closes that decision.
+  const ARTIFACT_GATE_ARMED = false;
+  {
+    const { preflightArtifact } = await import('./preflight-artifact.mjs');
+
   if (r.ok) {
     console.log(`  OK  ${r.tag} is annotated, pushed, and points at HEAD ${r.head.slice(0, 12)} on main.`);
     console.log('      Publishing this version produces an artifact a reader can resolve to a commit.\n');
@@ -182,6 +203,21 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     console.error(`  Exit ${EXIT_REMOTE_UNREACHABLE} is unreachable; exit ${EXIT_REFUSED} is a refusal.\n`);
     process.exit(EXIT_REMOTE_UNREACHABLE);
   }
+    let art;
+    try { art = preflightArtifact({ pkgDir: process.cwd() }); }
+    catch (e) { art = { ok: false, code: 'ARTIFACT_STALE', reason: `the artifact check could not run: ${String(e)}` }; }
+    if (art.ok) {
+      console.error(`  artifact: ok. ${art.note}`);
+    } else {
+      console.error(`\n  ${ARTIFACT_GATE_ARMED ? 'PUBLISH REFUSED' : 'ARTIFACT WOULD REFUSE (gate disarmed)'} — ${art.code}\n`);
+      console.error(`      ${art.reason}`);
+      if (art.detail) console.error(`      ${art.detail}`);
+      if (ARTIFACT_GATE_ARMED) process.exit(EXIT_REFUSED);
+      console.error(`\n      Disarmed: this did not change the exit code. Arm it in ${'preflight-publish.mjs'} `
+        + `by setting ARTIFACT_GATE_ARMED = true.\n`);
+    }
+  }
+
   console.error(`\n  PUBLISH REFUSED — ${r.code}\n\n      ${r.reason}\n`);
   console.error('  There is no override. A publish gate with a bypass is a convention, and this exists');
   console.error('  because a convention did not hold: rc.10 was published 1m41s before it was tagged.\n');
