@@ -188,7 +188,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   //
   // TO ARM: change ARTIFACT_GATE_ARMED to true. Nothing else. Reversible by changing it back.
   // The coordinator closes that decision.
-  const ARTIFACT_GATE_ARMED = false;
+  const ARTIFACT_GATE_ARMED = true;
   {
     const { preflightArtifact } = await import('./preflight-artifact.mjs');
 
