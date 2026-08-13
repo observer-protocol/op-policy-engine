@@ -2,7 +2,7 @@
 //
 // ─── WHY THIS EXISTS, AND WHY IT IS IN THIS REPOSITORY ───────────────────────────────────────────
 //
-// `ApproverKeyAssurance` is exported for one reason, stated in its own comment: a counterparty
+// `RequiredKeyCustody` is exported for one reason, stated in its own comment: a counterparty
 // reading an `actionScope.approvers` entry needs the vocabulary. It is published AS vocabulary.
 //
 // It was two schema versions stale and nobody could have noticed. `approvers.keys.assurance` entered
@@ -23,12 +23,12 @@
 //
 // ─── WHAT IT DOES NOT DO ─────────────────────────────────────────────────────────────────────────
 //
-// It does not assert that the two ideas named `ApproverKeyAssurance` and `ApprovalAssurance` are the
+// It does not assert that the two ideas named `RequiredKeyCustody` and `ApprovalAssurance` are the
 // same, and widening one to match the other is explicitly ruled against in `records/types.ts`. This
 // compares the engine's union to THE SCHEMA, which is the only thing either union answers to.
-import { APPROVER_KEY_ASSURANCE, APPROVER_KEY_ASSURANCE_SCHEMA_VERSION } from '../dist/index.mjs';
+import { REQUIRED_KEY_CUSTODY, REQUIRED_KEY_CUSTODY_SCHEMA_VERSION } from '../dist/index.mjs';
 
-const SCHEMA_URL = `https://observerprotocol.org/schemas/delegation/${APPROVER_KEY_ASSURANCE_SCHEMA_VERSION}.json`;
+const SCHEMA_URL = `https://observerprotocol.org/schemas/delegation/${REQUIRED_KEY_CUSTODY_SCHEMA_VERSION}.json`;
 
 let pass = 0, fail = 0;
 const failures = [];
@@ -42,11 +42,11 @@ console.log('\n── the version is declared, and the URL is built FROM the dec
   // If the constant were decorative the check could pass while comparing against a document the type
   // does not claim to mirror. The URL is derived from it, so they cannot drift apart.
   a('the package declares which schema version it mirrors',
-    typeof APPROVER_KEY_ASSURANCE_SCHEMA_VERSION === 'string' && /^v\d+\.\d+$/.test(APPROVER_KEY_ASSURANCE_SCHEMA_VERSION),
-    JSON.stringify(APPROVER_KEY_ASSURANCE_SCHEMA_VERSION));
+    typeof REQUIRED_KEY_CUSTODY_SCHEMA_VERSION === 'string' && /^v\d+\.\d+$/.test(REQUIRED_KEY_CUSTODY_SCHEMA_VERSION),
+    JSON.stringify(REQUIRED_KEY_CUSTODY_SCHEMA_VERSION));
   a('...and the vocabulary is exported as values, not only as a type',
-    Array.isArray(APPROVER_KEY_ASSURANCE) && APPROVER_KEY_ASSURANCE.length > 0,
-    JSON.stringify(APPROVER_KEY_ASSURANCE));
+    Array.isArray(REQUIRED_KEY_CUSTODY) && REQUIRED_KEY_CUSTODY.length > 0,
+    JSON.stringify(REQUIRED_KEY_CUSTODY));
 }
 
 // ─── the served definition ───────────────────────────────────────────────────
@@ -103,14 +103,14 @@ console.log(`\n── ${PATH} is present in the served schema at all ──`);
   // AN ABSENT ENUM MUST FAIL. Without this the comparison below succeeds vacuously the moment the
   // schema moves the field, and a check that passes because it found nothing is the failure mode this
   // whole entry exists to close.
-  a(`the served ${APPROVER_KEY_ASSURANCE_SCHEMA_VERSION} schema defines ${PATH}`,
+  a(`the served ${REQUIRED_KEY_CUSTODY_SCHEMA_VERSION} schema defines ${PATH}`,
     Array.isArray(servedValues) && servedValues.length > 0,
     `found paths: ${Object.keys(servedEnums).join(', ') || '(none)'}`);
 }
 
 if (Array.isArray(servedValues) && servedValues.length > 0) {
   console.log('\n── the published union and the served enum admit EXACTLY the same values ──');
-  const mine = [...APPROVER_KEY_ASSURANCE].sort();
+  const mine = [...REQUIRED_KEY_CUSTODY].sort();
   const theirs = [...servedValues].sort();
 
   const missing = theirs.filter((v) => !mine.includes(v));

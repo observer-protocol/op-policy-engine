@@ -47,18 +47,18 @@ export type AppliedBound =
   | { state: 'recorded'; limit: string; unit?: string; observed?: string; headroom?: string; note?: string }
   | { state: 'not-supplied'; constraint?: string; note?: string };
 
-/** THE SCHEMA VERSION `ApproverKeyAssurance` MIRRORS. A vocabulary type with no version is a claim
+/** THE SCHEMA VERSION `RequiredKeyCustody` MIRRORS. A vocabulary type with no version is a claim
  * about a moving target: it says "these are the values" without saying values of WHAT, at WHEN.
  *
  * READ BY `test/approver-assurance-vocabulary.mjs`, which fetches this exact version and fails if the
  * served enum and the union below have diverged. **So this constant is not documentation — changing it
  * changes which document the check compares against.** Bump it and the union together, never alone. */
-export const APPROVER_KEY_ASSURANCE_SCHEMA_VERSION = 'v2.7';
+export const REQUIRED_KEY_CUSTODY_SCHEMA_VERSION = 'v2.7';
 
 /** HOW AN APPROVER KEY NAMED IN A CREDENTIAL IS HELD. `actionScope.approvers[].keys[].assurance`,
- * mirroring `delegation/{@link APPROVER_KEY_ASSURANCE_SCHEMA_VERSION}.json`.
+ * mirroring `delegation/{@link REQUIRED_KEY_CUSTODY_SCHEMA_VERSION}.json`.
  *
- * NAMED `ApproverKeyAssurance` AND NOT `ApprovalAssurance`, AFTER rc.8 SHIPPED THE WRONG NAME.
+ * NAMED `RequiredKeyCustody` AND NOT `ApprovalAssurance`, AFTER rc.8 SHIPPED THE WRONG NAME.
  * `op-mcp-payment-server` has an `ApprovalAssurance` meaning something else entirely — what a
  * RESOLUTION'S SIGNATURE establishes about who approved.
  *
@@ -100,9 +100,39 @@ export const APPROVER_KEY_ASSURANCE_SCHEMA_VERSION = 'v2.7';
  * below is `typeof ... [number]`, so there is exactly one place to edit and the check reads the same
  * bytes the type is built from.** A counterparty needing the values at runtime gets them here rather
  * than retyping them. */
-export const APPROVER_KEY_ASSURANCE = ['org-attested', 'operator-held', 'device-bound'] as const;
+export const REQUIRED_KEY_CUSTODY = ['org-attested', 'operator-held', 'device-bound'] as const;
 
-export type ApproverKeyAssurance = typeof APPROVER_KEY_ASSURANCE[number];
+/* ─── WHAT A CREDENTIAL MAY REQUIRE, WHICH IS NOT WHAT A SIGNER CLAIMS ──────────────────────────
+ *
+ * RENAMED FROM `ApproverKeyAssurance` AT rc.14, AND THE OLD NAME ASSERTED SOMETHING THIS DOES NOT
+ * CARRY. Nothing is ASSURED here: a principal states, in advance, what custody a key must be under
+ * before its holder may approve. A constraint has been stated; nothing has been checked. The subject
+ * is KEY CUSTODY, so it now says so. "Assurance" also has a fixed meaning in AI-safety and
+ * regulator-facing work, and reusing it for key custody creates ambiguity where precision is the
+ * product.
+ *
+ * RENAMED WITH ZERO ADOPTERS OUTSIDE THE ESTATE, hours after rc.13 published it. The cost of renaming
+ * a published symbol will never be lower than the day it shipped, and rises monotonically after.
+ *
+ * ─── THREE MEMBERS HERE, FOUR IN THE PAYMENT SERVER, AND THAT IS NOT DRIFT ─────────────────────
+ *
+ * These three mirror the served delegation schema — measured from the published bytes, not assumed:
+ * v2.5 serves ["operator-held","device-bound"] and v2.7 serves
+ * ["org-attested","operator-held","device-bound"]. `op-mcp-payment-server`'s `ClaimedKeyCustody` has a
+ * fourth, `approver-held`, which no schema version defines.
+ *
+ * A REQUIREMENT IS SET BEFORE THE FACT by the party granting authority. A CLAIM IS MADE AT THE TIME
+ * OF THE ACT by the party exercising it. Different facts about different moments, and the MISMATCH
+ * BETWEEN THEM IS EVIDENCE: a signer claiming custody no mandate could require is something a reader
+ * must be able to see. One type covering both would make that unrepresentable — a check that cannot
+ * fail because the shape prevents it.
+ *
+ * SO THIS TYPE MUST NOT TYPE A SIGNER'S CLAIM, and `resolution.ts` does not export a custody type for
+ * that reason. If you are here to reconcile three against four, this is the reason not to.
+ *
+ * THE WIRE FIELD IS UNCHANGED and stays `assurance` inside signed credentials under v2.5 and v2.7.
+ * Renaming it is a schema version; deferred to v2. */
+export type RequiredKeyCustody = typeof REQUIRED_KEY_CUSTODY[number];
 
 /** A refused payment, as the store records it. The signable subset is derived from this by
  * `signableFromRefusal`; this is the shape a reader holds. */

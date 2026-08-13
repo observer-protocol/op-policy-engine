@@ -101,9 +101,9 @@ console.log('\n── the decision-attestation surface is reachable from the ent
   assert('resolutionPayload is exported at rc.13', typeof mod.resolutionPayload === 'function');
   assert('...and RESOLUTION_PAYLOAD_TYPE is the payment server\'s string, NOT renamed to op.enforcement.*',
     mod.RESOLUTION_PAYLOAD_TYPE === 'op.approval.resolution.v1', mod.RESOLUTION_PAYLOAD_TYPE);
-  assert('...and ApproverKeyAssurance is still the ONE assurance vocabulary this package exports',
-    Array.isArray(mod.APPROVER_KEY_ASSURANCE) && mod.ApprovalAssurance === undefined,
-    `APPROVER_KEY_ASSURANCE=${JSON.stringify(mod.APPROVER_KEY_ASSURANCE)}`);
+  assert('...and RequiredKeyCustody is still the ONE assurance vocabulary this package exports',
+    Array.isArray(mod.REQUIRED_KEY_CUSTODY) && mod.ApprovalAssurance === undefined,
+    `REQUIRED_KEY_CUSTODY=${JSON.stringify(mod.REQUIRED_KEY_CUSTODY)}`);
   // THE FUNCTION REFUSES RATHER THAN SIGNING A RECORD THAT DOES NOT SAY WHAT IT SEEMS TO. Asserted
   // here because a reachable constructor that silently accepts a missing actor would be worse than an
   // absent one: a counterparty would rebuild bytes that verify against nothing and blame the signature.

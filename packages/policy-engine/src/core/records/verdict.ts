@@ -60,7 +60,7 @@ export const EVALUATION_VERDICT_PAYLOAD_TYPE = 'op.evaluation.verdict.v3';
  *
  * **That is precisely the collision the rc.9 withdrawal refused**, with `denialDetail` in place of
  * `assurance`, and it would have sat two exports apart in one `index.ts` rather than across two
- * repositories. The remedy is the one this package already applied to `ApproverKeyAssurance`: a name
+ * repositories. The remedy is the one this package already applied to `RequiredKeyCustody`: a name
  * that carries the distinction, and a comment saying what the distinction is.
  *
  * ─── THE TWO EXCLUSIONS, EACH WITH ITS REASON, BECAUSE AN UNEXPLAINED SUBSET IS A GUESS ──────────
@@ -95,7 +95,7 @@ export interface SignedDenialDetail {
  * A reader meeting `Verdict` and `SignableVerdict` two exports apart would reasonably conclude the
  * second is a signable form of the first. It is not, and shipping the name would have made that
  * inference permanent in a package counterparties import. **The defence is this name and this comment,
- * on the `ApproverKeyAssurance` precedent, rather than collapsing two types that answer different
+ * on the `RequiredKeyCustody` precedent, rather than collapsing two types that answer different
  * questions.**
  *
  * `Verdict` answers *"what does this engine conclude about this request"*. This answers *"what did a

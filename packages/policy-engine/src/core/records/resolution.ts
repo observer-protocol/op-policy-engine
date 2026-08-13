@@ -15,11 +15,11 @@
 //   A COLLIDING TYPE MADE PERMANENT — **answered by this package's own later decision, not by me.**
 //   The objection was that `ResolutionActor.assurance` collided with a type of the same name and a
 //   different meaning in the payment server, and that shipping it would make the collision permanent
-//   in a package counterparties import. Since rc.9 this package exports `ApproverKeyAssurance` AS A
-//   NAMED TYPE, plus `APPROVER_KEY_ASSURANCE` as runtime values and its schema version — precisely so
+//   in a package counterparties import. Since rc.9 this package exports `RequiredKeyCustody` AS A
+//   NAMED TYPE, plus `REQUIRED_KEY_CUSTODY` as runtime values and its schema version — precisely so
 //   a counterparty can CHECK an assurance field rather than merely type one. The colliding name was
 //   given a distinguishing one and shipped deliberately. `index.ts` says so itself:
-//   "`ApproverKeyAssurance` is the precedent for both, and it is the precedent this surface already
+//   "`RequiredKeyCustody` is the precedent for both, and it is the precedent this surface already
 //   set." The actor below is typed against that export, so no second meaning of `assurance` enters.
 //
 // ─── A MOVE, NOT A REWRITE, AND THAT IS THE PROPERTY THAT MATTERS ────────────────────────────────
@@ -30,7 +30,7 @@
 // does not alter it. That property is asserted against EXISTING RECORDS, not against new ones, by
 // `op-mcp-payment-server/test/resolution-payload-parity.mjs`.
 import { canonicalise } from '../attestation-jcs.js';
-import type { ApproverKeyAssurance } from './types.js';
+import type { RequiredKeyCustody } from './types.js';
 
 // THE TYPE STRING IS INSIDE THE CANONICALISED BYTES. It is copied from the payment server verbatim,
 // NOT renamed to match this package's other payload types. `op.enforcement.*` would have been the
@@ -42,7 +42,7 @@ export const RESOLUTION_PAYLOAD_TYPE = 'op.approval.resolution.v1';
 export interface ResolutionActor {
   issuer: string;
   approverRef: string;
-  assurance: ApproverKeyAssurance;
+  assurance: RequiredKeyCustody;
 }
 
 /** A resolution as signed. `lapsed` carries no actor and has its own payload — see `lapse.ts`. */
