@@ -170,7 +170,7 @@ export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/recor
 //
 // **The parity result holds only because every signed field is a string, and that condition is enforced
 // by a compile-time assertion in the file rather than by this paragraph.**
-export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, RequiredKeyCustody } from './core/records/types.js';
+export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, RequiredKeyCustody, ClaimedKeyCustody } from './core/records/types.js';
 // THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
 // `assurance` field rather than merely type one needs the list at runtime, and needs to know which
 // served document it corresponds to. Exporting the type alone left both unanswerable from outside.

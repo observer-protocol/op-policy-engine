@@ -127,12 +127,52 @@ export const REQUIRED_KEY_CUSTODY = ['org-attested', 'operator-held', 'device-bo
  * must be able to see. One type covering both would make that unrepresentable — a check that cannot
  * fail because the shape prevents it.
  *
- * SO THIS TYPE MUST NOT TYPE A SIGNER'S CLAIM, and `resolution.ts` does not export a custody type for
- * that reason. If you are here to reconcile three against four, this is the reason not to.
+ * SO THIS TYPE MUST NOT TYPE A SIGNER'S CLAIM. `ClaimedKeyCustody` below exists for that, and
+ * `SignableResolution.actor.assurance` is typed with it. If you are here to reconcile three against
+ * four, this is the reason not to.
+ *
+ * CORRECTED AT rc.15. This paragraph previously read "…and `resolution.ts` does not export a custody
+ * type for that reason", which was true and irrelevant: it does not EXPORT one, it USED one — this
+ * one — on the actor. rc.14 shipped the rule and its violation in the same release, inside the note
+ * written to prevent it. A note that is wrong on arrival is worse than no note, because it answers
+ * "was this considered?" with yes.
  *
  * THE WIRE FIELD IS UNCHANGED and stays `assurance` inside signed credentials under v2.5 and v2.7.
  * Renaming it is a schema version; deferred to v2. */
 export type RequiredKeyCustody = typeof REQUIRED_KEY_CUSTODY[number];
+
+/* ─── WHAT A SIGNER CLAIMS, WHICH IS NOT WHAT A CREDENTIAL REQUIRES ─────────────────────────────
+ *
+ * ADDED AT rc.15. `SignableResolution.actor.assurance` was typed `RequiredKeyCustody` through rc.13
+ * and rc.14 — the vocabulary of what a credential MAY DEMAND — on a field recording what the signing
+ * party SAID when they signed. The two are different facts about different moments:
+ *
+ *   A REQUIREMENT is set BEFORE THE FACT by the party granting authority.
+ *   A CLAIM is made AT THE TIME OF THE ACT by the party exercising it.
+ *
+ * FOUR MEMBERS, NOT THREE, AND THE FOURTH IS THE POINT. `approver-held` is claimable and is in no
+ * published delegation schema — measured from the served bytes: v2.5 serves two values and v2.7 three.
+ * A signer CAN claim a custody level no mandate could have required, and **that mismatch is evidence a
+ * reader must be able to see**. Typing the claim with the requirement vocabulary made it
+ * unrepresentable, which is a check that cannot fail because the shape prevents it.
+ *
+ * SO THE REQUIREMENT TYPE IS NOT WIDENED. `REQUIRED_KEY_CUSTODY` stays at three and keeps mirroring
+ * the schema; the fourth member lives here, where a claim belongs. Collapsing the two would lose the
+ * only fact that makes the pair worth recording separately.
+ *
+ * NO RUNTIME ARRAY IS EXPORTED FOR THIS ONE, deliberately, and the asymmetry with
+ * `REQUIRED_KEY_CUSTODY` is intentional. That array exists so a counterparty can CHECK a credential's
+ * designation against a closed set. Nothing checks a claim against a set: `resolutionPayload` requires
+ * only that the field is a non-empty string, and a claim outside the vocabulary is a fact about the
+ * signer rather than a validation failure. Exporting values here would invite a membership check that
+ * would refuse exactly the records worth looking at. */
+export type ClaimedKeyCustody =
+  | 'org-attested'
+  | 'operator-held'
+  /** The approver is the issuer and the approver holds their own key. Claimable, and designatable by
+   * no published schema version — see the note above. */
+  | 'approver-held'
+  | 'device-bound';
 
 /** A refused payment, as the store records it. The signable subset is derived from this by
  * `signableFromRefusal`; this is the shape a reader holds. */
