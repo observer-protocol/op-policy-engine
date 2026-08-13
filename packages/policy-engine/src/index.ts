@@ -15,7 +15,7 @@ export { verifyCredential, verifyCredentialObject, verifyCredentialCrypto, enfor
 //
 // NAMED ON BOTH SIDES, 2026-08-09, rather than only on the new one. A reader who meets this export
 // first and the signable one later needs the distinction at whichever they reach first, which is the
-// half the `ApproverKeyAssurance` fix got right: the defence is the name AND the comment, in both
+// half the `RequiredKeyCustody` fix got right: the defence is the name AND the comment, in both
 // places. This one answers "what does this engine conclude about this request"; that one answers "what
 // did a named evaluator commit to, in bytes anyone can rebuild".
 export type { Verdict, CredentialChecks } from './core/verify.js';
@@ -126,7 +126,7 @@ export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
 // `resolutionPayload` RETURNS IN rc.13, AND THE rc.9 WITHDRAWAL NOTE BELOW IS LEFT INTACT. Its two
 // objections are answered in `core/records/resolution.ts` rather than deleted here: the adjacency
 // charge was fair and no longer applies, and the `assurance` collision was REAL and was answered by
-// this package's own later export of `ApproverKeyAssurance` under a distinguishing name.
+// this package's own later export of `RequiredKeyCustody` under a distinguishing name.
 export { resolutionPayload, RESOLUTION_PAYLOAD_TYPE } from './core/records/resolution.js';
 export type { SignableResolution, ResolutionActor } from './core/records/resolution.js';
 export { evaluationVerdictPayload, EVALUATION_VERDICT_PAYLOAD_TYPE } from './core/records/verdict.js';
@@ -160,7 +160,7 @@ export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/recor
 //   covers — the `assurance` collision inside one file instead of across two repositories. So it is
 //   named `SignedDenialDetail` and says what it excludes and why. Same for the payload type: this
 //   package exports `Verdict`, the decision AS COMPUTED, so the signed one is
-//   `SignableEvaluationVerdict`, the decision AS SIGNED. `ApproverKeyAssurance` is the precedent for
+//   `SignableEvaluationVerdict`, the decision AS SIGNED. `RequiredKeyCustody` is the precedent for
 //   both, and it is the precedent this surface already set.
 //
 //   TWO CANONICALISERS — measured, not argued. `op-mcp-payment-server/src/jcs.ts`,
@@ -170,11 +170,11 @@ export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/recor
 //
 // **The parity result holds only because every signed field is a string, and that condition is enforced
 // by a compile-time assertion in the file rather than by this paragraph.**
-export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, ApproverKeyAssurance } from './core/records/types.js';
+export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, RequiredKeyCustody } from './core/records/types.js';
 // THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
 // `assurance` field rather than merely type one needs the list at runtime, and needs to know which
 // served document it corresponds to. Exporting the type alone left both unanswerable from outside.
-export { APPROVER_KEY_ASSURANCE, APPROVER_KEY_ASSURANCE_SCHEMA_VERSION } from './core/records/types.js';
+export { REQUIRED_KEY_CUSTODY, REQUIRED_KEY_CUSTODY_SCHEMA_VERSION } from './core/records/types.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';
