@@ -30,7 +30,7 @@
 // does not alter it. That property is asserted against EXISTING RECORDS, not against new ones, by
 // `op-mcp-payment-server/test/resolution-payload-parity.mjs`.
 import { canonicalise } from '../attestation-jcs.js';
-import type { RequiredKeyCustody } from './types.js';
+import type { ClaimedKeyCustody } from './types.js';
 
 // THE TYPE STRING IS INSIDE THE CANONICALISED BYTES. It is copied from the payment server verbatim,
 // NOT renamed to match this package's other payload types. `op.enforcement.*` would have been the
@@ -42,7 +42,10 @@ export const RESOLUTION_PAYLOAD_TYPE = 'op.approval.resolution.v1';
 export interface ResolutionActor {
   issuer: string;
   approverRef: string;
-  assurance: RequiredKeyCustody;
+  /** WHAT THE SIGNER CLAIMED, not what a credential required. Typed `RequiredKeyCustody` through
+   * rc.14, which made a claimable-but-undesignatable custody unrepresentable. See the note on
+   * `ClaimedKeyCustody`. */
+  assurance: ClaimedKeyCustody;
 }
 
 /** A resolution as signed. `lapsed` carries no actor and has its own payload — see `lapse.ts`. */
