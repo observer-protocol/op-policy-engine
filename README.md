@@ -17,7 +17,7 @@ This repository hosts the public specification, JSON Schema, integration guides 
 - **JSON Schema:** [schema/policy.schema.json](./schema/policy.schema.json).
 - **Example policies:** [examples/policy-templates/](./examples/policy-templates/).
 - **npm package:** [`@observer-protocol/policy-engine`](https://www.npmjs.com/package/@observer-protocol/policy-engine) — the evaluator itself (MIT), built from [`packages/policy-engine/`](./packages/policy-engine). Credential verification, `eddsa-jcs-2022` proofs, DID resolution, revocation, mandate evaluation.
-- **Verify a credential:** `npm install @observer-protocol/policy-engine`, then `verifyCredentialObject(credential, config, Date.now())`. Offline — no API key, no call back to Observer.
+- **Verify a credential:** `npm install @observer-protocol/policy-engine@rc`, then `verifyCredentialObject(credential, config, Date.now())`. Offline — no API key, no call back to Observer.
 
 ## What this is
 

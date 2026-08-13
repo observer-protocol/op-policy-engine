@@ -3,6 +3,10 @@
   "private": true,
   "type": "module",
   "description": "Runnable example: verify a published Observer Protocol delegation credential offline.",
-  "scripts": { "start": "node verify.mjs" },
-  "dependencies": { "@observer-protocol/policy-engine": "^0.4.0" }
+  "scripts": {
+    "start": "node verify.mjs"
+  },
+  "dependencies": {
+    "@observer-protocol/policy-engine": "^1.0.0-rc.15"
+  }
 }

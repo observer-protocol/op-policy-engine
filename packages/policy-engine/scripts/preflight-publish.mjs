@@ -34,7 +34,14 @@
 //
 // ─── THE ORDERING THIS ENFORCES IS A CHANGE TO A HUMAN PROCEDURE ─────────────────────────────────
 //
-//     git tag -a v<version> -m "..."  &&  git push origin v<version>  &&  npm publish
+//     git tag -a v<version> -m "..."  &&  git push origin v<version>  &&  npm publish --tag rc
+//
+// `--tag rc` IS NOT OPTIONAL ON THIS LINE, and the bare form was documented here until 2026-08-13.
+// A bare `npm publish` moves the `latest` dist-tag, and this package has been on a release-candidate
+// line since 1.0.0-rc.4. Publishing an rc to `latest` puts every consumer doing a bare
+// `npm install @observer-protocol/policy-engine` onto an unreleased line without asking them.
+// `latest` is held at the last non-rc release deliberately; see RELEASE.md, "Which dist-tag a
+// publish goes to".
 //
 // **Tag, push, THEN publish.** It was publish-then-tag, which is how rc.10 went out untagged. The
 // procedure lives in habits rather than in the repository, which is exactly why it needs a gate.

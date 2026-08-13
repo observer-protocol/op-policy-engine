@@ -21,12 +21,51 @@ was read as if it described runtime, and it does not. Had the disclosure gone ou
 reading, it would have told a counterparty to take a package that would have left them exactly
 as exposed, while believing they were covered. That is why this file exists.
 
+## Which dist-tag a publish goes to, and why `latest` is held back
+
+**Publish with `npm publish --tag rc`. Never bare.**
+
+`package.json` now carries `publishConfig: { "tag": "rc" }`, so the default is structural rather than
+remembered — a bare `npm publish` from this directory goes to `rc`, not `latest`. The flag is kept in
+the documented command anyway, because a reader copying a line should see the decision in it.
+
+**As of 2026-08-13 the registry holds two tags:**
+
+```
+latest  1.0.0-rc.12
+rc      1.0.0-rc.15
+```
+
+**`latest` is deliberately not on the rc line.** A bare `npm install @observer-protocol/policy-engine`
+resolves to `latest`, so moving it would put every such consumer onto a release candidate without their
+asking. This package has been on an rc line since 1.0.0-rc.4; `latest` marks the last version a
+consumer gets by default, and it moves when a non-rc release is cut.
+
+**HOW THIS WAS ESTABLISHED, because until today it was recorded nowhere the repo owns.** Registry state
+shows `rc` at 1.0.0-rc.15 and `latest` at rc.12, and no published version of this package carries a
+`publishConfig` — so rc.13 through rc.15 each used an explicit non-default tag, which follows from
+`latest` still being rc.12 while those versions exist. The command itself was found only in one
+machine's shell history, which has no timestamps: five `npm publish --tag rc` lines under
+`cd packages/policy-engine`, all later than the last bare publish, which sits immediately after
+`git checkout v1.0.0-rc.12`. **That the tag was `rc` specifically for each of rc.13/14/15 is inference
+from those two facts, not a per-publish record** — npm's registry does not expose tag assignment
+per publish to a reader, and the authenticated publisher's audit log would settle it.
+
+That is why this section exists: a decision whose only record is one shell history on one laptop is a
+decision the next publisher will not find.
+
 ## 1.0.0-rc.10 IS PUBLISHED. npm `latest` IS rc.10.
 
 **Published 2026-08-09.** Confirmed from the registry rather than from the publish command's own
-output: `latest` resolves to `1.0.0-rc.10`, and a fresh `npm install @observer-protocol/policy-engine`
-into an empty directory returns the three-value vocabulary and `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`
+output: `latest` resolved to `1.0.0-rc.10`, and a fresh `npm install @observer-protocol/policy-engine`
+into an empty directory returned the three-value vocabulary and `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`
 of `'v2.7'`.
+
+> **STALE ON TWO POINTS, CORRECTED 2026-08-13 RATHER THAN REWRITTEN.** `latest` is now **rc.12**, not
+> rc.10 — see the section above for why it is held there. And `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION`
+> was renamed at rc.14 to `REQUIRED_KEY_CUSTODY_SCHEMA_VERSION`, with `ApproverKeyAssurance` becoming
+> `RequiredKeyCustody`: neither field was *assurance*, and the subject of both is key custody. The
+> paragraph is left standing because it is a dated record of what was true at rc.10.
 
 **This paragraph said the opposite until the publish landed**, and said it deliberately: it read
 *"Nothing below has shipped… until it is published, a counterparty gets rc.9 and the stale vocabulary
