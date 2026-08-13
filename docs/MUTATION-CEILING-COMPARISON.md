@@ -250,3 +250,80 @@ failures, per-suite totals byte-identical to the baseline captured before the
 mutation.
 
 The break is not committed. Only this document is.
+
+## Item 4: two publishing questions, answered from this repository
+
+Read only. No tag was changed and no publish was run.
+
+### a. rc.13 through rc.15, and a `latest` still on rc.12
+
+**On this repository's evidence: `latest` was not moved, and nothing here
+records a decision either way.** There is no artifact in this repository of a
+deliberate publish under an explicit tag.
+
+What was searched, and what it holds:
+
+| where a tag choice would live | what is there |
+| --- | --- |
+| any `--tag` or `dist-tag` string, repo-wide | none, in any `.md`, `.mjs`, `.json`, `.yml` |
+| `publishConfig` in `packages/policy-engine/package.json` | absent |
+| `.npmrc`, at either level | does not exist |
+| CI | there is no `.github/` directory at all |
+| `RELEASE.md` **Checklist**, step 3 | "Publish this package." No tag argument |
+| `scripts/preflight-publish.mjs:37`, the documented command | `git tag -a v<version> -m "..." && git push origin v<version> && npm publish` |
+| `RELEASE.md` release banner | still `## 1.0.0-rc.10 IS PUBLISHED. npm latest IS rc.10.` No mention of rc.11 through rc.15 anywhere in the file |
+| `CHANGELOG.md` | newest entry is `## 1.0.0-rc.12`. No entry for rc.13, rc.14 or rc.15 |
+| commit messages | no commit in any branch mentions a dist-tag or a `latest` decision |
+
+The single command this repository documents is a bare `npm publish`, which
+registers the published version under `latest`. So the procedure written here,
+followed as written, would have moved `latest` to rc.15. It is on rc.12. **The
+registry state is inconsistent with every publish path this repository
+documents**, which is a stronger statement than "no record was kept": there is
+no record, and the only recorded method contradicts the outcome.
+
+The git half of the release ritual did run for all three. `v1.0.0-rc.13`,
+`v1.0.0-rc.14` and `v1.0.0-rc.15` are annotated tags (`git cat-file -t` returns
+`tag`, not `commit`), all dated 2026-08-12, all pushed, and all ancestors of
+`origin/main`, which is exactly what `preflight-publish.mjs` requires. The half
+that left no trace is the npm half.
+
+The boundary in the registry and the boundary in the documentation are the same
+version. `latest` stops at rc.12; `CHANGELOG.md` stops at rc.12; `RELEASE.md`
+stops at rc.10. Three release candidates were tagged, merged and published with
+no changelog entry and no release note.
+
+**What this repository cannot settle.** A `--tag` typed on a command line leaves
+nothing behind in a git repository. So the absence recorded above rules out a
+deliberate, *recorded* tag choice; it cannot rule out an unrecorded one. If
+rc.13 through rc.15 were tagged deliberately, the decision exists only in
+whatever shell ran it, and the note that would have made it checkable was not
+written. Either way the corrective action is the same and it is a decision for
+Boyd, not something to do while holding: move `latest`, or write down why it
+sits on rc.12.
+
+### b. What this repository tells an integrator to install
+
+**A bare package name, in every place it appears. No version, no tag, so the
+default tag decides.**
+
+| file | instruction |
+| --- | --- |
+| `README.md:20` | `npm install @observer-protocol/policy-engine` |
+| `packages/policy-engine/README.md:9` | `npm install @observer-protocol/policy-engine` |
+| `docs/WDK-INTEGRATION.md:17` | `npm install @observer-protocol/policy-engine` |
+| `examples/verify-a-credential/verify.mjs:8` | `npm install @observer-protocol/policy-engine` |
+
+Not one names a version or a tag. An integrator following any of them today
+resolves `latest`, which is rc.12.
+
+The one place a version is declared is the runnable example, and it does not
+name the rc line at all: `examples/verify-a-credential/package.json` declares
+`"@observer-protocol/policy-engine": "^0.4.0"`, with `package-lock.json`
+resolving `0.4.0`. Per `RELEASE.md` under **Declared dependency range**, a caret
+on a `0.x` version pins the minor, so that range excludes every `1.0.0-rc.*`
+build. An integrator who copies the example gets `0.4.0`.
+
+So the three states are three different versions: the documented install gives
+rc.12, the shipped example gives 0.4.0, and downstream runs rc.15. **No
+instruction in this repository yields the version downstream is on.**
