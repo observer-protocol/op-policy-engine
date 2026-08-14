@@ -68,6 +68,15 @@ console.log('\n── the decision-attestation surface is reachable from the ent
   // Value exports, which are not functions and would pass a typeof-function check vacuously.
   assert('FORBIDDEN_ATTESTATION_FIELDS is reachable', mod.FORBIDDEN_ATTESTATION_FIELDS !== undefined);
   assert('ATTESTATION_ESTABLISHES is reachable', mod.ATTESTATION_ESTABLISHES !== undefined);
+  // ─── THE policyRef CONVENTION, WHOSE WHOLE DEFECT WAS THAT IT DID NOT REACH THE ISSUER ─────────
+  //
+  // This one belongs on this list more than anything else on it. The convention existed, was correct,
+  // and was reachable only from the READING side in another repository — so a decider producing an
+  // attestation never met it. An export is a claim that a consumer can reach something, and the
+  // consumer here is the party the guidance instructs. Reachability IS the fix.
+  assert('POLICY_REF_CONVENTION is reachable', mod.POLICY_REF_CONVENTION instanceof Map);
+  assert('...and carries entries, not an empty map', mod.POLICY_REF_CONVENTION?.size > 0);
+  assert('POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF is reachable', mod.POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF === true);
 
   // ─── THE PAYLOAD BUILDERS, WHICH ARE THE WHOLE REASON A COUNTERPARTY IMPORTS THIS PACKAGE ──────
   //
