@@ -2,6 +2,119 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.15
+
+**Type-only. One type added, one field retyped, no runtime behaviour changed and nothing removed.**
+
+### A signer's claim is typed with a claim vocabulary
+
+`ClaimedKeyCustody` is added and exported. `ResolutionActor.assurance` was typed `RequiredKeyCustody`
+through rc.13 and rc.14, which is the vocabulary of what a credential MAY DEMAND, on a field
+recording what the signing party SAID when they signed.
+
+**The requirement type is not widened.** `REQUIRED_KEY_CUSTODY` stays at its three members and keeps
+mirroring the served schema. The fourth value, `approver-held`, is claimable and designatable by no
+published schema version, so it lives on the claim side. A signer can claim a custody level no
+mandate could have required, and that mismatch is evidence a reader must be able to see. Typing the
+claim with the requirement vocabulary made it unrepresentable, which is a check that cannot fail
+because the shape prevents it.
+
+**No runtime array for the claim side, and the asymmetry with `REQUIRED_KEY_CUSTODY` is deliberate.**
+That array exists so a counterparty can check a designation against a closed set. Nothing checks a
+claim against a set: `resolutionPayload` requires only a non-empty string, and a claim outside the
+vocabulary is a fact about the signer rather than a validation failure. Exporting values would invite
+a membership check that refuses exactly the records worth looking at.
+
+### Fixed
+
+- A note in `core/records/types.ts` said this type "must not type a signer's claim, and
+  `resolution.ts` does not export a custody type for that reason". True and irrelevant:
+  `resolution.ts` did not EXPORT one, it USED one. **rc.14 shipped the rule and its violation in the
+  same release, inside the note written to prevent it.** A note wrong on arrival is worse than no
+  note, because it answers "was this considered?" with yes.
+
+### What this release did not carry
+
+No test changed. The release is a type swap plus a new type and its notes, and the types are erased
+at runtime, so there is no runtime behaviour any suite could assert against. **No compile-time
+witness was added either**, so the property that a claim is typed by the claim vocabulary is held by
+the declaration alone and not by anything that would fail if it were reverted. Recorded rather than
+left for someone to notice.
+
+## 1.0.0-rc.14
+
+**BREAKING FOR ANYONE ON rc.13. Three published names are renamed, and rc.13 is the release that
+published them.** Nothing signed changes, and no member of the vocabulary changes.
+
+| rc.13 | rc.14 |
+|---|---|
+| `ApproverKeyAssurance` (type) | `RequiredKeyCustody` |
+| `APPROVER_KEY_ASSURANCE` | `REQUIRED_KEY_CUSTODY` |
+| `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION` | `REQUIRED_KEY_CUSTODY_SCHEMA_VERSION` |
+
+**Neither this nor the payment server's field is assurance, and the word asserts something neither
+carries.** This one is a REQUIREMENT: a principal states in advance what custody a key must be under
+before its holder may approve. A constraint has been stated; nothing has been checked. The subject of
+both is key custody.
+
+The word was also already taken. `assurance` has a fixed meaning in AI-safety and regulator-facing
+work, and Arbis is named as runtime assurance partner on Cambridge, so reusing it here creates
+ambiguity where precision is the product.
+
+**Renamed hours after rc.13 published the name, with zero adopters outside the estate.** The cost of
+renaming a published symbol will never be lower than the day it shipped, and it rises monotonically
+after.
+
+**The wire field stays `assurance` inside signed credentials.** Renaming it is a schema version and
+is deferred. Three members are unchanged and still mirror the served schema, measured from the
+published bytes: v2.5 serves two, v2.7 serves three.
+
+**The three-versus-four is not drift**, and the reason is written at the type: a requirement is set
+before the fact by the party granting authority, a claim is made at the time of the act by the party
+exercising it, and the mismatch between them is evidence. One type covering both would make a claimed
+custody no mandate could require unrepresentable. See rc.15, where that is exactly what had happened.
+
+## 1.0.0-rc.13
+
+**Additive only. Two value exports, two types, nothing removed and no behaviour changed.**
+
+### `resolutionPayload` is published, reversing the rc.9 withdrawal
+
+`resolutionPayload` and `RESOLUTION_PAYLOAD_TYPE`, plus the types `SignableResolution` and
+`ResolutionActor`.
+
+rc.8 exported it and rc.9 withdrew it on two objections. Both are answered rather than reverted, and
+`index.ts` keeps the withdrawal note intact rather than deleting it:
+
+- **Adjacency** was a fair charge and no longer applies. It is here on its own subject: this package
+  publishes the payload constructors a counterparty must rebuild without us, and an approval is the
+  one artifact in the estate that turns on a person's judgement. Refusal, lapse and verdict rebuild
+  offline; approval and denial did not, **so the record a human is accountable for was the one nobody
+  outside could check.**
+- **A colliding type made permanent** was real, and is answered by this package's own later decision.
+  Since rc.9 it exports the approver custody vocabulary as a named type plus runtime values and its
+  schema version, precisely so a counterparty can check that field. The actor is typed against that
+  export, so no second meaning of `assurance` enters. (Those three names are renamed one release
+  later; see rc.14.)
+
+**A move, not a rewrite.** The body is byte-for-byte the payment server's. The type string is copied
+verbatim as `op.approval.resolution.v1` and deliberately NOT renamed to this package's
+`op.enforcement.*` convention: **that field is inside the canonicalised bytes, and the tidier name
+would have invalidated every approval ever signed.** A move must not tidy the thing it moves.
+
+Cherry-picked onto main rather than cut from the branch it was written on, so an unrelated verdict
+payload change did not ride along. A change to a signed payload travels on its own decision.
+
+### The test that pinned the old ruling was inverted, not deleted
+
+`test/public-exports.mjs` asserted the rc.9 ruling that `resolutionPayload` must stay absent. **That
+assertion failed when the ruling changed, which is what it is for.** It is inverted and strengthened
+rather than removed: the rc.9 objection was that a second meaning of `assurance` would enter the
+surface, so it now asserts the type string is the payment server's `op.approval.resolution.v1` and
+not renamed, that one custody vocabulary remains the only one exported, and that the constructor
+refuses to build a payload with no actor. A reachable constructor that silently accepted one would be
+worse than an absent one.
+
 ## 1.0.0-rc.12
 
 **A DEFECT IN rc.11. Two refusals were lost when the verdict payload moved, and rc.11 is weaker than the
