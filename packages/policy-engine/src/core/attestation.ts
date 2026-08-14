@@ -189,8 +189,16 @@ export function assertNoObservation(input: Record<string, unknown>): void {
  * consumer is `op-mcp-payment-server`, which already reads these keys; names invented independently
  * here would have produced records written in one vocabulary and read in another, and — see
  * `capturableLater` — those records could never be corrected. */
-export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: string; capturableLater: boolean }> = new Map([
-  ['clauses', {
+export type PolicyRefConventionField = 'clauses' | 'version' | 'publisherId' | 'retrievedFrom';
+
+/** The entries, as a RECORD keyed by the union, so the compiler requires one per field.
+ *
+ * A `Map` LITERAL WOULD NOT. `new Map([...])` accepts any number of pairs, so a field added to
+ * `PolicyRef` and not documented here would compile, and the guidance would be silently narrower than
+ * the shape it describes — the two-representations defect, arriving as an omission rather than a
+ * mismatch. The record form makes a missing entry a build failure. */
+const POLICY_REF_CONVENTION_ENTRIES: Record<PolicyRefConventionField, { carries: string; why: string; capturableLater: boolean }> = {
+  clauses: {
     carries: "Clause locators in the PUBLISHER'S OWN addressing scheme, as written: 'III.4.e', '4.2'.",
     why:
       'THE PUBLISHER\'S SCHEME, NEVER OURS, AND NEVER A BYTE OFFSET OR A COORDINATE INTO A RENDERING. '
@@ -199,8 +207,8 @@ export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: 
       + 'original. The publisher\'s own numbering is the one the document itself asserts, so it is '
       + 'checkable by a party who has the document and nothing of ours.',
     capturableLater: false,
-  }],
-  ['version', {
+  },
+  version: {
     carries: "The publisher's own version label for the policy document, as the publisher writes it.",
     why:
       'NOT THE THING THAT FIXES THE REFERENCE — `hash` already does that, and this is deliberately NOT '
@@ -210,8 +218,8 @@ export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: 
       + 'against the hash: a publisher who reissues different bytes under the same label has made a '
       + 'statement this attestation records rather than one it corrects.',
     capturableLater: true,
-  }],
-  ['publisherId', {
+  },
+  publisherId: {
     carries: 'Who published the policy document. A resolvable identifier, not a display name.',
     why:
       'THE POLICY IS NOT NECESSARILY THE DECIDER\'S OWN. A third-party administrator decides under a '
@@ -219,8 +227,8 @@ export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: 
       + 'applied. Without this a verifier reading the attestation cannot tell an internal policy from an '
       + 'imposed one, which is the distinction a diligence reader is there for.',
     capturableLater: true,
-  }],
-  ['retrievedFrom', {
+  },
+  retrievedFrom: {
     carries: 'The retrieval coordinate the decider actually used to obtain the document it read.',
     why:
       'A FACT ABOUT THE RETRIEVAL EVENT, WHICH IS WHY IT DOES NOT SURVIVE THE DECISION. `id` is opaque '
@@ -228,8 +236,38 @@ export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: 
       + 'where the decider went, recorded at the moment it went there. Reconstructing it later yields '
       + 'where someone would go NOW, which is a different claim wearing the same shape.',
     capturableLater: false,
-  }],
-]);
+  },
+};
+
+/** The convention an issuer reads, DERIVED FROM THE RECORD ABOVE RATHER THAN LISTED A SECOND TIME.
+ *
+ * A hand-written second listing is the enumeration this estate keeps finding out of date. There is one
+ * declaration; this is a view of it. */
+export const POLICY_REF_CONVENTION: ReadonlyMap<PolicyRefConventionField, { carries: string; why: string; capturableLater: boolean }> =
+  new Map(Object.entries(POLICY_REF_CONVENTION_ENTRIES) as [PolicyRefConventionField, { carries: string; why: string; capturableLater: boolean }][]);
+
+// ─── THE GUIDANCE AND THE TYPE ARE ONE SET, ENFORCED AT COMPILE TIME ─────────────────────────────
+//
+// SAME CONSTRUCTION AS THE PARITY OBLIGATION IN `records/verdict.ts`, and for a closely related
+// reason. The failure guarded against is not a wrong value; it is TWO REPRESENTATIONS OF ONE
+// VOCABULARY DRIFTING — a field added to `PolicyRef` that the convention never mentions, or a
+// convention entry naming a field the type does not have. Either compiles fine and produces guidance
+// that is quietly wrong about the shape it describes.
+//
+// AND DRIFT HERE IS THE UNRECOVERABLE KIND. A renamed field means issuers write one key while the
+// reading side looks for another, and `clauses` and `retrievedFrom` cannot be captured a second time,
+// so the records issued in the gap are permanently wrong. That is why this is a build failure rather
+// than a test.
+//
+// IF THIS STOPS COMPILING, the fix is to reconcile the two — and, if a NAME changed, to reconcile it
+// against `op-mcp-payment-server` first. Do not widen the guard.
+type OptionalKeysOf<T> = { [K in keyof T]-?: Record<string, never> extends Pick<T, K> ? K : never }[keyof T];
+type SameSet<A, B> = [A] extends [B] ? ([B] extends [A] ? true : Exclude<B, A>) : Exclude<A, B>;
+
+/** `true` while `PolicyRef`'s optional fields are exactly the documented convention. Becomes the
+ * offending field's NAME otherwise, so the compiler error says which one drifted. */
+const _CONVENTION_MATCHES_THE_TYPE: SameSet<OptionalKeysOf<PolicyRef>, PolicyRefConventionField> = true;
+void _CONVENTION_MATCHES_THE_TYPE;
 
 /** THE PLACEMENT RULE AS A VALUE, so it is assertable rather than merely written down.
  *

@@ -139,6 +139,69 @@ console.log('\n── the observation boundary is stated AT the site, not in a n
   assert('...and that a field not on it describing HOW is still a violation', /still a violation/.test(src));
 }
 
+console.log('\n── the policyRef convention states its reason AT the site an issuer meets it ──');
+{
+  // THE SAME CLASS THIS FILE EXISTS FOR. The convention is not enforced — by ruling, over 446 live
+  // records — so there is no refusal to assert against. What exists is a stated rule beside the type,
+  // and the runtime half is in `policy-ref-convention.mjs`. This asserts the half that has no runtime
+  // behaviour: the REASONS, which are what stop the convention being read as decoration and dropped.
+  assert('the precedent is named: an id and a hash name something a verifier cannot reach',
+    /AN ID AND A HASH NAME SOMETHING THAT LIVES SOMEWHERE A VERIFIER CANNOT REACH/.test(prose));
+  assert('...and it is credited to vocabularyRef, where the argument was accepted first',
+    /made for `vocabularyRef` first and accepted here before it was made anywhere else/i.test(prose));
+  // THE LIMIT OF THE PRECEDENT, so it is not over-read into "carry the policy too".
+  assert('...with the difference stated: a vocabulary travels, a policy document does not',
+    /A vocabulary is small enough to TRAVEL/.test(prose) && /these carry a COORDINATE rather than the thing/.test(prose));
+
+  // THE URGENCY, WHICH IS THE WHOLE ARGUMENT FOR A CONVENTION NOTHING ENFORCES. If this sentence goes,
+  // the convention reads as a nice-to-have and adoption stops being time-critical.
+  assert('the source says these are captured at issue time or never',
+    /Every attestation issued without them is permanently without them/.test(prose));
+
+  // THE PLACEMENT RULE, AND SPECIFICALLY THAT THE FAILING SIDE LOOKS LIKE SUCCESS.
+  assert('the placement asymmetry is stated, both directions',
+    /CARRIED WHOLE into the verified block/.test(prose) && /SILENTLY DROPPED from the verified block/.test(prose));
+  assert('...and that the top-level case looks like success, which is what makes it dangerous',
+    /did everything right\s*\*?\s*and will find them nowhere/.test(prose)
+    || /did everything right and will find them nowhere/.test(prose));
+
+  // WHY THE NAMES WERE NOT CHOSEN HERE. A future reader tidying "redundant" fields needs to know the
+  // spelling is load-bearing across a repository boundary and cannot be corrected after issuance.
+  assert('the source records that the names were reconciled against the reading side',
+    /NAMES RECONCILED AGAINST THE READING SIDE/.test(prose));
+
+  // NOT CONSTRAINED, WITH THE MEASUREMENT THAT DECIDED IT. This is the sentence that stops someone
+  // "finishing the job" by making the fields required.
+  assert('the source states the 446-record ruling: convention, not enforcement',
+    /446 live records/.test(prose) && /refuses 100 PERCENT of existing traffic/.test(prose));
+
+  // THE ADJACENT GAP, RECORDED RATHER THAN FIXED. A note nobody asserts is one that survives its own
+  // subject; this is what sends a reader to the decision instead of to a stale claim.
+  assert('the observation boundary gap is recorded beside the convention',
+    /`assertNoObservation` TESTS TOP-LEVEL KEYS ONLY/.test(prose));
+  assert('...and is marked as a separate, named decision rather than a side effect of the guidance',
+    /enforcement arriving as a side effect of a document/.test(prose));
+
+  // THE GUIDANCE IS DERIVED, NOT LISTED TWICE. Asserted over CODE, because this file describes the
+  // defect class it avoids and a regex over the whole source would find the description.
+  assert('the convention entries are a Record keyed by the field union, so a missing entry is a build error',
+    /const POLICY_REF_CONVENTION_ENTRIES: Record<PolicyRefConventionField,/.test(code));
+  assert('...and the exported map is DERIVED from it rather than written a second time',
+    /new Map\(Object\.entries\(POLICY_REF_CONVENTION_ENTRIES\)/.test(code));
+  assert('...and a compile-time assertion binds the guidance to the type',
+    /const _CONVENTION_MATCHES_THE_TYPE: SameSet<OptionalKeysOf<PolicyRef>, PolicyRefConventionField> = true;/.test(code));
+  // AND THE FIELDS ARE OPTIONAL IN THE TYPE, which is what "convention, not constraint" means in code.
+  {
+    const policyRef = src.slice(src.indexOf('export interface PolicyRef {'), src.indexOf('\n}', src.indexOf('export interface PolicyRef {')));
+    for (const f of ['clauses', 'version', 'publisherId', 'retrievedFrom']) {
+      assert(`PolicyRef.${f} is OPTIONAL`, new RegExp(`^\\s{2}${f}\\?:`, 'm').test(policyRef));
+    }
+    for (const f of ['id', 'hash', 'hashMethod']) {
+      assert(`...while PolicyRef.${f} stays REQUIRED`, new RegExp(`^\\s{2}${f}: `, 'm').test(policyRef));
+    }
+  }
+}
+
 console.log('\n── defects that were fixed stay fixed, asserted over CODE not prose ──');
 {
   // THE DEFECT, REPRODUCED. Issuance used to hand `assertNoObservation` a key named
