@@ -121,11 +121,156 @@ export function assertNoObservation(input: Record<string, unknown>): void {
  * happened to use is verifying its own assumption.
  *
  * PER POLICY RATHER THAN PER SCOPE. Clients hold artifacts from different eras and different regimes,
- * and one method fixed across all of them would force a re-hash of documents that are frozen. */
+ * and one method fixed across all of them would force a re-hash of documents that are frozen.
+ *
+ * ─── AND AN ID AND A HASH NAME SOMETHING THAT LIVES SOMEWHERE A VERIFIER CANNOT REACH ────────────
+ *
+ * THE FOUR OPTIONAL FIELDS BELOW ARE A CONVENTION, NOT A CONSTRAINT, and the difference is measured
+ * rather than preferred. A parallel measurement over 446 live records found that EVERY constraint
+ * adding meaning to `policyRef` refuses 100 PERCENT of existing traffic, so the ruling was convention
+ * plus adoption measurement. Nothing here requires them and nothing refuses a `policyRef` without
+ * them. See `POLICY_REF_CONVENTION`, which is where an ISSUER meets this.
+ *
+ * THE ARGUMENT IS THIS FILE'S OWN, MADE FOR `vocabularyRef` FIRST AND ACCEPTED HERE BEFORE IT WAS
+ * MADE ANYWHERE ELSE. `VocabularyRef.values` exists because "`id`, `version` and `hash` named a
+ * vocabulary that lived somewhere else, so nothing could tell whether `outcome` was actually drawn
+ * from it". `verifyDecisionAttestation` states the same thing a third time about a citation: "a
+ * decisionId is an identifier, not a locator". `policyRef` is the remaining place where an id and a
+ * hash are the whole of the reference.
+ *
+ * THE DIFFERENCE FROM `vocabularyRef`, STATED SO THE PRECEDENT IS NOT OVER-READ. A vocabulary is
+ * small enough to TRAVEL, so `values` carries the set itself and membership is checked offline. A
+ * policy document is not, so these carry a COORDINATE rather than the thing. A verifier still cannot
+ * check the clause; what it can now do is find it, which is the whole of what was missing.
+ *
+ * ─── UNTYPED UNTIL 2026-08-14, WHICH DID NOT MEAN UNGUIDED. IT MEANT REFUSED. ────────────────────
+ *
+ * `PolicyRef` was three required strings and nothing else, and TypeScript's excess-property check
+ * refuses an unknown key on a fresh object literal. Measured against this source: an issuer writing
+ * the convention plainly at the call site got
+ *
+ *   TS2353: Object literal may only specify known properties, and 'clauses' does not exist in type
+ *   'PolicyRef'.
+ *
+ * and the same error one level up for the same fields at the document's top level. THE ONLY ROUTE
+ * THAT COMPILED WAS AN INTERMEDIATE `const`, which defeats the check by losing literal freshness.
+ * So the convention was not merely undiscoverable by an issuer; the shape refused the plain way of
+ * meeting it and admitted only the least discoverable one. */
+
+/** ─── WHERE THESE GO IS NOT A STYLE QUESTION. IT IS MEASURED, AND THE TWO PLACEMENTS DIFFER. ──────
+ *
+ * INSIDE `policyRef`. Measured 2026-08-14 against this package's own built artifact:
+ *
+ *   inside policyRef  — signed, and CARRIED WHOLE into the verified block. `verifyDecisionAttestation`
+ *                       copies `policyRef` by reference, so every key an issuer wrote arrives.
+ *   at the top level  — signed, and SILENTLY DROPPED from the verified block. The `attested` variant
+ *                       is built field by field from an enumerated list, and a name not on that list
+ *                       exists in the bytes and nowhere a reader reaches.
+ *
+ * THE TOP-LEVEL CASE IS THE DANGEROUS ONE BECAUSE IT LOOKS LIKE SUCCESS. The document signs, it
+ * verifies, the field is inside the signature, and a decider who put them there did everything right
+ * and will find them nowhere. Only a party holding the raw document recovers them. */
+
+/** WHAT AN ISSUER PUTS IN `policyRef` BEYOND THE THREE REQUIRED FIELDS, AS DATA RATHER THAN PROSE.
+ *
+ * EXPORTED AS DATA FOR THE REASON `DENIAL_TAGS` AND THE CONSTRAINT VOCABULARY ARE: a convention
+ * nothing can enumerate is one nothing can check, and one that lives only in a doc comment on a type
+ * constrains a reader who already agrees. THE PARTY THIS INSTRUCTS IS THE ISSUER, so it is reachable
+ * from the package entry point, beside `issueDecisionAttestation`, and not only in a comment a reader
+ * of the OUTPUT would find.
+ *
+ * `capturableLater` IS THE FIELD THAT DECIDES URGENCY, and it is why this is a convention worth
+ * adopting before it is enforced. A locator and a retrieval coordinate are facts about WHAT WAS READ
+ * AT THE MOMENT OF DECIDING. They cannot be reconstructed afterwards from a document that is still
+ * there, because what is missing is not the document — it is which part of it the decider was looking
+ * at. Every attestation issued without them is permanently without them.
+ *
+ * NAMES RECONCILED AGAINST THE READING SIDE, 2026-08-14, rather than chosen here. The convention's
+ * consumer is `op-mcp-payment-server`, which already reads these keys; names invented independently
+ * here would have produced records written in one vocabulary and read in another, and — see
+ * `capturableLater` — those records could never be corrected. */
+export const POLICY_REF_CONVENTION: ReadonlyMap<string, { carries: string; why: string; capturableLater: boolean }> = new Map([
+  ['clauses', {
+    carries: "Clause locators in the PUBLISHER'S OWN addressing scheme, as written: 'III.4.e', '4.2'.",
+    why:
+      'THE PUBLISHER\'S SCHEME, NEVER OURS, AND NEVER A BYTE OFFSET OR A COORDINATE INTO A RENDERING. '
+      + 'A locator into our rendering of a document is a fact about our rendering: it survives only as '
+      + 'long as that rendering does, and it is meaningless to the publisher and to anyone holding the '
+      + 'original. The publisher\'s own numbering is the one the document itself asserts, so it is '
+      + 'checkable by a party who has the document and nothing of ours.',
+    capturableLater: false,
+  }],
+  ['version', {
+    carries: "The publisher's own version label for the policy document, as the publisher writes it.",
+    why:
+      'NOT THE THING THAT FIXES THE REFERENCE — `hash` already does that, and this is deliberately NOT '
+      + 'the `vocabularyRef.version` rule one type down, which is REQUIRED and refused when empty because '
+      + 'attestations under different vocabulary versions are not comparable. This is carried so a human '
+      + 'chasing the document can ask for it by the name its publisher uses, and it is never checked '
+      + 'against the hash: a publisher who reissues different bytes under the same label has made a '
+      + 'statement this attestation records rather than one it corrects.',
+    capturableLater: true,
+  }],
+  ['publisherId', {
+    carries: 'Who published the policy document. A resolvable identifier, not a display name.',
+    why:
+      'THE POLICY IS NOT NECESSARILY THE DECIDER\'S OWN. A third-party administrator decides under a '
+      + "payor's policy, and `decider` names who decided while nothing else names whose rules were "
+      + 'applied. Without this a verifier reading the attestation cannot tell an internal policy from an '
+      + 'imposed one, which is the distinction a diligence reader is there for.',
+    capturableLater: true,
+  }],
+  ['retrievedFrom', {
+    carries: 'The retrieval coordinate the decider actually used to obtain the document it read.',
+    why:
+      'A FACT ABOUT THE RETRIEVAL EVENT, WHICH IS WHY IT DOES NOT SURVIVE THE DECISION. `id` is opaque '
+      + 'and is never parsed, so it is not required to be dereferenceable and frequently is not. This is '
+      + 'where the decider went, recorded at the moment it went there. Reconstructing it later yields '
+      + 'where someone would go NOW, which is a different claim wearing the same shape.',
+    capturableLater: false,
+  }],
+]);
+
+/** THE PLACEMENT RULE AS A VALUE, so it is assertable rather than merely written down.
+ *
+ * See the placement note above `POLICY_REF_CONVENTION`. Inside `policyRef` is carried whole; at the
+ * document's top level is signed and dropped. This is `true` because the convention's fields go
+ * INSIDE, and a change that makes top-level placement work is the thing that would flip it. */
+export const POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF = true;
+
+/** WHAT `POLICY_REF_CONVENTION` DOES NOT DO, RECORDED BESIDE IT BECAUSE THE GAP IS REACHABLE THROUGH
+ * THE OBJECT IT ASKS ISSUERS TO FILL.
+ *
+ * `assertNoObservation` TESTS TOP-LEVEL KEYS ONLY — it runs `f in input` — so a forbidden name nested
+ * inside `policyRef` is not seen. Measured 2026-08-14 against the built artifact: an attestation whose
+ * `policyRef` carried `rationale` ISSUED, VERIFIED, and the rationale reached the verified block
+ * inside `policyRef`, which is carried whole.
+ *
+ * THAT HOLE PREDATES THIS CONVENTION AND IS NOT CLOSED BY IT. It is recorded here rather than fixed
+ * here for a stated reason: closing it means refusing a shape at issuance, and the ruling over 446
+ * live records was convention plus adoption measurement rather than enforcement on this object. A
+ * refusal added quietly alongside guidance would be enforcement arriving as a side effect of a
+ * document.
+ *
+ * SO IT IS A NAMED, SEPARATE DECISION, and this is the note that makes it one. What raises its
+ * urgency is precisely this convention: telling issuers to put structured facts inside `policyRef`
+ * increases the traffic through the one object the observation boundary does not inspect. */
+export const OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF = true;
+
 export interface PolicyRef {
   id: string;
   hash: string;
   hashMethod: string;
+  /** Clause locators in the publisher's own addressing scheme. OPTIONAL, AND NOTHING REFUSES ITS
+   * ABSENCE. See `POLICY_REF_CONVENTION`, and note `capturableLater: false`. */
+  clauses?: readonly string[];
+  /** The publisher's own version label. NOT the `vocabularyRef.version` rule: carried, never checked,
+   * never required. `hash` is what fixes the reference. */
+  version?: string;
+  /** Who published the policy, which is not necessarily the decider. */
+  publisherId?: string;
+  /** Where the decider actually obtained the document. `capturableLater: false`. */
+  retrievedFrom?: string;
 }
 
 /** THE ENUMERATED SET `outcome` IS DRAWN FROM.

@@ -199,10 +199,23 @@ export type { DidDocument, VerificationMethodEntry } from './core/resolve.js';
 // package. That is the hand-mirror cost this release exists to end: the function moved, the export
 // line did not, and nothing failed. `canonicalise` above is what a deliberate omission looks like,
 // stated with its reason; this had none.
+// `POLICY_REF_CONVENTION` IS EXPORTED BECAUSE THE PARTY IT INSTRUCTS IS OUTSIDE THIS PACKAGE.
+//
+// It reached only the READING side until 2026-08-14: the convention lived in `op-mcp-payment-server`,
+// which consumes attestations, and a decider PRODUCING one never met it. That is undiscoverable by
+// exactly the party it instructs, and the fields it asks for — clause locators, a retrieval
+// coordinate — are captured at issue time or never, so an issuer who does not meet the convention
+// does not merely delay adopting it. Every record they issue is permanently without them.
+//
+// AS DATA, for the reason stated at `DENIAL_TAGS` above: a convention nothing can enumerate is one
+// nothing can check. `POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF` carries the placement rule as a value,
+// because placement behaves asymmetrically downstream and the failing side looks like success.
 export {
   issueDecisionAttestation, verifyDecisionAttestation, acceptDecisionAttestation,
   checkDecisionRefs, checkDeciderArtifactRef, checkOutcomeInVocabulary, checkPaymentBinding,
   assertNoObservation, ObservationRefused, FORBIDDEN_ATTESTATION_FIELDS, ATTESTATION_ESTABLISHES,
+  POLICY_REF_CONVENTION, POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF,
+  OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF,
 } from './core/attestation.js';
 export type {
   DecisionAttestation, PolicyRef, VocabularyRef, DeciderArtifactRef, AttestedAmount,
