@@ -132,6 +132,50 @@ assert a provenance nobody can resolve. **Use `client-defined` and name your own
 version and hash.** The value is declared in the type rather than added later so that publishing a
 starter set is a code change here and not a change to a shape you have already signed.
 
+### Say which clauses you read, inside `policyRef`
+
+`policyRef.id` and `policyRef.hash` fix **which document** was applied. They do not say **which part
+of it** the decider was looking at, and an id plus a hash names something that lives somewhere a
+verifier cannot reach. That is the same argument this package already makes for `vocabularyRef`,
+where the declared set travels with the artifact so membership can be checked offline. A policy
+document is too large to travel, so `policyRef` carries a coordinate instead of the thing.
+
+Four optional fields, exported as data at `POLICY_REF_CONVENTION` so you can enumerate them rather
+than read them here:
+
+```js
+policyRef: {
+  id: 'https://payor.example/policies/v7',
+  hash: 'sha256:…', hashMethod: 'sha256',
+
+  clauses: ['III.4.e'],            // locators in YOUR OWN addressing scheme, as the document writes them
+  version: '2026.3',               // your own version label for the document
+  publisherId: 'did:web:payor.example',   // who published the policy, which is not always the decider
+  retrievedFrom: 'https://payor.example/policies/v7.pdf',  // where you actually fetched it
+}
+```
+
+**Nothing requires these and nothing refuses an attestation without them.** Measured over 446 live
+records, every constraint that added meaning to `policyRef` refused all existing traffic, so this is
+a convention with adoption measured, not a gate.
+
+**Capture `clauses` and `retrievedFrom` at issue time or not at all.** They are facts about what was
+read at the moment of deciding. You cannot reconstruct them later from a document that is still
+there, because what is missing is not the document, it is which part of it was in front of the
+decider. Every attestation you issue without them is permanently without them, which is why this is
+worth adopting before anything enforces it.
+
+**`clauses` uses the publisher's own numbering, never a byte offset or a coordinate into a
+rendering.** A locator into a rendering someone else chose is a fact about that rendering. The
+publisher's own numbering is what the document itself asserts, so it stays checkable by anyone
+holding the original.
+
+**Put them inside `policyRef`, never at the document's top level.** Both placements are signed, and
+they behave differently afterwards: `policyRef` is carried whole into the verified block, while a
+field at the top level is dropped from it. The top-level version is the dangerous one because it
+looks like success. It signs, it verifies, and only a party holding the raw document ever sees the
+fields again. The types refuse top-level placement for you.
+
 Two further limits, so you can size them before building:
 
 - **`did:web` deciders are opt-in.** Pass a resolver as the sixth argument to
