@@ -2,6 +2,52 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.16
+
+**Two refusal-path corrections in `verifyDecisionAttestation`. No shape changed, nothing added or
+removed from the public surface, and every `attested` result is byte-identical to rc.15.**
+
+Both were measured from `op-mcp-payment-server` on 2026-08-14 while establishing the wire contract
+for a 2,000-attestation submission, and both are about what a refusal SAYS rather than what it does.
+
+### A refusal no longer asserts a check that did not run
+
+The assurance branch declines any level other than `self-declared`, and it returns **before signature
+verification**. Its reason said *"its signature and fields are sound"* and closed with *"the same
+attestation re-issued as 'self-declared' verifies today"*. **Both were claims about a check that had
+not executed.** Measured: the result object is byte-identical for a valid and a broken signature, so
+with a broken one the reason was false — and false in the reassuring direction.
+
+The reason now enumerates **what was checked** before that point, states plainly that **the signature
+was not**, says the two cases are not distinguished here, and says whether it would verify at
+`self-declared` is not known from this result.
+
+**The indistinguishability is unchanged and is now asserted rather than tolerated.** The signature
+genuinely was not checked, so two documents differing only in it must produce the same answer. A
+reason that varied would be inventing a distinction it did not make.
+
+### Malformed signature input is refused as malformed, not reported as a forgery
+
+`Buffer.from(s, 'base64')` is lenient: it accepts both alphabets, padded or unpadded, and discards
+unrecognised characters — the literal string `'!!!not base64 at all!!!'` decodes to ten junk bytes
+rather than failing. So a wrong-length or non-base64 signature reached verification, came back false,
+and was reported as *"a signed artifact failing its own check, which is a defect or a forgery"*.
+
+An encoding bug is not a forgery. Over a large batch that message says every document was forged.
+
+A length check now precedes verification, matching what `proof.ts` and consumers' own verdict paths
+already do, and its message names the defect as an encoding or transport problem.
+
+**The state stays `cited-invalid`.** `cited-unresolvable` reads as the more accurate words for "could
+not check" and it PROCEEDS on a consumer's payment path, so routing malformed input there would let a
+garbage signature clear a payment. Naming a defect correctly must not change what the defect permits.
+
+### For consumers
+
+No migration. A consumer seeing `cited-invalid` for malformed input saw it before too; only the
+reason changed. A consumer parsing reason strings — which nothing should — will see new text on both
+paths.
+
 ## 1.0.0-rc.15
 
 **Type-only. One type added, one field retyped, no runtime behaviour changed and nothing removed.**
