@@ -1223,19 +1223,80 @@ export function verifyDecisionAttestation(
   if (att.assurance !== undefined && att.assurance !== 'self-declared') {
     return {
       state: 'cited-unresolvable',
+      // ─── THIS REASON ONCE ASSERTED A CHECK THAT HAD NOT RUN ─────────────────────────────────
+      //
+      // It said "its signature and fields are sound" and closed with "the same attestation re-issued
+      // as 'self-declared' verifies today". **The signature is verified BELOW THIS RETURN.** On this
+      // branch it has not been checked, so both sentences were claims about a check that did not
+      // execute — and measured 2026-08-14, the result object here is byte-identical for a valid and
+      // a broken signature. With a broken one the reason was false, and false in the reassuring
+      // direction: it told a reader the document was sound when nothing had established that.
+      //
+      // THE INDISTINGUISHABILITY IS CORRECT AND STAYS. The signature genuinely was not checked, so
+      // two documents differing only in it must produce the same answer. What changes is that the
+      // reason now SAYS the signature was not checked instead of asserting it was fine.
+      //
+      // SO IT ENUMERATES WHAT RAN. A reader debugging a batch needs to know which checks this result
+      // covers, and "sound" covered nothing it was entitled to claim.
       reason:
         `This attestation declares assurance '${String(att.assurance)}' and this verifier can check only ` +
         `'self-declared'. Establishing anything stronger requires resolving an observer's reference, and ` +
-        `no such integration exists here — so the claim is DECLINED rather than accepted at face value. ` +
-        `This is not a failed check on the document: its signature and fields are sound, and the level ` +
-        `it claims is one nobody here can establish. The same attestation re-issued as 'self-declared' ` +
-        `verifies today.`,
+        `no such integration exists here — so the claim is DECLINED rather than accepted at face value.\n\n` +
+        `WHAT WAS CHECKED before this point: the document carries a decider whose key could be recovered, ` +
+        `its decisionId matches the citation, it states an outcome and a decidedAt, its policyRef and ` +
+        `vocabularyRef are well formed, its deciderArtifactDigest is well formed, and its outcome is a ` +
+        `member of its declared vocabulary.\n\n` +
+        `WHAT WAS NOT CHECKED: THE SIGNATURE. This branch returns before signature verification, so this ` +
+        `result asserts nothing about whether the document was signed by the key it names. A document ` +
+        `with a broken signature and one with a valid signature produce this same answer, and neither ` +
+        `has been distinguished from the other here.\n\n` +
+        `Re-issuing at 'self-declared' is what makes the signature reachable for checking. Whether it ` +
+        `then verifies is not known from this result.`,
+    };
+  }
+
+  // ─── MALFORMED INPUT IS REFUSED AS MALFORMED, NOT REPORTED AS A FAILED VERIFICATION ──────────
+  //
+  // `Buffer.from(s, 'base64')` IS LENIENT. It accepts the standard and URL-safe alphabets, padded or
+  // unpadded, and silently discards characters it does not recognise — measured 2026-08-14, the
+  // literal string `'!!!not base64 at all!!!'` decodes to ten junk bytes rather than failing. So a
+  // signature that is the wrong length, or not base64 at all, reached `verifyEd25519` and came back
+  // false, and was reported by the branch below as "a signed artifact failing its own check, which
+  // is a defect or a forgery".
+  //
+  // AN ENCODING BUG IS NOT A FORGERY, and telling an operator it is names the wrong defect and sends
+  // them to look for the wrong thing. Over a large batch it says every document was forged.
+  //
+  // THE SAME CHECK THE OTHER SIGNED PATHS ALREADY MAKE. `proof.ts` refuses a proofValue that is not
+  // 64 bytes, and the payment server's `verifyPresentedVerdict` refuses a verdict signature that is
+  // not, with the reason stated in its own words: "Refused as malformed rather than checked and
+  // reported as a bad signature, which would name the wrong defect." This is that rule, applied to
+  // the one signed path that did not have it.
+  //
+  // ─── IT STAYS `cited-invalid`, AND THAT IS THE LOAD-BEARING PART ────────────────────────────
+  //
+  // Only the REASON changes category, never the state. `cited-unresolvable` would read as the more
+  // accurate word for "we could not check this" — and it PROCEEDS on the payment path, by the ruling
+  // that a decider's outage is not a payment outage. Routing malformed input there would let a
+  // garbage signature clear a payment, which is a fail-open introduced while fixing a message.
+  // Naming a defect correctly must not change what the defect permits.
+  const sig = Buffer.from(signature, 'base64');
+  if (sig.length !== 64) {
+    return {
+      state: 'cited-invalid',
+      reason:
+        `The attestation signature decodes to ${sig.length} bytes and an ed25519 signature is 64. It is ` +
+        `refused as MALFORMED rather than checked and reported as a bad signature, which would name the ` +
+        `wrong defect: this is an encoding or transport problem in what was submitted, NOT evidence of a ` +
+        `forgery or of a decider signing badly. The signature is expected as base64 of exactly 64 bytes. ` +
+        `Note that base64 decoding is lenient — a value that is not base64 at all decodes to some ` +
+        `shorter buffer rather than failing, and arrives here as a wrong length.`,
     };
   }
 
   let ok = false;
   try {
-    ok = verifyEd25519(canonicalise(att), Buffer.from(signature, 'base64'), publicKey);
+    ok = verifyEd25519(canonicalise(att), sig, publicKey);
   } catch (e) {
     return { state: 'cited-invalid', reason: `The attestation signature could not be checked: ${String(e)}` };
   }
