@@ -166,12 +166,33 @@ console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against 
     denialDetail: { limit: '25.00', observed: '318.74', headroom: '0', unit: 'USDC' } };
   const DENY_BYTES = '{"agentId":"did:web:agent","amountRaw":"318740000","asset":"USDC","breachedConstraint":"tradingMandate.perPaymentCap","counterpartyMatchedAs":"vendor-alpha","decimals":"6","decision":"deny","denialDetail":{"headroom":"0","limit":"25.00","observed":"318.74","unit":"USDC"},"issuerId":"did:web:principal","mandateId":"urn:uuid:m1","notAfter":"2026-08-04T00:00:00.000Z","notBefore":"2026-08-03T00:00:00.000Z","rail":"eip155:8453","type":"op.evaluation.verdict.v3"}';
 
-  a('the moved builder reproduces a real RELEASE verdict\'s bytes exactly',
-    evaluationVerdictPayload(RELEASE_PAYLOAD) === RELEASE_BYTES, evaluationVerdictPayload(RELEASE_PAYLOAD));
-  a('...and a real DENY verdict\'s, which carries the constraint and the detail',
-    evaluationVerdictPayload(DENY_PAYLOAD) === DENY_BYTES, evaluationVerdictPayload(DENY_PAYLOAD));
-  a('the payload type value is unchanged by the rename of its constant',
-    EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3');
+  // ─── THE v3 GOLDENS ARE KEPT, AND THE ASSERTION IS SHARPENED RATHER THAN REPINNED ─────────────
+  //
+  // These two strings are bytes from REAL DRIVEN VERDICTS captured under v3. Editing `v3` to `v4`
+  // inside them would have been one character each and would have thrown away what they are: a
+  // record of what the v3 construction actually emitted, against which the v4 construction can be
+  // compared.
+  //
+  // SO THE CLAIM IS NOW THE STRONGER ONE. A release and a deny differ between v3 and v4 in the
+  // DISCRIMINATOR AND IN NOTHING ELSE — which is the exact property the bump promises for the two
+  // decisions that gain no field, and it cannot be asserted by a repinned literal.
+  //
+  // IT ALSO CORRECTS A CLAIM MADE WHILE SCOPING THIS CHANGE: that releases and denies would
+  // canonicalise IDENTICALLY across the two versions, so only the ten stored escalates were exposed.
+  // `type` is inside the canonical object, so they do not, and the exposed population is all 1,864.
+  // What is true is that the difference is confined to the discriminator, which is what makes trial
+  // verification decisive. Asserted here rather than described.
+  const v4Of = (v3Bytes) => v3Bytes.replace('"op.evaluation.verdict.v3"', '"op.evaluation.verdict.v4"');
+
+  a('a RELEASE differs from its v3 bytes in the DISCRIMINATOR AND NOTHING ELSE',
+    evaluationVerdictPayload(RELEASE_PAYLOAD) === v4Of(RELEASE_BYTES), evaluationVerdictPayload(RELEASE_PAYLOAD));
+  a('...and so does a DENY, which carries the constraint and the detail',
+    evaluationVerdictPayload(DENY_PAYLOAD) === v4Of(DENY_BYTES), evaluationVerdictPayload(DENY_PAYLOAD));
+  a('...so neither v3 byte string is still produced, which is why every stored signature needs its construction',
+    evaluationVerdictPayload(RELEASE_PAYLOAD) !== RELEASE_BYTES
+    && evaluationVerdictPayload(DENY_PAYLOAD) !== DENY_BYTES);
+  a('the payload type value moved with the field set, and only with it',
+    EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v4', EVALUATION_VERDICT_PAYLOAD_TYPE);
 
   // ─── `terminal` IS NOT SIGNED, ASSERTED AGAINST THE REAL REQUEST THAT CARRIED IT ───────────────
   //
@@ -184,7 +205,7 @@ console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against 
       denialDetail: { ...DENY_PAYLOAD.denialDetail, terminal: true } }).includes('terminal'));
   a('...and the bytes are IDENTICAL to the deny without it, so nothing shifted to make room',
     evaluationVerdictPayload({ ...DENY_PAYLOAD,
-      denialDetail: { ...DENY_PAYLOAD.denialDetail, terminal: true } }) === DENY_BYTES);
+      denialDetail: { ...DENY_PAYLOAD.denialDetail, terminal: true } }) === v4Of(DENY_BYTES));
   // Nor can the vocabulary or the advice fields, which are the other three exclusions.
   for (const f of ['tag', 'constraint', 'remedy']) {
     a(`...nor can \`${f}\`, which is excluded because it is not signed`,
@@ -202,6 +223,57 @@ console.log('\n── the EVALUATION VERDICT payload, moved 2026-08-09, against 
     threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, decision: 'escalate' })) !== null);
   a('a release carrying a routingConstraint refuses',
     threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, routingConstraint: 'x' })) !== null);
+
+  // ─── THE v4 PAIR, ON THE SAME RULE AS THE PAIR ABOVE ──────────────────────────────────────────
+  //
+  // BOTH DIRECTIONS, because a field guarded in one direction is a field a caller can attach to the
+  // wrong decision. And REQUIRED on an escalate rather than optional: optional would let an
+  // evaluator omit it and produce a valid escalate whose human-facing figure is unsigned, which is
+  // the defect v4 exists to remove.
+  const ESCALATE_PAYLOAD = { ...RELEASE_PAYLOAD, decision: 'escalate',
+    routingConstraint: 'escalationThreshold', remainingAfterApproval: '1250.00' };
+
+  a('an escalate carrying both conditional fields signs',
+    threw(() => evaluationVerdictPayload(ESCALATE_PAYLOAD)) === null,
+    String(threw(() => evaluationVerdictPayload(ESCALATE_PAYLOAD))?.message).slice(0, 120));
+  a('*** and the figure the approver reads IS in the signed bytes ***',
+    evaluationVerdictPayload(ESCALATE_PAYLOAD).includes('"remainingAfterApproval":"1250.00"'),
+    evaluationVerdictPayload(ESCALATE_PAYLOAD));
+  a('an escalate with NO remainingAfterApproval refuses',
+    threw(() => evaluationVerdictPayload({ ...ESCALATE_PAYLOAD, remainingAfterApproval: undefined })) !== null);
+  a('...and the refusal says why it is not optional',
+    /figure the approver reads/.test(String(threw(() =>
+      evaluationVerdictPayload({ ...ESCALATE_PAYLOAD, remainingAfterApproval: undefined })).message)));
+  a('a RELEASE carrying a remainingAfterApproval refuses, the mirror direction',
+    threw(() => evaluationVerdictPayload({ ...RELEASE_PAYLOAD, remainingAfterApproval: '1.00' })) !== null);
+  a('a DENY carrying one refuses too, so the guard is not escalate-vs-release only',
+    threw(() => evaluationVerdictPayload({ ...DENY_PAYLOAD, remainingAfterApproval: '1.00' })) !== null);
+
+  // A DEPLOYMENT THAT TRACKS NO BUDGET STATES THAT, and this package does not adjudicate the string.
+  // 9092's two PPP mandates declare no ceiling, so every escalate in run 5 carries this value.
+  a('a declared absence is signable, because it is a string like any other',
+    evaluationVerdictPayload({ ...ESCALATE_PAYLOAD, remainingAfterApproval: 'not-declared' })
+      .includes('"remainingAfterApproval":"not-declared"'));
+
+  // ─── THE STRING CHECK, APPLIED TO THE STRUCTURE RATHER THAN THE NEW FIELD ALONE ───────────────
+  //
+  // AND PINNED TO THIS GUARD'S OWN SENTENCE, NOT MERELY TO A REFUSAL. The first version asserted
+  // `e.message` mentioned the field, and REMOVING THE GUARD DID NOT FAIL IT: `canonicalise` refuses
+  // the number one layer down and its message names the field too, as `$.remainingAfterApproval`. So
+  // the assertion was satisfied by the layer the guard exists to pre-empt, and would have reported a
+  // deleted guard as present.
+  //
+  // The guard is kept because it refuses in the PAYLOAD's register — "every signed field is a
+  // string" — rather than in the canonicaliser's, which talks about its own domain and tells the
+  // reader to seek a ruling. But it is defence in depth over a layer that already refuses, and this
+  // comment says so rather than letting the test imply the hole was open.
+  for (const f of ['breachedConstraint', 'routingConstraint', 'remainingAfterApproval']) {
+    const base = f === 'breachedConstraint' ? DENY_PAYLOAD : ESCALATE_PAYLOAD;
+    const e = threw(() => evaluationVerdictPayload({ ...base, [f]: 12 }));
+    a(`a NUMERIC ${f} is refused by THIS guard, not by the canonicaliser beneath it`,
+      e !== null && new RegExp(`Cannot sign a verdict whose ${f} is a number`).test(e.message),
+      String(e?.message).slice(0, 100));
+  }
 
   // ─── THE TWO GUARDS rc.11 DROPPED IN THE MOVE, ASSERTED AT rc.12 ───────────────────────────────
   //
