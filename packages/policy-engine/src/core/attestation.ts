@@ -609,9 +609,25 @@ export function checkDecisionRefs(policyRef: PolicyRef | undefined, vocabularyRe
   }
   if (vocabularyRef!.source !== 'op-starter-set' && vocabularyRef!.source !== 'client-defined') {
     return (
+      // ─── IT NAMED THE SET AND NOT THE VALUE THAT WORKS ─────────────────────────────────────────
+      //
+      // This said "the two values are 'op-starter-set' and 'client-defined'" — and `op-starter-set`
+      // is REFUSED a few lines below, because none is published. A producer following this message
+      // could pick the refused one and discover that in a second round trip, for a field with
+      // exactly one usable value today.
+      //
+      // AND IT IS A LITERAL, WHICH THE PROSE DID NOT MAKE OBVIOUS. Measured 2026-08-15: an external
+      // implementation read "a source that is client-defined" as a DESCRIPTION of a property, put
+      // its own vocabulary NAME here, and then reasoned carefully about namespace collisions in a
+      // field that has no namespace. Second time this convention's prose has produced a wrong
+      // reading in a competent implementation, after `publisherId`. Both are wording defects rather
+      // than reader errors, and the fix is the same: say the literal, and say where the name goes.
       `Cannot issue an attestation whose vocabularyRef.source is ${JSON.stringify(vocabularyRef!.source)}. ` +
-      "The two values are 'op-starter-set' and 'client-defined'; anything else is a free string, and a free " +
-      'string here tells a verifier nothing about whether the vocabulary is standard or bespoke.'
+      "THIS FIELD TAKES A LITERAL, NOT A NAME: use the exact string 'client-defined'. It is not a " +
+      'description of your vocabulary, and it is not where your vocabulary is named — that is ' +
+      '`vocabularyRef.id`. The type declares two values and the other one, `op-starter-set`, is ' +
+      "refused today because no OP starter vocabulary is published, so 'client-defined' is the only " +
+      'accepted value.'
     );
   }
   // `op-starter-set` IS EXPRESSIBLE AND CURRENTLY UNEARNABLE, SO IT IS REFUSED.
@@ -691,10 +707,25 @@ export function checkOutcomeInVocabulary(outcome: unknown, vocabularyRef: Vocabu
 
 export function checkDeciderArtifactRef(ref: DeciderArtifactRef | undefined): string | null {
   if (ref === undefined || ref === null) {
+    // ─── IT NAMED ONE OF THE TWO FORMS, AND IT WAS THE WRONG ONE TO NAME ALONE ──────────────────
+    //
+    // This documented `not-supplied` and nothing else. A producer WITH an artifact was told it must
+    // say so and not what to write, and the only shape in front of it was the one that says it has
+    // none — so the message's single legal escape was a false declaration.
+    //
+    // Measured 2026-08-15: a submitter reading it sent `deciderArtifactRef` rather than
+    // `deciderArtifactDigest` and landed HERE, on the branch for an ABSENT field, and read a message
+    // that named neither the field nor the form it wanted. Those are the two things a producer cannot
+    // guess, and this is the one message positioned to tell them both.
     return (
-      'A decision attestation must state whether the decider supplied an artifact of its own. ' +
-      "Use { state: 'not-supplied', note: <why> } when it did not; omitting the field leaves a reader " +
-      'unable to tell an absent artifact from a dropped one.'
+      'A decision attestation must state whether the decider supplied an artifact of its own, in the ' +
+      'field `deciderArtifactDigest`. There are two forms and which one to use depends only on ' +
+      'whether an artifact exists:\n\n' +
+      "  WITH an artifact     deciderArtifactDigest: { state: 'digest', value: <digest of it> }\n" +
+      "  WITHOUT one          deciderArtifactDigest: { state: 'not-supplied', note: <why not> }\n\n" +
+      'Omitting the field leaves a reader unable to tell an absent artifact from a dropped one. If you ' +
+      'have an artifact, `digest` is the form: declaring `not-supplied` to get past this check would ' +
+      'be a false statement about the decider, signed.'
     );
   }
   if (ref.state === 'digest') {

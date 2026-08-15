@@ -252,5 +252,57 @@ console.log('\n── the refusals travel with the code ──');
   assert('the observation boundary refuses a rationale', threw !== null && threw.constructor.name === 'ObservationRefused');
 }
 
+// ─── A REFUSAL NAMES THE LEGAL FORM, NOT ONLY THE ILLEGAL ONE ───────────────────────────────────
+//
+// WHAT MUST FAIL, STATED BEFORE IT IS CAUSED.
+//
+// M1. The absent-`deciderArtifactDigest` message documents `not-supplied` and nothing else.
+//     EXPECTED FAILURE: a producer WITH an artifact is told it must say so and not what to write,
+//     and the only shape in the message is the one asserting it has none. Its single legal escape
+//     is a false declaration, signed. Measured 2026-08-15: a submitter sent `deciderArtifactRef`
+//     instead of `deciderArtifactDigest`, landed on this branch, and read a message naming neither
+//     the field nor the form it wanted.
+//     BROKEN BY: removing either form, or the field name.
+//
+// M2. The `source` message names a value that is refused.
+//     EXPECTED FAILURE: it says "the two values are 'op-starter-set' and 'client-defined'" while
+//     `op-starter-set` is refused for want of a published starter set — so following the message
+//     costs a second round trip on a field with one usable value. And the prose reads as a
+//     DESCRIPTION: an external implementation put its vocabulary NAME in a field that takes a
+//     literal, then reasoned about namespace collisions in a field with no namespace.
+//     BROKEN BY: naming the set without naming the value that works, or without saying it is a
+//     literal and where the name belongs.
+
+console.log('\n── a refusal names the form that WORKS, not only the one that does not ──');
+{
+  const absent = checkDeciderArtifactRef(undefined);
+  assert('M1: the absent-field message names the field', /`deciderArtifactDigest`/.test(absent), absent);
+  assert('M1: ...and the DIGEST form, which is the branch a producer with an artifact needs',
+    /state: 'digest'/.test(absent) && /value: <digest of it>/.test(absent), absent);
+  assert('M1: ...and the not-supplied form, so both are on offer',
+    /state: 'not-supplied'/.test(absent));
+  assert('M1: ...and warns that declaring not-supplied to pass would be a false statement, signed',
+    /false statement about the decider, signed/.test(absent));
+
+  // MUST STILL PASS, or the message above describes shapes the parser rejects.
+  assert('M1: the digest form it documents is ACCEPTED',
+    checkDeciderArtifactRef({ state: 'digest', value: 'sha256:letter' }) === null);
+  assert('M1: the not-supplied form it documents is ACCEPTED',
+    checkDeciderArtifactRef({ state: 'not-supplied', note: 'the decider issued none' }) === null);
+
+  const named = checkDecisionRefs(INPUT.policyRef, { ...INPUT.vocabularyRef, source: 'ArcadiaB Claims Vocabulary' });
+  assert('M2: a vocabulary NAME in `source` is refused', named !== null);
+  assert('M2: ...and the message says the field takes a LITERAL, not a name',
+    /TAKES A LITERAL, NOT A NAME/.test(named), String(named).slice(0, 120));
+  assert('M2: ...naming the exact string that works', /use the exact string 'client-defined'/.test(named));
+  assert('M2: ...and saying where the vocabulary IS named, which is the reading that went wrong',
+    /that is\s+`vocabularyRef\.id`/.test(String(named).replace(/\s+/g, ' ')) || /`vocabularyRef\.id`/.test(named));
+  assert('M2: ...and that the other declared value is refused today, so nobody tries it',
+    /`op-starter-set`, is\s*refused today/.test(String(named).replace(/\s+/g, ' ')), String(named).slice(-160));
+
+  // MUST STILL PASS: the value the message names is the one the parser accepts.
+  assert('M2: `client-defined` is ACCEPTED', checkDecisionRefs(INPUT.policyRef, INPUT.vocabularyRef) === null);
+}
+
 console.log(`\ndecision-attestation: ${pass} passed, ${fail} failed`);
 if (fail > 0) { console.error('\nFAILURES:'); failures.forEach(f => console.error('  ✗ ' + f)); process.exit(1); }
