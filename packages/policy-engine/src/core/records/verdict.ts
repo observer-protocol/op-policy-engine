@@ -42,12 +42,46 @@
 // The thing creating the obligation and the thing discharging it are in one unit.
 import { canonicalise } from '../attestation-jcs.js';
 
-/** The domain separator. **THE STRING VALUE IS FROZEN; ONLY THE CONSTANT'S NAME CHANGED.**
+/** The domain separator. The identifier is `EVALUATION_VERDICT_PAYLOAD_TYPE` rather than
+ * `VERDICT_PAYLOAD_TYPE` for the same reason the type below is not called `SignableVerdict`.
  *
- * Renaming the value would invalidate every signature in existence over `op.evaluation.verdict.v3`.
- * The identifier is `EVALUATION_VERDICT_PAYLOAD_TYPE` rather than `VERDICT_PAYLOAD_TYPE` for the same
- * reason the type below is not called `SignableVerdict`. */
-export const EVALUATION_VERDICT_PAYLOAD_TYPE = 'op.evaluation.verdict.v3';
+ * ─── v3 → v4 AT rc.18: AN ESCALATE NOW SIGNS `remainingAfterApproval` ───────────────────────────
+ *
+ * **The value moves when and only when the signed field set moves.** It was frozen at v3 across the
+ * constant's rename precisely because renaming the VALUE without changing the SET would have
+ * invalidated every signature in existence for no gain. This change is the opposite case: the set
+ * genuinely changed, so the discriminator must, or one string would cover two constructions and a
+ * verifier could not tell which bytes to rebuild.
+ *
+ * WHAT CHANGED AND WHY. `remainingAfterApproval` — the headroom figure an approver reads before
+ * releasing money — travelled in the body, reached the approver's screen, and was NOT in the signed
+ * set. A deny signed its bound down to four filtered sub-fields; an escalate did not sign the figure
+ * a human decides on. **The path with a human in it had less integrity coverage than the path
+ * without one.**
+ *
+ * WHAT THE BUMP COSTS, MEASURED 2026-08-15 — AND A CORRECTION TO THE FIRST ANSWER GIVEN.
+ *
+ * 1,864 verdict signatures exist across the estate and all re-verify under v3. The scope of the bump
+ * was first reported as **ten** — the stored escalates — on the reasoning that releases and denies
+ * carry no `remainingAfterApproval` and would therefore canonicalise identically under both
+ * versions. **That is wrong, and the mistake is one line above the claim: `type` is INSIDE the
+ * canonical object.** Measured: a v3 release and a v4 release differ, and differ *only* in the
+ * discriminator.
+ *
+ * So the affected population is **all 1,864**, not ten. Every stored signature fails a v4 rebuild.
+ *
+ * WHAT SAVES IT IS THAT NONE OF THEM IS AMBIGUOUS. Because the two constructions never emit the same
+ * bytes for the same field set, trial verification is decisive: rebuild under v3 and the signature
+ * verifies, rebuild under v4 and it does not. The cost is that a verifier must TRY each known
+ * construction rather than READ one — which is precisely the cost the construction stamp removes for
+ * every record written from here on. Run 5 adds 468 escalates.
+ *
+ * AND THE STAMP LANDED FIRST, DELIBERATELY. `op-mcp-payment-server` records the construction on each
+ * stored verdict as of 2026-08-15, read off these bytes. So v4 records say what they are, and the
+ * 1,864 written before it read as `not-recorded` — which is the truth about them, rather than a
+ * backfilled guess. Bumping first would have converted a latent recording gap into an unverifiable
+ * corpus. */
+export const EVALUATION_VERDICT_PAYLOAD_TYPE = 'op.evaluation.verdict.v4';
 
 /** The FOUR `denialDetail` fields a verdict signature covers.
  *
@@ -133,6 +167,27 @@ export interface SignableEvaluationVerdict {
   breachedConstraint?: string;
   /** Required on `escalate`, refused on the other two, in the other direction. */
   routingConstraint?: string;
+  /** THE HEADROOM FIGURE THE APPROVER READS. Required on `escalate`, refused on the other two, on
+   * exactly the same rule as `routingConstraint` — and added at v4 because it was not signed at all.
+   *
+   * ─── WHY IT IS REQUIRED RATHER THAN OPTIONAL ──────────────────────────────────────────────────
+   *
+   * Optional would have closed nothing. An evaluator that omitted it would produce a valid escalate
+   * whose human-facing figure is unsigned, which is the defect this field exists to remove — and
+   * nobody downstream could tell an escalate that had no figure from one whose figure was simply not
+   * covered. Required makes the absence impossible rather than invisible.
+   *
+   * ─── AND A DEPLOYMENT WITH NO BUDGET SAYS SO, IN THIS FIELD ───────────────────────────────────
+   *
+   * `string`, not a number, like every other signed field here — see the note on `decimals`. That is
+   * also what lets a deployment tracking no budget state the fact: an escalate against a mandate
+   * declaring no ceiling carries a value saying no figure was declared, rather than a fabricated
+   * one. `op-mcp-payment-server`'s adapter has recorded the rule this follows since before the field
+   * was signed: *"A number in front of an approver that nobody calculated is worse than no number."*
+   *
+   * This package does not enumerate which strings are acceptable. The decision vocabulary stays
+   * where it is enforced, on the same ruling as `decision` and `assurance`. */
+  remainingAfterApproval?: string;
   /** The signed subset. See `SignedDenialDetail` for what it deliberately does not cover. */
   denialDetail?: SignedDenialDetail;
 }
@@ -189,6 +244,47 @@ export function evaluationVerdictPayload(v: SignableEvaluationVerdict): string {
       `Cannot sign a ${decision} carrying a routingConstraint. Only an escalate asked anybody.`,
     );
   }
+  // ─── THE SAME PAIR FOR `remainingAfterApproval`, ADDED AT v4 ────────────────────────────────────
+  //
+  // BOTH DIRECTIONS OR NEITHER, on the rule this file already states for the two fields above: a
+  // field guarded in one direction is a field a caller can attach to the wrong decision. An escalate
+  // without the figure leaves the human-facing number unsigned, which is what v4 exists to fix; a
+  // release or a deny carrying one asserts a headroom-after-approval for a payment nobody was asked
+  // to approve.
+  if (decision === 'escalate' && v.remainingAfterApproval === undefined) {
+    throw new Error(
+      'Cannot sign an escalate with no remainingAfterApproval. It is the figure the approver reads ' +
+      'before releasing money, and leaving it out of the signature is what v4 exists to stop. A ' +
+      'deployment that tracks no budget states that in this field rather than omitting it — an ' +
+      'absent field and a declared absence are different claims, and only one of them is signed.',
+    );
+  }
+  if (decision !== 'escalate' && v.remainingAfterApproval !== undefined) {
+    throw new Error(
+      `Cannot sign a ${decision} carrying a remainingAfterApproval. Only an escalate asked anybody, ` +
+      'so only an escalate has a headroom that would remain after an approval.',
+    );
+  }
+  // ─── AND THE STRING CHECK IS APPLIED TO THE STRUCTURE, NOT TO THE NEW FIELD ALONE ──────────────
+  //
+  // `denialDetail`'s four members have been type-checked by name since v3, and the three top-level
+  // conditional fields never were: a number reached `canonicalise`, which refuses it one layer down
+  // and reports a TYPE rather than which field was wrong. Adding the check for
+  // `remainingAfterApproval` only would have been the recorded defect exactly — a rule applied to
+  // one field is not applied to the structure — so all three are checked here.
+  //
+  // The required members are already covered by the `SIGNED_FIELDS` loop above, which rejects a
+  // non-string there. This is the conditional half of the same rule.
+  for (const f of ['breachedConstraint', 'routingConstraint', 'remainingAfterApproval'] as const) {
+    const value = v[f];
+    if (value !== undefined && typeof value !== 'string') {
+      throw new Error(
+        `Cannot sign a verdict whose ${f} is a ${typeof value}. Every signed field is a string, ` +
+        'because RFC 8785\'s number rules are where canonicalisers diverge and a value compared as a ' +
+        'number here would be compared as text by whoever verifies it.',
+      );
+    }
+  }
   // ─── TWO GUARDS RESTORED AT rc.12 AFTER THE MOVE DROPPED THEM ───────────────────────────────────
   //
   // rc.11 moved this construction out of `op-mcp-payment-server` and I verified BYTE PARITY: three
@@ -230,6 +326,7 @@ export function evaluationVerdictPayload(v: SignableEvaluationVerdict): string {
     ...Object.fromEntries(SIGNED_FIELDS.map((f) => [f, (v as unknown as Record<string, string>)[f]])),
     ...(v.breachedConstraint === undefined ? {} : { breachedConstraint: v.breachedConstraint }),
     ...(v.routingConstraint === undefined ? {} : { routingConstraint: v.routingConstraint }),
+    ...(v.remainingAfterApproval === undefined ? {} : { remainingAfterApproval: v.remainingAfterApproval }),
     // ENUMERATED, NEVER SPREAD. A field a caller attached to `denialDetail` cannot reach the signed
         // bytes by any route, which is why `terminal` cannot arrive as a fifth member.
     ...(detail === undefined ? {} : {

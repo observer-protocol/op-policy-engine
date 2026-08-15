@@ -92,8 +92,20 @@ console.log('\n── the decision-attestation surface is reachable from the ent
 
   // THE DOMAIN SEPARATORS, BY VALUE. A renamed constant is survivable; a changed VALUE invalidates
   // every signature already written over it, so the value is pinned here rather than the name alone.
-  assert('EVALUATION_VERDICT_PAYLOAD_TYPE is reachable AND unchanged',
-    mod.EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v3', mod.EVALUATION_VERDICT_PAYLOAD_TYPE);
+  //
+  // ─── REPINNED v3 → v4 AT rc.18, WHICH IS WHAT THIS GATE IS FOR ────────────────────────────────
+  //
+  // The pin is not "never change this". It is "changing this cannot happen quietly". The value moved
+  // because the SIGNED FIELD SET moved — an escalate now signs `remainingAfterApproval` — and a
+  // discriminator that stayed at v3 would leave one string covering two constructions, which is the
+  // condition a verifier cannot resolve.
+  //
+  // WHAT MUST ACCOMPANY A MOVE, AND DID: consumers stamp the construction on each stored record
+  // (`op-mcp-payment-server`, 2026-08-15) BEFORE the bump, so v4 records say what they are and
+  // earlier ones read as not-recorded rather than being backfilled with a guess. A bump landing
+  // without that would make every stored signature a signature over an unstated construction.
+  assert('EVALUATION_VERDICT_PAYLOAD_TYPE is reachable AND pinned',
+    mod.EVALUATION_VERDICT_PAYLOAD_TYPE === 'op.evaluation.verdict.v4', mod.EVALUATION_VERDICT_PAYLOAD_TYPE);
   assert('REFUSAL_PAYLOAD_TYPE is reachable', mod.REFUSAL_PAYLOAD_TYPE !== undefined);
   assert('LAPSE_PAYLOAD_TYPE is reachable', mod.LAPSE_PAYLOAD_TYPE !== undefined);
 
