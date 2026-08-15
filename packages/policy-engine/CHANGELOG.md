@@ -2,6 +2,49 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.17
+
+**Two refusal messages reworded. No shape changed, nothing is accepted or refused differently, and
+every signature that verified under rc.16 verifies here.**
+
+Both were measured from the first external implementation to build against this specification. Both
+are wording defects rather than reader errors, and both cost round trips a correct message would not
+have.
+
+### A refusal names the form that works, not only the one that does not
+
+The absent-`deciderArtifactDigest` message documented `{ state: 'not-supplied', note }` and nothing
+else. **A producer WITH an artifact was told it must say so and not what to write** — and the only
+shape in the message asserted it had none, so its single legal escape was a false declaration,
+signed.
+
+It also named no field. A submitter sent `deciderArtifactRef` — a reasonable lower-casing of the
+exported type name `DeciderArtifactRef` — which leaves the field **absent**, landed on this branch,
+and read a message giving neither the field name nor the form they needed.
+
+Now names the field and **both** forms, and says that declaring `not-supplied` to get past the check
+would be a false statement about the decider.
+
+### `vocabularyRef.source` takes a literal, and the message now says so
+
+The refusal said *"the two values are 'op-starter-set' and 'client-defined'"* — naming a set that
+includes a value **refused a few lines below**, because no OP starter vocabulary is published. A
+producer following it could pick the refused one and discover that on a second round trip, for a
+field with exactly one usable value.
+
+And the prose read as a **description**. An external implementation read *"a source that is
+client-defined"* as a property of its vocabulary, put the vocabulary's **name** there, and then
+reasoned carefully about namespace collisions in a field that has no namespace.
+
+Now says the field takes a **literal, not a name**, gives the exact string, says where the vocabulary
+**is** named (`vocabularyRef.id`), and says the other declared value is refused today.
+
+### For consumers
+
+No migration and no behaviour change. A producer whose documents were accepted under rc.16 is
+unaffected. Only the text of two refusals differs, and both now name the accepted value rather than
+describing the field's purpose.
+
 ## 1.0.0-rc.16
 
 **Two refusal-path corrections in `verifyDecisionAttestation`. No shape changed, nothing added or
