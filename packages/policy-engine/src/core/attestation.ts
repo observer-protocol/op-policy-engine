@@ -45,6 +45,7 @@
  * IF YOU ARE ADDING A FIELD TO THIS TYPE, the question is not whether it is useful. It is whether it
  * describes WHAT was decided or HOW. The second is the line above. */
 import { canonicalise } from './attestation-jcs.js';
+import { refuseWrongDidKeyWidth } from './did-key.js';
 
 // `DecisionAttestationInput` WAS DELETED HERE, 2026-08-04, and what it cost is worth recording.
 //
@@ -1184,7 +1185,24 @@ export function verifyDecisionAttestation(
     publicKey = Buffer.from(resolved);
   } else if (decider.startsWith('did:key:z')) {
     const raw = decodeDidKey(decider);
+    // ─── A CALLER'S WRONG WIDTH IS NOT A FACT ABOUT THE DECIDER ───────────────────────────────
+    //
+    // `decodeDidKey` wants 34 multicodec-prefixed bytes; `resolveDeciderDidWeb`, the parameter
+    // beside it, wants 32 raw. Both are typed `(did: string) => Uint8Array | undefined`, so a caller
+    // has nothing but memory to tell them apart — and until 2026-08-16 the 32-byte return and a
+    // genuinely malformed DID produced the SAME sentence below.
+    //
+    // Measured on a constructed decider passing six independent checks whose signature verifies
+    // under `node:crypto`: the engine answered "The decider is not a well-formed ed25519 did:key",
+    // which is false of the artifact. It also meant the engine could not distinguish a caller error
+    // from a bad DID in its own logs, so the failure was invisible to the party able to fix it.
+    //
+    // THIS THROWS RATHER THAN RETURNING A STATE. See `refuseWrongDidKeyWidth`: a caller's mistake
+    // must not be recordable as evidence about a payment.
+    refuseWrongDidKeyWidth(raw, 'decodeDidKey');
     if (raw === undefined || raw.length !== 34 || raw[0] !== DID_KEY_ED25519_PREFIX[0] || raw[1] !== DID_KEY_ED25519_PREFIX[1]) {
+      // LEFT BYTE-IDENTICAL on the path it is true of, so no committed fixture or published
+      // expectation moves.
       return { state: 'cited-invalid', reason: 'The decider is not a well-formed ed25519 did:key, so no key can be recovered from it.' };
     }
     publicKey = Buffer.from(raw.subarray(2));

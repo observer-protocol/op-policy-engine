@@ -11,8 +11,7 @@ import {
   issueDecisionAttestation, verifyDecisionAttestation, checkDecisionRefs, assertNoObservation,
   POLICY_REF_CONVENTION, POLICY_REF_FIELDS_GO_INSIDE_POLICY_REF,
   OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF,
-  ed25519Verify, base58Decode, base58Encode,
-} from '../dist/index.mjs';
+  ed25519Verify, base58Decode, base58Encode, decodeEd25519DidKey } from '../dist/index.mjs';
 import { generateKeyPairSync, sign as nodeSign } from 'node:crypto';
 
 let pass = 0, fail = 0;
@@ -26,7 +25,10 @@ const { publicKey, privateKey } = generateKeyPairSync('ed25519');
 const raw = publicKey.export({ type: 'spki', format: 'der' }).subarray(-32);
 const DIDKEY = `did:key:z${base58Encode(Buffer.concat([Buffer.from([0xed, 0x01]), raw]))}`;
 const verifyAdapter = (message, signature, pk) => ed25519Verify(pk, Buffer.from(message, 'utf8'), signature);
-const decodeDidKey = (did) => { try { return base58Decode(did.slice('did:key:z'.length)); } catch { return undefined; } };
+// THE SHARED DECODER, NOT A HAND-WRITTEN SLICE. `decodeDidKey` wants the 34-byte multicodec form
+// and `resolveDeciderDidWeb` beside it wants 32 raw; both are typed alike, so the width is
+// selected by FIELD here rather than by remembered arithmetic. See `core/did-key.ts`.
+const decodeDidKey = (did) => decodeEd25519DidKey(did)?.multicodec;
 const signer = {
   deciderDid: async () => DIDKEY,
   sign: async (payload) => nodeSign(null, Buffer.from(payload, 'utf8'), privateKey).toString('base64'),

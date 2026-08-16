@@ -84,6 +84,10 @@ export { appendAudit } from './core/audit.js';
 export { parseConfig } from './core/config.js';
 export { DEFAULT_EVM_TOKENS, DEFAULT_SOLANA_MINTS, SOLANA_PROGRAMS, SOLANA_BENIGN_PROGRAMS } from './core/tokens.js';
 export { base58Encode, base58Decode } from './core/base58.js';
+// ONE DECODER, CONVENTION IN THE NAME AND THE TYPE. Exported because nineteen hand-written
+// instances across two repos each remembered which of two identically-typed neighbours they were
+// feeding. See `core/did-key.ts`.
+export { decodeEd25519DidKey, refuseWrongDidKeyWidth, DidKeyConventionError, type Ed25519DidKey } from './core/did-key.js';
 
 // Low-level pipeline steps — exported so engines that maintain their own inline
 // pipeline (OWS: steps 1–5 + rail-specific step 6) can import from the single
