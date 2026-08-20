@@ -82,6 +82,48 @@ console.log('\n── the payload is a FIXED STRING, not whatever the code produ
   a('the same input twice gives the same bytes', refusalPayload(signableFromRefusal(REFUSAL)) === p);
 }
 
+console.log('\n── v3: the reason discriminant, and the citation the v2 equality dropped ──');
+{
+  // THE SUITE PASSED THE v3 CHANGE WITHOUT EXERCISING IT. The fixture above is an explicit v2
+  // record, so it proved old records rebuild unchanged — which is the right property and is not
+  // coverage of the new one. Every assertion here fails against the pre-v3 build.
+  const V3 = { ...REFUSAL, payloadType: 'op.enforcement.refusal.v3',
+    appliedBound: { ...REFUSAL.appliedBound, reason: 'not-reached' } };
+  const p3 = refusalPayload(signableFromRefusal(V3));
+  a('a v3 refusal carries its reason, inside the signed bytes', p3.includes('"reason":"not-reached"'), p3.slice(0, 200));
+  a('...and names itself v3', p3.includes('op.enforcement.refusal.v3'));
+
+  // THE GATE, IN THE DIRECTION THAT MATTERS. A v2 record must rebuild WITHOUT the reason even when
+  // the object carries one, or every record signed before v3 stops verifying.
+  const V2_WITH_REASON = { ...REFUSAL, appliedBound: { ...REFUSAL.appliedBound, reason: 'not-reached' } };
+  a('a v2 refusal drops a reason it was handed, so old records rebuild byte-identically',
+    refusalPayload(signableFromRefusal(V2_WITH_REASON)) === refusalPayload(signableFromRefusal(REFUSAL)));
+
+  // THE DEFECT THIS VERSION WAS ADDED TO FIX. `citation` was gated on `type === V2`, an equality, so
+  // a v3 record emitted the right token and rebuilt WITHOUT its citation: wrong bytes, read as a bad
+  // signature. This is the regression test for that.
+  const CITED = { state: 'attested', decisionId: 'DICT-1', decider: 'did:key:z6Mkdecider',
+    outcome: 'procede', policyRef: { id: 'https://example.invalid/p', hash: 'sha256:abc', hashMethod: 'sha256' } };
+  const withCite = (type) => refusalPayload(signableFromRefusal({ ...REFUSAL, payloadType: type,
+    attestation: CITED, ...(type === 'op.enforcement.refusal.v3'
+      ? { appliedBound: { ...REFUSAL.appliedBound, reason: 'not-reached' } } : {}) }));
+  a('a v3 refusal carries its citation, which the === v2 equality dropped', withCite('op.enforcement.refusal.v3').includes('"citation"'));
+  a('...and v2 still carries its own', withCite('op.enforcement.refusal.v2').includes('"citation"'));
+  a('...and v1 still does not, because v1 never covered it', !withCite('op.enforcement.refusal.v1').includes('"citation"'));
+
+  // S10: the recorded arm's note, signed on v3 and dropped on v2.
+  const rec = (type) => refusalPayload(signableFromRefusal({ ...REFUSAL, payloadType: type,
+    appliedBound: { state: 'recorded', limit: '100', unit: 'MXN', observed: '250', note: 'effective, not declared' } }));
+  a('a v3 recorded bound signs its note', rec('op.enforcement.refusal.v3').includes('effective, not declared'));
+  a('...and a v2 one does not, so no record written before v3 changes', !rec('op.enforcement.refusal.v2').includes('effective, not declared'));
+
+  // AN UNRECOGNISED REASON IS REFUSED, NOT OMITTED. Omitting it would sign the absence as the claim.
+  let threw = false;
+  try { refusalPayload(signableFromRefusal({ ...REFUSAL, payloadType: 'op.enforcement.refusal.v3',
+    appliedBound: { ...REFUSAL.appliedBound, reason: 'made-up' } })); } catch { threw = true; }
+  a('an unrecognised reason on a v3 refusal is REFUSED rather than dropped', threw);
+}
+
 console.log('\n── a change to any signed field changes the bytes ──');
 {
   const base = refusalPayload(signableFromRefusal(REFUSAL));

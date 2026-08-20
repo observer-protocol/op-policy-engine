@@ -125,7 +125,7 @@ export { jcsBytes } from './core/jcs.js';
 // function, or its export loop is measuring nothing. That control fired on rc.8 when this line briefly
 // exported it, catching a widening past both a ruling and the decision recorded in that file's header.
 export { stripUndefinedDeep } from './core/jcs.js';
-export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2 } from './core/records/refusal.js';
+export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2, REFUSAL_PAYLOAD_TYPE_V3 } from './core/records/refusal.js';
 export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
 // `resolutionPayload` RETURNS IN rc.13, AND THE rc.9 WITHDRAWAL NOTE BELOW IS LEFT INTACT. Its two
 // objections are answered in `core/records/resolution.ts` rather than deleted here: the adjacency
@@ -174,7 +174,7 @@ export type { SignableEvaluationVerdict, SignedDenialDetail } from './core/recor
 //
 // **The parity result holds only because every signed field is a string, and that condition is enforced
 // by a compile-time assertion in the file rather than by this paragraph.**
-export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord, RequiredKeyCustody, ClaimedKeyCustody } from './core/records/types.js';
+export type { Refusal, AppliedBound, AppliedBoundReason, RefusalAuthority, Attribution, SpendRecord, RequiredKeyCustody, ClaimedKeyCustody } from './core/records/types.js';
 // THE VOCABULARY AS VALUES, AND THE SCHEMA VERSION IT MIRRORS. A counterparty who needs to CHECK an
 // `assurance` field rather than merely type one needs the list at runtime, and needs to know which
 // served document it corresponds to. Exporting the type alone left both unanswerable from outside.
