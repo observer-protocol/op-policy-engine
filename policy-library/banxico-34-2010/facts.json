@@ -1,0 +1,317 @@
+{
+  "$schema_note": "Every field a clause reads, with the clause ids that read it. Derived from source/circular-34-2010.pdf sha256 1312c3fd….",
+  "integrity": {
+    "fields_read_by_no_clause": [],
+    "field_references_to_unknown_clauses": [],
+    "clauses_reading_no_field": [
+      "34-2010/3.6/p4/floor"
+    ],
+    "note": "A field read by no clause is an error and would be reported here rather than kept. Clauses listed as reading no field are the DERIVED ones, which compose other clauses' results and read no fact directly; that is expected and is why they are listed rather than treated as a defect."
+  },
+  "fields": [
+    {
+      "field": "notice.type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "robo_o_extravio",
+          "reclamacion_cargo_no_reconocido"
+        ]
+      },
+      "read_by": [
+        "34-2010/3.3/p1/notice-types"
+      ],
+      "note": "Closed at two values by the source's (i)/(ii)."
+    },
+    {
+      "field": "notice.reference",
+      "domain": {
+        "kind": "string",
+        "nullable": false
+      },
+      "read_by": [
+        "34-2010/3.3/p5/receipt-record"
+      ],
+      "note": null
+    },
+    {
+      "field": "notice.received_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "34-2010/3.3/p5/receipt-record",
+        "34-2010/3.6/p4/deadline"
+      ],
+      "note": "The clock start for the fourth-paragraph period. Recorded under 3.3, consumed by 3.6."
+    },
+    {
+      "field": "operation.executed_abroad",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "34-2010/3.6/p5/foreign-deadline"
+      ],
+      "note": "Selects which deadline applies. A case with this field absent cannot be decided under the seventh paragraph."
+    },
+    {
+      "field": "operation.occurred_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "34-2010/3.6/b/time"
+      ],
+      "note": "Minute precision is required by the source, not chosen."
+    },
+    {
+      "field": "operation.acquirer_name",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/c/parties"
+      ],
+      "note": null
+    },
+    {
+      "field": "operation.merchant_name",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/c/parties"
+      ],
+      "note": "The source conjoins acquirer and merchant; one alone does not satisfy inciso c)."
+    },
+    {
+      "field": "operation.auth_factors",
+      "domain": {
+        "kind": "set",
+        "member_domain": {
+          "kind": "enum",
+          "values": [
+            "2.6.a.i_knowledge",
+            "2.6.a.ii_device_or_chip",
+            "2.6.a.iii_biometric",
+            "2.6.a.iv_authorised_other"
+          ]
+        },
+        "min_cardinality_for_2_6_a": 2
+      },
+      "read_by": [
+        "34-2010/2.6/a/two-factor",
+        "34-2010/3.6/a/evidence"
+      ],
+      "note": "Two INDEPENDENT elements. Independence is a property of the pair, not of either member, so a set of size two drawn from one enum value does not satisfy it."
+    },
+    {
+      "field": "operation.auth_factor_ii_dynamic",
+      "domain": {
+        "kind": "boolean",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/2.6/a/two-factor"
+      ],
+      "note": "Sub-item ii carries its own condition (dynamic, non-duplicable, single-use or first-use-only). Read only when a factor of that kind is present."
+    },
+    {
+      "field": "dictamen.made_available_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/p4/deadline",
+        "34-2010/3.6/p7/firmeza"
+      ],
+      "note": "Null means not made available at all, which is a distinct case from made available late."
+    },
+    {
+      "field": "dictamen.channel",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "sucursal",
+          "medio_convenido"
+        ],
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/p4/channel"
+      ],
+      "note": null
+    },
+    {
+      "field": "cardholder.channel_election",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "sucursal",
+          "medio_convenido"
+        ],
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/p4/channel"
+      ],
+      "note": "The requirement is not fixed until this is known. Null makes the channel clause undecidable rather than satisfied."
+    },
+    {
+      "field": "dictamen.signatory_id",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/p4/signatory"
+      ],
+      "note": null
+    },
+    {
+      "field": "issuer.authorised_signatories",
+      "domain": {
+        "kind": "set",
+        "member_domain": {
+          "kind": "string"
+        }
+      },
+      "read_by": [
+        "34-2010/3.6/p4/signatory"
+      ],
+      "note": "An institutional register. The source requires the signatory be `facultado para ello` and does not define the register, so its contents are an institutional fact."
+    },
+    {
+      "field": "dictamen.language_is_plain",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "yes",
+          "no",
+          "not_assessed"
+        ]
+      },
+      "read_by": [
+        "34-2010/3.6/p4/language",
+        "34-2010/3.6/a/explanation"
+      ],
+      "note": "Carried as a judgment with an explicit not_assessed value. A boolean here would force an assessment nobody made."
+    },
+    {
+      "field": "dictamen.evidence_of_factors_present",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "34-2010/3.6/a/evidence"
+      ],
+      "note": null
+    },
+    {
+      "field": "dictamen.verification_method_stated",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "34-2010/3.6/a/verification-method"
+      ],
+      "note": "The component the existing restatement omits. See DIVERGENCE.md D1."
+    },
+    {
+      "field": "dictamen.device_address",
+      "domain": {
+        "kind": "one_of",
+        "alternatives": [
+          {
+            "name": "physical_address",
+            "kind": "string"
+          },
+          {
+            "name": "ip_address",
+            "kind": "string"
+          }
+        ],
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/d/device-address"
+      ],
+      "note": "MULTI-VALUED DOMAIN, required by the source's `o, en su caso`. Either alternative satisfies inciso d). A schema offering only one of the two cannot express a conforming dictamen."
+    },
+    {
+      "field": "issuer.holds_device_address",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "34-2010/3.6/d/device-address"
+      ],
+      "note": "THE CONDITION, and it is a separate fact from the value. `En caso de contar con ella` turns on whether the issuer holds it, which is not observable from the dictamen's silence."
+    },
+    {
+      "field": "expediente.requested",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "34-2010/3.6/p5/expediente-copy"
+      ],
+      "note": null
+    },
+    {
+      "field": "expediente.delivered_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "day",
+        "nullable": true
+      },
+      "read_by": [
+        "34-2010/3.6/p5/expediente-copy"
+      ],
+      "note": null
+    },
+    {
+      "field": "account.charges_posted",
+      "domain": {
+        "kind": "set",
+        "member_domain": {
+          "kind": "enum",
+          "values": [
+            "interes_ordinario",
+            "interes_moratorio",
+            "accesorio_otro"
+          ]
+        }
+      },
+      "read_by": [
+        "34-2010/3.6/p6/no-moratory-interest"
+      ],
+      "note": null
+    },
+    {
+      "field": "charge.derived_from_2_6_a_operation",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "demonstrated",
+          "not_demonstrated",
+          "not_assessed"
+        ]
+      },
+      "read_by": [
+        "34-2010/3.6/p1/recovery-right"
+      ],
+      "note": "`acredite al Tarjetahabiente` is a demonstration to a person. Recorded as a judgment, never derived from the factor count alone."
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "$schema_note": "Clause register for Banxico Circular 34/2010 numeral 3.6 and its referenced dependencies. Derived from source/circular-34-2010.pdf sha256 1312c3fd…, retrieved 2026-08-21.",
+  "decomposition_note": "19 addressable units. The restatement in the estate frames numeral 3.6 as a four-element table (incisos a-d). That count omits the chapeau requirements (channel, signatory, language, the `por lo menos` floor), splits none of inciso a) into its three components, and carries no unit for paragraphs 5, 6 or 7. The difference is not a matter of granularity preference: the four-element framing has no place to record the requirements identified as D1, D2 and D5 in DIVERGENCE.md.",
+  "clauses": [
+    {
+      "id": "34-2010/3.6/p1/recovery-right",
+      "source_locator": "p.13, numeral 3.6, first paragraph",
+      "text_es": "La Emisora únicamente podrá obtener la devolución del monto correspondiente al abono … cuando acredite al Tarjetahabiente que el cargo … derivó de una operación ejecutada de conformidad con lo dispuesto en términos del inciso a) del numeral 2.6.",
+      "assertion": "The issuer may recover a credited amount only if it demonstrates to the cardholder that the charge came from an operation executed under numeral 2.6 inciso a).",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`acredite al Tarjetahabiente` is a demonstration made to a person, and the source sets no evidential threshold a machine could apply.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/2.6/a/two-factor"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/p4/deadline",
+      "source_locator": "p.13, numeral 3.6, fourth paragraph",
+      "text_es": "dentro de un plazo de cuarenta y cinco Días contado a partir de la fecha en la que se haya recibido el aviso a que se refiere el numeral 3.3",
+      "assertion": "The dictamen must be made available within 45 Días counted from the date the numeral 3.3 notice was received.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A date comparison against a recorded receipt date, once the unit of `Días` is fixed; the unit itself is registered as ambiguity A1.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.3/p5/receipt-record"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/p4/channel",
+      "source_locator": "p.13, numeral 3.6, fourth paragraph",
+      "text_es": "en alguna sucursal, o bien, a través de los medios que al efecto haya convenido con el Tarjetahabiente, a elección de este último",
+      "assertion": "The dictamen must be made available in a branch or by means agreed with the cardholder, at the cardholder's election.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Which channel satisfies the rule is determined by an election the cardholder makes, so the requirement is not fixed until that election is known.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/p4/signatory",
+      "source_locator": "p.13, numeral 3.6, fourth paragraph",
+      "text_es": "suscrito por personal de la Emisora facultado para ello",
+      "assertion": "The dictamen must be signed by issuer personnel authorised to sign it.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A membership test of the signatory against the issuer's own authority register; it reads a fact, not a standard.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/p4/language",
+      "source_locator": "p.13, numeral 3.6, fourth paragraph",
+      "text_es": "un dictamen en lenguaje simple y claro",
+      "assertion": "The dictamen must be written in simple and clear language.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`lenguaje simple y claro` is a qualitative standard with no test in the source.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/p4/floor",
+      "source_locator": "p.13, numeral 3.6, fourth paragraph",
+      "text_es": "que contenga, por lo menos, la información siguiente",
+      "assertion": "The listed elements are a minimum, not a complete specification of a conforming dictamen.",
+      "disposition": "DERIVED",
+      "disposition_basis": "It does not test a fact; it governs how the element results compose, and specifically forbids reading all-elements-present as conforming.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/a/evidence",
+        "34-2010/3.6/a/explanation",
+        "34-2010/3.6/a/verification-method",
+        "34-2010/3.6/b/time",
+        "34-2010/3.6/c/parties",
+        "34-2010/3.6/d/device-address"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/a/evidence",
+      "source_locator": "p.13, numeral 3.6, inciso a)",
+      "text_es": "Evidencia de los factores de autenticación utilizados de acuerdo con lo establecido en el inciso a) del numeral 2.6",
+      "assertion": "The dictamen must carry evidence of the authentication factors used, as specified by numeral 2.6 inciso a).",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of an evidence item referring to factors drawn from the 2.6(a) enumeration.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/2.6/a/two-factor"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/a/explanation",
+      "source_locator": "p.13, numeral 3.6, inciso a)",
+      "text_es": "así como la explicación en lenguaje simple y claro de dichos factores",
+      "assertion": "The dictamen must explain those factors in simple and clear language.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Same qualitative standard as the chapeau, applied to a specific component.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/a/evidence"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/a/verification-method",
+      "source_locator": "p.13, numeral 3.6, inciso a)",
+      "text_es": "y la forma en que su verificación se realizó de acuerdo con los procedimientos aplicables a dichos factores de autenticación",
+      "assertion": "The dictamen must state how verification of those factors was carried out under the applicable procedures.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a statement of method; whether the method was adequate is not tested by this clause.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/a/evidence"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/b/time",
+      "source_locator": "p.13, numeral 3.6, inciso b)",
+      "text_es": "Hora y minuto en que se realizó la operación.",
+      "assertion": "The dictamen must state the hour and minute of the operation.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a time value at minute precision.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/c/parties",
+      "source_locator": "p.13, numeral 3.6, inciso c)",
+      "text_es": "Nombre de la Adquirente y del Establecimiento en donde se originó la operación.",
+      "assertion": "The dictamen must name both the acquirer and the merchant where the operation originated.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of two named parties; the conjunction means one of the two does not satisfy it.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/d/device-address",
+      "source_locator": "p.14, numeral 3.6, inciso d)",
+      "text_es": "En caso de contar con ella, la dirección física en la que se encuentra el dispositivo en el que se realizó la operación o, en su caso, dirección del protocolo de internet (IP …) a través de la cual dicho dispositivo haya estado conectado a internet.",
+      "assertion": "Where the issuer holds it, the dictamen must state either the physical address of the device or the IP address through which it was connected.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "`En caso de contar con ella` makes the requirement conditional on the issuer holding the datum, so absence is not a breach unless it is held; and the requirement is satisfied by either of two alternative values.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/p5/foreign-deadline",
+      "source_locator": "p.14, numeral 3.6, fifth paragraph",
+      "text_es": "En caso de reclamaciones relativas a operaciones realizadas en el extranjero, el plazo previsto en el párrafo anterior será de ciento ochenta días naturales.",
+      "assertion": "For claims about operations carried out abroad, the fourth-paragraph period is 180 calendar days instead.",
+      "disposition": "DERIVED",
+      "disposition_basis": "It does not test a fact of its own; it selects which deadline the fourth paragraph imposes, based on where the operation took place.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/p4/deadline"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/p5/expediente-copy",
+      "source_locator": "p.14, numeral 3.6, fifth paragraph",
+      "text_es": "a solicitud del Tarjetahabiente, poner a su disposición y entregar, sin costo alguno, durante el plazo de cuarenta y cinco días naturales siguientes a la entrega del referido dictamen … una copia del expediente",
+      "assertion": "On the cardholder's request, the issuer must provide a free copy of the case file within 45 calendar days following delivery of the dictamen.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "The obligation arises only on request, and its clock starts from delivery of the dictamen rather than from the notice.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/p4/deadline"
+      ]
+    },
+    {
+      "id": "34-2010/3.6/p6/no-moratory-interest",
+      "source_locator": "p.14, numeral 3.6, sixth paragraph",
+      "text_es": "En estos casos no procederá el cobro de intereses moratorios ni de otros accesorios distintos a los intereses ordinarios, generados por la falta del pago del cargo cuyo abono haya sido realizado por la Emisora conforme al numeral 3.4",
+      "assertion": "In these cases the issuer may not charge default interest or other accessories beyond ordinary interest on the credited amount.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A prohibition on a class of charges, testable against the account's posted items.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.6/p7/firmeza",
+      "source_locator": "p.14, numeral 3.6, seventh paragraph",
+      "text_es": "Si transcurrido el plazo a que se refiere el cuarto o quinto párrafo de este numeral, según corresponda, la Emisora no entrega el referido dictamen en los términos señalados, el abono realizado previamente por ésta quedará firme, por lo que no podrá revertirse.",
+      "assertion": "If the applicable period elapses and the issuer has not delivered a conforming dictamen, the credit becomes final and cannot be reversed.",
+      "disposition": "DERIVED",
+      "disposition_basis": "It composes three prior results: which deadline applies, whether it elapsed, and whether what was delivered was `en los términos señalados`. It reads no fact directly.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.6/p4/deadline",
+        "34-2010/3.6/p5/foreign-deadline",
+        "34-2010/3.6/p4/floor",
+        "34-2010/3.6/p4/channel",
+        "34-2010/3.6/p4/signatory",
+        "34-2010/3.6/p4/language"
+      ]
+    },
+    {
+      "id": "34-2010/3.3/p1/notice-types",
+      "source_locator": "p.10, numeral 3.3, first paragraph",
+      "text_es": "avisos de: (i) robo o extravío de la Tarjeta de Crédito correspondiente, o (ii) reclamaciones por cargos a la Cuenta que no reconozcan como propios",
+      "assertion": "The issuer must permit two kinds of notice: theft or loss of the card, and claims for unrecognised charges.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A closed two-value classification of the notice.",
+      "in_force_from": null,
+      "depends_on": []
+    },
+    {
+      "id": "34-2010/3.3/p5/receipt-record",
+      "source_locator": "p.10, numeral 3.3, fifth paragraph",
+      "text_es": "al menos, un número de referencia del aviso, así como la fecha y hora en que esta se recibió",
+      "assertion": "The issuer must give the cardholder a reference number for the notice and the date and time it was received.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a reference and a timestamp; this clause is what makes the 3.6 clock start a recorded fact rather than an inference.",
+      "in_force_from": null,
+      "depends_on": [
+        "34-2010/3.3/p1/notice-types"
+      ]
+    },
+    {
+      "id": "34-2010/2.6/a/two-factor",
+      "source_locator": "pp.5-6, numeral 2.6, inciso a) with sub-items i-iv",
+      "text_es": "Por operaciones en las que, para su realización, requieran al Tarjetahabiente que utilice al menos dos elementos independientes para autenticar las operaciones como autorizadas por este último … Los referidos factores deberán ser de entre los listados a continuación",
+      "assertion": "The operation required at least two independent authentication elements, each drawn from the enumerated list i to iv.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A count of at least two, plus membership of each factor in a closed enumeration. Sub-item ii carries a further condition (dynamic, non-duplicable) that is itself mechanical.",
+      "in_force_from": null,
+      "depends_on": []
+    }
+  ]
+}

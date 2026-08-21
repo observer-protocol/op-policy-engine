@@ -1,0 +1,114 @@
+{
+  "$schema_note": "Points where source/circular-34-2010.pdf does not determine an outcome. `required_resolution` is null on every entry by design: resolving these is an institutional decision, not an encoding decision.",
+  "method_note": "A1 was known before this work began. A2 to A6 were found by reading the source clause by clause and asking, at each, what a case would need that the text does not supply. A1 is not the only one and treating it as the only one understates the position materially: A2 and A3 are each decisive on outcomes, and A2 is arguably more consequential than A1 because it governs the deficient-but-timely case that a dispute process actually generates.",
+  "ambiguities": [
+    {
+      "id": "A1",
+      "clause_id": "34-2010/3.6/p4/deadline",
+      "question": "Is the fourth-paragraph period of `cuarenta y cinco Días` counted in business days or calendar days?",
+      "competing_readings": [
+        {
+          "reading": "Business days",
+          "basis": "`Días` is capitalised, and the definitions section defines `Días Hábiles` as a term of art. Capitalisation in this instrument marks defined terms, so a capitalised `Días` may be a shortened reference to the defined term."
+        },
+        {
+          "reading": "Calendar days",
+          "basis": "The definitions section defines `Días Hábiles`, not `Días`. The fifth paragraph, in the same numeral, says `ciento ochenta días naturales` and `cuarenta y cinco días naturales` in lower case and explicitly natural. A drafter distinguishing the two within one numeral arguably signals that the capitalised bare `Días` is neither."
+        }
+      ],
+      "textual_basis": "p.13 fourth paragraph reads `cuarenta y cinco Días`. p.14 fifth paragraph reads `ciento ochenta días naturales` and `cuarenta y cinco días naturales`. The definitions section (p.1) defines `Días Hábiles` and does not define `Días`.",
+      "materiality": "Decisive. On a 45-unit period the two readings diverge by roughly three weeks, and the seventh paragraph makes firmeza turn on exactly this expiry.",
+      "required_resolution": null
+    },
+    {
+      "id": "A2",
+      "clause_id": "34-2010/3.6/p7/firmeza",
+      "question": "Does `en los términos señalados` in the firmeza paragraph refer to the timing terms only, or to the full content specification of the fourth paragraph?",
+      "competing_readings": [
+        {
+          "reading": "Timing only",
+          "basis": "The sentence opens with the elapse of the period, so `los términos señalados` may refer back to the delivery obligation as timed."
+        },
+        {
+          "reading": "Timing and content",
+          "basis": "`el referido dictamen` refers to the dictamen as specified in the fourth paragraph, which includes the `por lo menos` element floor, the plain-language requirement, the authorised signatory and the channel. On this reading a timely but non-conforming dictamen does not prevent firmeza."
+        }
+      ],
+      "textual_basis": "p.14 seventh paragraph: `la Emisora no entrega el referido dictamen en los términos señalados`.",
+      "materiality": "Decisive for any case where a dictamen was delivered inside the period but is deficient on an element. The two readings give opposite answers on whether the credit becomes final.",
+      "required_resolution": null
+    },
+    {
+      "id": "A3",
+      "clause_id": "34-2010/3.6/p1/recovery-right",
+      "question": "What standard does `acredite al Tarjetahabiente` set, and to whose satisfaction?",
+      "competing_readings": [
+        {
+          "reading": "Delivery of the conforming dictamen is itself the demonstration",
+          "basis": "The fourth paragraph opens `Para efectos del primer párrafo del presente numeral`, tying the dictamen to the first paragraph's demonstration requirement."
+        },
+        {
+          "reading": "The dictamen is necessary but not sufficient",
+          "basis": "The first paragraph requires demonstrating that the charge derived from a 2.6(a) operation. The dictamen is a document that must contain certain elements; containing them is not the same as establishing the fact, and `por lo menos` explicitly declines to make the element list complete."
+        }
+      ],
+      "textual_basis": "p.13 first and fourth paragraphs read together.",
+      "materiality": "Determines whether the recovery right can ever be established mechanically. Under the second reading it cannot.",
+      "required_resolution": null
+    },
+    {
+      "id": "A4",
+      "clause_id": "34-2010/3.6/p4/deadline",
+      "question": "Which event starts the period where more than one notice was presented, or where a notice was presented to an entity other than the issuer?",
+      "competing_readings": [
+        {
+          "reading": "The first qualifying notice",
+          "basis": "The text says `el aviso a que se refiere el numeral 3.3`, definite singular."
+        },
+        {
+          "reading": "The notice the dictamen answers",
+          "basis": "3.3 permits two distinct notice types, and a case may involve both a theft notice and a later unrecognised-charge claim over the same charge."
+        }
+      ],
+      "textual_basis": "p.13 fourth paragraph `contado a partir de la fecha en la que se haya recibido el aviso a que se refiere el numeral 3.3`; p.10 numeral 3.3 first paragraph enumerating two notice types.",
+      "materiality": "Changes the deadline by the interval between the two notices. Not addressed by the source.",
+      "required_resolution": null
+    },
+    {
+      "id": "A5",
+      "clause_id": "34-2010/3.6/d/device-address",
+      "question": "Who determines, and on what evidence, whether the issuer `cuenta con` the device address?",
+      "competing_readings": [
+        {
+          "reading": "Issuer assertion",
+          "basis": "The condition is about the issuer's own holdings, which only the issuer can report."
+        },
+        {
+          "reading": "Demonstrable holding",
+          "basis": "Reading it as issuer assertion makes inciso d) unfalsifiable: an issuer that omits the field and asserts it holds nothing cannot be contradicted from the record."
+        }
+      ],
+      "textual_basis": "p.14 inciso d) `En caso de contar con ella`.",
+      "materiality": "Determines whether inciso d) is a requirement or a self-certification. Does not change outcomes in cases where the address is supplied.",
+      "required_resolution": null
+    },
+    {
+      "id": "A6",
+      "clause_id": "34-2010/3.6/p4/channel",
+      "question": "To whom must the dictamen be made available, given that numeral 3.4 names a different recipient for the same document?",
+      "competing_readings": [
+        {
+          "reading": "Tarjetahabiente throughout",
+          "basis": "3.6's fourth paragraph says `poner a disposición del Tarjetahabiente`, and 3.4's second paragraph also says `entregue al Tarjetahabiente un dictamen`."
+        },
+        {
+          "reading": "Recipient varies by numeral",
+          "basis": "3.4's third paragraph says `La Emisora deberá entregar al Titular el dictamen a que se refiere el párrafo anterior en términos del numeral 3.6`, naming the Titular for a document specified by 3.6."
+        }
+      ],
+      "textual_basis": "p.12 numeral 3.4 second and third paragraphs against p.13 numeral 3.6 fourth paragraph. The instrument treats Titular and Tarjetahabiente as distinct roles throughout.",
+      "materiality": "Determines who can complain that the dictamen was not made available, and therefore who can trigger the firmeza consequence.",
+      "required_resolution": null
+    }
+  ]
+}
