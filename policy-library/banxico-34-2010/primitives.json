@@ -6,7 +6,9 @@
     "references_to_unknown_clauses": [],
     "domain_term_check_note": "Word-boundary matched. An earlier run flagged `distinct_members_at_least` because the substring `card` occurs inside `cardinality`, which is the standard mathematical term and not a domain word. Recorded because a substring check on a term list is exactly the shape that produces a false finding.",
     "coverage_check": "WITHDRAWN AND REPLACED. This object used to carry `clauses_no_primitive_serves`, computed here by asking whether each clause id appeared in some primitive's `used_by` list below. It reported [] while `34-2010/3.6/p5/expediente-copy` was declared under `elapsed_within` and `conditional_requirement` and invoked by neither, so every case table printed 18 rows against a 19 clause register and nothing said so. A `used_by` list is an author's statement of intent: written by hand, never executed, and nothing makes it true. Coverage is now checked by `check-coverage.mjs`, which compares the register against the ids a LIVE EVALUATOR RUN emits, by set equality, reporting missing and extra separately. Shown to fail by deleting the expediente clause from the evaluator: the new check reports MISSING and exits 1, the old one still passed.",
-    "used_by_is_documentation": "`used_by` below stays, and is documentation only. It records which primitive an author INTENDED to serve a clause. It is not evidence that anything calls it and must never again be used as a coverage test."
+    "used_by_is_documentation": "`used_by` below stays, and is documentation only. It records which primitive an author INTENDED to serve a clause. It is not evidence that anything calls it and must never again be used as a coverage test.",
+    "used_by_correction_2026_08_21": "`field_present` no longer names 34-2010/3.6/a/evidence or 34-2010/3.6/a/verification-method. It was wrong: both clauses read a BOOLEAN ASSERTION about the world (`evidence_of_factors_present`, `verification_method_stated`), not a container whose fill state is the question, and clauses.json gives their basis as `Presence of an evidence item`. Applying field_present to them returns `present` for a recorded `false`, which rules a dictamen stating no evidence as conforming and flips 3.6/p4/floor to floor_met and 3.6/p7/firmeza to not_attached. The inline ternary at those two call sites is CORRECT and was left alone; this documentation-only field was the half that was wrong. Measured in ../_primitives/INVENTORY-AUDIT.md.",
+    "e1_closure_2026_08_22": "elapsed_within and conditional_requirement were both widened to close REUSE-LOG E1. Neither is a new primitive. Exactly ONE call site in the estate was narrowing a multi-valued result through the boolean operand, `34-2010/3.6/p5/expediente-copy`, and one more was narrowing held_judgment, `psr-2017/76/1/b/restore`. The other six conditional_requirement call sites pass genuinely two-valued expressions and are untouched, in behaviour and in text."
   },
   "primitives": [
     {
@@ -28,14 +30,21 @@
         {
           "name": "unit",
           "type": "calendar_unit"
+        },
+        {
+          "name": "now",
+          "type": "timestamp",
+          "nullable": true
         }
       ],
       "result_domain": [
         "within",
         "exceeded",
+        "not_yet_due",
+        "overdue",
         "no_end_event"
       ],
-      "description": "Whether an end event fell within a limit of a start event, measured in a named calendar unit. Returns a third value when the end event did not occur, because that is not the same as occurring late.",
+      "description": "Whether an end event fell within a limit of a start event, measured in a named calendar unit. PARAMETERISED 2026-08-22, closing REUSE-LOG E1. When the end event did not occur, the answer depends on whether the period has run, which needs a clock: with `now` supplied it returns `not_yet_due` or `overdue`; without one it returns `no_end_event`, which now means only that the question cannot be answered from these facts. The SAME predicate decides `within` and `not_yet_due`, so the two vocabularies cannot disagree about the boundary.",
       "used_by": [
         "34-2010/3.6/p4/deadline",
         "34-2010/3.6/p5/expediente-copy"
@@ -80,8 +89,6 @@
       ],
       "description": "Whether a value was supplied. Carries no opinion about whether the value is adequate.",
       "used_by": [
-        "34-2010/3.6/a/evidence",
-        "34-2010/3.6/a/verification-method",
         "34-2010/3.6/b/time",
         "34-2010/3.3/p5/receipt-record"
       ]
@@ -129,15 +136,17 @@
         },
         {
           "name": "requirement_result",
-          "type": "any"
+          "type": "requirement_result: true | false | outstanding | undetermined"
         }
       ],
       "result_domain": [
         "satisfied",
         "breached",
-        "not_applicable"
+        "outstanding",
+        "not_applicable",
+        "undetermined"
       ],
-      "description": "Applies a requirement only where a separate precondition holds. Returns a third value when the precondition fails, so that not applicable is distinguishable from satisfied. Conflating the two is the failure this shape exists to prevent.",
+      "description": "Whether a requirement that arises only under a precondition was met. WIDENED 2026-08-22, closing REUSE-LOG E1. The second operand was a boolean, which forced every multi-valued result through two states at the call site and made an obligation outstanding and still in time indistinguishable from one breached. It now takes a CLOSED four-token vocabulary and throws on anything else. It is deliberately NOT coupled to elapsed_within's tokens: mapping a primitive's result domain into these four is the clause's reading, so it stays at the call site.",
       "used_by": [
         "34-2010/3.6/d/device-address",
         "34-2010/3.6/p5/expediente-copy",

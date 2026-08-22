@@ -1,0 +1,114 @@
+{
+  "$schema_note": "Points where SI 2017/752 does not determine an outcome, found by reading the retrieved XML clause by clause. None resolved.",
+  "note": "P6 is the counterpart of the Banxico Dias question in position but not in kind. There the ambiguity was the UNIT of a period. Here the period is unambiguous, 13 months from the debit date, and the open question is whether a second, qualitative limb bars the remedy independently of it. A source can be structurally precise and still leave the operative question open.",
+  "ambiguities": [
+    {
+      "id": "P1",
+      "clause_id": "psr-2017/76/3/fraud-carveout",
+      "question": "The fraud carve-out disapplies paragraph (2) only. Does the refund obligation in paragraph (1) survive with no deadline, or is it suspended?",
+      "readings": [
+        {
+          "reading": "Obligation survives, deadline removed",
+          "basis": "The text disapplies `paragraph (2)` by number and says nothing about paragraph (1). Paragraph (1) is a freestanding `must refund`."
+        },
+        {
+          "reading": "Obligation is suspended while grounds subsist",
+          "basis": "Refunding immediately while notifying under the tipping-off provisions would defeat the purpose of the carve-out, which exists so a provider is not forced to act on a transaction it suspects."
+        }
+      ],
+      "textual_basis": "reg 76(3): `Paragraph (2) does not apply where...`. reg 76(1): `the payment service provider must refund`.",
+      "materiality": "Decisive on every suspected-fraud case. One reading leaves a live obligation with no time limit; the other leaves no obligation at all until grounds fall away.",
+      "required_resolution": null
+    },
+    {
+      "id": "P2",
+      "clause_id": "psr-2017/76/2/deadline",
+      "question": "When does a provider `become aware` of an unauthorised transaction, and whose awareness counts?",
+      "readings": [
+        {
+          "reading": "On receipt of the user's notification under reg 74",
+          "basis": "The two provisions are part of one process and the notification is the event the regulations create."
+        },
+        {
+          "reading": "On any awareness however arising",
+          "basis": "The text says `becomes aware`, not `is notified`, and reg 74 uses the notification language explicitly where it means it. A provider's own fraud monitoring could trigger it first."
+        }
+      ],
+      "textual_basis": "reg 76(2) `the day on which it becomes aware`, against reg 74(1) `notifies the payment service provider`. Different words in adjacent provisions of the same process.",
+      "materiality": "Sets the clock start for the only hard deadline in the refund obligation.",
+      "required_resolution": null
+    },
+    {
+      "id": "P3",
+      "clause_id": "psr-2017/74/2/information-failure",
+      "question": "Where the provider failed to supply Part 6 information, is the whole of reg 74(1) disapplied, or only the 13 month limb?",
+      "readings": [
+        {
+          "reading": "The whole paragraph",
+          "basis": "74(2) says the user is entitled to redress `notwithstanding that the payment service user has failed to notify... as mentioned in that paragraph`, and that paragraph contains both limbs."
+        },
+        {
+          "reading": "The 13 month limb only",
+          "basis": "The mischief is the user not knowing about the transaction because information was withheld. `Without undue delay` runs from awareness, so it is unaffected by the information failure."
+        }
+      ],
+      "textual_basis": "reg 74(1) carries two limbs in one sentence; reg 74(2) refers back to `that paragraph` without distinguishing them.",
+      "materiality": "Determines whether a user who knew and sat on it for two years is still barred where information was also withheld.",
+      "required_resolution": null
+    },
+    {
+      "id": "P4",
+      "clause_id": "psr-2017/76/1/b/restore",
+      "question": "What makes restoration of the account `applicable`?",
+      "readings": [
+        {
+          "reading": "Whenever the debit produced knock-on effects",
+          "basis": "Interest, charges and returned items are the mischief; restoring the state means undoing those too."
+        },
+        {
+          "reading": "Only where the refund alone leaves the account in a different state",
+          "basis": "Reads `where applicable` as a narrow saver for cases the refund does not already cure."
+        }
+      ],
+      "textual_basis": "reg 76(1)(b) `where applicable, restore the debited payment account to the state it would have been in`.",
+      "materiality": "Sets the boundary of the remedy beyond the principal amount.",
+      "required_resolution": null
+    },
+    {
+      "id": "P5",
+      "clause_id": "psr-2017/75/3/instrument-not-sufficient",
+      "question": "`not in itself necessarily sufficient` leaves open what would be sufficient. What must accompany instrument use to discharge the burden?",
+      "readings": [
+        {
+          "reading": "A matter for the tribunal on the whole evidence",
+          "basis": "`necessarily` signals that the question is fact-specific rather than rule-determined."
+        },
+        {
+          "reading": "The reg 75(1) matters, proved separately",
+          "basis": "75(1) enumerates what must be proved; 75(3) then denies that instrument use alone proves them."
+        }
+      ],
+      "textual_basis": "reg 75(3), read against reg 75(1).",
+      "materiality": "Determines whether the burden can ever be discharged from records alone.",
+      "required_resolution": null
+    },
+    {
+      "id": "P6",
+      "clause_id": "psr-2017/74/1/undue-delay",
+      "question": "Does failing to notify `without undue delay`, while still inside 13 months, bar redress on its own?",
+      "readings": [
+        {
+          "reading": "Yes, both limbs are conditions",
+          "basis": "The sentence reads `only if it notifies... without undue delay, and in any event no later than 13 months`. Both are stated as requirements of the same entitlement."
+        },
+        {
+          "reading": "No, the 13 months is the operative bar",
+          "basis": "`and in any event` reads as a longstop qualifying the first limb rather than adding an independent bar."
+        }
+      ],
+      "textual_basis": "reg 74(1), a single sentence carrying both limbs joined by `and in any event`.",
+      "materiality": "Decides whether a judgment clause sits on the path to losing the remedy, or whether the remedy turns only on a date.",
+      "required_resolution": null
+    }
+  ]
+}

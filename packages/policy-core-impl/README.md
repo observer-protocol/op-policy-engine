@@ -44,3 +44,46 @@ npm test            # vitest
 ```
 
 40 tests across 6 files at the time of import.
+
+
+## Missing operands: this layer decides, the policy library does not
+
+There are two bodies of rule logic in this repository and **they resolve a missing operand in
+opposite directions on purpose.** Neither is wrong. Anyone reading one should know the other exists
+before assuming its convention is the house style.
+
+**Here, a missing operand resolves to an outcome, per rule, asymmetrically:**
+
+| rule | operand absent | resolution |
+|---|---|---|
+| `amount-limits` `maxNotionalPerOrder` | no notional hint | **DENY** |
+| `amount-limits` `maxPosition` | no state in context | SKIP |
+| `amount-limits` `dailyDrawdownCap` | always, not implemented | SKIP |
+| `counterparty` `allowList` | no counterparty hint | **DENY** |
+| `counterparty` `blockList` | no counterparty hint | SKIP |
+| `counterparty` `requireIssuerClassIn` | no attestation | SKIP, caller records `evaluatedWithAttestations=false` |
+| `geographic` `allowedJurisdictionsOnly` | jurisdiction unknown | **DENY** |
+| `geographic` `blockedJurisdictions` | jurisdiction unknown | SKIP |
+| `velocity` daily and monthly caps | no state in context | SKIP, deferring to the server-side evaluator |
+
+The organising principle is consistent even though the table looks mixed: **a closed permission list
+fails closed, an open prohibition list fails open, and a stateful rule skips rather than guesses.**
+
+**In `policy-library/`, a missing operand resolves to a THIRD VALUE and no outcome at all.**
+`elapsed_within` returns `no_end_event`, `ordered_before` and `amounts_equal` return
+`missing_operand`, `held_judgment` returns `not_assessed`, `member_of_register` returns
+`no_candidate`, and any composition over an unresolved input returns `undetermined`. Nothing there
+ever converts an absence into a decision.
+
+**Why both are right.** This layer answers *may this proposal proceed*, and something must happen
+next, so an absent operand has to resolve to allow or deny. The policy library answers *what does
+the regulation say about these facts*, where nothing happens next and the answer is the whole
+product. A regulation encoding that guessed on a missing fact would be inventing a finding.
+
+**They cannot meet.** The `policy-library/` encodings import nothing at all and are shipped by no
+package, so no caller reaches both on the same question. If that ever changes, the conversion at the
+boundary is a decision to take explicitly, and the direction that loses information is
+`undetermined` becoming `deny`.
+
+Recorded 2026-08-21. The other half of this note is in
+`policy-library/_primitives/INVENTORY-AUDIT.md`.

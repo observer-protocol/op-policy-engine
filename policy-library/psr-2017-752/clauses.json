@@ -1,0 +1,241 @@
+{
+  "$schema_note": "Payment Services Regulations 2017 (SI 2017/752), regulation 76 and the provisions it depends on. Derived from the XML at legislation.gov.uk, digests in source/PROVENANCE.md. Decomposed WITHOUT consulting the Banxico clause register; primitive attribution was made afterwards, against banxico-34-2010/primitives.json.",
+  "$reuse_classification_withdrawn": "Each clause used to carry `primitive` and `reuse` fields, one primitive per clause, written by hand. Withdrawn 2026-08-21. THE 86% REUSE FIGURE IN FINDINGS.md WAS COMPUTED BY COUNTING THESE FIELDS, which made a hand-authored classification read as a measurement. An execution trace of both evaluators (see ../_primitives/INVENTORY-AUDIT.md) found the `primitive` field names the sole top-level call on 13 of 21 clauses and disagrees on 8: five clauses invoke more primitives than the field recorded, and three declare one that no fixture reaches. `reuse_note` is kept, because it carries authorial reasoning about WHY a shape transferred, which no trace can recover; it is prose and was never a measurement.",
+  "$what_derives_it_now": "NOTHING IN THIS REPOSITORY. The audit's tracer instruments both evaluators and attributes calls to clauses by depth, but it lives in a scratchpad and was not committed, so this repo contains no instrument that derives which primitives a clause invokes. `check-coverage.mjs` derives the clause id SET from a live run and is unaffected by this withdrawal; it never read these fields. No deriver is being invented here to replace them.",
+  "$last_stored_values": {
+    "psr-2017/67/1/consent": {
+      "primitive": "any_present",
+      "reuse": "REUSED"
+    },
+    "psr-2017/67/2/b/form": {
+      "primitive": "member_of_register",
+      "reuse": "REUSED"
+    },
+    "psr-2017/67/2/a/timing": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    },
+    "psr-2017/67/3/withdrawal": {
+      "primitive": "ordered_before",
+      "reuse": "NEW"
+    },
+    "psr-2017/67/4/series-withdrawal": {
+      "primitive": "conjunction_over_results",
+      "reuse": "REUSED"
+    },
+    "psr-2017/74/1/undue-delay": {
+      "primitive": "held_judgment",
+      "reuse": "REUSED"
+    },
+    "psr-2017/74/1/thirteen-months": {
+      "primitive": "elapsed_within",
+      "reuse": "PARAMETERISED"
+    },
+    "psr-2017/74/2/information-failure": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    },
+    "psr-2017/75/1/provider-burden": {
+      "primitive": "conjunction_over_results",
+      "reuse": "REUSED"
+    },
+    "psr-2017/75/2/pisp-burden": {
+      "primitive": "held_judgment",
+      "reuse": "REUSED"
+    },
+    "psr-2017/75/3/instrument-not-sufficient": {
+      "primitive": "open_set_floor",
+      "reuse": "PARAMETERISED"
+    },
+    "psr-2017/75/4/supporting-evidence": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/1/trigger": {
+      "primitive": "conjunction_over_results",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/1/a/refund": {
+      "primitive": "amounts_equal",
+      "reuse": "NEW"
+    },
+    "psr-2017/76/1/b/restore": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/2/practicable": {
+      "primitive": "held_judgment",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/2/deadline": {
+      "primitive": "elapsed_within",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/3/fraud-carveout": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/4/value-date": {
+      "primitive": "ordered_before",
+      "reuse": "NEW"
+    },
+    "psr-2017/76/5/a/aspsp-complies": {
+      "primitive": "conjunction_over_results",
+      "reuse": "REUSED"
+    },
+    "psr-2017/76/5/b/pisp-compensates": {
+      "primitive": "conditional_requirement",
+      "reuse": "REUSED"
+    }
+  },
+  "scope_note": "Boundary set by the source. Reg 76 is `subject to regulations 74 and 75` and turns on whether a transaction was authorised `in accordance with regulation 67`, so 74, 75 and 67 are in. Regulation 72 is referenced BY 75(3) and 75(4) as the subject of a proof burden, two hops from 76 and never as a condition of the refund, so it is excluded and named here rather than silently dropped. Section 333A(2) of the Proceeds of Crime Act 2002 is external primary legislation, not part of this instrument.",
+  "clauses": [
+    {
+      "id": "psr-2017/67/1/consent",
+      "source": "reg 67(1)",
+      "text_en": "A payment transaction is authorised only if the payer has given consent to that transaction or to a series of which it forms part.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "Two alternatives, either of which satisfies: consent to the transaction, or consent to a series. Exactly the shape inciso d) needed."
+    },
+    {
+      "id": "psr-2017/67/2/b/form",
+      "source": "reg 67(2)(b)",
+      "text_en": "Consent must be given in the form and in accordance with the procedure agreed between payer and provider.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "The agreed forms are an institutional register, exactly as the authorised signatory list was."
+    },
+    {
+      "id": "psr-2017/67/2/a/timing",
+      "source": "reg 67(2)(a)",
+      "text_en": "Consent may be given before execution, or after execution if that is agreed between payer and provider.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "Post-execution consent is permitted only where the precondition, an agreement to that effect, holds."
+    },
+    {
+      "id": "psr-2017/67/3/withdrawal",
+      "source": "reg 67(3)",
+      "text_en": "The payer may withdraw consent at any time before the point at which the payment order can no longer be revoked under regulation 83.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "NEW. Compares two instants for order with no limit. elapsed_within measures an interval AGAINST A LIMIT and cannot express `before` without inventing one."
+    },
+    {
+      "id": "psr-2017/67/4/series-withdrawal",
+      "source": "reg 67(4)",
+      "text_en": "Withdrawal of consent to a series means future transactions in that series are not authorised.",
+      "disposition": "DERIVED",
+      "reuse_note": "Reads no fact of its own; changes the authorisation result for later transactions."
+    },
+    {
+      "id": "psr-2017/74/1/undue-delay",
+      "source": "reg 74(1)",
+      "text_en": "The user must notify the provider without undue delay on becoming aware of the unauthorised transaction.",
+      "disposition": "JUDGMENT",
+      "reuse_note": "`without undue delay` is a qualitative standard with no test in the source, the same shape as `lenguaje simple y claro`."
+    },
+    {
+      "id": "psr-2017/74/1/thirteen-months",
+      "source": "reg 74(1)",
+      "text_en": "Entitlement to redress arises only if notification is given no later than 13 months after the debit date.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "Same primitive, new unit. Banxico needed calendar_days and business_days; this needs months, which is not a fixed multiple of either."
+    },
+    {
+      "id": "psr-2017/74/2/information-failure",
+      "source": "reg 74(2)",
+      "text_en": "The 13 month bar does not apply where the provider failed to supply the Part 6 information about the transaction.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "A disapplication rather than an obligation, expressed by negating the precondition. No new shape."
+    },
+    {
+      "id": "psr-2017/75/1/provider-burden",
+      "source": "reg 75(1)",
+      "text_en": "Where the user denies authorising a transaction, the provider must prove it was authenticated, accurately recorded, entered in its accounts and unaffected by technical breakdown or other deficiency.",
+      "disposition": "JUDGMENT",
+      "reuse_note": "Four conjuncts, each a held assessment. The conjunction is composed; the conjuncts are judgments."
+    },
+    {
+      "id": "psr-2017/75/2/pisp-burden",
+      "source": "reg 75(2)",
+      "text_en": "Where a payment initiation service provider was involved, it must prove the same matters within its sphere of competence.",
+      "disposition": "JUDGMENT",
+      "reuse_note": "Same standard, different bearer."
+    },
+    {
+      "id": "psr-2017/75/3/instrument-not-sufficient",
+      "source": "reg 75(3)",
+      "text_en": "The recorded use of a payment instrument is not in itself necessarily sufficient to prove that the payer authorised the transaction or acted fraudulently or with gross negligence.",
+      "disposition": "DERIVED",
+      "reuse_note": "THE SAME SHAPE AS `por lo menos`, at arity one. Banxico's floor said a complete element list does not establish conformance; this says one item of evidence does not establish authorisation. Both forbid reading necessary as sufficient. Parameterised because the existing signature takes a list."
+    },
+    {
+      "id": "psr-2017/75/4/supporting-evidence",
+      "source": "reg 75(4)",
+      "text_en": "A provider claiming the payer acted fraudulently or with gross negligence must provide supporting evidence to the payer.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "The obligation arises only on the claim being made."
+    },
+    {
+      "id": "psr-2017/76/1/trigger",
+      "source": "reg 76(1) chapeau",
+      "text_en": "Subject to regulations 74 and 75, where an executed transaction was not authorised under regulation 67, the provider must refund and restore.",
+      "disposition": "DERIVED",
+      "reuse_note": "Composes the 67 authorisation result with the 74 bar and the 75 burden. Reads no fact directly."
+    },
+    {
+      "id": "psr-2017/76/1/a/refund",
+      "source": "reg 76(1)(a)",
+      "text_en": "The provider must refund the amount of the unauthorised transaction to the payer.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "NEW. Requires comparing two scaled monetary values for EQUALITY. The existing set has no numeric comparison at all: Banxico's ceiling test lived inside the engine's mandate evaluator and was never lifted into a primitive."
+    },
+    {
+      "id": "psr-2017/76/1/b/restore",
+      "source": "reg 76(1)(b)",
+      "text_en": "Where applicable, the provider must restore the debited account to the state it would have been in had the transaction not taken place.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "`where applicable` is the precondition. The restored state itself is a held assessment, since it is a counterfactual."
+    },
+    {
+      "id": "psr-2017/76/2/practicable",
+      "source": "reg 76(2)",
+      "text_en": "The refund must be provided as soon as practicable.",
+      "disposition": "JUDGMENT",
+      "reuse_note": "A second standard sitting on the same sentence as a hard deadline. They fail independently."
+    },
+    {
+      "id": "psr-2017/76/2/deadline",
+      "source": "reg 76(2)",
+      "text_en": "In any event the refund must be provided no later than the end of the business day following the day on which the provider becomes aware of the unauthorised transaction.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "business_days already existed as a unit. Unchanged."
+    },
+    {
+      "id": "psr-2017/76/3/fraud-carveout",
+      "source": "reg 76(3)",
+      "text_en": "The deadline does not apply where the provider has reasonable grounds to suspect fraudulent behaviour by the user and notifies a person mentioned in section 333A(2) of the Proceeds of Crime Act 2002 in writing.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "A carve-out whose precondition is itself a conjunction of a judgment and a recorded act."
+    },
+    {
+      "id": "psr-2017/76/4/value-date",
+      "source": "reg 76(4)",
+      "text_en": "When crediting the account, the credit value date must be no later than the date on which the amount was debited.",
+      "disposition": "MECHANICAL",
+      "reuse_note": "Second user of the same new shape. Two instants, no limit. This is why it is recorded as a shape rather than a one-off."
+    },
+    {
+      "id": "psr-2017/76/5/a/aspsp-complies",
+      "source": "reg 76(5)(a)",
+      "text_en": "Where the transaction was initiated through a payment initiation service provider, the account servicing provider must still comply with paragraph (1).",
+      "disposition": "DERIVED",
+      "reuse_note": "Routes the paragraph (1) result to a different bearer."
+    },
+    {
+      "id": "psr-2017/76/5/b/pisp-compensates",
+      "source": "reg 76(5)(b)",
+      "text_en": "Where the payment initiation service provider is liable under regulation 75(2), it must compensate the account servicing provider immediately on request.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "Two preconditions, liability and a request."
+    }
+  ]
+}
