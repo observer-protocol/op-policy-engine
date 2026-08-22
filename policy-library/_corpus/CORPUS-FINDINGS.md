@@ -7,14 +7,14 @@ Seeded and reproducible: `node coverage.mjs`, `node build.mjs`, `node disagree.m
 
 ---
 
-## STEP 1: 58 of 133 reachable results are reached by any existing fixture
+## STEP 1: 58 of 134 reachable results are reached by any existing fixture
 
 | | Banxico | PSR | both |
 |---|---|---|---|
 | clauses | 19 | 21 | 40 |
-| distinct results the register can produce | 61 | 72 | **133** |
+| distinct results the register can produce | 62 | 72 | **134** |
 | distinct results the worked cases reach | 30 | 28 | **58** |
-| **never reached by any fixture** | **31** | **44** | **75** |
+| **never reached by any fixture** | **32** | **44** | **76** |
 
 **More than half of what these registers can say has never been observed coming out of them.** The
 three Banxico worked cases and the three PSR ones were written to be interesting, and being
@@ -24,8 +24,8 @@ interesting is not the same as being wide.
 
 | sampled fact sets | Banxico | PSR |
 |---|---|---|
-| 1,000 | **61** | **72** |
-| 40,000 | 61 | 72 |
+| 1,000 | **62** | **72** |
+| 40,000 | 62 | 72 |
 
 Nothing new appears between the first thousand draws and forty thousand out of a space of roughly 10^18 and 10^25
 combinations. That is evidence the ladder of candidate values is adequate; **it is not a proof of
@@ -190,3 +190,17 @@ weaker thing.
 And the recorded determinations are **one institution's reading of one regulation**, encoded from a
 document about a restatement. A second institution would diverge differently, and the 78.3% figure
 is a property of this pairing rather than of restatements in general.
+
+## A second instrument: `absent-fact-sweep.mjs`
+
+Added 2026-08-22 with E9. It asks, for every fact a predicate reads: **does making it ABSENT produce a
+decided clause result?** A clause is taken to depend on a field when its result differs between the
+field's two recorded values; the question is then what absence gives for those clauses.
+
+**Its first version could not see the defect it was written for.** It compared the absent case against
+the recorded-`false` case and skipped anything that matched, which is exactly the pair E9 says are
+indistinguishable. Recorded in REUSE-LOG E9 rather than quietly repaired.
+
+At the time of writing it reports **4 clause results across 2 facts**, down from 8 across 4 before E9
+and the factor-list instance were fixed. Both remaining are reported in E9 and not fixed: closing them
+needs `open_set_floor` to carry a third state, which is a primitive widening and its own decision.

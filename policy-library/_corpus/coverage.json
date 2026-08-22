@@ -1,6 +1,6 @@
 {
  "banxico": {
-  "reachable": 61,
+  "reachable": 62,
   "reached": 30,
   "missed": [
    "34-2010/2.6/a/two-factor -> not_met",
@@ -32,6 +32,7 @@
    "34-2010/3.6/p4/signatory -> not_member",
    "34-2010/3.6/p5/expediente-copy -> outstanding",
    "34-2010/3.6/p5/expediente-copy -> undetermined",
+   "34-2010/3.6/p5/foreign-deadline -> undetermined",
    "34-2010/3.6/p6/no-moratory-interest -> prohibited_present",
    "34-2010/3.6/p7/firmeza -> not_yet_attached"
   ]

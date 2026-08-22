@@ -166,6 +166,11 @@ export function evaluate(facts, resolutions = {}) {
   const put = (id, result, note) => { out[id] = note === undefined ? { result } : { result, note }; };
 
   // 2.6(a) — two INDEPENDENT elements from the enumeration.
+  // Found by the E9 sweep. An ABSENT factor list returned `not_met`, asserting the two-factor
+  // requirement failed on a fact nobody supplied. A RECORDED EMPTY LIST still returns `not_met`,
+  // which is right: it says no factors were used. `field_present` keeps the two apart, and an empty
+  // array is present.
+  const factorsRecorded = field_present(facts.operation?.auth_factors) === 'present';
   const factors = facts.operation?.auth_factors ?? [];
   const allKnown = factors.every((f) => member_of_enumeration(f, AUTH_FACTOR_KINDS) === 'member');
   // RULING 2, 2026-08-22. This returned `not_met` when a factor kind was unrecognised, which asserts
@@ -173,7 +178,8 @@ export function evaluate(facts, resolutions = {}) {
   // `undetermined`. It is guard_on_unresolved rather than applicability_gate: the requirement
   // applies, its input cannot be used.
   put('34-2010/2.6/a/two-factor',
-    guard_on_unresolved(allKnown, () => distinct_members_at_least(factors, 2, (a, b) => a !== b)),
+    guard_on_unresolved(factorsRecorded && allKnown,
+      () => distinct_members_at_least(factors, 2, (a, b) => a !== b)),
     'Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermined` means a factor kind is not in the 2.6(a) enumeration and cannot be classified.');
 
   // 3.3
@@ -206,12 +212,25 @@ export function evaluate(facts, resolutions = {}) {
     'not_applicable means no election is on record, so the requirement is not yet fixed.');
 
   // the deadline, and which one applies
+  // E9, 2026-08-22. `=== true` normalised an ABSENT fact to `false`, so nobody recording where the
+  // operation happened selected the fourth paragraph's 45 days, a dictamen on day 120 read `exceeded`
+  // and firmeza attached. ABSENT IS NOT DOMESTIC: every operation happened somewhere, so the absence
+  // of the fact is ignorance rather than a recorded negative. `field_present` separates the three,
+  // because a recorded `false` is present and an absent field is not.
+  const abroadRecorded = field_present(facts.operation?.executed_abroad) === 'present';
   const abroad = facts.operation?.executed_abroad === true;
   const unitRes = resolutions.A1_dias_unit;            // 'business_days' | 'calendar_days' | undefined
-  const period = select_parameter_by_predicate(abroad,
-    { limit: 180, unit: 'calendar_days' },              // fifth paragraph, explicitly naturales
-    { limit: 45, unit: unitRes });                      // fourth paragraph, unit UNRESOLVED
-  put('34-2010/3.6/p5/foreign-deadline', abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph');
+  // No period can be selected from a fact nobody supplied, so there is no period rather than a
+  // default one.
+  const period = abroadRecorded
+    ? select_parameter_by_predicate(abroad,
+        { limit: 180, unit: 'calendar_days' },          // fifth paragraph, explicitly naturales
+        { limit: 45, unit: unitRes })                   // fourth paragraph, unit UNRESOLVED
+    : { limit: undefined, unit: undefined };
+  put('34-2010/3.6/p5/foreign-deadline',
+    guard_on_unresolved(abroadRecorded,
+      () => (abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph')),
+    '`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected.');
   // THE ROW MUST SAY WHICH PERIOD IT APPLIED. The register defines this clause as the 45 `Días`
   // deadline, so a bare `within` at day 120 reads as a contradiction of the clause it sits on. What
   // actually happened is that p5/foreign-deadline selected the fifth paragraph's period and this
@@ -220,11 +239,13 @@ export function evaluate(facts, resolutions = {}) {
   const appliedPeriod = `${period.limit} ${period.unit ?? 'UNRESOLVED'}` +
     (abroad ? ', selected by p5/foreign-deadline (fifth paragraph)' : ', fourth paragraph');
   put('34-2010/3.6/p4/deadline',
-    guard_on_unresolved(period.unit !== undefined,
+    guard_on_unresolved(abroadRecorded && period.unit !== undefined,
       () => elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit, facts.clock?.now)),
-    period.unit === undefined
-      ? 'A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied.'
-      : `Period applied: ${appliedPeriod}.`);
+    !abroadRecorded
+      ? 'Whether the operation was executed abroad was not supplied, so neither period can be selected.'
+      : period.unit === undefined
+        ? 'A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied.'
+        : `Period applied: ${appliedPeriod}.`);
 
   // the floor — necessary, never sufficient
   const elementResults = [
