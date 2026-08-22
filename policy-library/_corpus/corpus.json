@@ -1,0 +1,3441 @@
+{
+ "$note": "Facts first. Every `results` block was computed by running the committed evaluator over the `facts` block; no expected result is asserted anywhere.",
+ "seed": 20260822,
+ "sampled": 40000,
+ "banxico": [
+  {
+   "facts": {
+    "notice": {
+     "type": "robo_o_extravio",
+     "reference": null,
+     "received_at": "not-a-timestamp"
+    },
+    "operation": {
+     "executed_abroad": false,
+     "occurred_at": "2027-09-01T00:00:00Z",
+     "acquirer_name": null,
+     "merchant_name": "Com",
+     "auth_factors": [
+      "2.6.a.iii_biometric",
+      "2.6.a.iv_authorised_other"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-05-04T09:12:00Z",
+     "channel": "otro",
+     "signatory_id": "",
+     "language_is_plain": "no",
+     "evidence_of_factors_present": true,
+     "verification_method_stated": null,
+     "device_address": null
+    },
+    "cardholder": {
+     "channel_election": null
+    },
+    "issuer": {
+     "authorised_signatories": [],
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": null,
+     "delivered_at": "2026-05-04T09:12:00Z"
+    },
+    "account": {
+     "charges_posted": null
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "affirmed"
+    },
+    "clock": {
+     "now": "2026-06-02T11:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "34-2010/2.6/a/two-factor -> met",
+   "results": {
+    "34-2010/2.6/a/two-factor": "met",
+    "34-2010/3.3/p1/notice-types": "member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "no",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "no",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "undetermined",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "affirmed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "reference": null,
+     "received_at": "2026-06-02T11:00:00Z"
+    },
+    "operation": {
+     "executed_abroad": null,
+     "acquirer_name": null,
+     "auth_factors": null
+    },
+    "dictamen": {
+     "made_available_at": "2026-11-20T11:00:00Z",
+     "channel": "otro",
+     "signatory_id": "emp-0042",
+     "language_is_plain": "denied",
+     "evidence_of_factors_present": true,
+     "verification_method_stated": true,
+     "device_address": {
+      "physical_address": "Av 100",
+      "ip_address": null
+     }
+    },
+    "expediente": {
+     "requested": false,
+     "delivered_at": "2026-06-18T09:12:00Z"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_assessed"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days"
+   },
+   "witnesses": "34-2010/2.6/a/two-factor -> not_met",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "denied",
+    "34-2010/3.6/a/verification-method": "present",
+    "34-2010/3.6/b/time": "absent",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "denied",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "exceeded",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "reference": null,
+     "received_at": "2026-05-20T00:00:00Z"
+    },
+    "operation": {
+     "occurred_at": "2026-06-02T11:00:00Z",
+     "acquirer_name": null,
+     "merchant_name": null,
+     "auth_factors": [
+      "no_such_kind"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-08-20T00:00:00Z",
+     "channel": "medio_convenido",
+     "signatory_id": "emp-9999",
+     "evidence_of_factors_present": true,
+     "verification_method_stated": null
+    },
+    "cardholder": {
+     "channel_election": null
+    },
+    "issuer": {
+     "authorised_signatories": [
+      "emp-0042",
+      "emp-0117"
+     ],
+     "holds_device_address": false
+    },
+    "expediente": {
+     "requested": true,
+     "delivered_at": "2026-06-18T09:12:00Z"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_assessed"
+    },
+    "clock": {
+     "now": "2027-09-01T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/2.6/a/two-factor -> undetermined",
+   "results": {
+    "34-2010/2.6/a/two-factor": "undetermined",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "exceeded",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "undetermined",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "attached"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "robo_o_extravio",
+     "received_at": "2026-05-20T00:00:00Z"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "2026-06-18T09:12:00Z",
+     "acquirer_name": "",
+     "auth_factors": []
+    },
+    "dictamen": {
+     "made_available_at": "2026-05-20T00:00:00Z",
+     "channel": "otro",
+     "signatory_id": "emp-0042",
+     "language_is_plain": null,
+     "device_address": {
+      "physical_address": "Av 100",
+      "ip_address": null
+     }
+    },
+    "issuer": {
+     "authorised_signatories": [
+      "emp-0042",
+      "emp-0117"
+     ]
+    },
+    "expediente": {
+     "requested": null
+    },
+    "account": {
+     "charges_posted": [
+      "accesorio_otro"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "demonstrated"
+    },
+    "clock": {
+     "now": "2026-06-18T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days"
+   },
+   "witnesses": "34-2010/3.3/p1/notice-types -> member",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "within",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "demonstrated",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "reference": "AV-1",
+     "received_at": "2026-04-28T19:41:00Z"
+    },
+    "operation": {
+     "occurred_at": "2026-06-02T11:00:00Z",
+     "acquirer_name": null,
+     "merchant_name": ""
+    },
+    "dictamen": {
+     "made_available_at": "not-a-timestamp",
+     "channel": "otro",
+     "signatory_id": "emp-9999",
+     "language_is_plain": "affirmed",
+     "evidence_of_factors_present": false,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": "10.0.0.1"
+     }
+    },
+    "cardholder": {
+     "channel_election": "medio_convenido"
+    },
+    "issuer": {
+     "authorised_signatories": null,
+     "holds_device_address": true
+    },
+    "expediente": {
+     "delivered_at": "2026-05-20T00:00:00Z"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_moratorio"
+     ]
+    },
+    "clock": {
+     "now": null
+    }
+   },
+   "resolutions": {
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.3/p5/receipt-record -> all_present",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "all_present",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "affirmed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "satisfied",
+    "34-2010/3.6/p4/language": "affirmed",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "undetermined",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "reference": null,
+     "received_at": null
+    },
+    "operation": {
+     "executed_abroad": null,
+     "occurred_at": "2026-05-20T00:00:00Z",
+     "acquirer_name": "Adq",
+     "merchant_name": null,
+     "auth_factors": []
+    },
+    "dictamen": {
+     "made_available_at": "2026-06-19T09:12:00Z",
+     "signatory_id": "emp-9999",
+     "language_is_plain": "yes",
+     "evidence_of_factors_present": false,
+     "verification_method_stated": false,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": "10.0.0.1"
+     }
+    },
+    "issuer": {
+     "authorised_signatories": [],
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": null
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario",
+      "interes_moratorio"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_demonstrated"
+    },
+    "clock": {
+     "now": "2026-04-28T19:41:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_and_content"
+   },
+   "witnesses": "34-2010/3.6/a/explanation -> yes",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "yes",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "yes",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "no_end_event",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "not_demonstrated",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "robo_o_extravio",
+     "reference": "",
+     "received_at": "2026-04-28T19:41:00Z"
+    },
+    "operation": {
+     "executed_abroad": null,
+     "occurred_at": "2026-11-20T11:00:00Z",
+     "acquirer_name": "Adq",
+     "merchant_name": "Com"
+    },
+    "dictamen": {
+     "made_available_at": null,
+     "channel": "otro",
+     "signatory_id": "",
+     "language_is_plain": "yes",
+     "evidence_of_factors_present": null,
+     "verification_method_stated": null
+    },
+    "cardholder": {
+     "channel_election": "sucursal"
+    },
+    "issuer": {
+     "authorised_signatories": null
+    },
+    "expediente": {
+     "requested": false,
+     "delivered_at": "2026-05-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.6/c/parties -> all_present",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "yes",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "all_present",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "yes",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "undetermined",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "reference": "AV-1",
+     "received_at": "2026-06-18T09:12:00Z"
+    },
+    "operation": {
+     "occurred_at": null,
+     "acquirer_name": "Adq",
+     "auth_factors": [
+      "2.6.a.i_knowledge",
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-06-02T11:00:00Z",
+     "language_is_plain": "no",
+     "evidence_of_factors_present": false,
+     "verification_method_stated": true,
+     "device_address": {}
+    },
+    "cardholder": {
+     "channel_election": null
+    },
+    "issuer": {
+     "authorised_signatories": null,
+     "holds_device_address": true
+    },
+    "expediente": {
+     "requested": false,
+     "delivered_at": "2026-06-19T09:12:00Z"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario",
+      "interes_moratorio"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_assessed"
+    },
+    "clock": {
+     "now": "2026-11-20T11:00:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_and_content"
+   },
+   "witnesses": "34-2010/3.6/d/device-address -> breached",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "all_present",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "no",
+    "34-2010/3.6/a/verification-method": "present",
+    "34-2010/3.6/b/time": "absent",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "breached",
+    "34-2010/3.6/p4/language": "no",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "out_of_order",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "received_at": "2026-06-18T09:12:00Z"
+    },
+    "operation": {
+     "occurred_at": "2026-11-20T11:00:00Z",
+     "auth_factors": [
+      "2.6.a.i_knowledge",
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-05-20T00:00:00Z",
+     "channel": "sucursal",
+     "signatory_id": "emp-9999",
+     "language_is_plain": "denied",
+     "verification_method_stated": false,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": null
+     }
+    },
+    "cardholder": {
+     "channel_election": "sucursal"
+    },
+    "issuer": {
+     "authorised_signatories": null,
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": true,
+     "delivered_at": "2026-11-20T11:00:00Z"
+    },
+    "account": {
+     "charges_posted": []
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "denied"
+    },
+    "clock": {
+     "now": "2026-10-31T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "business_days",
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.6/p1/recovery-right -> denied",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "denied",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "denied",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "satisfied",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "out_of_order",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "breached",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "denied",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "received_at": "not-a-timestamp"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "2026-08-20T00:00:00Z",
+     "merchant_name": "Com",
+     "auth_factors": [
+      "2.6.a.i_knowledge",
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": null,
+     "signatory_id": "",
+     "language_is_plain": null,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": null
+     }
+    },
+    "cardholder": {
+     "channel_election": "otro"
+    },
+    "issuer": {
+     "authorised_signatories": [
+      "emp-0042"
+     ],
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": true,
+     "delivered_at": "not-a-timestamp"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_demonstrated"
+    },
+    "clock": {
+     "now": "2026-04-28T19:41:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days"
+   },
+   "witnesses": "34-2010/3.6/p1/recovery-right -> not_demonstrated",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "no_end_event",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "undetermined",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_demonstrated",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "received_at": "2026-06-18T09:12:00Z"
+    },
+    "operation": {
+     "occurred_at": "2026-10-31T09:12:00Z",
+     "merchant_name": "Com",
+     "auth_factors": [
+      "2.6.a.iii_biometric",
+      "2.6.a.iv_authorised_other"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": null,
+     "signatory_id": "",
+     "language_is_plain": "no",
+     "evidence_of_factors_present": false,
+     "verification_method_stated": true,
+     "device_address": {}
+    },
+    "cardholder": {
+     "channel_election": "medio_convenido"
+    },
+    "issuer": {
+     "authorised_signatories": [],
+     "holds_device_address": true
+    },
+    "expediente": {
+     "requested": false,
+     "delivered_at": "not-a-timestamp"
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "demonstrated"
+    },
+    "clock": {
+     "now": "2026-06-18T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "business_days",
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.6/p4/deadline -> not_yet_due",
+   "results": {
+    "34-2010/2.6/a/two-factor": "met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "no",
+    "34-2010/3.6/a/verification-method": "present",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "breached",
+    "34-2010/3.6/p4/language": "no",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "not_yet_due",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "demonstrated",
+    "34-2010/3.6/p7/firmeza": "not_yet_attached"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "reclamacion_cargo_no_reconocido",
+     "reference": "",
+     "received_at": "2026-05-04T09:12:00Z"
+    },
+    "operation": {
+     "occurred_at": "2026-06-02T11:00:00Z",
+     "acquirer_name": null,
+     "merchant_name": null,
+     "auth_factors": null
+    },
+    "dictamen": {
+     "made_available_at": null,
+     "channel": "medio_convenido",
+     "signatory_id": "",
+     "language_is_plain": "yes",
+     "evidence_of_factors_present": null,
+     "verification_method_stated": false,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": "10.0.0.1"
+     }
+    },
+    "cardholder": {
+     "channel_election": "sucursal"
+    },
+    "issuer": {
+     "holds_device_address": true
+    },
+    "expediente": {
+     "requested": null,
+     "delivered_at": "not-a-timestamp"
+    },
+    "account": {
+     "charges_posted": []
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "demonstrated"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.6/p4/deadline -> overdue",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "yes",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "satisfied",
+    "34-2010/3.6/p4/language": "yes",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "overdue",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "demonstrated",
+    "34-2010/3.6/p7/firmeza": "attached"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "reference": null,
+     "received_at": "2026-06-18T09:12:00Z"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "not-a-timestamp",
+     "acquirer_name": "Adq",
+     "merchant_name": "Com",
+     "auth_factors": [
+      "2.6.a.i_knowledge",
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-04-28T19:41:00Z",
+     "channel": "otro",
+     "signatory_id": "emp-9999",
+     "evidence_of_factors_present": true,
+     "verification_method_stated": true,
+     "device_address": {
+      "physical_address": "Av 100",
+      "ip_address": null
+     }
+    },
+    "cardholder": {
+     "channel_election": "otro"
+    },
+    "issuer": {
+     "authorised_signatories": [
+      "emp-0042"
+     ],
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": false,
+     "delivered_at": "2026-06-02T11:00:00Z"
+    },
+    "account": {
+     "charges_posted": [
+      "accesorio_otro"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "demonstrated"
+    },
+    "clock": {
+     "now": "2026-05-04T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_and_content"
+   },
+   "witnesses": "34-2010/3.6/p4/floor -> floor_met",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "present",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "all_present",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "satisfied",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "out_of_order",
+    "34-2010/3.6/p4/floor": "floor_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "demonstrated",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "robo_o_extravio",
+     "reference": "AV-1"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "2026-10-31T09:12:00Z",
+     "acquirer_name": "",
+     "merchant_name": "Com",
+     "auth_factors": [
+      "2.6.a.i_knowledge",
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-05-20T00:00:00Z",
+     "signatory_id": "emp-0042",
+     "language_is_plain": "not_assessed",
+     "evidence_of_factors_present": false,
+     "verification_method_stated": null,
+     "device_address": null
+    },
+    "issuer": {
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": true,
+     "delivered_at": null
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario",
+      "interes_moratorio"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "not_demonstrated"
+    },
+    "clock": {
+     "now": "2026-05-20T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "business_days"
+   },
+   "witnesses": "34-2010/3.6/p5/expediente-copy -> outstanding",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "no_end_event",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "outstanding",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "not_demonstrated",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": null,
+     "reference": "AV-1",
+     "received_at": "2026-05-04T09:12:00Z"
+    },
+    "operation": {
+     "executed_abroad": null,
+     "occurred_at": "2026-06-18T09:12:00Z",
+     "acquirer_name": "Adq",
+     "auth_factors": null
+    },
+    "dictamen": {
+     "made_available_at": "2026-05-20T00:00:00Z",
+     "channel": "medio_convenido",
+     "signatory_id": "emp-0042",
+     "language_is_plain": "affirmed",
+     "verification_method_stated": null,
+     "device_address": {}
+    },
+    "cardholder": {
+     "channel_election": null
+    },
+    "issuer": {
+     "holds_device_address": null
+    },
+    "expediente": {
+     "requested": true,
+     "delivered_at": "2026-05-20T00:00:00Z"
+    },
+    "account": {
+     "charges_posted": []
+    },
+    "clock": {
+     "now": "2026-10-31T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "A2_terminos_senalados": "timing_and_content"
+   },
+   "witnesses": "34-2010/3.6/p5/expediente-copy -> satisfied",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "all_present",
+    "34-2010/3.6/a/evidence": "absent",
+    "34-2010/3.6/a/explanation": "affirmed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "affirmed",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_fourth_paragraph",
+    "34-2010/3.6/p4/deadline": "undetermined",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "satisfied",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "undetermined"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "received_at": "2026-04-28T19:41:00Z"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "2026-06-18T09:12:00Z",
+     "acquirer_name": "",
+     "merchant_name": "",
+     "auth_factors": null
+    },
+    "dictamen": {
+     "made_available_at": "2026-11-20T11:00:00Z",
+     "channel": "sucursal",
+     "signatory_id": "emp-9999",
+     "language_is_plain": "denied",
+     "evidence_of_factors_present": true,
+     "device_address": {
+      "physical_address": null,
+      "ip_address": "10.0.0.1"
+     }
+    },
+    "cardholder": {
+     "channel_election": "otro"
+    },
+    "issuer": {
+     "authorised_signatories": null
+    },
+    "expediente": {
+     "requested": false
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": null
+    },
+    "clock": {
+     "now": "2026-11-20T11:00:00Z"
+    }
+   },
+   "resolutions": {
+    "A1_dias_unit": "calendar_days",
+    "A2_terminos_senalados": "timing_and_content"
+   },
+   "witnesses": "34-2010/3.6/p7/firmeza -> attached",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "denied",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "not_applicable",
+    "34-2010/3.6/p4/language": "denied",
+    "34-2010/3.6/p4/signatory": "not_member",
+    "34-2010/3.6/p4/channel": "breached",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "exceeded",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "clear",
+    "34-2010/3.6/p1/recovery-right": "not_assessed",
+    "34-2010/3.6/p7/firmeza": "attached"
+   }
+  },
+  {
+   "facts": {
+    "notice": {
+     "type": "algo_mas",
+     "received_at": "2026-04-28T19:41:00Z"
+    },
+    "operation": {
+     "executed_abroad": true,
+     "occurred_at": "2026-04-28T19:41:00Z",
+     "acquirer_name": "",
+     "auth_factors": [
+      "2.6.a.i_knowledge"
+     ]
+    },
+    "dictamen": {
+     "made_available_at": "2026-08-20T00:00:00Z",
+     "channel": "sucursal",
+     "signatory_id": null,
+     "language_is_plain": "not_assessed",
+     "evidence_of_factors_present": true,
+     "verification_method_stated": false,
+     "device_address": null
+    },
+    "cardholder": {
+     "channel_election": null
+    },
+    "issuer": {
+     "holds_device_address": true
+    },
+    "expediente": {
+     "delivered_at": null
+    },
+    "account": {
+     "charges_posted": [
+      "interes_ordinario",
+      "interes_moratorio"
+     ]
+    },
+    "charge": {
+     "derived_from_2_6_a_operation": "affirmed"
+    }
+   },
+   "resolutions": {
+    "A2_terminos_senalados": "timing_only"
+   },
+   "witnesses": "34-2010/3.6/p7/firmeza -> not_attached",
+   "results": {
+    "34-2010/2.6/a/two-factor": "not_met",
+    "34-2010/3.3/p1/notice-types": "not_member",
+    "34-2010/3.3/p5/receipt-record": "some_absent",
+    "34-2010/3.6/a/evidence": "present",
+    "34-2010/3.6/a/explanation": "not_assessed",
+    "34-2010/3.6/a/verification-method": "absent",
+    "34-2010/3.6/b/time": "present",
+    "34-2010/3.6/c/parties": "some_absent",
+    "34-2010/3.6/d/device-address": "breached",
+    "34-2010/3.6/p4/language": "not_assessed",
+    "34-2010/3.6/p4/signatory": "no_candidate",
+    "34-2010/3.6/p4/channel": "not_applicable",
+    "34-2010/3.6/p5/foreign-deadline": "selected_180_calendar_days",
+    "34-2010/3.6/p4/deadline": "within",
+    "34-2010/3.6/p4/floor": "floor_not_met",
+    "34-2010/3.6/p5/expediente-copy": "not_applicable",
+    "34-2010/3.6/p6/no-moratory-interest": "prohibited_present",
+    "34-2010/3.6/p1/recovery-right": "affirmed",
+    "34-2010/3.6/p7/firmeza": "not_attached"
+   }
+  }
+ ],
+ "psr": [
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-08-20T00:00:00Z",
+     "amount": {
+      "amountRaw": "4500000",
+      "decimals": "4",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": null,
+     "form": null,
+     "withdrawn_at": null,
+     "series_withdrawn_at": "2026-11-20T11:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ]
+    },
+    "notification": {
+     "given_at": "2026-04-28T19:41:00Z"
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": "2026-05-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "burden": {
+      "authenticated": "denied",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": "doc-1"
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-06-19T09:12:00Z",
+     "credit_value_date": "2026-06-02T11:00:00Z"
+    },
+    "account": {
+     "restoration_applicable": true
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "liable": true,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "clock": {
+     "now": "2026-05-04T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/67/1/consent -> none_present",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "not_satisfied",
+    "psr-2017/75/2/pisp-burden": "denied",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "not_equal",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "satisfied",
+    "psr-2017/76/2/deadline": "not_applicable_deadline_removed",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-05-20T00:00:00Z",
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": "",
+     "to_series": "sig-2",
+     "form": "branch-signature",
+     "withdrawn_at": "2026-10-31T09:12:00Z",
+     "series_withdrawn_at": null
+    },
+    "agreement": {
+     "agreed_forms": [],
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2026-06-18T09:12:00Z",
+     "without_undue_delay": "denied"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "became_aware_at": null,
+     "reasonable_grounds_to_suspect_fraud": null,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": false,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "not-a-timestamp",
+     "credit_value_date": "2026-06-02T11:00:00Z"
+    },
+    "account": {
+     "restoration_applicable": false
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "liable": null,
+     "compensated": null
+    },
+    "aspsp": {
+     "compensation_requested": true
+    },
+    "order": {
+     "irrevocable_from": "2026-06-18T09:12:00Z"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/67/1/consent -> one_present",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "denied",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "denied",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-05-04T09:12:00Z",
+     "amount": {
+      "amountRaw": "4500000",
+      "decimals": "4",
+      "currency": "GBP"
+     },
+     "via_pisp": null
+    },
+    "consent": {
+     "to_transaction": null,
+     "to_series": "sig-2",
+     "form": "online-banking-2fa",
+     "given_after_execution": true,
+     "withdrawn_at": "2026-08-20T00:00:00Z",
+     "series_withdrawn_at": "2026-06-02T11:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": null,
+     "post_execution_consent_agreed": null
+    },
+    "notification": {
+     "given_at": "2026-06-18T09:12:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "part6_information_failure": true,
+     "became_aware_at": "2026-08-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": "",
+     "claims_fraud_or_gross_negligence": true,
+     "burden": null
+    },
+    "evidence": {
+     "instrument_use_record": null
+    },
+    "refund": {
+     "amount": null,
+     "credit_value_date": null,
+     "as_soon_as_practicable": "denied"
+    },
+    "account": {
+     "restored_to_prior_state": null
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "liable": true,
+     "compensated": true
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-11-20T11:00:00Z"
+    },
+    "clock": {
+     "now": "not-a-timestamp"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/67/2/a/timing -> breached",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "satisfied",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "denied",
+    "psr-2017/76/3/fraud-carveout": "breached",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-10-31T09:12:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "EUR"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": null,
+     "form": "shouted-it",
+     "given_after_execution": true,
+     "withdrawn_at": "2026-05-20T00:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ],
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2026-11-20T11:00:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": "2026-05-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-05-20T00:00:00Z",
+     "credit_value_date": "2026-05-04T09:12:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restored_to_prior_state": null
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": true,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": null
+    },
+    "order": {
+     "irrevocable_from": "2026-08-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "not-a-timestamp"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/67/2/a/timing -> satisfied",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "satisfied",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "not_assessed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "incomparable_currency",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "satisfied",
+    "psr-2017/76/2/deadline": "undetermined",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-04-28T19:41:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": null
+    },
+    "consent": {
+     "form": "online-banking-2fa",
+     "given_after_execution": false
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ]
+    },
+    "notification": {
+     "given_at": "2026-06-19T09:12:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "part6_information_failure": true,
+     "became_aware_at": "2027-09-01T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": false,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": null,
+     "burden": {
+      "authenticated": "denied",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": "doc-1"
+    },
+    "refund": {
+     "amount": null,
+     "provided_at": "2026-06-19T09:12:00Z",
+     "credit_value_date": "2026-06-02T11:00:00Z",
+     "as_soon_as_practicable": "not_assessed"
+    },
+    "account": {
+     "restoration_applicable": true,
+     "restored_to_prior_state": "denied"
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "liable": null
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-11-20T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-11-20T11:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/67/2/b/form -> member",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "satisfied",
+    "psr-2017/75/1/provider-burden": "not_satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "breached",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-18T09:12:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     }
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "to_series": null,
+     "form": null,
+     "given_after_execution": false,
+     "withdrawn_at": "2026-06-02T11:00:00Z",
+     "series_withdrawn_at": "2026-04-28T19:41:00Z"
+    },
+    "agreement": {
+     "agreed_forms": null
+    },
+    "notification": {
+     "given_at": "2026-04-28T19:41:00Z"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "became_aware_at": "2026-10-31T09:12:00Z",
+     "poca_notification_in_writing": "",
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-05-20T00:00:00Z",
+     "credit_value_date": "2026-04-28T19:41:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": false,
+     "restored_to_prior_state": null
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": null
+    },
+    "order": {
+     "irrevocable_from": "2026-11-20T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-05-04T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/67/3/withdrawal -> before",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "not_equal",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-04-28T19:41:00Z",
+     "amount": null,
+     "via_pisp": null
+    },
+    "consent": {
+     "to_transaction": null,
+     "to_series": "",
+     "form": "branch-signature",
+     "given_after_execution": false,
+     "withdrawn_at": "2026-08-20T00:00:00Z",
+     "series_withdrawn_at": "2026-11-20T11:00:00Z"
+    },
+    "agreement": {
+     "post_execution_consent_agreed": false
+    },
+    "notification": {
+     "given_at": "2026-06-19T09:12:00Z",
+     "without_undue_delay": "denied"
+    },
+    "provider": {
+     "became_aware_at": null,
+     "claims_fraud_or_gross_negligence": false,
+     "burden": {}
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "provided_at": "2026-06-18T09:12:00Z",
+     "credit_value_date": "2026-11-20T11:00:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": true,
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "liable": false,
+     "compensated": null
+    },
+    "aspsp": {
+     "compensation_requested": true
+    },
+    "order": {
+     "irrevocable_from": "2026-08-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/67/3/withdrawal -> simultaneous",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "simultaneous",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "denied",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-10-31T09:12:00Z",
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": null,
+     "withdrawn_at": "2026-06-02T11:00:00Z",
+     "series_withdrawn_at": null
+    },
+    "agreement": {
+     "agreed_forms": null
+    },
+    "notification": {
+     "given_at": "2026-08-20T00:00:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "became_aware_at": "2026-05-04T09:12:00Z",
+     "poca_notification_in_writing": null
+    },
+    "evidence": {
+     "instrument_use_record": "log-1",
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": null,
+     "provided_at": "2026-04-28T19:41:00Z",
+     "credit_value_date": "2026-06-19T09:12:00Z",
+     "as_soon_as_practicable": null
+    },
+    "account": {
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "liable": false
+    },
+    "order": {
+     "irrevocable_from": "not-a-timestamp"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/67/4/series-withdrawal -> not_applicable",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_assessed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-19T09:12:00Z",
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     }
+    },
+    "consent": {
+     "to_transaction": null,
+     "form": "shouted-it",
+     "given_after_execution": null,
+     "withdrawn_at": "2026-06-19T09:12:00Z",
+     "series_withdrawn_at": null
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ]
+    },
+    "notification": {
+     "given_at": "2027-09-01T00:00:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "became_aware_at": "2026-05-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": false,
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {}
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": "doc-1"
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-10-31T09:12:00Z",
+     "credit_value_date": "2026-06-02T11:00:00Z"
+    },
+    "account": {
+     "restoration_applicable": true
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "liable": true,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": true
+    },
+    "order": {
+     "irrevocable_from": "2026-05-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-06-02T11:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/74/1/thirteen-months -> exceeded",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "exceeded",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "satisfied",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "equal",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "exceeded",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "breached"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": null,
+     "amount": {
+      "amountRaw": "4500000",
+      "decimals": "4",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "given_after_execution": false,
+     "withdrawn_at": "2026-04-28T19:41:00Z",
+     "series_withdrawn_at": "2026-10-31T09:12:00Z"
+    },
+    "agreement": {
+     "agreed_forms": null,
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2026-05-04T09:12:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": "2026-11-20T11:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": false,
+     "poca_notification_in_writing": null,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "provided_at": "2026-06-18T09:12:00Z",
+     "credit_value_date": "2026-10-31T09:12:00Z",
+     "as_soon_as_practicable": "denied"
+    },
+    "account": {
+     "restoration_applicable": false,
+     "restored_to_prior_state": "denied"
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "compensated": true
+    },
+    "order": {
+     "irrevocable_from": "2026-06-02T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-05-20T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/74/1/thirteen-months -> no_end_event",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "no_end_event",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "denied",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "denied",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-05-20T00:00:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": null
+    },
+    "consent": {
+     "to_series": null,
+     "form": null,
+     "given_after_execution": true,
+     "withdrawn_at": "2027-09-01T00:00:00Z",
+     "series_withdrawn_at": "2026-06-19T09:12:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ]
+    },
+    "notification": {
+     "given_at": null
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": null,
+     "reasonable_grounds_to_suspect_fraud": null,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "log-1",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "credit_value_date": "2026-06-18T09:12:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": true,
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "liable": false,
+     "compensated": null
+    },
+    "aspsp": {
+     "compensation_requested": null
+    },
+    "clock": {
+     "now": "2026-11-20T11:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/74/1/thirteen-months -> not_yet_due",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "not_yet_due",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-02T11:00:00Z",
+     "amount": null,
+     "via_pisp": false
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "form": "shouted-it",
+     "given_after_execution": null,
+     "withdrawn_at": "2026-06-02T11:00:00Z",
+     "series_withdrawn_at": "2026-05-04T09:12:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ],
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": null,
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "became_aware_at": "not-a-timestamp",
+     "reasonable_grounds_to_suspect_fraud": null,
+     "poca_notification_in_writing": null,
+     "claims_fraud_or_gross_negligence": null,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": null
+    },
+    "refund": {
+     "credit_value_date": "2026-10-31T09:12:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": null,
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": false,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-08-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2027-09-01T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/74/1/thirteen-months -> overdue",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "overdue",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-18T09:12:00Z",
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_series": "",
+     "form": "online-banking-2fa",
+     "withdrawn_at": "2027-09-01T00:00:00Z",
+     "series_withdrawn_at": "2026-04-28T19:41:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ],
+     "post_execution_consent_agreed": null
+    },
+    "notification": {
+     "given_at": "2026-06-02T11:00:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "part6_information_failure": true,
+     "became_aware_at": "2026-11-20T11:00:00Z",
+     "poca_notification_in_writing": "",
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "EUR"
+     },
+     "provided_at": "2026-06-02T11:00:00Z",
+     "credit_value_date": "2026-05-20T00:00:00Z",
+     "as_soon_as_practicable": "not_assessed"
+    },
+    "account": {
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": "affirmed",
+     "compensated": true
+    },
+    "order": {
+     "irrevocable_from": "2026-05-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-06-02T11:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/75/2/pisp-burden -> affirmed",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "satisfied",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "affirmed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "incomparable_currency",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-04-28T19:41:00Z",
+     "amount": null,
+     "via_pisp": false
+    },
+    "consent": {
+     "to_transaction": null,
+     "to_series": "",
+     "withdrawn_at": "2026-06-19T09:12:00Z",
+     "series_withdrawn_at": "2026-06-02T11:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ]
+    },
+    "notification": {
+     "given_at": "2026-08-20T00:00:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "became_aware_at": "2026-06-02T11:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "denied",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "refund": {
+     "provided_at": "2026-05-20T00:00:00Z",
+     "credit_value_date": "2026-06-02T11:00:00Z",
+     "as_soon_as_practicable": "not_assessed"
+    },
+    "account": {
+     "restoration_applicable": null,
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "liable": null,
+     "compensated": null
+    },
+    "order": {
+     "irrevocable_from": "2026-06-02T11:00:00Z"
+    },
+    "clock": {
+     "now": "2027-09-01T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/75/2/pisp-burden -> not_applicable",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "not_satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "breached",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": null,
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": "",
+     "to_series": "",
+     "form": "shouted-it",
+     "given_after_execution": null,
+     "series_withdrawn_at": "2027-09-01T00:00:00Z"
+    },
+    "agreement": {
+     "post_execution_consent_agreed": null
+    },
+    "notification": {
+     "given_at": "2026-06-18T09:12:00Z",
+     "without_undue_delay": null
+    },
+    "provider": {
+     "became_aware_at": "2026-05-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": "doc-1"
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-05-20T00:00:00Z",
+     "credit_value_date": null
+    },
+    "account": {
+     "restoration_applicable": true
+    },
+    "pisp": {
+     "burden_discharged": "denied",
+     "liable": false,
+     "compensated": null
+    },
+    "order": {
+     "irrevocable_from": "2026-10-31T09:12:00Z"
+    },
+    "clock": {
+     "now": "2026-05-20T00:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/75/4/supporting-evidence -> satisfied",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "no_end_event",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "denied",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "satisfied",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "not_equal",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "breached",
+    "psr-2017/76/2/deadline": "within",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-11-20T11:00:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     }
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "form": "branch-signature",
+     "given_after_execution": false,
+     "withdrawn_at": "2026-10-31T09:12:00Z",
+     "series_withdrawn_at": "2026-04-28T19:41:00Z"
+    },
+    "agreement": {
+     "agreed_forms": null
+    },
+    "notification": {
+     "given_at": "2026-05-04T09:12:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "became_aware_at": "not-a-timestamp",
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": false,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-11-20T11:00:00Z",
+     "credit_value_date": "not-a-timestamp",
+     "as_soon_as_practicable": "denied"
+    },
+    "account": {
+     "restored_to_prior_state": null
+    },
+    "pisp": {
+     "burden_discharged": "affirmed",
+     "liable": false,
+     "compensated": true
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-11-20T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-10-31T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/76/1/a/refund -> equal",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "equal",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "denied",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-10-31T09:12:00Z",
+     "amount": null,
+     "via_pisp": null
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "form": "branch-signature",
+     "given_after_execution": null,
+     "withdrawn_at": "2026-10-31T09:12:00Z",
+     "series_withdrawn_at": "2026-11-20T11:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ],
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2027-09-01T00:00:00Z",
+     "without_undue_delay": "denied"
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": "not-a-timestamp",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": null,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "log-1",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "EUR"
+     },
+     "provided_at": "2026-06-19T09:12:00Z",
+     "credit_value_date": "2027-09-01T00:00:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": true,
+     "restored_to_prior_state": "affirmed"
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": true,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": true
+    },
+    "order": {
+     "irrevocable_from": "2026-06-02T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-11-20T11:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "deadline_only"
+   },
+   "witnesses": "psr-2017/76/1/b/restore -> satisfied",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "denied",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "satisfied",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "breached",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "breached"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2027-09-01T00:00:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     }
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "to_series": null,
+     "form": "shouted-it",
+     "given_after_execution": false,
+     "withdrawn_at": "2026-06-19T09:12:00Z"
+    },
+    "agreement": {
+     "agreed_forms": []
+    },
+    "notification": {
+     "given_at": "2026-08-20T00:00:00Z",
+     "without_undue_delay": null
+    },
+    "provider": {
+     "became_aware_at": "2026-08-20T00:00:00Z",
+     "reasonable_grounds_to_suspect_fraud": null,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "log-1",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-11-20T11:00:00Z",
+     "credit_value_date": "2026-11-20T11:00:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": true
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": false,
+     "compensated": true
+    },
+    "aspsp": {
+     "compensation_requested": null
+    },
+    "order": {
+     "irrevocable_from": "2027-09-01T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-04-28T19:41:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/76/2/deadline -> exceeded",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_applicable",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "equal",
+    "psr-2017/76/1/b/restore": "undetermined",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "exceeded",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-19T09:12:00Z",
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "form": "shouted-it",
+     "given_after_execution": true,
+     "withdrawn_at": "2026-05-20T00:00:00Z",
+     "series_withdrawn_at": "2026-11-20T11:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ],
+     "post_execution_consent_agreed": null
+    },
+    "notification": {
+     "given_at": "2026-04-28T19:41:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "part6_information_failure": true,
+     "became_aware_at": "2026-04-28T19:41:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": null,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "provided_at": "2026-05-04T09:12:00Z",
+     "credit_value_date": null,
+     "as_soon_as_practicable": null
+    },
+    "account": {
+     "restoration_applicable": null
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "liable": true
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-06-18T09:12:00Z"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/76/2/deadline -> not_applicable_obligation_suspended",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "satisfied",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_assessed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "satisfied",
+    "psr-2017/76/2/deadline": "not_applicable_obligation_suspended",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": null,
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": false
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "form": "shouted-it",
+     "given_after_execution": true,
+     "withdrawn_at": "2026-05-04T09:12:00Z",
+     "series_withdrawn_at": "not-a-timestamp"
+    },
+    "agreement": {
+     "agreed_forms": []
+    },
+    "notification": {
+     "given_at": null,
+     "without_undue_delay": null
+    },
+    "provider": {
+     "part6_information_failure": true,
+     "became_aware_at": "2026-06-18T09:12:00Z",
+     "poca_notification_in_writing": "",
+     "claims_fraud_or_gross_negligence": true
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": null,
+     "credit_value_date": "2026-06-19T09:12:00Z",
+     "as_soon_as_practicable": null
+    },
+    "account": {
+     "restoration_applicable": false,
+     "restored_to_prior_state": "denied"
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": null,
+     "compensated": null
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-06-18T09:12:00Z"
+    },
+    "clock": {
+     "now": "2026-06-19T09:12:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/76/2/deadline -> not_yet_due",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "no_end_event",
+    "psr-2017/74/2/information-failure": "satisfied",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "not_equal",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "not_yet_due",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-19T09:12:00Z",
+     "amount": {
+      "amountRaw": "99999",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": "sig-1",
+     "to_series": "sig-2",
+     "form": "online-banking-2fa",
+     "given_after_execution": true,
+     "withdrawn_at": "2026-04-28T19:41:00Z",
+     "series_withdrawn_at": "not-a-timestamp"
+    },
+    "notification": {
+     "given_at": "2026-10-31T09:12:00Z",
+     "without_undue_delay": "denied"
+    },
+    "provider": {
+     "became_aware_at": "2026-06-18T09:12:00Z",
+     "reasonable_grounds_to_suspect_fraud": null,
+     "poca_notification_in_writing": null,
+     "claims_fraud_or_gross_negligence": false,
+     "burden": {}
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "credit_value_date": "2027-09-01T00:00:00Z",
+     "as_soon_as_practicable": "affirmed"
+    },
+    "account": {
+     "restoration_applicable": null,
+     "restored_to_prior_state": "affirmed"
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": true,
+     "compensated": true
+    },
+    "aspsp": {
+     "compensation_requested": null
+    },
+    "order": {
+     "irrevocable_from": "2026-05-20T00:00:00Z"
+    },
+    "clock": {
+     "now": "2026-08-20T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/76/2/deadline -> overdue",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "denied",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_assessed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "not_satisfied",
+    "psr-2017/76/1/a/refund": "not_equal",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "affirmed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "overdue",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-06-18T09:12:00Z",
+     "amount": null,
+     "via_pisp": false
+    },
+    "consent": {
+     "to_transaction": "",
+     "to_series": "",
+     "form": "branch-signature",
+     "withdrawn_at": "2026-04-28T19:41:00Z",
+     "series_withdrawn_at": "2026-04-28T19:41:00Z"
+    },
+    "agreement": {
+     "agreed_forms": null,
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2026-08-20T00:00:00Z",
+     "without_undue_delay": "denied"
+    },
+    "provider": {
+     "part6_information_failure": false,
+     "reasonable_grounds_to_suspect_fraud": true,
+     "poca_notification_in_writing": "ref/POCA/1",
+     "claims_fraud_or_gross_negligence": null,
+     "burden": {}
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": ""
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-11-20T11:00:00Z",
+     "credit_value_date": "2027-09-01T00:00:00Z",
+     "as_soon_as_practicable": "not_assessed"
+    },
+    "account": {
+     "restoration_applicable": true,
+     "restored_to_prior_state": "denied"
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-11-20T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-05-20T00:00:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/76/2/deadline -> undetermined",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "before",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "denied",
+    "psr-2017/74/1/thirteen-months": "within",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "satisfied",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "breached",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "satisfied",
+    "psr-2017/76/2/deadline": "undetermined",
+    "psr-2017/76/4/value-date": "breached",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2026-10-31T09:12:00Z",
+     "amount": null,
+     "via_pisp": false
+    },
+    "consent": {
+     "to_series": null,
+     "form": "online-banking-2fa",
+     "given_after_execution": true,
+     "withdrawn_at": null,
+     "series_withdrawn_at": "2026-05-20T00:00:00Z"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa",
+      "branch-signature"
+     ],
+     "post_execution_consent_agreed": false
+    },
+    "notification": {
+     "given_at": "2026-05-04T09:12:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "became_aware_at": "2026-10-31T09:12:00Z",
+     "reasonable_grounds_to_suspect_fraud": null,
+     "poca_notification_in_writing": "",
+     "claims_fraud_or_gross_negligence": true,
+     "burden": {
+      "authenticated": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": null,
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": null,
+     "provided_at": "2026-10-31T09:12:00Z",
+     "credit_value_date": "2026-05-20T00:00:00Z",
+     "as_soon_as_practicable": null
+    },
+    "account": {
+     "restoration_applicable": false,
+     "restored_to_prior_state": "not_assessed"
+    },
+    "pisp": {
+     "burden_discharged": "not_assessed",
+     "compensated": false
+    },
+    "order": {
+     "irrevocable_from": "2026-06-02T11:00:00Z"
+    },
+    "clock": {
+     "now": "2026-08-20T00:00:00Z"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/76/2/deadline -> within",
+   "results": {
+    "psr-2017/67/1/consent": "none_present",
+    "psr-2017/67/2/b/form": "member",
+    "psr-2017/67/2/a/timing": "breached",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "breached",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "within",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": null,
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "GBP"
+     },
+     "via_pisp": true
+    },
+    "consent": {
+     "to_transaction": "",
+     "to_series": "sig-2",
+     "form": "shouted-it",
+     "given_after_execution": null,
+     "withdrawn_at": "2026-06-19T09:12:00Z",
+     "series_withdrawn_at": "2027-09-01T00:00:00Z"
+    },
+    "agreement": {
+     "post_execution_consent_agreed": true
+    },
+    "notification": {
+     "given_at": "2026-06-18T09:12:00Z",
+     "without_undue_delay": "not_assessed"
+    },
+    "provider": {
+     "became_aware_at": "2026-10-31T09:12:00Z",
+     "claims_fraud_or_gross_negligence": false
+    },
+    "evidence": {
+     "instrument_use_record": "log-1",
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "4500000",
+      "decimals": "4",
+      "currency": "GBP"
+     },
+     "provided_at": "2026-04-28T19:41:00Z",
+     "credit_value_date": null,
+     "as_soon_as_practicable": "not_assessed"
+    },
+    "account": {
+     "restoration_applicable": false,
+     "restored_to_prior_state": "affirmed"
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": null,
+     "compensated": false
+    },
+    "aspsp": {
+     "compensation_requested": false
+    },
+    "order": {
+     "irrevocable_from": "2026-06-02T11:00:00Z"
+    },
+    "clock": {
+     "now": "not-a-timestamp"
+    }
+   },
+   "resolutions": {
+    "P1_carveout_scope": "obligation_suspended"
+   },
+   "witnesses": "psr-2017/76/5/a/aspsp-complies -> satisfied",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "not_member",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "after",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "not_assessed",
+    "psr-2017/74/1/thirteen-months": "no_end_event",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "undetermined",
+    "psr-2017/75/2/pisp-burden": "not_assessed",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "equal",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "not_applicable",
+    "psr-2017/76/2/deadline": "out_of_order",
+    "psr-2017/76/4/value-date": "missing_operand",
+    "psr-2017/76/5/a/aspsp-complies": "satisfied",
+    "psr-2017/76/5/b/pisp-compensates": "not_applicable"
+   }
+  },
+  {
+   "facts": {
+    "transaction": {
+     "debit_date": "2027-09-01T00:00:00Z"
+    },
+    "consent": {
+     "to_transaction": "",
+     "to_series": "sig-2",
+     "withdrawn_at": "2026-06-19T09:12:00Z",
+     "series_withdrawn_at": "not-a-timestamp"
+    },
+    "agreement": {
+     "agreed_forms": [
+      "online-banking-2fa"
+     ]
+    },
+    "notification": {
+     "given_at": "2026-05-20T00:00:00Z",
+     "without_undue_delay": "affirmed"
+    },
+    "provider": {
+     "part6_information_failure": null,
+     "became_aware_at": "2026-06-18T09:12:00Z",
+     "reasonable_grounds_to_suspect_fraud": true,
+     "burden": {
+      "authenticated": "affirmed",
+      "accurately_recorded": "affirmed",
+      "entered_in_accounts": "affirmed",
+      "no_technical_deficiency": "affirmed"
+     }
+    },
+    "evidence": {
+     "instrument_use_record": "",
+     "supporting_evidence_given_to_payer": null
+    },
+    "refund": {
+     "amount": {
+      "amountRaw": "45000",
+      "decimals": "2",
+      "currency": "EUR"
+     },
+     "provided_at": "not-a-timestamp",
+     "credit_value_date": "2026-08-20T00:00:00Z",
+     "as_soon_as_practicable": null
+    },
+    "account": {
+     "restoration_applicable": null,
+     "restored_to_prior_state": null
+    },
+    "pisp": {
+     "burden_discharged": null,
+     "liable": true,
+     "compensated": true
+    },
+    "aspsp": {
+     "compensation_requested": true
+    },
+    "order": {
+     "irrevocable_from": "not-a-timestamp"
+    },
+    "clock": {
+     "now": "2026-10-31T09:12:00Z"
+    }
+   },
+   "resolutions": {},
+   "witnesses": "psr-2017/76/5/b/pisp-compensates -> satisfied",
+   "results": {
+    "psr-2017/67/1/consent": "one_present",
+    "psr-2017/67/2/b/form": "no_candidate",
+    "psr-2017/67/2/a/timing": "not_applicable",
+    "psr-2017/67/3/withdrawal": "missing_operand",
+    "psr-2017/67/4/series-withdrawal": "not_satisfied",
+    "psr-2017/74/1/undue-delay": "affirmed",
+    "psr-2017/74/1/thirteen-months": "out_of_order",
+    "psr-2017/74/2/information-failure": "not_applicable",
+    "psr-2017/75/1/provider-burden": "satisfied",
+    "psr-2017/75/2/pisp-burden": "not_applicable",
+    "psr-2017/75/3/instrument-not-sufficient": "floor_not_met",
+    "psr-2017/75/4/supporting-evidence": "not_applicable",
+    "psr-2017/76/1/trigger": "undetermined",
+    "psr-2017/76/1/a/refund": "missing_operand",
+    "psr-2017/76/1/b/restore": "not_applicable",
+    "psr-2017/76/2/practicable": "not_assessed",
+    "psr-2017/76/3/fraud-carveout": "breached",
+    "psr-2017/76/2/deadline": "no_end_event",
+    "psr-2017/76/4/value-date": "satisfied",
+    "psr-2017/76/5/a/aspsp-complies": "not_applicable",
+    "psr-2017/76/5/b/pisp-compensates": "satisfied"
+   }
+  }
+ ]
+}

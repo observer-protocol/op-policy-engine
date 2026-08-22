@@ -24,10 +24,56 @@ const conditional_requirement = (pre, res) => {
 };
 const member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
 const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
+// CLOSED 2026-08-22, identically to the Banxico copy. It read every unrecognised value as failure.
+const CONJUNCTION_TOKENS = new Set([true, false, 'satisfied', 'undetermined']);
 const conjunction_over_results = (rs, undeterminedIs) => {
+  for (const r of rs) {
+    if (!CONJUNCTION_TOKENS.has(r)) {
+      throw new Error(`conjunction_over_results: unrecognised result ${JSON.stringify(r)}`);
+    }
+  }
   if (rs.includes('undetermined')) return undeterminedIs === 'fail' ? 'not_satisfied' : 'undetermined';
   return rs.every((r) => r === true || r === 'satisfied') ? 'satisfied' : 'not_satisfied';
 };
+
+// ─── composition shapes ─────────────────────────────────────────────────────────────────────────
+//
+// Named 2026-08-22. These were inline in both evaluators, which is where 11 of 40 clause results
+// took their outermost operation. Each validates its own input and THROWS on anything unregistered,
+// and each carries `undetermined` rather than collapsing it: a shape that decides on an undetermined
+// operand reintroduces E1 one layer up.
+//
+// None is coupled to a primitive's tokens. `remap_result_domain` takes its mapping FROM THE CALL
+// SITE, because which of a primitive's results a clause treats as failure is the clause's reading.
+
+const strictBoolean = (v, where) => {
+  if (v === true || v === false) return v;
+  throw new Error(`${where}: expected a strict boolean, got ${JSON.stringify(v)}`);
+};
+
+// The obligation did not arise. THE CLOSED ARM IS ALWAYS `not_applicable` AND IS NOT A PARAMETER.
+// A token parameter would let "the requirement failed" and "the requirement never applied" share one
+// shape name and look like agreement, which is exactly how the two domains diverged.
+const applicability_gate = (applies, compute) =>
+  (strictBoolean(applies, 'applicability_gate') ? compute() : 'not_applicable');
+
+// An input the clause needs cannot be USED: an ambiguity nobody resolved, a value nothing can
+// classify. Its closed arm is always `undetermined`, and the distinction from applicability_gate is
+// the point of having two shapes rather than one parameterised one.
+const guard_on_unresolved = (usable, compute) =>
+  (strictBoolean(usable, 'guard_on_unresolved') ? compute() : 'undetermined');
+
+// One result domain onto another. The mapping must be TOTAL over the source domain: an unlisted
+// token throws rather than falling into an else arm, which is where the two domains silently
+// disagreed about `denied` until the versions were laid side by side (REUSE-LOG E6). A source domain
+// that is genuinely open declares `$unmapped` explicitly, so that decision is written down rather
+// than implied by the shape of a ternary.
+const remap_result_domain = (value, mapping) => {
+  if (Object.prototype.hasOwnProperty.call(mapping, value)) return mapping[value];
+  if (Object.prototype.hasOwnProperty.call(mapping, '$unmapped')) return mapping.$unmapped;
+  throw new Error(`remap_result_domain: no mapping for ${JSON.stringify(value)}`);
+};
+
 
 // ─── PARAMETERISED: `months`, and a clock ───────────────────────────────────────────────────────
 // Banxico needed calendar_days and business_days. 13 months is not a fixed multiple of either, so
@@ -61,10 +107,17 @@ const elapsed_within = (start, end, limit, unit, now) => {
     if (now === null || now === undefined) return 'no_end_event';   // no clock: cannot tell, and says so
     const t = new Date(now);
     if (isNaN(t)) return 'no_end_event';
+    if (t < s) return 'out_of_order';   // the clock precedes the event that starts the period
     return withinLimit(s, t, limit, unit) ? 'not_yet_due' : 'overdue';
   }
   const e = new Date(end);
   if (isNaN(e)) return 'no_end_event';
+  // AN END EVENT CANNOT PRECEDE THE EVENT THAT TRIGGERS IT. Added 2026-08-22, in step with the
+  // Banxico copy. A negative interval is under every limit, so this returned `within` for a refund
+  // value-dated before the debit it answers. Tested INSIDE the primitive: all four call sites in the
+  // two domains measure an end event that must follow its start, so they do not differ, and a
+  // call-site guard would be forgotten on the fifth.
+  if (e < s) return 'out_of_order';
   return withinLimit(s, e, limit, unit) ? 'within' : 'exceeded';
 };
 
@@ -119,8 +172,8 @@ export function evaluate(facts, resolutions = {}) {
   // withdrawal. They AGREE on `''`, which field_present also calls absent. So this is a narrow fix
   // and it is worth saying so rather than implying it closed a class.
   put('psr-2017/67/4/series-withdrawal',
-    field_present(f.consent?.series_withdrawn_at) === 'present'
-      ? conjunction_over_results([false], 'undetermined') : 'not_applicable');
+    applicability_gate(field_present(f.consent?.series_withdrawn_at) === 'present',
+      () => conjunction_over_results([false], 'undetermined')));
 
   // reg 74
   put('psr-2017/74/1/undue-delay', held_judgment(f.notification?.without_undue_delay));
@@ -136,9 +189,11 @@ export function evaluate(facts, resolutions = {}) {
   put('psr-2017/75/1/provider-burden', conjunction_over_results(
     [held_judgment(b.authenticated), held_judgment(b.accurately_recorded),
      held_judgment(b.entered_in_accounts), held_judgment(b.no_technical_deficiency)]
-      .map((r) => (r === 'affirmed' ? true : r === 'not_assessed' ? 'undetermined' : false)), 'undetermined'));
+      .map((r) => remap_result_domain(r, {
+        affirmed: true, denied: false, not_assessed: 'undetermined', $unmapped: 'undetermined',
+      })), 'undetermined'));
   put('psr-2017/75/2/pisp-burden',
-    f.transaction?.via_pisp === true ? held_judgment(f.pisp?.burden_discharged) : 'not_applicable');
+    applicability_gate(f.transaction?.via_pisp === true, () => held_judgment(f.pisp?.burden_discharged)));
   put('psr-2017/75/3/instrument-not-sufficient',
     open_set_floor([field_present(f.evidence?.instrument_use_record) === 'present']),
     'PARAMETERISED: open_set_floor at arity one. floor_met means the record exists. It does NOT mean authorisation is proved, which is exactly what 75(3) says.');
@@ -147,8 +202,28 @@ export function evaluate(facts, resolutions = {}) {
       field_present(f.evidence?.supporting_evidence_given_to_payer) === 'present'));
 
   // reg 76
-  const notBarred = o['psr-2017/74/1/thirteen-months'].result === 'within'
-    || o['psr-2017/74/2/information-failure'].result === 'satisfied';
+  // RULING 3, 2026-08-22. This was a two-valued `||`, so `no_end_event` (nobody notified and no
+  // clock, meaning we cannot tell whether the bar bit) became `false` and the refund duty reported
+  // as not triggered on facts that establish nothing. Three-valued now: true dominates, then
+  // undetermined, then false.
+  //
+  // DELIBERATELY NOT NAMED as a shape. One instance, one domain, so under E4 it waits. Recorded as
+  // REUSE-LOG E7.
+  const inTime = remap_result_domain(o['psr-2017/74/1/thirteen-months'].result, {
+    within: true,
+    exceeded: false,
+    overdue: false,
+    not_yet_due: 'undetermined',    // not notified, still in time: the bar has not bitten and may not
+    no_end_event: 'undetermined',   // not notified and no clock: nothing is established
+    out_of_order: 'undetermined',   // notified before the debit it complains of
+  });
+  const barLifted = remap_result_domain(o['psr-2017/74/2/information-failure'].result, {
+    satisfied: true, not_applicable: false, breached: false,
+    outstanding: 'undetermined', undetermined: 'undetermined',
+  });
+  const notBarred = (inTime === true || barLifted === true) ? true
+    : (inTime === 'undetermined' || barLifted === 'undetermined') ? 'undetermined'
+      : false;
   const unauthorised = o['psr-2017/67/1/consent'].result === 'none_present';
   put('psr-2017/76/1/trigger',
     conjunction_over_results([unauthorised, notBarred], 'undetermined'),
@@ -162,7 +237,9 @@ export function evaluate(facts, resolutions = {}) {
   const restored = held_judgment(f.account?.restored_to_prior_state);
   put('psr-2017/76/1/b/restore',
     conditional_requirement(f.account?.restoration_applicable === true,
-      restored === 'not_assessed' ? 'undetermined' : restored === 'affirmed'),
+      remap_result_domain(restored, {
+        affirmed: true, denied: false, not_assessed: 'undetermined', $unmapped: 'undetermined',
+      })),
     '`undetermined` means restoration was required and nobody has assessed whether it happened.');
   put('psr-2017/76/2/practicable', held_judgment(f.refund?.as_soon_as_practicable));
 
@@ -175,19 +252,24 @@ export function evaluate(facts, resolutions = {}) {
   const scope = resolutions.P1_carveout_scope;   // 'deadline_only' | 'obligation_suspended' | undefined
   put('psr-2017/76/2/deadline',
     carve
-      ? (scope === undefined ? 'undetermined'
-         : scope === 'deadline_only' ? 'not_applicable_deadline_removed' : 'not_applicable_obligation_suspended')
+      ? guard_on_unresolved(scope !== undefined, () => remap_result_domain(scope, {
+          deadline_only: 'not_applicable_deadline_removed',
+          obligation_suspended: 'not_applicable_obligation_suspended',
+        }))
       : elapsed_within(f.provider?.became_aware_at, f.refund?.provided_at, 1, 'business_days', f.clock?.now),
     carve && scope === undefined ? 'P1 unresolved: the carve-out disapplies paragraph (2) and the text does not say whether paragraph (1) survives.' : undefined);
 
   put('psr-2017/76/4/value-date',
-    (() => { const r = ordered_before(f.refund?.credit_value_date, f.transaction?.debit_date);
-             return r === 'after' ? 'breached' : r === 'missing_operand' ? 'missing_operand' : 'satisfied'; })(),
+    remap_result_domain(ordered_before(f.refund?.credit_value_date, f.transaction?.debit_date), {
+      after: 'breached',
+      before: 'satisfied',
+      simultaneous: 'satisfied',      // `no later than` admits simultaneous
+      missing_operand: 'missing_operand',
+    }),
     'NEW primitive ordered_before, second user. `no later than` admits simultaneous.');
   put('psr-2017/76/5/a/aspsp-complies',
-    f.transaction?.via_pisp === true
-      ? conjunction_over_results([o['psr-2017/76/1/a/refund'].result === 'equal'], 'undetermined')
-      : 'not_applicable');
+    applicability_gate(f.transaction?.via_pisp === true,
+      () => conjunction_over_results([o['psr-2017/76/1/a/refund'].result === 'equal'], 'undetermined')));
   put('psr-2017/76/5/b/pisp-compensates',
     conditional_requirement(f.pisp?.liable === true && f.aspsp?.compensation_requested === true,
       f.pisp?.compensated === true));

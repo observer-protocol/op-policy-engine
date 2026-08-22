@@ -511,6 +511,49 @@ counted by anything.
 `branch_label` and `truthy_present` are one-offs and should stay that way. Naming them would add
 inventory without adding reuse.
 
+> **CORRECTED 2026-08-22, and the correction is about the METHOD, not the two terms.**
+>
+> **`branch_label` is not a one-off.** It is
+> `34-2010/3.6/p5/foreign-deadline`'s `abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph'`,
+> and this section classified it by WHAT IT RETURNS, a label, rather than by WHAT IT DOES. By
+> operation it renders a boolean into two of the clause's own result tokens.
+>
+> **`truthy_present` does exactly the same thing**, on `3.6/a/evidence` and
+> `3.6/a/verification-method`. So the two terms this section called separate one-offs are **one
+> operation with three instances**, all in Banxico and none in PSR.
+>
+> **And the operation is not a composition shape at all. It is what a PRIMITIVE is.** `field_present`,
+> `member_of_enumeration`, `open_set_floor` and `none_of_class_present` are each precisely "render a
+> condition into two tokens". The three clause-level instances are one-line primitives written inline
+> rather than named, which puts them in the primitive layer and not this one.
+>
+> **The conclusion stands and the reasoning was wrong.** They should stay unnamed, because naming
+> them adds primitives rather than reuse. But this section reached that by calling them rare, and they
+> are not rare. Getting the right answer from the wrong classification is worth recording, because the
+> classification is what the next reader inherits.
+>
+> **The method defect: classifying by return type merges nothing and splits what belongs together.**
+> A label and a presence token look different and are produced identically. It is the same error the
+> audit made in the other direction when it counted the recurrence of a wrapping SHAPE as recurrence
+> of a DEFECT, corrected at REUSE-LOG E1. Both times the fix is to classify by the operation.
+>
+> ### THE TEST, so the next reader does not repeat it
+>
+> **Before recording a shape, state what the operation DOES in one sentence that mentions neither its
+> syntax nor its return type.** If the sentence cannot be written without saying `a ternary on a
+> predicate` or `returns a label`, the grouping is by form and is not yet a finding.
+>
+> Applied to the three misclassifications this estate has made, all three fall apart under it:
+>
+> | recorded as | the sentence that survives the test | what it actually was |
+> |---|---|---|
+> | `branch_label` and `truthy_present`, two one-offs | renders a boolean into two of the clause's own result tokens | ONE operation, three instances, and it belongs to the primitive layer |
+> | E8, three instances of select-by-predicate | (none: the three need three different sentences) | three different operations sharing a ternary |
+> | E1's resolution note, three PSR instances of the defect | wraps a result carrying more states than the wrapper can represent | one instance, and a different clause than the three listed |
+>
+> The test is cheap, it is mechanical, and it would have caught all three at the moment they were
+> written down.
+
 **Not built, as scoped.** The finding is that the reduction exists, not that it should be done
 tonight.
 

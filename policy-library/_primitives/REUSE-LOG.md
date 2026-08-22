@@ -397,6 +397,9 @@ instance-counting and visible immediately to a change of shape.
    premise nothing establishes, that is the same permit.
 4. **An entry with neither stays open.** An open entry is a correct description of the evidence.
 
+**Read with E10**, which says what counts as an instance. Counting instances of a FORM rather than
+of an operation trips this rule's threshold on a population that does not exist.
+
 ### The exception, unchanged
 
 **A recorded defect that produces a WRONG ANSWER, rather than a coarse one, is fixed on sight.** E1
@@ -475,3 +478,341 @@ twice before then, that is the second instance and the entry opens.
 
 **One thing that is NOT deferred:** a third domain would add a third copy and make this strictly
 worse. That is a reason not to start one before this entry closes, not a reason to fix it tonight.
+
+---
+
+## E6. Two locally reasonable readings of the same question, in two domains, disagreeing
+
+**Domains:** both. **Observed:** 2026-08-22, characterising the composition shapes before naming them.
+**Status: FIXED SAME DAY under a ruling. Recorded because of HOW it was found, not what it was.**
+
+### What happened
+
+Both domains remapped `held_judgment`'s result domain onto a boolean-ish value at a call site. The
+two inline versions disagreed on one token:
+
+| `held_judgment` returns | Banxico `3.6/p4/language` | PSR `76/1/b/restore` |
+|---|---|---|
+| `affirmed` | `true` | `true` |
+| **`denied`** | **`undetermined`** | **`false`** |
+| `not_assessed` | `undetermined` | `undetermined` |
+
+Banxico's was `=== 'affirmed' ? true : 'undetermined'`. So **an explicit denial and an unanswered
+question reached firmeza identically**, on the clause deciding whether a credit becomes irreversible.
+PSR's kept them apart.
+
+**Ruled 2026-08-22: PSR's treatment is correct.** `denied` is a person having answered;
+`not_assessed` is nobody having answered. Collapsing them discards a judgment that was actually made.
+Banxico changed.
+
+### Why this entry exists
+
+**Neither version is wrong on its face.** Read alone, `=== 'affirmed' ? true : 'undetermined'` looks
+careful: it declines to conclude from anything but an affirmation. Read alone,
+`=== 'affirmed' ? true : === 'not_assessed' ? 'undetermined' : false` looks careful too. **Nothing in
+either file is a defect until the two are put next to each other.**
+
+No second instance would have found this. Both domains already HAD instances; the instances were the
+problem. No test would have found it either: each evaluator was internally consistent, and no fixture
+carried an explicit `denied` on that clause. It surfaced when the same shape was characterised across
+both domains in one table, ahead of naming it.
+
+**This is E4's second trigger doing exactly what the rewritten rule says it does.** A change of
+representation, here putting two inline versions of one shape side by side, tests something instance
+counting cannot: not whether a shape generalises, but whether two existing implementations of it
+agree. The rewrite predicted that. This is the first observation taken after it and it behaved as
+predicted, which is better evidence for the rewrite than the case that motivated it.
+
+### The structural fix, beyond the ruling
+
+`remap_result_domain` is now a named shape taking its mapping **from the call site**, and the mapping
+must be **total over the source domain**. An unlisted token throws. A source domain that is genuinely
+open, which `held_judgment`'s is, must declare `$unmapped` explicitly.
+
+**So the shape now makes this class of divergence unwritable.** The old versions differed in an
+`else` arm, which is invisible because it has no name and no enumeration. Both readings are now
+written out token by token, and a reader comparing the two domains sees a table rather than two
+ternaries.
+
+---
+
+## E7. A disjunction that collapses `undetermined`
+
+**Domain:** SI 2017/752. **Clause:** `psr-2017/76/1/trigger`, via the `notBarred` operand.
+**Observed:** 2026-08-22. **Status: FIXED INLINE, NOT NAMED. One instance, one domain, so the SHAPE
+waits.**
+
+### What happened
+
+`conjunction_over_results` is a named primitive and carries `undetermined`. Its dual was a bare `||`:
+
+```js
+const notBarred = o['.../74/1/thirteen-months'].result === 'within'
+  || o['.../74/2/information-failure'].result === 'satisfied';
+```
+
+Measured with nobody notified and no clock supplied: `thirteen-months` returns `no_end_event`,
+meaning it cannot be told whether the 13 month bar bit; `information-failure` returns
+`not_applicable`. The disjunction produced `false`, and **the refund duty reported as not triggered
+on facts that establish nothing.**
+
+Fixed to three-valued: `true` dominates, then `undetermined`, then `false`. The trigger now returns
+`undetermined` on those facts.
+
+### Why the shape is not named
+
+**It has one instance in one domain.** Banxico has no disjunction over clause results at all. Naming
+it now would be generalising a composition shape from a single site, which is the error this log
+exists to prevent, and it would freeze whichever three-valued semantics one clause happened to need.
+
+**The defect is fixed and the shape waits.** Those are separable, and keeping them separate is the
+point: E4's exception covers a recorded defect that produces a wrong answer, which this did, but the
+exception licenses fixing the ANSWER, not naming the abstraction.
+
+It waits for a second instance or a change of representation. A second Banxico clause composing two
+results disjunctively would be the first. So would writing the truth table out, which is what
+finally showed the conjunction's dual was missing at all.
+
+---
+
+## E8. `select by predicate` is named in one domain and inline in the other
+
+**Domains:** both. **Observed:** 2026-08-22, in the composition recount.
+**Status: CLOSED 2026-08-22 WITH NO CHANGE. The entry's own premise was wrong: the three instances are
+not three instances of one operation. See the closure at the end.**
+
+### What happens
+
+Choosing between two readings by one predicate appears three times, in two domains, in three forms:
+
+| site | form |
+|---|---|
+| Banxico, the deadline period | `select_parameter_by_predicate(abroad, ...)`, **a named primitive** |
+| Banxico `3.6/p5/foreign-deadline` | `abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph'`, inline |
+| PSR `76/2/deadline` | `carve ? <carve-out reading> : elapsed_within(...)`, inline |
+
+The first two use **the same predicate in the same clause group**, one through a primitive and one
+inline, which is why neither looked like a pattern on its own.
+
+**This also corrects `INVENTORY-AUDIT.md`,** which called `branch_label` a one-off that should stay
+unnamed. It is not a one-off. It is `select by predicate` with a label as its payload, and the
+audit missed it because it classified by what the operation RETURNS rather than by what it DOES.
+
+### Candidate fixes
+
+1. **Use the existing primitive at the Banxico inline site only.** Smallest, and leaves PSR inline,
+   which is a shape landing in one domain and not the other. That is the thing E5 warns about.
+2. **Copy `select_parameter_by_predicate` into PSR and use it at all three.** Consistent, and adds a
+   fourth copied primitive definition, making E5 worse by one.
+3. **Promote it to a composition shape** alongside the four named today, taking thunks so both arms
+   are not evaluated. Largest, and the only one that does not deepen E5.
+
+Option 3 is probably right and is a decision about the shape layer rather than about either
+regulation. Not taken tonight.
+
+### CLOSED WITH NO CHANGE, 2026-08-22
+
+**The three do not disagree, and there is nothing to build. This entry merged three operations by
+the shape of their code.**
+
+#### The disagreement check passed, and what it found instead
+
+All three predicates are normalised to a strict boolean by `=== true` before selection, so the three
+sites cannot disagree about an unanswerable predicate. Measured, they behave identically.
+
+**But they agree in a direction worth recording.** An absent fact is read as a decided `false`:
+
+| `operation.executed_abroad` | `p5/foreign-deadline` | `p4/deadline` | firmeza |
+|---|---|---|---|
+| `true` | `selected_180_calendar_days` | `within` | `not_attached` |
+| `false` | `selected_fourth_paragraph` | `exceeded` | `attached` |
+| **`null`** | `selected_fourth_paragraph` | `exceeded` | **`attached`** |
+| **absent** | `selected_fourth_paragraph` | `exceeded` | **`attached`** |
+
+**Nobody recorded where the operation happened, and the credit becomes irreversible.** The 45 day
+period is applied because the absence of `abroad` is read as `domestic`. That is E1's class one layer
+up: a decision taken on a fact nothing establishes. PSR's carve-out predicate has the same shape but
+not the same consequence, because its false arm measures a deadline that returns `no_end_event`
+honestly. Opened as E9.
+
+#### Why neither option in the entry is right
+
+Classified by what they DO rather than by their syntax, the three are three different operations:
+
+| site | what it actually does |
+|---|---|
+| Banxico deadline period | selects a PARAMETER OBJECT that feeds `elapsed_within`. Never a clause result. Plumbing. |
+| Banxico `p5/foreign-deadline` | renders a boolean into two of the clause's own tokens. The clause's whole content is which paragraph applies. |
+| PSR `76/2/deadline` | selects between two COMPUTATIONS, each a different reading, and the selected one's result is the clause result. |
+
+Only the third is "select between two readings by a predicate", and **it has one instance**. Under E4,
+one instance waits.
+
+There is a second reason, and it is stronger. **The general form is exactly what Ruling 2 refused to
+build.** `applicability_gate` and `guard_on_unresolved` are already select-by-predicate with the false
+arm fixed, one to `not_applicable` and one to `undetermined`, and Ruling 2 hard-coded those arms
+precisely so that "the requirement failed" and "the requirement never applied" could not share a shape
+name. Adding the general form beside them re-creates that hazard: the next author writes
+`select_by_predicate(pred, () => x, () => 'not_applicable')` and the distinction is gone.
+
+They also differ mechanically. `select_parameter_by_predicate` is EAGER and selects values;
+`applicability_gate` and `guard_on_unresolved` take thunks and select computations. Merging them would
+change when the unselected arm runs.
+
+**So: neither layer, and no new layer.** Option (a) contradicts a standing ruling, option (b) deepens
+E5 to serve an instance that does not need it, and the honest third answer is that the population was
+never three.
+
+#### What this entry got wrong, and it is the same error twice
+
+I opened E8 having noticed three ternaries on a predicate. **I classified by the shape of the code.**
+`INVENTORY-AUDIT.md` had already made the same error in the other direction, calling `branch_label`
+and `truthy_present` two separate one-offs when they are one operation with three instances, because
+it classified by RETURN TYPE.
+
+And E1's resolution note made it a third time, recording the recurrence of a wrapping SHAPE as
+recurrence of a DEFECT.
+
+**Three misclassifications, one cause: naming a pattern by how it is written rather than by what it
+does.** The corrective is cheap and mechanical, and it is now written into `INVENTORY-AUDIT.md`
+beside the passage it corrects: before recording a shape, state what the operation DOES in a sentence
+that does not mention its syntax or its return type. All three of these survive that test only by
+falling apart.
+
+---
+
+## E9. An absent predicate is read as a decided false
+
+**Domains:** both, with different consequences. **Observed:** 2026-08-22, closing E8.
+**Status: FIXED 2026-08-22 under a ruling, with one further instance found by the sweep and two reported and not fixed. See the closure.**
+
+`facts.operation?.executed_abroad === true` and
+`f.provider?.reasonable_grounds_to_suspect_fraud === true` both normalise an absent fact to `false`
+before it reaches a selection. The normalisation is correct JavaScript and hides a question.
+
+**In Banxico it decides.** With `executed_abroad` absent, the fourth paragraph's 45 day period is
+applied, a dictamen delivered on day 120 reads as `exceeded`, and firmeza attaches. Nobody said where
+the operation happened.
+
+**In PSR it does not.** With the carve-out predicate absent, the deadline is measured and returns
+`no_end_event`, which is honest.
+
+Candidate fixes, in increasing order of blast radius:
+
+1. **Make the predicate three-valued at the Banxico site only.** `executed_abroad` absent yields
+   `undetermined` for `p5/foreign-deadline` and the deadline clause. Smallest, and leaves the pattern
+   in place everywhere else.
+2. **A shape for a three-valued predicate**, so an unanswerable predicate propagates rather than
+   collapsing. Larger, and it is close enough to `guard_on_unresolved` that the two would need
+   distinguishing carefully.
+3. **Require every fact feeding a selection to be declared non-nullable in the register**, and check
+   it. Moves the problem to authoring time and would have caught this before any run.
+
+Not fixed. No worked case has `executed_abroad` absent, so this would change nothing visible today,
+which is the same reason E1 sat unfixed and is not a reason to leave it.
+
+### CLOSED 2026-08-22, and the sweep found one more
+
+**Ruled: absent is not domestic.** A period cannot be selected from a fact nobody supplied.
+
+`field_present` separates the three inputs, because a recorded `false` is present and an absent field
+is not. Measured, before and after:
+
+| `operation.executed_abroad` | `p5/foreign-deadline` | `p4/deadline` | firmeza |
+|---|---|---|---|
+| `true` | `selected_180_calendar_days` | `within` | `not_attached` |
+| `false` | `selected_fourth_paragraph` | `exceeded` | `attached` |
+| `null` | `selected_fourth_paragraph` to **`undetermined`** | `exceeded` to **`undetermined`** | `attached` to **`undetermined`** |
+| absent | `selected_fourth_paragraph` to **`undetermined`** | `exceeded` to **`undetermined`** | `attached` to **`undetermined`** |
+
+**`undetermined` survives to firmeza**, through the table's existing `deadline: undetermined` rows.
+The two recorded values are untouched, and no worked case moved.
+
+### The sweep: four facts, and the instrument had the defect it was hunting
+
+Both domains were swept for any predicate where an absent fact takes a decided arm. **The first
+version of the sweep found E9 itself invisible.** It compared the absent case against the
+recorded-`false` case and skipped anything that matched, which is exactly the pair E9 says are
+indistinguishable. The sweep silently skipped the defect it was written to find.
+
+Corrected to: a clause DEPENDS on a field if its result differs between the field's two recorded
+values, and the question is then whether ABSENT gives a decided result for those clauses. Recorded
+rather than quietly repaired, because it is the third time in this estate an instrument has been
+built with the shape of its own subject.
+
+**Four facts, eight clause results. PSR: none.**
+
+| fact | clause | recorded values give | absent gives | |
+|---|---|---|---|---|
+| `operation.executed_abroad` | `p5/foreign-deadline`, `p4/deadline`, `p7/firmeza` | both decided | decided | **FIXED, E9** |
+| `operation.auth_factors` | `2.6/a/two-factor` | `met` / `not_met` | `not_met` | **FIXED** |
+| `dictamen.evidence_of_factors_present` | `3.6/a/evidence`, `3.6/p4/floor` | `present` / `absent` | `absent` | reported, see below |
+| `dictamen.verification_method_stated` | `3.6/a/verification-method`, `3.6/p4/floor` | `present` / `absent` | `absent` | reported, see below |
+
+**`auth_factors` was fixed with E9** and the same distinction. An absent list returned `not_met`,
+asserting the two-factor requirement failed on a fact nobody supplied. **A RECORDED EMPTY LIST still
+returns `not_met`**, which is right: it says no factors were used. `field_present` keeps them apart,
+because an empty array is present.
+
+### The two that were reported and not fixed, and why that is a scope decision
+
+`3.6/a/evidence` and `3.6/a/verification-method` have the same defect: an absent boolean returns
+`absent`, which is what a recorded `false` returns, and both then make the floor `floor_not_met`.
+
+**Fixing them cannot be done with the existing shapes.** The clause result domain is
+`present`/`absent`, two values, so a third state needs a third token. That token then has to reach
+`34-2010/3.6/p4/floor`, and `open_set_floor` takes booleans and returns `floor_met`/`floor_not_met`.
+**It cannot carry `undetermined`.** So the fix is a primitive widening of exactly the shape E1
+required, and it should be its own decision rather than a rider on E9.
+
+There is also a standing ruling on those two call sites from 2026-08-21, that the inline ternary is
+correct and `field_present` is the wrong repair because it would rule a dictamen stating no evidence
+as conforming. **That ruling stands and is not what this is about**: it settled which of two
+two-valued operations to use, and this is the separate question of whether a third value is needed.
+
+Opened as the next entry when someone rules on it. Not started.
+
+---
+
+## E10. STANDING RULE: name an operation by what it does, never by how it is written
+
+**Established:** 2026-08-22, from three misclassifications in this estate. Companion to E4.
+
+### The rule
+
+**Before recording a shape, state what the operation DOES in one sentence that mentions neither its
+syntax nor its return type. If the sentence cannot be written without saying `a ternary on a
+predicate` or `returns a label`, the grouping is by FORM and is not yet a finding.**
+
+### Why it is a rule and not an observation
+
+Three entries in this log and its audit were wrong the same way, in three different directions:
+
+| recorded as | the sentence that survives the test | what it actually was |
+|---|---|---|
+| `branch_label` and `truthy_present`, two separate one-offs | renders a boolean into two of the clause's own result tokens | ONE operation, three instances, and it belongs to the primitive layer rather than the shape layer |
+| E8, three instances of select-by-predicate | none: the three need three different sentences | three different operations sharing a ternary |
+| E1's resolution note, three PSR instances of the defect | wraps a result carrying more states than the wrapper can represent | one instance, and a different clause than the three named |
+
+**Twice by return type, once by syntax.** Each was a true statement about the code that did not
+support the conclusion drawn from it.
+
+### What it costs to get wrong
+
+The failures are not symmetrical and both are expensive.
+
+**Splitting one operation into several one-offs** makes each look too rare to name, so a recurring
+shape stays unnamed and its instances drift apart. That is how the two domains came to disagree about
+`denied`, which is E6.
+
+**Merging several operations into one shape** manufactures a population that was never there, and the
+fix invented for it generalises from a case that does not exist. E8 would have added a fifth
+composition shape serving one real instance, and that shape would have re-created the hazard Ruling 2
+closed by hard-coding the closed arms of `applicability_gate` and `guard_on_unresolved`.
+
+### How it relates to E4
+
+E4 says WHEN to fix: a second instance, or a change of representation. **E10 says what counts as an
+instance.** They compose badly if only one is applied: counting instances of a form rather than of an
+operation makes E4's threshold trip early on a population that does not exist, which is exactly what
+E8 did.

@@ -42,9 +42,10 @@
         "exceeded",
         "not_yet_due",
         "overdue",
+        "out_of_order",
         "no_end_event"
       ],
-      "description": "Whether an end event fell within a limit of a start event, measured in a named calendar unit. PARAMETERISED 2026-08-22, closing REUSE-LOG E1. When the end event did not occur, the answer depends on whether the period has run, which needs a clock: with `now` supplied it returns `not_yet_due` or `overdue`; without one it returns `no_end_event`, which now means only that the question cannot be answered from these facts. The SAME predicate decides `within` and `not_yet_due`, so the two vocabularies cannot disagree about the boundary.",
+      "description": "Whether an end event fell within a limit of a start event, measured in a named calendar unit. PARAMETERISED 2026-08-22, closing REUSE-LOG E1. When the end event did not occur, the answer depends on whether the period has run, which needs a clock: with `now` supplied it returns `not_yet_due` or `overdue`; without one it returns `no_end_event`, which now means only that the question cannot be answered from these facts. The SAME predicate decides `within` and `not_yet_due`, so the two vocabularies cannot disagree about the boundary. WIDENED AGAIN 2026-08-22 with `out_of_order`: an end event, or a clock, that precedes the event starting the period. A negative interval is under every limit, so this previously returned `within` for a dictamen dated before the aviso answering it. Tested inside the primitive because all four call sites in the two domains measure an end event that must follow its start.",
       "used_by": [
         "34-2010/3.6/p4/deadline",
         "34-2010/3.6/p5/expediente-copy"

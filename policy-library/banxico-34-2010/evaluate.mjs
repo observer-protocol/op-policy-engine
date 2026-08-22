@@ -59,12 +59,19 @@ const elapsed_within = (start, end, limit, unit, now) => {
     if (now === null || now === undefined) return 'no_end_event';   // no clock: cannot tell, and says so
     const t = Date.parse(now);
     if (Number.isNaN(s) || Number.isNaN(t)) return 'no_end_event';
+    if (t < s) return 'out_of_order';   // the clock precedes the event that starts the period
     // THE SAME PREDICATE decides both vocabularies, so `not_yet_due` and `within` can never
     // disagree about where the boundary is.
     return withinLimit(s, t, limit, unit) ? 'not_yet_due' : 'overdue';
   }
   const e = Date.parse(end);
   if (Number.isNaN(s) || Number.isNaN(e)) return 'no_end_event';
+  // AN END EVENT CANNOT PRECEDE THE EVENT THAT TRIGGERS IT. Added 2026-08-22. A negative interval is
+  // under every limit, so this returned `within` for a dictamen dated before the aviso answering it,
+  // and firmeza read `not_attached` off an incoherent record. Tested INSIDE the primitive rather than
+  // at the call sites: all four sites in the two domains measure an end event that must follow its
+  // start, so they do not differ, and a call-site guard would be forgotten on the fifth.
+  if (e < s) return 'out_of_order';
   return withinLimit(s, e, limit, unit) ? 'within' : 'exceeded';
 };
 
@@ -99,10 +106,57 @@ const none_of_class_present = (items, prohibited) =>
   (items.some((i) => prohibited.includes(i)) ? 'prohibited_present' : 'clear');
 const open_set_floor = (results) => (results.every((r) => r === true) ? 'floor_met' : 'floor_not_met');
 const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
+// CLOSED 2026-08-22. It accepted anything and read every unrecognised value as failure, so a caller
+// passing a token nobody registered got a silent `not_satisfied` instead of an error.
+const CONJUNCTION_TOKENS = new Set([true, false, 'satisfied', 'undetermined']);
 const conjunction_over_results = (results, undeterminedIs) => {
+  for (const r of results) {
+    if (!CONJUNCTION_TOKENS.has(r)) {
+      throw new Error(`conjunction_over_results: unrecognised result ${JSON.stringify(r)}`);
+    }
+  }
   if (results.includes('undetermined')) return undeterminedIs === 'fail' ? 'not_satisfied' : 'undetermined';
   return results.every((r) => r === true || r === 'satisfied') ? 'satisfied' : 'not_satisfied';
 };
+
+// ─── composition shapes ─────────────────────────────────────────────────────────────────────────
+//
+// Named 2026-08-22. These were inline in both evaluators, which is where 11 of 40 clause results
+// took their outermost operation. Each validates its own input and THROWS on anything unregistered,
+// and each carries `undetermined` rather than collapsing it: a shape that decides on an undetermined
+// operand reintroduces E1 one layer up.
+//
+// None is coupled to a primitive's tokens. `remap_result_domain` takes its mapping FROM THE CALL
+// SITE, because which of a primitive's results a clause treats as failure is the clause's reading.
+
+const strictBoolean = (v, where) => {
+  if (v === true || v === false) return v;
+  throw new Error(`${where}: expected a strict boolean, got ${JSON.stringify(v)}`);
+};
+
+// The obligation did not arise. THE CLOSED ARM IS ALWAYS `not_applicable` AND IS NOT A PARAMETER.
+// A token parameter would let "the requirement failed" and "the requirement never applied" share one
+// shape name and look like agreement, which is exactly how the two domains diverged.
+const applicability_gate = (applies, compute) =>
+  (strictBoolean(applies, 'applicability_gate') ? compute() : 'not_applicable');
+
+// An input the clause needs cannot be USED: an ambiguity nobody resolved, a value nothing can
+// classify. Its closed arm is always `undetermined`, and the distinction from applicability_gate is
+// the point of having two shapes rather than one parameterised one.
+const guard_on_unresolved = (usable, compute) =>
+  (strictBoolean(usable, 'guard_on_unresolved') ? compute() : 'undetermined');
+
+// One result domain onto another. The mapping must be TOTAL over the source domain: an unlisted
+// token throws rather than falling into an else arm, which is where the two domains silently
+// disagreed about `denied` until the versions were laid side by side (REUSE-LOG E6). A source domain
+// that is genuinely open declares `$unmapped` explicitly, so that decision is written down rather
+// than implied by the shape of a ternary.
+const remap_result_domain = (value, mapping) => {
+  if (Object.prototype.hasOwnProperty.call(mapping, value)) return mapping[value];
+  if (Object.prototype.hasOwnProperty.call(mapping, '$unmapped')) return mapping.$unmapped;
+  throw new Error(`remap_result_domain: no mapping for ${JSON.stringify(value)}`);
+};
+
 
 // ─── the clause set ─────────────────────────────────────────────────────────────────────────────
 const AUTH_FACTOR_KINDS = ['2.6.a.i_knowledge', '2.6.a.ii_device_or_chip', '2.6.a.iii_biometric', '2.6.a.iv_authorised_other'];
@@ -112,11 +166,21 @@ export function evaluate(facts, resolutions = {}) {
   const put = (id, result, note) => { out[id] = note === undefined ? { result } : { result, note }; };
 
   // 2.6(a) — two INDEPENDENT elements from the enumeration.
+  // Found by the E9 sweep. An ABSENT factor list returned `not_met`, asserting the two-factor
+  // requirement failed on a fact nobody supplied. A RECORDED EMPTY LIST still returns `not_met`,
+  // which is right: it says no factors were used. `field_present` keeps the two apart, and an empty
+  // array is present.
+  const factorsRecorded = field_present(facts.operation?.auth_factors) === 'present';
   const factors = facts.operation?.auth_factors ?? [];
   const allKnown = factors.every((f) => member_of_enumeration(f, AUTH_FACTOR_KINDS) === 'member');
+  // RULING 2, 2026-08-22. This returned `not_met` when a factor kind was unrecognised, which asserts
+  // the element FAILED on evidence that establishes nothing. An unclassifiable fact is
+  // `undetermined`. It is guard_on_unresolved rather than applicability_gate: the requirement
+  // applies, its input cannot be used.
   put('34-2010/2.6/a/two-factor',
-    !allKnown ? 'not_met' : distinct_members_at_least(factors, 2, (a, b) => a !== b),
-    'Independence approximated as distinctness of kind. Two factors of one kind do not count as two.');
+    guard_on_unresolved(factorsRecorded && allKnown,
+      () => distinct_members_at_least(factors, 2, (a, b) => a !== b)),
+    'Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermined` means a factor kind is not in the 2.6(a) enumeration and cannot be classified.');
 
   // 3.3
   put('34-2010/3.3/p1/notice-types',
@@ -148,12 +212,25 @@ export function evaluate(facts, resolutions = {}) {
     'not_applicable means no election is on record, so the requirement is not yet fixed.');
 
   // the deadline, and which one applies
+  // E9, 2026-08-22. `=== true` normalised an ABSENT fact to `false`, so nobody recording where the
+  // operation happened selected the fourth paragraph's 45 days, a dictamen on day 120 read `exceeded`
+  // and firmeza attached. ABSENT IS NOT DOMESTIC: every operation happened somewhere, so the absence
+  // of the fact is ignorance rather than a recorded negative. `field_present` separates the three,
+  // because a recorded `false` is present and an absent field is not.
+  const abroadRecorded = field_present(facts.operation?.executed_abroad) === 'present';
   const abroad = facts.operation?.executed_abroad === true;
   const unitRes = resolutions.A1_dias_unit;            // 'business_days' | 'calendar_days' | undefined
-  const period = select_parameter_by_predicate(abroad,
-    { limit: 180, unit: 'calendar_days' },              // fifth paragraph, explicitly naturales
-    { limit: 45, unit: unitRes });                      // fourth paragraph, unit UNRESOLVED
-  put('34-2010/3.6/p5/foreign-deadline', abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph');
+  // No period can be selected from a fact nobody supplied, so there is no period rather than a
+  // default one.
+  const period = abroadRecorded
+    ? select_parameter_by_predicate(abroad,
+        { limit: 180, unit: 'calendar_days' },          // fifth paragraph, explicitly naturales
+        { limit: 45, unit: unitRes })                   // fourth paragraph, unit UNRESOLVED
+    : { limit: undefined, unit: undefined };
+  put('34-2010/3.6/p5/foreign-deadline',
+    guard_on_unresolved(abroadRecorded,
+      () => (abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph')),
+    '`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected.');
   // THE ROW MUST SAY WHICH PERIOD IT APPLIED. The register defines this clause as the 45 `Días`
   // deadline, so a bare `within` at day 120 reads as a contradiction of the clause it sits on. What
   // actually happened is that p5/foreign-deadline selected the fifth paragraph's period and this
@@ -162,11 +239,13 @@ export function evaluate(facts, resolutions = {}) {
   const appliedPeriod = `${period.limit} ${period.unit ?? 'UNRESOLVED'}` +
     (abroad ? ', selected by p5/foreign-deadline (fifth paragraph)' : ', fourth paragraph');
   put('34-2010/3.6/p4/deadline',
-    period.unit === undefined ? 'undetermined'
-      : elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit, facts.clock?.now),
-    period.unit === undefined
-      ? 'A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied.'
-      : `Period applied: ${appliedPeriod}.`);
+    guard_on_unresolved(abroadRecorded && period.unit !== undefined,
+      () => elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit, facts.clock?.now)),
+    !abroadRecorded
+      ? 'Whether the operation was executed abroad was not supplied, so neither period can be selected.'
+      : period.unit === undefined
+        ? 'A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied.'
+        : `Period applied: ${appliedPeriod}.`);
 
   // the floor — necessary, never sufficient
   const elementResults = [
@@ -174,7 +253,16 @@ export function evaluate(facts, resolutions = {}) {
     out['34-2010/3.6/a/verification-method'].result === 'present',
     out['34-2010/3.6/b/time'].result === 'present',
     out['34-2010/3.6/c/parties'].result === 'all_present',
-    out['34-2010/3.6/d/device-address'].result !== 'breached',
+    // RULING 4, 2026-08-22. This was `!== 'breached'`, an open-ended negative test: every token that
+    // was not `breached` counted as meeting the element. E1 widened conditional_requirement from
+    // three outcomes to five, so `outstanding` and `undetermined` would have passed. Now total.
+    remap_result_domain(out['34-2010/3.6/d/device-address'].result, {
+      satisfied: true,
+      not_applicable: true,      // the issuer holds no address, which the source treats as no breach
+      breached: false,
+      outstanding: false,
+      undetermined: false,
+    }),
   ];
   put('34-2010/3.6/p4/floor', open_set_floor(elementResults),
     'floor_met means every enumerated minimum was met. It does NOT mean the dictamen conforms: `por lo menos` declines to make the list sufficient.');
@@ -201,10 +289,14 @@ export function evaluate(facts, resolutions = {}) {
   // satisfied either.
   put('34-2010/3.6/p5/expediente-copy',
     conditional_requirement(facts.expediente?.requested === true,
-      copyRun === 'within' ? true
-        : copyRun === 'not_yet_due' ? 'outstanding'
-          : copyRun === 'no_end_event' ? 'undetermined'
-            : false),
+      remap_result_domain(copyRun, {
+        within: true,
+        exceeded: false,
+        overdue: false,
+        not_yet_due: 'outstanding',
+        no_end_event: 'undetermined',
+        out_of_order: 'undetermined',   // the copy is dated before the dictamen it answers
+      })),
     'not_applicable means no copy was requested, which is not a breach. `outstanding` means requested, not yet delivered, and the period has not run. `undetermined` means not yet delivered and NO CLOCK was supplied, so late and outstanding cannot be told apart. The 45 day period runs from delivery of the dictamen and is stated as `días naturales`, so A1 does not reach it.');
 
   // 3.6 sixth paragraph
@@ -235,7 +327,16 @@ export function evaluate(facts, resolutions = {}) {
     const conforming = conjunction_over_results([
       out['34-2010/3.6/p4/floor'].result === 'floor_met',
       out['34-2010/3.6/p4/signatory'].result === 'member',
-      out['34-2010/3.6/p4/language'].result === 'affirmed' ? true : 'undetermined',
+      // RULING 1, 2026-08-22. This was `=== 'affirmed' ? true : 'undetermined'`, so an explicit
+      // `denied` and an unanswered question reached firmeza identically. A denial is a person
+      // having answered. held_judgment's domain is OPEN, so `$unmapped` is declared rather than
+      // implied: a judgment token nobody registered cannot be used, which is undetermined.
+      remap_result_domain(out['34-2010/3.6/p4/language'].result, {
+        affirmed: true,
+        denied: false,
+        not_assessed: 'undetermined',
+        $unmapped: 'undetermined',
+      }),
     ], 'undetermined');
     const sub = FIRMEZA_TABLE.conformance_subtest.rows.find((r) => r.conformance === conforming);
     if (sub === undefined) {
