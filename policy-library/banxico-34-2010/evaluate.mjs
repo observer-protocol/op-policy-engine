@@ -32,11 +32,14 @@ const FIRMEZA_TABLE = JSON.parse(readFileSync(new URL('./clauses.json', import.m
 // ─── primitives, exactly as inventoried ─────────────────────────────────────────────────────────
 const DAY_MS = 86400000;
 
-const elapsed_within = (start, end, limit, unit) => {
-  if (end === null || end === undefined) return 'no_end_event';
-  const s = Date.parse(start), e = Date.parse(end);
-  if (Number.isNaN(s) || Number.isNaN(e)) return 'no_end_event';
-  if (unit === 'calendar_days') return (e - s) <= limit * DAY_MS ? 'within' : 'exceeded';
+// PARAMETERISED 2026-08-22, closing REUSE-LOG E1. Gains a `now` operand and two result values.
+//
+// The old three-value domain could not say whether an absent end event was LATE or NOT YET DUE,
+// because nothing in evaluation knew what time it was. That is not a distinction a composition rule
+// can restore: it was never derived. So the clock becomes an explicit fact, and when it is absent
+// this returns the same `no_end_event` it always did rather than assuming one.
+const withinLimit = (s, e, limit, unit) => {
+  if (unit === 'calendar_days') return (e - s) <= limit * DAY_MS;
   if (unit === 'business_days') {
     // Counted by walking days and skipping Saturday and Sunday. A real deployment substitutes the
     // CNBV calendar; the shape is unchanged by that substitution.
@@ -45,16 +48,46 @@ const elapsed_within = (start, end, limit, unit) => {
       const d = new Date(t).getUTCDay();
       if (d !== 0 && d !== 6) n++;
     }
-    return n <= limit ? 'within' : 'exceeded';
+    return n <= limit;
   }
   throw new Error(`unknown calendar unit: ${unit}`);
+};
+
+const elapsed_within = (start, end, limit, unit, now) => {
+  const s = Date.parse(start);
+  if (end === null || end === undefined) {
+    if (now === null || now === undefined) return 'no_end_event';   // no clock: cannot tell, and says so
+    const t = Date.parse(now);
+    if (Number.isNaN(s) || Number.isNaN(t)) return 'no_end_event';
+    // THE SAME PREDICATE decides both vocabularies, so `not_yet_due` and `within` can never
+    // disagree about where the boundary is.
+    return withinLimit(s, t, limit, unit) ? 'not_yet_due' : 'overdue';
+  }
+  const e = Date.parse(end);
+  if (Number.isNaN(s) || Number.isNaN(e)) return 'no_end_event';
+  return withinLimit(s, e, limit, unit) ? 'within' : 'exceeded';
 };
 
 const select_parameter_by_predicate = (p, ifTrue, ifFalse) => (p ? ifTrue : ifFalse);
 const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
 const all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
 const any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
-const conditional_requirement = (pre, result) => (pre ? (result ? 'satisfied' : 'breached') : 'not_applicable');
+// WIDENED 2026-08-22, closing REUSE-LOG E1. The second operand was a boolean, which forced every
+// multi-valued result through two states at the call site. It now takes a CLOSED four-token
+// vocabulary and throws on anything else, so a caller that invents a fifth state fails loudly
+// instead of being silently read as `false`.
+//
+// It is deliberately NOT coupled to elapsed_within's tokens. Mapping a primitive's result domain
+// into these four is the clause's reading, so it stays at the call site next to the clause note
+// rather than being buried in a shared shape.
+const conditional_requirement = (pre, result) => {
+  if (!pre) return 'not_applicable';
+  if (result === true) return 'satisfied';
+  if (result === false) return 'breached';
+  if (result === 'outstanding') return 'outstanding';
+  if (result === 'undetermined') return 'undetermined';
+  throw new Error(`conditional_requirement: unrecognised requirement result ${JSON.stringify(result)}`);
+};
 const member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
 const member_of_enumeration = (v, en) => (en.includes(v) ? 'member' : 'not_member');
 const distinct_members_at_least = (items, min, independent) => {
@@ -130,7 +163,7 @@ export function evaluate(facts, resolutions = {}) {
     (abroad ? ', selected by p5/foreign-deadline (fifth paragraph)' : ', fourth paragraph');
   put('34-2010/3.6/p4/deadline',
     period.unit === undefined ? 'undetermined'
-      : elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit),
+      : elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit, facts.clock?.now),
     period.unit === undefined
       ? 'A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied.'
       : `Period applied: ${appliedPeriod}.`);
@@ -160,10 +193,19 @@ export function evaluate(facts, resolutions = {}) {
   // conditional_requirement; the period is elapsed_within. Its clock runs from DELIVERY OF THE
   // DICTAMEN, not from the aviso, and its unit is `días naturales` in the source, stated
   // explicitly, so ambiguity A1 does not reach it.
+  const copyRun = elapsed_within(facts.dictamen?.made_available_at, facts.expediente?.delivered_at,
+    45, 'calendar_days', facts.clock?.now);
+  // THE MAPPING IS THE CLAUSE'S READING, so it sits here rather than inside conditional_requirement.
+  // `not_yet_due` is the state this clause could not express before E1 was closed: the copy was
+  // requested, has not arrived, and the period has not run, so nothing is breached and nothing is
+  // satisfied either.
   put('34-2010/3.6/p5/expediente-copy',
     conditional_requirement(facts.expediente?.requested === true,
-      elapsed_within(facts.dictamen?.made_available_at, facts.expediente?.delivered_at, 45, 'calendar_days') === 'within'),
-    'not_applicable means no copy was requested, which is not a breach. The 45 day period runs from delivery of the dictamen and is stated as `días naturales`, so A1 does not reach it.');
+      copyRun === 'within' ? true
+        : copyRun === 'not_yet_due' ? 'outstanding'
+          : copyRun === 'no_end_event' ? 'undetermined'
+            : false),
+    'not_applicable means no copy was requested, which is not a breach. `outstanding` means requested, not yet delivered, and the period has not run. `undetermined` means not yet delivered and NO CLOCK was supplied, so late and outstanding cannot be told apart. The 45 day period runs from delivery of the dictamen and is stated as `días naturales`, so A1 does not reach it.');
 
   // 3.6 sixth paragraph
   put('34-2010/3.6/p6/no-moratory-interest',

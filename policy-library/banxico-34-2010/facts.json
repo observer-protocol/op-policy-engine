@@ -317,6 +317,16 @@
         "34-2010/3.6/p1/recovery-right"
       ],
       "note": "`acredite al Tarjetahabiente` is a demonstration to a person. Recorded as a judgment, never derived from the factor count alone."
+    },
+    {
+      "path": "clock.now",
+      "type": "timestamp",
+      "required": false,
+      "read_by": [
+        "34-2010/3.6/p4/deadline",
+        "34-2010/3.6/p5/expediente-copy"
+      ],
+      "note": "Added 2026-08-22, closing REUSE-LOG E1. The evaluation's own clock, supplied as a FACT rather than read from the host, so a run is reproducible and a determination records the instant it was made against. OPTIONAL BY DESIGN AND ABSENT BY DEFAULT: with no clock, a deadline whose end event has not occurred returns `no_end_event` and any clause composing it returns `undetermined`. That is the same discipline the ambiguity register uses. An absent clock is a state, never a default, and never `Date.now()`."
     }
   ]
 }

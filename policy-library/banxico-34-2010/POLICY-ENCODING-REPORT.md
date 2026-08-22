@@ -77,7 +77,7 @@ possible rather than careless.
 |---|---|---|
 | MECHANICAL | 10 | decidable from recorded facts |
 | JUDGMENT | 3 | requires a person; the source sets a standard and no test |
-| CONDITIONAL | 3 | decidable only once a further fact is known, with a third outcome that is neither satisfied nor breached |
+| CONDITIONAL | 3 | decidable only once a further fact is known, with outcomes that are neither satisfied nor breached: `not_applicable` where the obligation never arose, `outstanding` where it arose and its period has not run, and `undetermined` where the facts cannot settle it. Only `34-2010/3.6/p5/expediente-copy` reaches all three; the other two reach `not_applicable` alone |
 | DERIVED | 3 | decides nothing directly; composes other results |
 
 ### The three that require a person

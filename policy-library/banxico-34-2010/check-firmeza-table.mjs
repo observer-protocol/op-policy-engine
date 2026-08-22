@@ -38,7 +38,12 @@ const PROBES = {
   undetermined: [(f) => f, {}],
   within:       [(f) => f, { A1_dias_unit: 'calendar_days' }],
   exceeded:     [(f) => { f.dictamen.made_available_at = '2026-11-20T11:00:00Z'; return f; }, { A1_dias_unit: 'calendar_days' }],
+  // No dictamen and NO CLOCK: the honest "cannot tell" state.
   no_end_event: [(f) => { f.dictamen.made_available_at = null; return f; }, { A1_dias_unit: 'calendar_days' }],
+  // No dictamen, clock supplied, period still running. Added 2026-08-22 with E1's closure.
+  not_yet_due:  [(f) => { f.dictamen.made_available_at = null; f.clock = { now: '2026-05-20T00:00:00Z' }; return f; }, { A1_dias_unit: 'calendar_days' }],
+  // No dictamen, clock supplied, period run.
+  overdue:      [(f) => { f.dictamen.made_available_at = null; f.clock = { now: '2026-11-20T00:00:00Z' }; return f; }, { A1_dias_unit: 'calendar_days' }],
 };
 console.log('\n── input domain 1: the deadline result, observed from live runs ──');
 const observed = new Set();
@@ -66,7 +71,9 @@ a('the register carries one token per competing reading, plus the unresolved sta
 
 // ── coverage, by EXECUTION ───────────────────────────────────────────────────────────────────────
 console.log('\n── every combination executes, or the evaluator refuses ──');
-const OUTCOMES = new Set(['attached', 'not_attached', 'undetermined']);
+// Read from the table's declared outcome domain rather than hard-coded here, so adding an outcome
+// in one place cannot leave this check silently accepting a value nobody registered.
+const OUTCOMES = new Set(TABLE.outcomes.domain);
 const missing = [];
 for (const d of [...observed].sort()) {
   for (const s of a2Domain) {

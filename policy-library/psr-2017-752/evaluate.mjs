@@ -11,7 +11,17 @@ const DAY = 86400000;
 // ─── reused unchanged from the Banxico set ──────────────────────────────────────────────────────
 const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
 const any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
-const conditional_requirement = (pre, res) => (pre ? (res ? 'satisfied' : 'breached') : 'not_applicable');
+// WIDENED 2026-08-22, closing REUSE-LOG E1, identically to the Banxico copy. A closed four-token
+// vocabulary, throwing on anything else. Mapping a primitive's result domain into these four is the
+// clause's reading and stays at the call site.
+const conditional_requirement = (pre, res) => {
+  if (!pre) return 'not_applicable';
+  if (res === true) return 'satisfied';
+  if (res === false) return 'breached';
+  if (res === 'outstanding') return 'outstanding';
+  if (res === 'undetermined') return 'undetermined';
+  throw new Error(`conditional_requirement: unrecognised requirement result ${JSON.stringify(res)}`);
+};
 const member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
 const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
 const conjunction_over_results = (rs, undeterminedIs) => {
@@ -19,27 +29,43 @@ const conjunction_over_results = (rs, undeterminedIs) => {
   return rs.every((r) => r === true || r === 'satisfied') ? 'satisfied' : 'not_satisfied';
 };
 
-// ─── PARAMETERISED: elapsed_within gains a `months` unit ────────────────────────────────────────
+// ─── PARAMETERISED: `months`, and a clock ───────────────────────────────────────────────────────
 // Banxico needed calendar_days and business_days. 13 months is not a fixed multiple of either, so
 // the unit is added rather than approximated as 395 days.
-const elapsed_within = (start, end, limit, unit) => {
-  if (end === null || end === undefined || start === null || start === undefined) return 'no_end_event';
-  const s = new Date(start), e = new Date(end);
-  if (isNaN(s) || isNaN(e)) return 'no_end_event';
-  if (unit === 'calendar_days') return (e - s) <= limit * DAY ? 'within' : 'exceeded';
+//
+// The `now` operand and the two extra result values were added 2026-08-22, closing REUSE-LOG E1, in
+// step with the Banxico copy. Without a clock an absent end event cannot be told from a late one,
+// and no composition rule can restore a distinction that was never derived.
+const withinLimit = (s, e, limit, unit) => {
+  if (unit === 'calendar_days') return (e - s) <= limit * DAY;
   if (unit === 'business_days') {
     let n = 0;
     for (let t = s.getTime() + DAY; t <= e.getTime(); t += DAY) {
       const d = new Date(t).getUTCDay();
       if (d !== 0 && d !== 6) n++;
     }
-    return n <= limit ? 'within' : 'exceeded';
+    return n <= limit;
   }
   if (unit === 'months') {
     const cap = new Date(s); cap.setUTCMonth(cap.getUTCMonth() + limit);
-    return e <= cap ? 'within' : 'exceeded';
+    return e <= cap;
   }
   throw new Error(`unknown unit: ${unit}`);
+};
+
+const elapsed_within = (start, end, limit, unit, now) => {
+  if (start === null || start === undefined) return 'no_end_event';
+  const s = new Date(start);
+  if (isNaN(s)) return 'no_end_event';
+  if (end === null || end === undefined) {
+    if (now === null || now === undefined) return 'no_end_event';   // no clock: cannot tell, and says so
+    const t = new Date(now);
+    if (isNaN(t)) return 'no_end_event';
+    return withinLimit(s, t, limit, unit) ? 'not_yet_due' : 'overdue';
+  }
+  const e = new Date(end);
+  if (isNaN(e)) return 'no_end_event';
+  return withinLimit(s, e, limit, unit) ? 'within' : 'exceeded';
 };
 
 // ─── PARAMETERISED: open_set_floor at arity one ─────────────────────────────────────────────────
@@ -99,7 +125,7 @@ export function evaluate(facts, resolutions = {}) {
   // reg 74
   put('psr-2017/74/1/undue-delay', held_judgment(f.notification?.without_undue_delay));
   put('psr-2017/74/1/thirteen-months',
-    elapsed_within(f.transaction?.debit_date, f.notification?.given_at, 13, 'months'),
+    elapsed_within(f.transaction?.debit_date, f.notification?.given_at, 13, 'months', f.clock?.now),
     'PARAMETERISED: elapsed_within with a months unit, which Banxico never needed.');
   put('psr-2017/74/2/information-failure',
     conditional_requirement(f.provider?.part6_information_failure === true, true),
@@ -130,9 +156,14 @@ export function evaluate(facts, resolutions = {}) {
   put('psr-2017/76/1/a/refund',
     amounts_equal(f.refund?.amount, f.transaction?.amount),
     'NEW primitive amounts_equal.');
+  // The estate's OTHER narrowing site, found by the E1 audit and fixed with it. This read
+  // `held_judgment(...) === 'affirmed'`, so a restoration nobody had assessed came back `breached`,
+  // which states a breach on the strength of an unanswered question.
+  const restored = held_judgment(f.account?.restored_to_prior_state);
   put('psr-2017/76/1/b/restore',
     conditional_requirement(f.account?.restoration_applicable === true,
-      held_judgment(f.account?.restored_to_prior_state) === 'affirmed'));
+      restored === 'not_assessed' ? 'undetermined' : restored === 'affirmed'),
+    '`undetermined` means restoration was required and nobody has assessed whether it happened.');
   put('psr-2017/76/2/practicable', held_judgment(f.refund?.as_soon_as_practicable));
 
   const carve = f.provider?.reasonable_grounds_to_suspect_fraud === true
@@ -146,7 +177,7 @@ export function evaluate(facts, resolutions = {}) {
     carve
       ? (scope === undefined ? 'undetermined'
          : scope === 'deadline_only' ? 'not_applicable_deadline_removed' : 'not_applicable_obligation_suspended')
-      : elapsed_within(f.provider?.became_aware_at, f.refund?.provided_at, 1, 'business_days'),
+      : elapsed_within(f.provider?.became_aware_at, f.refund?.provided_at, 1, 'business_days', f.clock?.now),
     carve && scope === undefined ? 'P1 unresolved: the carve-out disapplies paragraph (2) and the text does not say whether paragraph (1) survives.' : undefined);
 
   put('psr-2017/76/4/value-date',

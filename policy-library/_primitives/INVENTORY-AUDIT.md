@@ -675,3 +675,25 @@ recorded in `primitives.json`'s integrity object.
 on `''` and on a `0` epoch. Measured: **they differ on `0` only.** `field_present` also calls `''`
 absent, so the two agree there. The comment now says what was measured, because a fix that overstates
 its own reach is a claim nobody re-checks.
+
+
+---
+
+## F1 is closed, 2026-08-22
+
+The section above records F1 as recorded and not fixed. **It is fixed.** `elapsed_within` gained an
+optional `now` operand and two result values, `conditional_requirement` gained a closed four-token
+vocabulary, and firmeza gained a fourth outcome `not_yet_attached`. The two rows that returned
+`attached` on an unestablished elapsing now return `undetermined`, and a supplied `clock.now` routes
+the run to `not_yet_due` or `overdue` where the answer is established.
+
+**Five of the table's eighteen cells changed. No case result changed in either domain**, because no
+fixture ever reached the rows the fix corrects.
+
+F2 remains open and now sits on two rows rather than one pair: the `overdue` row added with the fix
+reproduces it deliberately, because `overdue` and `exceeded` stand in the same position with respect
+to A2.
+
+Full account in `REUSE-LOG.md` E1. **E4 was rewritten as a result**: the rule now waits for a second
+instance OR a change of representation, because the two rule out different wrong answers, and it was
+the change of representation, this table, that found F1 rather than the second domain.

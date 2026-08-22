@@ -200,9 +200,11 @@
               "undetermined",
               "within",
               "exceeded",
+              "not_yet_due",
+              "overdue",
               "no_end_event"
             ],
-            "domain_derivation": "DERIVED FROM LIVE RUNS, not from the branches the chain happens to test. `undetermined` when A1 is unsupplied; the other three are elapsed_within's own result domain. A fact set producing each of the four was run and its output recorded."
+            "domain_derivation": "DERIVED FROM LIVE RUNS, then reconciled against elapsed_within's declared result_domain in primitives.json plus the `undetermined` the A1 guard adds. It grew from four values to six on 2026-08-22 when E1 was closed: `not_yet_due` and `overdue` appear once a clock is supplied, and `no_end_event` now means only that no clock was supplied."
           },
           {
             "name": "a2",
@@ -215,7 +217,7 @@
             "domain_derivation": "The two competing readings registered for ambiguity A2 in ambiguities.json, plus the unresolved state. Ambiguities are inputs and never defaults, so the unresolved state is a member of the domain rather than an error."
           }
         ],
-        "cross_product": 12,
+        "cross_product": 18,
         "rows": [
           {
             "deadline": "undetermined",
@@ -280,25 +282,61 @@
             "reading": "The period elapsed, which defeats the wider reading as well as the narrower one. Firmeza attaches."
           },
           {
-            "deadline": "no_end_event",
+            "deadline": "not_yet_due",
+            "a2": "(unresolved)",
+            "outcome": "not_yet_attached",
+            "reading": "The dictamen has not been delivered and the period has not run. `transcurrido el plazo` fails under BOTH A2 readings, and neither reading reaches the content of a dictamen that does not exist, so A2 is not consulted. Distinct from the `within` rows, where the wider reading does have content to test."
+          },
+          {
+            "deadline": "not_yet_due",
+            "a2": "timing_only",
+            "outcome": "not_yet_attached",
+            "reading": "The period has not elapsed, so the antecedent fails. `not_yet_attached` rather than `not_attached`: firmeza has not attached AND may still attach when the period runs, which is not the same as a timely dictamen having prevented it."
+          },
+          {
+            "deadline": "not_yet_due",
+            "a2": "timing_and_content",
+            "outcome": "not_yet_attached",
+            "reading": "As with the row above, and for the same reason: the wider reading also requires the period to have elapsed, and there is no delivered dictamen whose content could be tested."
+          },
+          {
+            "deadline": "overdue",
             "a2": "(unresolved)",
             "outcome": "undetermined",
             "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
-            "reading": "BOTH readings give `attached` on these facts. See findings F1 and F2."
+            "reading": "Mirrors the `exceeded` row at the same A2 value, because `overdue` and `exceeded` stand in the same position with respect to A2: the period has run either way. BOTH readings in fact give `attached` here, so this row carries finding F2 exactly as its `exceeded` twin does. Treating two identical positions differently would be a worse artifact than carrying one known over-caution consistently."
+          },
+          {
+            "deadline": "overdue",
+            "a2": "timing_only",
+            "outcome": "attached",
+            "note": "The applicable period elapsed and no dictamen was delivered.",
+            "reading": "THE PARAGRAPH'S OWN CASE, and the first row in this table entitled to say so. The period elapsed, measured against the clock in the facts, and the issuer delivered nothing. Before E1 was closed this outcome was reached from `no_end_event`, where elapsing was never established."
+          },
+          {
+            "deadline": "overdue",
+            "a2": "timing_and_content",
+            "outcome": "attached",
+            "note": "The applicable period elapsed and no dictamen was delivered.",
+            "reading": "The period elapsed, which defeats the wider reading as well as the narrower one, and nothing was delivered whose content could rescue it."
+          },
+          {
+            "deadline": "no_end_event",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "reading": "No dictamen was delivered AND NO CLOCK was supplied, so whether the period has run is unknown. The outcome is unchanged, but it now rests on the absence of a clock rather than on an unresolved A2."
           },
           {
             "deadline": "no_end_event",
             "a2": "timing_only",
-            "outcome": "attached",
-            "note": "The applicable period elapsed with no conforming dictamen delivered.",
-            "reading": "The chain treats a dictamen that was never made available as equivalent to one delivered late. The source requires the period to have elapsed and that is NOT established by these facts. See finding F1."
+            "outcome": "undetermined",
+            "reading": "CHANGED 2026-08-22, closing E1. This returned `attached` on a note asserting the period had elapsed. With no clock in the facts, elapsing is NOT established: a dictamen still in time and one long overdue reach this row identically. `undetermined` is the only answer these facts support. Supply `clock.now` and the run lands on `not_yet_due` or `overdue` instead."
           },
           {
             "deadline": "no_end_event",
             "a2": "timing_and_content",
-            "outcome": "attached",
-            "note": "The applicable period elapsed with no conforming dictamen delivered.",
-            "reading": "As above. See finding F1."
+            "outcome": "undetermined",
+            "reading": "CHANGED 2026-08-22, closing E1. As with the row above: without a clock, an outstanding dictamen and an overdue one are the same fact pattern here."
           }
         ],
         "conformance_subtest": {
@@ -333,21 +371,31 @@
               "no_end_event/timing_and_content"
             ],
             "finding": "These rows return `attached` on a note asserting that `The applicable period elapsed with no conforming dictamen delivered`. THE PERIOD ELAPSING IS NOT ESTABLISHED. `elapsed_within` returns `no_end_event` whenever the end event is absent, whether the period has run or not, so a dictamen that is merely outstanding and still in time is ruled the same as one delivered late. The source conditions firmeza on `transcurrido el plazo`, which these facts do not show.",
-            "status": "RECORDED, NOT FIXED. The transcription preserves current behaviour exactly, as scoped. Fixing it needs a clock in the facts, which is a fixture and register change, not a transcription.",
+            "status": "CLOSED 2026-08-22. The two rows now return `undetermined`, and a supplied `clock.now` routes the run to `not_yet_due` or `overdue`, where the answer is established. Fixed by REUSE-LOG E1 option 3 plus the minimum of option 1.",
             "related": "The same collapse recorded as E1 in ../_primitives/REUSE-LOG.md, and as the reason Banxico case 3's expediente fixture was changed. This is its third instance and its most consequential."
           },
           {
             "id": "F2",
             "rows": [
               "exceeded/(unresolved)",
-              "no_end_event/(unresolved)"
+              "overdue/(unresolved)"
             ],
             "finding": "These rows return `undetermined` for want of A2, but the table shows both A2 readings give `attached` on the same deadline value. The chain asks for a resolution the outcome does not depend on.",
-            "status": "RECORDED, NOT FIXED. Withholding an answer is the conservative direction, so this is over-caution rather than a wrong result.",
+            "status": "RECORDED, NOT FIXED, and now on two rows rather than one pair. The `overdue` row added 2026-08-22 reproduces it deliberately: `overdue` and `exceeded` stand in the same position with respect to A2, and giving one an answer while the other withholds it would be a worse artifact than one consistent over-caution.",
             "visible_only_as_a_table": "An if/else chain cannot show this. It is legible only by reading across the two A2 columns of one deadline row, which is a comparison the chain's arm order destroys."
           }
         ],
-        "$gaps": "NONE. All 12 combinations of the declared input domains are handled by the chain this table was derived from. Coverage is asserted by check-firmeza-table.mjs against a live run rather than by this sentence."
+        "$gaps": "NONE. All 18 combinations of the declared input domains are handled. Coverage is asserted by check-firmeza-table.mjs against a live run rather than by this sentence.",
+        "outcomes": {
+          "domain": [
+            "attached",
+            "not_attached",
+            "not_yet_attached",
+            "undetermined"
+          ],
+          "$note": "`not_yet_attached` was added 2026-08-22. Collapsing it into `not_attached` would repeat E1 one level up: a timely dictamen having PREVENTED finality, and the period simply not having run yet, are different facts.",
+          "$authored": "Outcomes and readings on the six new and three changed rows are AUTHORED, not derived. The evaluator reads this table, so running it cannot validate what a row says; a run can only establish that every combination has a row. check-firmeza-table.mjs asserts completeness, never correctness of a reading."
+        }
       }
     },
     {
