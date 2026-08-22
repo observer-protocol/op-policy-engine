@@ -475,3 +475,134 @@ twice before then, that is the second instance and the entry opens.
 
 **One thing that is NOT deferred:** a third domain would add a third copy and make this strictly
 worse. That is a reason not to start one before this entry closes, not a reason to fix it tonight.
+
+---
+
+## E6. Two locally reasonable readings of the same question, in two domains, disagreeing
+
+**Domains:** both. **Observed:** 2026-08-22, characterising the composition shapes before naming them.
+**Status: FIXED SAME DAY under a ruling. Recorded because of HOW it was found, not what it was.**
+
+### What happened
+
+Both domains remapped `held_judgment`'s result domain onto a boolean-ish value at a call site. The
+two inline versions disagreed on one token:
+
+| `held_judgment` returns | Banxico `3.6/p4/language` | PSR `76/1/b/restore` |
+|---|---|---|
+| `affirmed` | `true` | `true` |
+| **`denied`** | **`undetermined`** | **`false`** |
+| `not_assessed` | `undetermined` | `undetermined` |
+
+Banxico's was `=== 'affirmed' ? true : 'undetermined'`. So **an explicit denial and an unanswered
+question reached firmeza identically**, on the clause deciding whether a credit becomes irreversible.
+PSR's kept them apart.
+
+**Ruled 2026-08-22: PSR's treatment is correct.** `denied` is a person having answered;
+`not_assessed` is nobody having answered. Collapsing them discards a judgment that was actually made.
+Banxico changed.
+
+### Why this entry exists
+
+**Neither version is wrong on its face.** Read alone, `=== 'affirmed' ? true : 'undetermined'` looks
+careful: it declines to conclude from anything but an affirmation. Read alone,
+`=== 'affirmed' ? true : === 'not_assessed' ? 'undetermined' : false` looks careful too. **Nothing in
+either file is a defect until the two are put next to each other.**
+
+No second instance would have found this. Both domains already HAD instances; the instances were the
+problem. No test would have found it either: each evaluator was internally consistent, and no fixture
+carried an explicit `denied` on that clause. It surfaced when the same shape was characterised across
+both domains in one table, ahead of naming it.
+
+**This is E4's second trigger doing exactly what the rewritten rule says it does.** A change of
+representation, here putting two inline versions of one shape side by side, tests something instance
+counting cannot: not whether a shape generalises, but whether two existing implementations of it
+agree. The rewrite predicted that. This is the first observation taken after it and it behaved as
+predicted, which is better evidence for the rewrite than the case that motivated it.
+
+### The structural fix, beyond the ruling
+
+`remap_result_domain` is now a named shape taking its mapping **from the call site**, and the mapping
+must be **total over the source domain**. An unlisted token throws. A source domain that is genuinely
+open, which `held_judgment`'s is, must declare `$unmapped` explicitly.
+
+**So the shape now makes this class of divergence unwritable.** The old versions differed in an
+`else` arm, which is invisible because it has no name and no enumeration. Both readings are now
+written out token by token, and a reader comparing the two domains sees a table rather than two
+ternaries.
+
+---
+
+## E7. A disjunction that collapses `undetermined`
+
+**Domain:** SI 2017/752. **Clause:** `psr-2017/76/1/trigger`, via the `notBarred` operand.
+**Observed:** 2026-08-22. **Status: FIXED INLINE, NOT NAMED. One instance, one domain, so the SHAPE
+waits.**
+
+### What happened
+
+`conjunction_over_results` is a named primitive and carries `undetermined`. Its dual was a bare `||`:
+
+```js
+const notBarred = o['.../74/1/thirteen-months'].result === 'within'
+  || o['.../74/2/information-failure'].result === 'satisfied';
+```
+
+Measured with nobody notified and no clock supplied: `thirteen-months` returns `no_end_event`,
+meaning it cannot be told whether the 13 month bar bit; `information-failure` returns
+`not_applicable`. The disjunction produced `false`, and **the refund duty reported as not triggered
+on facts that establish nothing.**
+
+Fixed to three-valued: `true` dominates, then `undetermined`, then `false`. The trigger now returns
+`undetermined` on those facts.
+
+### Why the shape is not named
+
+**It has one instance in one domain.** Banxico has no disjunction over clause results at all. Naming
+it now would be generalising a composition shape from a single site, which is the error this log
+exists to prevent, and it would freeze whichever three-valued semantics one clause happened to need.
+
+**The defect is fixed and the shape waits.** Those are separable, and keeping them separate is the
+point: E4's exception covers a recorded defect that produces a wrong answer, which this did, but the
+exception licenses fixing the ANSWER, not naming the abstraction.
+
+It waits for a second instance or a change of representation. A second Banxico clause composing two
+results disjunctively would be the first. So would writing the truth table out, which is what
+finally showed the conjunction's dual was missing at all.
+
+---
+
+## E8. `select by predicate` is named in one domain and inline in the other
+
+**Domains:** both. **Observed:** 2026-08-22, in the composition recount.
+**Status: RECORDED, NOT FIXED. Two domains and two representations, so under E4 it is ELIGIBLE. Not
+done tonight because doing it would add a primitive to PSR, which was out of scope.**
+
+### What happens
+
+Choosing between two readings by one predicate appears three times, in two domains, in three forms:
+
+| site | form |
+|---|---|
+| Banxico, the deadline period | `select_parameter_by_predicate(abroad, ...)`, **a named primitive** |
+| Banxico `3.6/p5/foreign-deadline` | `abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph'`, inline |
+| PSR `76/2/deadline` | `carve ? <carve-out reading> : elapsed_within(...)`, inline |
+
+The first two use **the same predicate in the same clause group**, one through a primitive and one
+inline, which is why neither looked like a pattern on its own.
+
+**This also corrects `INVENTORY-AUDIT.md`,** which called `branch_label` a one-off that should stay
+unnamed. It is not a one-off. It is `select by predicate` with a label as its payload, and the
+audit missed it because it classified by what the operation RETURNS rather than by what it DOES.
+
+### Candidate fixes
+
+1. **Use the existing primitive at the Banxico inline site only.** Smallest, and leaves PSR inline,
+   which is a shape landing in one domain and not the other. That is the thing E5 warns about.
+2. **Copy `select_parameter_by_predicate` into PSR and use it at all three.** Consistent, and adds a
+   fourth copied primitive definition, making E5 worse by one.
+3. **Promote it to a composition shape** alongside the four named today, taking thunks so both arms
+   are not evaluated. Largest, and the only one that does not deepen E5.
+
+Option 3 is probably right and is a decision about the shape layer rather than about either
+regulation. Not taken tonight.

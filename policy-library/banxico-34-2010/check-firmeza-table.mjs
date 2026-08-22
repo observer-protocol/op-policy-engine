@@ -44,6 +44,8 @@ const PROBES = {
   not_yet_due:  [(f) => { f.dictamen.made_available_at = null; f.clock = { now: '2026-05-20T00:00:00Z' }; return f; }, { A1_dias_unit: 'calendar_days' }],
   // No dictamen, clock supplied, period run.
   overdue:      [(f) => { f.dictamen.made_available_at = null; f.clock = { now: '2026-11-20T00:00:00Z' }; return f; }, { A1_dias_unit: 'calendar_days' }],
+  // A dictamen dated BEFORE the aviso answering it. Added 2026-08-22 with the ordering guard.
+  out_of_order: [(f) => { f.dictamen.made_available_at = '2020-01-01T00:00:00Z'; return f; }, { A1_dias_unit: 'calendar_days' }],
 };
 console.log('\n── input domain 1: the deadline result, observed from live runs ──');
 const observed = new Set();

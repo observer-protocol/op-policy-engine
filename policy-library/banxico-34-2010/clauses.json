@@ -202,9 +202,10 @@
               "exceeded",
               "not_yet_due",
               "overdue",
+              "out_of_order",
               "no_end_event"
             ],
-            "domain_derivation": "DERIVED FROM LIVE RUNS, then reconciled against elapsed_within's declared result_domain in primitives.json plus the `undetermined` the A1 guard adds. It grew from four values to six on 2026-08-22 when E1 was closed: `not_yet_due` and `overdue` appear once a clock is supplied, and `no_end_event` now means only that no clock was supplied."
+            "domain_derivation": "DERIVED FROM LIVE RUNS, then reconciled against elapsed_within's declared result_domain in primitives.json plus the `undetermined` the A1 guard adds. It grew from four values to six on 2026-08-22 when E1 was closed: `not_yet_due` and `overdue` appear once a clock is supplied, and `no_end_event` now means only that no clock was supplied. Grew again to seven on 2026-08-22 when `out_of_order` was added to elapsed_within."
           },
           {
             "name": "a2",
@@ -217,7 +218,7 @@
             "domain_derivation": "The two competing readings registered for ambiguity A2 in ambiguities.json, plus the unresolved state. Ambiguities are inputs and never defaults, so the unresolved state is a member of the domain rather than an error."
           }
         ],
-        "cross_product": 18,
+        "cross_product": 21,
         "rows": [
           {
             "deadline": "undetermined",
@@ -321,6 +322,24 @@
             "reading": "The period elapsed, which defeats the wider reading as well as the narrower one, and nothing was delivered whose content could rescue it."
           },
           {
+            "deadline": "out_of_order",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+          },
+          {
+            "deadline": "out_of_order",
+            "a2": "timing_only",
+            "outcome": "undetermined",
+            "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+          },
+          {
+            "deadline": "out_of_order",
+            "a2": "timing_and_content",
+            "outcome": "undetermined",
+            "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+          },
+          {
             "deadline": "no_end_event",
             "a2": "(unresolved)",
             "outcome": "undetermined",
@@ -385,7 +404,7 @@
             "visible_only_as_a_table": "An if/else chain cannot show this. It is legible only by reading across the two A2 columns of one deadline row, which is a comparison the chain's arm order destroys."
           }
         ],
-        "$gaps": "NONE. All 18 combinations of the declared input domains are handled. Coverage is asserted by check-firmeza-table.mjs against a live run rather than by this sentence.",
+        "$gaps": "NONE. All 21 combinations of the declared input domains are handled. Coverage is asserted by check-firmeza-table.mjs against a live run rather than by this sentence.",
         "outcomes": {
           "domain": [
             "attached",

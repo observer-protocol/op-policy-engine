@@ -126,7 +126,8 @@
       "read_by": [
         "34-2010/2.6/a/two-factor"
       ],
-      "note": "Sub-item ii carries its own condition (dynamic, non-duplicable, single-use or first-use-only). Read only when a factor of that kind is present."
+      "note": "Sub-item ii carries its own condition (dynamic, non-duplicable, single-use or first-use-only). Read only when a factor of that kind is present.",
+      "$finding_2026_08_22": "DECLARED, WITH A DECLARED READER, AND READ BY NOTHING. `read_by` names 34-2010/2.6/a/two-factor; the evaluator never references this field under any name. Same class as `used_by` in primitives.json: a hand-written statement of intent that nothing makes true. NOT DELETED, because removing a field from a published register is a decision about the register rather than a correction to it. Note also that the withdrawn `integrity` object above claimed `fields_read_by_no_clause: []`, which was false while this field sat in the same file."
     },
     {
       "field": "dictamen.made_available_at",
@@ -201,8 +202,8 @@
       "domain": {
         "kind": "judgment",
         "values": [
-          "yes",
-          "no",
+          "affirmed",
+          "denied",
           "not_assessed"
         ]
       },
@@ -210,7 +211,8 @@
         "34-2010/3.6/p4/language",
         "34-2010/3.6/a/explanation"
       ],
-      "note": "Carried as a judgment with an explicit not_assessed value. A boolean here would force an assessment nobody made."
+      "note": "Carried as a judgment with an explicit not_assessed value. A boolean here would force an assessment nobody made.",
+      "$corrected_2026_08_22": "Was ['yes', 'no', 'not_assessed']. THE REGISTER WAS WRONG, NOT THE EVALUATOR. Measured 2026-08-22: a fact recorded as `yes` or `no`, exactly as this register declared, produced `undetermined` on every judgment clause and on firmeza, because the evaluator consumes `affirmed`/`denied`. Only `not_assessed`, one of the three declared values, happened to agree. So an institution populating facts to the published spec got a determination on nothing. `affirmed`/`denied`/`not_assessed` is kept because it carries WHO ANSWERED: `denied` is a person having answered and `not_assessed` is nobody having answered, which Ruling 1 established as the distinction that decides firmeza. `yes`/`no` cannot express it. Found by the forward-running corpus, which draws candidate values from THIS REGISTER rather than from the fixtures; every fixture used `affirmed`, so nothing had ever exercised the declared vocabulary."
     },
     {
       "field": "dictamen.evidence_of_factors_present",
@@ -319,14 +321,19 @@
       "note": "`acredite al Tarjetahabiente` is a demonstration to a person. Recorded as a judgment, never derived from the factor count alone."
     },
     {
-      "path": "clock.now",
-      "type": "timestamp",
-      "required": false,
+      "field": "clock.now",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required",
+        "nullable": true
+      },
       "read_by": [
         "34-2010/3.6/p4/deadline",
         "34-2010/3.6/p5/expediente-copy"
       ],
-      "note": "Added 2026-08-22, closing REUSE-LOG E1. The evaluation's own clock, supplied as a FACT rather than read from the host, so a run is reproducible and a determination records the instant it was made against. OPTIONAL BY DESIGN AND ABSENT BY DEFAULT: with no clock, a deadline whose end event has not occurred returns `no_end_event` and any clause composing it returns `undetermined`. That is the same discipline the ambiguity register uses. An absent clock is a state, never a default, and never `Date.now()`."
+      "note": "Added 2026-08-22, closing REUSE-LOG E1. The evaluation's own clock, supplied as a FACT rather than read from the host, so a run is reproducible and a determination records the instant it was made against. OPTIONAL BY DESIGN AND ABSENT BY DEFAULT: with no clock, a deadline whose end event has not occurred returns `no_end_event` and any clause composing it returns `undetermined`. That is the same discipline the ambiguity register uses. An absent clock is a state, never a default, and never `Date.now()`.",
+      "$corrected_2026_08_22": "This entry was added 2026-08-22 using `path`/`type` keys while every other entry uses `field`/`domain`. It was my own error and it had a cost: any tool reading the register by its own shape skipped this field entirely, which is how the first sweep script crashed on it. Restated in the register's shape."
     }
   ]
 }
