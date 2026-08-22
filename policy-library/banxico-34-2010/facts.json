@@ -1,12 +1,17 @@
 {
   "$schema_note": "Every field a clause reads, with the clause ids that read it. Derived from source/circular-34-2010.pdf sha256 1312c3fd….",
   "integrity": {
-    "fields_read_by_no_clause": [],
-    "field_references_to_unknown_clauses": [],
-    "clauses_reading_no_field": [
-      "34-2010/3.6/p4/floor"
-    ],
-    "note": "A field read by no clause is an error and would be reported here rather than kept. Clauses listed as reading no field are the DERIVED ones, which compose other clauses' results and read no fact directly; that is expected and is why they are listed rather than treated as a defect."
+    "$withdrawn": "The three lists this object used to carry (`fields_read_by_no_clause`, `field_references_to_unknown_clauses`, `clauses_reading_no_field`) were STORED RESULTS, written by hand and recomputed by nothing. Withdrawn 2026-08-21. A stored count or list drifts and misleads the next person who greps it, which is the same defect `used_by` carried in primitives.json and the same one `_totalCases` in packages/parity-harness/matrix.json already solved by refusing to store a value at all.",
+    "$why_withdrawn": "It was measurably wrong when withdrawn. `clauses_reading_no_field` held one entry, `34-2010/3.6/p4/floor`, and its own note explained the entry as `the DERIVED ones, which compose other clauses' results and read no fact directly`. By that definition `34-2010/3.6/p7/firmeza` belongs in it too: firmeza reads no `facts.` at all, it composes the deadline result, the floor, the signatory and the language results with ambiguity resolution A2, and clauses.json's own `disposition_basis` for it says `It reads no fact directly`. So two files in this directory contradicted each other about one clause, and the list was the half that was wrong.",
+    "$what_derives_it_now": "NOTHING IN THIS REPOSITORY DERIVES IT, and no deriver is being invented here to fill the gap. `check-coverage.mjs` derives the clause id set by set equality against a live evaluator run, and that is the only field-level or clause-level property in this directory established by execution rather than by assertion. It does not read facts.json and says nothing about which fields any clause consumes. Until something computes these three lists from a run, the honest state is that they are unknown, and unknown is what this object now records.",
+    "$last_stored_values": {
+      "fields_read_by_no_clause": [],
+      "field_references_to_unknown_clauses": [],
+      "clauses_reading_no_field": [
+        "34-2010/3.6/p4/floor"
+      ],
+      "note": "A field read by no clause is an error and would be reported here rather than kept. Clauses listed as reading no field are the DERIVED ones, which compose other clauses' results and read no fact directly; that is expected and is why they are listed rather than treated as a defect."
+    }
   },
   "fields": [
     {

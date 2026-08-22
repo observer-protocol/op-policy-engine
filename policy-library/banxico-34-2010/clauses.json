@@ -188,7 +188,167 @@
         "34-2010/3.6/p4/channel",
         "34-2010/3.6/p4/signatory",
         "34-2010/3.6/p4/language"
-      ]
+      ],
+      "decision_table": {
+        "$note": "The seventh paragraph read as a decision table rather than an if/else chain. Added 2026-08-21. Every row was DERIVED BY RUNNING the evaluator on facts that produce that input combination, not transcribed from the chain. The evaluator is now driven by this table: `evaluate.mjs` looks the row up and throws if none matches.",
+        "$source": "p.14, numeral 3.6, seventh paragraph: `Si transcurrido el plazo a que se refiere el cuarto o quinto parrafo de este numeral, segun corresponda, la Emisora no entrega el referido dictamen en los terminos senalados, el abono realizado previamente por esta quedara firme, por lo que no podra revertirse.`",
+        "inputs": [
+          {
+            "name": "deadline",
+            "source": "clause 34-2010/3.6/p4/deadline",
+            "domain": [
+              "undetermined",
+              "within",
+              "exceeded",
+              "no_end_event"
+            ],
+            "domain_derivation": "DERIVED FROM LIVE RUNS, not from the branches the chain happens to test. `undetermined` when A1 is unsupplied; the other three are elapsed_within's own result domain. A fact set producing each of the four was run and its output recorded."
+          },
+          {
+            "name": "a2",
+            "source": "resolutions.A2_terminos_senalados",
+            "domain": [
+              "(unresolved)",
+              "timing_only",
+              "timing_and_content"
+            ],
+            "domain_derivation": "The two competing readings registered for ambiguity A2 in ambiguities.json, plus the unresolved state. Ambiguities are inputs and never defaults, so the unresolved state is a member of the domain rather than an error."
+          }
+        ],
+        "cross_product": 12,
+        "rows": [
+          {
+            "deadline": "undetermined",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "note": "A1 unresolved, so the period cannot be tested.",
+            "reading": "Not a reading of the paragraph. `transcurrido el plazo` cannot be evaluated because ambiguity A1 leaves the unit of the fourth paragraph's period unsupplied."
+          },
+          {
+            "deadline": "undetermined",
+            "a2": "timing_only",
+            "outcome": "undetermined",
+            "note": "A1 unresolved, so the period cannot be tested.",
+            "reading": "As above. A1 governs whether the period can be measured at all, so it is prior to A2 and resolving A2 does not help."
+          },
+          {
+            "deadline": "undetermined",
+            "a2": "timing_and_content",
+            "outcome": "undetermined",
+            "note": "A1 unresolved, so the period cannot be tested.",
+            "reading": "As above. A1 is prior to A2: the wider reading tests the dictamen's content as well as its timing, but it still requires the period to have been measured, and A1 leaves the unit of the fourth paragraph's period unsupplied. Resolving A2 alone reaches nothing here."
+          },
+          {
+            "deadline": "within",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+            "reading": "The period did not elapse, so the outcome turns entirely on what `en los terminos senalados` covers, which is A2 and was not supplied."
+          },
+          {
+            "deadline": "within",
+            "a2": "timing_only",
+            "outcome": "not_attached",
+            "note": "Delivered inside the period; under this reading content is not tested here.",
+            "reading": "On the timing-only reading the antecedent `transcurrido el plazo ... no entrega` fails as soon as delivery was inside the period, so firmeza does not attach and the content of the dictamen is not reached."
+          },
+          {
+            "deadline": "within",
+            "a2": "timing_and_content",
+            "outcome_from": "conformance_subtest",
+            "reading": "On this reading `el referido dictamen` carries the fourth paragraph's specification, so a timely dictamen must also conform. Delegated to the conformance sub-test below."
+          },
+          {
+            "deadline": "exceeded",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+            "reading": "BOTH readings give `attached` on these facts, as rows exceeded/timing_only and exceeded/timing_and_content show. The chain still withholds an answer. See finding F2."
+          },
+          {
+            "deadline": "exceeded",
+            "a2": "timing_only",
+            "outcome": "attached",
+            "note": "The applicable period elapsed with no conforming dictamen delivered.",
+            "reading": "The period elapsed and the dictamen was delivered outside it, so it was not delivered `en los terminos senalados` under the narrower reading. Firmeza attaches."
+          },
+          {
+            "deadline": "exceeded",
+            "a2": "timing_and_content",
+            "outcome": "attached",
+            "note": "The applicable period elapsed with no conforming dictamen delivered.",
+            "reading": "The period elapsed, which defeats the wider reading as well as the narrower one. Firmeza attaches."
+          },
+          {
+            "deadline": "no_end_event",
+            "a2": "(unresolved)",
+            "outcome": "undetermined",
+            "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+            "reading": "BOTH readings give `attached` on these facts. See findings F1 and F2."
+          },
+          {
+            "deadline": "no_end_event",
+            "a2": "timing_only",
+            "outcome": "attached",
+            "note": "The applicable period elapsed with no conforming dictamen delivered.",
+            "reading": "The chain treats a dictamen that was never made available as equivalent to one delivered late. The source requires the period to have elapsed and that is NOT established by these facts. See finding F1."
+          },
+          {
+            "deadline": "no_end_event",
+            "a2": "timing_and_content",
+            "outcome": "attached",
+            "note": "The applicable period elapsed with no conforming dictamen delivered.",
+            "reading": "As above. See finding F1."
+          }
+        ],
+        "conformance_subtest": {
+          "$note": "The cell at (within, timing_and_content) is not a literal. It delegates to a conjunction over three prior clause results, so this is a second table over that conjunction's own result domain.",
+          "input": "conjunction_over_results of [34-2010/3.6/p4/floor is floor_met, 34-2010/3.6/p4/signatory is member, 34-2010/3.6/p4/language is affirmed], with a withheld judgment carried as undetermined",
+          "domain": [
+            "satisfied",
+            "not_satisfied",
+            "undetermined"
+          ],
+          "rows": [
+            {
+              "conformance": "satisfied",
+              "outcome": "not_attached"
+            },
+            {
+              "conformance": "not_satisfied",
+              "outcome": "attached"
+            },
+            {
+              "conformance": "undetermined",
+              "outcome": "undetermined",
+              "note": "A judgment clause is not_assessed, so conformance cannot be concluded."
+            }
+          ]
+        },
+        "findings": [
+          {
+            "id": "F1",
+            "rows": [
+              "no_end_event/timing_only",
+              "no_end_event/timing_and_content"
+            ],
+            "finding": "These rows return `attached` on a note asserting that `The applicable period elapsed with no conforming dictamen delivered`. THE PERIOD ELAPSING IS NOT ESTABLISHED. `elapsed_within` returns `no_end_event` whenever the end event is absent, whether the period has run or not, so a dictamen that is merely outstanding and still in time is ruled the same as one delivered late. The source conditions firmeza on `transcurrido el plazo`, which these facts do not show.",
+            "status": "RECORDED, NOT FIXED. The transcription preserves current behaviour exactly, as scoped. Fixing it needs a clock in the facts, which is a fixture and register change, not a transcription.",
+            "related": "The same collapse recorded as E1 in ../_primitives/REUSE-LOG.md, and as the reason Banxico case 3's expediente fixture was changed. This is its third instance and its most consequential."
+          },
+          {
+            "id": "F2",
+            "rows": [
+              "exceeded/(unresolved)",
+              "no_end_event/(unresolved)"
+            ],
+            "finding": "These rows return `undetermined` for want of A2, but the table shows both A2 readings give `attached` on the same deadline value. The chain asks for a resolution the outcome does not depend on.",
+            "status": "RECORDED, NOT FIXED. Withholding an answer is the conservative direction, so this is over-caution rather than a wrong result.",
+            "visible_only_as_a_table": "An if/else chain cannot show this. It is legible only by reading across the two A2 columns of one deadline row, which is a comparison the chain's arm order destroys."
+          }
+        ],
+        "$gaps": "NONE. All 12 combinations of the declared input domains are handled by the chain this table was derived from. Coverage is asserted by check-firmeza-table.mjs against a live run rather than by this sentence."
+      }
     },
     {
       "id": "34-2010/3.3/p1/notice-types",

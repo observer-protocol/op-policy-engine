@@ -18,6 +18,17 @@
  * the elements, and it is not the same as a conforming dictamen.
  */
 
+// ─── the firmeza decision table, loaded from the register ───────────────────────────────────────
+//
+// This file used to import nothing at all, and that was worth something: it was auditable in
+// isolation. It now reads clauses.json, because the seventh paragraph's logic IS the table there
+// and driving it from anywhere else would be a second representation of the same rule. The trade is
+// deliberate. See ../_primitives/INVENTORY-AUDIT.md, STEP 3 of the follow-up.
+import { readFileSync } from 'node:fs';
+
+const FIRMEZA_TABLE = JSON.parse(readFileSync(new URL('./clauses.json', import.meta.url), 'utf8'))
+  .clauses.find((c) => c.id === '34-2010/3.6/p7/firmeza').decision_table;
+
 // ─── primitives, exactly as inventoried ─────────────────────────────────────────────────────────
 const DAY_MS = 86400000;
 
@@ -162,22 +173,36 @@ export function evaluate(facts, resolutions = {}) {
   put('34-2010/3.6/p1/recovery-right', held_judgment(facts.charge?.derived_from_2_6_a_operation),
     'Never inferred from 2.6(a) being met. See ambiguity A3.');
 
-  // firmeza — DERIVED, and its scope is itself unresolved
+  // firmeza — DERIVED, and driven by the decision table in clauses.json rather than by a chain.
+  //
+  // The table is the reading. Every row carries the sentence of the seventh paragraph it rests on,
+  // it is checkable for completeness over its input domains (check-firmeza-table.mjs), and it can be
+  // diffed when an institution changes its reading. An if/else chain is none of those, and two of
+  // its rows carry findings (F1, F2 in the table) that were not legible until the rows sat side by
+  // side.
   const deadline = out['34-2010/3.6/p4/deadline'].result;
-  const scope = resolutions.A2_terminos_senalados;     // 'timing_only' | 'timing_and_content' | undefined
+  const a2 = resolutions.A2_terminos_senalados ?? '(unresolved)';
+  const row = FIRMEZA_TABLE.rows.find((r) => r.deadline === deadline && r.a2 === a2);
+  // A missing row is a defect in the table, never a default. Failing loudly is the whole point of
+  // moving this out of a chain, whose `else` arm silently absorbed every combination nobody listed.
+  if (row === undefined) {
+    throw new Error(`firmeza: no decision-table row for deadline=${deadline}, a2=${a2}`);
+  }
   let firmeza, fnote;
-  if (deadline === 'undetermined') { firmeza = 'undetermined'; fnote = 'A1 unresolved, so the period cannot be tested.'; }
-  else if (scope === undefined) { firmeza = 'undetermined'; fnote = 'A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.'; }
-  else if (deadline === 'within' && scope === 'timing_only') { firmeza = 'not_attached'; fnote = 'Delivered inside the period; under this reading content is not tested here.'; }
-  else if (deadline === 'within' && scope === 'timing_and_content') {
+  if (row.outcome_from === 'conformance_subtest') {
     const conforming = conjunction_over_results([
       out['34-2010/3.6/p4/floor'].result === 'floor_met',
       out['34-2010/3.6/p4/signatory'].result === 'member',
       out['34-2010/3.6/p4/language'].result === 'affirmed' ? true : 'undetermined',
     ], 'undetermined');
-    firmeza = conforming === 'satisfied' ? 'not_attached' : conforming === 'undetermined' ? 'undetermined' : 'attached';
-    fnote = conforming === 'undetermined' ? 'A judgment clause is not_assessed, so conformance cannot be concluded.' : undefined;
-  } else { firmeza = 'attached'; fnote = 'The applicable period elapsed with no conforming dictamen delivered.'; }
+    const sub = FIRMEZA_TABLE.conformance_subtest.rows.find((r) => r.conformance === conforming);
+    if (sub === undefined) {
+      throw new Error(`firmeza: no conformance-subtest row for ${conforming}`);
+    }
+    firmeza = sub.outcome; fnote = sub.note;
+  } else {
+    firmeza = row.outcome; fnote = row.note;
+  }
   put('34-2010/3.6/p7/firmeza', firmeza, fnote);
 
   return out;

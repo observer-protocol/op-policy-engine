@@ -6,7 +6,8 @@
     "references_to_unknown_clauses": [],
     "domain_term_check_note": "Word-boundary matched. An earlier run flagged `distinct_members_at_least` because the substring `card` occurs inside `cardinality`, which is the standard mathematical term and not a domain word. Recorded because a substring check on a term list is exactly the shape that produces a false finding.",
     "coverage_check": "WITHDRAWN AND REPLACED. This object used to carry `clauses_no_primitive_serves`, computed here by asking whether each clause id appeared in some primitive's `used_by` list below. It reported [] while `34-2010/3.6/p5/expediente-copy` was declared under `elapsed_within` and `conditional_requirement` and invoked by neither, so every case table printed 18 rows against a 19 clause register and nothing said so. A `used_by` list is an author's statement of intent: written by hand, never executed, and nothing makes it true. Coverage is now checked by `check-coverage.mjs`, which compares the register against the ids a LIVE EVALUATOR RUN emits, by set equality, reporting missing and extra separately. Shown to fail by deleting the expediente clause from the evaluator: the new check reports MISSING and exits 1, the old one still passed.",
-    "used_by_is_documentation": "`used_by` below stays, and is documentation only. It records which primitive an author INTENDED to serve a clause. It is not evidence that anything calls it and must never again be used as a coverage test."
+    "used_by_is_documentation": "`used_by` below stays, and is documentation only. It records which primitive an author INTENDED to serve a clause. It is not evidence that anything calls it and must never again be used as a coverage test.",
+    "used_by_correction_2026_08_21": "`field_present` no longer names 34-2010/3.6/a/evidence or 34-2010/3.6/a/verification-method. It was wrong: both clauses read a BOOLEAN ASSERTION about the world (`evidence_of_factors_present`, `verification_method_stated`), not a container whose fill state is the question, and clauses.json gives their basis as `Presence of an evidence item`. Applying field_present to them returns `present` for a recorded `false`, which rules a dictamen stating no evidence as conforming and flips 3.6/p4/floor to floor_met and 3.6/p7/firmeza to not_attached. The inline ternary at those two call sites is CORRECT and was left alone; this documentation-only field was the half that was wrong. Measured in ../_primitives/INVENTORY-AUDIT.md."
   },
   "primitives": [
     {
@@ -80,8 +81,6 @@
       ],
       "description": "Whether a value was supplied. Carries no opinion about whether the value is adequate.",
       "used_by": [
-        "34-2010/3.6/a/evidence",
-        "34-2010/3.6/a/verification-method",
         "34-2010/3.6/b/time",
         "34-2010/3.3/p5/receipt-record"
       ]
