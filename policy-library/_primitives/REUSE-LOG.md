@@ -816,3 +816,121 @@ E4 says WHEN to fix: a second instance, or a change of representation. **E10 say
 instance.** They compose badly if only one is applied: counting instances of a form rather than of an
 operation makes E4's threshold trip early on a population that does not exist, which is exactly what
 E8 did.
+
+---
+
+## E11. A content hash over a non-deterministic source pins a fetch, not a document
+
+**Domains:** PSR, and every domain that pins a retrieved source. **Observed:** 2026-08-23.
+**Status: MEASURED AND CLOSED for the policy library. OPEN as a question about `policyRef.hash`.**
+
+### What happens
+
+legislation.gov.uk does not serialise XML attributes in a stable order. Measured across regulations
+67, 74, 75 and 76: **twelve fetches, three request shapes each, identical byte counts within each
+provision, twelve different sha256 digests.** The content is identical every time. Sorting attributes
+within every element gives **one digest per provision, identical across all three shapes.**
+
+Three fetches of the SAME shape agree, which is why the original provenance note could observe one
+provision twice in a browser session and record no variation. That observation was true and did not
+generalise, and it is the reason the instability sat unnoticed.
+
+**Banxico's PDF is stable**, returning its original pin on all three fetches. A static file has no
+serialisation freedom to exercise. So this is a property of a source, not of pinning, and a sweep is
+the only way to know which kind a given source is.
+
+### Fixed in the library
+
+`_sourcing/canonicalise-xml.mjs` normalises attribute order and nothing else, and states for each
+omission why: whitespace because it is significant in mixed content, namespace prefixes because
+doing it with a regex would corrupt text that merely looks like one, attribute values and element
+order because a difference there is a document that differs. **It is not C14N and says so.** The four
+PSR provisions are re-pinned under it, with the fetch digests kept alongside and relabelled.
+
+### The part that is not about PSR
+
+**`policyRef.hash` is the same construction.** A decision attestation cites the policy it applied by
+content hash, and `attestation.ts:308` states the reason plainly: **`hash` is what fixes the
+reference.**
+
+`hashMethod` is carried and, by the convention's own note at `attestation.ts:120`, is **named and
+never defaulted** because a hash whose method is assumed is not a claim. That reasoning is right and
+it stops one step short: **naming the digest algorithm does not name the canonicalisation**, and
+`sha256` over `the document` is well defined only if the bytes are.
+
+Where a decider and a verifier fetch the same policy from a source like this one, they compute
+different hashes for the same document. A verifier comparing them would report a policy mismatch,
+which reads as **the decider applied a different policy version**. That is a false negative on a
+verification surface, and this estate already holds that a false negative there is the worst answer
+such a surface can give.
+
+**Is the verify path exposed today? Latently, not actively.** Nothing recomputes or compares a
+policyRef hash: `attestation.ts:297` declares
+`OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF = true`, and the ruling over 446 live records was
+convention plus adoption measurement rather than enforcement. **So no verifier fails today because no
+verifier checks.** It becomes live the moment one does, and the convention is actively encouraging
+issuers to put more structured fact inside the one object nothing inspects.
+
+### THE ORDER IS PART OF THE DESIGN, and it is counter-intuitive
+
+**Third state first. Field second. Enforcement last.** Someone will otherwise do it in the intuitive
+order, add the field, and create the defect they were preventing.
+
+**Why the field must not ship first.** `payment-host.ts` compared two references and had two outcomes:
+same, or differ and deny `POLICY_MISMATCH`. Add `canonicalization` to that and every attestation
+issued to date lacks it, so an absent one falls into the `differ` arm and fires `POLICY_MISMATCH` on
+documents that MATCH. The field would manufacture the false negative it exists to prevent, on 100
+percent of existing traffic, and the failure would read as `a decision correctly made under the wrong
+policy`.
+
+**Shipped 2026-08-23: the third arm, before the field.** `POLICY_REF_NOT_COMPARABLE`, established
+BEFORE equality, because two digests are equal or unequal only if they are digests of the same thing
+computed the same way. It has a reachable trigger today without any new field: **`hashMethod`
+disagreement, which was carried on both sides and compared by nothing.**
+
+Measured before and after, on the same probe:
+
+| case | before | after |
+|---|---|---|
+| same id, same digest string, DIFFERENT method | **ALLOWED, no refusal at all** | `POLICY_REF_NOT_COMPARABLE` |
+| different digest, same method | `POLICY_MISMATCH` | `POLICY_MISMATCH` |
+| different digest AND different method | `POLICY_MISMATCH` | `POLICY_REF_NOT_COMPARABLE` |
+
+**The first row is the one that mattered and it was live.** Two references naming different methods
+whose digest strings happened to match were read as the same policy and the payment proceeded.
+
+The `POLICY_MISMATCH` message said `Both are compared as opaque strings and neither is parsed or
+fetched`, which was true and became misleading the moment a third outcome existed. It now states that
+comparability is established separately and first, so reaching it means the two are comparable and
+differ.
+
+**Remaining sequence, neither step taken:** add `canonicalization` as an optional field and measure
+adoption through `policyref-adoption.ts`, then refuse its absence at issuance once adoption makes
+that cheap. An absent one routes to the third arm, never to `differ`.
+
+### A correction to how this entry was first written
+
+The entry said nothing recomputes or compares `policyRef.hash`. **That was true of the ENGINE and
+false of the estate.** `attestation.ts:297` declares
+`OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF = true`, and I read the engine's boundary as the
+whole answer. **PaymentHost compares it at `payment-host.ts:1129` and denies on mismatch**, which is
+what made the exposure live rather than theoretical and is why the third arm ships now rather than
+with the field.
+
+The two claims differ by which component was surveyed, and the first was reached by stopping at the
+one whose source comment answered the question directly.
+
+**Not changed, as scoped.** The candidate fixes, none taken:
+
+1. **Name the canonicalisation alongside the method.** `hashMethod: 'sha256'` becomes something that
+   says what was hashed, for instance a method plus a canonicalisation identifier. Smallest change to
+   the type, largest change to existing traffic, and it refuses nothing today because nothing checks.
+2. **Say it in the convention rather than the type.** Tell issuers that a hash over a source that
+   serialises non-deterministically pins their fetch. Costs nothing and enforces nothing, which is
+   the same trade the existing convention took.
+3. **Have the verifier canonicalise before comparing.** Moves the problem to whoever compares, which
+   is nobody today, and requires the verifier to know the source's format.
+
+This entry has **one instance and one representation**, so under E4 the FIX waits. What does not wait
+is the measurement, because the exposure was invisible until somebody fetched the same document twice
+in two different ways.

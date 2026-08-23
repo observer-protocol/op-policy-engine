@@ -1,0 +1,504 @@
+{
+  "$schema_note": "FECA PM Part 2 Chapter 2-0805, RE-DERIVED FROM SOURCE 2026-08-23 under the extended schema. Not reworked from the first pass, which was made under a schema that did not describe the document. The first pass is kept at clauses.first-pass.json for comparison.",
+  "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION. ILLUSTRATIVE is NOT in the schema and any clause carrying it fits no category.",
+  "clauses": [
+    {
+      "id": "feca/2-0805/2/types-closed",
+      "source_locator": "para 2 chapeau",
+      "text": "An injury or disease may be related to employment factors in any of four ways",
+      "assertion": "The relationship types are closed at four.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Fixes the space other clauses select from. Tests nothing.",
+      "operative_weight": "An acceptance must be one of the four; no fifth type exists."
+    },
+    {
+      "id": "feca/2-0805/2/a/direct",
+      "source_locator": "para 2a",
+      "text": "the injury or factors of employment, through a natural and unbroken sequence, result in the condition claimed",
+      "assertion": "Direct causation is a natural and unbroken sequence to the claimed condition.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Acceptance carries no duration limit."
+    },
+    {
+      "id": "feca/2-0805/2/a/occupational-rationale",
+      "source_locator": "para 2a",
+      "text": "In occupational disease claims the medical evidence needed to support the relationship will likely require greater rationale than in traumatic injury claims.",
+      "assertion": "Occupational disease claims need more rationale than traumatic injury claims.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Sets a comparative standard and no test."
+    },
+    {
+      "id": "feca/2-0805/2/b/aggravation",
+      "source_locator": "para 2b",
+      "text": "a pre-existing condition is worsened, either temporarily or permanently, by an injury arising in the course of employment",
+      "assertion": "Aggravation is the worsening of a pre-existing condition by a work injury.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Splits into temporary and permanent, which pay differently."
+    },
+    {
+      "id": "feca/2-0805/2/b/diagnosed",
+      "source_locator": "para 2b",
+      "text": "An aggravation must be diagnosed by a physician to be compensable.",
+      "assertion": "Compensability requires a physician diagnosis of aggravation.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a diagnosis by a member of the physician class."
+    },
+    {
+      "id": "feca/2-0805/2/b/lesser-diagnosis",
+      "source_locator": "para 2b",
+      "text": "A claim may be accepted for a lesser established diagnosis if the aggravation issue requires further development.",
+      "assertion": "An established lesser diagnosis may be accepted pending development.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where the aggravation issue is undeveloped."
+    },
+    {
+      "id": "feca/2-0805/2/b/unclear-duration",
+      "source_locator": "para 2b",
+      "text": "if the evidence is unclear as to whether the aggravation is temporary or permanent, the case may be accepted for a temporary aggravation and concurrently developed",
+      "assertion": "Unclear duration yields temporary acceptance pending development.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only on an established aggravation of unclear duration."
+    },
+    {
+      "id": "feca/2-0805/2/b/1/temporary",
+      "source_locator": "para 2b(1)",
+      "text": "a limited period of medical treatment and/or disability, after which the employee returns to his or her previous physical status",
+      "assertion": "Temporary aggravation ends with return to baseline.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Compensation payable only for the established period, excluding the underlying disease."
+    },
+    {
+      "id": "feca/2-0805/2/b/1/baseline-carveout",
+      "source_locator": "para 2b(1)",
+      "text": "This is true even if the claimant cannot return to the job held at time of injury because the pre-existing condition will worsen if he or she does so",
+      "assertion": "Inability to return to the original job does not extend the temporary aggravation period.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Bounds the preceding definition rather than testing a fact.",
+      "rests_on_case_law": "James L. Hearn, 29 ECAB 278"
+    },
+    {
+      "id": "feca/2-0805/2/b/1/end-date",
+      "source_locator": "para 2b(1)",
+      "text": "the acceptance letter should note the end date of the accepted temporary aggravation; the specific dates should also be included in any SOAF",
+      "assertion": "A ceased temporary aggravation has its end date recorded.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act. No claim fact makes it true or false."
+    },
+    {
+      "id": "feca/2-0805/2/b/2/permanent",
+      "source_locator": "para 2b(2)",
+      "text": "a condition will persist indefinitely due to the effects of the work-related injury or a condition is materially worsened such that it will not revert",
+      "assertion": "Permanent aggravation persists indefinitely or does not revert.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Acceptance carries no duration limit."
+    },
+    {
+      "id": "feca/2-0805/2/b/2/careful-evaluation",
+      "source_locator": "para 2b(2)",
+      "text": "A case should be accepted for permanent aggravation only after careful evaluation of all medical evidence of record.",
+      "assertion": "Permanent aggravation is accepted only after careful evaluation.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`careful evaluation` names a standard and no test."
+    },
+    {
+      "id": "feca/2-0805/2/b/2/second-opinion",
+      "source_locator": "para 2b(2)",
+      "text": "The CE should usually refer the claimant for a second opinion examination (depending upon the complexity of the claimed condition and the medical rationale in the file) before accepting",
+      "assertion": "A second opinion is usually obtained before accepting permanent aggravation.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`usually` and `depending upon the complexity` leave the decision open. It is not INSTRUCTION because the referral is not a condition on acceptance."
+    },
+    {
+      "id": "feca/2-0805/2/c/acceleration",
+      "source_locator": "para 2c",
+      "text": "acceleration is said to occur when the ordinary course of the disease does not account for the speed with which a condition develops",
+      "assertion": "Acceleration is development faster than the disease course accounts for.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Carries the same force as direct causation: no set limitation on duration or severity."
+    },
+    {
+      "id": "feca/2-0805/2/d/precipitation",
+      "source_locator": "para 2d",
+      "text": "A latent condition which would not have become manifest but for the employment is said to have been precipitated by factors of the employment.",
+      "assertion": "Precipitation is a latent condition made manifest by employment.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Duration of acceptance is contradicted within the paragraph. See F2."
+    },
+    {
+      "id": "feca/2-0805/3/medical-issue",
+      "source_locator": "para 3 chapeau",
+      "text": "The question of causal relationship is a medical issue which usually requires reasoned medical opinion for resolution. This evidence should be obtained from a physician who has examined or treated the claimant.",
+      "assertion": "Causal relationship is resolved by reasoned medical opinion from a treating or examining physician.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of an opinion from a physician who examined or treated the claimant."
+    },
+    {
+      "id": "feca/2-0805/3/a/physician",
+      "source_locator": "para 3a",
+      "text": "As defined by 5 U.S.C. 8101 (2), the term \"physician\" includes surgeons, osteopathic practitioners, podiatrists, dentists, clinical psychologists, optometrists and chiropractors within the scope of their practice as defined by state law.",
+      "assertion": "Physician is the statutory class, bounded by state-law scope of practice.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Determines what every clause requiring a physician opinion means. It supplies a meaning rather than testing a fact.",
+      "implements": "5 U.S.C. 8101(2)",
+      "operative_weight": "Excludes RNs, LPNs, physician assistants, nurse practitioners, CNAs, social workers and physical therapists from giving an opinion that establishes causal relationship."
+    },
+    {
+      "id": "feca/2-0805/3/a/1/countersigned",
+      "source_locator": "para 3a(1)",
+      "text": "A report of a physician assistant or a certified nurse practitioner will be considered medical evidence if countersigned by a qualified physician.",
+      "assertion": "A PA or CNP report counts only when countersigned.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a countersignature by a member of the physician class."
+    },
+    {
+      "id": "feca/2-0805/3/a/2/psychologist",
+      "source_locator": "para 3a(2)",
+      "text": "A clinical psychologist may serve as a treating physician for a work-related emotional condition.",
+      "assertion": "A clinical psychologist is a treating physician for emotional conditions.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Extends the scope of the defined term for one condition class.",
+      "implements": "20 C.F.R. 10.312"
+    },
+    {
+      "id": "feca/2-0805/3/a/3/chiropractor",
+      "source_locator": "para 3a(3)",
+      "text": "A chiropractor's opinion constitutes medical evidence only if a diagnosis of subluxation of the spine is made and supported by x-rays",
+      "assertion": "A chiropractor opinion counts only on a subluxation diagnosis supported by x-rays.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded facts.",
+      "implements": "20 C.F.R. 10.311",
+      "rests_on_case_law": "Loras C. Digmann, 34 ECAB 1049"
+    },
+    {
+      "id": "feca/2-0805/3/b/report-contents",
+      "source_locator": "para 3b",
+      "text": "the physician's diagnosis of the condition found, the objective examination findings that establish that diagnosis, and opinion concerning the relationship",
+      "assertion": "The report must carry diagnosis, objective findings and an opinion on relationship.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of three named elements."
+    },
+    {
+      "id": "feca/2-0805/3/c/no-report",
+      "source_locator": "para 3c",
+      "text": "If all of the following criteria are satisfied, a claim may be accepted without a medical report: (1) minor condition identifiable on visual inspection by a lay person; and (2) witnessed or promptly reported, no dispute as to fact of injury.",
+      "assertion": "Both criteria together waive the medical report.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "A conjunctive exception; where it does not apply nothing is breached.",
+      "note": "Limb (1) turns on an open judgment. See F3."
+    },
+    {
+      "id": "feca/2-0805/3/d/applicability",
+      "source_locator": "para 3d chapeau",
+      "text": "If the circumstances noted above in 3c do not apply, the CE should determine whether a medical report addressing causal relationship is contained in the file.",
+      "assertion": "The medical-opinion requirement applies exactly when the 3c waiver does not.",
+      "disposition": "DERIVED",
+      "disposition_basis": "Reads no fact of its own. It composes the result of 3c and gates the whole of 3d."
+    },
+    {
+      "id": "feca/2-0805/3/d/request",
+      "source_locator": "para 3d chapeau",
+      "text": "If no such report is present, the CE should request it from the claimant.",
+      "assertion": "A missing report is requested from the claimant.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/3/d/1/clear-cut",
+      "source_locator": "para 3d(1)",
+      "text": "In clear-cut traumatic injury claims, where the fact of injury is established and is clearly competent to cause the condition described, a fully rationalized medical opinion is not needed.",
+      "assertion": "A clear-cut traumatic injury needs only a diagnosis and an affirmative statement.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`clear-cut` and `clearly competent to cause` set a standard and no test."
+    },
+    {
+      "id": "feca/2-0805/3/d/2/rationalized",
+      "source_locator": "para 3d(2)",
+      "text": "In all other traumatic injury claims, and in occupational illness claims, rationalized medical opinion supporting causal relationship is required.",
+      "assertion": "Every claim outside 3d(1) requires a rationalized medical opinion.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of a rationalized opinion.",
+      "rests_on_ungrounded_term": "rationalized medical opinion"
+    },
+    {
+      "id": "feca/2-0805/3/d/3/a/hearing",
+      "source_locator": "para 3d(3)(a)",
+      "text": "Claims for hearing loss require an opinion from a Board-certified specialist in otolaryngology.",
+      "assertion": "Hearing loss requires a Board-certified otolaryngologist opinion.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence of an opinion from a named credential class."
+    },
+    {
+      "id": "feca/2-0805/3/d/3/b/pulmonary",
+      "source_locator": "para 3d(3)(b)",
+      "text": "Claims for pulmonary conditions require an opinion from a Board-certified pulmonary specialist prior to acceptance.",
+      "assertion": "Pulmonary claims require a Board-certified pulmonary opinion before acceptance.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Presence plus an ordering requirement."
+    },
+    {
+      "id": "feca/2-0805/3/d/3/c/emotional",
+      "source_locator": "para 3d(3)(c)",
+      "text": "an opinion from a psychiatrist must be obtained where a non-mental component is present, a functional overlay is implicated, and/or medication is used",
+      "assertion": "A psychiatrist opinion is required on any of three circumstances.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`functional overlay is implicated` is a clinical judgment with no test given."
+    },
+    {
+      "id": "feca/2-0805/3/e/differentiate",
+      "source_locator": "para 3e",
+      "text": "the physician must provide rationalized medical opinion which differentiates between the effects of the work-related injury or disease and the pre-existing condition",
+      "assertion": "A same-site pre-existing condition requires a differentiating opinion.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where a pre-existing condition of the same body part is present.",
+      "rests_on_ungrounded_term": "rationalized medical opinion"
+    },
+    {
+      "id": "feca/2-0805/3/e/1/from-claimant",
+      "source_locator": "para 3e(1)",
+      "text": "From the claimant: full details of the pre-existing condition; reports from all physicians who examined or treated it",
+      "assertion": "The adjudicator requests pre-existing condition details and records from the claimant.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/3/e/2/from-agency",
+      "source_locator": "para 3e(2)",
+      "text": "From the employing agency: pre-employment physical, other pertinent medical records, and a statement from the immediate superior",
+      "assertion": "The adjudicator requests three items from the employing agency.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/4/a/difficulty-factors",
+      "source_locator": "para 4a",
+      "text": "The degree of difficulty in determining causal relationship depends mainly on: employment factors, nature of disability, elapsed time, medical history",
+      "assertion": "Four named factors govern how much rationale a case needs.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Names considerations that inform a weighing, and no threshold."
+    },
+    {
+      "id": "feca/2-0805/4/b/no-opinion",
+      "source_locator": "para 4b",
+      "text": "When no opinion regarding causal relationship is provided by the attending physician, the claim generally can be denied provided appropriate development has been completed. Exceptions to this rule are where no medical opinion or medical report is required.",
+      "assertion": "Absent an opinion, denial follows once development is complete, unless 3c waived the report.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Reads a fact of its own, the absence of an opinion, and is conditioned on completed development.",
+      "note": "`appropriate development` and `generally` are unreduced. See F4.",
+      "$finding_2026_08_23": "BASIS UNDERSTATES A READ, AND THE OMISSION DOES NOT CHANGE THE ENTRY'S MEANING. Reported for completeness. `disposition_basis` does not mention that this clause reads feca/2-0805/3/d/applicability, but `assertion` says `unless 3c waived the report` and the clause text carries the exception verbatim. The composition is stated in the entry, in a different field from the one the check reads. This is the benign case of the three, and it is why the check reports read-but-not-claimed separately rather than failing on it."
+    },
+    {
+      "id": "feca/2-0805/4/c/negated",
+      "source_locator": "para 4c",
+      "text": "When the attending physician negates causal relationship and no medical evidence to the contrary appears in the file, the case may be disallowed, provided appropriate development has been completed.",
+      "assertion": "A negating opinion with nothing contrary supports disallowance without a second opinion.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Conditioned on absence of contrary evidence and completed development."
+    },
+    {
+      "id": "feca/2-0805/4/d/examples",
+      "source_locator": "para 4d",
+      "text": "[truck and thrombophlebitis and stroke; tuberculosis nurse and spouse]",
+      "assertion": "Worked illustrations of how elapsed time and physiological connection change the rationale required.",
+      "disposition": "ILLUSTRATIVE",
+      "disposition_basis": "Carries no requirement. FITS NO CATEGORY IN THE EXTENDED SCHEMA: ILLUSTRATIVE was ruled not to enter, on one instance in one domain."
+    },
+    {
+      "id": "feca/2-0805/5/necessity",
+      "source_locator": "para 5 chapeau",
+      "text": "If the CE determines that additional medical opinion is necessary, he/she may request an additional report or seek a second opinion.",
+      "assertion": "Whether further opinion is needed is the adjudicator's determination.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`determines that additional medical opinion is necessary` sets no test."
+    },
+    {
+      "id": "feca/2-0805/5/a/attending",
+      "source_locator": "para 5a",
+      "text": "A list of questions may be sent to the attending physician, and a SOAF may be provided as the background for the case, if needed",
+      "assertion": "Questions and a SOAF may be sent to the attending physician.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/5/b/second-opinion",
+      "source_locator": "para 5b",
+      "text": "In cases that cannot be adjudicated on the basis of the opinion provided by the claimant's physician, a SOAF should be prepared and an opinion requested from a specialist in the pertinent field",
+      "assertion": "An unadjudicable file goes to a second opinion specialist.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`cannot be adjudicated on the basis of the opinion provided` names no test.",
+      "implements": "5 U.S.C. 8123(a)"
+    },
+    {
+      "id": "feca/2-0805/5/c/conflict",
+      "source_locator": "para 5c",
+      "text": "A conflict of medical opinion may be created when opinions of the attending physician and the second opinion are of approximately equal weight. When this occurs, the entire case file should be referred to a board-certified specialist",
+      "assertion": "Opinions of approximately equal weight create a conflict, referred to a referee specialist.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`approximately equal weight` is the weighing this chapter exists to govern and it sets no test.",
+      "implements": "5 U.S.C. 8123(a)"
+    },
+    {
+      "id": "feca/2-0805/5/d/questions",
+      "source_locator": "para 5d",
+      "text": "Questions should be as precise as possible, tailored to the circumstances; avoid general questions, those interpretable in more than one way, and those which suggest a certain answer.",
+      "assertion": "Questions must be precise, case-specific and non-leading.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs how an act is performed."
+    },
+    {
+      "id": "feca/2-0805/5/d/all-issues",
+      "source_locator": "para 5d",
+      "text": "the CE should identify and address all medical issues which need resolution before requesting the additional opinion, and avoid questions unnecessary to the issue at hand",
+      "assertion": "All live medical issues are formulated before requesting an opinion, and no premature ones.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs how an act is performed."
+    },
+    {
+      "id": "feca/2-0805/6/specialist-discussion",
+      "source_locator": "para 6",
+      "text": "Establishing causal relationship in these types of complex cases usually requires an in-depth discussion of causal relationship by an appropriate specialist",
+      "assertion": "High-risk infection claims usually need specialist discussion.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`usually` and `in-depth` set no test."
+    },
+    {
+      "id": "feca/2-0805/6/accept-while-developing",
+      "source_locator": "para 6",
+      "text": "The CE can accept the claim for a physical injury where one exists while developing the claim for a more serious condition",
+      "assertion": "An established physical injury may be accepted while a graver condition is developed.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where a physical injury exists alongside an undeveloped graver claim."
+    },
+    {
+      "id": "feca/2-0805/6/no-preventive-payment",
+      "source_locator": "para 6 note",
+      "text": "OWCP does not authorize payment for preventive measures such as vaccines and inoculations",
+      "assertion": "Preventive measures are not payable, subject to specific circumstances.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A prohibition on a named class of payment.",
+      "implements": "20 C.F.R. 10.313; 5 U.S.C. 7901"
+    },
+    {
+      "id": "feca/2-0805/6/a/1/known-carrier",
+      "source_locator": "para 6a(1)",
+      "text": "If the source of infection is a known or probable carrier, the CE should accept the case for the physical injury involved and authorize prophylactic treatment",
+      "assertion": "A known or probable carrier yields acceptance plus prophylactic treatment.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Turns on the recorded status of the source."
+    },
+    {
+      "id": "feca/2-0805/6/a/2/unknown-source",
+      "source_locator": "para 6a(2)",
+      "text": "If the source of infection is unidentified or the source's status is unknown, the CE should accept the claim for the physical injury involved.",
+      "assertion": "An unidentified source still yields acceptance of the physical injury.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Turns on the recorded status of the source."
+    },
+    {
+      "id": "feca/2-0805/6/b/1/known-carrier-test",
+      "source_locator": "para 6b(1)",
+      "text": "A known carrier is involved, and the claimant had neither a prior history of the disease nor exposure outside of employment",
+      "assertion": "A positive test with a known carrier and no prior history or outside exposure may be accepted.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A conjunction of three recorded facts."
+    },
+    {
+      "id": "feca/2-0805/6/b/2/prior-negative",
+      "source_locator": "para 6b(2)",
+      "text": "A prior test was negative and a physical injury has been accepted, if the occupation puts him or her at continuous risk and factors unrelated to work have not been identified as a source",
+      "assertion": "A positive test after a negative one may be accepted on continuous occupational risk with no identified outside source.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A conjunction of four recorded facts."
+    },
+    {
+      "id": "feca/2-0805/6/b/2/weigh-probability",
+      "source_locator": "para 6b(2)",
+      "text": "If such factors are present, the CE must carefully consider the medical probability of infection both outside and within the sphere of employment, as well as the incubation period",
+      "assertion": "Where outside factors exist, relative medical probability is weighed.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`carefully consider` names no standard. See F5."
+    },
+    {
+      "id": "feca/2-0805/7/a/consequential",
+      "source_locator": "para 7a",
+      "text": "This kind of injury occurs because of weakness or impairment caused by a work-related injury, and it may affect the same part of the body as the original injury or a different area",
+      "assertion": "A consequential injury flows from weakness or impairment caused by the accepted injury.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Brings a later, off-duty injury inside the accepted claim."
+    },
+    {
+      "id": "feca/2-0805/7/a/natural-consequence",
+      "source_locator": "para 7a",
+      "text": "every natural consequence that flows from the injury is deemed to arise out of the employment, unless it is the result of an independent intervening cause which is attributable to the employee's own intentional conduct",
+      "assertion": "Natural consequences are compensable unless an independent intervening cause attributable to intentional conduct intervenes.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A presumption with one enumerated defeater.",
+      "rests_on_case_law": "Sandra Dixon-Mills, 44 ECAB 882 (1993)",
+      "rests_on_ungrounded_term": "independent intervening cause"
+    },
+    {
+      "id": "feca/2-0805/7/a/1/claimant-statement",
+      "source_locator": "para 7a(1)",
+      "text": "Ask the claimant to provide a factual statement [six enumerated contents]",
+      "assertion": "The adjudicator requests a factual statement covering six matters.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/7/a/2/medical-evidence",
+      "source_locator": "para 7a(2)",
+      "text": "Ask the claimant to furnish medical evidence [records and a comprehensive report addressing eight matters]",
+      "assertion": "The adjudicator requests medical evidence covering eight matters.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    },
+    {
+      "id": "feca/2-0805/7/a/3/reasonable-time",
+      "source_locator": "para 7a(3)",
+      "text": "The CE should allow a reasonable time period for submission of the evidence (usually 30 days). After the time period has passed, the CE should adjudicate.",
+      "assertion": "A reasonable period, usually 30 days, precedes adjudication.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`reasonable` is the standard; `usually 30 days` is a default and not a limit."
+    },
+    {
+      "id": "feca/2-0805/7/a/further-clarification",
+      "source_locator": "para 7a",
+      "text": "The CE may also seek further clarification from the claimant's physician, or refer the case for review by the District Medical Advisor or to a second opinion examiner, prior to adjudicating",
+      "assertion": "Further clarification or referral may precede adjudication.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act, at discretion."
+    },
+    {
+      "id": "feca/2-0805/7/b/intervening",
+      "source_locator": "para 7b",
+      "text": "An injury occurring outside the performance of duty to the same part of the body originally injured is referred to as an intervening injury if compensation is claimed subsequent to the second injury.",
+      "assertion": "An intervening injury is an off-duty injury to the same body part, claimed after.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term.",
+      "operative_weight": "Puts the original relationship in question without defeating it."
+    },
+    {
+      "id": "feca/2-0805/7/b/chain",
+      "source_locator": "para 7b",
+      "text": "the CE must determine whether the disability is due to the second injury alone, or whether the effects of the first injury still contribute. Unless the second injury breaks the chain of causation, the disability will be considered related to the original incident.",
+      "assertion": "The original relationship survives unless the chain of causation is broken.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Whether the chain is broken is assigned to the adjudicator with no test given.",
+      "rests_on_ungrounded_term": "chain of causation"
+    },
+    {
+      "id": "feca/2-0805/7/b/1/obtain",
+      "source_locator": "para 7b(1)",
+      "text": "the CE should obtain the following information from the claimant: full details of the second incident; all medical reports; a reasoned opinion on the relationship to both injuries",
+      "assertion": "The adjudicator obtains three named items on an intervening injury.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs an act."
+    }
+  ]
+}

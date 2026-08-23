@@ -220,24 +220,29 @@ export function evaluate(facts, resolutions = {}) {
   const abroadRecorded = field_present(facts.operation?.executed_abroad) === 'present';
   const abroad = facts.operation?.executed_abroad === true;
   const unitRes = resolutions.A1_dias_unit;            // 'business_days' | 'calendar_days' | undefined
-  // No period can be selected from a fact nobody supplied, so there is no period rather than a
-  // default one.
-  const period = abroadRecorded
-    ? select_parameter_by_predicate(abroad,
-        { limit: 180, unit: 'calendar_days' },          // fifth paragraph, explicitly naturales
-        { limit: 45, unit: unitRes })                   // fourth paragraph, unit UNRESOLVED
-    : { limit: undefined, unit: undefined };
+  // ROUTED THROUGH THE CLAUSE'S RESULT, 2026-08-23. The register defines this clause as the one that
+  // selects which paragraph's period applies, and until now the selection was made by the shared
+  // `abroad` variable while the clause merely reported it. The clause's stated effect was not its
+  // actual effect, which is the defect psr-2017/67/4 had. The clause is emitted FIRST and the period
+  // is derived FROM ITS RESULT, so the description is now true by construction rather than by
+  // anyone remembering to keep it true.
   put('34-2010/3.6/p5/foreign-deadline',
     guard_on_unresolved(abroadRecorded,
       () => (abroad ? 'selected_180_calendar_days' : 'selected_fourth_paragraph')),
     '`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected.');
+  const period = remap_result_domain(out['34-2010/3.6/p5/foreign-deadline'].result, {
+    selected_180_calendar_days: { limit: 180, unit: 'calendar_days' },   // fifth paragraph, explicitly naturales
+    selected_fourth_paragraph: { limit: 45, unit: unitRes },             // fourth paragraph, unit UNRESOLVED
+    undetermined: { limit: undefined, unit: undefined },
+  });
   // THE ROW MUST SAY WHICH PERIOD IT APPLIED. The register defines this clause as the 45 `Días`
   // deadline, so a bare `within` at day 120 reads as a contradiction of the clause it sits on. What
   // actually happened is that p5/foreign-deadline selected the fifth paragraph's period and this
   // clause applied it. Stating the applied period on the row is what stops the table contradicting
   // the prose that explains it.
   const appliedPeriod = `${period.limit} ${period.unit ?? 'UNRESOLVED'}` +
-    (abroad ? ', selected by p5/foreign-deadline (fifth paragraph)' : ', fourth paragraph');
+    (out['34-2010/3.6/p5/foreign-deadline'].result === 'selected_180_calendar_days'
+      ? ', selected by p5/foreign-deadline (fifth paragraph)' : ', fourth paragraph');
   put('34-2010/3.6/p4/deadline',
     guard_on_unresolved(abroadRecorded && period.unit !== undefined,
       () => elapsed_within(facts.notice?.received_at, facts.dictamen?.made_available_at, period.limit, period.unit, facts.clock?.now)),

@@ -154,7 +154,52 @@ export function evaluate(facts, resolutions = {}) {
   const f = facts;
 
   // reg 67
-  put('psr-2017/67/1/consent', any_present([f.consent?.to_transaction, f.consent?.to_series]));
+  // reg 67(4) VERBATIM: `Subject to regulation 83(3) to (5), the payer may withdraw its consent to
+  // the execution of a series of payment transactions at any time WITH THE EFFECT THAT ANY FUTURE
+  // PAYMENT TRANSACTIONS ARE NOT REGARDED AS AUTHORISED for the purposes of this Part.`
+  //
+  // FIXED 2026-08-23. This clause used to emit a result nothing consumed, so the encoding stated the
+  // provision and did not give it effect: a series whose consent had been withdrawn still returned
+  // `one_present` from 67(1) and the refund trigger was unchanged. Found by TRACING consumption, not
+  // by reading the register, whose own basis asserted that it `changes the authorisation result for
+  // later transactions`. It did not.
+  //
+  // `FUTURE` is relative to the withdrawal, so the operation is an ordering, not a presence test.
+  //
+  // STATED LIMITATION: 67(4) opens `Subject to regulation 83(3) to (5)`, which bounds when a
+  // withdrawal is EFFECTIVE. Regulation 83 is outside this encoding's scope, two hops from reg 76,
+  // so a recorded withdrawal is treated here as an effective one. That is an assumption about
+  // availability, not about effect: the effect is stated without qualification.
+  put('psr-2017/67/4/series-withdrawal',
+    applicability_gate(field_present(f.consent?.series_withdrawn_at) === 'present',
+      () => remap_result_domain(ordered_before(f.consent?.series_withdrawn_at, f.transaction?.debit_date), {
+        before: 'defeated',            // the withdrawal precedes the transaction: it is a future one
+        simultaneous: 'not_defeated',  // not future
+        after: 'not_defeated',         // the transaction preceded the withdrawal
+        missing_operand: 'undetermined',
+      })),
+    'A withdrawal defeats the series limb of 67(1)(b) only for transactions FUTURE to it.');
+
+  // reg 67(1): authorised only on consent to the transaction, or to a series of which it forms part.
+  // The series limb is defeated by an effective withdrawal under 67(4), which is why 67/4 is computed
+  // first and consumed here.
+  const seriesLimb = remap_result_domain(o['psr-2017/67/4/series-withdrawal'].result, {
+    not_applicable: true,   // no withdrawal recorded: the series limb stands
+    not_defeated: true,     // a withdrawal exists but this transaction is not future to it
+    defeated: false,        // 67(4): not regarded as authorised
+    undetermined: 'undetermined',
+  });
+  const txConsent = field_present(f.consent?.to_transaction) === 'present';
+  const seriesConsent = field_present(f.consent?.to_series) === 'present';
+  put('psr-2017/67/1/consent',
+    txConsent ? 'one_present'
+      : !seriesConsent ? 'none_present'
+        : seriesLimb === true ? 'one_present'
+          : seriesLimb === false ? 'none_present'
+            : 'undetermined',
+    seriesConsent && seriesLimb === false
+      ? 'Series consent was given and withdrawn before this transaction, so 67(4) defeats it.' : undefined);
+
   put('psr-2017/67/2/b/form', member_of_register(f.consent?.form, f.agreement?.agreed_forms ?? []));
   put('psr-2017/67/2/a/timing',
     conditional_requirement(f.consent?.given_after_execution === true,
@@ -163,17 +208,6 @@ export function evaluate(facts, resolutions = {}) {
   put('psr-2017/67/3/withdrawal',
     ordered_before(f.consent?.withdrawn_at, f.order?.irrevocable_from),
     'NEW primitive ordered_before. missing_operand where no withdrawal was made.');
-  // field_present, not truthiness: the operand is a TIMESTAMP, so the question really is whether a
-  // withdrawal instant exists. This is the case where field_present genuinely applies, unlike the
-  // two Banxico incisos that read a boolean assertion. Corrected 2026-08-21.
-  //
-  // MEASURED, because the first version of this comment overstated it: the two forms differ on `0`
-  // ONLY, where a numeric epoch 1970-01-01 was read as no withdrawal at all and is now read as a
-  // withdrawal. They AGREE on `''`, which field_present also calls absent. So this is a narrow fix
-  // and it is worth saying so rather than implying it closed a class.
-  put('psr-2017/67/4/series-withdrawal',
-    applicability_gate(field_present(f.consent?.series_withdrawn_at) === 'present',
-      () => conjunction_over_results([false], 'undetermined')));
 
   // reg 74
   put('psr-2017/74/1/undue-delay', held_judgment(f.notification?.without_undue_delay));
@@ -224,7 +258,11 @@ export function evaluate(facts, resolutions = {}) {
   const notBarred = (inTime === true || barLifted === true) ? true
     : (inTime === 'undetermined' || barLifted === 'undetermined') ? 'undetermined'
       : false;
-  const unauthorised = o['psr-2017/67/1/consent'].result === 'none_present';
+  // 67(1) can now return `undetermined`, so this must be three-valued. A boolean projection would
+  // read `we cannot tell whether it was authorised` as `it was authorised`, which is E1's class.
+  const unauthorised = remap_result_domain(o['psr-2017/67/1/consent'].result, {
+    none_present: true, one_present: false, undetermined: 'undetermined',
+  });
   put('psr-2017/76/1/trigger',
     conjunction_over_results([unauthorised, notBarred], 'undetermined'),
     'Composes the 67 authorisation result with the 74 bar. Reads no fact directly.');

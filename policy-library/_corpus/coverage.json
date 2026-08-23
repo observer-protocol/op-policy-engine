@@ -38,10 +38,11 @@
   ]
  },
  "psr": {
-  "reachable": 72,
+  "reachable": 75,
   "reached": 28,
   "missed": [
    "psr-2017/67/1/consent -> one_present",
+   "psr-2017/67/1/consent -> undetermined",
    "psr-2017/67/2/a/timing -> breached",
    "psr-2017/67/2/a/timing -> satisfied",
    "psr-2017/67/2/b/form -> member",
@@ -49,7 +50,9 @@
    "psr-2017/67/3/withdrawal -> after",
    "psr-2017/67/3/withdrawal -> before",
    "psr-2017/67/3/withdrawal -> simultaneous",
-   "psr-2017/67/4/series-withdrawal -> not_satisfied",
+   "psr-2017/67/4/series-withdrawal -> defeated",
+   "psr-2017/67/4/series-withdrawal -> not_defeated",
+   "psr-2017/67/4/series-withdrawal -> undetermined",
    "psr-2017/74/1/thirteen-months -> no_end_event",
    "psr-2017/74/1/thirteen-months -> not_yet_due",
    "psr-2017/74/1/thirteen-months -> out_of_order",
