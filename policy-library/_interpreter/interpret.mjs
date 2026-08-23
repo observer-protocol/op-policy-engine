@@ -39,13 +39,25 @@ import { readFileSync } from 'node:fs';
 /**
  * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
  *
- * Every record opens `v, lane, lane_from`. VERSION 2 names the current shape, which is the union:
+ * Every record opens `v, lane, lane_from`. VERSION 3 names the current shape, which is the union:
  *
- *   { v, lane, lane_from, result, note?, ...extras }   a clause with a result domain
+ *   { v, lane, lane_from, result, note?, ...extras }   a determination
+ *   { v, lane, lane_from, awaiting }                   routed to a lane that has not produced one
  *   { v, lane, lane_from, no_result, supplies }        DEFINITIONAL
  *   { v, lane, lane_from, refused, why }               INSTRUCTION, ILLUSTRATIVE
  *
- * Version 1 was the same union without `lane` and `lane_from`.
+ * Version 2 was the union without the `awaiting` shape; version 1 without `lane`/`lane_from`.
+ * The `awaiting` shape is emitted only by the router (route.mjs), never by evaluation, and it is
+ * in THIS union because the version names the format: a v2 reader meeting an awaiting record would
+ * meet a shape v2 never declared, which is the drift the version field exists to prevent.
+ *
+ * THE LANE'S SEMANTICS AT v3, amended by extension: `lane` names the lane that OWNS the clause's
+ * determination, and whether one EXISTS is carried by the discriminant key (`result` against
+ * `awaiting`). At v2 the ruling was `what produced it`; for every record v2 could emit the owner
+ * IS the producer, so no v2 byte would have differed, and the amendment only becomes visible on
+ * the shape v2 could not express. `lane: "none"` keeps its v2 meaning exactly: no lane owns it and
+ * none ever will, which is why an unproduced person record is NOT `none` — the routing is the fact
+ * the record exists to carry, and `none` would erase it.
  *
  * THE LANE ON THE RECORD. `lane` is one of the four lane tokens, or `none`. `lane_from` says
  * whether it came from the register's disposition lookup (`lookup`) or a per-clause override
@@ -73,8 +85,8 @@ import { readFileSync } from 'node:fs';
  *      granularities, and the enforcement sites: REUSE-LOG E30. `recordVersion` below is this
  *      granularity's enforcement: it THROWS on an absent version, the same discipline as `resultOf`.
  */
-export const RECORD_VERSION = 2;
-export const KNOWN_RECORD_VERSIONS = new Set([1, 2]);
+export const RECORD_VERSION = 3;
+export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3]);
 
 /** The absent-version ruling, enforced. Unversioned is a state, not version 0: REUSE-LOG E30.
  *  Accepts 1 and 2; a version outside the known set throws, because a reader that passes an
@@ -86,8 +98,9 @@ export function recordVersion(rec) {
   return rec.v;
 }
 
-/** The v2 record opening, computed once per clause from the register's lanes section. */
-function laneStampOf(register, c) {
+/** The record opening, computed once per clause from the register's lanes section. Exported for
+ *  the router, which stamps the same opening on the awaiting shape. */
+export function laneStampOf(register, c) {
   const lookup = register.lanes?.lookup;
   if (lookup === undefined) throw new Error('the register declares no lanes.lookup; rebuild it');
   const e = lookup[c.disposition];

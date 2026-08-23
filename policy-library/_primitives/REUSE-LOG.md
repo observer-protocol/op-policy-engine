@@ -1865,13 +1865,56 @@ site that enforces it; do not write a fourth prose statement. A local comment sa
 
 ---
 
+## E31. A categorisation asserted in prose that no register carries fed a coordinator ruling
+
+**Where:** `_primitives/EVIDENTIAL.md`, and from there a coordinator block of 2026-08-24.
+**Observed:** 2026-08-24, when the block's premise was verified against the register before being
+reported on. **Status: RULED same day; both documents corrected.**
+
+### What happened
+
+EVIDENTIAL.md names five FECA clauses as EVIDENTIAL under the tight test, and states in the same
+document that nothing has been recategorised. Both sentences are true. A coordinator ruling then
+arrived premised on `five FECA clauses carry EVIDENTIAL and route to engine`, which is what a
+reader gets by taking the first sentence and not the second: the register carries JUDGMENT for
+three of the five and MECHANICAL and CONDITIONAL for the other two, routing person, engine, engine.
+The premise was caught by measurement before the ruling was executed on.
+
+### The class
+
+A RESTATEMENT DROPPED A CONDITION AND WIDENED: `EVIDENTIAL under the tight test, unrecategorised`
+became `carries EVIDENTIAL`. The document invited it by keeping its two claims three sections
+apart, so the analysis could travel without the caveat that makes it analysis. It is E29's shape
+with the direction reversed: there a report asserted a count the artifact contradicted; here a
+correct analysis was read as the artifact.
+
+### The ruling
+
+**Both claims stand, with the difference made explicit in the table rather than in a reader's
+care.** The register's disposition is THE OPERATIVE CLAIM: it is what evaluates, routes and
+freezes. The tight-test categorisation is ANALYSIS held open under the document's own stop
+condition, and deleting it would discard the survey that found the category. EVIDENTIAL.md now
+carries a banner ruling the precedence and a `THE REGISTER CARRIES` column beside the survey
+counts, so the two claims cannot be read as one without ignoring a column that separates them.
+
+### And this entry's own commit is an instance of E29's letter
+
+The commit that landed the EVIDENTIAL.md correction, `75ab6c1`, states that `E31 records the
+incident and its class`. At the moment it was pushed, E31 did not exist: the script writing it used
+a wrong relative path, failed after the EVIDENTIAL.md edit succeeded, and the commit message's
+claim went out unverified. Caught within a minute by the failing script's own traceback, and
+recorded here rather than smoothed away: a report asserting an artifact that is not there is E29
+regardless of how quickly the artifact follows.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E30 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now thirty. Two of the additions change what
+> **E18 to E31 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty-one. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was

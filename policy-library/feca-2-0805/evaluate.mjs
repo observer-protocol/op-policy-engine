@@ -37,13 +37,13 @@ const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
   if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
   if (e.no_lane !== undefined) {
     if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
-    return [c.id, { v: 2, lane: 'none', lane_from: 'lookup' }];
+    return [c.id, { v: 3, lane: 'none', lane_from: 'lookup' }];
   }
   if (c.lane_override) {
     if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
-    return [c.id, { v: 2, lane: c.lane_override, lane_from: 'override' }];
+    return [c.id, { v: 3, lane: c.lane_override, lane_from: 'override' }];
   }
-  return [c.id, { v: 2, lane: e.lane, lane_from: 'lookup' }];
+  return [c.id, { v: 3, lane: e.lane, lane_from: 'lookup' }];
 }));
 
 const BY_ID = Object.fromEntries(REGISTER.map((c) => [c.id, c]));
