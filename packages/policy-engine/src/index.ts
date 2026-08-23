@@ -179,6 +179,11 @@ export type { Refusal, AppliedBound, RefusalAuthority, Attribution, SpendRecord,
 // `assurance` field rather than merely type one needs the list at runtime, and needs to know which
 // served document it corresponds to. Exporting the type alone left both unanswerable from outside.
 export { REQUIRED_KEY_CUSTODY, REQUIRED_KEY_CUSTODY_SCHEMA_VERSION } from './core/records/types.js';
+// THE rc.13 NAMES, ALIASED. Deprecated, and exported because rc.12 — npm's `latest` since
+// 2026-08-10 — carried all three. Removing them as `latest` moves would break the default
+// install silently. See the block above their definition for the measurement.
+export { APPROVER_KEY_ASSURANCE, APPROVER_KEY_ASSURANCE_SCHEMA_VERSION } from './core/records/types.js';
+export type { ApproverKeyAssurance } from './core/records/types.js';
 export { verifyEddsaJcs2022 } from './core/proof.js';
 export type { ProofCheckResult } from './core/proof.js';
 export { validateStructure, checkValidityWindow } from './core/schema.js';

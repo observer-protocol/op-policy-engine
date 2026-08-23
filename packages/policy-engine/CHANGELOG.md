@@ -2,6 +2,38 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.20
+
+**The three names rc.14 renamed are re-exported as deprecated aliases, so that moving npm's
+`latest` past rc.14 is not a silent break.** Nothing else changes: no export is removed, no value
+differs, no function's arity or behaviour moves.
+
+| Deprecated alias | Canonical name |
+|---|---|
+| `APPROVER_KEY_ASSURANCE` | `REQUIRED_KEY_CUSTODY` |
+| `APPROVER_KEY_ASSURANCE_SCHEMA_VERSION` | `REQUIRED_KEY_CUSTODY_SCHEMA_VERSION` |
+| `ApproverKeyAssurance` (type) | `RequiredKeyCustody` |
+
+**Why now.** `latest` has pointed at **rc.12** since 2026-08-10. rc.12 exports all three names, so
+moving the tag to any release after rc.14 would hand every existing caller `undefined` — a value
+rather than an error, in the array they check a credential's `assurance` field against. The rc.14
+entry recorded the rename as breaking only for rc.13, a release that lived 23 minutes; that
+sentence is corrected in place below.
+
+**They are aliases, not copies.** Each is the canonical binding itself
+(`APPROVER_KEY_ASSURANCE === REQUIRED_KEY_CUSTODY` is `true`), so there is one array and one
+version string under two names and they cannot drift.
+
+**Deprecated, not supported.** The `@deprecated` tag is on all three in the emitted declarations,
+naming the replacement. The new names are the ones that mirror the served schema. These exist so a
+`latest` move is not a silent break, and they are removable once `latest` has been past rc.14 long
+enough that nobody is still on rc.12.
+
+**The type is aliased too, and that was not in the original brief.** rc.12 exported
+`ApproverKeyAssurance` from `dist/index.d.ts` line 28, so a TypeScript caller breaks on the rename
+exactly as a runtime caller does. Aliasing the two constants without it would have left half the
+break in place.
+
 ## 1.0.0-rc.17
 
 **Two refusal messages reworded. No shape changed, nothing is accepted or refused differently, and
@@ -131,6 +163,22 @@ the declaration alone and not by anything that would fail if it were reverted. R
 left for someone to notice.
 
 ## 1.0.0-rc.14
+
+> **CORRECTION, recorded 2026-08-22 at rc.20. The sentence below is wrong about which release
+> exposed these names, and it is left standing rather than edited away.**
+>
+> It says the rename breaks "anyone on rc.13", and calls rc.13 "the release that published them".
+> **rc.12 carries the same symbols and was npm's `latest` from 2026-08-10.** Established by
+> measuring the published bundles rather than by reading this file: `APPROVER_KEY_ASSURANCE`
+> appears **4 times in rc.12's `dist/index.mjs` and once in its `dist/index.d.ts`**, and
+> `ApproverKeyAssurance` is exported as a type from `dist/index.d.ts` line 28.
+>
+> rc.13 was published 2026-08-13 00:06 and rc.14 at 00:29 — it existed for **23 minutes**. rc.12
+> had been the default install for **twelve days**. So "zero adopters outside the estate" was a
+> claim about the wrong release: the rename breaks **the default install**, and anyone moving
+> `latest` past rc.14 on the strength of this entry would not have learned that.
+>
+> All three names are re-exported as deprecated aliases at **rc.20** for exactly that reason.
 
 **BREAKING FOR ANYONE ON rc.13. Three published names are renamed, and rc.13 is the release that
 published them.** Nothing signed changes, and no member of the vocabulary changes.
