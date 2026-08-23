@@ -1867,8 +1867,9 @@ property does not belong to `policy-library/`; it belongs to anything that reads
 **The known boundary of the second instance, so this entry does not overclaim.** The distinct tokens
 survive only until composition: `conjunction_over_results` maps `not_assessed` (via a remap) into
 `undetermined`, so one level up `nobody assessed` and `the facts do not settle it` share a token.
-That is E28's prospective instance and A.4's shape-vocabulary constraint, recorded there and not
-resolved here.
+That is A.4's shape-vocabulary constraint, now E32, closed for the waiting axis's cases on
+2026-08-24 and still open at the result-token layer. (This line originally called it `E28's
+prospective instance`, which was the mislabel E32 corrects: E28 is dispatch-as-a-set.)
 
 **How to apply.** When absence appears at a new granularity, add a row to this table with the code
 site that enforces it; do not write a fourth prose statement. A local comment says
@@ -1919,13 +1920,78 @@ regardless of how quickly the artifact follows.
 
 ---
 
+## E32. The composition collapse, closed incidentally by the waiting axis
+
+**Where the constraint lives:** handoff Addendum A.4, second design constraint (`Composition can
+erase the distinction before an agent sees it`), restated as E30's boundary. **Observed closed:**
+2026-08-24, building the waiting axis. **Status: CLOSED FOR THE WAITING AXIS'S CASES, OPEN AT THE
+RESULT-TOKEN LAYER. See the split below.**
+
+### First, a label corrected, because this entry exists partly to stop its spread
+
+The waiting-axis pull request and E30's boundary note both called this `E28's collapse`. **E28 does
+not carry it.** E28 is the dispatch-as-a-set entry, whose prospective A.4 instance is the FIRST A.4
+constraint (a dispatch target is a set); the collapse is the SECOND, and it had no entry of its own,
+which is exactly how it came to be cited under a neighbour's number. E30's boundary line is
+corrected to point here.
+
+### The constraint, and what closed it
+
+The constraint: `conjunction_over_results` and the remaps feeding it map `not_assessed` into
+`undetermined`, so one level up `nobody assessed` and `the facts do not settle it` share a token,
+and the distinction Addendum A.3's payoff depends on is erased at the shape layer before any
+evidence agent could act on it. `psr-2017/75/1/provider-burden` was the measured case: a
+conjunction over four held judgments, classified as fact-waiting by every instrument that could
+only see its final token.
+
+**What closed it: origin tracking at the forcing site**, built for the waiting axis. The
+`not_assessed` is recorded at the moment `held_judgment` returns it, BEFORE the remap erases it, so
+75/1's record now carries `waiting: "judgment"`, and a clause reading 75/1's record propagates that
+class rather than a generic marker. Measured over 120,000 sampled runs: 481,301 records classify
+judgment-waiting, none of them by guessing from a collapsed token.
+
+### The closure is a SIDE EFFECT, and that is the reason this entry exists
+
+Nothing was built to close this constraint. It fell out of a mechanism built so the waiting axis
+could classify `undetermined`, and **an entry closed incidentally is the kind someone re-opens by
+removing the mechanism without knowing what else it held up.** So, stated for whoever next touches
+the classifier: **removing or narrowing origin tracking in `_interpreter/interpret.mjs` (the
+primitive-dispatch hook and the clause-read propagation) or the tracked wrappers in the three
+`evaluate.mjs` files re-opens this constraint**, and nothing else in the estate holds it closed.
+R7's extension guards the classifier's token map, not the tracking itself; a gate that would catch
+the tracking's removal is the cross-implementation parity of the `waiting` field, which fails the
+moment one side stops tracking, PROVIDED both sides are not edited together.
+
+### Fully closed, or closed for the cases the axis forces? The latter, and here is the split
+
+**Closed:** the RECORD now distinguishes judgment-absence from fact-absence, per run, and the
+distinction survives clause-to-clause propagation, which is what A.3's payoff needs and what A.4's
+constraint said was lost.
+
+**Still open, three cases:**
+
+1. **The result token itself still collapses.** Anything that reads `result` and not `waiting`,
+   every remap arm, every decision-table row keyed on `undetermined`, every consumer of a record at
+   v3 or below, still cannot tell the two apart. A composition that must DECIDE differently on
+   judgment-absence against fact-absence cannot, because the token it branches on is still one
+   token. That is the original shape-vocabulary constraint, untouched.
+2. **A judgment RECORDED as the literal `not_assessed`** is still indistinguishable from one nobody
+   made (E30's second granularity at `held_judgment`), so `waiting: "judgment"` conflates
+   `nobody has assessed` with `someone recorded that it is unassessed`.
+3. **`held_judgment`'s open domain**: an institution recording a bespoke token that MEANS
+   unassessed is not in `absence_result_tokens`, is not tracked, and classifies as not-waiting.
+   R7's extension cannot reach it, because totality is checkable only over declared domains and
+   this one is declared open.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E31 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now thirty-one. Two of the additions change what
+> **E18 to E32 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty-two. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was

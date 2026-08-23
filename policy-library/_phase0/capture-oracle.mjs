@@ -19,6 +19,22 @@
  *                mismatch the harness re-runs the evaluator for that one record, CHECKS the re-run
  *                against the frozen digest, and only then prints it as the oracle value.
  *
+ * ─── THE COST MODEL OF A RECORD-FORMAT CHANGE, four measurements in ─────────────────────────────
+ *
+ * The shape, not the numbers, is what to keep: a format change that adds a CONSTANT FIELD costs
+ * about two seconds of freeze compute (v1 1.87s, v2 2.08s, v3 2.07s, three flat points); a format
+ * change that adds COMPUTATION costs in proportion to evaluation work, and the waiting classifier
+ * roughly doubled it (v4 4.10s), RECURRING, because the added work runs in every future freeze
+ * too, not once.
+ *
+ * SO THE QUESTION TO ASK A FORMAT CHANGE BEFORE IT LANDS IS: does it add a field, or does it add
+ * computation? A field costs a needle and a freeze. Computation re-prices every freeze after it,
+ * and the person landing it should say so in the freeze commit, as v4's did.
+ *
+ * THE DISCIPLINE COST HELD ACROSS ALL FOUR: one needle-bearing instrument updated
+ * (show-parity-fails.mjs), a dozen oracle files re-committed, every time. That is the part these
+ * measurements were tracking, and it did not move.
+ *
  * ─── WHAT IS NOT FROZEN, AND WHY ────────────────────────────────────────────────────────────────
  *
  * The sampled inputs are not stored. They are regenerated from `_corpus/space.mjs` and the seed.
