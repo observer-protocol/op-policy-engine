@@ -151,8 +151,8 @@ const __elapsed_within = (start, end, limit, unit, now) => {
 
 const select_parameter_by_predicate = (p, ifTrue, ifFalse) => (p ? ifTrue : ifFalse);
 const __field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
-const __all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
-const __any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const __all_present = (vs) => ((vs ?? [undefined]).every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');   // unsupplied list: E30 at the list type
+const __any_present = (alts) => ((alts ?? [undefined]).some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');   // unsupplied list: E30 at the list type
 // WIDENED 2026-08-22, closing REUSE-LOG E1. The second operand was a boolean, which forced every
 // multi-valued result through two states at the call site. It now takes a CLOSED four-token
 // vocabulary and throws on anything else, so a caller that invents a fifth state fails loudly

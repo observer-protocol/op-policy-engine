@@ -106,8 +106,8 @@ const HAS_RESULT_DOMAIN = new Set(['MECHANICAL', 'JUDGMENT', 'CONDITIONAL', 'DER
 
 // ─── primitives, from the two regulation domains, unchanged ─────────────────────────────────────
 const __field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
-const __all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
-const __any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const __all_present = (vs) => ((vs ?? [undefined]).every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');   // unsupplied list: E30 at the list type
+const __any_present = (alts) => ((alts ?? [undefined]).some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');   // unsupplied list: E30 at the list type
 const member_of_enumeration = (v, en) => (en.includes(v) ? 'member' : 'not_member');
 const none_of_class_present = (items, prohibited) =>
   (items.some((i) => prohibited.includes(i)) ? 'prohibited_present' : 'clear');

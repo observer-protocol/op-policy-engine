@@ -188,8 +188,15 @@ const withinLimit = (s, e, limit, unit) => {
 
 const PRIMITIVES = {
   field_present: (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present'),
-  all_present: (vs) => (vs.every((v) => PRIMITIVES.field_present(v) === 'present') ? 'all_present' : 'some_absent'),
-  any_present: (alts) => (alts.some((v) => PRIMITIVES.field_present(v) === 'present') ? 'one_present' : 'none_present'),
+  // AN UNSUPPLIED LIST IS E30 AT THE LIST TYPE: the scalar presence question tolerates an absent
+  // operand and answers absent, and the list forms threw a TypeError instead, which is a crash
+  // where a waiting record belongs. An unsupplied list reads as a list whose members are
+  // unsupplied: some_absent / none_present, with the argument probe marking the fact origin.
+  // Scoped to the presence family, whose whole question is absence; the other list primitives
+  // (none_of_class_present, distinct_members_at_least) still require their operand, because a
+  // prohibited-class answer over a list nobody supplied would be a decided `clear` on no evidence.
+  all_present: (vs) => ((vs ?? [undefined]).every((v) => PRIMITIVES.field_present(v) === 'present') ? 'all_present' : 'some_absent'),
+  any_present: (alts) => ((alts ?? [undefined]).some((v) => PRIMITIVES.field_present(v) === 'present') ? 'one_present' : 'none_present'),
   member_of_enumeration: (v, en) => (en.includes(v) ? 'member' : 'not_member'),
 
   // ADDED IN PHASE 0. See REUSE-LOG E19 for the source text that forced it. It reports whether every
@@ -397,17 +404,17 @@ const OPS = {
     const f = PRIMITIVES[n.name];
     if (f === undefined) throw new Error(`unregistered primitive ${JSON.stringify(n.name)}`);
     const args = n.args.map((a) => force(a, ctx));
-    const r = f(...args);
-    // ── waiting origins. A token that IS absence names what it is absence of; the presence family
-    //    additionally probes its ARGUMENT: strictly undefined was never supplied, while a recorded
-    //    null, '' or false is someone's answer and marks nothing (E30's field granularity).
+    // ── waiting origins. The ARGUMENT probe runs BEFORE the call, matching the hand
+    //    implementations' wrappers, so an origin survives whatever the primitive does with the
+    //    argument. A token that IS absence then names what it is absence of.
     const W = ctx.register.waiting;
-    const cls = W.absence_result_tokens[r];
-    if (cls !== undefined && cls !== '$composite') ctx.waitOrigins.add(cls);
     if (W.unsupplied_argument_probes.includes(n.name)) {
       const a0 = args[0];
       if (a0 === undefined || (Array.isArray(a0) && a0.some((v) => v === undefined))) ctx.waitOrigins.add('fact');
     }
+    const r = f(...args);
+    const cls = W.absence_result_tokens[r];
+    if (cls !== undefined && cls !== '$composite') ctx.waitOrigins.add(cls);
     return r;
   },
 

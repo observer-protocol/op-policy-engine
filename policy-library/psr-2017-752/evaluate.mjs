@@ -88,7 +88,7 @@ const __trackStore = (o) => new Proxy(o, {
 
 // ─── reused unchanged from the Banxico set ──────────────────────────────────────────────────────
 const __field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
-const __any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const __any_present = (alts) => ((alts ?? [undefined]).some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');   // unsupplied list: E30 at the list type
 // WIDENED 2026-08-22, closing REUSE-LOG E1, identically to the Banxico copy. A closed four-token
 // vocabulary, throwing on anything else. Mapping a primitive's result domain into these four is the
 // clause's reading and stays at the call site.

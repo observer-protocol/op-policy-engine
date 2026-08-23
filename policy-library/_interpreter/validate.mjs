@@ -289,7 +289,7 @@ export function validate(register, label) {
   }
 
   // ── R15 / R16 / R17: three value-level shapes a converted register can carry ────────────────
-  // Added 2026-08-25 after three encoding defects in a converted register were value-level and
+  // Added 2026-08-23 after three encoding defects in a converted register were value-level and
   // invisible here. Each rule is the STRUCTURAL projection of a value-level defect; the residue
   // that structure cannot see is stated in the rule text rather than implied covered.
   {

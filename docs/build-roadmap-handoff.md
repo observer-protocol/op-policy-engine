@@ -266,7 +266,7 @@ anything like the cost of a published regulation. Every conversion so far has be
 statutory or manual text. The first real client document will tell you more about the
 business than Phases 1 through 5 combined.
 
-**TWO FINDINGS FROM ONE SPECIMEN, recorded 2026-08-25.** The specimen is the Molina
+**TWO FINDINGS FROM ONE SPECIMEN, recorded 2026-08-23.** The specimen is the Molina
 provider-manual conversion, a private operating document converted outside this repository;
 these arrive as relayed findings from that work, its figures stay with it, and ONE DOCUMENT
 ESTABLISHES NOTHING beyond its own existence as a data point. First: this section assumed a

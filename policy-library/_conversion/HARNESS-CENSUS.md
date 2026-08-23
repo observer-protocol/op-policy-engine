@@ -1,6 +1,6 @@
 # What a conversion actually consumed, against what section 7 names
 
-**Measured 2026-08-25. Population: every artifact in the three domain directories plus the shared
+**Measured 2026-08-23. Population: every artifact in the three domain directories plus the shared
 instruments (`_corpus`, `_primitives`, `_sourcing`, `_phase0`, `_interpreter`) at this commit.
 Method: each artifact mapped to the conversion step that produced or checks it, then each of
 section 7's seven steps classified by whether an INSTRUMENT covers it today, a SESSION AND A HUMAN
