@@ -150,7 +150,8 @@ const amounts_equal = (a, b) => {
 
 export function evaluate(facts, resolutions = {}) {
   const o = {};
-  const put = (id, result, note) => { o[id] = note === undefined ? { result } : { result, note }; };
+  // RECORD FORMAT VERSION 1, identically to the Banxico copy. See the note there.
+  const put = (id, result, note) => { o[id] = note === undefined ? { v: 1, result } : { v: 1, result, note }; };
   const f = facts;
 
   // reg 67

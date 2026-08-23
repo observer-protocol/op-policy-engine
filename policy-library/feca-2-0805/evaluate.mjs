@@ -85,7 +85,11 @@ export function evaluate(facts, resolutions = {}) {
     if (!HAS_RESULT_DOMAIN.has(c.disposition)) {
       throw new Error(`evaluate: ${id} is ${c.disposition} and has no result domain; it must not be assigned a result`);
     }
-    out[id] = { result, ...(extra ?? {}) };
+    // RECORD FORMAT VERSION 1, on every record, REFUSALS INCLUDED (below). The version names the
+    // record format, which is the union of this domain's shapes: a result record, a DEFINITIONAL
+    // no-result record, and a refusal. Versioning only the result records would let the refusal
+    // half of the format drift under an unchanged version.
+    out[id] = { v: 1, result, ...(extra ?? {}) };
   };
   // ─── attribute_to_supplied_meaning ────────────────────────────────────────────────────────────
   //
@@ -258,8 +262,8 @@ export function evaluate(facts, resolutions = {}) {
   for (const c of REGISTER) {
     if (HAS_RESULT_DOMAIN.has(c.disposition)) continue;
     out[c.id] = c.disposition === 'DEFINITIONAL'
-      ? { no_result: 'DEFINITIONAL', supplies: c.operative_weight ?? 'a meaning other clauses consume' }
-      : { refused: c.disposition, why: c.disposition === 'INSTRUCTION'
+      ? { v: 1, no_result: 'DEFINITIONAL', supplies: c.operative_weight ?? 'a meaning other clauses consume' }
+      : { v: 1, refused: c.disposition, why: c.disposition === 'INSTRUCTION'
           ? 'directs an act; no fact of the claim makes it true or false, so it has no result domain'
           : 'carries no requirement; ILLUSTRATIVE is not in the schema' };
   }

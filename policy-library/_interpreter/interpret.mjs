@@ -36,6 +36,37 @@
  */
 import { readFileSync } from 'node:fs';
 
+/**
+ * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
+ *
+ * Every record carries `v` FIRST. Version 1 names the current shape, which is the union:
+ *
+ *   { v, result, note?, ...extras }          a clause with a result domain
+ *   { v, no_result, supplies }               DEFINITIONAL
+ *   { v, refused, why }                      INSTRUCTION, ILLUSTRATIVE
+ *
+ * TWO RULINGS, IN THE CODE RATHER THAN LEFT TO A READER:
+ *
+ *   1. REFUSAL RECORDS CARRY THE SAME FIELD, SAME VALUE. The version names the record FORMAT, the
+ *      union above, not the happy path. A separate refusal version would let the two halves drift
+ *      independently, and a format change to refusals could then hide under an unchanged result
+ *      version. A refusal read apart from its oracle must state what it is exactly as a result must.
+ *
+ *   2. AN ABSENT `v` IS UNVERSIONED, NOT VERSION 0. Absence has two causes: a record from the
+ *      pre-versioning era, and a foreign record that dropped the field. Reading absent as 0 decides
+ *      between them on no evidence, which is the absent-is-not-domestic defect (E9) on a record
+ *      instead of a fact. `recordVersion` below is the choice enforced: it THROWS on an absent
+ *      version rather than returning a default, the same discipline as `resultOf`.
+ */
+export const RECORD_VERSION = 1;
+
+/** The absent-version ruling, enforced. Unversioned is a state, and it is not version 0. */
+export function recordVersion(rec) {
+  if (rec === undefined || rec === null) throw new Error('recordVersion: no record');
+  if (!('v' in rec)) throw new Error('recordVersion: the record carries no version. It is UNVERSIONED, which is not version 0; decide from its provenance, not from a default.');
+  return rec.v;
+}
+
 const DAY_MS = 86400000;
 
 // ════════════════════════════════════════════════════════════════════════════════════════════════
@@ -299,7 +330,7 @@ const EMITTERS = {
   // OMITTED rather than emitted as null, because a clause carrying `note: undefined` and a clause
   // carrying no note are the same statement and must serialise the same way.
   emit: (n, ctx) => {
-    const rec = { result: force(n.result, ctx) };
+    const rec = { v: RECORD_VERSION, result: force(n.result, ctx) };
     if (n.note !== undefined) { const v = force(n.note, ctx); if (v !== undefined) rec.note = v; }
     for (const [k, e] of Object.entries(n.extra ?? {})) { const v = force(e, ctx); if (v !== undefined) rec[k] = v; }
     return rec;
@@ -322,9 +353,9 @@ const EMITTERS = {
       const sv = force(sub.input, ctx);
       const srow = sub.rows.find((r) => r.match === sv);
       if (srow === undefined) throw new Error(`decision_table: no ${row.outcome_from} row for ${JSON.stringify(sv)}`);
-      return srow.note === undefined ? { result: srow.outcome } : { result: srow.outcome, note: srow.note };
+      return srow.note === undefined ? { v: RECORD_VERSION, result: srow.outcome } : { v: RECORD_VERSION, result: srow.outcome, note: srow.note };
     }
-    return row.note === undefined ? { result: row.outcome } : { result: row.outcome, note: row.note };
+    return row.note === undefined ? { v: RECORD_VERSION, result: row.outcome } : { v: RECORD_VERSION, result: row.outcome, note: row.note };
   },
 
   // ═══ THE UNGROUNDED SHAPE ══════════════════════════════════════════════════════════════════════
@@ -354,18 +385,18 @@ const EMITTERS = {
       if (supplied === undefined) {
         // THE EVALUATOR NEVER SUPPLIES A MEANING. The sentence is declared once for the domain, not
         // once per clause, because four copies of one sentence is four places for it to drift.
-        return { result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
+        return { v: RECORD_VERSION, result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
       }
       if (strictBoolean(force(n.applies, ctx), `ungrounded(${n.term})`) === false) {
-        return { result: 'not_applicable' };            // the meaning is never even reached
+        return { v: RECORD_VERSION, result: 'not_applicable' };            // the meaning is never even reached
       }
       const frame = { term: n.term, supplied, used: false };
       const saved = ctx.meaningFrame;
       ctx.meaningFrame = frame;
       let value;
       try { value = force(n.compute, ctx); } finally { ctx.meaningFrame = saved; }
-      if (!frame.used) return { result: value };
-      const rec = { result: `${value}_on_supplied_meaning` };
+      if (!frame.used) return { v: RECORD_VERSION, result: value };
+      const rec = { v: RECORD_VERSION, result: `${value}_on_supplied_meaning` };
       for (const [k, e] of Object.entries(decl.attribution)) rec[k] = force(e, ctx);
       return rec;
     } finally { ctx.ungroundedTerm = savedTerm; }
@@ -399,7 +430,7 @@ export function interpret(register, facts, resolutions = {}) {
       const shape = register.dispositions.no_result_emission[c.disposition];
       if (shape === undefined) throw new Error(`${c.id}: ${c.disposition} has neither a result domain nor a declared no-result emission`);
       if (c.evaluate !== undefined) throw new Error(`${c.id} is ${c.disposition} and has no result domain; it must not carry an evaluation`);
-      const rec = {};
+      const rec = { v: RECORD_VERSION };
       for (const [k, e] of Object.entries(shape)) rec[k] = force(e, ctx);
       out[c.id] = rec;
     }

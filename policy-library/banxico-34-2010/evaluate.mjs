@@ -163,7 +163,12 @@ const AUTH_FACTOR_KINDS = ['2.6.a.i_knowledge', '2.6.a.ii_device_or_chip', '2.6.
 
 export function evaluate(facts, resolutions = {}) {
   const out = {};
-  const put = (id, result, note) => { out[id] = note === undefined ? { result } : { result, note }; };
+  // RECORD FORMAT VERSION 1, on every record, first. Version 1 names the shape this file has always
+  // emitted: { v, result, note? } for a clause with a result domain. A record read apart from its
+  // oracle must state what it is. An ABSENT `v` is UNVERSIONED, not version 0: absence has two
+  // causes, a pre-versioning record and a foreign record that dropped the field, and reading absent
+  // as 0 decides which without evidence.
+  const put = (id, result, note) => { out[id] = note === undefined ? { v: 1, result } : { v: 1, result, note }; };
 
   // 2.6(a) — two INDEPENDENT elements from the enumeration.
   // Found by the E9 sweep. An ABSENT factor list returned `not_met`, asserting the two-factor
