@@ -2,6 +2,47 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.21
+
+**Byte-identical in packaged content to rc.20. It exists because rc.20 was published without a
+`gitHead`, and that field cannot be added to a version already on the registry.**
+
+### What rc.21 is
+
+rc.13 through rc.19 each carry a `gitHead` in their registry metadata. rc.20 alone does not, so a
+reader holding the rc.20 tarball cannot resolve it to the commit it was built from.
+
+The cause is established directly rather than inferred. npm derives the field in
+`@npmcli/package-json/lib/normalize.js` by reading `<gitRoot>/.git/HEAD` **as a path**. In a linked
+git worktree `.git` is a FILE containing `gitdir: …`, not a directory, so that read raises `ENOTDIR`
+into an empty `catch`, the field is skipped in silence, and the publish reports success. Running
+that same code path at one commit gives `(ABSENT)` from a linked worktree and
+`a8f8f6ff5c02f3047951e63ea863e8a161151870` from a plain clone, which is the commit `v1.0.0-rc.20`
+points at. Whether HEAD is detached makes no difference; only the shape of `.git` does.
+
+**So this release is not an experiment and must not be read as one.** The mechanism is known. rc.21
+is the remedy, published from a tree where npm can read `.git/HEAD`.
+
+### What rc.21 is NOT, despite being cut from a main that has moved
+
+`main` gained 16 commits after rc.20 was tagged, carrying a register interpreter, a record format
+with a version field on every record, lanes on every record, and a re-frozen oracle.
+
+**None of it is in this package.** All of it lives in `policy-library/` and the repository-root
+`scripts/`, and this package's `files` field ships only `dist/`, `PROVENANCE.md`, `README.md`,
+`KNOWN-LIMITS.md`, `LICENSE` and `CHANGELOG.md` from `packages/policy-engine/`. Measured rather than
+argued: `git diff v1.0.0-rc.20..main -- packages/policy-engine` is empty, and every packaged path —
+`src`, `PROVENANCE.md`, `README.md`, `KNOWN-LIMITS.md`, `LICENSE`, `package.json` — is identical
+between the two.
+
+**A consumer upgrading rc.20 to rc.21 receives no behavioural change of any kind.** No export is
+added, removed or altered; no value differs; no function's arity or behaviour moves. The diff
+against rc.20 is the version field and this entry.
+
+rc.20 is left published and undeprecated on purpose: it is the only artifact that exhibits the
+missing-`gitHead` condition, and the publish postflight is verified against it rather than against a
+simulation.
+
 ## 1.0.0-rc.20
 
 **The three names rc.14 renamed are re-exported as deprecated aliases, so that moving npm's
