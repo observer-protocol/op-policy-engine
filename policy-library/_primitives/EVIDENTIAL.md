@@ -3,6 +3,16 @@
 Added to the schema 2026-08-23, on the reg 75 ruling. **Nothing has been recategorised.** The survey
 below is the reason.
 
+> **TWO CLAIMS, AND THEY ARE DIFFERENT. Ruled 2026-08-24, after this document fed a wrong premise
+> into a coordinator ruling** that said five FECA clauses "carry EVIDENTIAL and route to engine".
+> They do not: THE REGISTER IS THE OPERATIVE CLAIM, and it carries JUDGMENT for three of the five,
+> MECHANICAL and CONDITIONAL for the other two, which route to person, engine and engine. This
+> document's tight-test categorisation is ANALYSIS, held open under its own stop condition, and it
+> stands; the register's disposition is what evaluates, routes and freezes, and it stands; and a
+> reader must never take the first for the second. The per-clause register dispositions are now
+> beside the survey, so the difference is in the table rather than in a reader's care. REUSE-LOG
+> E31 records the incident and its class.
+
 ## The category
 
 **EVIDENTIAL: it governs how a condition is proved, by saying who must prove it and what evidence
@@ -38,11 +48,11 @@ conjunct of the refund trigger, and a register that said it was had the relation
 The brief set a stop condition: more than one Banxico or FECA clause needing recategorisation is a
 finding about the earlier conversions rather than a change to make. **It fires.**
 
-| domain | EVIDENTIAL under the tight test | notes |
-|---|---|---|
-| **PSR** | **4** | the whole of reg 75, as expected: 75(1) and 75(2) allocate, 75(3) bounds sufficiency, 75(4) requires disclosure |
-| **Banxico** | **1** | `34-2010/3.6/p4/floor`. `por lo menos` says the enumerated elements are a minimum and are not sufficient, which is reg 75(3)'s shape exactly, in Spanish |
-| **FECA** | **5** | `2/a/occupational-rationale`, `3/d/1/clear-cut`, `3/d/2/rationalized`, `3/d/3/c/emotional`, `4/b/no-opinion` |
+| domain | EVIDENTIAL under the tight test | THE REGISTER CARRIES | notes |
+|---|---|---|---|
+| **PSR** | **4** | **EVIDENTIAL**, all four: recategorised 2026-08-23 | the whole of reg 75, as expected: 75(1) and 75(2) allocate, 75(3) bounds sufficiency, 75(4) requires disclosure |
+| **Banxico** | **1** | **DERIVED** (`3.6/p4/floor` is unrecategorised) | `34-2010/3.6/p4/floor`. `por lo menos` says the enumerated elements are a minimum and are not sufficient, which is reg 75(3)'s shape exactly, in Spanish |
+| **FECA** | **5** | **JUDGMENT** (`2/a`, `3/d/1`, `3/d/3/c`), **MECHANICAL** (`3/d/2`), **CONDITIONAL** (`4/b`): unrecategorised, per the stop condition below | `2/a/occupational-rationale`, `3/d/1/clear-cut`, `3/d/2/rationalized`, `3/d/3/c/emotional`, `4/b/no-opinion` |
 
 **FECA is five, so the recategorisation stops here.**
 
