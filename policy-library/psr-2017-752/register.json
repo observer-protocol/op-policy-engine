@@ -215,7 +215,8 @@
    "decision_table": "computed",
    "ungrounded": "computed",
    "no_result": "none",
-   "awaiting": "judgment"
+   "awaiting": "judgment",
+   "assessment": "judgment"
   }
  },
  "lanes": {

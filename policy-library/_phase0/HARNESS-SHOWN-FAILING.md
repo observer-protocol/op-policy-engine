@@ -13,7 +13,7 @@ records what the harness printed, verbatim.
 **What was perturbed.** `banxico.fixtures.out.jsonl` byte 1496, `e` to `f`, so the frozen result token for 34-2010/3.6/p4/signatory reads `membfr`. Exactly one byte differs; `cmp -l` reports one line.
 
 ```
-ORACLE  commit 8cf5e0afaebce4502289d5d3160bd7959b8f9a45  branch phase-2/waiting-axis
+ORACLE  commit 389a19514d7ab77d84651b7d3af5265309a9dbaa  branch phase-2/agent-tier
 CANDIDATE  hand
 
 ORACLE ALTERED SINCE CAPTURE: 1 file(s) no longer match the manifest digest
@@ -25,12 +25,12 @@ BANXICO  (19 clauses)
   FAIL  fixtures: record 0 diverges
       oracle value provenance: frozen bytes, banxico.fixtures.out.jsonl line 1
       FIRST DIVERGING CLAUSE  34-2010/3.6/p4/signatory
-        oracle    {"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"membfr"}
-        candidate {"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"member"}
+        oracle    {"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"membfr"}
+        candidate {"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"member"}
       input facts       {"notice":{"type":"reclamacion_cargo_no_reconocido","reference":"AV-2026-0031","received_at":"2026-05-04T09:12:00Z"},"operation":{"executed_abroad":false,"occurred_at":"2026-04-28T19:41:00Z","acquirer_name":"Adquirente Demo","merchant_name":"Establecimiento Demo 001","auth_factors":["2.6.a.i_knowledge","2.6.a.ii_device_or_chip"]},"dictamen":{"made_available_at":"2026-06-02T11:00:00Z","channel":"sucursal","signatory_id":"emp-0042","language_is_plain":"affirmed","evidence_of_factors_present":true,"verification_method_stated":true,"device_address":{"physical_address":"Av. Reforma 100, CDMX","ip_address":null}},"cardholder":{"channel_election":"sucursal"},"issuer":{"authorised_signatories":["emp-0042","emp-0117"],"holds_device_address":true},"account":{"charges_posted":["interes_ordinario"]},"charge":{"derived_from_2_6_a_operation":"demonstrated"},"expediente":{"requested":true,"delivered_at":"2026-06-22T11:00:00Z"}}
       input resolutions {"A1_dias_unit":"calendar_days","A2_terminos_senalados":"timing_and_content"}
-      oracle line    (3319 bytes) {"34-2010/2.6/a/two-factor":{"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermine…
-      candidate line (3319 bytes) {"34-2010/2.6/a/two-factor":{"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermine…
+      oracle line    (3319 bytes) {"34-2010/2.6/a/two-factor":{"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermine…
+      candidate line (3319 bytes) {"34-2010/2.6/a/two-factor":{"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermine…
   FAIL  fixtures      1 of 3 records diverge
   PASS  corpus        17 records identical
   PASS  sample-full   250 records identical
@@ -49,21 +49,21 @@ PARITY: NOT ESTABLISHED. 2 failing population(s).
 **What was perturbed.** The hand-written evaluator with one result token rewritten: `overdue` to `exceeded` on 34-2010/3.6/p4/deadline. `overdue` first occurs at sampled record 526, which is past the 250 records frozen verbatim, so the oracle side is a digest. The harness re-runs the evaluator for that record and CHECKS the re-run against the frozen digest before printing it as the oracle value.
 
 ```
-ORACLE  commit 8cf5e0afaebce4502289d5d3160bd7959b8f9a45  branch phase-2/waiting-axis
+ORACLE  commit 389a19514d7ab77d84651b7d3af5265309a9dbaa  branch phase-2/agent-tier
 CANDIDATE  mutant
 
 BANXICO  (19 clauses)
   PASS  fixtures      3 records identical
   PASS  corpus        17 records identical
   FAIL  sample-wide: record 526 diverges
-      oracle value provenance: re-run of the hand-written evaluator, CHECKED against the frozen digest eb85d9264e572f09
+      oracle value provenance: re-run of the hand-written evaluator, CHECKED against the frozen digest 27e1d3a96004833a
       FIRST DIVERGING CLAUSE  34-2010/3.6/p4/deadline
-        oracle    {"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"overdue","note":"Period applied: 180 calendar_days, selected by p5/foreign-deadline (fifth paragraph)."}
-        candidate {"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"exceeded","note":"Period applied: 180 calendar_days, selected by p5/foreign-deadline (fifth paragraph)."}
+        oracle    {"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"overdue","note":"Period applied: 180 calendar_days, selected by p5/foreign-deadline (fifth paragraph)."}
+        candidate {"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"exceeded","note":"Period applied: 180 calendar_days, selected by p5/foreign-deadline (fifth paragraph)."}
       input facts       {"notice":{"type":null,"received_at":"2026-08-20T00:00:00Z"},"operation":{"executed_abroad":true,"occurred_at":"2026-04-28T19:41:00Z","auth_factors":["2.6.a.i_knowledge","2.6.a.i_knowledge"]},"dictamen":{"made_available_at":null,"channel":null,"signatory_id":null,"evidence_of_factors_present":null,"verification_method_stated":null,"device_address":{"physical_address":"Av 100","ip_address":"10.0.0.1"}},"cardholder":{"channel_election":"otro"},"issuer":{"authorised_signatories":["emp-0042","emp-0117"],"holds_device_address":false},"expediente":{"requested":null,"delivered_at":"2026-06-19T09:12:00Z"},"account":{"charges_posted":[]},"charge":{"derived_from_2_6_a_operation":"not_demonstrated"},"clock":{"now":"2027-09-01T00:00:00Z"}}
       input resolutions {"A1_dias_unit":"business_days"}
-      oracle line    (3502 bytes) {"34-2010/2.6/a/two-factor":{"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"not_met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undeter…
-      candidate line (3503 bytes) {"34-2010/2.6/a/two-factor":{"v":4,"lane":"engine","lane_from":"lookup","waiting":"none","result":"not_met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undeter…
+      oracle line    (3502 bytes) {"34-2010/2.6/a/two-factor":{"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"not_met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undeter…
+      candidate line (3503 bytes) {"34-2010/2.6/a/two-factor":{"v":5,"lane":"engine","lane_from":"lookup","waiting":"none","result":"not_met","note":"Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undeter…
   PASS  sample-full   250 records identical
   FAIL  sample-wide   275 of 40000 records diverge
 
@@ -77,10 +77,10 @@ PARITY: NOT ESTABLISHED. 1 failing population(s).
 
 ## 3. ONE HEX CHARACTER OF A FROZEN DIGEST
 
-**What was perturbed.** `banxico.sample.digests.txt`, record 5000's digest, first character `3` flipped. The candidate is the hand-written evaluator, so nothing about it has changed; what has changed is the oracle.
+**What was perturbed.** `banxico.sample.digests.txt`, record 5000's digest, first character `6` flipped. The candidate is the hand-written evaluator, so nothing about it has changed; what has changed is the oracle.
 
 ```
-ORACLE  commit 8cf5e0afaebce4502289d5d3160bd7959b8f9a45  branch phase-2/waiting-axis
+ORACLE  commit 389a19514d7ab77d84651b7d3af5265309a9dbaa  branch phase-2/agent-tier
 CANDIDATE  hand
 
 ORACLE ALTERED SINCE CAPTURE: 1 file(s) no longer match the manifest digest
@@ -92,8 +92,8 @@ BANXICO  (19 clauses)
   PASS  fixtures      3 records identical
   PASS  corpus        17 records identical
   FAIL  sample-wide: record 5000 diverges AND the oracle is unreproducible
-      frozen digest        0823163635dd2b1d
-      re-run digest        3823163635dd2b1d
+      frozen digest        03294a92b8281f19
+      re-run digest        63294a92b8281f19
       The hand-written evaluator has moved since the capture. No statement is made
       about the candidate for this record.
   PASS  sample-full   250 records identical
@@ -112,7 +112,7 @@ PARITY: NOT ESTABLISHED. 2 failing population(s).
 **What was perturbed.** The frozen digest of the sampled INPUT stream is altered, standing for a change to `_corpus/space.mjs`. The candidate and the oracle were then not asked the same question, and the harness must say so rather than report either a pass or a failure.
 
 ```
-ORACLE  commit 8cf5e0afaebce4502289d5d3160bd7959b8f9a45  branch phase-2/waiting-axis
+ORACLE  commit 389a19514d7ab77d84651b7d3af5265309a9dbaa  branch phase-2/agent-tier
 CANDIDATE  hand
 
 BANXICO  (19 clauses)

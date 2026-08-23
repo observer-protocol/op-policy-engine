@@ -80,7 +80,7 @@ const WAITING = {
   // operand would otherwise mark never-arisen obligations as waiting.
   decided_overrides: { not_applicable: 'none' },
   // The R13 extension: an entry per emitter kind, no-result records explicitly none.
-  by_emitter: { emit: 'computed', decision_table: 'computed', ungrounded: 'computed', no_result: 'none', awaiting: 'judgment' },
+  by_emitter: { emit: 'computed', decision_table: 'computed', ungrounded: 'computed', no_result: 'none', awaiting: 'judgment', assessment: 'judgment' },
 };
 
 const LANES = ['engine', 'agent', 'panel', 'person'];
