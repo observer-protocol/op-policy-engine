@@ -1131,3 +1131,67 @@ in its own pull request because it is public.
 
 **Nothing was deleted, moved or regenerated.** The directory was moved aside once to establish
 causation and moved straight back, with its eleven files intact.
+
+---
+
+## E16. A check that passes because of the condition it should catch
+
+**Observed:** 2026-08-23. **Status: FIXED, with a new check installed at three moments.**
+
+A second worktree sat on `main` at `a8f8f6f` while `origin/main` was at `8938918`: **two commits
+behind, nothing ahead, no visible symptom.** A session branching from it would have worked from a
+stale base with nothing to say so.
+
+**A check already existed and it fetches and compares.**
+`packages/policy-engine/scripts/preflight-publish.mjs` check 6 asserts HEAD is an ancestor of
+`origin/main`. Measured: `a8f8f6f` IS an ancestor of `8938918`, so **check 6 passes, and it passes
+precisely because the worktree is behind.** Being stale is the condition that satisfies it.
+
+Check 6 is correct for its own question, which is whether a commit being published lives on main. It
+was not modified. **Repurposing it would make one check assert two things**, and the second would be
+asserted in the direction the first is satisfied by.
+
+It also runs only at publish time and only for one package, and every change of the last two days is
+in `policy-library/`, which it does not reach.
+
+### What was installed
+
+`scripts/check-not-behind.mjs`, plus a self-contained shell hook body, asserting after
+`git fetch --quiet` that `git rev-list --count HEAD..<upstream>` is **0**, and failing loudly with the
+count and the commits.
+
+**Three moments.** `post-checkout`, which REPORTS ONLY because git ignores that hook's exit status,
+stated rather than implied by a hook returning 1 and never being obeyed. `pre-commit`, which BLOCKS,
+shown by a real commit attempt on a branch two behind returning exit 1 with HEAD unchanged. And
+invocation 1 of the payment server's suite gate, ahead of the gate's own selftest.
+
+**Hooks because `.git/hooks` is shared by every worktree**, verified through `--git-common-dir`. The
+hook body calls only git and depends on no file in the repository, because a worktree on an older
+commit does not have the script, **and that worktree is the one this exists to warn.** A hook that
+skipped when the script was missing would go quiet in the only case that matters.
+
+**It caught a real one on its first run in the second repository**, where the branch was one behind
+after its own merge landed.
+
+### What it cannot reach
+
+- **A worktree simply sitting there.** This runs at checkout and at commit. A session doing neither is
+  never asked, and that is the state the stale worktree is in now.
+- **Another session's uncommitted work.** Nothing in git reports that a sibling tree is dirty.
+- **Files tracked by no branch**, the `fixtures/banxico-34-2010` case. There is no ref to be behind,
+  so staleness is not the predicate.
+- **Two sessions editing one file in separate trees.** Nothing surfaces until a commit that may never
+  conflict.
+- **Whether being behind matters.** It can say `two commits behind`. It cannot say `the other session
+  is mid-flight on this file, wait`. That half is a coordination rule, not a check.
+
+### The class these three share
+
+**E12** was a measurement read as a fact about the repository when it was a fact about a branch.
+**E15** was an absence read the same way. **E16** is a check that returns green for the reason it
+should return red.
+
+**Under E10, the sentence: each of the three took a true statement about one thing for a statement
+about a larger thing that contains it.** A branch for the repository, a branch's file list for what
+exists, and one direction of a comparison for the comparison. None was a wrong measurement; each was
+a correct measurement answering a smaller question than the one being asked.
