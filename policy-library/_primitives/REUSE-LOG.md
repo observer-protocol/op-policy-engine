@@ -1751,13 +1751,99 @@ a run and without parsing a sentence, and this entry is the first thing derived 
 
 ---
 
+## E28. E4 on dispatch-as-a-set: the pair does not release it
+
+**Domains:** the refusal record work (policy-engine records) and the evidence-agent design
+(handoff Addendum A.4). **Observed:** 2026-08-23, on instruction, after the two instances were laid
+side by side. **Status: WAITS under E4. The pair does not release it.**
+
+### The two instances, as located
+
+**The earlier one, in the refusal record work.** The exclude-prose-from-signature rule at what is
+now `packages/policy-engine/src/core/records/refusal.ts:219` was stated over ONE FIELD, `reason`,
+when its subject was the structure: `note`, one field away, written by the same helper and inherited
+by every code routed through it, was inside the signature. Measured on the recording corpus, 6 of 11
+gate refusals carried a signed sentence the same record contradicted two fields away. The landed
+form is the set: a NAMED LIST of what the deployment signs, so an upstream field cannot silently
+widen it.
+
+**The later one, in A.4.** The dispatch unit for an evidence agent widened from one fact to the
+clause's declared read set, forced by `_phase0/dispatchable.mjs`: 5 of 12 gatherable clauses are
+moved by NO single declared fact at any value the fact space declares, because `ordered_before`,
+`elapsed_within` and `amounts_equal` need both operands.
+
+### Why the pair does not trip E4's threshold
+
+**The A.4 instance is prospective, and a prospective instance is not an observation.** E4's second
+instance exists to answer a question about the world: does the shape generalise, or was the first
+occurrence the artifact of one domain? A constraint stated about an interface THAT DOES NOT EXIST
+answers no such question; nothing has been built at the single-fact granularity and nothing has been
+observed failing at it. What the measurement establishes is that IF the interface were built
+per-fact it would under-reach five known clauses, which is a prediction with good evidence, and E4
+counts observations, not predictions with good evidence.
+
+**So the entry the pair would have released stays open.** If the evidence-agent interface is ever
+built and its dispatch unit is found under-reaching in the field, that is the second observation and
+E4 is released then. Until then the refusal instance stands alone as the one observed member of the
+class, and A.4 stands as a design constraint carrying its measurement.
+
+---
+
+## E29. A count in a report, computed independently of the check that would justify it
+
+**Where:** the 2026-08-23 Phase 0 delta report, and from there the handoff document.
+**Observed:** 2026-08-23, caught by a verification block's question, not by its author.
+**Status: CORRECTED same day, in both handoff sections and nowhere else (swept). Recorded because of
+what it is an instance of.**
+
+### What happened
+
+The Phase 0 delta report stated that the composition-shape count went from five to six when
+`disjunction_over_results` was named. **The count was wrong.** The five always included the
+disjunction: the inheritance section of this log says, in one sentence, `The fifth,
+disjunction_over_results, is deliberately unnamed`, and the schema implements exactly five shapes,
+countable by one line over `register.schema.json`. Phase 0 changed the fifth's STATUS, unnamed to
+named. The wrong count then travelled: it entered the handoff corrections, was embedded in the next
+instruction block as a premise (`five becomes six`), and was edited into two sections of the handoff
+before a verification question forced the recount.
+
+### The class, and where this instance sits in it
+
+**This estate's dominant defect class is an affirmative answer computed independently of the checks
+meant to justify it.** Every instance so far was in code or in a register: a registry recording
+intent, a coverage check satisfied by a declaration, a sweep measuring its own consumer. **This one
+is the same class in a REPORT.** The count was asserted from memory of the work, not derived from
+the artifact it counted, while the artifact sat one command away.
+
+**And it was made MORE credible by an attached mechanism that was itself sound.** The sentence
+beside the count cited E18, the source text of reg 76(1) with 74(1) and 74(2), and the naming
+mechanism, all of which are correct. A reader who checks the mechanism finds it sound and extends
+that soundness to the number standing next to it. A partial derivation inherits credibility: the
+verified part vouches for the unverified part, which is exactly how the wrong count survived one
+instruction round-trip.
+
+### What would have caught it, named
+
+1. **A derived count at reporting time.** `node -e` over `register.schema.json` counting entries
+   with `kind === 'shape'` prints 5, existed when the report was written, and was eventually what
+   settled it. A count in a report is subject to the same rule this estate applies to a count in a
+   register: derive it from the population, do not assert it.
+2. **Reading the source before restating it.** The inheritance section already contained the exact
+   sentence that falsifies the claim. The restatement was written from the four NAMED shapes plus
+   one, which is a count under the wrong predicate: named-shapes rather than shapes.
+3. **Treating the relayed premise as a prompt to verify.** The wrong count came back embedded in an
+   instruction and was edited into the document on that authority. The estate's standing rule for a
+   relayed ruling applied and was not applied.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E27 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now twenty-seven. Two of the additions change what
+> **E18 to E29 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now twenty-nine. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was
