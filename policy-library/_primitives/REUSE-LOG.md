@@ -934,3 +934,200 @@ one whose source comment answered the question directly.
 This entry has **one instance and one representation**, so under E4 the FIX waits. What does not wait
 is the measurement, because the exposure was invisible until somebody fetched the same document twice
 in two different ways.
+
+---
+
+## E12. A measurement taken on the branch you are standing on
+
+**Observed:** 2026-08-23. **Status: RECORDED. One line, and it is the line.**
+
+**A measurement taken on the branch you are standing on is a claim about that branch until you
+check.**
+
+I reported that the payment server's suite gate `aborts at invocation 2 on a pre-existing
+AppliedBoundReason typecheck break, leaving 121 invocations unrun`, and put that caveat into a commit
+message and a pull request body. **The break is not on main and not in either pull request.** It
+exists only on an unmerged local branch which re-exports a type the engine has never exported, in
+source or in dist. On the branch the change actually ships from, the typecheck is clean and the gate
+reaches 121 of 123, failing on untracked fixtures from that same other session.
+
+**The instrument was not at fault and it said so plainly.** It printed
+`SUITE ABORTED AT INVOCATION 2 OF 123`, `NEVER ASKED: 121`, and
+`Any statement about this repository's tests made from this run covers 1 of 123 invocations`. A clean
+run closes `SUITE COMPLETE. 123 of 123` and exits 0; an aborted one exits 1. **The two are already
+distinguishable at the point a reader looks.** I read the number and did not ask whose branch produced
+it.
+
+Same shape as reading the engine's `OBSERVATION_BOUNDARY_DOES_NOT_INSPECT_POLICY_REF` as the estate's
+answer when PaymentHost compares. **Both times a component's own honest statement about itself was
+taken for a statement about the whole.**
+
+---
+
+## E13. The claim detector reads prose, and prose is not a control
+
+**Observed:** 2026-08-23, immediately after correcting two bases it was built to catch.
+**Status: RECORDED, NOT FIXED.**
+
+`check-claimed-effects.mjs` decides whether a basis claims a composition by matching phrasing:
+`composes`, `consumes`, `reads the`, `reads another`. Both bases corrected today now state their read
+in plain English and name the clause, and **the check still reports them as read-but-not-claimed**,
+because `reads psr-2017/67/4/series-withdrawal` does not match `reads (the|another|three|two)`.
+
+So the instrument built to catch a register whose prose disagrees with its code **is itself keyed to
+prose**, and its notes are now false on two of three: they say a basis claims no composition when it
+does.
+
+**A third case is a different limitation of the same kind.** `feca/2-0805/4/b/no-opinion` states its
+composition in `assertion` and in the clause text, and the check reads only `disposition_basis`,
+`reuse_note` and `note`. The register says it; the check does not look there.
+
+**The fix that is available and not taken.** Both corrected clauses now carry a structured
+`reads: [...]` field, which was added for the reader and is the right input for the check: compare
+the declared list against the traced one, in both directions, and stop parsing sentences. That makes
+the claim a datum rather than a phrasing, which is the whole lesson of `used_by`.
+
+Not done here, because widening what counts as a claim changes what the instrument asserts across all
+three domains, and it should be a deliberate change rather than a same-day patch to make a note go
+away.
+
+### FIFTH INSTANCE, AND THE FIRST OF ITS KIND
+
+**A check written to catch prose that disagrees with code tests it with a regex over prose.**
+
+The four before it were defects in what the instrument MEASURED: the sweep that matched its own
+consumer, the coverage check that read a declaration instead of a run, the claims tracer whose flush
+never matched so every clause read zero others, and the unread-field sweep that counted a presence
+test inside a spread as a consult.
+
+**This one is a defect in what the instrument ACCEPTS.** It measures correctly: the traced read graph
+is right, and both corrected clauses do read what they now say they read. What it gets wrong is
+recognising the claim, because the claim is a sentence and it is matching phrasings. So it reports a
+basis as silent when the basis is explicit, and the failure mode is a FALSE NOTE rather than a missed
+one.
+
+Worth separating, because the corrective differs. The other four are fixed by measuring the right
+thing. This one is fixed by **making the claim a datum instead of a phrasing**, which is what the
+`reads` field on both clauses is for, and it is the same corrective `used_by` needed.
+
+---
+
+## E14. The unread-field sweep, and it came out the other way
+
+**Observed:** 2026-08-23, prompted by `hashMethod` having been carried on both sides and compared by
+nothing. **Status: MEASURED. No fix needed, which is the finding.**
+
+Every field carried on a verified attestation or a mandate requirement was swept for consumers. **The
+sweep had to be run three times before it was right, and the first two answers were both artefacts of
+the instrument.**
+
+**First pass: six fields with zero reads.** Wrong. It matched `block.field` and `att.field`, and the
+code binds the block as `b`. The pattern, not the code, produced the zeros.
+
+**Second pass: zero fields with zero reads.** Also wrong, in the opposite direction. It counted
+`...(b.decidedAt === undefined ? {} : { decidedAt: b.decidedAt })` as a consult because it contains
+`===`. That is a presence test inside a spread: it decides whether to COPY the field, not anything
+about the payment.
+
+**Third pass, excluding spread-carrying: three fields carried and never consulted anywhere.**
+
+| field | what it claims about itself | verdict |
+|---|---|---|
+| `decidedAt` | `When the decider says it decided. Their timestamp: we did not watch it happen.` | **genuinely informational, and it says so** |
+| `inputsDigest` | `only the original set reproduces this value`, so a customer can prove later which inputs were before the decider | **informational to us, and the claim IS exercised**: `attestation-computed-amount.mjs` reproduces it and asserts a tampered set does not |
+| `deciderArtifactDigest` | the reason is `FIXED BY HASH at decision time, held by the decider ... readable by neither us nor a counterparty` | **informational by design, and we CANNOT check it.** Not holding the artifact is the property |
+| `vocabularyRef` | | **consulted**, five genuine guards at issuance in the engine |
+
+**NONE OF THEM IS THE `hashMethod` CASE, and the difference is what the sweep was for.** `hashMethod`
+was carried **on both sides of a comparison that ignored it**, so its presence created an appearance
+of rigour the code did not deliver, and two references naming different methods could be read as the
+same policy. These three are carried by design, are documented as carried, and two of them are
+load-bearing precisely because we do NOT read them.
+
+**So the fourth-layer pattern does not hold here.** `used_by`, `clauses_no_primitive_serves` and the
+primitive inventory were all recorded, believed load-bearing, and never consulted. This layer was
+swept for the same shape and does not have it. **A sweep that finds nothing is worth running and
+worth recording, and the instrument being wrong twice on the way is the part to remember.**
+
+**RULED 2026-08-23: the negative result is the result.** A fourth instance of the pattern would have
+been a better story, and there is not one. Three fields are carried and never consulted, none of them
+is the `hashMethod` case, and the two earlier passes that said otherwise were both artefacts of the
+instrument rather than facts about the code.
+
+Recording it matters more than a positive would have, because the next person to suspect this layer
+now finds a measurement rather than an open question, and finds the two wrong answers beside it with
+the reason each was wrong.
+
+---
+
+## E15. A gate whose verdict depends on untracked local state
+
+**Observed:** 2026-08-23, in op-mcp-payment-server. **Status: REPORTED. The ruling is Boyd's.**
+
+`scripts/fixture-schema-gate.mjs` walks `fixtures/` **on disk** and asserts that every credential it
+finds validates against the schema it cites and is indexed in the credential manifest by its own
+digest. That is the right rule for fixtures.
+
+`fixtures/banxico-34-2010/` is on disk and **tracked by no branch**, not `origin/main` and not
+`session/banxico-corpus`, which tracks only the `artifact-digests.json` that pins its screenshots. It
+is demo OUTPUT: four rendered case pages, screenshots, a run log, a seeded `cases.json`, a policy
+document, and a credential.
+
+**Two checks fail on it, and both failures are correct.** The credential fails `v2.7.json` on
+`must have required property 'proof'`, and the RUNBOOK beside it states exactly that as a stated seam:
+`The mandate credential carries no issuer proof in this run.` And its digest is not a key in the
+credential manifest, because nothing minted it as a fixture.
+
+**So the gate's verdict depends on untracked local state.** Moving the directory aside makes the gate
+pass; putting it back makes it fail. A fresh clone passes. Two sessions sharing this working tree run
+the same command and get different answers, and neither is wrong.
+
+### The recommendation, which is a recommendation and not a change
+
+**They should not be in `fixtures/` at all.** They are demo output whose credential is deliberately
+unsigned, living under a path whose contract requires signed, manifest-indexed credentials. Moving
+them to something like `demo/banxico-34-2010/` costs nothing, leaves the RUNBOOK freeze untouched,
+regenerates nothing, and the gate stops seeing files it is right to reject.
+
+**The gate should NOT be taught to tolerate untracked paths.** That would make its verdict depend on
+git state, so a real fixture added and not yet committed would silently skip the checks it exists to
+enforce. Gitignoring the directory has the same defect and hides a real fixture if one ever lands
+there.
+
+### THE MOVE WAS RULED AND THEN WITHDRAWN, ON THREE REFERENCES
+
+A move to `demo/banxico-34-2010/` was ruled and then withdrawn the same day, because the directory is
+referenced by path from three places that make a move unsafe from here:
+
+1. **`policy-library/banxico-34-2010/DIVERGENCE.md` is public on main** and pins `policy-v1.txt` by
+   path as well as by digest. Moving it makes a published document point at a path that does not
+   exist.
+2. **`fixtures/artifact-digests.json` and `scripts/drive-banxico-demo.mjs` are tracked on
+   `session/banxico-corpus`**, a branch this session was told not to touch. The move breaks another
+   session's manifest and its generator, **invisibly from here**: neither file exists on the branch
+   this session stands on.
+3. **`policy-v1.txt` is hashed by that generator** to check the mandate's pin has not drifted, so it
+   is load-bearing in two repositories at once.
+
+**THIS IS YESTERDAY'S TYPECHECK BREAK FROM THE OTHER DIRECTION.** There, a break present only on
+another branch was reported as the repository's state. Here, files present only on another branch made
+this directory look orphaned when it is not. **Each session's view of what is orphaned is a view of
+its own branch.** E12 states the rule for a measurement; this is the same rule applied to an ABSENCE,
+which is harder to notice because nothing appears in the output to prompt the check.
+
+### WHAT REPLACES THE MOVE: nothing, and the failure stays visible
+
+**The directory stays, the gate keeps failing on it, and that is the honest state.** The failure is
+known and attributed: demo output under a `fixtures/` path whose contract requires signed,
+manifest-indexed artifacts, unmovable until `session/banxico-corpus` lands.
+
+**Not suppressed, not excepted, not made to pass.** The credential is deliberately unsigned and the
+RUNBOOK says so as a stated seam; regenerating it to satisfy the schema would destroy the thing the
+freeze protects and would trade a visible known failure for an invisible unknown one.
+
+**When that branch merges the move becomes an ordinary change:** rewrite the four straightforward
+references, update the manifest and the generator in the same commit, and put `DIVERGENCE.md`'s edit
+in its own pull request because it is public.
+
+**Nothing was deleted, moved or regenerated.** The directory was moved aside once to establish
+causation and moved straight back, with its eleven files intact.
