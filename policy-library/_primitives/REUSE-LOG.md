@@ -4,6 +4,17 @@ One entry per observation about the primitive set, made while encoding a domain.
 that a shape that looks wrong in one domain is not fixed there and then, before there is evidence
 about whether it is wrong generally.
 
+**A date in an artifact is read from the environment or from a source, never composed.** Added
+2026-08-23, after twenty dates in this estate's artifacts turned out to be a model inferring day
+boundaries from block sequence: entry-observation dates and comment dates said 2026-08-24 and
+2026-08-25 while the environment and every commit timestamp said 2026-08-23. The estate already
+held this rule for evaluation time (a clock is an explicit fact, never `Date.now()`) and for
+record provenance (`at` is caller-supplied); NOTHING IN THIS REPOSITORY PROMPTED IT FOR AUTHORSHIP
+DATES, which is exactly how twenty of them shipped, and this paragraph is now the prompt, placed
+where a session writing an entry reads before writing. Before dating an entry: the date comes from
+the environment's supplied date or from a source being cited, and if neither supplies one, the
+entry carries no date rather than a plausible one.
+
 **The rule this log encodes: one domain is an anecdote, and one representation is a blind spot.** A
 primitive that fits awkwardly in the first regulation encoded against it may be too narrow, or the
 regulation may be unusual, and only a second domain separates those. But a second domain cannot see
