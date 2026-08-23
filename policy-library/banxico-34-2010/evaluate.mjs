@@ -41,14 +41,66 @@ const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
   if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
   if (e.no_lane !== undefined) {
     if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
-    return [c.id, { v: 3, lane: 'none', lane_from: 'lookup' }];
+    return [c.id, { v: 4, lane: 'none', lane_from: 'lookup' }];
   }
   if (c.lane_override) {
     if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
-    return [c.id, { v: 3, lane: c.lane_override, lane_from: 'override' }];
+    return [c.id, { v: 4, lane: c.lane_override, lane_from: 'override' }];
   }
-  return [c.id, { v: 3, lane: e.lane, lane_from: 'lookup' }];
+  return [c.id, { v: 4, lane: e.lane, lane_from: 'lookup' }];
 }));
+
+// ─── the waiting axis: independent tracking against the register's one-copy vocabulary ──────────
+//
+// Origins accumulate between put() calls (arguments evaluate before the call, so everything a
+// clause's evaluation touched is in the set when put runs), and reset after each emission. The
+// record store is proxied so a read of another clause's record marks a clause origin when that
+// record is itself waiting. Classification rules are the interpreter's, stated in
+// _interpreter/interpret.mjs; this is a second implementation of them, compared by parity on
+// every record.
+const __W = __REG.waiting;
+const __READS_FACTS = (() => {
+  const m = {};
+  const walk = (n, acc, seen) => {
+    if (n === null || typeof n !== 'object') return;
+    if (Array.isArray(n)) { for (const x of n) walk(x, acc, seen); return; }
+    if (n.op === 'fact') acc.found = true;
+    if (n.op === 'binding' && !seen.has(n.name)) { seen.add(n.name); walk(__REG.bindings[n.name], acc, seen); }
+    for (const [k, v] of Object.entries(n)) if (k !== 'op') walk(v, acc, seen);
+  };
+  for (const c of __REG.clauses) { const acc = { found: false }; if (c.evaluate) walk(c.evaluate, acc, new Set()); m[c.id] = acc.found; }
+  return m;
+})();
+let __origins = new Set();
+let __meaning = false;
+const __trackToken = (fn) => (...a) => {
+  const r = fn(...a);
+  const cls = __W.absence_result_tokens[r];
+  if (cls !== undefined && cls !== '$composite') __origins.add(cls);
+  return r;
+};
+const __trackArg = (fn) => (...a) => {
+  const a0 = a[0];
+  if (a0 === undefined || (Array.isArray(a0) && a0.some((v) => v === undefined))) __origins.add('fact');
+  return fn(...a);
+};
+const __classify = (id, finalToken) => {
+  if (__meaning) return 'meaning';
+  const over = __W.decided_overrides[finalToken];
+  if (over !== undefined) return over;
+  const pri = __W.priority.filter((v) => __origins.has(v));
+  const cls = __W.absence_result_tokens[finalToken];
+  if (cls !== undefined) {
+    if (pri.length) return pri[0];
+    if (cls !== '$composite') return cls;
+    return __READS_FACTS[id] ? 'fact' : 'clause';
+  }
+  return pri.length ? pri[0] : 'none';
+};
+const __trackStore = (o) => new Proxy(o, {
+  get(t, k) { const r = t[k]; if (r && typeof r === 'object' && r.waiting !== 'none') __origins.add(r.waiting); return r; },
+});
+
 
 
 // ─── primitives, exactly as inventoried ─────────────────────────────────────────────────────────
@@ -75,7 +127,7 @@ const withinLimit = (s, e, limit, unit) => {
   throw new Error(`unknown calendar unit: ${unit}`);
 };
 
-const elapsed_within = (start, end, limit, unit, now) => {
+const __elapsed_within = (start, end, limit, unit, now) => {
   const s = Date.parse(start);
   if (end === null || end === undefined) {
     if (now === null || now === undefined) return 'no_end_event';   // no clock: cannot tell, and says so
@@ -98,9 +150,9 @@ const elapsed_within = (start, end, limit, unit, now) => {
 };
 
 const select_parameter_by_predicate = (p, ifTrue, ifFalse) => (p ? ifTrue : ifFalse);
-const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
-const all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
-const any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const __field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
+const __all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
+const __any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
 // WIDENED 2026-08-22, closing REUSE-LOG E1. The second operand was a boolean, which forced every
 // multi-valued result through two states at the call site. It now takes a CLOSED four-token
 // vocabulary and throws on anything else, so a caller that invents a fifth state fails loudly
@@ -117,7 +169,7 @@ const conditional_requirement = (pre, result) => {
   if (result === 'undetermined') return 'undetermined';
   throw new Error(`conditional_requirement: unrecognised requirement result ${JSON.stringify(result)}`);
 };
-const member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
+const __member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
 const member_of_enumeration = (v, en) => (en.includes(v) ? 'member' : 'not_member');
 const distinct_members_at_least = (items, min, independent) => {
   const kept = [];
@@ -127,7 +179,7 @@ const distinct_members_at_least = (items, min, independent) => {
 const none_of_class_present = (items, prohibited) =>
   (items.some((i) => prohibited.includes(i)) ? 'prohibited_present' : 'clear');
 const open_set_floor = (results) => (results.every((r) => r === true) ? 'floor_met' : 'floor_not_met');
-const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
+const __held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
 // CLOSED 2026-08-22. It accepted anything and read every unrecognised value as failure, so a caller
 // passing a token nobody registered got a silent `not_satisfied` instead of an error.
 const CONJUNCTION_TOKENS = new Set([true, false, 'satisfied', 'undetermined']);
@@ -180,13 +232,30 @@ const remap_result_domain = (value, mapping) => {
 };
 
 
+// tracked rebindings: the wrapped names are what the clause set calls
+const field_present = __trackArg((v) => __field_present(v));
+const all_present = __trackArg(__all_present);
+const any_present = __trackArg(__any_present);
+const elapsed_within = __trackToken(__elapsed_within);
+const member_of_register = __trackToken(__member_of_register);
+const held_judgment = __trackToken(__held_judgment);
+
 // ─── the clause set ─────────────────────────────────────────────────────────────────────────────
 const AUTH_FACTOR_KINDS = ['2.6.a.i_knowledge', '2.6.a.ii_device_or_chip', '2.6.a.iii_biometric', '2.6.a.iv_authorised_other'];
 
 export function evaluate(facts, resolutions = {}) {
-  const out = {};
-  // The record opens v, lane, lane_from, from the register. Absent `v` is unversioned: REUSE-LOG E30.
-  const put = (id, result, note) => { out[id] = note === undefined ? { ...LANE_STAMP[id], result } : { ...LANE_STAMP[id], result, note }; };
+  // ENTRY reset, not only per-put: a consumer reading the returned store after the run (a
+  // stringify, a resultOf) fires the tracking proxy, and state left by those reads must not leak
+  // into the next run's first emission window. Found by the cross-implementation sweep: run N's
+  // serialisation polluted run N+1's first clause.
+  __origins = new Set(); __meaning = false;
+  const out = __trackStore({});
+  // The record opens v, lane, lane_from, waiting, from the register. Absent `v`: REUSE-LOG E30.
+  const put = (id, result, note) => {
+    const waiting = __classify(id, result);
+    out[id] = note === undefined ? { ...LANE_STAMP[id], waiting, result } : { ...LANE_STAMP[id], waiting, result, note };
+    __origins = new Set(); __meaning = false;
+  };
 
   // 2.6(a) — two INDEPENDENT elements from the enumeration.
   // Found by the E9 sweep. An ABSENT factor list returned `not_met`, asserting the two-factor

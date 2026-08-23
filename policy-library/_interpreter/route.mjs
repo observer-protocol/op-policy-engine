@@ -54,7 +54,7 @@ export function route(register, facts, resolutions = {}) {
       case 'person':
         // The person's determination arrived as a fact, or it did not exist to arrive.
         out[c.id] = rec.result === 'not_assessed'
-          ? { ...stamp, awaiting: 'person' }
+          ? { ...stamp, waiting: 'judgment', awaiting: 'person' }
           : rec;
         break;
       case 'agent':

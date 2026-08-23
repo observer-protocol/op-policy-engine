@@ -24,19 +24,71 @@ const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
   if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
   if (e.no_lane !== undefined) {
     if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
-    return [c.id, { v: 3, lane: 'none', lane_from: 'lookup' }];
+    return [c.id, { v: 4, lane: 'none', lane_from: 'lookup' }];
   }
   if (c.lane_override) {
     if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
-    return [c.id, { v: 3, lane: c.lane_override, lane_from: 'override' }];
+    return [c.id, { v: 4, lane: c.lane_override, lane_from: 'override' }];
   }
-  return [c.id, { v: 3, lane: e.lane, lane_from: 'lookup' }];
+  return [c.id, { v: 4, lane: e.lane, lane_from: 'lookup' }];
 }));
+
+// ─── the waiting axis: independent tracking against the register's one-copy vocabulary ──────────
+//
+// Origins accumulate between put() calls (arguments evaluate before the call, so everything a
+// clause's evaluation touched is in the set when put runs), and reset after each emission. The
+// record store is proxied so a read of another clause's record marks a clause origin when that
+// record is itself waiting. Classification rules are the interpreter's, stated in
+// _interpreter/interpret.mjs; this is a second implementation of them, compared by parity on
+// every record.
+const __W = __REG.waiting;
+const __READS_FACTS = (() => {
+  const m = {};
+  const walk = (n, acc, seen) => {
+    if (n === null || typeof n !== 'object') return;
+    if (Array.isArray(n)) { for (const x of n) walk(x, acc, seen); return; }
+    if (n.op === 'fact') acc.found = true;
+    if (n.op === 'binding' && !seen.has(n.name)) { seen.add(n.name); walk(__REG.bindings[n.name], acc, seen); }
+    for (const [k, v] of Object.entries(n)) if (k !== 'op') walk(v, acc, seen);
+  };
+  for (const c of __REG.clauses) { const acc = { found: false }; if (c.evaluate) walk(c.evaluate, acc, new Set()); m[c.id] = acc.found; }
+  return m;
+})();
+let __origins = new Set();
+let __meaning = false;
+const __trackToken = (fn) => (...a) => {
+  const r = fn(...a);
+  const cls = __W.absence_result_tokens[r];
+  if (cls !== undefined && cls !== '$composite') __origins.add(cls);
+  return r;
+};
+const __trackArg = (fn) => (...a) => {
+  const a0 = a[0];
+  if (a0 === undefined || (Array.isArray(a0) && a0.some((v) => v === undefined))) __origins.add('fact');
+  return fn(...a);
+};
+const __classify = (id, finalToken) => {
+  if (__meaning) return 'meaning';
+  const over = __W.decided_overrides[finalToken];
+  if (over !== undefined) return over;
+  const pri = __W.priority.filter((v) => __origins.has(v));
+  const cls = __W.absence_result_tokens[finalToken];
+  if (cls !== undefined) {
+    if (pri.length) return pri[0];
+    if (cls !== '$composite') return cls;
+    return __READS_FACTS[id] ? 'fact' : 'clause';
+  }
+  return pri.length ? pri[0] : 'none';
+};
+const __trackStore = (o) => new Proxy(o, {
+  get(t, k) { const r = t[k]; if (r && typeof r === 'object' && r.waiting !== 'none') __origins.add(r.waiting); return r; },
+});
+
 
 
 // ─── reused unchanged from the Banxico set ──────────────────────────────────────────────────────
-const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
-const any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const __field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
+const __any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
 // WIDENED 2026-08-22, closing REUSE-LOG E1, identically to the Banxico copy. A closed four-token
 // vocabulary, throwing on anything else. Mapping a primitive's result domain into these four is the
 // clause's reading and stays at the call site.
@@ -48,8 +100,8 @@ const conditional_requirement = (pre, res) => {
   if (res === 'undetermined') return 'undetermined';
   throw new Error(`conditional_requirement: unrecognised requirement result ${JSON.stringify(res)}`);
 };
-const member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
-const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
+const __member_of_register = (c, reg) => (field_present(c) === 'absent' ? 'no_candidate' : (reg.includes(c) ? 'member' : 'not_member'));
+const __held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
 // CLOSED 2026-08-22, identically to the Banxico copy. It read every unrecognised value as failure.
 const CONJUNCTION_TOKENS = new Set([true, false, 'satisfied', 'undetermined']);
 const conjunction_over_results = (rs, undeterminedIs) => {
@@ -125,7 +177,7 @@ const withinLimit = (s, e, limit, unit) => {
   throw new Error(`unknown unit: ${unit}`);
 };
 
-const elapsed_within = (start, end, limit, unit, now) => {
+const __elapsed_within = (start, end, limit, unit, now) => {
   if (start === null || start === undefined) return 'no_end_event';
   const s = new Date(start);
   if (isNaN(s)) return 'no_end_event';
@@ -156,7 +208,7 @@ const open_set_floor = (results) =>
 // ─── NEW: ordered_before ────────────────────────────────────────────────────────────────────────
 // Two instants, no limit. elapsed_within measures an interval AGAINST A LIMIT and cannot express
 // `before` without inventing one, which would put an arbitrary number inside a rule that has none.
-const ordered_before = (a, b) => {
+const __ordered_before = (a, b) => {
   if (a === null || a === undefined || b === null || b === undefined) return 'missing_operand';
   const x = new Date(a), y = new Date(b);
   if (isNaN(x) || isNaN(y)) return 'missing_operand';
@@ -167,17 +219,35 @@ const ordered_before = (a, b) => {
 // The existing set has no numeric comparison at all. Banxico's ceiling test lived inside the
 // engine's mandate evaluator and was never lifted into a primitive, so this is the first time an
 // amount has had to be compared here.
-const amounts_equal = (a, b) => {
+const __amounts_equal = (a, b) => {
   if (!a || !b) return 'missing_operand';
   if (a.currency !== b.currency) return 'incomparable_currency';
   const scale = (v) => BigInt(v.amountRaw) * (10n ** BigInt(6 - Number(v.decimals)));
   return scale(a) === scale(b) ? 'equal' : 'not_equal';
 };
 
+// tracked rebindings: the wrapped names are what the clause set calls
+const field_present = __trackArg((v) => __field_present(v));
+const any_present = __trackArg(__any_present);
+const member_of_register = __trackToken(__member_of_register);
+const held_judgment = __trackToken(__held_judgment);
+const elapsed_within = __trackToken(__elapsed_within);
+const ordered_before = __trackToken(__ordered_before);
+const amounts_equal = __trackToken(__amounts_equal);
+
 export function evaluate(facts, resolutions = {}) {
-  const o = {};
-  // The record opens v, lane, lane_from, from the register, identically to the Banxico copy.
-  const put = (id, result, note) => { o[id] = note === undefined ? { ...LANE_STAMP[id], result } : { ...LANE_STAMP[id], result, note }; };
+  // ENTRY reset, not only per-put: a consumer reading the returned store after the run (a
+  // stringify, a resultOf) fires the tracking proxy, and state left by those reads must not leak
+  // into the next run's first emission window. Found by the cross-implementation sweep: run N's
+  // serialisation polluted run N+1's first clause.
+  __origins = new Set(); __meaning = false;
+  const o = __trackStore({});
+  // The record opens v, lane, lane_from, waiting, identically to the Banxico copy.
+  const put = (id, result, note) => {
+    const waiting = __classify(id, result);
+    o[id] = note === undefined ? { ...LANE_STAMP[id], waiting, result } : { ...LANE_STAMP[id], waiting, result, note };
+    __origins = new Set(); __meaning = false;
+  };
   const f = facts;
 
   // reg 67
@@ -210,21 +280,25 @@ export function evaluate(facts, resolutions = {}) {
   // reg 67(1): authorised only on consent to the transaction, or to a series of which it forms part.
   // The series limb is defeated by an effective withdrawal under 67(4), which is why 67/4 is computed
   // first and consumed here.
-  const seriesLimb = remap_result_domain(o['psr-2017/67/4/series-withdrawal'].result, {
+  // THUNKS, NOT CONSTS, since the waiting axis landed: an eager const's presence-probe fires in
+  // whatever emission window evaluates it, while the interpreter forces the same expression only
+  // on the branch that needs it. Same short-circuit shape as the register's cond, so the two
+  // implementations probe the same members of the same run.
+  const seriesLimb = () => remap_result_domain(o['psr-2017/67/4/series-withdrawal'].result, {
     not_applicable: true,   // no withdrawal recorded: the series limb stands
     not_defeated: true,     // a withdrawal exists but this transaction is not future to it
     defeated: false,        // 67(4): not regarded as authorised
     undetermined: 'undetermined',
   });
-  const txConsent = field_present(f.consent?.to_transaction) === 'present';
-  const seriesConsent = field_present(f.consent?.to_series) === 'present';
+  const txConsent = () => field_present(f.consent?.to_transaction) === 'present';
+  const seriesConsent = () => field_present(f.consent?.to_series) === 'present';
   put('psr-2017/67/1/consent',
-    txConsent ? 'one_present'
-      : !seriesConsent ? 'none_present'
-        : seriesLimb === true ? 'one_present'
-          : seriesLimb === false ? 'none_present'
+    txConsent() ? 'one_present'
+      : !seriesConsent() ? 'none_present'
+        : seriesLimb() === true ? 'one_present'
+          : seriesLimb() === false ? 'none_present'
             : 'undetermined',
-    seriesConsent && seriesLimb === false
+    seriesConsent() && seriesLimb() === false
       ? 'Series consent was given and withdrawn before this transaction, so 67(4) defeats it.' : undefined);
 
   put('psr-2017/67/2/b/form', member_of_register(f.consent?.form, f.agreement?.agreed_forms ?? []));
@@ -308,12 +382,17 @@ export function evaluate(facts, resolutions = {}) {
     '`undetermined` means restoration was required and nobody has assessed whether it happened.');
   put('psr-2017/76/2/practicable', held_judgment(f.refund?.as_soon_as_practicable));
 
-  const carve = f.provider?.reasonable_grounds_to_suspect_fraud === true
-    && field_present(f.provider?.poca_notification_in_writing) === 'present';
   put('psr-2017/76/3/fraud-carveout',
     conditional_requirement(f.provider?.reasonable_grounds_to_suspect_fraud === true,
       field_present(f.provider?.poca_notification_in_writing) === 'present'),
     'The carve-out requires BOTH the suspicion and the written notification.');
+  // MOVED BELOW 76/3, 2026-08-24, when the waiting axis landed: this const's only consumer is
+  // 76/2/deadline, and a shared const's presence-probe fires in the emission window where the
+  // const is EVALUATED, not where it is used. Above 76/3 it marked the wrong clause's window and
+  // the two implementations disagreed about 76/2/deadline's waiting. A pure reorder; no result
+  // moves.
+  const carve = f.provider?.reasonable_grounds_to_suspect_fraud === true
+    && field_present(f.provider?.poca_notification_in_writing) === 'present';
   const scope = resolutions.P1_carveout_scope;   // 'deadline_only' | 'obligation_suspended' | undefined
   put('psr-2017/76/2/deadline',
     carve

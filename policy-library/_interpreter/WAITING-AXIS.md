@@ -1,9 +1,10 @@
-# The waiting axis, specified and not built
+# The waiting axis
 
-A specification only. Nothing in this repository computes it, and the record does not carry it.
-Written in the Phase 1 router block, which ruled the axis into existence and out of scope in the
-same breath: the lane says who owns a determination, and nothing on the record says whether the
-determination's inputs can be obtained, or by what kind of act.
+**BUILT 2026-08-24, at record format v4.** This document was the specification; it is now the
+specification as corrected by building it, and the corrections are listed at the end because a
+spec that silently absorbs its own falsifications teaches nothing. The authoritative statement of
+what `waiting: "fact"` does and does not establish is on the record's own documentation, the
+format header of `_interpreter/interpret.mjs`; this file explains the design.
 
 ## Where it sits on the record
 
@@ -22,11 +23,11 @@ From `_phase0/dispatchable.mjs`'s classification, derived from the register rath
 
 | value | meaning | computed from |
 |---|---|---|
-| `fact` | waiting on a fact or record nobody supplied | the record's result is an absence token and the clause's evaluation reads facts |
-| `judgment` | waiting on an assessment nobody has made | the result rests on `not_assessed`, or the routed record is `awaiting: person` |
-| `meaning` | waiting on a meaning the document never gave | the `ungrounded` emitter's undetermined branch |
-| `clause` | waiting on another clause's determination | the clause reads no fact of its own and an input clause is itself waiting |
-| `none` | not waiting: the determination rests on supplied inputs | everything else, EXPLICITLY. Absent is not `none`; E30 |
+| `fact` | waiting on a fact or record nobody supplied | a fact origin: an absence token of the fact class (`no_end_event`, `missing_operand`, `no_candidate`), or a presence-family primitive probing a strictly-undefined argument, or a read input clause waiting on a fact |
+| `judgment` | waiting on an assessment nobody has made | a `not_assessed` origin, a read input waiting on a judgment, or the routed `awaiting: person` record |
+| `meaning` | waiting on a meaning the document never gave | the `ungrounded` emitter's missing-meaning branch, or a read input waiting on one |
+| `clause` | waiting on a derived input that classifies as nothing else | the fallback: an `undetermined` result with no tracked origin on a clause that reads no fact of its own |
+| `none` | not waiting: the determination rests on supplied inputs, or is `not_applicable` | everything else, EXPLICITLY. Absent is not `none`; E30 |
 
 **What computes it: the interpreter, at emission**, from two inputs it already holds: the emitter
 kind and which absence token, if any, the result rests on. It is derived per record per run, never
@@ -70,3 +71,31 @@ state and not a default. Until the fact schema carries one for 75(3), the axis c
 `waiting: "fact"` on a decided record, which states that nobody gathered the record and cannot
 state whether anybody asked for it. The specification names that as its limit rather than
 implying the axis answers a question the facts cannot.
+
+
+## What building it falsified in this specification, and how each was resolved
+
+1. **The value table above originally conditioned `fact` on an absence-token result, while the
+   75/3 section below requires `waiting: "fact"` on the decided `floor_not_met`.** Both could not
+   hold. Resolved toward 75/3: a decided record can carry waiting, which is the point of a second
+   axis. `not_applicable` is the one decided result that is always `none`, because the obligation
+   never arose and eager argument evaluation would otherwise mark it.
+2. **The spec claimed the interpreter already holds "which absence token the result rests on". It
+   does not, for any token that crosses a remap.** Resolved by origin tracking at the forcing site
+   and at the tracked primitives of the hand implementations. A side effect repairs E28's collapse:
+   `psr-2017/75/1` now classifies `judgment`, because the `not_assessed` is seen before the remap
+   collapses it into `undetermined`.
+3. **The `clause` value as specified made classification depend on how expressions are shared**,
+   which differs between implementations by construction; parity caught it on its first run
+   (p4/deadline: `fact` against `clause`). Resolved: a read input clause PROPAGATES its own waiting
+   class, and `clause` survives as the no-origin fallback for a derived clause stuck on an
+   unclassifiable input.
+4. **An unresolved ambiguity resolution (A1, P1) is not expressible in the five values** and lands
+   on `fact` through the fallback. A stated limit, not a claim that a resolution is gatherable.
+5. **Two implementation asymmetries the sweep surfaced and the fixes for them**: a shared eager
+   const probes in the emission window where it is evaluated, not where it is used (PSR's `carve`
+   moved to its consumer; the 67/1 consent consts became thunks with the register's own
+   short-circuit shape); and the interpreter's emitter now forces the note and extras BEFORE
+   classification, because the hand implementations evaluate every argument before emitting.
+   Cross-implementation agreement after the fixes: 120,042 records, zero divergences, before the
+   freeze.

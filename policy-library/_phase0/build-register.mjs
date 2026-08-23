@@ -39,6 +39,50 @@ const WITH_RESULT_DOMAIN = ['MECHANICAL', 'JUDGMENT', 'CONDITIONAL', 'DERIVED', 
 //   no_lane for the dispositions with no result domain. A lane names what produces a
 //           DETERMINATION; a clause that refuses one, or supplies a meaning instead of one, has
 //           nothing to route. The state is explicit, never an absent key.
+// ─── THE WAITING VOCABULARY, one authored copy, written into every register ─────────────────────
+//
+// The second axis beside lane: what a clause's determination is waiting on, per run. Values are
+// closed; `none` is explicit and never absent (E30). Both implementations read this from their
+// register and implement the tracking independently; the vocabulary has one copy, the tracking is
+// what parity compares.
+const WAITING = {
+  values: ['fact', 'judgment', 'meaning', 'clause', 'none'],
+  // Mixed origins resolve by this order: gather before judging (Addendum A.3's own sequence), a
+  // meaning is prior to both because nothing moves until the term has one, and clause is
+  // derivative of the others.
+  priority: ['meaning', 'fact', 'judgment', 'clause'],
+  // Result tokens that ARE absence, and what each is absence OF. `undetermined` is $composite:
+  // it names no origin, and classification falls to the origins tracked during evaluation.
+  absence_result_tokens: {
+    not_assessed: 'judgment',
+    no_end_event: 'fact',
+    missing_operand: 'fact',
+    no_candidate: 'fact',
+    undetermined: '$composite',
+  },
+  // Presence-family primitives probe their ARGUMENT: strictly undefined means the fact was never
+  // supplied and marks a fact origin; a recorded null, empty string or false is someone's answer
+  // and marks nothing. E30's field granularity, applied to the axis.
+  unsupplied_argument_probes: ['field_present', 'all_present', 'any_present'],
+  // Every declared non-absence token of every primitive, so the classifier's map is TOTAL over
+  // each primitive's declared result domain (the R7 extension). A token in neither list fails
+  // validation rather than silently classifying as not-waiting.
+  non_absence_result_tokens: [
+    'within', 'exceeded', 'not_yet_due', 'overdue', 'out_of_order',
+    'present', 'absent', 'all_present', 'some_absent', 'one_present', 'none_present',
+    'member', 'not_member', 'all_members', 'some_not_member',
+    'clear', 'prohibited_present', 'floor_met', 'floor_not_met', 'met', 'not_met',
+    'satisfied', 'breached', 'outstanding', 'not_applicable',
+    'before', 'after', 'simultaneous', 'equal', 'not_equal', 'incomparable_currency',
+  ],
+  // A record whose final result is `not_applicable` waits on NOTHING, whatever origins evaluation
+  // touched: the obligation never arose, and conditional_requirement's eagerly-evaluated value
+  // operand would otherwise mark never-arisen obligations as waiting.
+  decided_overrides: { not_applicable: 'none' },
+  // The R13 extension: an entry per emitter kind, no-result records explicitly none.
+  by_emitter: { emit: 'computed', decision_table: 'computed', ungrounded: 'computed', no_result: 'none', awaiting: 'judgment' },
+};
+
 const LANES = ['engine', 'agent', 'panel', 'person'];
 const LANE_DEFAULTS = {
   MECHANICAL: { lane: 'engine' },
@@ -222,6 +266,10 @@ for (const d of DOMAINS) {
     ambiguities: ambSection,
     defined_terms: defined === null ? null : { $from: `${d.dir}/defined-terms.json`, terms: defined.terms },
     undefined_terms: undefinedTerms === null ? null : { $from: `${d.dir}/undefined-terms.json`, $how_the_evaluator_must_treat_it: undefinedTerms.$how_the_evaluator_must_treat_it, terms: undefinedTerms.terms },
+    waiting: {
+      $note: 'The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.',
+      ...WAITING,
+    },
     lanes: {
       $note: 'Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.',
       lanes: LANES,
