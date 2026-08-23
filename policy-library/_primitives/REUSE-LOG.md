@@ -1852,6 +1852,17 @@ granularities, one property:
 | **a field** | an absent fact read as a recorded value. E9's instance: absent `executed_abroad` read as `domestic`, selecting a 45-day period nobody's facts supported | `field_present` guards at the E9 sites: `banxico-34-2010/evaluate.mjs` (`abroadRecorded`, `factorsRecorded`) and the `abroad_recorded`, `factors_recorded` bindings in `banxico-34-2010/register.json`, evaluated by `_interpreter/interpret.mjs` |
 | **a determination** | a determination that could not be made read as one that was. An absent judgment, end event or operand gets its own token, never a decided value: `not_assessed`, `no_end_event`, `missing_operand`, `no_candidate` | the primitive result domains, in all four implementations: `held_judgment`, `elapsed_within`, `ordered_before`, `amounts_equal`, `member_of_register` in the three `evaluate.mjs` and in `_interpreter/interpret.mjs` PRIMITIVES |
 | **a record** | an unversioned record read as version 0. Absence has two causes, a pre-versioning record and a foreign record that dropped the field, and 0 names the first without evidence | `recordVersion()` in `_interpreter/interpret.mjs`, which THROWS on an absent version |
+| **a predicate pair** | an unmeasured subject read as the affirmative of whichever direction the predicate points. Two predicates answer opposite halves of one question — does the version at npm's `latest` export a symbol, and does it not — and BOTH return false when that version has no measurement, because an unevaluable claim is not true in either direction. Defining the second as `!first` would have turned that refusal into a **pass** for the affirmative | `PREDICATES` in `observerprotocol-website/scripts/check-measured-figures.mjs`: `latest-exports` and `latest-does-not-export`, each written out rather than derived from the other |
+
+**The fourth row is the first instance found by design rather than by failure.** E9, the
+determination tokens and `recordVersion()` were each written after an absence had already been read
+as a value. The predicate pair was written correctly the first time, because this entry existed and
+was consulted while writing it: the second predicate is spelled out instead of `!first` *because*
+the row above it says what `!first` would do. That is the entry working as a standing property
+rather than as a record, and it is the only evidence so far that it does.
+
+**It is also the first instance outside this repository**, which the code-site column now shows. The
+property does not belong to `policy-library/`; it belongs to anything that reads an absent input.
 
 **The known boundary of the second instance, so this entry does not overclaim.** The distinct tokens
 survive only until composition: `conjunction_over_results` maps `not_assessed` (via a remap) into
