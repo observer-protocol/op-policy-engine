@@ -334,6 +334,7 @@ will carry.
 
 **Established:** 2026-08-21. **Rewritten 2026-08-22**, after E1 was closed and the original wording
 turned out to describe a mechanism that did not happen.
+**Status: STANDING RULE, in force. Not a defect and not awaiting anything.**
 
 ### The rule
 
@@ -777,6 +778,7 @@ Opened as the next entry when someone rules on it. Not started.
 ## E10. STANDING RULE: name an operation by what it does, never by how it is written
 
 **Established:** 2026-08-22, from three misclassifications in this estate. Companion to E4.
+**Status: STANDING RULE, in force. Not a defect and not awaiting anything.**
 
 ### The rule
 
@@ -1062,7 +1064,7 @@ the reason each was wrong.
 
 ## E15. A gate whose verdict depends on untracked local state
 
-**Observed:** 2026-08-23, in op-mcp-payment-server. **Status: REPORTED. The ruling is Boyd's.**
+**Observed:** 2026-08-23, in op-mcp-payment-server. **Status: RULED 2026-08-23. The move is WITHDRAWN and the gate keeps failing, attributed and unsuppressed, until `session/banxico-corpus` lands.**
 
 `scripts/fixture-schema-gate.mjs` walks `fixtures/` **on disk** and asserts that every credential it
 finds validates against the schema it cites and is indexed in the credential manifest by its own
@@ -1200,7 +1202,7 @@ a correct measurement answering a smaller question than the one being asked.
 
 ## E17. The corpus reaches FECA, and finds a defect in the attribution I introduced
 
-**Observed:** 2026-08-23. **Status: ADAPTED. One defect found and RECORDED, NOT FIXED.**
+**Observed:** 2026-08-23. **Status: ADAPTED, and the defect it found is FIXED 2026-08-23 by making it unwritable. See the closure.**
 
 ### The generator was adapted and the two existing domains did not move
 
@@ -1289,3 +1291,120 @@ worked case moved, in any domain**, and Banxico and PSR are unchanged at 62/30 a
 **Exact for these four sites rather than guaranteed in general:** a site could still read a meaning and
 discard it inside `compute`. None does, and a short-circuit inside `compute` correctly leaves the
 meaning unread and unattributed.
+
+---
+---
+
+# What Phase 0 inherits
+
+Written 2026-08-23, closing this session. Three domains, two document classes, 99 clauses, seventeen
+log entries all carrying a status.
+
+## The seven categories, and what each requires of an evaluator
+
+| category | requires |
+|---|---|
+| **MECHANICAL** | evaluate against recorded facts; the primitive's own result domain |
+| **JUDGMENT** | evaluate, taking the judgment as an INPUT. Never inferred, never defaulted |
+| **CONDITIONAL** | evaluate; carries `not_applicable` for an obligation that never arose, which is not a pass |
+| **DERIVED** | evaluate; reads no fact of its own and composes other clauses' results |
+| **EVIDENTIAL** | evaluate; its result is about the STATE OF PROOF of another clause's condition and is an INPUT to that clause, not a determination of its own |
+| **DEFINITIONAL** | **do not evaluate to a result.** It supplies a meaning other clauses consume, and the run must report WHICH definition applied to each consuming clause |
+| **INSTRUCTION** | **REFUSE.** It directs an act and no fact makes it true or false, so it has no result domain. Emitted with no `result` key so coverage by set equality still holds; an accessor asked for one must THROW rather than return `undefined` |
+
+**ILLUSTRATIVE is not in the schema.** One clause carries it, it fits no category, and that is recorded
+rather than smoothed away.
+
+**The refusal is the load-bearing part.** A clause with no result domain that nonetheless returns
+something is the defect class this estate found at four separate layers. `put()` must refuse at the
+source, so the discipline does not depend on a call site remembering it.
+
+## The five composition shapes, and the decision-table boundary
+
+`applicability_gate`, `guard_on_unresolved`, `remap_result_domain`, `conjunction_over_results`, each
+with a closed vocabulary that THROWS on an unregistered token, and each carrying `undetermined`
+rather than collapsing it. The fifth, `disjunction_over_results`, is **deliberately unnamed**: one
+instance in one domain, fixed inline, waiting under E4.
+
+**Two shapes, not one parameterised shape.** `applicability_gate`'s closed arm is always
+`not_applicable` and `guard_on_unresolved`'s is always `undetermined`, hard-coded, so that
+`the requirement failed` and `the requirement never applied` cannot share a name.
+
+**`remap_result_domain` takes its mapping FROM THE CALL SITE**, because which of a primitive's results
+a clause treats as failure is the clause's reading. The mapping must be TOTAL; `$unmapped` is declared
+explicitly where a source domain is genuinely open.
+
+**The decision-table boundary, and it is a structural test rather than a judgment call: a DERIVED
+clause whose inputs form a small, closed, finite cross-product should be a table. If the clause's own
+text makes the input arity open, a table is the wrong shape.** `firmeza` qualifies at 7x3;
+`foreign-deadline` at 2; `3.6/p4/floor` does not, because `por lo menos` makes its arity open and a
+table would have to be regenerated by the clause's own semantics.
+
+A table is data: enumerable, checkable for completeness over its input domains, diffable when an
+institution changes its reading, and every row states what it rests on. An if/else chain is none of
+those, and its arms cannot be counted by anything.
+
+## Which entries constrain the design rather than describing a past defect
+
+**E4** and **E10** are standing rules. E4: fix on a second instance OR a change of representation,
+whichever arrives first, because they rule out different wrong answers. E10: name an operation by
+what it does, in one sentence mentioning neither syntax nor return type.
+
+**E1** constrains every composition: a primitive returning more states than its wrapper can represent
+loses a distinction, and the loss is invisible. Its closure added a CLOCK AS AN EXPLICIT FACT, absent
+by default, never `Date.now()`.
+
+**E11** constrains any reference to an external document: naming a hash algorithm does not name a
+canonicalisation, and a digest over a non-deterministically serialised source pins a fetch rather than
+a document. **The third state must exist before the field does**, or an absent field falls into the
+`differ` arm and manufactures the false negative it exists to prevent.
+
+**E17's closure** constrains provenance: a determination resting on a meaning the institution supplied
+must carry that IN THE RESULT TOKEN, not only in a provenance field, and the attribution must be gated
+on the deciding path rather than on a lexical read.
+
+**E5** constrains packaging: the primitives have no shared module, so every correction lands twice,
+and a diff of the two copies is not a usable check because legitimate and accidental differences look
+alike.
+
+## The entries a generic interpreter would make unreachable
+
+**This is the important half, because several of these defects exist only because each domain has its
+own hand-written evaluator.**
+
+**Made unreachable by a generic interpreter:**
+
+- **E5**, entirely. There would be one implementation, so a correction could not land twice and the
+  two copies could not drift.
+- **E6**, the two domains disagreeing about `denied`. Two hand-written remaps of one primitive's
+  result domain is what made disagreement possible; one interpreter reading a declared mapping cannot
+  disagree with itself.
+- **E17's defect**, and this one is sharp: the attribution was gated on a lexical read because
+  JavaScript evaluates arguments eagerly, and three call sites passed thunks while a fourth passed a
+  value. **That is a property of hand-written JavaScript, not of the encoding.** An interpreter
+  evaluating a declared clause structure has no argument-evaluation order for an author to get wrong.
+- **E13**, the claim detector reading prose. If a clause DECLARED what it reads, the check would
+  compare a declared list against a traced one and there would be no sentence to parse. The `reads`
+  field now on two clauses is that declaration, unread by the check.
+- **The false-effect class itself**, E8 and the three basis defects. A basis can contradict the code
+  only where a human writes both; an interpreter derives behaviour FROM the register, so the register
+  cannot describe something the behaviour does not do.
+
+**NOT made unreachable, and these are the ones Phase 0 still has to solve:**
+
+- **E1**, **E7**, **E9**: a wrapper that cannot represent a source's states, a disjunction that
+  collapses `undetermined`, a predicate that reads an absent fact as a decided `false`. These are
+  properties of the SHAPE VOCABULARY, and an interpreter implementing that vocabulary inherits them
+  exactly.
+- **E11**: a reference to an external document is outside the interpreter entirely.
+- **E12**, **E15**, **E16**: the shared-tree class. Nothing about how clauses are evaluated touches
+  them.
+- **E14**: fields carried and never consulted is a property of the wire format, not of the evaluator.
+- **The UNGROUNDED state**: a term the document never defines is a property of the document. An
+  interpreter must still refuse to decide, and must still mark a determination that rested on a
+  supplied meaning.
+
+**So the split is clean: an interpreter removes the defects that come from writing the same thing
+twice, and removes none of the defects that come from a vocabulary that cannot say what a source
+says.** The first group is five entries and the second is eight, and the second group is the design
+work.
