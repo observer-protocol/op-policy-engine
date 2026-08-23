@@ -103,3 +103,81 @@ export const PSR_FIELDS = {
 export const PSR_RESOLUTIONS = {
   P1_carveout_scope: ['deadline_only', 'obligation_suspended', undefined],
 };
+
+// ─── FECA PM 2-0805 ─────────────────────────────────────────────────────────────────────────────
+//
+// FECA HAS NO FACT REGISTER, so these domains were read off the evaluator, as PSR's were. That is a
+// weaker source than Banxico's declared kinds and is recorded as one. Values are drawn by TYPE and
+// by the token sets the clauses compare against, never by an outcome anyone wanted to reach.
+const JUDGMENT = ['affirmed', 'denied', 'not_assessed', null, undefined];
+const INSTANT_F = ['2026-01-01T00:00:00Z', '2026-04-01T00:00:00Z', '2026-04-10T00:00:00Z',
+                   '2026-09-01T00:00:00Z', null, undefined, 'not-a-timestamp'];
+export const FECA_FIELDS = {
+  'claim.type_claimed':                        ['direct', 'aggravation', 'acceleration', 'precipitation', null, undefined],
+  'claim.condition_class':                     ['orthopaedic', 'hearing_loss', 'pulmonary', 'emotional', null, undefined],
+  'claim.pre_existing_same_site':              [true, false, null, undefined],
+  'claim.aggravation_issue_undeveloped':       [true, false, null, undefined],
+  'claim.consequential_claimed':               [true, false, null, undefined],
+  'claim.physical_injury_established':         [true, false, null, undefined],
+  'claim.graver_condition_undeveloped':        [true, false, null, undefined],
+  'injury.clear_cut_and_competent':            JUDGMENT,
+  'injury.minor_and_lay_identifiable':         JUDGMENT,
+  'injury.witnessed_or_prompt':                [true, false, null, undefined],
+  'injury.fact_disputed':                      [true, false, null, undefined],
+  'opinion.present':                           ['CA-20 narrative', '', null, undefined],
+  'opinion.examined_or_treated':               [true, false, null, undefined],
+  'opinion.source_class':                      ['surgeon', 'chiropractor', 'physician_assistant', 'nurse_practitioner',
+                                                'clinical_psychologist', 'registered_nurse', null, undefined],
+  'opinion.countersigned_by':                  ['a physician', '', null, undefined],
+  'opinion.subluxation_diagnosed':             [true, false, null, undefined],
+  'opinion.subluxation_xrays':                 [true, false, null, undefined],
+  'opinion.diagnosis':                         ['closed fracture', '', null, undefined],
+  'opinion.objective_findings':                ['radiograph', '', null, undefined],
+  'opinion.relationship_opinion':              ['caused by the fall', '', null, undefined],
+  'opinion.rationale_grade':                   ['affirmative_statement', 'detailed_rationale', 'bare_assertion', null, undefined],
+  'opinion.rationale_sufficient_for_class':    JUDGMENT,
+  'opinion.negates_relationship':              [true, false, null, undefined],
+  'opinion.aggravation_diagnosed_by':          ['surgeon', '', null, undefined],
+  'opinion.aggravation_duration_clear':        [true, false, null, undefined],
+  'opinion.lesser_established_diagnosis':      ['knee strain', '', null, undefined],
+  'opinion.differentiates':                    [true, false, null, undefined],
+  'opinion.specialist_credential':             ['board_certified_otolaryngology', 'board_certified_pulmonary', 'none', null, undefined],
+  'opinion.specialist_opinion_at':             INSTANT_F,
+  'opinion.psychiatrist_required_assessed':    JUDGMENT,
+  'file.contrary_evidence':                    [true, false, null, undefined],
+  'adjudicator.development_complete':          JUDGMENT,
+  'adjudicator.difficulty_assessed':           JUDGMENT,
+  'adjudicator.further_opinion_necessary':     JUDGMENT,
+  'adjudicator.adjudicable_on_present_opinion': JUDGMENT,
+  'adjudicator.opinions_approximately_equal':  JUDGMENT,
+  'adjudicator.all_evidence_carefully_evaluated': JUDGMENT,
+  'adjudicator.second_opinion_appropriate':    JUDGMENT,
+  'adjudicator.specialist_discussion_sufficient': JUDGMENT,
+  'adjudicator.relative_probability_weighed':  JUDGMENT,
+  'adjudicator.period_allowed_reasonable':     JUDGMENT,
+  'acceptance.accepted_as':                    ['direct', 'temporary_aggravation', 'permanent_aggravation', null, undefined],
+  'acceptance.physical_injury_accepted':       [true, false, null, undefined],
+  'acceptance.accepted_at':                    INSTANT_F,
+  'exposure.source_status':                    ['known_or_probable_carrier', 'unidentified_or_unknown', null, undefined],
+  'exposure.test_result':                      ['positive', 'negative', null, undefined],
+  'exposure.prior_test':                       ['negative', 'positive', null, undefined],
+  'exposure.no_prior_history':                 [true, false, null, undefined],
+  'exposure.no_outside_exposure':              [true, false, null, undefined],
+  'exposure.continuous_occupational_risk':     [true, false, null, undefined],
+  'exposure.outside_factors_identified':       [true, false, null, undefined],
+  'intervening.claimed':                       [true, false, null, undefined],
+  'intervening.chain_status':                  ['broken', 'intact', null, undefined],
+  'consequential.defeater_class':              ['intentional_conduct', 'ordinary_activity', null, undefined],
+  'authorisation.items':                       [[], ['vaccine'], ['inoculation'], ['physiotherapy'], null, undefined],
+  'authorisation.prophylactic':                [true, false, null, undefined],
+};
+// UNGROUNDED TERMS ARE SUPPLIED OR NOT SUPPLIED, AND THE EVALUATOR NEVER DEFAULTS ONE. Both states
+// are sampled so the corpus reaches `undetermined` and `*_on_supplied_meaning` alike.
+export const FECA_RESOLUTIONS = {
+  ungrounded_terms: [
+    undefined,
+    { 'rationalized medical opinion': { accepts: ['detailed_rationale'] },
+      'independent intervening cause': { defeaters: ['intentional_conduct'] },
+      'chain of causation': { breaks: ['broken'] } },
+  ],
+};

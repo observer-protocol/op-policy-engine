@@ -1131,3 +1131,161 @@ in its own pull request because it is public.
 
 **Nothing was deleted, moved or regenerated.** The directory was moved aside once to establish
 causation and moved straight back, with its eleven files intact.
+
+---
+
+## E16. A check that passes because of the condition it should catch
+
+**Observed:** 2026-08-23. **Status: FIXED, with a new check installed at three moments.**
+
+A second worktree sat on `main` at `a8f8f6f` while `origin/main` was at `8938918`: **two commits
+behind, nothing ahead, no visible symptom.** A session branching from it would have worked from a
+stale base with nothing to say so.
+
+**A check already existed and it fetches and compares.**
+`packages/policy-engine/scripts/preflight-publish.mjs` check 6 asserts HEAD is an ancestor of
+`origin/main`. Measured: `a8f8f6f` IS an ancestor of `8938918`, so **check 6 passes, and it passes
+precisely because the worktree is behind.** Being stale is the condition that satisfies it.
+
+Check 6 is correct for its own question, which is whether a commit being published lives on main. It
+was not modified. **Repurposing it would make one check assert two things**, and the second would be
+asserted in the direction the first is satisfied by.
+
+It also runs only at publish time and only for one package, and every change of the last two days is
+in `policy-library/`, which it does not reach.
+
+### What was installed
+
+`scripts/check-not-behind.mjs`, plus a self-contained shell hook body, asserting after
+`git fetch --quiet` that `git rev-list --count HEAD..<upstream>` is **0**, and failing loudly with the
+count and the commits.
+
+**Three moments.** `post-checkout`, which REPORTS ONLY because git ignores that hook's exit status,
+stated rather than implied by a hook returning 1 and never being obeyed. `pre-commit`, which BLOCKS,
+shown by a real commit attempt on a branch two behind returning exit 1 with HEAD unchanged. And
+invocation 1 of the payment server's suite gate, ahead of the gate's own selftest.
+
+**Hooks because `.git/hooks` is shared by every worktree**, verified through `--git-common-dir`. The
+hook body calls only git and depends on no file in the repository, because a worktree on an older
+commit does not have the script, **and that worktree is the one this exists to warn.** A hook that
+skipped when the script was missing would go quiet in the only case that matters.
+
+**It caught a real one on its first run in the second repository**, where the branch was one behind
+after its own merge landed.
+
+### What it cannot reach
+
+- **A worktree simply sitting there.** This runs at checkout and at commit. A session doing neither is
+  never asked, and that is the state the stale worktree is in now.
+- **Another session's uncommitted work.** Nothing in git reports that a sibling tree is dirty.
+- **Files tracked by no branch**, the `fixtures/banxico-34-2010` case. There is no ref to be behind,
+  so staleness is not the predicate.
+- **Two sessions editing one file in separate trees.** Nothing surfaces until a commit that may never
+  conflict.
+- **Whether being behind matters.** It can say `two commits behind`. It cannot say `the other session
+  is mid-flight on this file, wait`. That half is a coordination rule, not a check.
+
+### The class these three share
+
+**E12** was a measurement read as a fact about the repository when it was a fact about a branch.
+**E15** was an absence read the same way. **E16** is a check that returns green for the reason it
+should return red.
+
+**Under E10, the sentence: each of the three took a true statement about one thing for a statement
+about a larger thing that contains it.** A branch for the repository, a branch's file list for what
+exists, and one direction of a comparison for the comparison. None was a wrong measurement; each was
+a correct measurement answering a smaller question than the one being asked.
+
+---
+
+## E17. The corpus reaches FECA, and finds a defect in the attribution I introduced
+
+**Observed:** 2026-08-23. **Status: ADAPTED. One defect found and RECORDED, NOT FIXED.**
+
+### The generator was adapted and the two existing domains did not move
+
+`explore-lib.mjs` and `coverage.mjs` did `m.set(v.result, ...)` for every emitted entry. The generator
+predates DEFINITIONAL, INSTRUCTION and EVIDENTIAL and assumed every clause yields a result, so run
+unchanged against FECA it recorded **all 24 no-result-domain clauses as having a result of
+`undefined`**, which is exactly the silent failure their refusal was built to prevent.
+
+The adaptation is one guard in each: **an entry with no `result` key is skipped, because that is not a
+result of `undefined`.**
+
+**The test was that Banxico and PSR must be identical afterwards, and they are: 62 and 30, 75 and 28,
+before and after.** The guard is a no-op for domains where every clause emits a result, which is the
+whole reason it is safe.
+
+One further widening: the harness's spy re-exported only `evaluate`, and FECA's cases also import
+`resultOf`. A spy exporting one name turns a missing re-export into a `SyntaxError` that **reads as
+the domain being broken rather than as the harness being narrow.**
+
+### FECA: 111 reachable, 41 reached
+
+| | clauses | reachable | reached | never reached |
+|---|---|---|---|---|
+| Banxico | 19 | 62 | 30 | 32 |
+| PSR | 21 | 75 | 28 | 47 |
+| **FECA** | **59** | **111** | **41** | **70** |
+
+**All 111 come from the 35 result-bearing clauses; the 24 contribute zero.** Measured directly, so
+the count does not exceed what the register's dispositions allow.
+
+All four clauses resting on an ungrounded term reach `undetermined` and their attributed forms, and
+**nine attributed results are reached in total**.
+
+### THE DEFECT: attribution is gated on a lexical read, not on dependence
+
+I introduced `attribute_to_supplied_meaning` and described it as attributing **only where the meaning
+was actually read**, using a proxy that records access. The corpus reached
+`not_applicable_on_supplied_meaning`, which should not exist: a clause that came out `not_applicable`
+did not depend on the meaning.
+
+Measured, same clause, precondition FALSE in both rows:
+
+| facts | result |
+|---|---|
+| `differentiates` absent, so `&&` short-circuits before the meaning is read | `not_applicable` |
+| `differentiates` true, so the meaning IS read before the precondition is tested | **`not_applicable_on_supplied_meaning`** |
+
+**The two differ only in whether JavaScript happened to short-circuit.** Arguments are evaluated
+before the call, so `meaning.accepts` is read whenever the conjunction reaches it, regardless of
+whether the precondition later makes the clause inapplicable.
+
+**So the gate is on a lexical read and I claimed it was on use.** An attributed `not_applicable`
+asserts an institution's supplied meaning bore on a determination it did not bear on, which
+overstates the institution's reach in exactly the direction the attribution exists to avoid
+overstating.
+
+**Found by the corpus, on the first run against a domain the corpus was said not to fit.**
+
+### FIXED SAME DAY, by making the defect unwritable rather than fixing one site
+
+**What `use` means, chosen and stated.** Not `a meaning that changed the result`: that needs a
+counterfactual against some other meaning, and it is not well defined, because without a meaning the
+result is `undetermined`, so every decided result would count as changed. It is **consulted on the
+path where the clause actually decides.**
+
+**The defect was one call site, and the fix is not at that site.** Three of the four passed a THUNK to
+`applicability_gate`, so their meaning was unreachable until the gate held and they attributed
+correctly. The fourth passed a VALUE to `conditional_requirement`, whose arguments evaluate eagerly,
+so the meaning was read before the precondition was tested.
+
+**The gate is now an argument of `ungrounded` rather than something a caller may put inside
+`compute`.** When it is false the meaning is never even proxied. A call site cannot reach a meaning
+before its precondition holds, so the defect is unwritable rather than repaired once.
+
+Measured, the exact case that was wrong, precondition false in both rows:
+
+| facts | before | after |
+|---|---|---|
+| `differentiates` absent, so `&&` short-circuits | `not_applicable` | `not_applicable` |
+| `differentiates` true, so the meaning was read | **`not_applicable_on_supplied_meaning`** | `not_applicable` |
+
+**`not_applicable_on_supplied_meaning` no longer exists anywhere.** FECA's reachable count falls from
+111 to 110, and the one removed is that token. Attributed results reached fall from 9 to 8. **No
+worked case moved, in any domain**, and Banxico and PSR are unchanged at 62/30 and 75/28.
+
+**Exact for these four sites rather than guaranteed in general:** a site could still read a meaning and
+discard it inside `compute`. None does, and a short-circuit inside `compute` correctly leaves the
+meaning unread and unattributed.

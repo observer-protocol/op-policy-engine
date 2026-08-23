@@ -73,3 +73,29 @@ sound, and a second domain with an explicit admissibility provision should settl
 PSR 4, Banxico 1, FECA 5. Ten clauses across three domains, of which **six are currently JUDGMENT,
 two CONDITIONAL, one MECHANICAL and one DERIVED**. None of the ten would change its result: the
 category changes what the register says a clause IS, not what the evaluator computes.
+
+---
+
+## What three domains say about the schema
+
+Three domains, two document classes, seven categories, and the honest reading is that it is still two
+domains and a hypothesis. Banxico 34/2010 and SI 2017/752 are both rules addressed to institutions
+and between them use four categories: they state conditions that must hold, they leave some of those
+conditions to a person's judgment, they make some arise only under a precondition, and they compose
+their own results. PSR adds a fifth, EVIDENTIAL, and adds it for a reason visible in the text rather
+than in the counts: reg 75 says who must prove reg 67's question and what evidence does not suffice,
+which is neither a condition nor a definition, and Banxico turns out to have one clause of the same
+kind in `por lo menos`. FECA PM 2-0805 is the only manual, and it is the only document that defines,
+directs and illustrates: twelve DEFINITIONAL clauses because a manual addressed to a decider must fix
+the vocabulary the decision runs on, eleven INSTRUCTION clauses because it has someone to direct and
+can tell them what to do next, and one ILLUSTRATIVE block because it teaches by worked example. The
+asymmetry is total in one direction, zero INSTRUCTION clauses across forty in the two rules against
+eleven across fifty-nine here, and the explanation is structural rather than stylistic: a regulation
+has nobody to direct, so anything it wants done must be expressed as a condition that must hold, and
+anything it wants composed it must compose in its own text, which is why DERIVED runs at fifteen and
+nineteen percent there and under two percent here. But that account rests on ONE manual. Under this
+estate's own rule, one instance is an anecdote and the second is what separates a property of the
+class from a property of the document, so what three domains actually support is that the two rules
+agree with each other and that a single manual differs from both in the predicted direction. The
+prediction was made before the manual was encoded and it held, which is worth more than a count and
+less than a second manual.

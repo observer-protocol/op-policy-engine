@@ -103,16 +103,37 @@ export function evaluate(facts, resolutions = {}) {
   // the second into the first.
   const attribute_to_supplied_meaning = (result, term) => `${result}_on_supplied_meaning`;
 
-  const ungrounded = (id, compute) => {
+  // THE GATE IS AN ARGUMENT, NOT SOMETHING THE CALLER MAY PUT INSIDE `compute`. Corrected 2026-08-23,
+  // REUSE-LOG E17.
+  //
+  // The first version took only `compute` and attributed wherever the meaning was READ. Three of the
+  // four call sites passed a thunk to `applicability_gate`, so their meaning was unreachable until the
+  // gate held and they attributed correctly. The fourth passed a VALUE to `conditional_requirement`,
+  // which evaluates its arguments eagerly, so the meaning was read BEFORE the precondition was
+  // tested. It produced `not_applicable_on_supplied_meaning`: a determination the institution's
+  // meaning did not bear on, marked as though it had.
+  //
+  // WHAT `USE` MEANS HERE, chosen and stated. Not `a meaning that changed the result`, which needs a
+  // counterfactual against some other meaning and is not well defined: without a meaning the result is
+  // `undetermined`, so every decided result would count as changed. It is `CONSULTED ON THE PATH WHERE
+  // THE CLAUSE ACTUALLY DECIDES`, and the gate is lifted into this signature so a call site cannot
+  // reach the meaning before its precondition holds. The defect becomes unwritable rather than fixed
+  // once.
+  //
+  // Exact for these four sites rather than guaranteed in general: a site could still read a meaning
+  // and discard it inside `compute`. None does, and a short-circuit inside `compute` correctly leaves
+  // it unread and unattributed.
+  const ungrounded = (id, applies, compute) => {
     const t = BY_ID[id].rests_on_ungrounded_term;
     const supplied = terms[t];
     if (supplied === undefined) {
       put(id, 'undetermined', { undetermined_because: `the operative term \`${t}\` is ungrounded: this chapter neither defines it nor points anywhere that does` });
       return;
     }
-    // Attribute ONLY where the meaning was actually read. A clause that came out `not_applicable`
-    // before the meaning was consulted rests on the document, not on the institution, and marking it
-    // otherwise would overstate the institution's reach.
+    if (strictBoolean(applies, `ungrounded(${id})`) === false) {
+      put(id, 'not_applicable');            // the meaning is never even proxied
+      return;
+    }
     let used = false;
     const watched = new Proxy(supplied, { get(o, k) { used = true; return o[k]; } });
     const result = compute(watched);
@@ -166,9 +187,9 @@ export function evaluate(facts, resolutions = {}) {
     undetermined: 'undetermined',
   }));
   put('feca/2-0805/3/d/1/clear-cut', held_judgment(f.injury?.clear_cut_and_competent));
-  ungrounded('feca/2-0805/3/d/2/rationalized', (meaning) =>
-    applicability_gate(out['feca/2-0805/3/d/applicability'].result === 'satisfied',
-      () => (member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member' ? 'satisfied' : 'breached')));
+  ungrounded('feca/2-0805/3/d/2/rationalized',
+    out['feca/2-0805/3/d/applicability'].result === 'satisfied',
+    (meaning) => (member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member' ? 'satisfied' : 'breached'));
   put('feca/2-0805/3/d/3/a/hearing',
     conditional_requirement(f.claim?.condition_class === 'hearing_loss',
       f.opinion?.specialist_credential === 'board_certified_otolaryngology'));
@@ -178,10 +199,12 @@ export function evaluate(facts, resolutions = {}) {
         before: true, simultaneous: true, after: false, missing_operand: 'undetermined',
       })));
   put('feca/2-0805/3/d/3/c/emotional', held_judgment(f.opinion?.psychiatrist_required_assessed));
-  ungrounded('feca/2-0805/3/e/differentiate', (meaning) =>
-    conditional_requirement(f.claim?.pre_existing_same_site === true,
-      f.opinion?.differentiates === true
-        && member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member'));
+  // WAS conditional_requirement, whose arguments evaluate eagerly, so the meaning was read before the
+  // precondition was tested. The precondition is now the gate and the meaning is unreachable without it.
+  ungrounded('feca/2-0805/3/e/differentiate',
+    f.claim?.pre_existing_same_site === true,
+    (meaning) => (f.opinion?.differentiates === true
+      && member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member' ? 'satisfied' : 'breached'));
 
   // ── paragraph 4 ────────────────────────────────────────────────────────────────────────────────
   put('feca/2-0805/4/a/difficulty-factors', held_judgment(f.adjudicator?.difficulty_assessed));
@@ -225,13 +248,11 @@ export function evaluate(facts, resolutions = {}) {
   put('feca/2-0805/6/b/2/weigh-probability', held_judgment(f.adjudicator?.relative_probability_weighed));
 
   // ── paragraph 7 ────────────────────────────────────────────────────────────────────────────────
-  ungrounded('feca/2-0805/7/a/natural-consequence', (meaning) =>
-    applicability_gate(f.claim?.consequential_claimed === true,
-      () => (member_of_enumeration(f.consequential?.defeater_class, meaning.defeaters) === 'member' ? 'breached' : 'satisfied')));
+  ungrounded('feca/2-0805/7/a/natural-consequence', f.claim?.consequential_claimed === true,
+    (meaning) => (member_of_enumeration(f.consequential?.defeater_class, meaning.defeaters) === 'member' ? 'breached' : 'satisfied'));
   put('feca/2-0805/7/a/3/reasonable-time', held_judgment(f.adjudicator?.period_allowed_reasonable));
-  ungrounded('feca/2-0805/7/b/chain', (meaning) =>
-    applicability_gate(f.intervening?.claimed === true,
-      () => (member_of_enumeration(f.intervening?.chain_status, meaning.breaks) === 'member' ? 'breached' : 'satisfied')));
+  ungrounded('feca/2-0805/7/b/chain', f.intervening?.claimed === true,
+    (meaning) => (member_of_enumeration(f.intervening?.chain_status, meaning.breaks) === 'member' ? 'breached' : 'satisfied'));
 
   // ── the categories that produce no result, emitted so coverage still holds ─────────────────────
   for (const c of REGISTER) {
