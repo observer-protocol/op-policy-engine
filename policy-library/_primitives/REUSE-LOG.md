@@ -1257,6 +1257,35 @@ asserts an institution's supplied meaning bore on a determination it did not bea
 overstates the institution's reach in exactly the direction the attribution exists to avoid
 overstating.
 
-Not fixed. Making it dependence-rather-than-access needs the meaning threaded through the computation
-rather than proxied at its edge, which changes the mechanism rather than patching it. **Found by the
-corpus, on the first run against a domain the corpus was said not to fit.**
+**Found by the corpus, on the first run against a domain the corpus was said not to fit.**
+
+### FIXED SAME DAY, by making the defect unwritable rather than fixing one site
+
+**What `use` means, chosen and stated.** Not `a meaning that changed the result`: that needs a
+counterfactual against some other meaning, and it is not well defined, because without a meaning the
+result is `undetermined`, so every decided result would count as changed. It is **consulted on the
+path where the clause actually decides.**
+
+**The defect was one call site, and the fix is not at that site.** Three of the four passed a THUNK to
+`applicability_gate`, so their meaning was unreachable until the gate held and they attributed
+correctly. The fourth passed a VALUE to `conditional_requirement`, whose arguments evaluate eagerly,
+so the meaning was read before the precondition was tested.
+
+**The gate is now an argument of `ungrounded` rather than something a caller may put inside
+`compute`.** When it is false the meaning is never even proxied. A call site cannot reach a meaning
+before its precondition holds, so the defect is unwritable rather than repaired once.
+
+Measured, the exact case that was wrong, precondition false in both rows:
+
+| facts | before | after |
+|---|---|---|
+| `differentiates` absent, so `&&` short-circuits | `not_applicable` | `not_applicable` |
+| `differentiates` true, so the meaning was read | **`not_applicable_on_supplied_meaning`** | `not_applicable` |
+
+**`not_applicable_on_supplied_meaning` no longer exists anywhere.** FECA's reachable count falls from
+111 to 110, and the one removed is that token. Attributed results reached fall from 9 to 8. **No
+worked case moved, in any domain**, and Banxico and PSR are unchanged at 62/30 and 75/28.
+
+**Exact for these four sites rather than guaranteed in general:** a site could still read a meaning and
+discard it inside `compute`. None does, and a short-circuit inside `compute` correctly leaves the
+meaning unread and unattributed.

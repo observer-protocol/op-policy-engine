@@ -91,7 +91,7 @@
   ]
  },
  "feca": {
-  "reachable": 111,
+  "reachable": 110,
   "reached": 41,
   "missed": [
    "feca/2-0805/2/a/occupational-rationale -> denied",
@@ -124,7 +124,6 @@
    "feca/2-0805/3/d/applicability -> undetermined",
    "feca/2-0805/3/e/differentiate -> breached",
    "feca/2-0805/3/e/differentiate -> breached_on_supplied_meaning",
-   "feca/2-0805/3/e/differentiate -> not_applicable_on_supplied_meaning",
    "feca/2-0805/3/e/differentiate -> satisfied_on_supplied_meaning",
    "feca/2-0805/3/medical-issue -> not_satisfied",
    "feca/2-0805/4/a/difficulty-factors -> denied",
