@@ -39,7 +39,7 @@ import { readFileSync } from 'node:fs';
 /**
  * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
  *
- * Every record opens `v, lane, lane_from, waiting`. VERSION 5 names the current shape, the union:
+ * Every record opens `v, lane, lane_from, waiting`. VERSION 6 names the current shape, the union:
  *
  *   { v, lane, lane_from, waiting, result, note?, ...extras }   a determination
  *   { v, lane, lane_from, waiting, result, determined }         a determination on an AGENT-routed
@@ -50,11 +50,21 @@ import { readFileSync } from 'node:fs';
  *   { v, lane, lane_from, waiting, awaiting, assessment }       agent-routed: the agent's assessment,
  *                                                               carried NOT TAKEN while the clause
  *                                                               awaits a person
+ *   { v, lane, lane_from, waiting, result, determined,
+ *     assessment, adoption }                                    ADOPTED: the person took the
+ *                                                               identified assessment; the value is
+ *                                                               DERIVED from it and the route is in
+ *                                                               the result token,
+ *                                                               `<value>_on_agent_assessment`
+ *   { v, lane, lane_from, waiting, result, determined,
+ *     rejected }                                                REJECTED: the person declined the
+ *                                                               identified assessment and their own
+ *                                                               judgment, arrived as a fact, decides
  *   { v, lane, lane_from, waiting, no_result, supplies }        DEFINITIONAL
  *   { v, lane, lane_from, waiting, refused, why }               INSTRUCTION, ILLUSTRATIVE
  *
- * Version 4 was the union without the agent shapes; 3 without `waiting`; 2 without the awaiting
- * shape; 1 without lanes.
+ * Version 5 was the union without the adoption and rejection shapes; 4 without the agent shapes;
+ * 3 without `waiting`; 2 without the awaiting shape; 1 without lanes.
  *
  * THE LANE'S SEMANTICS AT v5, amended by extension: `lane` names the lane the register ROUTES the
  * clause to. For every record v4 could emit, routing and ownership coincide, so no v4 byte
@@ -126,8 +136,8 @@ import { readFileSync } from 'node:fs';
  *      granularities, and the enforcement sites: REUSE-LOG E30. `recordVersion` below is this
  *      granularity's enforcement: it THROWS on an absent version, the same discipline as `resultOf`.
  */
-export const RECORD_VERSION = 5;
-export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3, 4, 5]);
+export const RECORD_VERSION = 6;
+export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3, 4, 5, 6]);
 
 /** The absent-version ruling, enforced. Unversioned is a state, not version 0: REUSE-LOG E30.
  *  Accepts 1 and 2; a version outside the known set throws, because a reader that passes an
