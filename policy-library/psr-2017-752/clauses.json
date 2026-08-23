@@ -95,7 +95,8 @@
       "source": "reg 67(1)",
       "text_en": "A payment transaction is authorised only if the payer has given consent to that transaction or to a series of which it forms part.",
       "disposition": "MECHANICAL",
-      "reuse_note": "Two alternatives, either of which satisfies: consent to the transaction, or consent to a series. Exactly the shape inciso d) needed."
+      "reuse_note": "Two alternatives, either of which satisfies: consent to the transaction, or consent to a series. Exactly the shape inciso d) needed.",
+      "$finding_2026_08_23": "BASIS IS NOW FALSE, AND I MADE IT SO THIS SESSION. Reported, NOT rewritten, on the brief's stop condition. `reuse_note` reads `Two alternatives, either of which satisfies: consent to the transaction, or consent to a series.` That was true until reg 67(4) was given effect on 2026-08-23. It is now false: series consent alone does NOT satisfy where the series was withdrawn before the transaction, and this clause reads psr-2017/67/4/series-withdrawal to find out.\n\nI changed the behaviour and left the sentence describing the old one, which is the same defect this session found three times in other people's clauses and once in a second copy of my own correction. Found by check-claimed-effects.mjs, which reported it as read-but-not-claimed."
     },
     {
       "id": "psr-2017/67/2/b/form",
@@ -121,9 +122,17 @@
     {
       "id": "psr-2017/67/4/series-withdrawal",
       "source": "reg 67(4)",
-      "text_en": "Withdrawal of consent to a series means future transactions in that series are not authorised.",
-      "disposition": "DERIVED",
-      "reuse_note": "Reads no fact of its own; changes the authorisation result for later transactions."
+      "text_en": "Subject to regulation 83(3) to (5), the payer may withdraw its consent to the execution of a series of payment transactions at any time with the effect that any future payment transactions are not regarded as authorised for the purposes of this Part.",
+      "disposition": "CONDITIONAL",
+      "reuse_note": "Reads no fact of its own; changes the authorisation result for later transactions.",
+      "$corrected_2026_08_23": "WAS `DERIVED`, on the basis `Reads no fact of its own; changes the authorisation result for later transactions.` BOTH HALVES ARE FALSE AGAINST THE CODE, and the disposition was wrong rather than just the sentence.\n\nFIRST HALF. The evaluator reads `f.consent?.series_withdrawn_at` directly at evaluate.mjs:175. A clause that reads a fact is not DERIVED, whose definition in this estate is `decides nothing directly; composes other results`. Its observed result domain is {not_satisfied, not_applicable}, which is the applicability signature, so CONDITIONAL is the disposition: the consequence arises only where a withdrawal is recorded.\n\nSECOND HALF, AND IT IS A LIVE DEFECT RATHER THAN A WRONG SENTENCE. Measured 2026-08-23: withdrawing a series changes nothing. `psr-2017/67/1/consent` computes `any_present([to_transaction, to_series])` and never consults the withdrawal, so a series whose consent has been withdrawn still returns `one_present` and `psr-2017/76/1/trigger` is unchanged. THIS CLAUSE'S RESULT IS CONSUMED BY NOTHING. The encoding states reg 67(4) and does not give it effect.\n\nNOT FIXED HERE. Correcting the disposition is a register correction; making the withdrawal reach the authorisation result is a substantive change to a rule in a register that is public on main, and it is a ruling rather than a tidy-up. Reported.",
+      "$fixed_2026_08_23": "GIVEN EFFECT. The clause is now consumed by psr-2017/67/1/consent, which it defeats for transactions FUTURE to the withdrawal. Before this it emitted a result nothing read, so the encoding stated reg 67(4) and did not apply it.\n\nHOW IT WAS FOUND. By TRACING which clause results are consumed, not by reading the register. The register's own basis said the clause `changes the authorisation result for later transactions`, which is an assertion about an effect it did not have, and no check tested it. A stated effect is not a control.\n\nTHE READING IS THE TEXT'S. `any future payment transactions` is relative to the withdrawal, so the operation is an ordering and not a presence test: a transaction executed BEFORE the withdrawal keeps its series consent.\n\nSTATED LIMITATION. 67(4) opens `Subject to regulation 83(3) to (5)`, which bounds when a withdrawal is EFFECTIVE. Regulation 83 is two hops from reg 76 and outside this encoding's scope, so a recorded withdrawal is treated as an effective one. That is an assumption about availability, not about effect.\n\nNO WORKED CASE MOVED. All three fixtures carry `series_withdrawn_at: null`, so none reaches the corrected path. The behaviour changed and the suite did not, which is the same shape as every other defect found here.",
+      "result_domain": [
+        "not_applicable",
+        "defeated",
+        "not_defeated",
+        "undetermined"
+      ]
     },
     {
       "id": "psr-2017/74/1/undue-delay",
@@ -150,36 +159,50 @@
       "id": "psr-2017/75/1/provider-burden",
       "source": "reg 75(1)",
       "text_en": "Where the user denies authorising a transaction, the provider must prove it was authenticated, accurately recorded, entered in its accounts and unaffected by technical breakdown or other deficiency.",
-      "disposition": "JUDGMENT",
-      "reuse_note": "Four conjuncts, each a held assessment. The conjunction is composed; the conjuncts are judgments."
+      "disposition": "EVIDENTIAL",
+      "reuse_note": "Four conjuncts, each a held assessment. The conjunction is composed; the conjuncts are judgments.",
+      "evidential_role": "allocates the burden of proving the reg 67 question to the provider",
+      "governs": "psr-2017/67/1/consent",
+      "$recategorised_2026_08_23": "WAS JUDGMENT. EVIDENTIAL, on the 2026-08-23 ruling: reg 75 governs how reg 76(1)'s only condition is ANSWERED when the user denies authorisation, not whether the refund duty holds. Its result is an input to the clause named in `governs`, not a determination of its own, and it is NOT a conjunct of psr-2017/76/1/trigger. See ../_primitives/EVIDENTIAL.md."
     },
     {
       "id": "psr-2017/75/2/pisp-burden",
       "source": "reg 75(2)",
       "text_en": "Where a payment initiation service provider was involved, it must prove the same matters within its sphere of competence.",
-      "disposition": "JUDGMENT",
-      "reuse_note": "Same standard, different bearer."
+      "disposition": "EVIDENTIAL",
+      "reuse_note": "Same standard, different bearer.",
+      "evidential_role": "allocates the same burden to a payment initiation service provider, within its sphere of competence",
+      "governs": "psr-2017/67/1/consent",
+      "$recategorised_2026_08_23": "WAS JUDGMENT. EVIDENTIAL, on the 2026-08-23 ruling: reg 75 governs how reg 76(1)'s only condition is ANSWERED when the user denies authorisation, not whether the refund duty holds. Its result is an input to the clause named in `governs`, not a determination of its own, and it is NOT a conjunct of psr-2017/76/1/trigger. See ../_primitives/EVIDENTIAL.md."
     },
     {
       "id": "psr-2017/75/3/instrument-not-sufficient",
       "source": "reg 75(3)",
       "text_en": "The recorded use of a payment instrument is not in itself necessarily sufficient to prove that the payer authorised the transaction or acted fraudulently or with gross negligence.",
-      "disposition": "DERIVED",
-      "reuse_note": "THE SAME SHAPE AS `por lo menos`, at arity one. Banxico's floor said a complete element list does not establish conformance; this says one item of evidence does not establish authorisation. Both forbid reading necessary as sufficient. Parameterised because the existing signature takes a list."
+      "disposition": "EVIDENTIAL",
+      "reuse_note": "THE SAME SHAPE AS `por lo menos`, at arity one. Banxico's floor said a complete element list does not establish conformance; this says one item of evidence does not establish authorisation. Both forbid reading necessary as sufficient. Parameterised because the existing signature takes a list.",
+      "evidential_role": "bounds what the recorded use of an instrument suffices to prove",
+      "governs": "psr-2017/67/1/consent",
+      "$recategorised_2026_08_23": "WAS DERIVED. EVIDENTIAL, on the 2026-08-23 ruling: reg 75 governs how reg 76(1)'s only condition is ANSWERED when the user denies authorisation, not whether the refund duty holds. Its result is an input to the clause named in `governs`, not a determination of its own, and it is NOT a conjunct of psr-2017/76/1/trigger. See ../_primitives/EVIDENTIAL.md."
     },
     {
       "id": "psr-2017/75/4/supporting-evidence",
       "source": "reg 75(4)",
       "text_en": "A provider claiming the payer acted fraudulently or with gross negligence must provide supporting evidence to the payer.",
-      "disposition": "CONDITIONAL",
-      "reuse_note": "The obligation arises only on the claim being made."
+      "disposition": "EVIDENTIAL",
+      "reuse_note": "The obligation arises only on the claim being made.",
+      "evidential_role": "requires disclosure of supporting evidence to the payer",
+      "governs": "psr-2017/67/1/consent",
+      "$recategorised_2026_08_23": "WAS CONDITIONAL. EVIDENTIAL, on the 2026-08-23 ruling: reg 75 governs how reg 76(1)'s only condition is ANSWERED when the user denies authorisation, not whether the refund duty holds. Its result is an input to the clause named in `governs`, not a determination of its own, and it is NOT a conjunct of psr-2017/76/1/trigger. See ../_primitives/EVIDENTIAL.md."
     },
     {
       "id": "psr-2017/76/1/trigger",
       "source": "reg 76(1) chapeau",
       "text_en": "Subject to regulations 74 and 75, where an executed transaction was not authorised under regulation 67, the provider must refund and restore.",
       "disposition": "DERIVED",
-      "reuse_note": "Composes the 67 authorisation result with the 74 bar and the 75 burden. Reads no fact directly."
+      "reuse_note": "Composes the 67 authorisation result with the 74 bar. Reads no fact directly.",
+      "disposition_basis": "Composes the 67 authorisation result with the 74 bar. Reads no fact directly.",
+      "$corrected_2026_08_23": "WAS: `Composes the 67 authorisation result with the 74 bar and the 75 burden. Reads no fact directly.` THE `75 BURDEN` CLAUSE OF THAT SENTENCE WAS FALSE: traced, this clause reads `psr-2017/75/1/provider-burden` ZERO TIMES.\n\nRULED 2026-08-23 THAT THE ENCODING IS RIGHT AND THE SENTENCE WAS WRONG. Reg 76(1) turns on one substantive condition, that the transaction was not authorised in accordance with reg 67, and is `Subject to regulations 74 and 75`. Reg 74 bars the remedy on time. REG 75 ALLOCATES THE BURDEN OF PROVING THE REG 67 QUESTION when the user denies authorisation; it determines how that condition is ANSWERED, not whether the duty holds. So it is not a conjunct of this trigger.\n\nFOUND BY TRACING, NOT DECLARED. Nothing compared the basis against the code, and the basis had been read as a description of the encoding for as long as it existed. This is the second false effect claim found this way, after psr-2017/67/4, and the third counting 34-2010/3.6/p5/foreign-deadline.\n\nSECOND COPY, FOUND BY check-claimed-effects.mjs ON ITS FIRST REAL RUN. The false sentence lived in TWO fields, `disposition_basis` and `reuse_note`, and the correction above changed only the first. `reuse_note` still read: `Composes the 67 authorisation result with the 74 bar and the 75 burden. Reads no fact directly.` Corrected now. A correction applied to one of two copies is the defect this estate has recorded before, and it is exactly what a check comparing prose to a live run is for: reading the register would not have shown it, because the corrected field was the one a reader would look at."
     },
     {
       "id": "psr-2017/76/1/a/refund",
@@ -237,5 +260,6 @@
       "disposition": "CONDITIONAL",
       "reuse_note": "Two preconditions, liability and a request."
     }
-  ]
+  ],
+  "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, EVIDENTIAL. See ../_primitives/EVIDENTIAL.md for the last."
 }

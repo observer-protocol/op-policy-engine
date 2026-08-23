@@ -1,0 +1,101 @@
+[
+  {
+    "chapter": "2-0700",
+    "title": "Death Claims",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20700",
+    "transmittal_no": "02-08",
+    "transmittal_date": "04/02",
+    "file": "ch_2-0700.txt",
+    "bytes": 63791,
+    "sha256": "06c5dc8ea597daf4997e3f26644124c81c2a92785bb663d40c0671e908838020"
+  },
+  {
+    "chapter": "2-0800",
+    "title": "Initial Development of Claims",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20800",
+    "transmittal_no": "11-04",
+    "transmittal_date": "6/11",
+    "file": "ch_2-0800.txt",
+    "bytes": 56924,
+    "sha256": "15a412b1c4071c27862601c0bf4f4c5f605a26b1ec1293c3a366c62b855d9978"
+  },
+  {
+    "chapter": "2-0801",
+    "title": "Time",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20801",
+    "transmittal_no": "93-18",
+    "transmittal_date": "03/93",
+    "file": "ch_2-0801.txt",
+    "bytes": 18295,
+    "sha256": "a6b7ae65b6b14ca9486fe77f172fe5a2052bf111f239707053e734830af23216"
+  },
+  {
+    "chapter": "2-0802",
+    "title": "Civil Employee",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20802",
+    "transmittal_no": "98-05",
+    "transmittal_date": "06/98",
+    "file": "ch_2-0802.txt",
+    "bytes": 43646,
+    "sha256": "deeba2bd5b72ef34bafebe5d431a83e7f8312e56ef89745269e28556ef669c8b"
+  },
+  {
+    "chapter": "2-0803",
+    "title": "Fact of Injury",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20803",
+    "transmittal_no": "24-02",
+    "transmittal_date": "11/23",
+    "file": "ch_2-0803.txt",
+    "bytes": 60823,
+    "sha256": "8326b4fab89b45867f4c43ba7617524820c46582379000e756cc07591074ad7f"
+  },
+  {
+    "chapter": "2-0804",
+    "title": "Performance of Duty",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20804",
+    "transmittal_no": "97-19",
+    "transmittal_date": "07/97",
+    "file": "ch_2-0804.txt",
+    "bytes": 110134,
+    "sha256": "dc156108c28b4719ec103f3e829e7caeead3700d3d792e7d1e12a93a206506e8"
+  },
+  {
+    "chapter": "2-0805",
+    "title": "Causal Relationship",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20805",
+    "transmittal_no": "13-05",
+    "transmittal_date": "01/13",
+    "file": "ch_2-0805.txt",
+    "bytes": 28667,
+    "sha256": "3f04d8c6a9a3f94dbfc21e9227df9fedd7bf72f6eadc89fc297cc631ea8381c6"
+  },
+  {
+    "chapter": "2-0806",
+    "title": "Initial Acceptances",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#20806",
+    "transmittal_no": "11-04",
+    "transmittal_date": "6/11",
+    "file": "ch_2-0806.txt",
+    "bytes": 17696,
+    "sha256": "e8e13bba2b0a66d080918227cab9e83aba86c0b283f72040c64fca1606d7f869"
+  },
+  {
+    "chapter": "2-1401",
+    "title": "Initial Denials",
+    "group": "group1",
+    "url": "https://www.dol.gov/agencies/owcp/FECA/regs/compliance/DFECfolio/FECA-PT2/group1#21401",
+    "transmittal_no": "13-01",
+    "transmittal_date": "11/12",
+    "file": "ch_2-1401.txt",
+    "bytes": 23965,
+    "sha256": "c2aa4b5919bb34754fff2441598df5e3def5eab911e31e76eca61b6360168f6c"
+  }
+]

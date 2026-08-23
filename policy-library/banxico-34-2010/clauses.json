@@ -24,7 +24,8 @@
       "in_force_from": null,
       "depends_on": [
         "34-2010/3.3/p5/receipt-record"
-      ]
+      ],
+      "$finding_2026_08_23": "BASIS UNDERSTATES A READ, AND THE OMISSION CHANGES ITS MEANING. Reported, NOT rewritten, on the brief's stop condition. `disposition_basis` reads `A date comparison against a recorded receipt date, once the unit of Dias is fixed`, which describes a self-contained comparison against a fixed limit. Traced: this clause READS 34-2010/3.6/p5/foreign-deadline, and the limit it applies is 45 or 180 depending on that result. A reader of the basis alone would not know a foreign operation is measured against 180 days here. The emitted row does say so, in `Period applied`, so the encoding is honest at runtime and the basis is the field that is not.\n\nAN UNDERSTATING BASIS IS A DIFFERENT DEFECT FROM AN OVERSTATING ONE and check-claimed-effects.mjs currently reports it as a NOTE rather than a failure. That asymmetry was my choice and this is the case that tests it."
     },
     {
       "id": "34-2010/3.6/p4/channel",
@@ -149,7 +150,8 @@
       "in_force_from": null,
       "depends_on": [
         "34-2010/3.6/p4/deadline"
-      ]
+      ],
+      "$corrected_2026_08_23": "THE BASIS WAS TRUE OF THE ENCODING'S INTENT AND FALSE OF ITS MECHANISM, and the mechanism was changed rather than the sentence. It said this clause `selects which deadline the fourth paragraph imposes`. Traced: the selection was made by a shared `abroad` variable and this clause's RESULT WAS READ BY NOTHING. The effect happened; it did not happen through the clause.\n\nNow the clause is emitted first and the period is derived from its result, so the stated effect is the actual effect by construction rather than by anyone remembering to keep the two aligned. This is the same correction psr-2017/67/4 received, and it is the second instance of a register clause asserting an effect its result did not have.\n\nNO WORKED CASE MOVED: all three Banxico cases are byte identical, and the corpus reaches the same 62 results. The routing preserves behaviour exactly and changes only where the decision is made."
     },
     {
       "id": "34-2010/3.6/p5/expediente-copy",

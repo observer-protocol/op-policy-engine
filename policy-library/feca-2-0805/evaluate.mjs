@@ -1,0 +1,254 @@
+#!/usr/bin/env node
+/**
+ * FECA PM 2-0805, Causal Relationship. Standalone, no engine integration.
+ *
+ * ─── THREE CATEGORIES THAT DO NOT PRODUCE A RESULT ──────────────────────────────────────────────
+ *
+ * DEFINITIONAL clauses supply a meaning other clauses consume. They are EMITTED WITHOUT A `result`
+ * KEY, and the clauses that consumed one record which definition applied.
+ *
+ * INSTRUCTION clauses direct an act. They are REFUSED: emitted with no `result` key and a stated
+ * reason. They are emitted rather than omitted so that coverage by set equality still holds, and
+ * they carry no `result` so that nothing downstream can read one. `resultOf()` throws if asked for
+ * one, because an accessor returning `undefined` is the silent failure this estate keeps finding.
+ *
+ * ILLUSTRATIVE is not in the schema. The one clause carrying it is refused the same way.
+ *
+ * ─── AND ONE THAT CANNOT BE ANSWERED FROM THE DOCUMENT ──────────────────────────────────────────
+ *
+ * A clause whose operative requirement is an UNGROUNDED term returns `undetermined` unless a meaning
+ * is supplied in `resolutions.ungrounded_terms`. THE EVALUATOR NEVER SUPPLIES ONE. A run that used a
+ * supplied meaning records `depended_on_supplied_meaning`, kept distinct from an ambiguity
+ * resolution: choosing between two readings a text permits is interpretation, and supplying a
+ * meaning a text never gave is closer to legislating. The record should not call them the same.
+ */
+import { readFileSync } from 'node:fs';
+const REGISTER = JSON.parse(readFileSync(new URL('./clauses.json', import.meta.url), 'utf8')).clauses;
+const BY_ID = Object.fromEntries(REGISTER.map((c) => [c.id, c]));
+// EVIDENTIAL HAS a result domain, and that is what separates it from DEFINITIONAL and INSTRUCTION.
+// A fact does make it true or false: whether the party bearing the burden discharged it. What differs
+// is what the result is ABOUT, and that is a consumption discipline rather than a refusal.
+const HAS_RESULT_DOMAIN = new Set(['MECHANICAL', 'JUDGMENT', 'CONDITIONAL', 'DERIVED', 'EVIDENTIAL']);
+
+// ─── primitives, from the two regulation domains, unchanged ─────────────────────────────────────
+const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
+const all_present = (vs) => (vs.every((v) => field_present(v) === 'present') ? 'all_present' : 'some_absent');
+const any_present = (alts) => (alts.some((v) => field_present(v) === 'present') ? 'one_present' : 'none_present');
+const member_of_enumeration = (v, en) => (en.includes(v) ? 'member' : 'not_member');
+const none_of_class_present = (items, prohibited) =>
+  (items.some((i) => prohibited.includes(i)) ? 'prohibited_present' : 'clear');
+const held_judgment = (a) => (a === undefined || a === null ? 'not_assessed' : a);
+const ordered_before = (a, b) => {
+  if (a === null || a === undefined || b === null || b === undefined) return 'missing_operand';
+  const x = new Date(a), y = new Date(b);
+  if (isNaN(x) || isNaN(y)) return 'missing_operand';
+  return x < y ? 'before' : x > y ? 'after' : 'simultaneous';
+};
+const CONJUNCTION_TOKENS = new Set([true, false, 'satisfied', 'undetermined']);
+const conjunction_over_results = (rs, undeterminedIs) => {
+  for (const r of rs) if (!CONJUNCTION_TOKENS.has(r)) throw new Error(`conjunction_over_results: unrecognised result ${JSON.stringify(r)}`);
+  if (rs.includes('undetermined')) return undeterminedIs === 'fail' ? 'not_satisfied' : 'undetermined';
+  return rs.every((r) => r === true || r === 'satisfied') ? 'satisfied' : 'not_satisfied';
+};
+const conditional_requirement = (pre, result) => {
+  if (!pre) return 'not_applicable';
+  if (result === true) return 'satisfied';
+  if (result === false) return 'breached';
+  if (result === 'outstanding') return 'outstanding';
+  if (result === 'undetermined') return 'undetermined';
+  throw new Error(`conditional_requirement: unrecognised requirement result ${JSON.stringify(result)}`);
+};
+// ─── the four named composition shapes, unchanged ───────────────────────────────────────────────
+const strictBoolean = (v, where) => {
+  if (v === true || v === false) return v;
+  throw new Error(`${where}: expected a strict boolean, got ${JSON.stringify(v)}`);
+};
+const applicability_gate = (applies, compute) =>
+  (strictBoolean(applies, 'applicability_gate') ? compute() : 'not_applicable');
+const guard_on_unresolved = (usable, compute) =>
+  (strictBoolean(usable, 'guard_on_unresolved') ? compute() : 'undetermined');
+const remap_result_domain = (value, mapping) => {
+  if (Object.prototype.hasOwnProperty.call(mapping, value)) return mapping[value];
+  if (Object.prototype.hasOwnProperty.call(mapping, '$unmapped')) return mapping.$unmapped;
+  throw new Error(`remap_result_domain: no mapping for ${JSON.stringify(value)}`);
+};
+
+const PHYSICIAN_CLASS = ['surgeon','osteopath','podiatrist','dentist','clinical_psychologist','optometrist','chiropractor'];
+const NOT_PHYSICIAN  = ['registered_nurse','licensed_practical_nurse','physician_assistant','nurse_practitioner','certified_nursing_assistant','social_worker','physical_therapist'];
+
+export function evaluate(facts, resolutions = {}) {
+  const out = {};
+  const terms = resolutions.ungrounded_terms ?? {};
+  const put = (id, result, extra) => {
+    const c = BY_ID[id];
+    if (c === undefined) throw new Error(`evaluate: ${id} is not in the register`);
+    if (!HAS_RESULT_DOMAIN.has(c.disposition)) {
+      throw new Error(`evaluate: ${id} is ${c.disposition} and has no result domain; it must not be assigned a result`);
+    }
+    out[id] = { result, ...(extra ?? {}) };
+  };
+  // ─── attribute_to_supplied_meaning ────────────────────────────────────────────────────────────
+  //
+  // WHAT IT DOES: it marks a determination as resting on a meaning the institution supplied rather
+  // than on the document. That sentence mentions neither syntax nor return type, which is E10's test.
+  //
+  // RULED 2026-08-23. Recording the fact only in a provenance field was not enough. Resolving an
+  // ambiguity is an institution choosing between readings the source permits; supplying a meaning for
+  // a term the source never defines is writing a rule the document does not contain. A bare
+  // `satisfied` on the second makes the run look as though it applied the chapter when it applied the
+  // institution, and a supervisor reading the row cannot tell.
+  //
+  // So the RESULT carries it. `satisfied` and `satisfied_on_supplied_meaning` are different tokens and
+  // any composition over them must map both, which means a downstream clause cannot quietly launder
+  // the second into the first.
+  const attribute_to_supplied_meaning = (result, term) => `${result}_on_supplied_meaning`;
+
+  const ungrounded = (id, compute) => {
+    const t = BY_ID[id].rests_on_ungrounded_term;
+    const supplied = terms[t];
+    if (supplied === undefined) {
+      put(id, 'undetermined', { undetermined_because: `the operative term \`${t}\` is ungrounded: this chapter neither defines it nor points anywhere that does` });
+      return;
+    }
+    // Attribute ONLY where the meaning was actually read. A clause that came out `not_applicable`
+    // before the meaning was consulted rests on the document, not on the institution, and marking it
+    // otherwise would overstate the institution's reach.
+    let used = false;
+    const watched = new Proxy(supplied, { get(o, k) { used = true; return o[k]; } });
+    const result = compute(watched);
+    put(id, used ? attribute_to_supplied_meaning(result, t) : result,
+      used ? { rests_on: 'a meaning supplied by the institution, not by the chapter', term: t } : undefined);
+  };
+  const f = facts;
+
+  // ── paragraph 2 ────────────────────────────────────────────────────────────────────────────────
+  put('feca/2-0805/2/a/occupational-rationale', held_judgment(f.opinion?.rationale_sufficient_for_class));
+  put('feca/2-0805/2/b/diagnosed',
+    conditional_requirement(f.claim?.type_claimed === 'aggravation',
+      field_present(f.opinion?.aggravation_diagnosed_by) === 'present'),
+    { definition_applied: 'feca/2-0805/2/b/aggravation' });
+  put('feca/2-0805/2/b/lesser-diagnosis',
+    applicability_gate(f.claim?.aggravation_issue_undeveloped === true,
+      () => (field_present(f.opinion?.lesser_established_diagnosis) === 'present' ? 'satisfied' : 'not_satisfied')));
+  put('feca/2-0805/2/b/unclear-duration',
+    conditional_requirement(f.opinion?.aggravation_duration_clear === false,
+      f.acceptance?.accepted_as === 'temporary_aggravation'),
+    { definition_applied: 'feca/2-0805/2/b/1/temporary' });
+  put('feca/2-0805/2/b/2/careful-evaluation', held_judgment(f.adjudicator?.all_evidence_carefully_evaluated));
+  put('feca/2-0805/2/b/2/second-opinion', held_judgment(f.adjudicator?.second_opinion_appropriate));
+
+  // ── paragraph 3 ────────────────────────────────────────────────────────────────────────────────
+  const src = f.opinion?.source_class;
+  put('feca/2-0805/3/medical-issue',
+    all_present([f.opinion?.present, f.opinion?.examined_or_treated]) === 'all_present' ? 'satisfied' : 'not_satisfied',
+    { definition_applied: 'feca/2-0805/3/a/physician' });
+  put('feca/2-0805/3/a/1/countersigned',
+    conditional_requirement(['physician_assistant', 'nurse_practitioner'].includes(src),
+      field_present(f.opinion?.countersigned_by) === 'present'));
+  put('feca/2-0805/3/a/3/chiropractor',
+    conditional_requirement(src === 'chiropractor',
+      all_present([f.opinion?.subluxation_diagnosed, f.opinion?.subluxation_xrays]) === 'all_present'),
+    { definition_applied: 'feca/2-0805/3/a/physician' });
+  put('feca/2-0805/3/b/report-contents',
+    all_present([f.opinion?.diagnosis, f.opinion?.objective_findings, f.opinion?.relationship_opinion]));
+  const waiver = conjunction_over_results([
+    held_judgment(f.injury?.minor_and_lay_identifiable) === 'affirmed' ? true
+      : held_judgment(f.injury?.minor_and_lay_identifiable) === 'not_assessed' ? 'undetermined' : false,
+    f.injury?.witnessed_or_prompt === true && f.injury?.fact_disputed === false,
+  ], 'undetermined');
+  put('feca/2-0805/3/c/no-report', remap_result_domain(waiver, {
+    satisfied: 'satisfied', not_satisfied: 'not_applicable', undetermined: 'undetermined',
+  }));
+  // THE ONE DERIVED CLAUSE. Reads no fact; composes 3c's result and gates the whole of 3d.
+  put('feca/2-0805/3/d/applicability', remap_result_domain(out['feca/2-0805/3/c/no-report'].result, {
+    satisfied: 'not_applicable',      // the waiver applies, so the opinion requirement does not
+    not_applicable: 'satisfied',      // the waiver does not apply, so it does
+    undetermined: 'undetermined',
+  }));
+  put('feca/2-0805/3/d/1/clear-cut', held_judgment(f.injury?.clear_cut_and_competent));
+  ungrounded('feca/2-0805/3/d/2/rationalized', (meaning) =>
+    applicability_gate(out['feca/2-0805/3/d/applicability'].result === 'satisfied',
+      () => (member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member' ? 'satisfied' : 'breached')));
+  put('feca/2-0805/3/d/3/a/hearing',
+    conditional_requirement(f.claim?.condition_class === 'hearing_loss',
+      f.opinion?.specialist_credential === 'board_certified_otolaryngology'));
+  put('feca/2-0805/3/d/3/b/pulmonary',
+    conditional_requirement(f.claim?.condition_class === 'pulmonary',
+      remap_result_domain(ordered_before(f.opinion?.specialist_opinion_at, f.acceptance?.accepted_at), {
+        before: true, simultaneous: true, after: false, missing_operand: 'undetermined',
+      })));
+  put('feca/2-0805/3/d/3/c/emotional', held_judgment(f.opinion?.psychiatrist_required_assessed));
+  ungrounded('feca/2-0805/3/e/differentiate', (meaning) =>
+    conditional_requirement(f.claim?.pre_existing_same_site === true,
+      f.opinion?.differentiates === true
+        && member_of_enumeration(f.opinion?.rationale_grade, meaning.accepts) === 'member'));
+
+  // ── paragraph 4 ────────────────────────────────────────────────────────────────────────────────
+  put('feca/2-0805/4/a/difficulty-factors', held_judgment(f.adjudicator?.difficulty_assessed));
+  put('feca/2-0805/4/b/no-opinion',
+    conditional_requirement(field_present(f.opinion?.relationship_opinion) === 'absent'
+      && out['feca/2-0805/3/d/applicability'].result === 'satisfied',
+      remap_result_domain(held_judgment(f.adjudicator?.development_complete), {
+        affirmed: true, denied: false, not_assessed: 'undetermined', $unmapped: 'undetermined',
+      })));
+  put('feca/2-0805/4/c/negated',
+    conditional_requirement(f.opinion?.negates_relationship === true && f.file?.contrary_evidence === false,
+      remap_result_domain(held_judgment(f.adjudicator?.development_complete), {
+        affirmed: true, denied: false, not_assessed: 'undetermined', $unmapped: 'undetermined',
+      })));
+
+  // ── paragraph 5 ────────────────────────────────────────────────────────────────────────────────
+  put('feca/2-0805/5/necessity', held_judgment(f.adjudicator?.further_opinion_necessary));
+  put('feca/2-0805/5/b/second-opinion', held_judgment(f.adjudicator?.adjudicable_on_present_opinion));
+  put('feca/2-0805/5/c/conflict', held_judgment(f.adjudicator?.opinions_approximately_equal));
+
+  // ── paragraph 6 ────────────────────────────────────────────────────────────────────────────────
+  put('feca/2-0805/6/specialist-discussion', held_judgment(f.adjudicator?.specialist_discussion_sufficient));
+  put('feca/2-0805/6/accept-while-developing',
+    applicability_gate(f.claim?.physical_injury_established === true && f.claim?.graver_condition_undeveloped === true,
+      () => (f.acceptance?.physical_injury_accepted === true ? 'satisfied' : 'not_satisfied')));
+  put('feca/2-0805/6/no-preventive-payment',
+    none_of_class_present(f.authorisation?.items ?? [], ['vaccine', 'inoculation']));
+  put('feca/2-0805/6/a/1/known-carrier',
+    conditional_requirement(f.exposure?.source_status === 'known_or_probable_carrier',
+      f.acceptance?.physical_injury_accepted === true && f.authorisation?.prophylactic === true));
+  put('feca/2-0805/6/a/2/unknown-source',
+    conditional_requirement(f.exposure?.source_status === 'unidentified_or_unknown',
+      f.acceptance?.physical_injury_accepted === true));
+  put('feca/2-0805/6/b/1/known-carrier-test',
+    conditional_requirement(f.exposure?.test_result === 'positive' && f.exposure?.source_status === 'known_or_probable_carrier',
+      all_present([f.exposure?.no_prior_history, f.exposure?.no_outside_exposure]) === 'all_present'));
+  put('feca/2-0805/6/b/2/prior-negative',
+    conditional_requirement(f.exposure?.test_result === 'positive' && f.exposure?.prior_test === 'negative',
+      f.acceptance?.physical_injury_accepted === true && f.exposure?.continuous_occupational_risk === true
+        && f.exposure?.outside_factors_identified === false));
+  put('feca/2-0805/6/b/2/weigh-probability', held_judgment(f.adjudicator?.relative_probability_weighed));
+
+  // ── paragraph 7 ────────────────────────────────────────────────────────────────────────────────
+  ungrounded('feca/2-0805/7/a/natural-consequence', (meaning) =>
+    applicability_gate(f.claim?.consequential_claimed === true,
+      () => (member_of_enumeration(f.consequential?.defeater_class, meaning.defeaters) === 'member' ? 'breached' : 'satisfied')));
+  put('feca/2-0805/7/a/3/reasonable-time', held_judgment(f.adjudicator?.period_allowed_reasonable));
+  ungrounded('feca/2-0805/7/b/chain', (meaning) =>
+    applicability_gate(f.intervening?.claimed === true,
+      () => (member_of_enumeration(f.intervening?.chain_status, meaning.breaks) === 'member' ? 'breached' : 'satisfied')));
+
+  // ── the categories that produce no result, emitted so coverage still holds ─────────────────────
+  for (const c of REGISTER) {
+    if (HAS_RESULT_DOMAIN.has(c.disposition)) continue;
+    out[c.id] = c.disposition === 'DEFINITIONAL'
+      ? { no_result: 'DEFINITIONAL', supplies: c.operative_weight ?? 'a meaning other clauses consume' }
+      : { refused: c.disposition, why: c.disposition === 'INSTRUCTION'
+          ? 'directs an act; no fact of the claim makes it true or false, so it has no result domain'
+          : 'carries no requirement; ILLUSTRATIVE is not in the schema' };
+  }
+  return out;
+}
+
+/** Reading a result from a clause that has none is the silent failure. This refuses instead. */
+export function resultOf(out, id) {
+  const e = out[id];
+  if (e === undefined) throw new Error(`resultOf: ${id} was not emitted`);
+  if (!('result' in e)) throw new Error(`resultOf: ${id} is ${e.refused ?? e.no_result} and has no result`);
+  return e.result;
+}

@@ -73,7 +73,8 @@
       "description": "Chooses which parameter a downstream rule applies, based on a fact about the case rather than about the rule. Distinct from a conditional obligation: the obligation holds either way, only its parameter changes.",
       "used_by": [
         "34-2010/3.6/p5/foreign-deadline"
-      ]
+      ],
+      "$finding_2026_08_23": "DECLARED AND NOW CALLED BY NOTHING. This primitive's only call site was the deadline period selection, which on 2026-08-23 was routed through 34-2010/3.6/p5/foreign-deadline's result and now uses remap_result_domain. Traced, not declared: `select_parameter_by_predicate` appears once in evaluate.mjs, at its own definition.\n\nNOT RETIRED. A primitive nobody calls is the `used_by` defect one level up, and removing it is a decision about the inventory rather than a consequence of a routing change. It also bears on REUSE-LOG E8, which was closed on the reading that select-by-predicate had three instances in three forms: the named-primitive form now has none, so that entry's population has changed since it was closed."
     },
     {
       "name": "field_present",

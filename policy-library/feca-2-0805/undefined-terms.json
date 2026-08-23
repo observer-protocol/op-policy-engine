@@ -1,0 +1,26 @@
+{
+  "$state_name": "UNGROUNDED",
+  "$why_this_name": "Under E10 the name must say what the thing DOES, in a sentence mentioning neither syntax nor return type. The sentence is: THE DOCUMENT DECIDES OUTCOMES WITH THIS TERM AND SUPPLIES NO MEANING FOR IT, HERE OR BY REFERENCE. `UNGROUNDED` says the term has no ground. `UNDEFINED` was rejected because it is a claim relative to a location: a term defined in statute and cited, like `physician`, is also undefined HERE and is perfectly grounded. The distinction that matters is not where the definition is absent but whether one is reachable at all.",
+  "$distinct_from_ambiguity": "An ambiguity is a TEXT THAT PERMITS TWO READINGS, and it is resolved by an institution choosing one. An ungrounded term is a text that supplies NO READING, and there is nothing to choose between. Registering one as the other would have said the chapter offers competing meanings when it offers none. The register previously carried `rationalized medical opinion` as ambiguity F6, which was wrong on exactly that ground and is corrected here.",
+  "$how_the_evaluator_must_treat_it": "A clause whose operative requirement rests on an ungrounded term returns `undetermined` unless a meaning is supplied in `resolutions.ungrounded_terms`. THE EVALUATOR NEVER SUPPLIES ONE.\n\nRULED 2026-08-23: WHERE A SUPPLIED MEANING WAS ACTUALLY READ, THE RESULT TOKEN ITSELF CARRIES IT, as `<result>_on_supplied_meaning`. Provenance alone was not enough. Resolving an ambiguity is an institution choosing between readings the source permits; supplying a meaning for a term the source never defines is writing a rule the document does not contain. A bare `satisfied` on the second makes the run look as though it applied the chapter when it applied the institution, and a supervisor reading the row cannot tell.\n\nTHE OPERATION IS `attribute_to_supplied_meaning`. Under E10 its sentence is: IT MARKS A DETERMINATION AS RESTING ON A MEANING THE INSTITUTION SUPPLIED RATHER THAN ON THE DOCUMENT. That mentions neither syntax nor return type. `qualified` and `flagged` were rejected as saying how the token looks rather than what the operation does; `institutional` was rejected as naming the supplier rather than the act.\n\nATTRIBUTION IS GATED ON ACTUAL USE. The supplied meaning is passed through a proxy that records reads, so a clause that came out `not_applicable` before the meaning was consulted is NOT attributed. Marking it otherwise would overstate the institution's reach. Observed: with a meaning supplied, `3/d/2/rationalized` returns `satisfied_on_supplied_meaning` and `3/e/differentiate` returns a plain `not_applicable`, because its precondition failed before the meaning was reached.\n\nA COMPOSITION OVER THESE TOKENS MUST MAP BOTH. `satisfied` and `satisfied_on_supplied_meaning` are different tokens, so `remap_result_domain` throws on the second unless a downstream clause has decided what it means there. A determination cannot be laundered into an unattributed one by being composed.",
+  "terms": [
+    {
+      "term": "rationalized medical opinion",
+      "used_at": "11 occurrences across paragraphs 3, 4 and 5; the operative requirement of 3d(2), 3e and the whole of paragraph 5",
+      "pointer": "NONE. The chapter neither defines it nor cites anywhere that does. Contrast `physician`, which the chapter defines by citing 5 U.S.C. 8101(2).",
+      "what_turns_on_it": "Whether a claim outside the clear-cut traumatic band can be accepted at all. It is the single most consequential term in the chapter."
+    },
+    {
+      "term": "independent intervening cause",
+      "used_at": "para 7a, as the SOLE defeater of the natural-consequence presumption",
+      "pointer": "Partial. The chapter cites Sandra Dixon-Mills, 44 ECAB 882 (1993) for the presumption, and states the defeater in the same sentence without attributing or defining it.",
+      "what_turns_on_it": "Whether a later off-duty injury remains inside an accepted claim. The presumption has exactly one exception and its content is not supplied."
+    },
+    {
+      "term": "chain of causation",
+      "used_at": "paras 7a and 7b, as the thing an intervening injury may break",
+      "pointer": "NONE in the chapter.",
+      "what_turns_on_it": "Whether a disability after a second injury is still related to the original incident."
+    }
+  ]
+}
