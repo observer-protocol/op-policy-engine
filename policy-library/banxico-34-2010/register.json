@@ -1,0 +1,2236 @@
+{
+ "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
+ "register_version": "0.1.0",
+ "domain": "banxico",
+ "source": {
+  "$schema_note": "Clause register for Banxico Circular 34/2010 numeral 3.6 and its referenced dependencies. Derived from source/circular-34-2010.pdf sha256 1312c3fd…, retrieved 2026-08-21.",
+  "decomposition_note": "19 addressable units. The restatement in the estate frames numeral 3.6 as a four-element table (incisos a-d). That count omits the chapeau requirements (channel, signatory, language, the `por lo menos` floor), splits none of inciso a) into its three components, and carries no unit for paragraphs 5, 6 or 7. The difference is not a matter of granularity preference: the four-element framing has no place to record the requirements identified as D1, D2 and D5 in DIVERGENCE.md."
+ },
+ "dispositions": {
+  "$declared_in_source_register": null,
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {}
+ },
+ "primitives": {
+  "$from": "banxico-34-2010/primitives.json",
+  "entries": [
+   {
+    "name": "elapsed_within",
+    "parameters": [
+     {
+      "name": "start",
+      "type": "timestamp"
+     },
+     {
+      "name": "end",
+      "type": "timestamp",
+      "nullable": true
+     },
+     {
+      "name": "limit",
+      "type": "integer"
+     },
+     {
+      "name": "unit",
+      "type": "calendar_unit"
+     },
+     {
+      "name": "now",
+      "type": "timestamp",
+      "nullable": true
+     }
+    ],
+    "result_domain": [
+     "within",
+     "exceeded",
+     "not_yet_due",
+     "overdue",
+     "out_of_order",
+     "no_end_event"
+    ],
+    "description": "Whether an end event fell within a limit of a start event, measured in a named calendar unit. PARAMETERISED 2026-08-22, closing REUSE-LOG E1. When the end event did not occur, the answer depends on whether the period has run, which needs a clock: with `now` supplied it returns `not_yet_due` or `overdue`; without one it returns `no_end_event`, which now means only that the question cannot be answered from these facts. The SAME predicate decides `within` and `not_yet_due`, so the two vocabularies cannot disagree about the boundary. WIDENED AGAIN 2026-08-22 with `out_of_order`: an end event, or a clock, that precedes the event starting the period. A negative interval is under every limit, so this previously returned `within` for a dictamen dated before the aviso answering it. Tested inside the primitive because all four call sites in the two domains measure an end event that must follow its start.",
+    "used_by": [
+     "34-2010/3.6/p4/deadline",
+     "34-2010/3.6/p5/expediente-copy"
+    ]
+   },
+   {
+    "name": "select_parameter_by_predicate",
+    "parameters": [
+     {
+      "name": "predicate",
+      "type": "boolean"
+     },
+     {
+      "name": "value_if_true",
+      "type": "any"
+     },
+     {
+      "name": "value_if_false",
+      "type": "any"
+     }
+    ],
+    "result_domain": [
+     "selected_value"
+    ],
+    "description": "Chooses which parameter a downstream rule applies, based on a fact about the case rather than about the rule. Distinct from a conditional obligation: the obligation holds either way, only its parameter changes.",
+    "used_by": [
+     "34-2010/3.6/p5/foreign-deadline"
+    ],
+    "$finding_2026_08_23": "DECLARED AND NOW CALLED BY NOTHING. This primitive's only call site was the deadline period selection, which on 2026-08-23 was routed through 34-2010/3.6/p5/foreign-deadline's result and now uses remap_result_domain. Traced, not declared: `select_parameter_by_predicate` appears once in evaluate.mjs, at its own definition.\n\nNOT RETIRED. A primitive nobody calls is the `used_by` defect one level up, and removing it is a decision about the inventory rather than a consequence of a routing change. It also bears on REUSE-LOG E8, which was closed on the reading that select-by-predicate had three instances in three forms: the named-primitive form now has none, so that entry's population has changed since it was closed."
+   },
+   {
+    "name": "field_present",
+    "parameters": [
+     {
+      "name": "value",
+      "type": "any",
+      "nullable": true
+     }
+    ],
+    "result_domain": [
+     "present",
+     "absent"
+    ],
+    "description": "Whether a value was supplied. Carries no opinion about whether the value is adequate.",
+    "used_by": [
+     "34-2010/3.6/b/time",
+     "34-2010/3.3/p5/receipt-record"
+    ]
+   },
+   {
+    "name": "all_present",
+    "parameters": [
+     {
+      "name": "values",
+      "type": "list<any>"
+     }
+    ],
+    "result_domain": [
+     "all_present",
+     "some_absent"
+    ],
+    "description": "Whether every member of a required conjunction was supplied. Separate from field_present because a conjunction failing on one member must not report as a single absent field.",
+    "used_by": [
+     "34-2010/3.6/c/parties"
+    ]
+   },
+   {
+    "name": "any_present",
+    "parameters": [
+     {
+      "name": "alternatives",
+      "type": "list<any>"
+     }
+    ],
+    "result_domain": [
+     "one_present",
+     "none_present"
+    ],
+    "description": "Whether at least one of a set of mutually acceptable alternatives was supplied. The alternatives are equivalent for the rule's purpose; which one was supplied does not change the result.",
+    "used_by": [
+     "34-2010/3.6/d/device-address"
+    ]
+   },
+   {
+    "name": "conditional_requirement",
+    "parameters": [
+     {
+      "name": "precondition",
+      "type": "boolean"
+     },
+     {
+      "name": "requirement_result",
+      "type": "requirement_result: true | false | outstanding | undetermined"
+     }
+    ],
+    "result_domain": [
+     "satisfied",
+     "breached",
+     "outstanding",
+     "not_applicable",
+     "undetermined"
+    ],
+    "description": "Whether a requirement that arises only under a precondition was met. WIDENED 2026-08-22, closing REUSE-LOG E1. The second operand was a boolean, which forced every multi-valued result through two states at the call site and made an obligation outstanding and still in time indistinguishable from one breached. It now takes a CLOSED four-token vocabulary and throws on anything else. It is deliberately NOT coupled to elapsed_within's tokens: mapping a primitive's result domain into these four is the clause's reading, so it stays at the call site.",
+    "used_by": [
+     "34-2010/3.6/d/device-address",
+     "34-2010/3.6/p5/expediente-copy",
+     "34-2010/3.6/p4/channel"
+    ]
+   },
+   {
+    "name": "member_of_register",
+    "parameters": [
+     {
+      "name": "candidate",
+      "type": "identifier",
+      "nullable": true
+     },
+     {
+      "name": "register",
+      "type": "set<identifier>"
+     }
+    ],
+    "result_domain": [
+     "member",
+     "not_member",
+     "no_candidate"
+    ],
+    "description": "Whether an identifier appears in an authority set maintained by the obligated party. The register's contents are an institutional fact, not part of the rule.",
+    "used_by": [
+     "34-2010/3.6/p4/signatory"
+    ]
+   },
+   {
+    "name": "distinct_members_at_least",
+    "parameters": [
+     {
+      "name": "items",
+      "type": "set<any>"
+     },
+     {
+      "name": "minimum",
+      "type": "integer"
+     },
+     {
+      "name": "independence",
+      "type": "equivalence_relation"
+     }
+    ],
+    "result_domain": [
+     "met",
+     "not_met"
+    ],
+    "description": "Whether a collection contains at least N members that are mutually independent under a supplied relation. The relation is a parameter because independence is a property of the pair, not of any member, and a naive cardinality count over a set answers a different question.",
+    "used_by": [
+     "34-2010/2.6/a/two-factor"
+    ]
+   },
+   {
+    "name": "member_of_enumeration",
+    "parameters": [
+     {
+      "name": "value",
+      "type": "any"
+     },
+     {
+      "name": "enumeration",
+      "type": "set<any>"
+     }
+    ],
+    "result_domain": [
+     "member",
+     "not_member"
+    ],
+    "description": "Whether a value is drawn from a closed set the rule declares. Distinct from member_of_register: the enumeration is part of the rule text and moves only when the rule does.",
+    "used_by": [
+     "34-2010/2.6/a/two-factor",
+     "34-2010/3.3/p1/notice-types"
+    ]
+   },
+   {
+    "name": "none_of_class_present",
+    "parameters": [
+     {
+      "name": "items",
+      "type": "set<any>"
+     },
+     {
+      "name": "prohibited_class",
+      "type": "set<any>"
+     }
+    ],
+    "result_domain": [
+     "clear",
+     "prohibited_present"
+    ],
+    "description": "Whether a collection is free of members of a prohibited class. A prohibition, not a requirement, and the inverse of any_present rather than its negation, because the operands are different sets.",
+    "used_by": [
+     "34-2010/3.6/p6/no-moratory-interest"
+    ]
+   },
+   {
+    "name": "open_set_floor",
+    "parameters": [
+     {
+      "name": "enumerated_results",
+      "type": "list<result>"
+     }
+    ],
+    "result_domain": [
+     "floor_met",
+     "floor_not_met"
+    ],
+    "description": "Whether every enumerated minimum was met, WITHOUT concluding that the obligation is satisfied. The rule text declares its list a minimum, so a caller that reads floor_met as conformance has drawn a conclusion the rule declines to license.",
+    "used_by": [
+     "34-2010/3.6/p4/floor"
+    ]
+   },
+   {
+    "name": "held_judgment",
+    "parameters": [
+     {
+      "name": "assessment",
+      "type": "enum<affirmed,denied,not_assessed>"
+     }
+    ],
+    "result_domain": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ],
+    "description": "Carries an assessment made by a person, unchanged. Present so that a qualitative standard occupies a slot in the evaluation rather than being silently skipped or silently defaulted. It computes nothing.",
+    "used_by": [
+     "34-2010/3.6/p4/language",
+     "34-2010/3.6/a/explanation",
+     "34-2010/3.6/p1/recovery-right"
+    ]
+   },
+   {
+    "name": "conjunction_over_results",
+    "parameters": [
+     {
+      "name": "results",
+      "type": "list<result>"
+     },
+     {
+      "name": "undetermined_is",
+      "type": "enum<undetermined,fail>"
+     }
+    ],
+    "result_domain": [
+     "satisfied",
+     "not_satisfied",
+     "undetermined"
+    ],
+    "description": "Composes several rule results into one, with an explicit policy for what an undetermined input makes of the whole. The policy is a parameter because a composition that silently treats undetermined as pass and one that treats it as fail are different rules.",
+    "used_by": [
+     "34-2010/3.6/p7/firmeza"
+    ]
+   }
+  ]
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "derived from the domain fact register",
+  "fields": [
+   {
+    "field": "notice.type",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "robo_o_extravio",
+      "reclamacion_cargo_no_reconocido"
+     ]
+    },
+    "read_by": [
+     "34-2010/3.3/p1/notice-types"
+    ],
+    "note": "Closed at two values by the source's (i)/(ii)."
+   },
+   {
+    "field": "notice.reference",
+    "domain": {
+     "kind": "string",
+     "nullable": false
+    },
+    "read_by": [
+     "34-2010/3.3/p5/receipt-record"
+    ],
+    "note": null
+   },
+   {
+    "field": "notice.received_at",
+    "domain": {
+     "kind": "timestamp",
+     "precision": "minute",
+     "timezone": "required"
+    },
+    "read_by": [
+     "34-2010/3.3/p5/receipt-record",
+     "34-2010/3.6/p4/deadline"
+    ],
+    "note": "The clock start for the fourth-paragraph period. Recorded under 3.3, consumed by 3.6."
+   },
+   {
+    "field": "operation.executed_abroad",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "34-2010/3.6/p5/foreign-deadline"
+    ],
+    "note": "Selects which deadline applies. A case with this field absent cannot be decided under the seventh paragraph."
+   },
+   {
+    "field": "operation.occurred_at",
+    "domain": {
+     "kind": "timestamp",
+     "precision": "minute",
+     "timezone": "required"
+    },
+    "read_by": [
+     "34-2010/3.6/b/time"
+    ],
+    "note": "Minute precision is required by the source, not chosen."
+   },
+   {
+    "field": "operation.acquirer_name",
+    "domain": {
+     "kind": "string",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/c/parties"
+    ],
+    "note": null
+   },
+   {
+    "field": "operation.merchant_name",
+    "domain": {
+     "kind": "string",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/c/parties"
+    ],
+    "note": "The source conjoins acquirer and merchant; one alone does not satisfy inciso c)."
+   },
+   {
+    "field": "operation.auth_factors",
+    "domain": {
+     "kind": "set",
+     "member_domain": {
+      "kind": "enum",
+      "values": [
+       "2.6.a.i_knowledge",
+       "2.6.a.ii_device_or_chip",
+       "2.6.a.iii_biometric",
+       "2.6.a.iv_authorised_other"
+      ]
+     },
+     "min_cardinality_for_2_6_a": 2
+    },
+    "read_by": [
+     "34-2010/2.6/a/two-factor",
+     "34-2010/3.6/a/evidence"
+    ],
+    "note": "Two INDEPENDENT elements. Independence is a property of the pair, not of either member, so a set of size two drawn from one enum value does not satisfy it."
+   },
+   {
+    "field": "operation.auth_factor_ii_dynamic",
+    "domain": {
+     "kind": "boolean",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/2.6/a/two-factor"
+    ],
+    "note": "Sub-item ii carries its own condition (dynamic, non-duplicable, single-use or first-use-only). Read only when a factor of that kind is present.",
+    "$finding_2026_08_22": "DECLARED, WITH A DECLARED READER, AND READ BY NOTHING. `read_by` names 34-2010/2.6/a/two-factor; the evaluator never references this field under any name. Same class as `used_by` in primitives.json: a hand-written statement of intent that nothing makes true. NOT DELETED, because removing a field from a published register is a decision about the register rather than a correction to it. Note also that the withdrawn `integrity` object above claimed `fields_read_by_no_clause: []`, which was false while this field sat in the same file."
+   },
+   {
+    "field": "dictamen.made_available_at",
+    "domain": {
+     "kind": "timestamp",
+     "precision": "minute",
+     "timezone": "required",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p4/deadline",
+     "34-2010/3.6/p7/firmeza"
+    ],
+    "note": "Null means not made available at all, which is a distinct case from made available late."
+   },
+   {
+    "field": "dictamen.channel",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "sucursal",
+      "medio_convenido"
+     ],
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p4/channel"
+    ],
+    "note": null
+   },
+   {
+    "field": "cardholder.channel_election",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "sucursal",
+      "medio_convenido"
+     ],
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p4/channel"
+    ],
+    "note": "The requirement is not fixed until this is known. Null makes the channel clause undecidable rather than satisfied."
+   },
+   {
+    "field": "dictamen.signatory_id",
+    "domain": {
+     "kind": "string",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p4/signatory"
+    ],
+    "note": null
+   },
+   {
+    "field": "issuer.authorised_signatories",
+    "domain": {
+     "kind": "set",
+     "member_domain": {
+      "kind": "string"
+     }
+    },
+    "read_by": [
+     "34-2010/3.6/p4/signatory"
+    ],
+    "note": "An institutional register. The source requires the signatory be `facultado para ello` and does not define the register, so its contents are an institutional fact."
+   },
+   {
+    "field": "dictamen.language_is_plain",
+    "domain": {
+     "kind": "judgment",
+     "values": [
+      "affirmed",
+      "denied",
+      "not_assessed"
+     ]
+    },
+    "read_by": [
+     "34-2010/3.6/p4/language",
+     "34-2010/3.6/a/explanation"
+    ],
+    "note": "Carried as a judgment with an explicit not_assessed value. A boolean here would force an assessment nobody made.",
+    "$corrected_2026_08_22": "Was ['yes', 'no', 'not_assessed']. THE REGISTER WAS WRONG, NOT THE EVALUATOR. Measured 2026-08-22: a fact recorded as `yes` or `no`, exactly as this register declared, produced `undetermined` on every judgment clause and on firmeza, because the evaluator consumes `affirmed`/`denied`. Only `not_assessed`, one of the three declared values, happened to agree. So an institution populating facts to the published spec got a determination on nothing. `affirmed`/`denied`/`not_assessed` is kept because it carries WHO ANSWERED: `denied` is a person having answered and `not_assessed` is nobody having answered, which Ruling 1 established as the distinction that decides firmeza. `yes`/`no` cannot express it. Found by the forward-running corpus, which draws candidate values from THIS REGISTER rather than from the fixtures; every fixture used `affirmed`, so nothing had ever exercised the declared vocabulary."
+   },
+   {
+    "field": "dictamen.evidence_of_factors_present",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "34-2010/3.6/a/evidence"
+    ],
+    "note": null
+   },
+   {
+    "field": "dictamen.verification_method_stated",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "34-2010/3.6/a/verification-method"
+    ],
+    "note": "The component the existing restatement omits. See DIVERGENCE.md D1."
+   },
+   {
+    "field": "dictamen.device_address",
+    "domain": {
+     "kind": "one_of",
+     "alternatives": [
+      {
+       "name": "physical_address",
+       "kind": "string"
+      },
+      {
+       "name": "ip_address",
+       "kind": "string"
+      }
+     ],
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/d/device-address"
+    ],
+    "note": "MULTI-VALUED DOMAIN, required by the source's `o, en su caso`. Either alternative satisfies inciso d). A schema offering only one of the two cannot express a conforming dictamen."
+   },
+   {
+    "field": "issuer.holds_device_address",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "34-2010/3.6/d/device-address"
+    ],
+    "note": "THE CONDITION, and it is a separate fact from the value. `En caso de contar con ella` turns on whether the issuer holds it, which is not observable from the dictamen's silence."
+   },
+   {
+    "field": "expediente.requested",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "34-2010/3.6/p5/expediente-copy"
+    ],
+    "note": null
+   },
+   {
+    "field": "expediente.delivered_at",
+    "domain": {
+     "kind": "timestamp",
+     "precision": "day",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p5/expediente-copy"
+    ],
+    "note": null
+   },
+   {
+    "field": "account.charges_posted",
+    "domain": {
+     "kind": "set",
+     "member_domain": {
+      "kind": "enum",
+      "values": [
+       "interes_ordinario",
+       "interes_moratorio",
+       "accesorio_otro"
+      ]
+     }
+    },
+    "read_by": [
+     "34-2010/3.6/p6/no-moratory-interest"
+    ],
+    "note": null
+   },
+   {
+    "field": "charge.derived_from_2_6_a_operation",
+    "domain": {
+     "kind": "judgment",
+     "values": [
+      "demonstrated",
+      "not_demonstrated",
+      "not_assessed"
+     ]
+    },
+    "read_by": [
+     "34-2010/3.6/p1/recovery-right"
+    ],
+    "note": "`acredite al Tarjetahabiente` is a demonstration to a person. Recorded as a judgment, never derived from the factor count alone."
+   },
+   {
+    "field": "clock.now",
+    "domain": {
+     "kind": "timestamp",
+     "precision": "minute",
+     "timezone": "required",
+     "nullable": true
+    },
+    "read_by": [
+     "34-2010/3.6/p4/deadline",
+     "34-2010/3.6/p5/expediente-copy"
+    ],
+    "note": "Added 2026-08-22, closing REUSE-LOG E1. The evaluation's own clock, supplied as a FACT rather than read from the host, so a run is reproducible and a determination records the instant it was made against. OPTIONAL BY DESIGN AND ABSENT BY DEFAULT: with no clock, a deadline whose end event has not occurred returns `no_end_event` and any clause composing it returns `undetermined`. That is the same discipline the ambiguity register uses. An absent clock is a state, never a default, and never `Date.now()`.",
+    "$corrected_2026_08_22": "This entry was added 2026-08-22 using `path`/`type` keys while every other entry uses `field`/`domain`. It was my own error and it had a cost: any tool reading the register by its own shape skipped this field entirely, which is how the first sweep script crashed on it. Restated in the register's shape."
+   }
+  ]
+ },
+ "ambiguities": {
+  "$source_field_name": "competing_readings",
+  "entries": [
+   {
+    "id": "A1",
+    "clause_id": "34-2010/3.6/p4/deadline",
+    "question": "Is the fourth-paragraph period of `cuarenta y cinco Días` counted in business days or calendar days?",
+    "competing_readings": [
+     {
+      "reading": "Business days",
+      "basis": "`Días` is capitalised, and the definitions section defines `Días Hábiles` as a term of art. Capitalisation in this instrument marks defined terms, so a capitalised `Días` may be a shortened reference to the defined term."
+     },
+     {
+      "reading": "Calendar days",
+      "basis": "The definitions section defines `Días Hábiles`, not `Días`. The fifth paragraph, in the same numeral, says `ciento ochenta días naturales` and `cuarenta y cinco días naturales` in lower case and explicitly natural. A drafter distinguishing the two within one numeral arguably signals that the capitalised bare `Días` is neither."
+     }
+    ],
+    "textual_basis": "p.13 fourth paragraph reads `cuarenta y cinco Días`. p.14 fifth paragraph reads `ciento ochenta días naturales` and `cuarenta y cinco días naturales`. The definitions section (p.1) defines `Días Hábiles` and does not define `Días`.",
+    "materiality": "Decisive. On a 45-unit period the two readings diverge by roughly three weeks, and the seventh paragraph makes firmeza turn on exactly this expiry.",
+    "required_resolution": null,
+    "resolution_key": "A1_dias_unit"
+   },
+   {
+    "id": "A2",
+    "clause_id": "34-2010/3.6/p7/firmeza",
+    "question": "Does `en los términos señalados` in the firmeza paragraph refer to the timing terms only, or to the full content specification of the fourth paragraph?",
+    "competing_readings": [
+     {
+      "reading": "Timing only",
+      "basis": "The sentence opens with the elapse of the period, so `los términos señalados` may refer back to the delivery obligation as timed."
+     },
+     {
+      "reading": "Timing and content",
+      "basis": "`el referido dictamen` refers to the dictamen as specified in the fourth paragraph, which includes the `por lo menos` element floor, the plain-language requirement, the authorised signatory and the channel. On this reading a timely but non-conforming dictamen does not prevent firmeza."
+     }
+    ],
+    "textual_basis": "p.14 seventh paragraph: `la Emisora no entrega el referido dictamen en los términos señalados`.",
+    "materiality": "Decisive for any case where a dictamen was delivered inside the period but is deficient on an element. The two readings give opposite answers on whether the credit becomes final.",
+    "required_resolution": null,
+    "resolution_key": "A2_terminos_senalados"
+   },
+   {
+    "id": "A3",
+    "clause_id": "34-2010/3.6/p1/recovery-right",
+    "question": "What standard does `acredite al Tarjetahabiente` set, and to whose satisfaction?",
+    "competing_readings": [
+     {
+      "reading": "Delivery of the conforming dictamen is itself the demonstration",
+      "basis": "The fourth paragraph opens `Para efectos del primer párrafo del presente numeral`, tying the dictamen to the first paragraph's demonstration requirement."
+     },
+     {
+      "reading": "The dictamen is necessary but not sufficient",
+      "basis": "The first paragraph requires demonstrating that the charge derived from a 2.6(a) operation. The dictamen is a document that must contain certain elements; containing them is not the same as establishing the fact, and `por lo menos` explicitly declines to make the element list complete."
+     }
+    ],
+    "textual_basis": "p.13 first and fourth paragraphs read together.",
+    "materiality": "Determines whether the recovery right can ever be established mechanically. Under the second reading it cannot.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "A4",
+    "clause_id": "34-2010/3.6/p4/deadline",
+    "question": "Which event starts the period where more than one notice was presented, or where a notice was presented to an entity other than the issuer?",
+    "competing_readings": [
+     {
+      "reading": "The first qualifying notice",
+      "basis": "The text says `el aviso a que se refiere el numeral 3.3`, definite singular."
+     },
+     {
+      "reading": "The notice the dictamen answers",
+      "basis": "3.3 permits two distinct notice types, and a case may involve both a theft notice and a later unrecognised-charge claim over the same charge."
+     }
+    ],
+    "textual_basis": "p.13 fourth paragraph `contado a partir de la fecha en la que se haya recibido el aviso a que se refiere el numeral 3.3`; p.10 numeral 3.3 first paragraph enumerating two notice types.",
+    "materiality": "Changes the deadline by the interval between the two notices. Not addressed by the source.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "A5",
+    "clause_id": "34-2010/3.6/d/device-address",
+    "question": "Who determines, and on what evidence, whether the issuer `cuenta con` the device address?",
+    "competing_readings": [
+     {
+      "reading": "Issuer assertion",
+      "basis": "The condition is about the issuer's own holdings, which only the issuer can report."
+     },
+     {
+      "reading": "Demonstrable holding",
+      "basis": "Reading it as issuer assertion makes inciso d) unfalsifiable: an issuer that omits the field and asserts it holds nothing cannot be contradicted from the record."
+     }
+    ],
+    "textual_basis": "p.14 inciso d) `En caso de contar con ella`.",
+    "materiality": "Determines whether inciso d) is a requirement or a self-certification. Does not change outcomes in cases where the address is supplied.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "A6",
+    "clause_id": "34-2010/3.6/p4/channel",
+    "question": "To whom must the dictamen be made available, given that numeral 3.4 names a different recipient for the same document?",
+    "competing_readings": [
+     {
+      "reading": "Tarjetahabiente throughout",
+      "basis": "3.6's fourth paragraph says `poner a disposición del Tarjetahabiente`, and 3.4's second paragraph also says `entregue al Tarjetahabiente un dictamen`."
+     },
+     {
+      "reading": "Recipient varies by numeral",
+      "basis": "3.4's third paragraph says `La Emisora deberá entregar al Titular el dictamen a que se refiere el párrafo anterior en términos del numeral 3.6`, naming the Titular for a document specified by 3.6."
+     }
+    ],
+    "textual_basis": "p.12 numeral 3.4 second and third paragraphs against p.13 numeral 3.6 fourth paragraph. The instrument treats Titular and Tarjetahabiente as distinct roles throughout.",
+    "materiality": "Determines who can complain that the dictamen was not made available, and therefore who can trigger the firmeza consequence.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": null,
+ "undefined_terms": null,
+ "ungrounded_terms": null,
+ "bindings": {
+  "auth_factor_kinds": {
+   "op": "const",
+   "value": [
+    "2.6.a.i_knowledge",
+    "2.6.a.ii_device_or_chip",
+    "2.6.a.iii_biometric",
+    "2.6.a.iv_authorised_other"
+   ]
+  },
+  "factors": {
+   "op": "coalesce",
+   "value": {
+    "op": "fact",
+    "path": "operation.auth_factors"
+   },
+   "fallback": {
+    "op": "const",
+    "value": []
+   }
+  },
+  "factors_recorded": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "operation.auth_factors"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "all_factor_kinds_known": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "all_members_of_enumeration",
+    "args": [
+     {
+      "op": "binding",
+      "name": "factors"
+     },
+     {
+      "op": "binding",
+      "name": "auth_factor_kinds"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "all_members"
+   }
+  },
+  "abroad_recorded": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "operation.executed_abroad"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "abroad": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "operation.executed_abroad"
+   },
+   "right": {
+    "op": "const",
+    "value": true
+   }
+  },
+  "period_limit": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "34-2010/3.6/p5/foreign-deadline"
+   },
+   "mapping": {
+    "selected_180_calendar_days": {
+     "op": "const",
+     "value": 180
+    },
+    "selected_fourth_paragraph": {
+     "op": "const",
+     "value": 45
+    },
+    "undetermined": {
+     "op": "absent"
+    }
+   }
+  },
+  "period_unit": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "34-2010/3.6/p5/foreign-deadline"
+   },
+   "mapping": {
+    "selected_180_calendar_days": {
+     "op": "const",
+     "value": "calendar_days"
+    },
+    "selected_fourth_paragraph": {
+     "op": "resolution",
+     "name": "A1_dias_unit"
+    },
+    "undetermined": {
+     "op": "absent"
+    }
+   }
+  },
+  "period_unit_resolved": {
+   "op": "not",
+   "operand": {
+    "op": "eq",
+    "left": {
+     "op": "binding",
+     "name": "period_unit"
+    },
+    "right": {
+     "op": "absent"
+    }
+   }
+  },
+  "applied_period": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "binding",
+     "name": "period_limit"
+    },
+    {
+     "op": "const",
+     "value": " "
+    },
+    {
+     "op": "coalesce",
+     "value": {
+      "op": "binding",
+      "name": "period_unit"
+     },
+     "fallback": {
+      "op": "const",
+      "value": "UNRESOLVED"
+     }
+    },
+    {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "clause",
+       "id": "34-2010/3.6/p5/foreign-deadline"
+      },
+      "right": {
+       "op": "const",
+       "value": "selected_180_calendar_days"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": ", selected by p5/foreign-deadline (fifth paragraph)"
+     },
+     "else": {
+      "op": "const",
+      "value": ", fourth paragraph"
+     }
+    }
+   ]
+  },
+  "expediente_copy_run": {
+   "op": "primitive",
+   "name": "elapsed_within",
+   "args": [
+    {
+     "op": "fact",
+     "path": "dictamen.made_available_at"
+    },
+    {
+     "op": "fact",
+     "path": "expediente.delivered_at"
+    },
+    {
+     "op": "const",
+     "value": 45
+    },
+    {
+     "op": "const",
+     "value": "calendar_days"
+    },
+    {
+     "op": "fact",
+     "path": "clock.now"
+    }
+   ]
+  }
+ },
+ "clauses": [
+  {
+   "id": "34-2010/2.6/a/two-factor",
+   "source_locator": "pp.5-6, numeral 2.6, inciso a) with sub-items i-iv",
+   "text": "Por operaciones en las que, para su realización, requieran al Tarjetahabiente que utilice al menos dos elementos independientes para autenticar las operaciones como autorizadas por este último … Los referidos factores deberán ser de entre los listados a continuación",
+   "text_language": "es",
+   "assertion": "The operation required at least two independent authentication elements, each drawn from the enumerated list i to iv.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A count of at least two, plus membership of each factor in a closed enumeration. Sub-item ii carries a further condition (dynamic, non-duplicable) that is itself mechanical.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "binding",
+        "name": "factors_recorded"
+       },
+       {
+        "op": "binding",
+        "name": "all_factor_kinds_known"
+       }
+      ]
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "distinct_members_at_least",
+      "args": [
+       {
+        "op": "binding",
+        "name": "factors"
+       },
+       {
+        "op": "const",
+        "value": 2
+       },
+       {
+        "op": "const",
+        "value": "distinct_values"
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermined` means a factor kind is not in the 2.6(a) enumeration and cannot be classified."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.3/p1/notice-types",
+   "source_locator": "p.10, numeral 3.3, first paragraph",
+   "text": "avisos de: (i) robo o extravío de la Tarjeta de Crédito correspondiente, o (ii) reclamaciones por cargos a la Cuenta que no reconozcan como propios",
+   "text_language": "es",
+   "assertion": "The issuer must permit two kinds of notice: theft or loss of the card, and claims for unrecognised charges.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A closed two-value classification of the notice.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      {
+       "op": "fact",
+       "path": "notice.type"
+      },
+      {
+       "op": "const",
+       "value": [
+        "robo_o_extravio",
+        "reclamacion_cargo_no_reconocido"
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.3/p5/receipt-record",
+   "source_locator": "p.10, numeral 3.3, fifth paragraph",
+   "text": "al menos, un número de referencia del aviso, así como la fecha y hora en que esta se recibió",
+   "text_language": "es",
+   "assertion": "The issuer must give the cardholder a reference number for the notice and the date and time it was received.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a reference and a timestamp; this clause is what makes the 3.6 clock start a recorded fact rather than an inference.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.3/p1/notice-types"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "fact",
+         "path": "notice.reference"
+        },
+        {
+         "op": "fact",
+         "path": "notice.received_at"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/a/evidence",
+   "source_locator": "p.13, numeral 3.6, inciso a)",
+   "text": "Evidencia de los factores de autenticación utilizados de acuerdo con lo establecido en el inciso a) del numeral 2.6",
+   "text_language": "es",
+   "assertion": "The dictamen must carry evidence of the authentication factors used, as specified by numeral 2.6 inciso a).",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of an evidence item referring to factors drawn from the 2.6(a) enumeration.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/2.6/a/two-factor"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "truthy",
+      "value": {
+       "op": "fact",
+       "path": "dictamen.evidence_of_factors_present"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "present"
+     },
+     "else": {
+      "op": "const",
+      "value": "absent"
+     }
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/a/explanation",
+   "source_locator": "p.13, numeral 3.6, inciso a)",
+   "text": "así como la explicación en lenguaje simple y claro de dichos factores",
+   "text_language": "es",
+   "assertion": "The dictamen must explain those factors in simple and clear language.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Same qualitative standard as the chapeau, applied to a specific component.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/a/evidence"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "dictamen.language_is_plain"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/a/verification-method",
+   "source_locator": "p.13, numeral 3.6, inciso a)",
+   "text": "y la forma en que su verificación se realizó de acuerdo con los procedimientos aplicables a dichos factores de autenticación",
+   "text_language": "es",
+   "assertion": "The dictamen must state how verification of those factors was carried out under the applicable procedures.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a statement of method; whether the method was adequate is not tested by this clause.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/a/evidence"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "truthy",
+      "value": {
+       "op": "fact",
+       "path": "dictamen.verification_method_stated"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "present"
+     },
+     "else": {
+      "op": "const",
+      "value": "absent"
+     }
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/b/time",
+   "source_locator": "p.13, numeral 3.6, inciso b)",
+   "text": "Hora y minuto en que se realizó la operación.",
+   "text_language": "es",
+   "assertion": "The dictamen must state the hour and minute of the operation.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a time value at minute precision.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [
+      {
+       "op": "fact",
+       "path": "operation.occurred_at"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/c/parties",
+   "source_locator": "p.13, numeral 3.6, inciso c)",
+   "text": "Nombre de la Adquirente y del Establecimiento en donde se originó la operación.",
+   "text_language": "es",
+   "assertion": "The dictamen must name both the acquirer and the merchant where the operation originated.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of two named parties; the conjunction means one of the two does not satisfy it.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "fact",
+         "path": "operation.acquirer_name"
+        },
+        {
+         "op": "fact",
+         "path": "operation.merchant_name"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/d/device-address",
+   "source_locator": "p.14, numeral 3.6, inciso d)",
+   "text": "En caso de contar con ella, la dirección física en la que se encuentra el dispositivo en el que se realizó la operación o, en su caso, dirección del protocolo de internet (IP …) a través de la cual dicho dispositivo haya estado conectado a internet.",
+   "text_language": "es",
+   "assertion": "Where the issuer holds it, the dictamen must state either the physical address of the device or the IP address through which it was connected.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "`En caso de contar con ella` makes the requirement conditional on the issuer holding the datum, so absence is not a breach unless it is held; and the requirement is satisfied by either of two alternative values.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "issuer.holds_device_address"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "any_present",
+        "args": [
+         {
+          "op": "list",
+          "items": [
+           {
+            "op": "fact",
+            "path": "dictamen.device_address.physical_address"
+           },
+           {
+            "op": "fact",
+            "path": "dictamen.device_address.ip_address"
+           }
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "one_present"
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applicable means the issuer holds no address, which the source treats as no breach."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p4/language",
+   "source_locator": "p.13, numeral 3.6, fourth paragraph",
+   "text": "un dictamen en lenguaje simple y claro",
+   "text_language": "es",
+   "assertion": "The dictamen must be written in simple and clear language.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`lenguaje simple y claro` is a qualitative standard with no test in the source.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "dictamen.language_is_plain"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p4/signatory",
+   "source_locator": "p.13, numeral 3.6, fourth paragraph",
+   "text": "suscrito por personal de la Emisora facultado para ello",
+   "text_language": "es",
+   "assertion": "The dictamen must be signed by issuer personnel authorised to sign it.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A membership test of the signatory against the issuer's own authority register; it reads a fact, not a standard.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_register",
+     "args": [
+      {
+       "op": "fact",
+       "path": "dictamen.signatory_id"
+      },
+      {
+       "op": "coalesce",
+       "value": {
+        "op": "fact",
+        "path": "issuer.authorised_signatories"
+       },
+       "fallback": {
+        "op": "const",
+        "value": []
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p4/channel",
+   "source_locator": "p.13, numeral 3.6, fourth paragraph",
+   "text": "en alguna sucursal, o bien, a través de los medios que al efecto haya convenido con el Tarjetahabiente, a elección de este último",
+   "text_language": "es",
+   "assertion": "The dictamen must be made available in a branch or by means agreed with the cardholder, at the cardholder's election.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Which channel satisfies the rule is determined by an election the cardholder makes, so the requirement is not fixed until that election is known.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "cardholder.channel_election"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "dictamen.channel"
+       },
+       "right": {
+        "op": "fact",
+        "path": "cardholder.channel_election"
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applicable means no election is on record, so the requirement is not yet fixed."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p5/foreign-deadline",
+   "source_locator": "p.14, numeral 3.6, fifth paragraph",
+   "text": "En caso de reclamaciones relativas a operaciones realizadas en el extranjero, el plazo previsto en el párrafo anterior será de ciento ochenta días naturales.",
+   "text_language": "es",
+   "assertion": "For claims about operations carried out abroad, the fourth-paragraph period is 180 calendar days instead.",
+   "disposition": "DERIVED",
+   "disposition_basis": "It does not test a fact of its own; it selects which deadline the fourth paragraph imposes, based on where the operation took place.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/p4/deadline"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "abroad_recorded"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "abroad"
+      },
+      "then": {
+       "op": "const",
+       "value": "selected_180_calendar_days"
+      },
+      "else": {
+       "op": "const",
+       "value": "selected_fourth_paragraph"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p4/deadline",
+   "source_locator": "p.13, numeral 3.6, fourth paragraph",
+   "text": "dentro de un plazo de cuarenta y cinco Días contado a partir de la fecha en la que se haya recibido el aviso a que se refiere el numeral 3.3",
+   "text_language": "es",
+   "assertion": "The dictamen must be made available within 45 Días counted from the date the numeral 3.3 notice was received.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A date comparison against a recorded receipt date, once the unit of `Días` is fixed; the unit itself is registered as ambiguity A1. THE LIMIT IS NOT ITS OWN: this clause reads 34-2010/3.6/p5/foreign-deadline and applies 45 days or 180 accordingly, so a foreign operation is measured here against the fifth paragraph's period. `undetermined` where that selection could not be made.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.3/p5/receipt-record"
+   ],
+   "reads": [
+    "34-2010/3.6/p5/foreign-deadline"
+   ],
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "binding",
+        "name": "abroad_recorded"
+       },
+       {
+        "op": "binding",
+        "name": "period_unit_resolved"
+       }
+      ]
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "elapsed_within",
+      "args": [
+       {
+        "op": "fact",
+        "path": "notice.received_at"
+       },
+       {
+        "op": "fact",
+        "path": "dictamen.made_available_at"
+       },
+       {
+        "op": "binding",
+        "name": "period_limit"
+       },
+       {
+        "op": "binding",
+        "name": "period_unit"
+       },
+       {
+        "op": "fact",
+        "path": "clock.now"
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "cond",
+     "if": {
+      "op": "not",
+      "operand": {
+       "op": "binding",
+       "name": "abroad_recorded"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "Whether the operation was executed abroad was not supplied, so neither period can be selected."
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "not",
+       "operand": {
+        "op": "binding",
+        "name": "period_unit_resolved"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied."
+      },
+      "else": {
+       "op": "concat",
+       "parts": [
+        {
+         "op": "const",
+         "value": "Period applied: "
+        },
+        {
+         "op": "binding",
+         "name": "applied_period"
+        },
+        {
+         "op": "const",
+         "value": "."
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p4/floor",
+   "source_locator": "p.13, numeral 3.6, fourth paragraph",
+   "text": "que contenga, por lo menos, la información siguiente",
+   "text_language": "es",
+   "assertion": "The listed elements are a minimum, not a complete specification of a conforming dictamen.",
+   "disposition": "DERIVED",
+   "disposition_basis": "It does not test a fact; it governs how the element results compose, and specifically forbids reading all-elements-present as conforming.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/a/evidence",
+    "34-2010/3.6/a/explanation",
+    "34-2010/3.6/a/verification-method",
+    "34-2010/3.6/b/time",
+    "34-2010/3.6/c/parties",
+    "34-2010/3.6/d/device-address"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "open_set_floor",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "34-2010/3.6/a/evidence"
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "34-2010/3.6/a/verification-method"
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "34-2010/3.6/b/time"
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "34-2010/3.6/c/parties"
+         },
+         "right": {
+          "op": "const",
+          "value": "all_present"
+         }
+        },
+        {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "clause",
+          "id": "34-2010/3.6/d/device-address"
+         },
+         "mapping": {
+          "satisfied": {
+           "op": "const",
+           "value": true
+          },
+          "not_applicable": {
+           "op": "const",
+           "value": true
+          },
+          "breached": {
+           "op": "const",
+           "value": false
+          },
+          "outstanding": {
+           "op": "const",
+           "value": false
+          },
+          "undetermined": {
+           "op": "const",
+           "value": false
+          }
+         }
+        }
+       ]
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "floor_met means every enumerated minimum was met. It does NOT mean the dictamen conforms: `por lo menos` declines to make the list sufficient."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p5/expediente-copy",
+   "source_locator": "p.14, numeral 3.6, fifth paragraph",
+   "text": "a solicitud del Tarjetahabiente, poner a su disposición y entregar, sin costo alguno, durante el plazo de cuarenta y cinco días naturales siguientes a la entrega del referido dictamen … una copia del expediente",
+   "text_language": "es",
+   "assertion": "On the cardholder's request, the issuer must provide a free copy of the case file within 45 calendar days following delivery of the dictamen.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "The obligation arises only on request, and its clock starts from delivery of the dictamen rather than from the notice.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/p4/deadline"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "expediente.requested"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "binding",
+        "name": "expediente_copy_run"
+       },
+       "mapping": {
+        "within": {
+         "op": "const",
+         "value": true
+        },
+        "exceeded": {
+         "op": "const",
+         "value": false
+        },
+        "overdue": {
+         "op": "const",
+         "value": false
+        },
+        "not_yet_due": {
+         "op": "const",
+         "value": "outstanding"
+        },
+        "no_end_event": {
+         "op": "const",
+         "value": "undetermined"
+        },
+        "out_of_order": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applicable means no copy was requested, which is not a breach. `outstanding` means requested, not yet delivered, and the period has not run. `undetermined` means not yet delivered and NO CLOCK was supplied, so late and outstanding cannot be told apart. The 45 day period runs from delivery of the dictamen and is stated as `días naturales`, so A1 does not reach it."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p6/no-moratory-interest",
+   "source_locator": "p.14, numeral 3.6, sixth paragraph",
+   "text": "En estos casos no procederá el cobro de intereses moratorios ni de otros accesorios distintos a los intereses ordinarios, generados por la falta del pago del cargo cuyo abono haya sido realizado por la Emisora conforme al numeral 3.4",
+   "text_language": "es",
+   "assertion": "In these cases the issuer may not charge default interest or other accessories beyond ordinary interest on the credited amount.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A prohibition on a class of charges, testable against the account's posted items.",
+   "in_force_from": null,
+   "depends_on": [],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "none_of_class_present",
+     "args": [
+      {
+       "op": "coalesce",
+       "value": {
+        "op": "fact",
+        "path": "account.charges_posted"
+       },
+       "fallback": {
+        "op": "const",
+        "value": []
+       }
+      },
+      {
+       "op": "const",
+       "value": [
+        "interes_moratorio",
+        "accesorio_otro"
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p1/recovery-right",
+   "source_locator": "p.13, numeral 3.6, first paragraph",
+   "text": "La Emisora únicamente podrá obtener la devolución del monto correspondiente al abono … cuando acredite al Tarjetahabiente que el cargo … derivó de una operación ejecutada de conformidad con lo dispuesto en términos del inciso a) del numeral 2.6.",
+   "text_language": "es",
+   "assertion": "The issuer may recover a credited amount only if it demonstrates to the cardholder that the charge came from an operation executed under numeral 2.6 inciso a).",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`acredite al Tarjetahabiente` is a demonstration made to a person, and the source sets no evidential threshold a machine could apply.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/2.6/a/two-factor"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "charge.derived_from_2_6_a_operation"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "Never inferred from 2.6(a) being met. See ambiguity A3."
+    }
+   }
+  },
+  {
+   "id": "34-2010/3.6/p7/firmeza",
+   "source_locator": "p.14, numeral 3.6, seventh paragraph",
+   "text": "Si transcurrido el plazo a que se refiere el cuarto o quinto párrafo de este numeral, según corresponda, la Emisora no entrega el referido dictamen en los términos señalados, el abono realizado previamente por ésta quedará firme, por lo que no podrá revertirse.",
+   "text_language": "es",
+   "assertion": "If the applicable period elapses and the issuer has not delivered a conforming dictamen, the credit becomes final and cannot be reversed.",
+   "disposition": "DERIVED",
+   "disposition_basis": "It composes three prior results: which deadline applies, whether it elapsed, and whether what was delivered was `en los términos señalados`. It reads no fact directly.",
+   "in_force_from": null,
+   "depends_on": [
+    "34-2010/3.6/p4/deadline",
+    "34-2010/3.6/p5/foreign-deadline",
+    "34-2010/3.6/p4/floor",
+    "34-2010/3.6/p4/channel",
+    "34-2010/3.6/p4/signatory",
+    "34-2010/3.6/p4/language"
+   ],
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "decision_table",
+    "$from": "clauses.json decision_table on this clause",
+    "inputs": [
+     {
+      "name": "deadline",
+      "expr": {
+       "op": "clause",
+       "id": "34-2010/3.6/p4/deadline"
+      },
+      "declared_domain": [
+       "undetermined",
+       "within",
+       "exceeded",
+       "not_yet_due",
+       "overdue",
+       "out_of_order",
+       "no_end_event"
+      ]
+     },
+     {
+      "name": "a2",
+      "expr": {
+       "op": "coalesce",
+       "value": {
+        "op": "resolution",
+        "name": "A2_terminos_senalados"
+       },
+       "fallback": {
+        "op": "const",
+        "value": "(unresolved)"
+       }
+      },
+      "declared_domain": [
+       "(unresolved)",
+       "timing_only",
+       "timing_and_content"
+      ]
+     }
+    ],
+    "cross_product": 21,
+    "rows": [
+     {
+      "match": {
+       "deadline": "undetermined",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "note": "A1 unresolved, so the period cannot be tested.",
+      "reading": "Not a reading of the paragraph. `transcurrido el plazo` cannot be evaluated because ambiguity A1 leaves the unit of the fourth paragraph's period unsupplied."
+     },
+     {
+      "match": {
+       "deadline": "undetermined",
+       "a2": "timing_only"
+      },
+      "outcome": "undetermined",
+      "note": "A1 unresolved, so the period cannot be tested.",
+      "reading": "As above. A1 governs whether the period can be measured at all, so it is prior to A2 and resolving A2 does not help."
+     },
+     {
+      "match": {
+       "deadline": "undetermined",
+       "a2": "timing_and_content"
+      },
+      "outcome": "undetermined",
+      "note": "A1 unresolved, so the period cannot be tested.",
+      "reading": "As above. A1 is prior to A2: the wider reading tests the dictamen's content as well as its timing, but it still requires the period to have been measured, and A1 leaves the unit of the fourth paragraph's period unsupplied. Resolving A2 alone reaches nothing here."
+     },
+     {
+      "match": {
+       "deadline": "within",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+      "reading": "The period did not elapse, so the outcome turns entirely on what `en los terminos senalados` covers, which is A2 and was not supplied."
+     },
+     {
+      "match": {
+       "deadline": "within",
+       "a2": "timing_only"
+      },
+      "outcome": "not_attached",
+      "note": "Delivered inside the period; under this reading content is not tested here.",
+      "reading": "On the timing-only reading the antecedent `transcurrido el plazo ... no entrega` fails as soon as delivery was inside the period, so firmeza does not attach and the content of the dictamen is not reached."
+     },
+     {
+      "match": {
+       "deadline": "within",
+       "a2": "timing_and_content"
+      },
+      "outcome_from": "conformance_subtest",
+      "reading": "On this reading `el referido dictamen` carries the fourth paragraph's specification, so a timely dictamen must also conform. Delegated to the conformance sub-test below."
+     },
+     {
+      "match": {
+       "deadline": "exceeded",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+      "reading": "BOTH readings give `attached` on these facts, as rows exceeded/timing_only and exceeded/timing_and_content show. The chain still withholds an answer. See finding F2."
+     },
+     {
+      "match": {
+       "deadline": "exceeded",
+       "a2": "timing_only"
+      },
+      "outcome": "attached",
+      "note": "The applicable period elapsed with no conforming dictamen delivered.",
+      "reading": "The period elapsed and the dictamen was delivered outside it, so it was not delivered `en los terminos senalados` under the narrower reading. Firmeza attaches."
+     },
+     {
+      "match": {
+       "deadline": "exceeded",
+       "a2": "timing_and_content"
+      },
+      "outcome": "attached",
+      "note": "The applicable period elapsed with no conforming dictamen delivered.",
+      "reading": "The period elapsed, which defeats the wider reading as well as the narrower one. Firmeza attaches."
+     },
+     {
+      "match": {
+       "deadline": "not_yet_due",
+       "a2": "(unresolved)"
+      },
+      "outcome": "not_yet_attached",
+      "reading": "The dictamen has not been delivered and the period has not run. `transcurrido el plazo` fails under BOTH A2 readings, and neither reading reaches the content of a dictamen that does not exist, so A2 is not consulted. Distinct from the `within` rows, where the wider reading does have content to test."
+     },
+     {
+      "match": {
+       "deadline": "not_yet_due",
+       "a2": "timing_only"
+      },
+      "outcome": "not_yet_attached",
+      "reading": "The period has not elapsed, so the antecedent fails. `not_yet_attached` rather than `not_attached`: firmeza has not attached AND may still attach when the period runs, which is not the same as a timely dictamen having prevented it."
+     },
+     {
+      "match": {
+       "deadline": "not_yet_due",
+       "a2": "timing_and_content"
+      },
+      "outcome": "not_yet_attached",
+      "reading": "As with the row above, and for the same reason: the wider reading also requires the period to have elapsed, and there is no delivered dictamen whose content could be tested."
+     },
+     {
+      "match": {
+       "deadline": "overdue",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "note": "A2 unresolved: whether a timely but deficient dictamen prevents finality was not supplied.",
+      "reading": "Mirrors the `exceeded` row at the same A2 value, because `overdue` and `exceeded` stand in the same position with respect to A2: the period has run either way. BOTH readings in fact give `attached` here, so this row carries finding F2 exactly as its `exceeded` twin does. Treating two identical positions differently would be a worse artifact than carrying one known over-caution consistently."
+     },
+     {
+      "match": {
+       "deadline": "overdue",
+       "a2": "timing_only"
+      },
+      "outcome": "attached",
+      "note": "The applicable period elapsed and no dictamen was delivered.",
+      "reading": "THE PARAGRAPH'S OWN CASE, and the first row in this table entitled to say so. The period elapsed, measured against the clock in the facts, and the issuer delivered nothing. Before E1 was closed this outcome was reached from `no_end_event`, where elapsing was never established."
+     },
+     {
+      "match": {
+       "deadline": "overdue",
+       "a2": "timing_and_content"
+      },
+      "outcome": "attached",
+      "note": "The applicable period elapsed and no dictamen was delivered.",
+      "reading": "The period elapsed, which defeats the wider reading as well as the narrower one, and nothing was delivered whose content could rescue it."
+     },
+     {
+      "match": {
+       "deadline": "out_of_order",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+     },
+     {
+      "match": {
+       "deadline": "out_of_order",
+       "a2": "timing_only"
+      },
+      "outcome": "undetermined",
+      "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+     },
+     {
+      "match": {
+       "deadline": "out_of_order",
+       "a2": "timing_and_content"
+      },
+      "outcome": "undetermined",
+      "reading": "The dictamen is dated BEFORE the aviso that triggers it, so the record is incoherent and the period cannot be measured from it. Neither `transcurrido el plazo` nor its negation is established. Distinct from `no_end_event`, where the record is coherent and only the clock is missing: here the two instants are present and contradict each other. Added 2026-08-22 with the ordering guard."
+     },
+     {
+      "match": {
+       "deadline": "no_end_event",
+       "a2": "(unresolved)"
+      },
+      "outcome": "undetermined",
+      "reading": "No dictamen was delivered AND NO CLOCK was supplied, so whether the period has run is unknown. The outcome is unchanged, but it now rests on the absence of a clock rather than on an unresolved A2."
+     },
+     {
+      "match": {
+       "deadline": "no_end_event",
+       "a2": "timing_only"
+      },
+      "outcome": "undetermined",
+      "reading": "CHANGED 2026-08-22, closing E1. This returned `attached` on a note asserting the period had elapsed. With no clock in the facts, elapsing is NOT established: a dictamen still in time and one long overdue reach this row identically. `undetermined` is the only answer these facts support. Supply `clock.now` and the run lands on `not_yet_due` or `overdue` instead."
+     },
+     {
+      "match": {
+       "deadline": "no_end_event",
+       "a2": "timing_and_content"
+      },
+      "outcome": "undetermined",
+      "reading": "CHANGED 2026-08-22, closing E1. As with the row above: without a clock, an outstanding dictamen and an overdue one are the same fact pattern here."
+     }
+    ],
+    "subtables": {
+     "conformance_subtest": {
+      "$from": "clauses.json decision_table.conformance_subtest",
+      "input": {
+       "op": "conjunction_over_results",
+       "undetermined_is": "undetermined",
+       "results": {
+        "op": "list",
+        "items": [
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "34-2010/3.6/p4/floor"
+          },
+          "right": {
+           "op": "const",
+           "value": "floor_met"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "34-2010/3.6/p4/signatory"
+          },
+          "right": {
+           "op": "const",
+           "value": "member"
+          }
+         },
+         {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "clause",
+           "id": "34-2010/3.6/p4/language"
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         }
+        ]
+       }
+      },
+      "match_on": "conformance",
+      "declared_domain": [
+       "satisfied",
+       "not_satisfied",
+       "undetermined"
+      ],
+      "rows": [
+       {
+        "match": "satisfied",
+        "outcome": "not_attached"
+       },
+       {
+        "match": "not_satisfied",
+        "outcome": "attached"
+       },
+       {
+        "match": "undetermined",
+        "outcome": "undetermined",
+        "note": "A judgment clause is not_assessed, so conformance cannot be concluded."
+       }
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

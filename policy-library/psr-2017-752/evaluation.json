@@ -1,0 +1,257 @@
+{
+ "$note": "The evaluation layer for SI 2017/752 regulation 76 and its dependencies. The descriptive half is taken from clauses.json and ambiguities.json by build-register.mjs and is not repeated here.",
+ "evaluation_version": "0.1.0",
+ "$emit_order_note": "THE ORDER A DETERMINATION IS REPORTED IN. 67(4) is emitted before 67(1) because 67(1) consumes it; the order is a dependency order, not the order of the instrument.",
+ "emit_order": [
+  "psr-2017/67/4/series-withdrawal",
+  "psr-2017/67/1/consent",
+  "psr-2017/67/2/b/form",
+  "psr-2017/67/2/a/timing",
+  "psr-2017/67/3/withdrawal",
+  "psr-2017/74/1/undue-delay",
+  "psr-2017/74/1/thirteen-months",
+  "psr-2017/74/2/information-failure",
+  "psr-2017/75/1/provider-burden",
+  "psr-2017/75/2/pisp-burden",
+  "psr-2017/75/3/instrument-not-sufficient",
+  "psr-2017/75/4/supporting-evidence",
+  "psr-2017/76/1/trigger",
+  "psr-2017/76/1/a/refund",
+  "psr-2017/76/1/b/restore",
+  "psr-2017/76/2/practicable",
+  "psr-2017/76/3/fraud-carveout",
+  "psr-2017/76/2/deadline",
+  "psr-2017/76/4/value-date",
+  "psr-2017/76/5/a/aspsp-complies",
+  "psr-2017/76/5/b/pisp-compensates"
+ ],
+ "resolution_keys": {"P1": "P1_carveout_scope"},
+ "bindings": {
+  "series_limb": {"op": "remap_result_domain", "value": {"op": "clause", "id": "psr-2017/67/4/series-withdrawal"}, "mapping": {
+   "not_applicable": {"op": "const", "value": true},
+   "not_defeated": {"op": "const", "value": true},
+   "defeated": {"op": "const", "value": false},
+   "undetermined": {"op": "const", "value": "undetermined"}
+  }},
+  "tx_consent": {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "consent.to_transaction"}]}, "right": {"op": "const", "value": "present"}},
+  "series_consent": {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "consent.to_series"}]}, "right": {"op": "const", "value": "present"}},
+
+  "in_time": {"op": "remap_result_domain", "value": {"op": "clause", "id": "psr-2017/74/1/thirteen-months"}, "mapping": {
+   "within": {"op": "const", "value": true},
+   "exceeded": {"op": "const", "value": false},
+   "overdue": {"op": "const", "value": false},
+   "not_yet_due": {"op": "const", "value": "undetermined"},
+   "no_end_event": {"op": "const", "value": "undetermined"},
+   "out_of_order": {"op": "const", "value": "undetermined"}
+  }},
+  "bar_lifted": {"op": "remap_result_domain", "value": {"op": "clause", "id": "psr-2017/74/2/information-failure"}, "mapping": {
+   "satisfied": {"op": "const", "value": true},
+   "not_applicable": {"op": "const", "value": false},
+   "breached": {"op": "const", "value": false},
+   "outstanding": {"op": "const", "value": "undetermined"},
+   "undetermined": {"op": "const", "value": "undetermined"}
+  }},
+  "not_barred": {"op": "disjunction_over_results", "results": {"op": "list", "items": [
+   {"op": "binding", "name": "in_time"},
+   {"op": "binding", "name": "bar_lifted"}
+  ]}},
+  "unauthorised": {"op": "remap_result_domain", "value": {"op": "clause", "id": "psr-2017/67/1/consent"}, "mapping": {
+   "none_present": {"op": "const", "value": true},
+   "one_present": {"op": "const", "value": false},
+   "undetermined": {"op": "const", "value": "undetermined"}
+  }},
+
+  "carve": {"op": "and", "operands": [
+   {"op": "eq", "left": {"op": "fact", "path": "provider.reasonable_grounds_to_suspect_fraud"}, "right": {"op": "const", "value": true}},
+   {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "provider.poca_notification_in_writing"}]}, "right": {"op": "const", "value": "present"}}
+  ]},
+  "p1_supplied": {"op": "not", "operand": {"op": "eq", "left": {"op": "resolution", "name": "P1_carveout_scope"}, "right": {"op": "absent"}}}
+ },
+ "clauses": {
+  "psr-2017/67/4/series-withdrawal": {
+   "op": "emit",
+   "result": {"op": "applicability_gate",
+    "applies": {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "consent.series_withdrawn_at"}]}, "right": {"op": "const", "value": "present"}},
+    "compute": {"op": "remap_result_domain", "value": {"op": "primitive", "name": "ordered_before", "args": [{"op": "fact", "path": "consent.series_withdrawn_at"}, {"op": "fact", "path": "transaction.debit_date"}]}, "mapping": {
+     "before": {"op": "const", "value": "defeated"},
+     "simultaneous": {"op": "const", "value": "not_defeated"},
+     "after": {"op": "const", "value": "not_defeated"},
+     "missing_operand": {"op": "const", "value": "undetermined"}
+    }}},
+   "note": {"op": "const", "value": "A withdrawal defeats the series limb of 67(1)(b) only for transactions FUTURE to it."}
+  },
+  "psr-2017/67/1/consent": {
+   "op": "emit",
+   "result": {"op": "cond",
+    "if": {"op": "binding", "name": "tx_consent"},
+    "then": {"op": "const", "value": "one_present"},
+    "else": {"op": "cond",
+     "if": {"op": "not", "operand": {"op": "binding", "name": "series_consent"}},
+     "then": {"op": "const", "value": "none_present"},
+     "else": {"op": "remap_result_domain", "value": {"op": "binding", "name": "series_limb"}, "mapping": {
+      "true": {"op": "const", "value": "one_present"},
+      "false": {"op": "const", "value": "none_present"},
+      "undetermined": {"op": "const", "value": "undetermined"}
+     }}}},
+   "note": {"op": "cond",
+    "if": {"op": "and", "operands": [
+     {"op": "binding", "name": "series_consent"},
+     {"op": "eq", "left": {"op": "binding", "name": "series_limb"}, "right": {"op": "const", "value": false}}
+    ]},
+    "then": {"op": "const", "value": "Series consent was given and withdrawn before this transaction, so 67(4) defeats it."},
+    "else": {"op": "absent"}}
+  },
+  "psr-2017/67/2/b/form": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "member_of_register", "args": [{"op": "fact", "path": "consent.form"}, {"op": "coalesce", "value": {"op": "fact", "path": "agreement.agreed_forms"}, "fallback": {"op": "const", "value": []}}]}
+  },
+  "psr-2017/67/2/a/timing": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "eq", "left": {"op": "fact", "path": "consent.given_after_execution"}, "right": {"op": "const", "value": true}},
+    {"op": "eq", "left": {"op": "fact", "path": "agreement.post_execution_consent_agreed"}, "right": {"op": "const", "value": true}}
+   ]},
+   "note": {"op": "const", "value": "not_applicable means consent was given before execution, where no agreement is needed."}
+  },
+  "psr-2017/67/3/withdrawal": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "ordered_before", "args": [{"op": "fact", "path": "consent.withdrawn_at"}, {"op": "fact", "path": "order.irrevocable_from"}]},
+   "note": {"op": "const", "value": "NEW primitive ordered_before. missing_operand where no withdrawal was made."}
+  },
+  "psr-2017/74/1/undue-delay": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "notification.without_undue_delay"}]}
+  },
+  "psr-2017/74/1/thirteen-months": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "elapsed_within", "args": [
+    {"op": "fact", "path": "transaction.debit_date"},
+    {"op": "fact", "path": "notification.given_at"},
+    {"op": "const", "value": 13},
+    {"op": "const", "value": "months"},
+    {"op": "fact", "path": "clock.now"}
+   ]},
+   "note": {"op": "const", "value": "PARAMETERISED: elapsed_within with a months unit, which Banxico never needed."}
+  },
+  "psr-2017/74/2/information-failure": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "eq", "left": {"op": "fact", "path": "provider.part6_information_failure"}, "right": {"op": "const", "value": true}},
+    {"op": "const", "value": true}
+   ]},
+   "note": {"op": "const", "value": "not_applicable means no information failure, so the bar in 74(1) stands."}
+  },
+  "psr-2017/75/1/provider-burden": {
+   "op": "emit",
+   "result": {"op": "conjunction_over_results", "undetermined_is": "undetermined", "results": {"op": "list", "items": [
+    {"op": "remap_result_domain", "value": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "provider.burden.authenticated"}]}, "mapping": {"affirmed": {"op": "const", "value": true}, "denied": {"op": "const", "value": false}, "not_assessed": {"op": "const", "value": "undetermined"}, "$unmapped": {"op": "const", "value": "undetermined"}}},
+    {"op": "remap_result_domain", "value": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "provider.burden.accurately_recorded"}]}, "mapping": {"affirmed": {"op": "const", "value": true}, "denied": {"op": "const", "value": false}, "not_assessed": {"op": "const", "value": "undetermined"}, "$unmapped": {"op": "const", "value": "undetermined"}}},
+    {"op": "remap_result_domain", "value": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "provider.burden.entered_in_accounts"}]}, "mapping": {"affirmed": {"op": "const", "value": true}, "denied": {"op": "const", "value": false}, "not_assessed": {"op": "const", "value": "undetermined"}, "$unmapped": {"op": "const", "value": "undetermined"}}},
+    {"op": "remap_result_domain", "value": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "provider.burden.no_technical_deficiency"}]}, "mapping": {"affirmed": {"op": "const", "value": true}, "denied": {"op": "const", "value": false}, "not_assessed": {"op": "const", "value": "undetermined"}, "$unmapped": {"op": "const", "value": "undetermined"}}}
+   ]}}
+  },
+  "psr-2017/75/2/pisp-burden": {
+   "op": "emit",
+   "result": {"op": "applicability_gate",
+    "applies": {"op": "eq", "left": {"op": "fact", "path": "transaction.via_pisp"}, "right": {"op": "const", "value": true}},
+    "compute": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "pisp.burden_discharged"}]}}
+  },
+  "psr-2017/75/3/instrument-not-sufficient": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "open_set_floor", "args": [{"op": "list", "items": [
+    {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "evidence.instrument_use_record"}]}, "right": {"op": "const", "value": "present"}}
+   ]}]},
+   "note": {"op": "const", "value": "PARAMETERISED: open_set_floor at arity one. floor_met means the record exists. It does NOT mean authorisation is proved, which is exactly what 75(3) says."}
+  },
+  "psr-2017/75/4/supporting-evidence": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "eq", "left": {"op": "fact", "path": "provider.claims_fraud_or_gross_negligence"}, "right": {"op": "const", "value": true}},
+    {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "evidence.supporting_evidence_given_to_payer"}]}, "right": {"op": "const", "value": "present"}}
+   ]}
+  },
+  "psr-2017/76/1/trigger": {
+   "op": "emit",
+   "result": {"op": "conjunction_over_results", "undetermined_is": "undetermined", "results": {"op": "list", "items": [
+    {"op": "binding", "name": "unauthorised"},
+    {"op": "binding", "name": "not_barred"}
+   ]}},
+   "note": {"op": "const", "value": "Composes the 67 authorisation result with the 74 bar. Reads no fact directly."}
+  },
+  "psr-2017/76/1/a/refund": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "amounts_equal", "args": [{"op": "fact", "path": "refund.amount"}, {"op": "fact", "path": "transaction.amount"}]},
+   "note": {"op": "const", "value": "NEW primitive amounts_equal."}
+  },
+  "psr-2017/76/1/b/restore": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "eq", "left": {"op": "fact", "path": "account.restoration_applicable"}, "right": {"op": "const", "value": true}},
+    {"op": "remap_result_domain", "value": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "account.restored_to_prior_state"}]}, "mapping": {"affirmed": {"op": "const", "value": true}, "denied": {"op": "const", "value": false}, "not_assessed": {"op": "const", "value": "undetermined"}, "$unmapped": {"op": "const", "value": "undetermined"}}}
+   ]},
+   "note": {"op": "const", "value": "`undetermined` means restoration was required and nobody has assessed whether it happened."}
+  },
+  "psr-2017/76/2/practicable": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "refund.as_soon_as_practicable"}]}
+  },
+  "psr-2017/76/3/fraud-carveout": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "eq", "left": {"op": "fact", "path": "provider.reasonable_grounds_to_suspect_fraud"}, "right": {"op": "const", "value": true}},
+    {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "provider.poca_notification_in_writing"}]}, "right": {"op": "const", "value": "present"}}
+   ]},
+   "note": {"op": "const", "value": "The carve-out requires BOTH the suspicion and the written notification."}
+  },
+  "psr-2017/76/2/deadline": {
+   "op": "emit",
+   "result": {"op": "cond",
+    "if": {"op": "binding", "name": "carve"},
+    "then": {"op": "guard_on_unresolved",
+     "usable": {"op": "binding", "name": "p1_supplied"},
+     "compute": {"op": "remap_result_domain", "value": {"op": "resolution", "name": "P1_carveout_scope"}, "mapping": {
+      "deadline_only": {"op": "const", "value": "not_applicable_deadline_removed"},
+      "obligation_suspended": {"op": "const", "value": "not_applicable_obligation_suspended"}
+     }}},
+    "else": {"op": "primitive", "name": "elapsed_within", "args": [
+     {"op": "fact", "path": "provider.became_aware_at"},
+     {"op": "fact", "path": "refund.provided_at"},
+     {"op": "const", "value": 1},
+     {"op": "const", "value": "business_days"},
+     {"op": "fact", "path": "clock.now"}
+    ]}},
+   "note": {"op": "cond",
+    "if": {"op": "and", "operands": [{"op": "binding", "name": "carve"}, {"op": "not", "operand": {"op": "binding", "name": "p1_supplied"}}]},
+    "then": {"op": "const", "value": "P1 unresolved: the carve-out disapplies paragraph (2) and the text does not say whether paragraph (1) survives."},
+    "else": {"op": "absent"}}
+  },
+  "psr-2017/76/4/value-date": {
+   "op": "emit",
+   "result": {"op": "remap_result_domain", "value": {"op": "primitive", "name": "ordered_before", "args": [{"op": "fact", "path": "refund.credit_value_date"}, {"op": "fact", "path": "transaction.debit_date"}]}, "mapping": {
+    "after": {"op": "const", "value": "breached"},
+    "before": {"op": "const", "value": "satisfied"},
+    "simultaneous": {"op": "const", "value": "satisfied"},
+    "missing_operand": {"op": "const", "value": "missing_operand"}
+   }},
+   "note": {"op": "const", "value": "NEW primitive ordered_before, second user. `no later than` admits simultaneous."}
+  },
+  "psr-2017/76/5/a/aspsp-complies": {
+   "op": "emit",
+   "result": {"op": "applicability_gate",
+    "applies": {"op": "eq", "left": {"op": "fact", "path": "transaction.via_pisp"}, "right": {"op": "const", "value": true}},
+    "compute": {"op": "conjunction_over_results", "undetermined_is": "undetermined", "results": {"op": "list", "items": [
+     {"op": "eq", "left": {"op": "clause", "id": "psr-2017/76/1/a/refund"}, "right": {"op": "const", "value": "equal"}}
+    ]}}}
+  },
+  "psr-2017/76/5/b/pisp-compensates": {
+   "op": "emit",
+   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
+    {"op": "and", "operands": [
+     {"op": "eq", "left": {"op": "fact", "path": "pisp.liable"}, "right": {"op": "const", "value": true}},
+     {"op": "eq", "left": {"op": "fact", "path": "aspsp.compensation_requested"}, "right": {"op": "const", "value": true}}
+    ]},
+    {"op": "eq", "left": {"op": "fact", "path": "pisp.compensated"}, "right": {"op": "const", "value": true}}
+   ]}
+  }
+ }
+}
