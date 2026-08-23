@@ -45,7 +45,7 @@ const brief = agentBriefs(reg, facts).find((b) => b.clauseId === CLAUSE);
 show('record 2: the brief the agent is dispatched against', { ...brief, facts: '(the facts above, verbatim)' });
 
 // 3. ASSESSED. The agent's output, carried NOT TAKEN. (`at` is caller-supplied, never invented here.)
-const assessment = { value: 'affirmed', by: 'agent-tier-demo-1', at: '2026-08-24T20:00:00Z', factsDigest: brief.factsDigest };
+const assessment = { value: 'affirmed', by: 'agent-tier-demo-1', at: '2026-08-23T20:00:00Z', factsDigest: brief.factsDigest };
 const assessed = route(reg, facts, {}, { assessments: { [CLAUSE]: assessment } });
 show('record 3: assessed, carried, still awaiting the person', assessed[CLAUSE]);
 assertEq('still awaiting', assessed[CLAUSE].awaiting, 'person');
@@ -53,7 +53,7 @@ const digest = createHash('sha256').update(JSON.stringify(assessed[CLAUSE].asses
 
 // 4. ADOPTED. The person's decision arrives the way a fact arrives: an input identifying the
 //    assessment by digest. The value is DERIVED from the assessment, not restated.
-const adoption = { of: digest, by: 'reviewer-boyd-demo', at: '2026-08-24T21:30:00Z' };
+const adoption = { of: digest, by: 'reviewer-boyd-demo', at: '2026-08-23T21:30:00Z' };
 const adopted = route(reg, facts, {}, { assessments: { [CLAUSE]: assessment }, adoptions: { [CLAUSE]: adoption } });
 show('record 4: ADOPTED, the determination', adopted[CLAUSE]);
 assertEq('the route is in the result token', adopted[CLAUSE].result, 'affirmed_on_agent_assessment');
@@ -87,7 +87,7 @@ expectThrow('adopting an assessment made over OTHER facts (stale)', () => {
 
 // and the rejection act, working:
 const rejFacts = { ...facts, dictamen: { ...facts.dictamen, language_is_plain: 'denied' } };
-const rejected = route(reg, rejFacts, {}, { assessments: { [CLAUSE]: assessment }, adoptions: { [CLAUSE]: { rejects: digest, by: 'reviewer-boyd-demo', at: '2026-08-24T21:40:00Z' } } });
+const rejected = route(reg, rejFacts, {}, { assessments: { [CLAUSE]: assessment }, adoptions: { [CLAUSE]: { rejects: digest, by: 'reviewer-boyd-demo', at: '2026-08-23T21:40:00Z' } } });
 show('record 6: REJECTED, the person determined otherwise', rejected[CLAUSE]);
 assertEq('their own value decides', rejected[CLAUSE].result, 'denied');
 assertEq('the declined assessment is identified', rejected[CLAUSE].rejected.of, digest);

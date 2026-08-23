@@ -7,7 +7,7 @@
  * whose answer depends on one that was not supplied returns `undetermined`.
  */
 // THIS FILE NOW READS ONE FILE, its own register.json, for the lane stamp below. It read nothing
-// at all before 2026-08-24, and the inventory audit relied on that; the trade is the same one
+// at all before 2026-08-23 (the commit's date; the written date was invented, not observed), and the inventory audit relied on that; the trade is the same one
 // banxico made for the firmeza table: the alternative is a second copy of register data.
 import { readFileSync } from 'node:fs';
 const DAY = 86400000;
@@ -386,7 +386,7 @@ export function evaluate(facts, resolutions = {}) {
     conditional_requirement(f.provider?.reasonable_grounds_to_suspect_fraud === true,
       field_present(f.provider?.poca_notification_in_writing) === 'present'),
     'The carve-out requires BOTH the suspicion and the written notification.');
-  // MOVED BELOW 76/3, 2026-08-24, when the waiting axis landed: this const's only consumer is
+  // MOVED BELOW 76/3, 2026-08-23 (the commit's date; the written date was invented, not observed), when the waiting axis landed: this const's only consumer is
   // 76/2/deadline, and a shared const's presence-probe fires in the emission window where the
   // const is EVALUATED, not where it is used. Above 76/3 it marked the wrong clause's window and
   // the two implementations disagreed about 76/2/deadline's waiting. A pure reorder; no result

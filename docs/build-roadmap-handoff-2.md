@@ -461,7 +461,7 @@ settle this" with "nobody looked". After this, the two are distinguishable, and 
 can say which. That is the same distinction as absent versus zero, at the level of a
 determination rather than a field.
 
-**MEASURED 2026-08-24, and the numbers sit in tension with this section's placement.** The
+**MEASURED 2026-08-23 (the commit's date; the written date was invented, not observed), and the numbers sit in tension with this section's placement.** The
 waiting axis's first population measurement
 (`policy-library/_interpreter/WAITING-AXIS.md`, which carries the caveat these figures
 must not travel without): judgment-waits outnumber fact-waits, 481,301 against 419,454

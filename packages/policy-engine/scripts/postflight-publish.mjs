@@ -47,7 +47,7 @@ const EXIT_OK = 0, EXIT_REFUSED = 1, EXIT_UNREACHABLE = 2;
 // ignore, which is the false-refusal class: an exit code that looks like a finding and contains
 // none.
 //
-// VERIFIED, NOT RELAYED, 2026-08-24: a scratch package with a postpublish probe shows the lifecycle
+// VERIFIED, NOT RELAYED, 2026-08-23 (the commit's date; the written date was invented, not observed): a scratch package with a postpublish probe shows the lifecycle
 // firing under --dry-run with npm_config_dry_run === "true" in its environment, and the variable
 // UNDEFINED when the flag is absent. The guard tests the exact string npm sets.
 //
