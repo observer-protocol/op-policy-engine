@@ -196,6 +196,15 @@ differentiator the whole pitch rests on, and today it is a JSON file next to a p
   on a case written for it (`_phase0/show-validator.mjs`). **Whether it is published is
   still a separate decision and was deliberately not taken.**
 
+**A limit, stated as one.** Conformance of a second implementation to a register is today
+establishable only by execution against the frozen oracle, not statically, because 12 of
+29 `remap_result_domain` sites declare no source domain to check totality against. E23 is
+the entry; the 12 are derived, not counted by hand, as the R7 NOTE lines of
+`policy-library/_interpreter/validate.mjs` over the three registers, and the 29 and the
+breakdown are in E23's table. This is the answer to the first open question above in its
+current state: the register is the artifact the pitch calls publishable, versionable and
+auditable, and it does not yet specify its own implementation.
+
 ---
 
 ## 5. Phase 1. Routing, and the mode in the record
