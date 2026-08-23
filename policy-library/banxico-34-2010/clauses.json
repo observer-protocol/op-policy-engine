@@ -20,12 +20,16 @@
       "text_es": "dentro de un plazo de cuarenta y cinco Días contado a partir de la fecha en la que se haya recibido el aviso a que se refiere el numeral 3.3",
       "assertion": "The dictamen must be made available within 45 Días counted from the date the numeral 3.3 notice was received.",
       "disposition": "MECHANICAL",
-      "disposition_basis": "A date comparison against a recorded receipt date, once the unit of `Días` is fixed; the unit itself is registered as ambiguity A1.",
+      "disposition_basis": "A date comparison against a recorded receipt date, once the unit of `Días` is fixed; the unit itself is registered as ambiguity A1. THE LIMIT IS NOT ITS OWN: this clause reads 34-2010/3.6/p5/foreign-deadline and applies 45 days or 180 accordingly, so a foreign operation is measured here against the fifth paragraph's period. `undetermined` where that selection could not be made.",
       "in_force_from": null,
       "depends_on": [
         "34-2010/3.3/p5/receipt-record"
       ],
-      "$finding_2026_08_23": "BASIS UNDERSTATES A READ, AND THE OMISSION CHANGES ITS MEANING. Reported, NOT rewritten, on the brief's stop condition. `disposition_basis` reads `A date comparison against a recorded receipt date, once the unit of Dias is fixed`, which describes a self-contained comparison against a fixed limit. Traced: this clause READS 34-2010/3.6/p5/foreign-deadline, and the limit it applies is 45 or 180 depending on that result. A reader of the basis alone would not know a foreign operation is measured against 180 days here. The emitted row does say so, in `Period applied`, so the encoding is honest at runtime and the basis is the field that is not.\n\nAN UNDERSTATING BASIS IS A DIFFERENT DEFECT FROM AN OVERSTATING ONE and check-claimed-effects.mjs currently reports it as a NOTE rather than a failure. That asymmetry was my choice and this is the case that tests it."
+      "$finding_2026_08_23": "BASIS UNDERSTATES A READ, AND THE OMISSION CHANGES ITS MEANING. Reported, NOT rewritten, on the brief's stop condition. `disposition_basis` reads `A date comparison against a recorded receipt date, once the unit of Dias is fixed`, which describes a self-contained comparison against a fixed limit. Traced: this clause READS 34-2010/3.6/p5/foreign-deadline, and the limit it applies is 45 or 180 depending on that result. A reader of the basis alone would not know a foreign operation is measured against 180 days here. The emitted row does say so, in `Period applied`, so the encoding is honest at runtime and the basis is the field that is not.\n\nAN UNDERSTATING BASIS IS A DIFFERENT DEFECT FROM AN OVERSTATING ONE and check-claimed-effects.mjs currently reports it as a NOTE rather than a failure. That asymmetry was my choice and this is the case that tests it.",
+      "reads": [
+        "34-2010/3.6/p5/foreign-deadline"
+      ],
+      "$corrected_2026_08_23": "WAS: `A date comparison against a recorded receipt date, once the unit of Días is fixed; the unit itself is registered as ambiguity A1.` TRUE OF THE OPERATION AND SILENT ON THE LIMIT. It described a self-contained comparison against a fixed period, and a reader would not learn from it that a foreign operation is measured here against 180 days rather than 45.\n\nThe emitted row always said so, in `Period applied`, so the encoding was honest at runtime and the basis was the field that was not. Found by check-claimed-effects.mjs as READ-BUT-NOT-CLAIMED, which that instrument reports as a note rather than a failure. AN UNDERSTATING BASIS IS A DIFFERENT DEFECT FROM AN OVERSTATING ONE, and this is the case that shows understatement can still mislead."
     },
     {
       "id": "34-2010/3.6/p4/channel",

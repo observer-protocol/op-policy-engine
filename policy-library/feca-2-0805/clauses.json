@@ -290,7 +290,7 @@
       "disposition": "CONDITIONAL",
       "disposition_basis": "Reads a fact of its own, the absence of an opinion, and is conditioned on completed development.",
       "note": "`appropriate development` and `generally` are unreduced. See F4.",
-      "$finding_2026_08_23": "BASIS UNDERSTATES A READ, AND THE OMISSION DOES NOT CHANGE THE ENTRY'S MEANING. Reported for completeness. `disposition_basis` does not mention that this clause reads feca/2-0805/3/d/applicability, but `assertion` says `unless 3c waived the report` and the clause text carries the exception verbatim. The composition is stated in the entry, in a different field from the one the check reads. This is the benign case of the three, and it is why the check reports read-but-not-claimed separately rather than failing on it."
+      "$finding_2026_08_23": "LEFT UNCHANGED, AND THE FINDING IS ABOUT THE CHECK RATHER THAN THE CLAUSE. check-claimed-effects.mjs reports this as read-but-not-claimed because `disposition_basis` does not mention that the clause reads feca/2-0805/3/d/applicability. THE ENTRY DOES SAY IT: `assertion` reads `unless 3c waived the report`, and the clause text carries the exception verbatim. The composition is stated, in a different field from the one the check reads.\n\nSo the check's field coverage is narrower than the register's, and it is the check that should widen. Recorded here rather than fixed, because widening what counts as a claim changes what the instrument asserts about all three domains and is a change to make deliberately."
     },
     {
       "id": "feca/2-0805/4/c/negated",
