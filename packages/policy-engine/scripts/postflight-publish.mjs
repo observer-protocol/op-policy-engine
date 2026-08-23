@@ -38,6 +38,33 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const EXIT_OK = 0, EXIT_REFUSED = 1, EXIT_UNREACHABLE = 2;
+
+// ─── A DRY RUN IS A THIRD CAUSE, AND THE CHECK DECLINES RATHER THAN REFUSES ─────────────────────
+//
+// npm fires the publish lifecycle on `npm publish --dry-run`, so this ran on every dry run, looked
+// for a version that was never meant to exist, re-read for 15 seconds, and refused. The refusal was
+// honest on its own terms, and a check that refuses on every dry run is a check people learn to
+// ignore, which is the false-refusal class: an exit code that looks like a finding and contains
+// none.
+//
+// VERIFIED, NOT RELAYED, 2026-08-24: a scratch package with a postpublish probe shows the lifecycle
+// firing under --dry-run with npm_config_dry_run === "true" in its environment, and the variable
+// UNDEFINED when the flag is absent. The guard tests the exact string npm sets.
+//
+// THE EXIT CODE IS 0 AND THAT IS A STATED TRADE, not an oversight. This script's exit code, in the
+// one context where the variable exists, is consumed by npm's lifecycle, where any non-zero fails
+// the dry run and teaches the ignoring this guard exists to prevent. The did-not-run state
+// therefore lives in the OUTPUT, loudly, and cannot live in the exit code. A manual invocation
+// never has the variable, so a human running this by hand still gets the full check.
+if (process.env.npm_config_dry_run === 'true') {
+  console.log('');
+  console.log('── publish postflight: DECLINED, dry run ──');
+  console.log('  npm_config_dry_run=true: no publish happened, so there is nothing in the registry');
+  console.log('  to check. This run establishes NOTHING about any version. Exit 0 keeps the dry run');
+  console.log('  green; it is not a pass.');
+  console.log('');
+  process.exit(EXIT_OK);
+}
 const pkgDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(readFileSync(join(pkgDir, 'package.json'), 'utf8'));
 const version = process.argv[2] || pkg.version;
