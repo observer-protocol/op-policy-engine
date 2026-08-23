@@ -1,0 +1,2556 @@
+{
+ "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
+ "register_version": "0.1.0",
+ "domain": "feca",
+ "source": {
+  "$schema_note": "FECA PM Part 2 Chapter 2-0805, RE-DERIVED FROM SOURCE 2026-08-23 under the extended schema. Not reworked from the first pass, which was made under a schema that did not describe the document. The first pass is kept at clauses.first-pass.json for comparison.",
+  "decomposition_note": null
+ },
+ "dispositions": {
+  "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION. ILLUSTRATIVE is NOT in the schema and any clause carrying it fits no category.",
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {
+   "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE, so a category cannot acquire a result by a clause author forgetting. The interpreter refuses to evaluate any clause in one of these categories and refuses to read a result from one.",
+   "DEFINITIONAL": {
+    "no_result": {
+     "op": "const",
+     "value": "DEFINITIONAL"
+    },
+    "supplies": {
+     "op": "coalesce",
+     "value": {
+      "op": "clause_field",
+      "name": "operative_weight"
+     },
+     "fallback": {
+      "op": "const",
+      "value": "a meaning other clauses consume"
+     }
+    }
+   },
+   "INSTRUCTION": {
+    "refused": {
+     "op": "const",
+     "value": "INSTRUCTION"
+    },
+    "why": {
+     "op": "const",
+     "value": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+    }
+   },
+   "ILLUSTRATIVE": {
+    "refused": {
+     "op": "const",
+     "value": "ILLUSTRATIVE"
+    },
+    "why": {
+     "op": "const",
+     "value": "carries no requirement; ILLUSTRATIVE is not in the schema"
+    }
+   }
+  }
+ },
+ "primitives": {
+  "$state": "NOT_FOUND: feca-2-0805 carries no primitives.json. Looked, and there is no primitive register for this domain to derive from.",
+  "entries": null
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "NOT_FOUND: feca-2-0805 carries no facts.json. The fact vocabulary this domain evaluates against exists only as paths inside its evaluation. Absent is recorded as a state, not as an omitted key.",
+  "fields": null
+ },
+ "ambiguities": {
+  "$source_field_name": "NONE",
+  "entries": [
+   {
+    "id": "F1",
+    "clause_id": "feca/2-0805/5/c/conflict",
+    "question": "When are two medical opinions of `approximately equal weight`?",
+    "competing_readings": null,
+    "textual_basis": "para 5c: `A conflict of medical opinion may be created when opinions of the attending physician and the second opinion are of approximately equal weight.`",
+    "materiality": "Decisive, and it is the chapter's central operation. The finding of a conflict is what sends a case to a referee specialist under 5 U.S.C. 8123(a), and the chapter gives no test for equality of weight.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "F2",
+    "clause_id": "feca/2-0805/2/d/precipitation",
+    "question": "Is an acceptance for precipitation limited in duration or not?",
+    "competing_readings": null,
+    "textual_basis": "para 2d states the acceptance `would be limited to the period of work-related tuberculosis` and then that `A claim can also be accepted for precipitation of a condition with no limit on the duration of the acceptance.`",
+    "materiality": "Decisive for how long OWCP carries the condition. The two sentences are in the same paragraph and are not reconciled.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "F3",
+    "clause_id": "feca/2-0805/3/c/no-report",
+    "question": "What makes a condition `minor` and identifiable `on visual inspection by a lay person`?",
+    "competing_readings": null,
+    "textual_basis": "para 3c(1). The examples given are burn, laceration, insect sting, animal bite.",
+    "materiality": "Governs whether a claim can be accepted with NO medical report at all. The examples bound the term by instance rather than by test.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "F4",
+    "clause_id": "feca/2-0805/4/b/no-opinion",
+    "question": "What counts as `appropriate development`, and does `generally can be denied` leave discretion?",
+    "competing_readings": null,
+    "textual_basis": "paras 4b and 4c both condition a denial on `appropriate development has been completed`; 4b adds `generally`.",
+    "materiality": "Governs denial on both routes in paragraph 4. Neither the completeness standard nor the force of `generally` is stated.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "F5",
+    "clause_id": "feca/2-0805/6/b/2/weigh-probability",
+    "question": "How is `the medical probability of infection both outside and within the sphere of employment` to be weighed?",
+    "competing_readings": null,
+    "textual_basis": "para 6b(2): where non-work factors are present the CE `must carefully consider` the relative probability.",
+    "materiality": "Decides acceptance of a communicable-disease claim where an outside source exists. `carefully consider` names no standard.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": {
+  "$from": "feca-2-0805/defined-terms.json",
+  "terms": [
+   {
+    "term": "physician",
+    "where_defined": "OUTSIDE the chapter, cited",
+    "source": "5 U.S.C. 8101(2), narrowed by state-law scope of practice",
+    "operative_weight": "Decides whose opinion can establish causal relationship at all. The chapter enumerates who is excluded rather than restating the definition."
+   },
+   {
+    "term": "direct causation",
+    "where_defined": "IN the chapter, para 2a",
+    "source": "FECA PM 2-0805 para 2a",
+    "operative_weight": "Selects an acceptance type carrying no duration limit."
+   },
+   {
+    "term": "aggravation",
+    "where_defined": "IN the chapter, para 2b",
+    "source": "FECA PM 2-0805 para 2b",
+    "operative_weight": "Splits into temporary and permanent, which carry different payable periods."
+   },
+   {
+    "term": "temporary aggravation",
+    "where_defined": "IN the chapter, para 2b(1)",
+    "source": "FECA PM 2-0805 para 2b(1)",
+    "operative_weight": "Compensation payable only for the established period, excluding the underlying disease."
+   },
+   {
+    "term": "permanent aggravation",
+    "where_defined": "IN the chapter, para 2b(2)",
+    "source": "FECA PM 2-0805 para 2b(2)",
+    "operative_weight": "Acceptance carries no duration limit."
+   },
+   {
+    "term": "acceleration",
+    "where_defined": "IN the chapter, para 2c",
+    "source": "FECA PM 2-0805 para 2c",
+    "operative_weight": "Acceptance carries the same force as direct causation."
+   },
+   {
+    "term": "precipitation",
+    "where_defined": "IN the chapter, para 2d",
+    "source": "FECA PM 2-0805 para 2d",
+    "operative_weight": "Duration of acceptance is contradicted within the paragraph. See F2."
+   },
+   {
+    "term": "consequential injury",
+    "where_defined": "IN the chapter, para 7a",
+    "source": "FECA PM 2-0805 para 7a, resting on Sandra Dixon-Mills, 44 ECAB 882 (1993)",
+    "operative_weight": "Extends compensability to natural consequences of an accepted injury."
+   },
+   {
+    "term": "intervening injury",
+    "where_defined": "IN the chapter, para 7b",
+    "source": "FECA PM 2-0805 para 7b",
+    "operative_weight": "Defeats the original relationship only by breaking the chain of causation."
+   },
+   {
+    "term": "conflict of medical opinion",
+    "where_defined": "IN the chapter, para 5c",
+    "source": "FECA PM 2-0805 para 5c",
+    "operative_weight": "Triggers referee referral under 5 U.S.C. 8123(a). Its own trigger is open. See F1."
+   },
+   {
+    "term": "Statement of Accepted Facts (SOAF)",
+    "where_defined": "OUTSIDE the chapter, cited",
+    "source": "FECA PM 2-0809",
+    "operative_weight": "Supplied as the factual background for a specialist opinion."
+   }
+  ]
+ },
+ "undefined_terms": {
+  "$from": "feca-2-0805/undefined-terms.json",
+  "$how_the_evaluator_must_treat_it": "A clause whose operative requirement rests on an ungrounded term returns `undetermined` unless a meaning is supplied in `resolutions.ungrounded_terms`. THE EVALUATOR NEVER SUPPLIES ONE.\n\nRULED 2026-08-23: WHERE A SUPPLIED MEANING WAS ACTUALLY READ, THE RESULT TOKEN ITSELF CARRIES IT, as `<result>_on_supplied_meaning`. Provenance alone was not enough. Resolving an ambiguity is an institution choosing between readings the source permits; supplying a meaning for a term the source never defines is writing a rule the document does not contain. A bare `satisfied` on the second makes the run look as though it applied the chapter when it applied the institution, and a supervisor reading the row cannot tell.\n\nTHE OPERATION IS `attribute_to_supplied_meaning`. Under E10 its sentence is: IT MARKS A DETERMINATION AS RESTING ON A MEANING THE INSTITUTION SUPPLIED RATHER THAN ON THE DOCUMENT. That mentions neither syntax nor return type. `qualified` and `flagged` were rejected as saying how the token looks rather than what the operation does; `institutional` was rejected as naming the supplier rather than the act.\n\nATTRIBUTION IS GATED ON ACTUAL USE. The supplied meaning is passed through a proxy that records reads, so a clause that came out `not_applicable` before the meaning was consulted is NOT attributed. Marking it otherwise would overstate the institution's reach. Observed: with a meaning supplied, `3/d/2/rationalized` returns `satisfied_on_supplied_meaning` and `3/e/differentiate` returns a plain `not_applicable`, because its precondition failed before the meaning was reached.\n\nA COMPOSITION OVER THESE TOKENS MUST MAP BOTH. `satisfied` and `satisfied_on_supplied_meaning` are different tokens, so `remap_result_domain` throws on the second unless a downstream clause has decided what it means there. A determination cannot be laundered into an unattributed one by being composed.",
+  "terms": [
+   {
+    "term": "rationalized medical opinion",
+    "used_at": "11 occurrences across paragraphs 3, 4 and 5; the operative requirement of 3d(2), 3e and the whole of paragraph 5",
+    "pointer": "NONE. The chapter neither defines it nor cites anywhere that does. Contrast `physician`, which the chapter defines by citing 5 U.S.C. 8101(2).",
+    "what_turns_on_it": "Whether a claim outside the clear-cut traumatic band can be accepted at all. It is the single most consequential term in the chapter."
+   },
+   {
+    "term": "independent intervening cause",
+    "used_at": "para 7a, as the SOLE defeater of the natural-consequence presumption",
+    "pointer": "Partial. The chapter cites Sandra Dixon-Mills, 44 ECAB 882 (1993) for the presumption, and states the defeater in the same sentence without attributing or defining it.",
+    "what_turns_on_it": "Whether a later off-duty injury remains inside an accepted claim. The presumption has exactly one exception and its content is not supplied."
+   },
+   {
+    "term": "chain of causation",
+    "used_at": "paras 7a and 7b, as the thing an intervening injury may break",
+    "pointer": "NONE in the chapter.",
+    "what_turns_on_it": "Whether a disability after a second injury is still related to the original incident."
+   }
+  ]
+ },
+ "lanes": {
+  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
+  "lanes": [
+   "engine",
+   "agent",
+   "panel",
+   "person"
+  ],
+  "lookup": {
+   "CONDITIONAL": {
+    "lane": "engine"
+   },
+   "DEFINITIONAL": {
+    "no_lane": "supplies a meaning; produces no determination to route"
+   },
+   "DERIVED": {
+    "lane": "engine"
+   },
+   "ILLUSTRATIVE": {
+    "no_lane": "refuses; produces no determination to route"
+   },
+   "INSTRUCTION": {
+    "no_lane": "refuses; produces no determination to route"
+   },
+   "JUDGMENT": {
+    "lane": "person"
+   },
+   "MECHANICAL": {
+    "lane": "engine"
+   }
+  }
+ },
+ "ungrounded_terms": {
+  "$note": "A term the chapter decides outcomes with and supplies no meaning for. The interpreter NEVER supplies one. Declared once for the domain rather than once per clause.",
+  "undetermined_because": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "const",
+     "value": "the operative term `"
+    },
+    {
+     "op": "ungrounded_term"
+    },
+    {
+     "op": "const",
+     "value": "` is ungrounded: this chapter neither defines it nor points anywhere that does"
+    }
+   ]
+  },
+  "attribution": {
+   "rests_on": {
+    "op": "const",
+    "value": "a meaning supplied by the institution, not by the chapter"
+   },
+   "term": {
+    "op": "ungrounded_term"
+   }
+  }
+ },
+ "bindings": {
+  "waiver": {
+   "op": "conjunction_over_results",
+   "undetermined_is": "undetermined",
+   "results": {
+    "op": "list",
+    "items": [
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "held_judgment",
+       "args": [
+        {
+         "op": "fact",
+         "path": "injury.minor_and_lay_identifiable"
+        }
+       ]
+      },
+      "mapping": {
+       "affirmed": {
+        "op": "const",
+        "value": true
+       },
+       "not_assessed": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "$unmapped": {
+        "op": "const",
+        "value": false
+       }
+      }
+     },
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "injury.witnessed_or_prompt"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "injury.fact_disputed"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "clauses": [
+  {
+   "id": "feca/2-0805/2/a/occupational-rationale",
+   "source_locator": "para 2a",
+   "text": "In occupational disease claims the medical evidence needed to support the relationship will likely require greater rationale than in traumatic injury claims.",
+   "text_language": "en",
+   "assertion": "Occupational disease claims need more rationale than traumatic injury claims.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Sets a comparative standard and no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "opinion.rationale_sufficient_for_class"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/b/diagnosed",
+   "source_locator": "para 2b",
+   "text": "An aggravation must be diagnosed by a physician to be compensable.",
+   "text_language": "en",
+   "assertion": "Compensability requires a physician diagnosis of aggravation.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a diagnosis by a member of the physician class.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.type_claimed"
+       },
+       "right": {
+        "op": "const",
+        "value": "aggravation"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "opinion.aggravation_diagnosed_by"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      }
+     ]
+    },
+    "extra": {
+     "definition_applied": {
+      "op": "const",
+      "value": "feca/2-0805/2/b/aggravation"
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/b/lesser-diagnosis",
+   "source_locator": "para 2b",
+   "text": "A claim may be accepted for a lesser established diagnosis if the aggravation issue requires further development.",
+   "text_language": "en",
+   "assertion": "An established lesser diagnosis may be accepted pending development.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises only where the aggravation issue is undeveloped.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "applicability_gate",
+     "applies": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "claim.aggravation_issue_undeveloped"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "compute": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "opinion.lesser_established_diagnosis"
+        }
+       ]
+      },
+      "mapping": {
+       "present": {
+        "op": "const",
+        "value": "satisfied"
+       },
+       "absent": {
+        "op": "const",
+        "value": "not_satisfied"
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/b/unclear-duration",
+   "source_locator": "para 2b",
+   "text": "if the evidence is unclear as to whether the aggravation is temporary or permanent, the case may be accepted for a temporary aggravation and concurrently developed",
+   "text_language": "en",
+   "assertion": "Unclear duration yields temporary acceptance pending development.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises only on an established aggravation of unclear duration.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "opinion.aggravation_duration_clear"
+       },
+       "right": {
+        "op": "const",
+        "value": false
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "acceptance.accepted_as"
+       },
+       "right": {
+        "op": "const",
+        "value": "temporary_aggravation"
+       }
+      }
+     ]
+    },
+    "extra": {
+     "definition_applied": {
+      "op": "const",
+      "value": "feca/2-0805/2/b/1/temporary"
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/b/2/careful-evaluation",
+   "source_locator": "para 2b(2)",
+   "text": "A case should be accepted for permanent aggravation only after careful evaluation of all medical evidence of record.",
+   "text_language": "en",
+   "assertion": "Permanent aggravation is accepted only after careful evaluation.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`careful evaluation` names a standard and no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.all_evidence_carefully_evaluated"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/b/2/second-opinion",
+   "source_locator": "para 2b(2)",
+   "text": "The CE should usually refer the claimant for a second opinion examination (depending upon the complexity of the claimed condition and the medical rationale in the file) before accepting",
+   "text_language": "en",
+   "assertion": "A second opinion is usually obtained before accepting permanent aggravation.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`usually` and `depending upon the complexity` leave the decision open. It is not INSTRUCTION because the referral is not a condition on acceptance.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.second_opinion_appropriate"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/medical-issue",
+   "source_locator": "para 3 chapeau",
+   "text": "The question of causal relationship is a medical issue which usually requires reasoned medical opinion for resolution. This evidence should be obtained from a physician who has examined or treated the claimant.",
+   "text_language": "en",
+   "assertion": "Causal relationship is resolved by reasoned medical opinion from a treating or examining physician.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of an opinion from a physician who examined or treated the claimant.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "all_present",
+      "args": [
+       {
+        "op": "list",
+        "items": [
+         {
+          "op": "fact",
+          "path": "opinion.present"
+         },
+         {
+          "op": "fact",
+          "path": "opinion.examined_or_treated"
+         }
+        ]
+       }
+      ]
+     },
+     "mapping": {
+      "all_present": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "some_absent": {
+       "op": "const",
+       "value": "not_satisfied"
+      }
+     }
+    },
+    "extra": {
+     "definition_applied": {
+      "op": "const",
+      "value": "feca/2-0805/3/a/physician"
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/a/1/countersigned",
+   "source_locator": "para 3a(1)",
+   "text": "A report of a physician assistant or a certified nurse practitioner will be considered medical evidence if countersigned by a qualified physician.",
+   "text_language": "en",
+   "assertion": "A PA or CNP report counts only when countersigned.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a countersignature by a member of the physician class.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "opinion.source_class"
+         },
+         {
+          "op": "const",
+          "value": [
+           "physician_assistant",
+           "nurse_practitioner"
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "member"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "opinion.countersigned_by"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/a/3/chiropractor",
+   "source_locator": "para 3a(3)",
+   "text": "A chiropractor's opinion constitutes medical evidence only if a diagnosis of subluxation of the spine is made and supported by x-rays",
+   "text_language": "en",
+   "assertion": "A chiropractor opinion counts only on a subluxation diagnosis supported by x-rays.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Two recorded facts.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "opinion.source_class"
+       },
+       "right": {
+        "op": "const",
+        "value": "chiropractor"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "all_present",
+        "args": [
+         {
+          "op": "list",
+          "items": [
+           {
+            "op": "fact",
+            "path": "opinion.subluxation_diagnosed"
+           },
+           {
+            "op": "fact",
+            "path": "opinion.subluxation_xrays"
+           }
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "all_present"
+       }
+      }
+     ]
+    },
+    "extra": {
+     "definition_applied": {
+      "op": "const",
+      "value": "feca/2-0805/3/a/physician"
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/b/report-contents",
+   "source_locator": "para 3b",
+   "text": "the physician's diagnosis of the condition found, the objective examination findings that establish that diagnosis, and opinion concerning the relationship",
+   "text_language": "en",
+   "assertion": "The report must carry diagnosis, objective findings and an opinion on relationship.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of three named elements.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "fact",
+         "path": "opinion.diagnosis"
+        },
+        {
+         "op": "fact",
+         "path": "opinion.objective_findings"
+        },
+        {
+         "op": "fact",
+         "path": "opinion.relationship_opinion"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/c/no-report",
+   "source_locator": "para 3c",
+   "text": "If all of the following criteria are satisfied, a claim may be accepted without a medical report: (1) minor condition identifiable on visual inspection by a lay person; and (2) witnessed or promptly reported, no dispute as to fact of injury.",
+   "text_language": "en",
+   "assertion": "Both criteria together waive the medical report.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "A conjunctive exception; where it does not apply nothing is breached.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "binding",
+      "name": "waiver"
+     },
+     "mapping": {
+      "satisfied": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "not_satisfied": {
+       "op": "const",
+       "value": "not_applicable"
+      },
+      "undetermined": {
+       "op": "const",
+       "value": "undetermined"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/applicability",
+   "source_locator": "para 3d chapeau",
+   "text": "If the circumstances noted above in 3c do not apply, the CE should determine whether a medical report addressing causal relationship is contained in the file.",
+   "text_language": "en",
+   "assertion": "The medical-opinion requirement applies exactly when the 3c waiver does not.",
+   "disposition": "DERIVED",
+   "disposition_basis": "Reads no fact of its own. It composes the result of 3c and gates the whole of 3d.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "clause",
+      "id": "feca/2-0805/3/c/no-report"
+     },
+     "mapping": {
+      "satisfied": {
+       "op": "const",
+       "value": "not_applicable"
+      },
+      "not_applicable": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "undetermined": {
+       "op": "const",
+       "value": "undetermined"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/1/clear-cut",
+   "source_locator": "para 3d(1)",
+   "text": "In clear-cut traumatic injury claims, where the fact of injury is established and is clearly competent to cause the condition described, a fully rationalized medical opinion is not needed.",
+   "text_language": "en",
+   "assertion": "A clear-cut traumatic injury needs only a diagnosis and an affirmative statement.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`clear-cut` and `clearly competent to cause` set a standard and no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "injury.clear_cut_and_competent"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/2/rationalized",
+   "source_locator": "para 3d(2)",
+   "text": "In all other traumatic injury claims, and in occupational illness claims, rationalized medical opinion supporting causal relationship is required.",
+   "text_language": "en",
+   "assertion": "Every claim outside 3d(1) requires a rationalized medical opinion.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of a rationalized opinion.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": "rationalized medical opinion",
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "ungrounded",
+    "term": "rationalized medical opinion",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "clause",
+      "id": "feca/2-0805/3/d/applicability"
+     },
+     "right": {
+      "op": "const",
+      "value": "satisfied"
+     }
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "opinion.rationale_grade"
+       },
+       {
+        "op": "meaning",
+        "key": "accepts"
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "breached"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/3/a/hearing",
+   "source_locator": "para 3d(3)(a)",
+   "text": "Claims for hearing loss require an opinion from a Board-certified specialist in otolaryngology.",
+   "text_language": "en",
+   "assertion": "Hearing loss requires a Board-certified otolaryngologist opinion.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence of an opinion from a named credential class.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.condition_class"
+       },
+       "right": {
+        "op": "const",
+        "value": "hearing_loss"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "opinion.specialist_credential"
+       },
+       "right": {
+        "op": "const",
+        "value": "board_certified_otolaryngology"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/3/b/pulmonary",
+   "source_locator": "para 3d(3)(b)",
+   "text": "Claims for pulmonary conditions require an opinion from a Board-certified pulmonary specialist prior to acceptance.",
+   "text_language": "en",
+   "assertion": "Pulmonary claims require a Board-certified pulmonary opinion before acceptance.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Presence plus an ordering requirement.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.condition_class"
+       },
+       "right": {
+        "op": "const",
+        "value": "pulmonary"
+       }
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "ordered_before",
+        "args": [
+         {
+          "op": "fact",
+          "path": "opinion.specialist_opinion_at"
+         },
+         {
+          "op": "fact",
+          "path": "acceptance.accepted_at"
+         }
+        ]
+       },
+       "mapping": {
+        "before": {
+         "op": "const",
+         "value": true
+        },
+        "simultaneous": {
+         "op": "const",
+         "value": true
+        },
+        "after": {
+         "op": "const",
+         "value": false
+        },
+        "missing_operand": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/d/3/c/emotional",
+   "source_locator": "para 3d(3)(c)",
+   "text": "an opinion from a psychiatrist must be obtained where a non-mental component is present, a functional overlay is implicated, and/or medication is used",
+   "text_language": "en",
+   "assertion": "A psychiatrist opinion is required on any of three circumstances.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`functional overlay is implicated` is a clinical judgment with no test given.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "opinion.psychiatrist_required_assessed"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/3/e/differentiate",
+   "source_locator": "para 3e",
+   "text": "the physician must provide rationalized medical opinion which differentiates between the effects of the work-related injury or disease and the pre-existing condition",
+   "text_language": "en",
+   "assertion": "A same-site pre-existing condition requires a differentiating opinion.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises only where a pre-existing condition of the same body part is present.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": "rationalized medical opinion",
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "ungrounded",
+    "term": "rationalized medical opinion",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "claim.pre_existing_same_site"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "opinion.differentiates"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "primitive",
+         "name": "member_of_enumeration",
+         "args": [
+          {
+           "op": "fact",
+           "path": "opinion.rationale_grade"
+          },
+          {
+           "op": "meaning",
+           "key": "accepts"
+          }
+         ]
+        },
+        "right": {
+         "op": "const",
+         "value": "member"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "else": {
+      "op": "const",
+      "value": "breached"
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/4/a/difficulty-factors",
+   "source_locator": "para 4a",
+   "text": "The degree of difficulty in determining causal relationship depends mainly on: employment factors, nature of disability, elapsed time, medical history",
+   "text_language": "en",
+   "assertion": "Four named factors govern how much rationale a case needs.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Names considerations that inform a weighing, and no threshold.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.difficulty_assessed"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/4/b/no-opinion",
+   "source_locator": "para 4b",
+   "text": "When no opinion regarding causal relationship is provided by the attending physician, the claim generally can be denied provided appropriate development has been completed. Exceptions to this rule are where no medical opinion or medical report is required.",
+   "text_language": "en",
+   "assertion": "Absent an opinion, denial follows once development is complete, unless 3c waived the report.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Reads a fact of its own, the absence of an opinion, and is conditioned on completed development.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "fact",
+            "path": "opinion.relationship_opinion"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "absent"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "feca/2-0805/3/d/applicability"
+         },
+         "right": {
+          "op": "const",
+          "value": "satisfied"
+         }
+        }
+       ]
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "held_judgment",
+        "args": [
+         {
+          "op": "fact",
+          "path": "adjudicator.development_complete"
+         }
+        ]
+       },
+       "mapping": {
+        "affirmed": {
+         "op": "const",
+         "value": true
+        },
+        "denied": {
+         "op": "const",
+         "value": false
+        },
+        "not_assessed": {
+         "op": "const",
+         "value": "undetermined"
+        },
+        "$unmapped": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/4/c/negated",
+   "source_locator": "para 4c",
+   "text": "When the attending physician negates causal relationship and no medical evidence to the contrary appears in the file, the case may be disallowed, provided appropriate development has been completed.",
+   "text_language": "en",
+   "assertion": "A negating opinion with nothing contrary supports disallowance without a second opinion.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Conditioned on absence of contrary evidence and completed development.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "opinion.negates_relationship"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "file.contrary_evidence"
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "held_judgment",
+        "args": [
+         {
+          "op": "fact",
+          "path": "adjudicator.development_complete"
+         }
+        ]
+       },
+       "mapping": {
+        "affirmed": {
+         "op": "const",
+         "value": true
+        },
+        "denied": {
+         "op": "const",
+         "value": false
+        },
+        "not_assessed": {
+         "op": "const",
+         "value": "undetermined"
+        },
+        "$unmapped": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/5/necessity",
+   "source_locator": "para 5 chapeau",
+   "text": "If the CE determines that additional medical opinion is necessary, he/she may request an additional report or seek a second opinion.",
+   "text_language": "en",
+   "assertion": "Whether further opinion is needed is the adjudicator's determination.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`determines that additional medical opinion is necessary` sets no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.further_opinion_necessary"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/5/b/second-opinion",
+   "source_locator": "para 5b",
+   "text": "In cases that cannot be adjudicated on the basis of the opinion provided by the claimant's physician, a SOAF should be prepared and an opinion requested from a specialist in the pertinent field",
+   "text_language": "en",
+   "assertion": "An unadjudicable file goes to a second opinion specialist.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`cannot be adjudicated on the basis of the opinion provided` names no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.adjudicable_on_present_opinion"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/5/c/conflict",
+   "source_locator": "para 5c",
+   "text": "A conflict of medical opinion may be created when opinions of the attending physician and the second opinion are of approximately equal weight. When this occurs, the entire case file should be referred to a board-certified specialist",
+   "text_language": "en",
+   "assertion": "Opinions of approximately equal weight create a conflict, referred to a referee specialist.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`approximately equal weight` is the weighing this chapter exists to govern and it sets no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.opinions_approximately_equal"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/specialist-discussion",
+   "source_locator": "para 6",
+   "text": "Establishing causal relationship in these types of complex cases usually requires an in-depth discussion of causal relationship by an appropriate specialist",
+   "text_language": "en",
+   "assertion": "High-risk infection claims usually need specialist discussion.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`usually` and `in-depth` set no test.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.specialist_discussion_sufficient"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/accept-while-developing",
+   "source_locator": "para 6",
+   "text": "The CE can accept the claim for a physical injury where one exists while developing the claim for a more serious condition",
+   "text_language": "en",
+   "assertion": "An established physical injury may be accepted while a graver condition is developed.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises only where a physical injury exists alongside an undeveloped graver claim.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "applicability_gate",
+     "applies": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "claim.physical_injury_established"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "claim.graver_condition_undeveloped"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "acceptance.physical_injury_accepted"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "else": {
+       "op": "const",
+       "value": "not_satisfied"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/no-preventive-payment",
+   "source_locator": "para 6 note",
+   "text": "OWCP does not authorize payment for preventive measures such as vaccines and inoculations",
+   "text_language": "en",
+   "assertion": "Preventive measures are not payable, subject to specific circumstances.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A prohibition on a named class of payment.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "none_of_class_present",
+     "args": [
+      {
+       "op": "coalesce",
+       "value": {
+        "op": "fact",
+        "path": "authorisation.items"
+       },
+       "fallback": {
+        "op": "const",
+        "value": []
+       }
+      },
+      {
+       "op": "const",
+       "value": [
+        "vaccine",
+        "inoculation"
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/a/1/known-carrier",
+   "source_locator": "para 6a(1)",
+   "text": "If the source of infection is a known or probable carrier, the CE should accept the case for the physical injury involved and authorize prophylactic treatment",
+   "text_language": "en",
+   "assertion": "A known or probable carrier yields acceptance plus prophylactic treatment.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Turns on the recorded status of the source.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "exposure.source_status"
+       },
+       "right": {
+        "op": "const",
+        "value": "known_or_probable_carrier"
+       }
+      },
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "acceptance.physical_injury_accepted"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "authorisation.prophylactic"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/a/2/unknown-source",
+   "source_locator": "para 6a(2)",
+   "text": "If the source of infection is unidentified or the source's status is unknown, the CE should accept the claim for the physical injury involved.",
+   "text_language": "en",
+   "assertion": "An unidentified source still yields acceptance of the physical injury.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Turns on the recorded status of the source.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "exposure.source_status"
+       },
+       "right": {
+        "op": "const",
+        "value": "unidentified_or_unknown"
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "acceptance.physical_injury_accepted"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/b/1/known-carrier-test",
+   "source_locator": "para 6b(1)",
+   "text": "A known carrier is involved, and the claimant had neither a prior history of the disease nor exposure outside of employment",
+   "text_language": "en",
+   "assertion": "A positive test with a known carrier and no prior history or outside exposure may be accepted.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A conjunction of three recorded facts.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.test_result"
+         },
+         "right": {
+          "op": "const",
+          "value": "positive"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.source_status"
+         },
+         "right": {
+          "op": "const",
+          "value": "known_or_probable_carrier"
+         }
+        }
+       ]
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "all_present",
+        "args": [
+         {
+          "op": "list",
+          "items": [
+           {
+            "op": "fact",
+            "path": "exposure.no_prior_history"
+           },
+           {
+            "op": "fact",
+            "path": "exposure.no_outside_exposure"
+           }
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "all_present"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/b/2/prior-negative",
+   "source_locator": "para 6b(2)",
+   "text": "A prior test was negative and a physical injury has been accepted, if the occupation puts him or her at continuous risk and factors unrelated to work have not been identified as a source",
+   "text_language": "en",
+   "assertion": "A positive test after a negative one may be accepted on continuous occupational risk with no identified outside source.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A conjunction of four recorded facts.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.test_result"
+         },
+         "right": {
+          "op": "const",
+          "value": "positive"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.prior_test"
+         },
+         "right": {
+          "op": "const",
+          "value": "negative"
+         }
+        }
+       ]
+      },
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "acceptance.physical_injury_accepted"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.continuous_occupational_risk"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "exposure.outside_factors_identified"
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/6/b/2/weigh-probability",
+   "source_locator": "para 6b(2)",
+   "text": "If such factors are present, the CE must carefully consider the medical probability of infection both outside and within the sphere of employment, as well as the incubation period",
+   "text_language": "en",
+   "assertion": "Where outside factors exist, relative medical probability is weighed.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`carefully consider` names no standard. See F5.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.relative_probability_weighed"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/7/a/natural-consequence",
+   "source_locator": "para 7a",
+   "text": "every natural consequence that flows from the injury is deemed to arise out of the employment, unless it is the result of an independent intervening cause which is attributable to the employee's own intentional conduct",
+   "text_language": "en",
+   "assertion": "Natural consequences are compensable unless an independent intervening cause attributable to intentional conduct intervenes.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A presumption with one enumerated defeater.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": "independent intervening cause",
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "ungrounded",
+    "term": "independent intervening cause",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "claim.consequential_claimed"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "consequential.defeater_class"
+       },
+       {
+        "op": "meaning",
+        "key": "defeaters"
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "breached"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "satisfied"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/7/a/3/reasonable-time",
+   "source_locator": "para 7a(3)",
+   "text": "The CE should allow a reasonable time period for submission of the evidence (usually 30 days). After the time period has passed, the CE should adjudicate.",
+   "text_language": "en",
+   "assertion": "A reasonable period, usually 30 days, precedes adjudication.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`reasonable` is the standard; `usually 30 days` is a default and not a limit.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "adjudicator.period_allowed_reasonable"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/7/b/chain",
+   "source_locator": "para 7b",
+   "text": "the CE must determine whether the disability is due to the second injury alone, or whether the effects of the first injury still contribute. Unless the second injury breaks the chain of causation, the disability will be considered related to the original incident.",
+   "text_language": "en",
+   "assertion": "The original relationship survives unless the chain of causation is broken.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Whether the chain is broken is assigned to the adjudicator with no test given.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": "chain of causation",
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "ungrounded",
+    "term": "chain of causation",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "intervening.claimed"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "intervening.chain_status"
+       },
+       {
+        "op": "meaning",
+        "key": "breaks"
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "breached"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "satisfied"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "feca/2-0805/2/types-closed",
+   "source_locator": "para 2 chapeau",
+   "text": "An injury or disease may be related to employment factors in any of four ways",
+   "text_language": "en",
+   "assertion": "The relationship types are closed at four.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Fixes the space other clauses select from. Tests nothing.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "An acceptance must be one of the four; no fifth type exists.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/a/direct",
+   "source_locator": "para 2a",
+   "text": "the injury or factors of employment, through a natural and unbroken sequence, result in the condition claimed",
+   "text_language": "en",
+   "assertion": "Direct causation is a natural and unbroken sequence to the claimed condition.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Acceptance carries no duration limit.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/b/aggravation",
+   "source_locator": "para 2b",
+   "text": "a pre-existing condition is worsened, either temporarily or permanently, by an injury arising in the course of employment",
+   "text_language": "en",
+   "assertion": "Aggravation is the worsening of a pre-existing condition by a work injury.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Splits into temporary and permanent, which pay differently.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/b/1/temporary",
+   "source_locator": "para 2b(1)",
+   "text": "a limited period of medical treatment and/or disability, after which the employee returns to his or her previous physical status",
+   "text_language": "en",
+   "assertion": "Temporary aggravation ends with return to baseline.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Compensation payable only for the established period, excluding the underlying disease.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/b/1/baseline-carveout",
+   "source_locator": "para 2b(1)",
+   "text": "This is true even if the claimant cannot return to the job held at time of injury because the pre-existing condition will worsen if he or she does so",
+   "text_language": "en",
+   "assertion": "Inability to return to the original job does not extend the temporary aggravation period.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Bounds the preceding definition rather than testing a fact.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/b/1/end-date",
+   "source_locator": "para 2b(1)",
+   "text": "the acceptance letter should note the end date of the accepted temporary aggravation; the specific dates should also be included in any SOAF",
+   "text_language": "en",
+   "assertion": "A ceased temporary aggravation has its end date recorded.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act. No claim fact makes it true or false.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/b/2/permanent",
+   "source_locator": "para 2b(2)",
+   "text": "a condition will persist indefinitely due to the effects of the work-related injury or a condition is materially worsened such that it will not revert",
+   "text_language": "en",
+   "assertion": "Permanent aggravation persists indefinitely or does not revert.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Acceptance carries no duration limit.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/c/acceleration",
+   "source_locator": "para 2c",
+   "text": "acceleration is said to occur when the ordinary course of the disease does not account for the speed with which a condition develops",
+   "text_language": "en",
+   "assertion": "Acceleration is development faster than the disease course accounts for.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Carries the same force as direct causation: no set limitation on duration or severity.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/2/d/precipitation",
+   "source_locator": "para 2d",
+   "text": "A latent condition which would not have become manifest but for the employment is said to have been precipitated by factors of the employment.",
+   "text_language": "en",
+   "assertion": "Precipitation is a latent condition made manifest by employment.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Duration of acceptance is contradicted within the paragraph. See F2.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/3/a/physician",
+   "source_locator": "para 3a",
+   "text": "As defined by 5 U.S.C. 8101 (2), the term \"physician\" includes surgeons, osteopathic practitioners, podiatrists, dentists, clinical psychologists, optometrists and chiropractors within the scope of their practice as defined by state law.",
+   "text_language": "en",
+   "assertion": "Physician is the statutory class, bounded by state-law scope of practice.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Determines what every clause requiring a physician opinion means. It supplies a meaning rather than testing a fact.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Excludes RNs, LPNs, physician assistants, nurse practitioners, CNAs, social workers and physical therapists from giving an opinion that establishes causal relationship.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/3/a/2/psychologist",
+   "source_locator": "para 3a(2)",
+   "text": "A clinical psychologist may serve as a treating physician for a work-related emotional condition.",
+   "text_language": "en",
+   "assertion": "A clinical psychologist is a treating physician for emotional conditions.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Extends the scope of the defined term for one condition class.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/3/d/request",
+   "source_locator": "para 3d chapeau",
+   "text": "If no such report is present, the CE should request it from the claimant.",
+   "text_language": "en",
+   "assertion": "A missing report is requested from the claimant.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/3/e/1/from-claimant",
+   "source_locator": "para 3e(1)",
+   "text": "From the claimant: full details of the pre-existing condition; reports from all physicians who examined or treated it",
+   "text_language": "en",
+   "assertion": "The adjudicator requests pre-existing condition details and records from the claimant.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/3/e/2/from-agency",
+   "source_locator": "para 3e(2)",
+   "text": "From the employing agency: pre-employment physical, other pertinent medical records, and a statement from the immediate superior",
+   "text_language": "en",
+   "assertion": "The adjudicator requests three items from the employing agency.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/4/d/examples",
+   "source_locator": "para 4d",
+   "text": "[truck and thrombophlebitis and stroke; tuberculosis nurse and spouse]",
+   "text_language": "en",
+   "assertion": "Worked illustrations of how elapsed time and physiological connection change the rationale required.",
+   "disposition": "ILLUSTRATIVE",
+   "disposition_basis": "Carries no requirement. FITS NO CATEGORY IN THE EXTENDED SCHEMA: ILLUSTRATIVE was ruled not to enter, on one instance in one domain.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/5/a/attending",
+   "source_locator": "para 5a",
+   "text": "A list of questions may be sent to the attending physician, and a SOAF may be provided as the background for the case, if needed",
+   "text_language": "en",
+   "assertion": "Questions and a SOAF may be sent to the attending physician.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/5/d/questions",
+   "source_locator": "para 5d",
+   "text": "Questions should be as precise as possible, tailored to the circumstances; avoid general questions, those interpretable in more than one way, and those which suggest a certain answer.",
+   "text_language": "en",
+   "assertion": "Questions must be precise, case-specific and non-leading.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs how an act is performed.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/5/d/all-issues",
+   "source_locator": "para 5d",
+   "text": "the CE should identify and address all medical issues which need resolution before requesting the additional opinion, and avoid questions unnecessary to the issue at hand",
+   "text_language": "en",
+   "assertion": "All live medical issues are formulated before requesting an opinion, and no premature ones.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs how an act is performed.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/a/consequential",
+   "source_locator": "para 7a",
+   "text": "This kind of injury occurs because of weakness or impairment caused by a work-related injury, and it may affect the same part of the body as the original injury or a different area",
+   "text_language": "en",
+   "assertion": "A consequential injury flows from weakness or impairment caused by the accepted injury.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Brings a later, off-duty injury inside the accepted claim.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/a/1/claimant-statement",
+   "source_locator": "para 7a(1)",
+   "text": "Ask the claimant to provide a factual statement [six enumerated contents]",
+   "text_language": "en",
+   "assertion": "The adjudicator requests a factual statement covering six matters.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/a/2/medical-evidence",
+   "source_locator": "para 7a(2)",
+   "text": "Ask the claimant to furnish medical evidence [records and a comprehensive report addressing eight matters]",
+   "text_language": "en",
+   "assertion": "The adjudicator requests medical evidence covering eight matters.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/a/further-clarification",
+   "source_locator": "para 7a",
+   "text": "The CE may also seek further clarification from the claimant's physician, or refer the case for review by the District Medical Advisor or to a second opinion examiner, prior to adjudicating",
+   "text_language": "en",
+   "assertion": "Further clarification or referral may precede adjudication.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act, at discretion.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/b/intervening",
+   "source_locator": "para 7b",
+   "text": "An injury occurring outside the performance of duty to the same part of the body originally injured is referred to as an intervening injury if compensation is claimed subsequent to the second injury.",
+   "text_language": "en",
+   "assertion": "An intervening injury is an off-duty injury to the same body part, claimed after.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Defines a term.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "Puts the original relationship in question without defeating it.",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "feca/2-0805/7/b/1/obtain",
+   "source_locator": "para 7b(1)",
+   "text": "the CE should obtain the following information from the claimant: full details of the second incident; all medical reports; a reasoned opinion on the relationship to both injuries",
+   "text_language": "en",
+   "assertion": "The adjudicator obtains three named items on an intervening injury.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an act.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  }
+ ]
+}

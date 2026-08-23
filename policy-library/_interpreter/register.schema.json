@@ -1,0 +1,476 @@
+{
+ "$note": "The schema a register validates against. NOT PUBLISHED, and neither is the validator. Publication is a separate decision and is not taken in this block.",
+ "$what_this_file_is": "The closed vocabularies are DATA here and are read by validate.mjs rather than restated in it, so there is one copy of each enumeration. The checking algorithm lives in validate.mjs; the vocabulary lives here; and validate.mjs derives a third copy from the interpreter's own implementation and compares all three, so a vocabulary that drifts from the code is reported rather than believed.",
+ "schema_version": "0.1.0",
+ "dispositions": {
+  "with_result_domain": {
+   "MECHANICAL": "evaluate against recorded facts; the primitive's own result domain",
+   "JUDGMENT": "evaluate, taking the judgment as an INPUT. Never inferred, never defaulted",
+   "CONDITIONAL": "evaluate; carries `not_applicable` for an obligation that never arose, which is not a pass",
+   "DERIVED": "evaluate; reads no fact of its own and composes other clauses' results",
+   "EVIDENTIAL": "evaluate; its result is about the STATE OF PROOF of another clause's condition and is an INPUT to that clause, not a determination of its own"
+  },
+  "without_result_domain": {
+   "DEFINITIONAL": "do not evaluate to a result. It supplies a meaning other clauses consume, and the run must report WHICH definition applied to each consuming clause",
+   "INSTRUCTION": "REFUSE. It directs an act and no fact makes it true or false, so it has no result domain",
+   "ILLUSTRATIVE": "NOT A CATEGORY OF THE SCHEMA. One clause in the estate carries it, it fits no category, and that is recorded rather than smoothed away. It is listed here so a register carrying it validates and so nothing silently gives it a result."
+  }
+ },
+ "primitives": {
+  "$note": "Parameters and result domains as the INTERPRETER IMPLEMENTS THEM. Where this disagrees with a domain's primitives.json the validator reports the disagreement rather than preferring one.",
+  "field_present": {
+   "parameters": [
+    "value"
+   ],
+   "result_domain": [
+    "present",
+    "absent"
+   ]
+  },
+  "all_present": {
+   "parameters": [
+    "values"
+   ],
+   "result_domain": [
+    "all_present",
+    "some_absent"
+   ]
+  },
+  "any_present": {
+   "parameters": [
+    "alternatives"
+   ],
+   "result_domain": [
+    "one_present",
+    "none_present"
+   ]
+  },
+  "member_of_enumeration": {
+   "parameters": [
+    "value",
+    "enumeration"
+   ],
+   "result_domain": [
+    "member",
+    "not_member"
+   ]
+  },
+  "all_members_of_enumeration": {
+   "parameters": [
+    "items",
+    "enumeration"
+   ],
+   "result_domain": [
+    "all_members",
+    "some_not_member"
+   ]
+  },
+  "member_of_register": {
+   "parameters": [
+    "candidate",
+    "register"
+   ],
+   "result_domain": [
+    "member",
+    "not_member",
+    "no_candidate"
+   ]
+  },
+  "distinct_members_at_least": {
+   "parameters": [
+    "items",
+    "minimum",
+    "independence"
+   ],
+   "result_domain": [
+    "met",
+    "not_met"
+   ],
+   "closed_argument": {
+    "index": 2,
+    "tokens": [
+     "distinct_values"
+    ]
+   }
+  },
+  "none_of_class_present": {
+   "parameters": [
+    "items",
+    "prohibited_class"
+   ],
+   "result_domain": [
+    "clear",
+    "prohibited_present"
+   ]
+  },
+  "open_set_floor": {
+   "parameters": [
+    "enumerated_results"
+   ],
+   "result_domain": [
+    "floor_met",
+    "floor_not_met"
+   ]
+  },
+  "held_judgment": {
+   "parameters": [
+    "assessment"
+   ],
+   "result_domain_open": true,
+   "$why_open": "It returns `not_assessed` for an absent assessment and PASSES THROUGH anything else. Its domain is the domain of whatever an institution records, which is why every remap over it must declare `$unmapped`."
+  },
+  "elapsed_within": {
+   "parameters": [
+    "start",
+    "end",
+    "limit",
+    "unit",
+    "now"
+   ],
+   "result_domain": [
+    "within",
+    "exceeded",
+    "not_yet_due",
+    "overdue",
+    "out_of_order",
+    "no_end_event"
+   ],
+   "closed_argument": {
+    "index": 3,
+    "tokens": [
+     "calendar_days",
+     "business_days",
+     "months"
+    ]
+   }
+  },
+  "ordered_before": {
+   "parameters": [
+    "a",
+    "b"
+   ],
+   "result_domain": [
+    "before",
+    "after",
+    "simultaneous",
+    "missing_operand"
+   ]
+  },
+  "amounts_equal": {
+   "parameters": [
+    "a",
+    "b"
+   ],
+   "result_domain": [
+    "equal",
+    "not_equal",
+    "incomparable_currency",
+    "missing_operand"
+   ]
+  },
+  "conditional_requirement": {
+   "parameters": [
+    "precondition",
+    "requirement_result"
+   ],
+   "result_domain": [
+    "satisfied",
+    "breached",
+    "outstanding",
+    "not_applicable",
+    "undetermined"
+   ],
+   "closed_argument": {
+    "index": 1,
+    "tokens": [
+     true,
+     false,
+     "outstanding",
+     "undetermined"
+    ]
+   }
+  }
+ },
+ "expression_ops": {
+  "const": {
+   "kind": "leaf",
+   "required": [
+    "value"
+   ]
+  },
+  "absent": {
+   "kind": "leaf",
+   "required": []
+  },
+  "fact": {
+   "kind": "leaf",
+   "required": [
+    "path"
+   ]
+  },
+  "resolution": {
+   "kind": "leaf",
+   "required": [
+    "name"
+   ]
+  },
+  "clause": {
+   "kind": "leaf",
+   "required": [
+    "id"
+   ]
+  },
+  "binding": {
+   "kind": "leaf",
+   "required": [
+    "name"
+   ]
+  },
+  "clause_field": {
+   "kind": "leaf",
+   "required": [
+    "name"
+   ]
+  },
+  "meaning": {
+   "kind": "leaf",
+   "required": [
+    "key"
+   ],
+   "only_inside": "ungrounded"
+  },
+  "ungrounded_term": {
+   "kind": "leaf",
+   "required": [],
+   "only_inside": "ungrounded"
+  },
+  "eq": {
+   "kind": "operator",
+   "required": [
+    "left",
+    "right"
+   ],
+   "children": [
+    "left",
+    "right"
+   ]
+  },
+  "not": {
+   "kind": "operator",
+   "required": [
+    "operand"
+   ],
+   "children": [
+    "operand"
+   ]
+  },
+  "and": {
+   "kind": "operator",
+   "required": [
+    "operands"
+   ],
+   "child_lists": [
+    "operands"
+   ],
+   "short_circuits": true
+  },
+  "or": {
+   "kind": "operator",
+   "required": [
+    "operands"
+   ],
+   "child_lists": [
+    "operands"
+   ],
+   "short_circuits": true
+  },
+  "cond": {
+   "kind": "operator",
+   "required": [
+    "if",
+    "then",
+    "else"
+   ],
+   "children": [
+    "if",
+    "then",
+    "else"
+   ]
+  },
+  "coalesce": {
+   "kind": "operator",
+   "required": [
+    "value",
+    "fallback"
+   ],
+   "children": [
+    "value",
+    "fallback"
+   ]
+  },
+  "concat": {
+   "kind": "operator",
+   "required": [
+    "parts"
+   ],
+   "child_lists": [
+    "parts"
+   ]
+  },
+  "list": {
+   "kind": "operator",
+   "required": [
+    "items"
+   ],
+   "child_lists": [
+    "items"
+   ]
+  },
+  "truthy": {
+   "kind": "operator",
+   "required": [
+    "value"
+   ],
+   "children": [
+    "value"
+   ]
+  },
+  "primitive": {
+   "kind": "primitive",
+   "required": [
+    "name",
+    "args"
+   ],
+   "child_lists": [
+    "args"
+   ]
+  },
+  "applicability_gate": {
+   "kind": "shape",
+   "required": [
+    "applies",
+    "compute"
+   ],
+   "children": [
+    "applies",
+    "compute"
+   ],
+   "closed_arm": "not_applicable",
+   "$closed_arm_is_not_a_parameter": "Ruling 2. A token parameter would let `the requirement failed` and `the requirement never applied` share one shape name and look like agreement, which is how the two domains diverged."
+  },
+  "guard_on_unresolved": {
+   "kind": "shape",
+   "required": [
+    "usable",
+    "compute"
+   ],
+   "children": [
+    "usable",
+    "compute"
+   ],
+   "closed_arm": "undetermined"
+  },
+  "remap_result_domain": {
+   "kind": "shape",
+   "required": [
+    "value",
+    "mapping"
+   ],
+   "children": [
+    "value"
+   ],
+   "child_maps": [
+    "mapping"
+   ]
+  },
+  "conjunction_over_results": {
+   "kind": "shape",
+   "required": [
+    "results",
+    "undetermined_is"
+   ],
+   "children": [
+    "results"
+   ],
+   "token_vocabulary": [
+    true,
+    false,
+    "satisfied",
+    "undetermined"
+   ]
+  },
+  "disjunction_over_results": {
+   "kind": "shape",
+   "required": [
+    "results"
+   ],
+   "children": [
+    "results"
+   ],
+   "token_vocabulary": [
+    true,
+    false,
+    "satisfied",
+    "undetermined"
+   ],
+   "$added": "Phase 0. See REUSE-LOG E18 for the source text that forced it."
+  }
+ },
+ "emitters": {
+  "emit": {
+   "required": [
+    "result"
+   ],
+   "children": [
+    "result",
+    "note"
+   ],
+   "child_maps": [
+    "extra"
+   ]
+  },
+  "decision_table": {
+   "required": [
+    "inputs",
+    "rows"
+   ],
+   "$rows": "A MISSING ROW IS A DEFECT, NEVER A DEFAULT."
+  },
+  "ungrounded": {
+   "required": [
+    "term",
+    "applies",
+    "compute"
+   ],
+   "children": [
+    "applies",
+    "compute"
+   ]
+  }
+ },
+ "rules": {
+  "R1": "Every clause id is unique and the clause array order IS the order a determination is reported in.",
+  "R2": "A clause whose disposition has a result domain carries exactly one evaluation. A clause whose disposition has none carries no evaluation, and its emission is declared per disposition rather than per clause.",
+  "R3": "Every clause reference resolves to a clause of this register, and resolves to one EMITTED EARLIER in the register order. A clause cannot read a result that has not been produced.",
+  "R4": "Every binding reference resolves, and the binding graph is acyclic.",
+  "R5": "Every primitive named is one the interpreter implements, and is called with the number of arguments the schema declares.",
+  "R6": "Where a primitive declares a closed argument, any constant supplied at that position is one of the declared tokens.",
+  "R7": "A remap over a source whose result domain is CLOSED must map every token of it. A remap over a source whose result domain is OPEN, or which the schema cannot resolve, must declare `$unmapped` explicitly.",
+  "R8": "NO `cond` IN A RESULT EXPRESSION MAY HAVE A BRANCH THAT IS THE BARE LITERAL `not_applicable` OR `undetermined`. Those are `applicability_gate` and `guard_on_unresolved` written by hand, and E8's closure refused a general select-by-predicate beside them for exactly this reason: it lets the two distinctions share a shape. The prohibition does not extend to note expressions, which produce prose and not a determination.",
+  "R9": "`meaning` and `ungrounded_term` appear only beneath an `ungrounded` emitter or in the register's `ungrounded_terms` declarations.",
+  "R10": "A decision table's rows match on exactly the declared inputs, no combination is listed twice, and the row count equals the product of the declared input domains. A declared cross_product that disagrees with the row count is a failure.",
+  "R11": "Every disposition appearing on a clause is declared by the schema, and every without-result-domain disposition in use has a declared emission.",
+  "R12": "The schema's primitive vocabulary and the interpreter's implemented set are equal, compared in both directions.",
+  "R13": "The register's lanes.lookup is total over the dispositions its clauses use, in the correct polarity: every with-result disposition maps to one of the four lane tokens, every without-result disposition maps to an explicit no_lane, and no entry does both or neither.",
+  "R14": "A per-clause lane_override names one of the four lane tokens, sits only on a clause whose disposition has a lane, and MUST DIFFER from the lookup's lane for that disposition: an override restating the default is a second representation of one fact, silently pins the old lane when the lookup changes, and makes the overridden population unmeasurable."
+ },
+ "lanes": {
+  "$note": "Four lanes, named and read by nothing yet. A register's lanes.lookup must be total over the dispositions in use: a with-result disposition maps to one of the four lanes, a without-result disposition maps to an explicit no_lane with a stated reason.",
+  "tokens": [
+   "engine",
+   "agent",
+   "panel",
+   "person"
+  ]
+ }
+}

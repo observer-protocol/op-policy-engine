@@ -19,7 +19,20 @@ const base = {
 };
 
 // 1. Unauthorised, notified in time, refunded next business day at the right value date.
-const c1 = { name: 'Unauthorised transaction, refunded on the following business day', facts: clone(base), res: {} };
+// REVISED 2026-08-23 against what the corpus reported unreached, not by adding a case.
+//
+// Reg 76 has two limbs the fixtures never exercised: paragraph (1)(b), restoring the account, and
+// the whole of paragraph (5), where a payment initiation service provider initiated the transaction.
+// Both are limbs of the provision this case already demonstrates, so they deepen it rather than
+// changing what it is about: an unauthorised transaction refunded properly, now PISP-initiated and
+// with the account restored.
+const f1 = clone(base);
+f1.transaction.via_pisp = true;
+f1.account.restoration_applicable = true;
+f1.account.restored_to_prior_state = 'affirmed';
+f1.pisp = { burden_discharged: 'affirmed', liable: true, compensated: true };
+f1.aspsp = { compensation_requested: true };
+const c1 = { name: 'Unauthorised PISP-initiated transaction, refunded and the account restored', facts: f1, res: {} };
 
 // 2. Notified at 14 months. The bar bites, and no information failure saves it.
 const c2f = clone(base);

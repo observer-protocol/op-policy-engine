@@ -39,7 +39,7 @@
  },
  "psr": {
   "reachable": 75,
-  "reached": 28,
+  "reached": 32,
   "missed": [
    "psr-2017/67/1/consent -> one_present",
    "psr-2017/67/1/consent -> undetermined",
@@ -62,7 +62,6 @@
    "psr-2017/74/2/information-failure -> satisfied",
    "psr-2017/75/1/provider-burden -> satisfied",
    "psr-2017/75/1/provider-burden -> undetermined",
-   "psr-2017/75/2/pisp-burden -> affirmed",
    "psr-2017/75/2/pisp-burden -> denied",
    "psr-2017/75/2/pisp-burden -> not_assessed",
    "psr-2017/75/3/instrument-not-sufficient -> floor_not_met",
@@ -71,7 +70,6 @@
    "psr-2017/76/1/a/refund -> missing_operand",
    "psr-2017/76/1/a/refund -> not_equal",
    "psr-2017/76/1/b/restore -> breached",
-   "psr-2017/76/1/b/restore -> satisfied",
    "psr-2017/76/1/b/restore -> undetermined",
    "psr-2017/76/1/trigger -> undetermined",
    "psr-2017/76/2/deadline -> exceeded",
@@ -85,14 +83,12 @@
    "psr-2017/76/3/fraud-carveout -> breached",
    "psr-2017/76/4/value-date -> missing_operand",
    "psr-2017/76/5/a/aspsp-complies -> not_satisfied",
-   "psr-2017/76/5/a/aspsp-complies -> satisfied",
-   "psr-2017/76/5/b/pisp-compensates -> breached",
-   "psr-2017/76/5/b/pisp-compensates -> satisfied"
+   "psr-2017/76/5/b/pisp-compensates -> breached"
   ]
  },
  "feca": {
   "reachable": 110,
-  "reached": 41,
+  "reached": 44,
   "missed": [
    "feca/2-0805/2/a/occupational-rationale -> denied",
    "feca/2-0805/2/a/occupational-rationale -> not_assessed",
@@ -124,7 +120,6 @@
    "feca/2-0805/3/d/applicability -> undetermined",
    "feca/2-0805/3/e/differentiate -> breached",
    "feca/2-0805/3/e/differentiate -> breached_on_supplied_meaning",
-   "feca/2-0805/3/e/differentiate -> satisfied_on_supplied_meaning",
    "feca/2-0805/3/medical-issue -> not_satisfied",
    "feca/2-0805/4/a/difficulty-factors -> denied",
    "feca/2-0805/4/a/difficulty-factors -> not_assessed",
@@ -159,10 +154,8 @@
    "feca/2-0805/7/a/3/reasonable-time -> not_assessed",
    "feca/2-0805/7/a/natural-consequence -> breached_on_supplied_meaning",
    "feca/2-0805/7/a/natural-consequence -> not_applicable",
-   "feca/2-0805/7/a/natural-consequence -> satisfied_on_supplied_meaning",
    "feca/2-0805/7/b/chain -> breached_on_supplied_meaning",
-   "feca/2-0805/7/b/chain -> not_applicable",
-   "feca/2-0805/7/b/chain -> satisfied_on_supplied_meaning"
+   "feca/2-0805/7/b/chain -> not_applicable"
   ]
  }
 }

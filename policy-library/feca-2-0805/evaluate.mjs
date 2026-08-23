@@ -24,6 +24,28 @@
  */
 import { readFileSync } from 'node:fs';
 const REGISTER = JSON.parse(readFileSync(new URL('./clauses.json', import.meta.url), 'utf8')).clauses;
+
+// ─── the record opening: v2, lane, lane_from, from THIS DOMAIN'S register.json ──────────────────
+//
+// The lane lookup and any per-clause overrides live in the register, one copy, built by
+// _phase0/build-register.mjs. This file reads them rather than restating them. The no-lane and
+// same-lane-override rulings are stated once at _interpreter/interpret.mjs and REUSE-LOG E30/R14;
+// this reader enforces the same two throws so the two implementations cannot disagree silently.
+const __REG = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8'));
+const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
+  const e = __REG.lanes.lookup[c.disposition];
+  if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
+  if (e.no_lane !== undefined) {
+    if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
+    return [c.id, { v: 2, lane: 'none', lane_from: 'lookup' }];
+  }
+  if (c.lane_override) {
+    if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
+    return [c.id, { v: 2, lane: c.lane_override, lane_from: 'override' }];
+  }
+  return [c.id, { v: 2, lane: e.lane, lane_from: 'lookup' }];
+}));
+
 const BY_ID = Object.fromEntries(REGISTER.map((c) => [c.id, c]));
 // EVIDENTIAL HAS a result domain, and that is what separates it from DEFINITIONAL and INSTRUCTION.
 // A fact does make it true or false: whether the party bearing the burden discharged it. What differs
@@ -85,7 +107,9 @@ export function evaluate(facts, resolutions = {}) {
     if (!HAS_RESULT_DOMAIN.has(c.disposition)) {
       throw new Error(`evaluate: ${id} is ${c.disposition} and has no result domain; it must not be assigned a result`);
     }
-    out[id] = { result, ...(extra ?? {}) };
+    // The record opens v, lane, lane_from, from the register, REFUSALS INCLUDED (below): the
+    // version names the format, the union of this domain's shapes. Absent v: REUSE-LOG E30.
+    out[id] = { ...LANE_STAMP[id], result, ...(extra ?? {}) };
   };
   // ─── attribute_to_supplied_meaning ────────────────────────────────────────────────────────────
   //
@@ -258,8 +282,8 @@ export function evaluate(facts, resolutions = {}) {
   for (const c of REGISTER) {
     if (HAS_RESULT_DOMAIN.has(c.disposition)) continue;
     out[c.id] = c.disposition === 'DEFINITIONAL'
-      ? { no_result: 'DEFINITIONAL', supplies: c.operative_weight ?? 'a meaning other clauses consume' }
-      : { refused: c.disposition, why: c.disposition === 'INSTRUCTION'
+      ? { ...LANE_STAMP[c.id], no_result: 'DEFINITIONAL', supplies: c.operative_weight ?? 'a meaning other clauses consume' }
+      : { ...LANE_STAMP[c.id], refused: c.disposition, why: c.disposition === 'INSTRUCTION'
           ? 'directs an act; no fact of the claim makes it true or false, so it has no result domain'
           : 'carries no requirement; ILLUSTRATIVE is not in the schema' };
   }

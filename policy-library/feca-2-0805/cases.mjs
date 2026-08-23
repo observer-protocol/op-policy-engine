@@ -60,7 +60,26 @@ f3.opinion.aggravation_duration_clear = false;
 f3.opinion.differentiates = true;
 f3.opinion.rationale_grade = 'detailed_rationale';
 f3.acceptance.accepted_as = 'temporary_aggravation';
-const c3 = { name: 'Aggravation of a pre-existing condition, duration unclear', facts: f3, res: {} };
+// REVISED 2026-08-23 against what the corpus reported unreached, not by adding a case.
+//
+// Paragraph 7, consequential and intervening injuries, was never exercised. It applies `after the
+// original acceptance of a claim`, and THIS is the only case where something is accepted: a temporary
+// aggravation. So a later consequential condition and an off-duty intervening injury belong here and
+// nowhere else in this set.
+//
+// Meanings are supplied so both clauses reach their ATTRIBUTED forms. The undetermined form is still
+// demonstrated by case 2, which supplies none, so the contrast survives across the set rather than
+// within one case.
+f3.claim.consequential_claimed = true;
+f3.consequential = { defeater_class: 'ordinary_activity' };
+f3.intervening = { claimed: true, chain_status: 'intact' };
+const c3 = { name: 'Aggravation accepted, then a consequential condition and an intervening injury',
+  facts: f3,
+  res: { ungrounded_terms: {
+    'rationalized medical opinion': { accepts: ['detailed_rationale'] },
+    'independent intervening cause': { defeaters: ['intentional_conduct'] },
+    'chain of causation': { breaks: ['broken'] },
+  } } };
 
 const pad = (s, n) => String(s).padEnd(n);
 for (const c of [c1, c2, c2b, c3]) {

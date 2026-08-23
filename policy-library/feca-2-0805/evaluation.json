@@ -1,0 +1,1379 @@
+{
+ "$note": "The evaluation layer for FECA PM 2-0805. This is the document class the original schema was not designed against: it defines, directs and illustrates, so three of its categories produce no result and one operative term is ungrounded. The descriptive half is taken from clauses.json, defined-terms.json and undefined-terms.json by build-register.mjs.",
+ "evaluation_version": "0.1.0",
+ "$emit_order_note": "THE ORDER A DETERMINATION IS REPORTED IN. The 35 result-bearing clauses come first in dependency order; the 24 with no result domain are appended by build-register.mjs in clauses.json order, which is where the hand-written evaluator's trailing loop takes them from.",
+ "emit_order": [
+  "feca/2-0805/2/a/occupational-rationale",
+  "feca/2-0805/2/b/diagnosed",
+  "feca/2-0805/2/b/lesser-diagnosis",
+  "feca/2-0805/2/b/unclear-duration",
+  "feca/2-0805/2/b/2/careful-evaluation",
+  "feca/2-0805/2/b/2/second-opinion",
+  "feca/2-0805/3/medical-issue",
+  "feca/2-0805/3/a/1/countersigned",
+  "feca/2-0805/3/a/3/chiropractor",
+  "feca/2-0805/3/b/report-contents",
+  "feca/2-0805/3/c/no-report",
+  "feca/2-0805/3/d/applicability",
+  "feca/2-0805/3/d/1/clear-cut",
+  "feca/2-0805/3/d/2/rationalized",
+  "feca/2-0805/3/d/3/a/hearing",
+  "feca/2-0805/3/d/3/b/pulmonary",
+  "feca/2-0805/3/d/3/c/emotional",
+  "feca/2-0805/3/e/differentiate",
+  "feca/2-0805/4/a/difficulty-factors",
+  "feca/2-0805/4/b/no-opinion",
+  "feca/2-0805/4/c/negated",
+  "feca/2-0805/5/necessity",
+  "feca/2-0805/5/b/second-opinion",
+  "feca/2-0805/5/c/conflict",
+  "feca/2-0805/6/specialist-discussion",
+  "feca/2-0805/6/accept-while-developing",
+  "feca/2-0805/6/no-preventive-payment",
+  "feca/2-0805/6/a/1/known-carrier",
+  "feca/2-0805/6/a/2/unknown-source",
+  "feca/2-0805/6/b/1/known-carrier-test",
+  "feca/2-0805/6/b/2/prior-negative",
+  "feca/2-0805/6/b/2/weigh-probability",
+  "feca/2-0805/7/a/natural-consequence",
+  "feca/2-0805/7/a/3/reasonable-time",
+  "feca/2-0805/7/b/chain"
+ ],
+ "$resolution_keys_note": "NONE. FECA registers five ambiguities and its evaluation consults none of them. The only institutional input this domain takes is a meaning for an ungrounded term, which is a different thing and is registered separately in undefined-terms.json.",
+ "resolution_keys": {},
+ "ungrounded_terms": {
+  "$note": "A term the chapter decides outcomes with and supplies no meaning for. The interpreter NEVER supplies one. Declared once for the domain rather than once per clause.",
+  "undetermined_because": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "const",
+     "value": "the operative term `"
+    },
+    {
+     "op": "ungrounded_term"
+    },
+    {
+     "op": "const",
+     "value": "` is ungrounded: this chapter neither defines it nor points anywhere that does"
+    }
+   ]
+  },
+  "attribution": {
+   "rests_on": {
+    "op": "const",
+    "value": "a meaning supplied by the institution, not by the chapter"
+   },
+   "term": {
+    "op": "ungrounded_term"
+   }
+  }
+ },
+ "no_result_emission": {
+  "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE, so a category cannot acquire a result by a clause author forgetting. The interpreter refuses to evaluate any clause in one of these categories and refuses to read a result from one.",
+  "DEFINITIONAL": {
+   "no_result": {
+    "op": "const",
+    "value": "DEFINITIONAL"
+   },
+   "supplies": {
+    "op": "coalesce",
+    "value": {
+     "op": "clause_field",
+     "name": "operative_weight"
+    },
+    "fallback": {
+     "op": "const",
+     "value": "a meaning other clauses consume"
+    }
+   }
+  },
+  "INSTRUCTION": {
+   "refused": {
+    "op": "const",
+    "value": "INSTRUCTION"
+   },
+   "why": {
+    "op": "const",
+    "value": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+   }
+  },
+  "ILLUSTRATIVE": {
+   "refused": {
+    "op": "const",
+    "value": "ILLUSTRATIVE"
+   },
+   "why": {
+    "op": "const",
+    "value": "carries no requirement; ILLUSTRATIVE is not in the schema"
+   }
+  }
+ },
+ "bindings": {
+  "waiver": {
+   "op": "conjunction_over_results",
+   "undetermined_is": "undetermined",
+   "results": {
+    "op": "list",
+    "items": [
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "held_judgment",
+       "args": [
+        {
+         "op": "fact",
+         "path": "injury.minor_and_lay_identifiable"
+        }
+       ]
+      },
+      "mapping": {
+       "affirmed": {
+        "op": "const",
+        "value": true
+       },
+       "not_assessed": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "$unmapped": {
+        "op": "const",
+        "value": false
+       }
+      }
+     },
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "injury.witnessed_or_prompt"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "injury.fact_disputed"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "clauses": {
+  "feca/2-0805/2/a/occupational-rationale": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "opinion.rationale_sufficient_for_class"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/2/b/diagnosed": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "claim.type_claimed"
+      },
+      "right": {
+       "op": "const",
+       "value": "aggravation"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "opinion.aggravation_diagnosed_by"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     }
+    ]
+   },
+   "extra": {
+    "definition_applied": {
+     "op": "const",
+     "value": "feca/2-0805/2/b/aggravation"
+    }
+   }
+  },
+  "feca/2-0805/2/b/lesser-diagnosis": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "claim.aggravation_issue_undeveloped"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "field_present",
+      "args": [
+       {
+        "op": "fact",
+        "path": "opinion.lesser_established_diagnosis"
+       }
+      ]
+     },
+     "mapping": {
+      "present": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "absent": {
+       "op": "const",
+       "value": "not_satisfied"
+      }
+     }
+    }
+   }
+  },
+  "feca/2-0805/2/b/unclear-duration": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "opinion.aggravation_duration_clear"
+      },
+      "right": {
+       "op": "const",
+       "value": false
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "acceptance.accepted_as"
+      },
+      "right": {
+       "op": "const",
+       "value": "temporary_aggravation"
+      }
+     }
+    ]
+   },
+   "extra": {
+    "definition_applied": {
+     "op": "const",
+     "value": "feca/2-0805/2/b/1/temporary"
+    }
+   }
+  },
+  "feca/2-0805/2/b/2/careful-evaluation": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.all_evidence_carefully_evaluated"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/2/b/2/second-opinion": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.second_opinion_appropriate"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/medical-issue": {
+   "op": "emit",
+   "result": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "fact",
+         "path": "opinion.present"
+        },
+        {
+         "op": "fact",
+         "path": "opinion.examined_or_treated"
+        }
+       ]
+      }
+     ]
+    },
+    "mapping": {
+     "all_present": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "some_absent": {
+      "op": "const",
+      "value": "not_satisfied"
+     }
+    }
+   },
+   "extra": {
+    "definition_applied": {
+     "op": "const",
+     "value": "feca/2-0805/3/a/physician"
+    }
+   }
+  },
+  "feca/2-0805/3/a/1/countersigned": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "member_of_enumeration",
+       "args": [
+        {
+         "op": "fact",
+         "path": "opinion.source_class"
+        },
+        {
+         "op": "const",
+         "value": [
+          "physician_assistant",
+          "nurse_practitioner"
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "member"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "opinion.countersigned_by"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/a/3/chiropractor": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "opinion.source_class"
+      },
+      "right": {
+       "op": "const",
+       "value": "chiropractor"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "opinion.subluxation_diagnosed"
+          },
+          {
+           "op": "fact",
+           "path": "opinion.subluxation_xrays"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     }
+    ]
+   },
+   "extra": {
+    "definition_applied": {
+     "op": "const",
+     "value": "feca/2-0805/3/a/physician"
+    }
+   }
+  },
+  "feca/2-0805/3/b/report-contents": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "all_present",
+    "args": [
+     {
+      "op": "list",
+      "items": [
+       {
+        "op": "fact",
+        "path": "opinion.diagnosis"
+       },
+       {
+        "op": "fact",
+        "path": "opinion.objective_findings"
+       },
+       {
+        "op": "fact",
+        "path": "opinion.relationship_opinion"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/c/no-report": {
+   "op": "emit",
+   "result": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "binding",
+     "name": "waiver"
+    },
+    "mapping": {
+     "satisfied": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "not_satisfied": {
+      "op": "const",
+      "value": "not_applicable"
+     },
+     "undetermined": {
+      "op": "const",
+      "value": "undetermined"
+     }
+    }
+   }
+  },
+  "feca/2-0805/3/d/applicability": {
+   "op": "emit",
+   "result": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "clause",
+     "id": "feca/2-0805/3/c/no-report"
+    },
+    "mapping": {
+     "satisfied": {
+      "op": "const",
+      "value": "not_applicable"
+     },
+     "not_applicable": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "undetermined": {
+      "op": "const",
+      "value": "undetermined"
+     }
+    }
+   }
+  },
+  "feca/2-0805/3/d/1/clear-cut": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "injury.clear_cut_and_competent"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/d/2/rationalized": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "eq",
+    "left": {
+     "op": "clause",
+     "id": "feca/2-0805/3/d/applicability"
+    },
+    "right": {
+     "op": "const",
+     "value": "satisfied"
+    }
+   },
+   "compute": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      {
+       "op": "fact",
+       "path": "opinion.rationale_grade"
+      },
+      {
+       "op": "meaning",
+       "key": "accepts"
+      }
+     ]
+    },
+    "mapping": {
+     "member": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "not_member": {
+      "op": "const",
+      "value": "breached"
+     }
+    }
+   }
+  },
+  "feca/2-0805/3/d/3/a/hearing": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "claim.condition_class"
+      },
+      "right": {
+       "op": "const",
+       "value": "hearing_loss"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "opinion.specialist_credential"
+      },
+      "right": {
+       "op": "const",
+       "value": "board_certified_otolaryngology"
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/d/3/b/pulmonary": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "claim.condition_class"
+      },
+      "right": {
+       "op": "const",
+       "value": "pulmonary"
+      }
+     },
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "opinion.specialist_opinion_at"
+        },
+        {
+         "op": "fact",
+         "path": "acceptance.accepted_at"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": true
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": true
+       },
+       "after": {
+        "op": "const",
+        "value": false
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/d/3/c/emotional": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "opinion.psychiatrist_required_assessed"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/3/e/differentiate": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "eq",
+    "left": {
+     "op": "fact",
+     "path": "claim.pre_existing_same_site"
+    },
+    "right": {
+     "op": "const",
+     "value": true
+    }
+   },
+   "compute": {
+    "op": "cond",
+    "if": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "opinion.differentiates"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "opinion.rationale_grade"
+         },
+         {
+          "op": "meaning",
+          "key": "accepts"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "member"
+       }
+      }
+     ]
+    },
+    "then": {
+     "op": "const",
+     "value": "satisfied"
+    },
+    "else": {
+     "op": "const",
+     "value": "breached"
+    }
+   }
+  },
+  "feca/2-0805/4/a/difficulty-factors": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.difficulty_assessed"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/4/b/no-opinion": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "primitive",
+         "name": "field_present",
+         "args": [
+          {
+           "op": "fact",
+           "path": "opinion.relationship_opinion"
+          }
+         ]
+        },
+        "right": {
+         "op": "const",
+         "value": "absent"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "feca/2-0805/3/d/applicability"
+        },
+        "right": {
+         "op": "const",
+         "value": "satisfied"
+        }
+       }
+      ]
+     },
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "held_judgment",
+       "args": [
+        {
+         "op": "fact",
+         "path": "adjudicator.development_complete"
+        }
+       ]
+      },
+      "mapping": {
+       "affirmed": {
+        "op": "const",
+        "value": true
+       },
+       "denied": {
+        "op": "const",
+        "value": false
+       },
+       "not_assessed": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "$unmapped": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/4/c/negated": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "opinion.negates_relationship"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "file.contrary_evidence"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     },
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "held_judgment",
+       "args": [
+        {
+         "op": "fact",
+         "path": "adjudicator.development_complete"
+        }
+       ]
+      },
+      "mapping": {
+       "affirmed": {
+        "op": "const",
+        "value": true
+       },
+       "denied": {
+        "op": "const",
+        "value": false
+       },
+       "not_assessed": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "$unmapped": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/5/necessity": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.further_opinion_necessary"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/5/b/second-opinion": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.adjudicable_on_present_opinion"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/5/c/conflict": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.opinions_approximately_equal"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/specialist-discussion": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.specialist_discussion_sufficient"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/accept-while-developing": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.physical_injury_established"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.graver_condition_undeveloped"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "acceptance.physical_injury_accepted"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "satisfied"
+     },
+     "else": {
+      "op": "const",
+      "value": "not_satisfied"
+     }
+    }
+   }
+  },
+  "feca/2-0805/6/no-preventive-payment": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "none_of_class_present",
+    "args": [
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "authorisation.items"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     },
+     {
+      "op": "const",
+      "value": [
+       "vaccine",
+       "inoculation"
+      ]
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/a/1/known-carrier": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "exposure.source_status"
+      },
+      "right": {
+       "op": "const",
+       "value": "known_or_probable_carrier"
+      }
+     },
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "acceptance.physical_injury_accepted"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "authorisation.prophylactic"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/a/2/unknown-source": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "exposure.source_status"
+      },
+      "right": {
+       "op": "const",
+       "value": "unidentified_or_unknown"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "acceptance.physical_injury_accepted"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/b/1/known-carrier-test": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.test_result"
+        },
+        "right": {
+         "op": "const",
+         "value": "positive"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.source_status"
+        },
+        "right": {
+         "op": "const",
+         "value": "known_or_probable_carrier"
+        }
+       }
+      ]
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "exposure.no_prior_history"
+          },
+          {
+           "op": "fact",
+           "path": "exposure.no_outside_exposure"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/b/2/prior-negative": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.test_result"
+        },
+        "right": {
+         "op": "const",
+         "value": "positive"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.prior_test"
+        },
+        "right": {
+         "op": "const",
+         "value": "negative"
+        }
+       }
+      ]
+     },
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "acceptance.physical_injury_accepted"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.continuous_occupational_risk"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "exposure.outside_factors_identified"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "feca/2-0805/6/b/2/weigh-probability": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.relative_probability_weighed"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/7/a/natural-consequence": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "eq",
+    "left": {
+     "op": "fact",
+     "path": "claim.consequential_claimed"
+    },
+    "right": {
+     "op": "const",
+     "value": true
+    }
+   },
+   "compute": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      {
+       "op": "fact",
+       "path": "consequential.defeater_class"
+      },
+      {
+       "op": "meaning",
+       "key": "defeaters"
+      }
+     ]
+    },
+    "mapping": {
+     "member": {
+      "op": "const",
+      "value": "breached"
+     },
+     "not_member": {
+      "op": "const",
+      "value": "satisfied"
+     }
+    }
+   }
+  },
+  "feca/2-0805/7/a/3/reasonable-time": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "adjudicator.period_allowed_reasonable"
+     }
+    ]
+   }
+  },
+  "feca/2-0805/7/b/chain": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "eq",
+    "left": {
+     "op": "fact",
+     "path": "intervening.claimed"
+    },
+    "right": {
+     "op": "const",
+     "value": true
+    }
+   },
+   "compute": {
+    "op": "remap_result_domain",
+    "value": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      {
+       "op": "fact",
+       "path": "intervening.chain_status"
+      },
+      {
+       "op": "meaning",
+       "key": "breaks"
+      }
+     ]
+    },
+    "mapping": {
+     "member": {
+      "op": "const",
+      "value": "breached"
+     },
+     "not_member": {
+      "op": "const",
+      "value": "satisfied"
+     }
+    }
+   }
+  }
+ }
+}

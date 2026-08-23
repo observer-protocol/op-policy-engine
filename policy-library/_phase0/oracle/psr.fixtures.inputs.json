@@ -1,0 +1,214 @@
+[
+ {
+  "facts": {
+   "transaction": {
+    "debit_date": "2026-03-02T10:00:00Z",
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "via_pisp": true
+   },
+   "consent": {
+    "to_transaction": null,
+    "to_series": null,
+    "form": null,
+    "given_after_execution": false,
+    "withdrawn_at": null,
+    "series_withdrawn_at": null
+   },
+   "agreement": {
+    "agreed_forms": [
+     "online-banking-2fa",
+     "branch-signature"
+    ],
+    "post_execution_consent_agreed": false
+   },
+   "notification": {
+    "given_at": "2026-03-05T09:00:00Z",
+    "without_undue_delay": "affirmed"
+   },
+   "provider": {
+    "part6_information_failure": false,
+    "became_aware_at": "2026-03-05T09:00:00Z",
+    "reasonable_grounds_to_suspect_fraud": false,
+    "poca_notification_in_writing": null,
+    "claims_fraud_or_gross_negligence": false,
+    "burden": {
+     "authenticated": "denied",
+     "accurately_recorded": "affirmed",
+     "entered_in_accounts": "affirmed",
+     "no_technical_deficiency": "affirmed"
+    }
+   },
+   "evidence": {
+    "instrument_use_record": "card-present-chip-log-88213",
+    "supporting_evidence_given_to_payer": null
+   },
+   "refund": {
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "provided_at": "2026-03-06T16:00:00Z",
+    "credit_value_date": "2026-03-02T10:00:00Z",
+    "as_soon_as_practicable": "affirmed"
+   },
+   "account": {
+    "restoration_applicable": true,
+    "restored_to_prior_state": "affirmed"
+   },
+   "pisp": {
+    "burden_discharged": "affirmed",
+    "liable": true,
+    "compensated": true
+   },
+   "aspsp": {
+    "compensation_requested": true
+   },
+   "order": {
+    "irrevocable_from": "2026-03-02T09:00:00Z"
+   }
+  },
+  "resolutions": {}
+ },
+ {
+  "facts": {
+   "transaction": {
+    "debit_date": "2026-03-02T10:00:00Z",
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "via_pisp": false
+   },
+   "consent": {
+    "to_transaction": null,
+    "to_series": null,
+    "form": null,
+    "given_after_execution": false,
+    "withdrawn_at": null,
+    "series_withdrawn_at": null
+   },
+   "agreement": {
+    "agreed_forms": [
+     "online-banking-2fa",
+     "branch-signature"
+    ],
+    "post_execution_consent_agreed": false
+   },
+   "notification": {
+    "given_at": "2027-05-10T09:00:00Z",
+    "without_undue_delay": "affirmed"
+   },
+   "provider": {
+    "part6_information_failure": false,
+    "became_aware_at": "2027-05-10T09:00:00Z",
+    "reasonable_grounds_to_suspect_fraud": false,
+    "poca_notification_in_writing": null,
+    "claims_fraud_or_gross_negligence": false,
+    "burden": {
+     "authenticated": "denied",
+     "accurately_recorded": "affirmed",
+     "entered_in_accounts": "affirmed",
+     "no_technical_deficiency": "affirmed"
+    }
+   },
+   "evidence": {
+    "instrument_use_record": "card-present-chip-log-88213",
+    "supporting_evidence_given_to_payer": null
+   },
+   "refund": {
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "provided_at": "2027-05-11T12:00:00Z",
+    "credit_value_date": "2026-03-02T10:00:00Z",
+    "as_soon_as_practicable": "affirmed"
+   },
+   "account": {
+    "restoration_applicable": false,
+    "restored_to_prior_state": null
+   },
+   "pisp": {},
+   "aspsp": {},
+   "order": {
+    "irrevocable_from": "2026-03-02T09:00:00Z"
+   }
+  },
+  "resolutions": {}
+ },
+ {
+  "facts": {
+   "transaction": {
+    "debit_date": "2026-03-02T10:00:00Z",
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "via_pisp": false
+   },
+   "consent": {
+    "to_transaction": null,
+    "to_series": null,
+    "form": null,
+    "given_after_execution": false,
+    "withdrawn_at": null,
+    "series_withdrawn_at": null
+   },
+   "agreement": {
+    "agreed_forms": [
+     "online-banking-2fa",
+     "branch-signature"
+    ],
+    "post_execution_consent_agreed": false
+   },
+   "notification": {
+    "given_at": "2026-03-05T09:00:00Z",
+    "without_undue_delay": "affirmed"
+   },
+   "provider": {
+    "part6_information_failure": false,
+    "became_aware_at": "2026-03-05T09:00:00Z",
+    "reasonable_grounds_to_suspect_fraud": true,
+    "poca_notification_in_writing": "ref/POCA/2026/00417",
+    "claims_fraud_or_gross_negligence": true,
+    "burden": {
+     "authenticated": "denied",
+     "accurately_recorded": "affirmed",
+     "entered_in_accounts": "affirmed",
+     "no_technical_deficiency": "affirmed"
+    }
+   },
+   "evidence": {
+    "instrument_use_record": "card-present-chip-log-88213",
+    "supporting_evidence_given_to_payer": null
+   },
+   "refund": {
+    "amount": {
+     "amountRaw": "45000",
+     "decimals": "2",
+     "currency": "GBP"
+    },
+    "provided_at": null,
+    "credit_value_date": "2026-03-09T10:00:00Z"
+   },
+   "account": {
+    "restoration_applicable": false,
+    "restored_to_prior_state": null
+   },
+   "pisp": {},
+   "aspsp": {},
+   "order": {
+    "irrevocable_from": "2026-03-02T09:00:00Z"
+   }
+  },
+  "resolutions": {}
+ }
+]
