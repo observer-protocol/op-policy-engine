@@ -215,6 +215,77 @@
    }
   ]
  },
+ "waiting": {
+  "$note": "The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.",
+  "values": [
+   "fact",
+   "judgment",
+   "meaning",
+   "clause",
+   "none"
+  ],
+  "priority": [
+   "meaning",
+   "fact",
+   "judgment",
+   "clause"
+  ],
+  "absence_result_tokens": {
+   "not_assessed": "judgment",
+   "no_end_event": "fact",
+   "missing_operand": "fact",
+   "no_candidate": "fact",
+   "undetermined": "$composite"
+  },
+  "unsupplied_argument_probes": [
+   "field_present",
+   "all_present",
+   "any_present"
+  ],
+  "non_absence_result_tokens": [
+   "within",
+   "exceeded",
+   "not_yet_due",
+   "overdue",
+   "out_of_order",
+   "present",
+   "absent",
+   "all_present",
+   "some_absent",
+   "one_present",
+   "none_present",
+   "member",
+   "not_member",
+   "all_members",
+   "some_not_member",
+   "clear",
+   "prohibited_present",
+   "floor_met",
+   "floor_not_met",
+   "met",
+   "not_met",
+   "satisfied",
+   "breached",
+   "outstanding",
+   "not_applicable",
+   "before",
+   "after",
+   "simultaneous",
+   "equal",
+   "not_equal",
+   "incomparable_currency"
+  ],
+  "decided_overrides": {
+   "not_applicable": "none"
+  },
+  "by_emitter": {
+   "emit": "computed",
+   "decision_table": "computed",
+   "ungrounded": "computed",
+   "no_result": "none",
+   "awaiting": "judgment"
+  }
+ },
  "lanes": {
   "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
   "lanes": [

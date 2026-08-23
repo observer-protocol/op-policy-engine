@@ -244,6 +244,43 @@ export function validate(register, label) {
     }
   }
 
+  // ── R7 / R13 extensions: the waiting classifier's totality ──────────────────────────────────
+  {
+    const W = register.waiting;
+    if (W === undefined) {
+      bad('R13', 'waiting', 'the register declares no waiting vocabulary');
+    } else {
+      // R7-ext: total over every declared token of every primitive in use, exactly once.
+      const used = new Set();
+      const collectPrims = (n) => {
+        if (n === null || typeof n !== 'object') return;
+        if (Array.isArray(n)) { for (const x of n) collectPrims(x); return; }
+        if (n.op === 'primitive') used.add(n.name);
+        for (const [k, v] of Object.entries(n)) if (k !== 'op') collectPrims(v);
+      };
+      for (const c of register.clauses) if (c.evaluate) collectPrims(c.evaluate);
+      for (const b of Object.values(register.bindings ?? {})) collectPrims(b);
+      for (const name of [...used].sort()) {
+        const pr = PRIMS[name];
+        if (pr === undefined || pr.result_domain_open) continue;   // open domains: only their declared absence token is classifiable
+        for (const t of pr.result_domain) {
+          const inAbs = Object.prototype.hasOwnProperty.call(W.absence_result_tokens, t);
+          const inNon = W.non_absence_result_tokens.includes(t);
+          if (inAbs && inNon) bad('R7', `waiting.${name}`, `token ${JSON.stringify(t)} is classified as BOTH absence and non-absence`);
+          else if (!inAbs && !inNon) bad('R7', `waiting.${name}`, `token ${JSON.stringify(t)} of ${name}'s declared result domain is classified by neither list; it would silently read as not-waiting`);
+        }
+      }
+      // R13-ext: an entry per emitter kind, no-result explicitly none.
+      const kinds = [...Object.keys(EMITTERS), 'no_result'];
+      for (const k of kinds) {
+        if (W.by_emitter?.[k] === undefined) bad('R13', 'waiting.by_emitter', `no entry for emitter kind ${JSON.stringify(k)}`);
+      }
+      if (W.by_emitter?.no_result !== undefined && W.by_emitter.no_result !== 'none') {
+        bad('R13', 'waiting.by_emitter', `the no_result entry is ${JSON.stringify(W.by_emitter.no_result)}; a clause that will never produce a determination is not waiting for one, and the entry must be the explicit token none`);
+      }
+    }
+  }
+
   return { label, failures: fail, notes: note };
 }
 

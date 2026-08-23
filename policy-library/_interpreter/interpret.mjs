@@ -39,14 +39,38 @@ import { readFileSync } from 'node:fs';
 /**
  * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
  *
- * Every record opens `v, lane, lane_from`. VERSION 3 names the current shape, which is the union:
+ * Every record opens `v, lane, lane_from, waiting`. VERSION 4 names the current shape, the union:
  *
- *   { v, lane, lane_from, result, note?, ...extras }   a determination
- *   { v, lane, lane_from, awaiting }                   routed to a lane that has not produced one
- *   { v, lane, lane_from, no_result, supplies }        DEFINITIONAL
- *   { v, lane, lane_from, refused, why }               INSTRUCTION, ILLUSTRATIVE
+ *   { v, lane, lane_from, waiting, result, note?, ...extras }   a determination
+ *   { v, lane, lane_from, waiting, awaiting }                   routed to a lane that has not produced one
+ *   { v, lane, lane_from, waiting, no_result, supplies }        DEFINITIONAL
+ *   { v, lane, lane_from, waiting, refused, why }               INSTRUCTION, ILLUSTRATIVE
  *
- * Version 2 was the union without the `awaiting` shape; version 1 without `lane`/`lane_from`.
+ * Version 3 was the union without `waiting`; 2 without the awaiting shape; 1 without lanes.
+ *
+ * ─── THE WAITING AXIS ───────────────────────────────────────────────────────────────────────────
+ *
+ * `waiting` says what THIS RUN of the clause is waiting on: `fact`, `judgment`, `meaning`,
+ * `clause`, or `none`. `none` is explicit and never absent (E30). It is computed at emission from
+ * the emitter kind and the absence origins tracked during evaluation, per run, never stored. The
+ * vocabulary is register data (`register.waiting`), one authored copy; the tracking is
+ * per-implementation and parity compares it on every record.
+ *
+ * WHAT `waiting: "fact"` DOES AND DOES NOT ESTABLISH, stated here because a reader meets it on the
+ * record, not in a log. It establishes that a fact the clause reads was NEVER SUPPLIED in this
+ * run's inputs. It does NOT establish that anyone asked for the fact, that a request went
+ * unanswered, or that the counterparty withheld it. psr-2017/75/3 is the standing example: reg
+ * 75(3) allocates a burden, silence counts against the burden-bearer, so `floor_not_met` is a
+ * CORRECT determination carrying `waiting: "fact"`; the record cannot distinguish a provider who
+ * was asked and produced nothing from a provider nobody asked, and a reader who takes
+ * `waiting: "fact"` as evidence that a request was made has read something the record does not
+ * say. Distinguishing those needs an ask-state fact in the fact schema (the shape
+ * `expediente.requested` already has), which no clause of 75(3)'s kind yet carries.
+ *
+ * Two further stated limits: an unresolved AMBIGUITY RESOLUTION (A1, P1) is not expressible in the
+ * five values and falls to `fact` through the fallback, documented rather than absorbed; and a
+ * judgment RECORDED as the literal `not_assessed` is indistinguishable from one nobody made
+ * (E30's second granularity at held_judgment).
  * The `awaiting` shape is emitted only by the router (route.mjs), never by evaluation, and it is
  * in THIS union because the version names the format: a v2 reader meeting an awaiting record would
  * meet a shape v2 never declared, which is the drift the version field exists to prevent.
@@ -85,8 +109,8 @@ import { readFileSync } from 'node:fs';
  *      granularities, and the enforcement sites: REUSE-LOG E30. `recordVersion` below is this
  *      granularity's enforcement: it THROWS on an absent version, the same discipline as `resultOf`.
  */
-export const RECORD_VERSION = 3;
-export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3]);
+export const RECORD_VERSION = 4;
+export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3, 4]);
 
 /** The absent-version ruling, enforced. Unversioned is a state, not version 0: REUSE-LOG E30.
  *  Accepts 1 and 2; a version outside the known set throws, because a reader that passes an
@@ -244,6 +268,30 @@ const strictBoolean = (v, where) => {
   throw new Error(`${where}: expected a strict boolean, got ${JSON.stringify(v)}`);
 };
 
+// Whether a clause's evaluation reads any fact of its own, computed once per register and cached.
+// The `undetermined` fallback needs it: with no tracked origin, a fact-reading clause waits on a
+// fact and a clause reading only other clauses waits on them.
+const STATIC_READS_FACTS = new WeakMap();
+function readsFactsOf(register) {
+  let m = STATIC_READS_FACTS.get(register);
+  if (m !== undefined) return m;
+  m = {};
+  const walk = (n, acc, seen) => {
+    if (n === null || typeof n !== 'object') return;
+    if (Array.isArray(n)) { for (const x of n) walk(x, acc, seen); return; }
+    if (n.op === 'fact') acc.found = true;
+    if (n.op === 'binding' && !seen.has(n.name)) { seen.add(n.name); walk(register.bindings[n.name], acc, seen); }
+    for (const [k, v] of Object.entries(n)) if (k !== 'op') walk(v, acc, seen);
+  };
+  for (const c of register.clauses) {
+    const acc = { found: false };
+    if (c.evaluate !== undefined) walk(c.evaluate, acc, new Set());
+    m[c.id] = acc.found;
+  }
+  STATIC_READS_FACTS.set(register, m);
+  return m;
+}
+
 const readPath = (root, path) => {
   let c = root;
   for (const k of path.split('.')) {
@@ -273,6 +321,12 @@ const OPS = {
     const e = ctx.out[n.id];
     if (e === undefined) throw new Error(`clause ${n.id} was read before it was emitted`);
     if (!('result' in e)) throw new Error(`clause ${n.id} is ${e.refused ?? e.no_result} and has no result`);
+    // An input clause that is itself waiting PROPAGATES ITS CLASS, not a generic marker: the run
+    // is waiting on whatever the input waits on, and a generic 'clause' would make the value
+    // depend on how expressions happen to be shared, which differs between implementations by
+    // construction (found by parity on p4/deadline, first run). 'clause' survives as the
+    // no-origin fallback for a derived clause stuck on an unclassifiable input.
+    if (e.waiting !== 'none') ctx.waitOrigins.add(e.waiting);
     return e.result;
   },
 
@@ -325,7 +379,19 @@ const OPS = {
   primitive: (n, ctx) => {
     const f = PRIMITIVES[n.name];
     if (f === undefined) throw new Error(`unregistered primitive ${JSON.stringify(n.name)}`);
-    return f(...n.args.map((a) => force(a, ctx)));
+    const args = n.args.map((a) => force(a, ctx));
+    const r = f(...args);
+    // ── waiting origins. A token that IS absence names what it is absence of; the presence family
+    //    additionally probes its ARGUMENT: strictly undefined was never supplied, while a recorded
+    //    null, '' or false is someone's answer and marks nothing (E30's field granularity).
+    const W = ctx.register.waiting;
+    const cls = W.absence_result_tokens[r];
+    if (cls !== undefined && cls !== '$composite') ctx.waitOrigins.add(cls);
+    if (W.unsupplied_argument_probes.includes(n.name)) {
+      const a0 = args[0];
+      if (a0 === undefined || (Array.isArray(a0) && a0.some((v) => v === undefined))) ctx.waitOrigins.add('fact');
+    }
+    return r;
   },
 
   // ── composition shapes ────────────────────────────────────────────────────────────────────────
@@ -368,6 +434,34 @@ const OPS = {
   },
 };
 
+// ─── THE WAITING CLASSIFIER, at emission ────────────────────────────────────────────────────────
+//
+// From the final token and the origins the forcing site tracked. Decisions ruled and stated:
+//   - not_applicable is ALWAYS none: the obligation never arose, and conditional_requirement's
+//     eagerly-evaluated value operand would otherwise mark never-arisen obligations as waiting.
+//   - mixed origins resolve by register.waiting.priority: gather before judging (A.3's sequence),
+//     meaning prior to both, clause derivative.
+//   - a DECIDED result can carry waiting: a burden clause decides on silence and is still waiting
+//     on the fact nobody supplied. See the header's 75/3 statement.
+//   - an absence-token result with NO tracked origin falls back by the clause's static reads:
+//     a fact-reading clause waits on a fact, a clause reading only clauses waits on them. An
+//     unresolved ambiguity resolution lands here and reads as `fact`: a stated limit of the
+//     five-value vocabulary, not a claim that a resolution is gatherable.
+function classifyWaiting(ctx, finalToken) {
+  const W = ctx.register.waiting;
+  if (ctx.waitMeaning) return 'meaning';
+  const over = W.decided_overrides[finalToken];
+  if (over !== undefined) return over;
+  const pri = W.priority.filter((v) => ctx.waitOrigins.has(v));
+  const cls = W.absence_result_tokens[finalToken];
+  if (cls !== undefined) {                                  // the result itself is absence
+    if (pri.length) return pri[0];
+    if (cls !== '$composite') return cls;
+    return readsFactsOf(ctx.register)[ctx.clause.id] ? 'fact' : 'clause';
+  }
+  return pri.length ? pri[0] : 'none';                      // decided, possibly still waiting
+}
+
 // ════════════════════════════════════════════════════════════════════════════════════════════════
 // RECORD-PRODUCING NODES. A clause's `evaluate` is one of these. They are separated from the
 // expression ops because a clause emits a RECORD, and a record is not a value another clause can
@@ -379,9 +473,17 @@ const EMITTERS = {
   // OMITTED rather than emitted as null, because a clause carrying `note: undefined` and a clause
   // carrying no note are the same statement and must serialise the same way.
   emit: (n, ctx) => {
-    const rec = { ...ctx.laneStamp, result: force(n.result, ctx) };
-    if (n.note !== undefined) { const v = force(n.note, ctx); if (v !== undefined) rec.note = v; }
-    for (const [k, e] of Object.entries(n.extra ?? {})) { const v = force(e, ctx); if (v !== undefined) rec[k] = v; }
+    // The note and extras are forced BEFORE classification: their evaluation can touch absent
+    // inputs, and the hand implementations evaluate every argument before emitting, so a
+    // classifier that ran first would see fewer origins than the oracle's. Found by the
+    // cross-implementation sweep on 67/1's note.
+    const result = force(n.result, ctx);
+    const note = n.note !== undefined ? force(n.note, ctx) : undefined;
+    const extras = [];
+    for (const [k, e] of Object.entries(n.extra ?? {})) { const v = force(e, ctx); if (v !== undefined) extras.push([k, v]); }
+    const rec = { ...ctx.laneStamp, waiting: classifyWaiting(ctx, result), result };
+    if (note !== undefined) rec.note = note;
+    for (const [k, v] of extras) rec[k] = v;
     return rec;
   },
 
@@ -402,9 +504,11 @@ const EMITTERS = {
       const sv = force(sub.input, ctx);
       const srow = sub.rows.find((r) => r.match === sv);
       if (srow === undefined) throw new Error(`decision_table: no ${row.outcome_from} row for ${JSON.stringify(sv)}`);
-      return srow.note === undefined ? { ...ctx.laneStamp, result: srow.outcome } : { ...ctx.laneStamp, result: srow.outcome, note: srow.note };
+      const sw = classifyWaiting(ctx, srow.outcome);
+      return srow.note === undefined ? { ...ctx.laneStamp, waiting: sw, result: srow.outcome } : { ...ctx.laneStamp, waiting: sw, result: srow.outcome, note: srow.note };
     }
-    return row.note === undefined ? { ...ctx.laneStamp, result: row.outcome } : { ...ctx.laneStamp, result: row.outcome, note: row.note };
+    const rw = classifyWaiting(ctx, row.outcome);
+    return row.note === undefined ? { ...ctx.laneStamp, waiting: rw, result: row.outcome } : { ...ctx.laneStamp, waiting: rw, result: row.outcome, note: row.note };
   },
 
   // ═══ THE UNGROUNDED SHAPE ══════════════════════════════════════════════════════════════════════
@@ -434,18 +538,19 @@ const EMITTERS = {
       if (supplied === undefined) {
         // THE EVALUATOR NEVER SUPPLIES A MEANING. The sentence is declared once for the domain, not
         // once per clause, because four copies of one sentence is four places for it to drift.
-        return { ...ctx.laneStamp, result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
+        ctx.waitMeaning = true;
+        return { ...ctx.laneStamp, waiting: 'meaning', result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
       }
       if (strictBoolean(force(n.applies, ctx), `ungrounded(${n.term})`) === false) {
-        return { ...ctx.laneStamp, result: 'not_applicable' };            // the meaning is never even reached
+        return { ...ctx.laneStamp, waiting: 'none', result: 'not_applicable' };   // the meaning is never even reached; nothing waits
       }
       const frame = { term: n.term, supplied, used: false };
       const saved = ctx.meaningFrame;
       ctx.meaningFrame = frame;
       let value;
       try { value = force(n.compute, ctx); } finally { ctx.meaningFrame = saved; }
-      if (!frame.used) return { ...ctx.laneStamp, result: value };
-      const rec = { ...ctx.laneStamp, result: `${value}_on_supplied_meaning` };
+      if (!frame.used) return { ...ctx.laneStamp, waiting: classifyWaiting(ctx, value), result: value };
+      const rec = { ...ctx.laneStamp, waiting: classifyWaiting(ctx, value), result: `${value}_on_supplied_meaning` };
       for (const [k, e] of Object.entries(decl.attribution)) rec[k] = force(e, ctx);
       return rec;
     } finally { ctx.ungroundedTerm = savedTerm; }
@@ -461,12 +566,15 @@ export function loadRegister(path) {
 
 export function interpret(register, facts, resolutions = {}) {
   const out = {};
-  const ctx = { facts, resolutions, out, register, clause: null, meaningFrame: null, ungroundedTerm: null, laneStamp: null };
+  const ctx = { facts, resolutions, out, register, clause: null, meaningFrame: null, ungroundedTerm: null, laneStamp: null, waitOrigins: new Set(), waitMeaning: false };
   const hasResult = new Set(register.dispositions.with_result_domain);
 
+  if (register.waiting === undefined) throw new Error('the register declares no waiting vocabulary; rebuild it');
   for (const c of register.clauses) {
     ctx.clause = c;
     ctx.laneStamp = laneStampOf(register, c);
+    ctx.waitOrigins = new Set();
+    ctx.waitMeaning = false;
     if (hasResult.has(c.disposition)) {
       if (c.evaluate === undefined) throw new Error(`${c.id} is ${c.disposition} and carries no evaluation`);
       const e = EMITTERS[c.evaluate.op];
@@ -480,7 +588,8 @@ export function interpret(register, facts, resolutions = {}) {
       const shape = register.dispositions.no_result_emission[c.disposition];
       if (shape === undefined) throw new Error(`${c.id}: ${c.disposition} has neither a result domain nor a declared no-result emission`);
       if (c.evaluate !== undefined) throw new Error(`${c.id} is ${c.disposition} and has no result domain; it must not carry an evaluation`);
-      const rec = { ...ctx.laneStamp };
+      // A clause that will never produce a determination is not waiting for one: none, explicitly.
+      const rec = { ...ctx.laneStamp, waiting: 'none' };
       for (const [k, e] of Object.entries(shape)) rec[k] = force(e, ctx);
       out[c.id] = rec;
     }

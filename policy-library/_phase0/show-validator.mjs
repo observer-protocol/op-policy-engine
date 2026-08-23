@@ -101,6 +101,15 @@ check('R14', 'an override on a clause whose disposition has no lane',
   (r) => { r.clauses.find((x) => x.disposition === 'INSTRUCTION').lane_override = 'person'; }, FE);
 check('R14', 'an override RESTATING the lane the lookup already gives',
   (r) => { clause(r, '34-2010/3.6/p4/language').lane_override = 'person'; });
+check('R7', 'a primitive result token classified by NEITHER list (waiting classifier not total)',
+  (r) => { r.waiting.non_absence_result_tokens = r.waiting.non_absence_result_tokens.filter((t) => t !== 'exceeded'); });
+check('R7', 'a token classified as BOTH absence and non-absence',
+  (r) => { r.waiting.absence_result_tokens.exceeded = 'fact'; });
+check('R13', 'a missing waiting entry for an emitter kind',
+  (r) => { delete r.waiting.by_emitter.decision_table; });
+check('R13', 'a no-result emission whose waiting entry is not the explicit none',
+  (r) => { r.waiting.by_emitter.no_result = 'fact'; }, FE);
+
 // ── R12 does not depend on the register, so it is perturbed at the schema instead ───────────────
 console.log('\n  R12 compares the schema against the interpreter and cannot be broken from a register.');
 console.log('  Perturbed at the schema instead, in a copy under the scratch directory:');
@@ -118,6 +127,14 @@ console.log('  Perturbed at the schema instead, in a copy under the scratch dire
   if (hit.length === 0) { bad++; console.log('  DID NOT FIRE  R12'); }
   else { console.log(`  FIRES  R12  a schema whose primitive vocabulary has drifted from the interpreter`);
          for (const h of hit) console.log(`         ${h.where}: ${h.detail}`); }
+}
+
+// ── the legal waiting counter-case: an intact classifier must fire NEITHER extension ────────────
+{
+  const res = validate(BX(), 'waiting-legal');
+  const hit = res.failures.filter((f) => (f.rule === 'R7' || f.rule === 'R13') && String(f.where).startsWith('waiting'));
+  if (hit.length) { bad++; console.log('  FIRED WRONGLY  waiting extensions on an intact register'); }
+  else console.log('  SILENT  R7/R13 waiting extensions correctly do not fire on the intact register');
 }
 
 // ── the legal-override counter-case: a differing override must NOT fire R14 ─────────────────────
