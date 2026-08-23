@@ -141,6 +141,36 @@ export const REQUIRED_KEY_CUSTODY = ['org-attested', 'operator-held', 'device-bo
  * Renaming it is a schema version; deferred to v2. */
 export type RequiredKeyCustody = typeof REQUIRED_KEY_CUSTODY[number];
 
+/* ─── THE rc.13 NAMES, RE-EXPORTED AS ALIASES AT rc.20 ──────────────────────────────────────────
+ *
+ * WHY THEY CAME BACK. rc.14 renamed these and recorded the change as "BREAKING FOR ANYONE ON
+ * rc.13", a release that lived twenty-three minutes. **That was wrong about which release exposed
+ * the name.** Measured from the published bundles: `APPROVER_KEY_ASSURANCE` appears 4 times in
+ * rc.12's `dist/index.mjs` and once in its `dist/index.d.ts`, and `ApproverKeyAssurance` is
+ * exported as a type from `dist/index.d.ts` line 28. rc.12 has been npm's `latest` since
+ * 2026-08-10, so the rename breaks THE DEFAULT INSTALL, not a 23-minute release.
+ *
+ * Moving `latest` past rc.14 without these aliases would hand every existing caller `undefined`
+ * silently — a value, not an error, in the vocabulary array they check credentials against.
+ *
+ * SAME VALUES, NOT COPIES. Each alias is the canonical binding itself, so the two cannot drift:
+ * there is one array and one version string, referred to by two names. They are deprecated, not
+ * supported: the new names are the ones that mirror the served schema, and these exist so a
+ * `latest` move is not a silent break. */
+
+/** @deprecated Renamed to {@link REQUIRED_KEY_CUSTODY} at rc.14. Alias kept from rc.20 because
+ * rc.12 carried this name and was `latest` for twelve days. Use `REQUIRED_KEY_CUSTODY`. */
+export const APPROVER_KEY_ASSURANCE = REQUIRED_KEY_CUSTODY;
+
+/** @deprecated Renamed to {@link REQUIRED_KEY_CUSTODY_SCHEMA_VERSION} at rc.14. Alias kept from
+ * rc.20 for the same reason. Use `REQUIRED_KEY_CUSTODY_SCHEMA_VERSION`. */
+export const APPROVER_KEY_ASSURANCE_SCHEMA_VERSION = REQUIRED_KEY_CUSTODY_SCHEMA_VERSION;
+
+/** @deprecated Renamed to {@link RequiredKeyCustody} at rc.14. rc.12 exported this type from
+ * `index.d.ts`, so a TypeScript caller breaks on the rename exactly as a runtime caller does.
+ * Use `RequiredKeyCustody`. */
+export type ApproverKeyAssurance = RequiredKeyCustody;
+
 /* ─── WHAT A SIGNER CLAIMS, WHICH IS NOT WHAT A CREDENTIAL REQUIRES ─────────────────────────────
  *
  * ADDED AT rc.15. `SignableResolution.actor.assurance` was typed `RequiredKeyCustody` through rc.13
