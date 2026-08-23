@@ -6,7 +6,33 @@
  * shared package yet. Two are NEW and are marked. Ambiguities are inputs, never defaults: a clause
  * whose answer depends on one that was not supplied returns `undetermined`.
  */
+// THIS FILE NOW READS ONE FILE, its own register.json, for the lane stamp below. It read nothing
+// at all before 2026-08-24, and the inventory audit relied on that; the trade is the same one
+// banxico made for the firmeza table: the alternative is a second copy of register data.
+import { readFileSync } from 'node:fs';
 const DAY = 86400000;
+
+// ─── the record opening: v2, lane, lane_from, from THIS DOMAIN'S register.json ──────────────────
+//
+// The lane lookup and any per-clause overrides live in the register, one copy, built by
+// _phase0/build-register.mjs. This file reads them rather than restating them. The no-lane and
+// same-lane-override rulings are stated once at _interpreter/interpret.mjs and REUSE-LOG E30/R14;
+// this reader enforces the same two throws so the two implementations cannot disagree silently.
+const __REG = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8'));
+const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
+  const e = __REG.lanes.lookup[c.disposition];
+  if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
+  if (e.no_lane !== undefined) {
+    if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
+    return [c.id, { v: 2, lane: 'none', lane_from: 'lookup' }];
+  }
+  if (c.lane_override) {
+    if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
+    return [c.id, { v: 2, lane: c.lane_override, lane_from: 'override' }];
+  }
+  return [c.id, { v: 2, lane: e.lane, lane_from: 'lookup' }];
+}));
+
 
 // ─── reused unchanged from the Banxico set ──────────────────────────────────────────────────────
 const field_present = (v) => (v === null || v === undefined || v === '' ? 'absent' : 'present');
@@ -150,7 +176,8 @@ const amounts_equal = (a, b) => {
 
 export function evaluate(facts, resolutions = {}) {
   const o = {};
-  const put = (id, result, note) => { o[id] = note === undefined ? { result } : { result, note }; };
+  // The record opens v, lane, lane_from, from the register, identically to the Banxico copy.
+  const put = (id, result, note) => { o[id] = note === undefined ? { ...LANE_STAMP[id], result } : { ...LANE_STAMP[id], result, note }; };
   const f = facts;
 
   // reg 67

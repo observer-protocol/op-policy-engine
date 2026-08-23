@@ -1,0 +1,191 @@
+{
+ "$note": "Frozen output of the three hand-written evaluators. This file records WHAT was frozen and OVER WHICH POPULATION. It is not the oracle; the .out.jsonl and .digests.txt files are.",
+ "captured_at_commit": "5cd92ae4fdbe125437c082f4644e78c9dbe01e46",
+ "captured_on_branch": "phase-0/register-interpreter",
+ "freeze_discipline": {
+  "scope": "policy-library, ignored files included",
+  "status_command": "git status --porcelain=v1 -uall --ignored=matching -- policy-library",
+  "refuses_when_dirty": true,
+  "override_used": false
+ },
+ "worktree_clean_under_policy_library": true,
+ "worktree_dirty_paths": [],
+ "seed": 20260822,
+ "sample_wide_n": 40000,
+ "sample_full_n": 250,
+ "domains": {
+  "banxico": {
+   "clauses": 19,
+   "populations": {
+    "fixtures": {
+     "records": 3,
+     "source": "policy-library/banxico-34-2010/cases.mjs, read through a spy",
+     "json_replay_mismatches": []
+    },
+    "corpus": {
+     "records": 17,
+     "source": "policy-library/_corpus/corpus.json",
+     "cases_whose_stored_result_map_no_longer_reproduces": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      11,
+      14,
+      15
+     ]
+    },
+    "sample-full": {
+     "records": 250,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..249",
+     "frozen_as": "the exact output bytes"
+    },
+    "sample-wide": {
+     "records": 40000,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..39999",
+     "frozen_as": "sha256 of the exact output bytes, first 16 hex characters",
+     "input_stream_sha256": "f02756aa0f82b4ec377bf2c187647411a99225c2422719036ccba3e2b87eff4f"
+    }
+   }
+  },
+  "psr": {
+   "clauses": 21,
+   "populations": {
+    "fixtures": {
+     "records": 3,
+     "source": "policy-library/psr-2017-752/cases.mjs, read through a spy",
+     "json_replay_mismatches": []
+    },
+    "corpus": {
+     "records": 25,
+     "source": "policy-library/_corpus/corpus.json",
+     "cases_whose_stored_result_map_no_longer_reproduces": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+     ]
+    },
+    "sample-full": {
+     "records": 250,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..249",
+     "frozen_as": "the exact output bytes"
+    },
+    "sample-wide": {
+     "records": 40000,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..39999",
+     "frozen_as": "sha256 of the exact output bytes, first 16 hex characters",
+     "input_stream_sha256": "2518839982cbe644bf21c55fe5aff36313ea3f4a375506b769ff89af1e08951f"
+    }
+   }
+  },
+  "feca": {
+   "clauses": 59,
+   "populations": {
+    "fixtures": {
+     "records": 4,
+     "source": "policy-library/feca-2-0805/cases.mjs, read through a spy",
+     "json_replay_mismatches": []
+    },
+    "corpus": {
+     "records": 0,
+     "source": "NOT_FOUND: _corpus/corpus.json carries banxico and psr only. Looked, and there is no FECA slice to freeze."
+    },
+    "sample-full": {
+     "records": 250,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..249",
+     "frozen_as": "the exact output bytes"
+    },
+    "sample-wide": {
+     "records": 40000,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..39999",
+     "frozen_as": "sha256 of the exact output bytes, first 16 hex characters",
+     "input_stream_sha256": "cbaf5422233b8e7dbaf146ad3ff8cdb1ff3b4099dff5b1b9ca6cc473cfb18295"
+    }
+   }
+  }
+ },
+ "files": {
+  "banxico.fixtures.inputs.json": {
+   "bytes": 3743,
+   "sha256": "2417e60047ae34b93280c274bc4fcba7bbf510a0c72466ca7973c20dde596db0"
+  },
+  "banxico.fixtures.out.jsonl": {
+   "bytes": 9145,
+   "sha256": "3ececbf9fb510610a460593d077d8ed49fa032749f47e29510d8d635772dbc5a"
+  },
+  "banxico.corpus.out.jsonl": {
+   "bytes": 52936,
+   "sha256": "fa36172831e3081b8813247ad5026c61a11ef6dab36700309b113f69b8c6a8ab"
+  },
+  "banxico.sample.out.jsonl": {
+   "bytes": 774406,
+   "sha256": "543da03e0ccf521b49d60f64982dbde8a4b35823861a02c87e65bac5ad50043f"
+  },
+  "banxico.sample.digests.txt": {
+   "bytes": 640000,
+   "sha256": "778c5a44ca03f28a523bd3c5e73aab552c4ef1c3c4270b2c6bb6634e0c9c3e4c"
+  },
+  "psr.fixtures.inputs.json": {
+   "bytes": 5077,
+   "sha256": "09770c465e5922b0c2183e1f13470bd7893865290c0d217d656b6a51103b6039"
+  },
+  "psr.fixtures.out.jsonl": {
+   "bytes": 9287,
+   "sha256": "9da2b7fd4e339e8ebd53d75487bbfa5499b74461ccbf294eb1d45c5a2046a167"
+  },
+  "psr.corpus.out.jsonl": {
+   "bytes": 76876,
+   "sha256": "10eb7efa06a82d856f369f7821e762fcb737b02c0444a0c67843e5d7b997927f"
+  },
+  "psr.sample.out.jsonl": {
+   "bytes": 769511,
+   "sha256": "ff831cc50686734cb95d38b984261f78dc896a4ab0687451789966d0c8ccb058"
+  },
+  "psr.sample.digests.txt": {
+   "bytes": 640000,
+   "sha256": "bb013d038b62fddb11fd57691d3762df55858da42a0db847db71460a1be1902b"
+  },
+  "feca.fixtures.inputs.json": {
+   "bytes": 7906,
+   "sha256": "4ac66d8b5d1d5e4028f08ca23dc24dfcc090569cbc2535eba2b0906edcebf9de"
+  },
+  "feca.fixtures.out.jsonl": {
+   "bytes": 34980,
+   "sha256": "6f5b748d39c3877d51dfe4ae204a3c3074d1b74af0ada998c6c254368006a8a5"
+  },
+  "feca.sample.out.jsonl": {
+   "bytes": 2153844,
+   "sha256": "0450f4e83f64320095c947aae6019d5404d3b30935d8bc81f2beac843680a274"
+  },
+  "feca.sample.digests.txt": {
+   "bytes": 640000,
+   "sha256": "6f478557e8207cf1367d2f9322cd17a9eafbcd8933808023d690e55949f99c8b"
+  }
+ }
+}

@@ -1,0 +1,167 @@
+[
+ {
+  "facts": {
+   "notice": {
+    "type": "reclamacion_cargo_no_reconocido",
+    "reference": "AV-2026-0031",
+    "received_at": "2026-05-04T09:12:00Z"
+   },
+   "operation": {
+    "executed_abroad": false,
+    "occurred_at": "2026-04-28T19:41:00Z",
+    "acquirer_name": "Adquirente Demo",
+    "merchant_name": "Establecimiento Demo 001",
+    "auth_factors": [
+     "2.6.a.i_knowledge",
+     "2.6.a.ii_device_or_chip"
+    ]
+   },
+   "dictamen": {
+    "made_available_at": "2026-06-02T11:00:00Z",
+    "channel": "sucursal",
+    "signatory_id": "emp-0042",
+    "language_is_plain": "affirmed",
+    "evidence_of_factors_present": true,
+    "verification_method_stated": true,
+    "device_address": {
+     "physical_address": "Av. Reforma 100, CDMX",
+     "ip_address": null
+    }
+   },
+   "cardholder": {
+    "channel_election": "sucursal"
+   },
+   "issuer": {
+    "authorised_signatories": [
+     "emp-0042",
+     "emp-0117"
+    ],
+    "holds_device_address": true
+   },
+   "account": {
+    "charges_posted": [
+     "interes_ordinario"
+    ]
+   },
+   "charge": {
+    "derived_from_2_6_a_operation": "demonstrated"
+   },
+   "expediente": {
+    "requested": true,
+    "delivered_at": "2026-06-22T11:00:00Z"
+   }
+  },
+  "resolutions": {
+   "A1_dias_unit": "calendar_days",
+   "A2_terminos_senalados": "timing_and_content"
+  }
+ },
+ {
+  "facts": {
+   "notice": {
+    "type": "reclamacion_cargo_no_reconocido",
+    "reference": "AV-2026-0031",
+    "received_at": "2026-05-04T09:12:00Z"
+   },
+   "operation": {
+    "executed_abroad": false,
+    "occurred_at": null,
+    "acquirer_name": "Adquirente Demo",
+    "merchant_name": "Establecimiento Demo 001",
+    "auth_factors": [
+     "2.6.a.i_knowledge",
+     "2.6.a.ii_device_or_chip"
+    ]
+   },
+   "dictamen": {
+    "made_available_at": "2026-06-02T11:00:00Z",
+    "channel": "sucursal",
+    "signatory_id": "emp-0042",
+    "language_is_plain": "affirmed",
+    "evidence_of_factors_present": true,
+    "verification_method_stated": true,
+    "device_address": {
+     "physical_address": null,
+     "ip_address": null
+    }
+   },
+   "cardholder": {
+    "channel_election": "sucursal"
+   },
+   "issuer": {
+    "authorised_signatories": [
+     "emp-0042",
+     "emp-0117"
+    ],
+    "holds_device_address": false
+   },
+   "account": {
+    "charges_posted": [
+     "interes_ordinario"
+    ]
+   },
+   "charge": {
+    "derived_from_2_6_a_operation": "demonstrated"
+   },
+   "expediente": {
+    "requested": false,
+    "delivered_at": null
+   }
+  },
+  "resolutions": {
+   "A1_dias_unit": "calendar_days",
+   "A2_terminos_senalados": "timing_and_content"
+  }
+ },
+ {
+  "facts": {
+   "notice": {
+    "type": "reclamacion_cargo_no_reconocido",
+    "reference": "AV-2026-0031",
+    "received_at": "2026-05-04T09:12:00Z"
+   },
+   "operation": {
+    "executed_abroad": true,
+    "occurred_at": "2026-04-28T19:41:00Z",
+    "acquirer_name": "Adquirente Demo",
+    "merchant_name": "Establecimiento Demo 001",
+    "auth_factors": [
+     "2.6.a.i_knowledge",
+     "2.6.a.ii_device_or_chip"
+    ]
+   },
+   "dictamen": {
+    "made_available_at": "2026-09-01T11:00:00Z",
+    "channel": "sucursal",
+    "signatory_id": "emp-0042",
+    "evidence_of_factors_present": true,
+    "verification_method_stated": true,
+    "device_address": {
+     "physical_address": "Av. Reforma 100, CDMX",
+     "ip_address": null
+    }
+   },
+   "cardholder": {
+    "channel_election": "sucursal"
+   },
+   "issuer": {
+    "authorised_signatories": [
+     "emp-0042",
+     "emp-0117"
+    ],
+    "holds_device_address": true
+   },
+   "account": {
+    "charges_posted": [
+     "interes_ordinario"
+    ]
+   },
+   "charge": {},
+   "expediente": {
+    "requested": true,
+    "delivered_at": "2026-11-05T11:00:00Z"
+   }
+  },
+  "resolutions": {}
+ }
+]

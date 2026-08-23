@@ -1292,10 +1292,590 @@ worked case moved, in any domain**, and Banxico and PSR are unchanged at 62/30 a
 discard it inside `compute`. None does, and a short-circuit inside `compute` correctly leaves the
 meaning unread and unattributed.
 
+## E18. `disjunction_over_results` NAMED, on a change of representation
+
+**Domain:** SI 2017/752. **Clause:** `psr-2017/76/1/trigger`, via the `notBarred` operand.
+**Observed:** 2026-08-23, re-expressing the three domains as pure data.
+**Status: NAMED. E7 is closed by this entry.**
+
+### E7 left this waiting, and what it was waiting for arrived
+
+E7 recorded a bare `||` over two clause results, fixed it inline to three-valued, and declined to
+name the shape: *one instance in one domain*, so under E4 it waits for a second instance **or a
+change of representation**. E7 named the second permit itself: *So would writing the truth table
+out.*
+
+**Re-expressing PSR as a register is that change of representation**, and it is not optional here:
+a register is data, and an inline `||` in a program has no data form. Either the shape is named or
+`psr-2017/76/1/trigger` cannot be expressed, which would stop the item.
+
+### THE SOURCE TEXT THAT FORCED IT
+
+`reg 76(1) chapeau`: *Subject to regulations 74 and 75, where an executed transaction was not
+authorised under regulation 67, the provider must refund and restore.*
+
+`reg 74(1)`: *Entitlement to redress arises only if notification is given no later than 13 months
+after the debit date.*
+
+`reg 74(2)`: *The 13 month bar does not apply where the provider failed to supply the Part 6
+information about the transaction.*
+
+**The bar is lifted by EITHER limb.** 74(1) not biting is one way; 74(2) applying is the other. The
+text makes them independent, so the composition is a disjunction over two clause results and the
+instrument states it in one sentence.
+
+### IT IS NOT THE DUAL OF `conjunction_over_results`, and that is why it needs its own definition
+
+| | when any operand is `undetermined` |
+|---|---|
+| `conjunction_over_results` | **`undetermined` DOMINATES**, even beside a `false` |
+| `disjunction_over_results` | **`true` DOMINATES**, and `undetermined` only survives when nothing is true |
+
+So De Morgan does not relate them: `conjunction_over_results` is not Kleene AND, and negating it
+would not produce the disjunction reg 76(1) needs. A limb that HOLDS makes the bar lifted whatever
+is unknown about the other limb, and a limb that FAILS leaves the question open. Written as a table
+rather than as a ternary, so a reader compares rows rather than reading an `else` arm.
+
+**Closed token vocabulary, throwing on anything unregistered**, exactly as its sibling does.
+
+---
+
+## E19. `all_members_of_enumeration` ADDED, and it is the list lift of a primitive already there
+
+**Domain:** Banxico 34/2010. **Clause:** `34-2010/2.6/a/two-factor`.
+**Observed:** 2026-08-23. **Status: ADDED, one instance, and the argument is structural rather than
+numerical.**
+
+### What could not be expressed
+
+`evaluate.mjs` computes `factors.every((f) => member_of_enumeration(f, AUTH_FACTOR_KINDS) === 'member')`
+and feeds it to `guard_on_unresolved`. `INVENTORY-AUDIT.md` observed this as
+`universal_quantification_over_results`, listed it among the eleven undeclared operations, and did
+not rule on it. **A `.every` over a primitive is a program, not data.** No existing primitive
+expresses it: `all_present` quantifies presence, `none_of_class_present` quantifies a prohibited
+class and cannot express its complement over an open one, and `member_of_enumeration` is scalar.
+
+### THE SOURCE TEXT THAT FORCED IT
+
+`pp.5-6, numeral 2.6, inciso a)`: *Por operaciones en las que, para su realización, requieran al
+Tarjetahabiente que utilice al menos dos elementos independientes para autenticar las operaciones
+como autorizadas por este último … **Los referidos factores deberán ser de entre los listados a
+continuación***.
+
+**`de entre los listados a continuación` closes the enumeration over the WHOLE SET of factors used,
+not over one of them.** The requirement is a quantifier in the source sentence, and a register that
+can only test one factor at a time cannot state it. The clause's existing basis in `clauses.json`
+already says so: *A count of at least two, plus membership of each factor in a closed enumeration.*
+
+### E10's sentence, and why it belongs to the primitive layer
+
+**It reports whether every item in a list is a member of a declared enumeration.** That mentions
+neither syntax nor return type.
+
+**One instance, and E4 is satisfied by the second permit rather than the first.** The change of
+representation is the whole of Phase 0. But the stronger argument is structural: the primitive set
+ALREADY CONTAINS the list lift of `field_present`, twice, as `all_present` and `any_present`. This is
+the list lift of `member_of_enumeration` and it sits beside them. Adding it is filling a hole the set
+already has a shape for, not generalising from one case.
+
+**What is NOT claimed:** that a second domain needs it. Neither PSR nor FECA does. If no second
+domain ever does, that is an argument this entry cannot answer and the entry should be re-read then.
+
+---
+
+## E20. The gate is structural and operand ORDER is still an author's choice
+
+**Domain:** FECA PM 2-0805. **Clause:** `feca/2-0805/3/e/differentiate`.
+**Observed:** 2026-08-23, showing E17's conditions on the interpreter.
+**Status: RECORDED, NOT FIXED. One instance, one domain, so it waits under E4.**
+
+### What the interpreter does remove
+
+E17's defect was an attribution gated on a lexical read: three call sites passed thunks to
+`applicability_gate` and a fourth passed a value to `conditional_requirement`, whose arguments
+JavaScript evaluates eagerly. **A generic interpreter written the obvious way reproduces that
+exactly**, because `handler(force(a), force(b))` is the same eager evaluation one level up.
+
+It is avoided by handlers taking NODES rather than values, with `force(node, ctx)` the only site in
+the interpreter that maps a node to a value. `ungrounded` takes its gate as an argument, so a
+register cannot reach a meaning before the precondition holds. Measured over 40000 sampled fact
+sets: `not_applicable_on_supplied_meaning` occurs **0** times, against 9607
+`breached_on_supplied_meaning` and 9405 `satisfied_on_supplied_meaning`.
+
+### What it does NOT remove, measured on the same clause
+
+`3/e/differentiate`'s compute is `differentiates === true AND rationale_grade is in the supplied
+meaning`. `and` short-circuits at the single forcing site, so on a false first conjunct the meaning
+is never consulted and the result is a bare `breached`.
+
+**Write the two conjuncts the other way round and the same facts give
+`breached_on_supplied_meaning`.** The predicate is identical; the attribution is not.
+
+| conjuncts as written | conjuncts reversed |
+|---|---|
+| `{"result":"breached"}` | `{"result":"breached_on_supplied_meaning","rests_on":"a meaning supplied by the institution, not by the chapter","term":"rationalized medical opinion"}` |
+
+**So the closure holds exactly where E17 said it holds and no further.** E17's own note said as much
+of the hand-written version: *a site could still read a meaning and discard it inside `compute`*.
+What has changed is that the author is now a register author rather than a programmer, and that the
+choice is visible as an operand order in data rather than buried in an expression.
+
+**Why it is not fixed.** The candidate fixes are all larger than the observation. Forcing every
+operand of a conjunction would remove the short-circuit and change results in the other direction,
+attributing meanings that were genuinely never consulted. Ordering conjuncts by whether they touch a
+meaning is a rule about authoring rather than about evaluation, and nothing checks it. Declaring per
+clause which operands may consult a meaning is a fourth field on a shape that has three. **One
+instance, one domain: it waits.** Shown rather than described, in `_phase0/show-e17.mjs` section 5.
+
+---
+
+## E21. The corpus no longer reproduces from the evaluators beside it
+
+**Domains:** Banxico and PSR. **Observed:** 2026-08-23, freezing the Phase 0 oracle.
+**Status: MEASURED, NOT REGENERATED. Regenerating it is a decision about the corpus.**
+
+`_corpus/corpus.json` stores, per case, a `facts` block and a `results` block, under a note that
+says the results *were computed by running the committed evaluator over the `facts` block*. That was
+true when it was written.
+
+**Measured now, by recomputing every case: 11 of 17 Banxico cases and 25 of 25 PSR cases carry a
+stored result map the committed code no longer produces.**
+
+| domain | cases | drift | the clauses that moved |
+|---|---|---|---|
+| Banxico | 17 | 11 | `p5/foreign-deadline` 10, `p4/deadline` 7, `2.6/a/two-factor` 6, `p7/firmeza` 3 |
+| PSR | 25 | 25 | `67/4/series-withdrawal` 19, `67/1/consent` 2, **and every case's clause ORDER** |
+
+**Every difference is traceable to a ruling that landed after the corpus was written**: E9's
+`absent is not domestic`, which moved decided results to `undetermined`; the two-factor guard on an
+unclassifiable factor kind; and `67/4/series-withdrawal` being given effect, which both changed its
+own result domain from `{not_satisfied, not_applicable}` to `{defeated, not_defeated, undetermined}`
+and moved it ahead of `67/1/consent` in the emission order. **Nothing is wrong with the corpus's
+facts.** What is stale is a stored derived value.
+
+**This is the `_totalCases` lesson, unlearned in a fourth place.** `parity-harness/matrix.json`
+already records why a count must be derived at runtime rather than stored;
+`INVENTORY-AUDIT.md` STEP 4 already withdrew two stored fields for the same reason in the same
+library. `corpus.json` stores a derived map beside the facts that derive it, **and nothing in the
+repository compares the two**. It went stale silently and stayed silent through three rulings.
+
+**Not regenerated here**, because the Phase 0 oracle does not need it: the corpus supplies FACT SETS,
+which do not go stale, and the oracle recomputes every result from the committed evaluator. Whether
+`corpus.json` should carry results at all, or should carry only facts and a deriver, is the decision
+this entry is for.
+
+---
+
+## E22. Five definitions with no call site, and a measurement whose subject moved
+
+**Domains:** all three. **Observed:** 2026-08-23. **Status: MEASURED. Nothing removed.**
+
+Counted directly over the three `evaluate.mjs` files, by looking for a call of each name:
+
+| domain | defined and never called |
+|---|---|
+| Banxico | `select_parameter_by_predicate`, `applicability_gate` |
+| PSR | `any_present` |
+| FECA | `any_present`, `guard_on_unresolved` |
+
+**`select_parameter_by_predicate` is the one that matters, because it is DECLARED.** It is one of the
+thirteen entries in `banxico-34-2010/primitives.json`, with parameters, a result domain and a
+`used_by` list. `INVENTORY-AUDIT.md` STEP 1 states: *Every one of the 13 primitives declared in
+`primitives.json` is invoked somewhere. The declared-and-never-called bucket is empty at the
+primitive level.*
+
+**That was true on 2026-08-21 and is false now.** On 2026-08-23 the deadline period was routed
+through `remap_result_domain` off `p5/foreign-deadline`'s own result, which was a correction to a
+different defect and removed this primitive's last call site as a side effect. **A measurement is
+evidence about its moment.** Nothing in the repository re-derives it, so the audit's sentence still
+reads as a present-tense claim.
+
+**The other four are E5 landing in a third place**: the primitives are copied between domains, so a
+domain acquires the definitions of the domain it was copied from whether it needs them or not. A
+shared module would make the count fall out of an import list rather than out of a grep.
+
+**Nothing removed, deliberately.** The interpreter does not implement
+`select_parameter_by_predicate`, because no register uses it; that is recorded in the schema
+comparison rather than by deleting a declaration from a published register.
+
+---
+
+## E23. No clause declares its own result domain, so twelve of twenty-nine remaps cannot be checked
+
+**Domains:** all three. **Observed:** 2026-08-23, building the register validator.
+**Status: RECORDED. This is the register's largest under-specification and it is not filled here.**
+
+`remap_result_domain` exists because two hand-written remaps of one primitive's result domain
+silently disagreed about `denied` (E6). Its rule is that **the mapping must be TOTAL over the source
+domain**, and an unlisted token throws.
+
+**Totality is only checkable where the source domain is declared somewhere.** Measured over the three
+registers:
+
+| what the remap reads | sites | totality checkable? |
+|---|---|---|
+| a primitive with a declared result domain | 16 | **yes**, and the validator checks it |
+| **another clause's result** | 9 | **no** |
+| a binding | 3 | no |
+| a resolution | 1 | no |
+
+**29 sites, 12 unchecked**, being the 13 whose source the schema cannot resolve less the one that
+declares `$unmapped` anyway.
+
+**The cause: a clause register does not say what a clause can return.** Counted:
+`banxico-34-2010/clauses.json` **0 of 19**, `feca-2-0805/clauses.json` **0 of 59**,
+`psr-2017-752/clauses.json` **1 of 21**, and that one is on a clause whose disposition was corrected
+the same day. So the artifact a client is handed states what each clause requires and never states
+what answering it can produce.
+
+**And a derived domain is not a substitute.** `_corpus/coverage.mjs` derives observed result sets by
+sampling, and an observed set is a LOWER BOUND: it says a token was reached, never that no other
+token exists. E6's disagreement was over `denied`, a token no fixture carried.
+
+**Not filled here, and that is the finding rather than a deferral.** Writing a result domain onto 99
+clauses would be authoring 99 claims nothing forced, and the brief's own ruling applies: needing to
+know an answer in order to proceed is evidence the register is under-specified, and the finding is
+worth more than the answer. **The interpreter did not need it. The validator did, and could not get
+it.**
+
+---
+
+## E24. The key an institution supplies a resolution by is in no register, and most registered ambiguities are inputs to nothing
+
+**Domains:** all three. **Observed:** 2026-08-23. **Status: RECORDED. The register now carries the
+key; the ambiguity registers do not.**
+
+### The join is a string literal in a program
+
+`ambiguities.json` registers `A1` with a clause id, a question, competing readings, a textual basis
+and a materiality. `evaluate.mjs` reads `resolutions.A1_dias_unit`. **Nothing anywhere states that
+those are the same thing.** An institution handed the register cannot tell what to call the field
+whose value resolves A1, and a run that supplied `A1` rather than `A1_dias_unit` would be
+indistinguishable from a run that resolved nothing: the clause returns `undetermined`, which is the
+correct answer to a different question.
+
+The Phase 0 registers carry `resolution_key` on each ambiguity, supplied by the evaluation layer.
+**It is authored, not derived**, because there is nothing to derive it from.
+
+### Three of seventeen registered ambiguities are inputs to anything
+
+| domain | registered | consumed | which |
+|---|---|---|---|
+| Banxico | 6 | 2 | A1, A2 |
+| PSR | 6 | 1 | P1 |
+| FECA | 5 | **0** | none |
+
+**FECA's five are inert, and there is a structural reason.** Banxico's and PSR's ambiguity entries
+carry the competing readings, so a resolution has a vocabulary to be drawn from and the firmeza
+decision table takes A2's domain directly from it. **FECA's entries carry no readings field at all**,
+so there is no vocabulary, nothing for an evaluation to consume, and no way to write one without
+first deciding what the readings are.
+
+**Not an argument that the other fourteen should be consumed.** An ambiguity that no clause's result
+turns on is properly recorded and properly unread; A3 is named in a clause note precisely to say
+that a recovery right is never inferred. The finding is that **nothing distinguishes the two cases**:
+a register cannot say whether an ambiguity is an input awaiting a resolution or a caveat that will
+never be one, and the only way to find out today is to read a program.
+
+---
+
+## E25. The order a determination is reported in is a property of a program
+
+**Domains:** all three. **Observed:** 2026-08-23. **Status: FIXED IN THE REGISTER, recorded because of
+what it says about the artifact.**
+
+Byte identity is over `JSON.stringify(output)`, and JavaScript object key order is insertion order,
+so **the order clauses are emitted in is part of what a run produces**. A supervisor reading two
+determinations side by side compares rows by position.
+
+**That order lives in no register.** It is the order `put()` happens to be called in, and it matches
+neither the source order nor `clauses.json`'s order in any of the three domains. FECA's is stranger
+still: the 35 result-bearing clauses come in the evaluator's own order and the 24 with no result
+domain are appended afterwards by a trailing loop over the register, so **one output object carries
+two different orderings** and the boundary between them is invisible in the output.
+
+The Phase 0 registers make the clause array order the emission order, stated as such. That is the
+smallest change that makes the property a property of data.
+
+**What it says about the artifact:** three published registers, each described as the specification
+of a conversion, and a determination made from any of them could not be reproduced row for row from
+the register alone. Nothing was wrong with any result. The register simply did not carry a property
+its own output has.
+
+---
+
+## E26. Three registers, six fields, and the disagreements are not naming preferences
+
+**Domains:** all three. **Observed:** 2026-08-23, deriving the register schema.
+**Status: RECORDED, and reconciled in the Phase 0 schema WITHOUT ruling on which side is right.**
+
+Each row below is a field where the three registers disagree, with the text on both sides. The brief
+required these be reported rather than merged by preference, and none of the six is settled here.
+
+### 1. The clause text field names the language, in two of three
+
+`banxico-34-2010` `"text_es": "Hora y minuto en que se realizó la operación."` ·
+`psr-2017-752` `"text_en": "Entitlement to redress arises only if notification is given no later
+than 13 months after the debit date."` · `feca-2-0805` `"text": "In clear-cut traumatic injury
+claims, …"`.
+
+**Not cosmetic.** Under two of the three the language is part of the KEY, so a register carrying one
+provision in two languages, which is ordinary for a supervisor operating in more than one, cannot be
+expressed without inventing a third key. Under the third the language is not recorded at all. The
+Phase 0 schema carries `text` plus `text_language`, which is the only form that can hold both, and
+that choice is a schema decision this entry does not claim the domains made.
+
+### 2. `source_locator` and `source` carry different KINDS of thing
+
+`banxico` `"p.13, numeral 3.6, fourth paragraph"` · `feca` `"para 3d(1)"` ·
+`psr` `"reg 75(1)"`.
+
+**Banxico's is a PAGE plus a numeral, and it has to be**, because the source is a compiled PDF with
+no provision identity. PSR's is a provision identifier that legislation.gov.uk assigns and that is
+citable and stable, which is exactly the property E3 measured the XML as buying. Merging the two
+under one name records a page number and a legal citation in one field and loses which one you have.
+
+### 3. `assertion` is present on 78 clauses of 99 and absent on all of PSR
+
+Banxico 19/19, FECA 59/59, PSR **0/21**. For Banxico the assertion is the English rendering of a
+Spanish provision and is doing translation. For FECA it is a restatement of an English sentence in
+operative terms: `"A clear-cut traumatic injury needs only a diagnosis and an affirmative
+statement."` beside a text that says the same thing at greater length. **PSR's absence is defensible
+on the same reasoning that makes FECA's presence useful**, and the two cannot both be what the field
+is for.
+
+### 4. `disposition_basis` is present on 78 clauses of 99 and on ONE PSR clause
+
+Banxico 19/19, FECA 59/59, PSR **1/21**, and that one reads *Composes the 67 authorisation result
+with the 74 bar. Reads no fact directly.* PSR carries `reuse_note` on all 21 instead, which is about
+which primitive transferred, not about why the clause is MECHANICAL rather than JUDGMENT.
+
+**So for 20 of 21 PSR clauses the register does not record why the category was chosen**, and the
+category is the thing that decides whether the evaluator computes a result, refuses one, or takes a
+judgment as an input.
+
+### 5. Three names for three DIFFERENT relations, and only one is the evaluation dependency
+
+| field | domain | count | what it points at |
+|---|---|---|---|
+| `depends_on` | Banxico | 19/19 | other clauses of this register, the evaluation dependency |
+| `governs` | PSR | 4/21 | **the inverse**: an EVIDENTIAL clause naming the clause its result is an input TO |
+| `implements` | FECA | 6/59 | **outside the document**: `5 U.S.C. 8101(2)`, `20 C.F.R. 10.312` |
+
+Reading these as one field would have `governs` pointing backwards along the dependency edge and
+`implements` pointing out of the register entirely. The Phase 0 schema keeps all three, separately,
+and derives nothing from them: **the interpreter's dependency order comes from the emission order and
+is checked against it by rule R3**, not from `depends_on`, which no instrument has ever read.
+
+### 6. The ambiguity readings field, and FECA has none
+
+Banxico `competing_readings`, PSR `readings`, FECA **no field**. The consequence is measured in E24:
+FECA's five ambiguities have no resolution vocabulary and are inputs to nothing.
+
+### And one disagreement inside a single domain
+
+`feca-2-0805/clauses.json` declares `"$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED,
+DEFINITIONAL, INSTRUCTION. ILLUSTRATIVE is NOT in the schema…"` — **six categories, and EVIDENTIAL is
+not among them.** Its own `evaluate.mjs` declares
+`HAS_RESULT_DOMAIN = new Set(['MECHANICAL','JUDGMENT','CONDITIONAL','DERIVED','EVIDENTIAL'])`, and
+`EVIDENTIAL.md` records that FECA has **five** clauses that are EVIDENTIAL under the tight test while
+stating that nothing has been recategorised. The three statements are consistent only if you already
+know that the category exists and that the recategorisation was deliberately not made. **A reader of
+the register alone would conclude the category does not apply to this document.**
+
+---
+
+## E27. A correction fixed the prose and left the structured field, and the edge is now inverted
+
+**Domain:** Banxico 34/2010. **Clauses:** `34-2010/3.6/p5/foreign-deadline` and
+`34-2010/3.6/p4/deadline`. **Observed:** 2026-08-23, by deriving the dependency graph from the
+register rather than reading it. **Status: RECORDED, NOT FIXED. It is a change to a register that is
+public on main.**
+
+### What was measured
+
+`_phase0/reads-graph.mjs` walks each clause's `evaluate` tree, follows bindings, and collects every
+clause result it names. No run, no fixtures. Compared against `depends_on`:
+
+| | clauses |
+|---|---|
+| carry an evaluation | 75 |
+| `depends_on` agrees with the derived graph | **9** |
+| declare a dependency the tree does not have | 10 |
+| read a clause they do not declare | **1** |
+| carry no `depends_on` at all | **56**, being the whole of PSR and the whole of FECA |
+
+### The one that is unambiguously wrong, and it is inverted
+
+On 2026-08-23 the deadline period was rerouted so that `p5/foreign-deadline` is emitted FIRST and
+`p4/deadline` derives the period from its result. The correction is recorded on both clauses. The
+prose was updated on both:
+
+`p4/deadline.disposition_basis`, as corrected: *THE LIMIT IS NOT ITS OWN: **this clause reads
+34-2010/3.6/p5/foreign-deadline** and applies 45 days or 180 accordingly.*
+
+**`p4/deadline.depends_on` does not list it.** And `p5/foreign-deadline.depends_on` still reads
+`["34-2010/3.6/p4/deadline"]`, **which is the edge the correction reversed**. Two fields of one
+register, in one file, disagreeing about one dependency, with the structured field pointing the wrong
+way down it.
+
+**The correction was prompted by `check-claimed-effects.mjs`**, which reported this pair as
+READ-BUT-NOT-CLAIMED. That instrument reads `disposition_basis`, `reuse_note` and `note`. It does not
+read `depends_on`. So the prose it inspects was brought into line and the field it does not inspect
+was left, and the register ended the day less consistent with itself than it began.
+
+### The other ten are a different finding: the field has no definition
+
+The ten `declares and does not read` cases are not all defects. `3.6/a/evidence` declares
+`2.6/a/two-factor`, and the evidence must refer to factors drawn from that enumeration, which is a
+relationship in the source text and not a computed one. `p4/floor` declares `a/explanation`, whose
+result the floor deliberately does not consume.
+
+**Nothing in any register says which relation `depends_on` records.** Read as the evaluation
+dependency it is wrong on ten clauses; read as a relationship in the source it is right on most of
+them and cannot be used by any instrument. It is one field carrying two relations, which is why the
+one genuine inversion sat inside it unnoticed.
+
+**And 56 of 75 clauses have no declaration to check at all**, because neither PSR nor FECA carries
+the field. The estate's only dependency declaration exists in one of three domains and no instrument
+has ever read it.
+
+### What this says about the false-effect class
+
+The handoff predicted that a generic interpreter makes the false-effect class unreachable, because
+*an interpreter derives behaviour FROM the register, so the register cannot describe something the
+behaviour does not do.* **That is true of the evaluation half and false of the descriptive half.**
+`assertion`, `disposition_basis`, `depends_on`, `governs` and `implements` still sit beside an
+evaluation and can still contradict it. What changed is that a contradiction is now DERIVABLE without
+a run and without parsing a sentence, and this entry is the first thing derived that way.
+
+---
+
+## E28. E4 on dispatch-as-a-set: the pair does not release it
+
+**Domains:** the refusal record work (policy-engine records) and the evidence-agent design
+(handoff Addendum A.4). **Observed:** 2026-08-23, on instruction, after the two instances were laid
+side by side. **Status: WAITS under E4. The pair does not release it.**
+
+### The two instances, as located
+
+**The earlier one, in the refusal record work.** The exclude-prose-from-signature rule at what is
+now `packages/policy-engine/src/core/records/refusal.ts:219` was stated over ONE FIELD, `reason`,
+when its subject was the structure: `note`, one field away, written by the same helper and inherited
+by every code routed through it, was inside the signature. Measured on the recording corpus, 6 of 11
+gate refusals carried a signed sentence the same record contradicted two fields away. The landed
+form is the set: a NAMED LIST of what the deployment signs, so an upstream field cannot silently
+widen it.
+
+**The later one, in A.4.** The dispatch unit for an evidence agent widened from one fact to the
+clause's declared read set, forced by `_phase0/dispatchable.mjs`: 5 of 12 gatherable clauses are
+moved by NO single declared fact at any value the fact space declares, because `ordered_before`,
+`elapsed_within` and `amounts_equal` need both operands.
+
+### Why the pair does not trip E4's threshold
+
+**The A.4 instance is prospective, and a prospective instance is not an observation.** E4's second
+instance exists to answer a question about the world: does the shape generalise, or was the first
+occurrence the artifact of one domain? A constraint stated about an interface THAT DOES NOT EXIST
+answers no such question; nothing has been built at the single-fact granularity and nothing has been
+observed failing at it. What the measurement establishes is that IF the interface were built
+per-fact it would under-reach five known clauses, which is a prediction with good evidence, and E4
+counts observations, not predictions with good evidence.
+
+**So the entry the pair would have released stays open.** If the evidence-agent interface is ever
+built and its dispatch unit is found under-reaching in the field, that is the second observation and
+E4 is released then. Until then the refusal instance stands alone as the one observed member of the
+class, and A.4 stands as a design constraint carrying its measurement.
+
+---
+
+## E29. A count in a report, computed independently of the check that would justify it
+
+**Where:** the 2026-08-23 Phase 0 delta report, and from there the handoff document.
+**Observed:** 2026-08-23, caught by a verification block's question, not by its author.
+**Status: CORRECTED same day, in both handoff sections and nowhere else (swept). Recorded because of
+what it is an instance of.**
+
+### What happened
+
+The Phase 0 delta report stated that the composition-shape count went from five to six when
+`disjunction_over_results` was named. **The count was wrong.** The five always included the
+disjunction: the inheritance section of this log says, in one sentence, `The fifth,
+disjunction_over_results, is deliberately unnamed`, and the schema implements exactly five shapes,
+countable by one line over `register.schema.json`. Phase 0 changed the fifth's STATUS, unnamed to
+named. The wrong count then travelled: it entered the handoff corrections, was embedded in the next
+instruction block as a premise (`five becomes six`), and was edited into two sections of the handoff
+before a verification question forced the recount.
+
+### The class, and where this instance sits in it
+
+**This estate's dominant defect class is an affirmative answer computed independently of the checks
+meant to justify it.** Every instance so far was in code or in a register: a registry recording
+intent, a coverage check satisfied by a declaration, a sweep measuring its own consumer. **This one
+is the same class in a REPORT.** The count was asserted from memory of the work, not derived from
+the artifact it counted, while the artifact sat one command away.
+
+**And it was made MORE credible by an attached mechanism that was itself sound.** The sentence
+beside the count cited E18, the source text of reg 76(1) with 74(1) and 74(2), and the naming
+mechanism, all of which are correct. A reader who checks the mechanism finds it sound and extends
+that soundness to the number standing next to it. A partial derivation inherits credibility: the
+verified part vouches for the unverified part, which is exactly how the wrong count survived one
+instruction round-trip.
+
+### What would have caught it, named
+
+1. **A derived count at reporting time.** `node -e` over `register.schema.json` counting entries
+   with `kind === 'shape'` prints 5, existed when the report was written, and was eventually what
+   settled it. A count in a report is subject to the same rule this estate applies to a count in a
+   register: derive it from the population, do not assert it.
+2. **Reading the source before restating it.** The inheritance section already contained the exact
+   sentence that falsifies the claim. The restatement was written from the four NAMED shapes plus
+   one, which is a count under the wrong predicate: named-shapes rather than shapes.
+3. **Treating the relayed premise as a prompt to verify.** The wrong count came back embedded in an
+   instruction and was edited into the document on that authority. The estate's standing rule for a
+   relayed ruling applied and was not applied.
+
+---
+
+## E30. STANDING PROPERTY: an absent input is never read as a value of the domain it is absent from
+
+**Established:** 2026-08-24, writing once what had landed three times. **Status: STANDING PROPERTY,
+in force. One statement here; the code sites reference this entry rather than restating it.**
+
+**The property.** Absence is a state of its own at every granularity. Reading an absent thing as any
+member of its domain decides a question on no evidence, and the decision is invisible because the
+output is a plausible member of the domain (`a wrong key returns a plausible number`). Three
+granularities, one property:
+
+| granularity | the conflation refused | where it is enforced in code |
+|---|---|---|
+| **a field** | an absent fact read as a recorded value. E9's instance: absent `executed_abroad` read as `domestic`, selecting a 45-day period nobody's facts supported | `field_present` guards at the E9 sites: `banxico-34-2010/evaluate.mjs` (`abroadRecorded`, `factorsRecorded`) and the `abroad_recorded`, `factors_recorded` bindings in `banxico-34-2010/register.json`, evaluated by `_interpreter/interpret.mjs` |
+| **a determination** | a determination that could not be made read as one that was. An absent judgment, end event or operand gets its own token, never a decided value: `not_assessed`, `no_end_event`, `missing_operand`, `no_candidate` | the primitive result domains, in all four implementations: `held_judgment`, `elapsed_within`, `ordered_before`, `amounts_equal`, `member_of_register` in the three `evaluate.mjs` and in `_interpreter/interpret.mjs` PRIMITIVES |
+| **a record** | an unversioned record read as version 0. Absence has two causes, a pre-versioning record and a foreign record that dropped the field, and 0 names the first without evidence | `recordVersion()` in `_interpreter/interpret.mjs`, which THROWS on an absent version |
+
+**The known boundary of the second instance, so this entry does not overclaim.** The distinct tokens
+survive only until composition: `conjunction_over_results` maps `not_assessed` (via a remap) into
+`undetermined`, so one level up `nobody assessed` and `the facts do not settle it` share a token.
+That is E28's prospective instance and A.4's shape-vocabulary constraint, recorded there and not
+resolved here.
+
+**How to apply.** When absence appears at a new granularity, add a row to this table with the code
+site that enforces it; do not write a fourth prose statement. A local comment says
+`REUSE-LOG E30` and nothing else, because four texts drift and one does not.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
+
+> **E18 to E30 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty. Two of the additions change what
+> this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
+> interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
+> oracle. The section is kept as written rather than edited, so the count and the claims it was
+> reached with stay visible.**
 
 Written 2026-08-23, closing this session. Three domains, two document classes, 99 clauses, seventeen
 log entries all carrying a status.

@@ -1,0 +1,1640 @@
+{
+ "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
+ "register_version": "0.1.0",
+ "domain": "psr",
+ "source": {
+  "$schema_note": "Payment Services Regulations 2017 (SI 2017/752), regulation 76 and the provisions it depends on. Derived from the XML at legislation.gov.uk, digests in source/PROVENANCE.md. Decomposed WITHOUT consulting the Banxico clause register; primitive attribution was made afterwards, against banxico-34-2010/primitives.json.",
+  "decomposition_note": "Boundary set by the source. Reg 76 is `subject to regulations 74 and 75` and turns on whether a transaction was authorised `in accordance with regulation 67`, so 74, 75 and 67 are in. Regulation 72 is referenced BY 75(3) and 75(4) as the subject of a proof burden, two hops from 76 and never as a condition of the refund, so it is excluded and named here rather than silently dropped. Section 333A(2) of the Proceeds of Crime Act 2002 is external primary legislation, not part of this instrument."
+ },
+ "dispositions": {
+  "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, EVIDENTIAL. See ../_primitives/EVIDENTIAL.md for the last.",
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {}
+ },
+ "primitives": {
+  "$state": "NOT_FOUND: psr-2017-752 carries no primitives.json. Looked, and there is no primitive register for this domain to derive from.",
+  "entries": null
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "NOT_FOUND: psr-2017-752 carries no facts.json. The fact vocabulary this domain evaluates against exists only as paths inside its evaluation. Absent is recorded as a state, not as an omitted key.",
+  "fields": null
+ },
+ "ambiguities": {
+  "$source_field_name": "readings",
+  "entries": [
+   {
+    "id": "P1",
+    "clause_id": "psr-2017/76/3/fraud-carveout",
+    "question": "The fraud carve-out disapplies paragraph (2) only. Does the refund obligation in paragraph (1) survive with no deadline, or is it suspended?",
+    "competing_readings": [
+     {
+      "reading": "Obligation survives, deadline removed",
+      "basis": "The text disapplies `paragraph (2)` by number and says nothing about paragraph (1). Paragraph (1) is a freestanding `must refund`."
+     },
+     {
+      "reading": "Obligation is suspended while grounds subsist",
+      "basis": "Refunding immediately while notifying under the tipping-off provisions would defeat the purpose of the carve-out, which exists so a provider is not forced to act on a transaction it suspects."
+     }
+    ],
+    "textual_basis": "reg 76(3): `Paragraph (2) does not apply where...`. reg 76(1): `the payment service provider must refund`.",
+    "materiality": "Decisive on every suspected-fraud case. One reading leaves a live obligation with no time limit; the other leaves no obligation at all until grounds fall away.",
+    "required_resolution": null,
+    "resolution_key": "P1_carveout_scope"
+   },
+   {
+    "id": "P2",
+    "clause_id": "psr-2017/76/2/deadline",
+    "question": "When does a provider `become aware` of an unauthorised transaction, and whose awareness counts?",
+    "competing_readings": [
+     {
+      "reading": "On receipt of the user's notification under reg 74",
+      "basis": "The two provisions are part of one process and the notification is the event the regulations create."
+     },
+     {
+      "reading": "On any awareness however arising",
+      "basis": "The text says `becomes aware`, not `is notified`, and reg 74 uses the notification language explicitly where it means it. A provider's own fraud monitoring could trigger it first."
+     }
+    ],
+    "textual_basis": "reg 76(2) `the day on which it becomes aware`, against reg 74(1) `notifies the payment service provider`. Different words in adjacent provisions of the same process.",
+    "materiality": "Sets the clock start for the only hard deadline in the refund obligation.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "P3",
+    "clause_id": "psr-2017/74/2/information-failure",
+    "question": "Where the provider failed to supply Part 6 information, is the whole of reg 74(1) disapplied, or only the 13 month limb?",
+    "competing_readings": [
+     {
+      "reading": "The whole paragraph",
+      "basis": "74(2) says the user is entitled to redress `notwithstanding that the payment service user has failed to notify... as mentioned in that paragraph`, and that paragraph contains both limbs."
+     },
+     {
+      "reading": "The 13 month limb only",
+      "basis": "The mischief is the user not knowing about the transaction because information was withheld. `Without undue delay` runs from awareness, so it is unaffected by the information failure."
+     }
+    ],
+    "textual_basis": "reg 74(1) carries two limbs in one sentence; reg 74(2) refers back to `that paragraph` without distinguishing them.",
+    "materiality": "Determines whether a user who knew and sat on it for two years is still barred where information was also withheld.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "P4",
+    "clause_id": "psr-2017/76/1/b/restore",
+    "question": "What makes restoration of the account `applicable`?",
+    "competing_readings": [
+     {
+      "reading": "Whenever the debit produced knock-on effects",
+      "basis": "Interest, charges and returned items are the mischief; restoring the state means undoing those too."
+     },
+     {
+      "reading": "Only where the refund alone leaves the account in a different state",
+      "basis": "Reads `where applicable` as a narrow saver for cases the refund does not already cure."
+     }
+    ],
+    "textual_basis": "reg 76(1)(b) `where applicable, restore the debited payment account to the state it would have been in`.",
+    "materiality": "Sets the boundary of the remedy beyond the principal amount.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "P5",
+    "clause_id": "psr-2017/75/3/instrument-not-sufficient",
+    "question": "`not in itself necessarily sufficient` leaves open what would be sufficient. What must accompany instrument use to discharge the burden?",
+    "competing_readings": [
+     {
+      "reading": "A matter for the tribunal on the whole evidence",
+      "basis": "`necessarily` signals that the question is fact-specific rather than rule-determined."
+     },
+     {
+      "reading": "The reg 75(1) matters, proved separately",
+      "basis": "75(1) enumerates what must be proved; 75(3) then denies that instrument use alone proves them."
+     }
+    ],
+    "textual_basis": "reg 75(3), read against reg 75(1).",
+    "materiality": "Determines whether the burden can ever be discharged from records alone.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "P6",
+    "clause_id": "psr-2017/74/1/undue-delay",
+    "question": "Does failing to notify `without undue delay`, while still inside 13 months, bar redress on its own?",
+    "competing_readings": [
+     {
+      "reading": "Yes, both limbs are conditions",
+      "basis": "The sentence reads `only if it notifies... without undue delay, and in any event no later than 13 months`. Both are stated as requirements of the same entitlement."
+     },
+     {
+      "reading": "No, the 13 months is the operative bar",
+      "basis": "`and in any event` reads as a longstop qualifying the first limb rather than adding an independent bar."
+     }
+    ],
+    "textual_basis": "reg 74(1), a single sentence carrying both limbs joined by `and in any event`.",
+    "materiality": "Decides whether a judgment clause sits on the path to losing the remedy, or whether the remedy turns only on a date.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": null,
+ "undefined_terms": null,
+ "lanes": {
+  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
+  "lanes": [
+   "engine",
+   "agent",
+   "panel",
+   "person"
+  ],
+  "lookup": {
+   "CONDITIONAL": {
+    "lane": "engine"
+   },
+   "DERIVED": {
+    "lane": "engine"
+   },
+   "EVIDENTIAL": {
+    "lane": "engine"
+   },
+   "JUDGMENT": {
+    "lane": "person"
+   },
+   "MECHANICAL": {
+    "lane": "engine"
+   }
+  }
+ },
+ "ungrounded_terms": null,
+ "bindings": {
+  "series_limb": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "psr-2017/67/4/series-withdrawal"
+   },
+   "mapping": {
+    "not_applicable": {
+     "op": "const",
+     "value": true
+    },
+    "not_defeated": {
+     "op": "const",
+     "value": true
+    },
+    "defeated": {
+     "op": "const",
+     "value": false
+    },
+    "undetermined": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "tx_consent": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "consent.to_transaction"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "series_consent": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "consent.to_series"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "in_time": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "psr-2017/74/1/thirteen-months"
+   },
+   "mapping": {
+    "within": {
+     "op": "const",
+     "value": true
+    },
+    "exceeded": {
+     "op": "const",
+     "value": false
+    },
+    "overdue": {
+     "op": "const",
+     "value": false
+    },
+    "not_yet_due": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "no_end_event": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "out_of_order": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "bar_lifted": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "psr-2017/74/2/information-failure"
+   },
+   "mapping": {
+    "satisfied": {
+     "op": "const",
+     "value": true
+    },
+    "not_applicable": {
+     "op": "const",
+     "value": false
+    },
+    "breached": {
+     "op": "const",
+     "value": false
+    },
+    "outstanding": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "undetermined": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "not_barred": {
+   "op": "disjunction_over_results",
+   "results": {
+    "op": "list",
+    "items": [
+     {
+      "op": "binding",
+      "name": "in_time"
+     },
+     {
+      "op": "binding",
+      "name": "bar_lifted"
+     }
+    ]
+   }
+  },
+  "unauthorised": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "psr-2017/67/1/consent"
+   },
+   "mapping": {
+    "none_present": {
+     "op": "const",
+     "value": true
+    },
+    "one_present": {
+     "op": "const",
+     "value": false
+    },
+    "undetermined": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "carve": {
+   "op": "and",
+   "operands": [
+    {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "provider.reasonable_grounds_to_suspect_fraud"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "field_present",
+      "args": [
+       {
+        "op": "fact",
+        "path": "provider.poca_notification_in_writing"
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "present"
+     }
+    }
+   ]
+  },
+  "p1_supplied": {
+   "op": "not",
+   "operand": {
+    "op": "eq",
+    "left": {
+     "op": "resolution",
+     "name": "P1_carveout_scope"
+    },
+    "right": {
+     "op": "absent"
+    }
+   }
+  }
+ },
+ "clauses": [
+  {
+   "id": "psr-2017/67/4/series-withdrawal",
+   "source_locator": "reg 67(4)",
+   "text": "Subject to regulation 83(3) to (5), the payer may withdraw its consent to the execution of a series of payment transactions at any time with the effect that any future payment transactions are not regarded as authorised for the purposes of this Part.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "applicability_gate",
+     "applies": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "consent.series_withdrawn_at"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "consent.series_withdrawn_at"
+        },
+        {
+         "op": "fact",
+         "path": "transaction.debit_date"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "defeated"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "not_defeated"
+       },
+       "after": {
+        "op": "const",
+        "value": "not_defeated"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "A withdrawal defeats the series limb of 67(1)(b) only for transactions FUTURE to it."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/67/1/consent",
+   "source_locator": "reg 67(1)",
+   "text": "A payment transaction is authorised only if the payer has given consent to that transaction or to a series of which it forms part.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": [
+    "psr-2017/67/4/series-withdrawal"
+   ],
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "tx_consent"
+     },
+     "then": {
+      "op": "const",
+      "value": "one_present"
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "not",
+       "operand": {
+        "op": "binding",
+        "name": "series_consent"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "none_present"
+      },
+      "else": {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "binding",
+        "name": "series_limb"
+       },
+       "mapping": {
+        "true": {
+         "op": "const",
+         "value": "one_present"
+        },
+        "false": {
+         "op": "const",
+         "value": "none_present"
+        },
+        "undetermined": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     }
+    },
+    "note": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "binding",
+        "name": "series_consent"
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "binding",
+         "name": "series_limb"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "Series consent was given and withdrawn before this transaction, so 67(4) defeats it."
+     },
+     "else": {
+      "op": "absent"
+     }
+    }
+   }
+  },
+  {
+   "id": "psr-2017/67/2/b/form",
+   "source_locator": "reg 67(2)(b)",
+   "text": "Consent must be given in the form and in accordance with the procedure agreed between payer and provider.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_register",
+     "args": [
+      {
+       "op": "fact",
+       "path": "consent.form"
+      },
+      {
+       "op": "coalesce",
+       "value": {
+        "op": "fact",
+        "path": "agreement.agreed_forms"
+       },
+       "fallback": {
+        "op": "const",
+        "value": []
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-2017/67/2/a/timing",
+   "source_locator": "reg 67(2)(a)",
+   "text": "Consent may be given before execution, or after execution if that is agreed between payer and provider.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "consent.given_after_execution"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "agreement.post_execution_consent_agreed"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applicable means consent was given before execution, where no agreement is needed."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/67/3/withdrawal",
+   "source_locator": "reg 67(3)",
+   "text": "The payer may withdraw consent at any time before the point at which the payment order can no longer be revoked under regulation 83.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "ordered_before",
+     "args": [
+      {
+       "op": "fact",
+       "path": "consent.withdrawn_at"
+      },
+      {
+       "op": "fact",
+       "path": "order.irrevocable_from"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "NEW primitive ordered_before. missing_operand where no withdrawal was made."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/74/1/undue-delay",
+   "source_locator": "reg 74(1)",
+   "text": "The user must notify the provider without undue delay on becoming aware of the unauthorised transaction.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "JUDGMENT",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "notification.without_undue_delay"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-2017/74/1/thirteen-months",
+   "source_locator": "reg 74(1)",
+   "text": "Entitlement to redress arises only if notification is given no later than 13 months after the debit date.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "elapsed_within",
+     "args": [
+      {
+       "op": "fact",
+       "path": "transaction.debit_date"
+      },
+      {
+       "op": "fact",
+       "path": "notification.given_at"
+      },
+      {
+       "op": "const",
+       "value": 13
+      },
+      {
+       "op": "const",
+       "value": "months"
+      },
+      {
+       "op": "fact",
+       "path": "clock.now"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "PARAMETERISED: elapsed_within with a months unit, which Banxico never needed."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/74/2/information-failure",
+   "source_locator": "reg 74(2)",
+   "text": "The 13 month bar does not apply where the provider failed to supply the Part 6 information about the transaction.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "provider.part6_information_failure"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "const",
+       "value": true
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applicable means no information failure, so the bar in 74(1) stands."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/75/1/provider-burden",
+   "source_locator": "reg 75(1)",
+   "text": "Where the user denies authorising a transaction, the provider must prove it was authenticated, accurately recorded, entered in its accounts and unaffected by technical breakdown or other deficiency.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "EVIDENTIAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": "allocates the burden of proving the reg 67 question to the provider",
+   "governs": "psr-2017/67/1/consent",
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "conjunction_over_results",
+     "undetermined_is": "undetermined",
+     "results": {
+      "op": "list",
+      "items": [
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "provider.burden.authenticated"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "provider.burden.accurately_recorded"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "provider.burden.entered_in_accounts"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "provider.burden.no_technical_deficiency"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "psr-2017/75/2/pisp-burden",
+   "source_locator": "reg 75(2)",
+   "text": "Where a payment initiation service provider was involved, it must prove the same matters within its sphere of competence.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "EVIDENTIAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": "allocates the same burden to a payment initiation service provider, within its sphere of competence",
+   "governs": "psr-2017/67/1/consent",
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "applicability_gate",
+     "applies": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "transaction.via_pisp"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "held_judgment",
+      "args": [
+       {
+        "op": "fact",
+        "path": "pisp.burden_discharged"
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "psr-2017/75/3/instrument-not-sufficient",
+   "source_locator": "reg 75(3)",
+   "text": "The recorded use of a payment instrument is not in itself necessarily sufficient to prove that the payer authorised the transaction or acted fraudulently or with gross negligence.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "EVIDENTIAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": "bounds what the recorded use of an instrument suffices to prove",
+   "governs": "psr-2017/67/1/consent",
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "open_set_floor",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "fact",
+            "path": "evidence.instrument_use_record"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "PARAMETERISED: open_set_floor at arity one. floor_met means the record exists. It does NOT mean authorisation is proved, which is exactly what 75(3) says."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/75/4/supporting-evidence",
+   "source_locator": "reg 75(4)",
+   "text": "A provider claiming the payer acted fraudulently or with gross negligence must provide supporting evidence to the payer.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "EVIDENTIAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": "requires disclosure of supporting evidence to the payer",
+   "governs": "psr-2017/67/1/consent",
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "provider.claims_fraud_or_gross_negligence"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "evidence.supporting_evidence_given_to_payer"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/1/trigger",
+   "source_locator": "reg 76(1) chapeau",
+   "text": "Subject to regulations 74 and 75, where an executed transaction was not authorised under regulation 67, the provider must refund and restore.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "DERIVED",
+   "disposition_basis": "Composes the 67 authorisation result with the 74 bar. Reads no fact directly.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "conjunction_over_results",
+     "undetermined_is": "undetermined",
+     "results": {
+      "op": "list",
+      "items": [
+       {
+        "op": "binding",
+        "name": "unauthorised"
+       },
+       {
+        "op": "binding",
+        "name": "not_barred"
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Composes the 67 authorisation result with the 74 bar. Reads no fact directly."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/1/a/refund",
+   "source_locator": "reg 76(1)(a)",
+   "text": "The provider must refund the amount of the unauthorised transaction to the payer.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "amounts_equal",
+     "args": [
+      {
+       "op": "fact",
+       "path": "refund.amount"
+      },
+      {
+       "op": "fact",
+       "path": "transaction.amount"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "NEW primitive amounts_equal."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/1/b/restore",
+   "source_locator": "reg 76(1)(b)",
+   "text": "Where applicable, the provider must restore the debited account to the state it would have been in had the transaction not taken place.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "account.restoration_applicable"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "held_judgment",
+        "args": [
+         {
+          "op": "fact",
+          "path": "account.restored_to_prior_state"
+         }
+        ]
+       },
+       "mapping": {
+        "affirmed": {
+         "op": "const",
+         "value": true
+        },
+        "denied": {
+         "op": "const",
+         "value": false
+        },
+        "not_assessed": {
+         "op": "const",
+         "value": "undetermined"
+        },
+        "$unmapped": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "`undetermined` means restoration was required and nobody has assessed whether it happened."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/2/practicable",
+   "source_locator": "reg 76(2)",
+   "text": "The refund must be provided as soon as practicable.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "JUDGMENT",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "refund.as_soon_as_practicable"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/3/fraud-carveout",
+   "source_locator": "reg 76(3)",
+   "text": "The deadline does not apply where the provider has reasonable grounds to suspect fraudulent behaviour by the user and notifies a person mentioned in section 333A(2) of the Proceeds of Crime Act 2002 in writing.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "provider.reasonable_grounds_to_suspect_fraud"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "provider.poca_notification_in_writing"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "The carve-out requires BOTH the suspicion and the written notification."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/2/deadline",
+   "source_locator": "reg 76(2)",
+   "text": "In any event the refund must be provided no later than the end of the business day following the day on which the provider becomes aware of the unauthorised transaction.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "carve"
+     },
+     "then": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "binding",
+       "name": "p1_supplied"
+      },
+      "compute": {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "resolution",
+        "name": "P1_carveout_scope"
+       },
+       "mapping": {
+        "deadline_only": {
+         "op": "const",
+         "value": "not_applicable_deadline_removed"
+        },
+        "obligation_suspended": {
+         "op": "const",
+         "value": "not_applicable_obligation_suspended"
+        }
+       }
+      }
+     },
+     "else": {
+      "op": "primitive",
+      "name": "elapsed_within",
+      "args": [
+       {
+        "op": "fact",
+        "path": "provider.became_aware_at"
+       },
+       {
+        "op": "fact",
+        "path": "refund.provided_at"
+       },
+       {
+        "op": "const",
+        "value": 1
+       },
+       {
+        "op": "const",
+        "value": "business_days"
+       },
+       {
+        "op": "fact",
+        "path": "clock.now"
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "binding",
+        "name": "carve"
+       },
+       {
+        "op": "not",
+        "operand": {
+         "op": "binding",
+         "name": "p1_supplied"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "P1 unresolved: the carve-out disapplies paragraph (2) and the text does not say whether paragraph (1) survives."
+     },
+     "else": {
+      "op": "absent"
+     }
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/4/value-date",
+   "source_locator": "reg 76(4)",
+   "text": "When crediting the account, the credit value date must be no later than the date on which the amount was debited.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "ordered_before",
+      "args": [
+       {
+        "op": "fact",
+        "path": "refund.credit_value_date"
+       },
+       {
+        "op": "fact",
+        "path": "transaction.debit_date"
+       }
+      ]
+     },
+     "mapping": {
+      "after": {
+       "op": "const",
+       "value": "breached"
+      },
+      "before": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "simultaneous": {
+       "op": "const",
+       "value": "satisfied"
+      },
+      "missing_operand": {
+       "op": "const",
+       "value": "missing_operand"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "NEW primitive ordered_before, second user. `no later than` admits simultaneous."
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/5/a/aspsp-complies",
+   "source_locator": "reg 76(5)(a)",
+   "text": "Where the transaction was initiated through a payment initiation service provider, the account servicing provider must still comply with paragraph (1).",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "DERIVED",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "applicability_gate",
+     "applies": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "transaction.via_pisp"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "compute": {
+      "op": "conjunction_over_results",
+      "undetermined_is": "undetermined",
+      "results": {
+       "op": "list",
+       "items": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "psr-2017/76/1/a/refund"
+         },
+         "right": {
+          "op": "const",
+          "value": "equal"
+         }
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "psr-2017/76/5/b/pisp-compensates",
+   "source_locator": "reg 76(5)(b)",
+   "text": "Where the payment initiation service provider is liable under regulation 75(2), it must compensate the account servicing provider immediately on request.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": null,
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "pisp.liable"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "aspsp.compensation_requested"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       ]
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "pisp.compensated"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

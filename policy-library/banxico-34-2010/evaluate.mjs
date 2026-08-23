@@ -29,6 +29,28 @@ import { readFileSync } from 'node:fs';
 const FIRMEZA_TABLE = JSON.parse(readFileSync(new URL('./clauses.json', import.meta.url), 'utf8'))
   .clauses.find((c) => c.id === '34-2010/3.6/p7/firmeza').decision_table;
 
+// ─── the record opening: v2, lane, lane_from, from THIS DOMAIN'S register.json ──────────────────
+//
+// The lane lookup and any per-clause overrides live in the register, one copy, built by
+// _phase0/build-register.mjs. This file reads them rather than restating them. The no-lane and
+// same-lane-override rulings are stated once at _interpreter/interpret.mjs and REUSE-LOG E30/R14;
+// this reader enforces the same two throws so the two implementations cannot disagree silently.
+const __REG = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8'));
+const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
+  const e = __REG.lanes.lookup[c.disposition];
+  if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
+  if (e.no_lane !== undefined) {
+    if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
+    return [c.id, { v: 2, lane: 'none', lane_from: 'lookup' }];
+  }
+  if (c.lane_override) {
+    if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
+    return [c.id, { v: 2, lane: c.lane_override, lane_from: 'override' }];
+  }
+  return [c.id, { v: 2, lane: e.lane, lane_from: 'lookup' }];
+}));
+
+
 // ─── primitives, exactly as inventoried ─────────────────────────────────────────────────────────
 const DAY_MS = 86400000;
 
@@ -163,7 +185,8 @@ const AUTH_FACTOR_KINDS = ['2.6.a.i_knowledge', '2.6.a.ii_device_or_chip', '2.6.
 
 export function evaluate(facts, resolutions = {}) {
   const out = {};
-  const put = (id, result, note) => { out[id] = note === undefined ? { result } : { result, note }; };
+  // The record opens v, lane, lane_from, from the register. Absent `v` is unversioned: REUSE-LOG E30.
+  const put = (id, result, note) => { out[id] = note === undefined ? { ...LANE_STAMP[id], result } : { ...LANE_STAMP[id], result, note }; };
 
   // 2.6(a) — two INDEPENDENT elements from the enumeration.
   // Found by the E9 sweep. An ABSENT factor list returned `not_met`, asserting the two-factor
