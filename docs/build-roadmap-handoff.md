@@ -266,6 +266,23 @@ anything like the cost of a published regulation. Every conversion so far has be
 statutory or manual text. The first real client document will tell you more about the
 business than Phases 1 through 5 combined.
 
+**TWO FINDINGS FROM ONE SPECIMEN, recorded 2026-08-23.** The specimen is the Molina
+provider-manual conversion, a private operating document converted outside this repository;
+these arrive as relayed findings from that work, its figures stay with it, and ONE DOCUMENT
+ESTABLISHES NOTHING beyond its own existence as a data point. First: this section assumed a
+new document class would misfit the schema the way the first three did, by one or two
+categories; the specimen produced a FAMILY of misfits plus primitive gaps, which says the
+misfit surface of operating documents may be qualitatively wider than statutory text's, not
+incrementally so. Second: the divergence pattern Banxico established, an independent
+restatement disagreeing with the encoding in a countable slice, DID NOT REPEAT on the
+specimen, and a third cause of divergence appeared that Banxico did not have; the divergence
+instrument this repository holds is built against Banxico's pattern and would not have seen
+it. Both findings bear on this section's harness list, and neither re-orders it: the harness
+now reports misfits with their split sensitivity as a first-class output
+(`policy-library/_conversion/misfit-report.mjs`), and the divergence step should be read as
+one instrument per divergence CAUSE, with the causes an open set that a new document class
+can extend.
+
 ---
 
 ## 8. Phase 4. Simulation as a product surface

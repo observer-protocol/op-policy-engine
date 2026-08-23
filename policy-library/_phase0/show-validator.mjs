@@ -110,6 +110,15 @@ check('R13', 'a missing waiting entry for an emitter kind',
 check('R13', 'a no-result emission whose waiting entry is not the explicit none',
   (r) => { r.waiting.by_emitter.no_result = 'fact'; }, FE);
 
+check('R15', 'an absence-class token mapped to a decided value (a judgment gate treating undetermined as arisen)',
+  (r) => { clause(r, '34-2010/3.6/p4/language').evaluate.result = { op: 'remap_result_domain', value: { op: 'primitive', name: 'held_judgment', args: [{ op: 'fact', path: 'dictamen.language_is_plain' }] }, mapping: { affirmed: { op: 'const', value: true }, denied: { op: 'const', value: false }, not_assessed: { op: 'const', value: true }, $unmapped: { op: 'const', value: 'undetermined' } } }; });
+check('R15', 'a decision-table row keyed on an absence-class input yielding a decided outcome',
+  (r) => { const row = clause(r, '34-2010/3.6/p7/firmeza').evaluate.rows.find((x) => x.match.deadline === 'no_end_event' && x.match.a2 === 'timing_only'); row.outcome = 'attached'; });
+check('R16', 'a presence primitive reading a clause result',
+  (r) => { clause(r, '34-2010/3.3/p5/receipt-record').evaluate.result = { op: 'primitive', name: 'all_present', args: [{ op: 'list', items: [{ op: 'clause', id: '34-2010/3.3/p1/notice-types' }] }] }; });
+check('R17', 'applicability_gate under guard_on_unresolved (the gate decided before its precondition)',
+  (r) => { const c = r.clauses.find((x) => x.id === 'feca/2-0805/2/b/lesser-diagnosis'); c.evaluate = { op: 'emit', result: { op: 'guard_on_unresolved', usable: { op: 'const', value: true }, compute: c.evaluate.result } }; }, FE);
+
 // ── R12 does not depend on the register, so it is perturbed at the schema instead ───────────────
 console.log('\n  R12 compares the schema against the interpreter and cannot be broken from a register.');
 console.log('  Perturbed at the schema instead, in a copy under the scratch directory:');
@@ -127,6 +136,22 @@ console.log('  Perturbed at the schema instead, in a copy under the scratch dire
   if (hit.length === 0) { bad++; console.log('  DID NOT FIRE  R12'); }
   else { console.log(`  FIRES  R12  a schema whose primitive vocabulary has drifted from the interpreter`);
          for (const h of hit) console.log(`         ${h.where}: ${h.detail}`); }
+}
+
+// ── the value-level rules' legal counter-cases ─────────────────────────────────────────────────
+{
+  const res = validate(BX(), 'R15-annotated');
+  const hit = res.failures.filter((f) => ['R15', 'R16', 'R17'].includes(f.rule));
+  if (hit.length) { bad++; console.log('  FIRED WRONGLY  R15/R16/R17 on the intact registers (the floor carries its $decided_on_absence)'); }
+  else console.log('  SILENT  R15/R16/R17 on the intact register, whose one deliberate decide-on-absence carries its annotation');
+}
+{
+  const r = FE();
+  const c = r.clauses.find((x) => x.id === 'feca/2-0805/2/b/lesser-diagnosis');
+  c.evaluate = { op: 'emit', $applicability_needs_resolution: 'demo: the applicability itself turns on the unresolved input', result: { op: 'guard_on_unresolved', usable: { op: 'const', value: true }, compute: c.evaluate.result } };
+  const res = validate(r, 'R17-annotated');
+  if (res.failures.filter((f) => f.rule === 'R17').length) { bad++; console.log('  FIRED WRONGLY  R17 on an annotated gate-under-guard'); }
+  else console.log('  SILENT  R17  the annotated gate-under-guard is legal, and the rule stands aside for that clause only');
 }
 
 // ── the legal waiting counter-case: an intact classifier must fire NEITHER extension ────────────

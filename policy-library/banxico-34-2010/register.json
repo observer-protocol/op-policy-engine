@@ -1850,7 +1850,8 @@
           "undetermined": {
            "op": "const",
            "value": false
-          }
+          },
+          "$decided_on_absence": "Ruling 4, 2026-08-22: the floor asks whether every enumerated minimum was MET, and an element that cannot be established is not met. Deliberate; this annotation is the ruling's record at the site, demanded by R15."
          }
         }
        ]
