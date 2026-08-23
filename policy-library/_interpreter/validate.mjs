@@ -145,7 +145,14 @@ export function validate(register, label) {
 
     for (const k of spec.children ?? []) if (node[k] !== undefined) walk(node[k], `${where}.${k}`, ctx);
     for (const k of spec.child_lists ?? []) for (const [i, v] of (node[k] ?? []).entries()) walk(v, `${where}.${k}[${i}]`, ctx);
-    for (const k of spec.child_maps ?? []) for (const [mk, v] of Object.entries(node[k] ?? {})) walk(v, `${where}.${k}.${mk}`, ctx);
+    // A `$`-prefixed mapping key is an ANNOTATION carrying prose, not an expression, with ONE
+    // exception: `$unmapped` is an expression entry. The walker treated every entry as a node and
+    // failed on the first annotation R15 demanded, which the gate caught after two misread checks
+    // had already let it through.
+    for (const k of spec.child_maps ?? []) for (const [mk, v] of Object.entries(node[k] ?? {})) {
+      if (mk.startsWith('$') && mk !== '$unmapped') continue;
+      walk(v, `${where}.${k}.${mk}`, ctx);
+    }
   };
 
   // ── clause evaluations ───────────────────────────────────────────────────────────────────────
