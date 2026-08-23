@@ -33,21 +33,67 @@ import { DOMAINS, SEED, SAMPLE_N, LIB, sampledInputs, corpusInputs, fixtureRuns,
 
 const FULL_N = Number(process.env.PHASE0_FULL || 250);
 const OUT = new URL('./oracle/', import.meta.url).pathname;
-mkdirSync(OUT, { recursive: true });
 
 const ROOT = `${LIB}/..`;
 const commit = execSync('git rev-parse HEAD', { cwd: ROOT }).toString().trim();
 const branch = execSync('git rev-parse --abbrev-ref HEAD', { cwd: ROOT }).toString().trim();
-// PATHSPEC RESOLVES RELATIVE TO cwd. The first version of this line ran with cwd=LIB, which IS
-// policy-library, so the pathspec `policy-library` matched nothing and the check reported a clean
-// worktree unconditionally. It is the estate's own class: a check that returns green for a reason
-// unrelated to its subject. Corrected to run from the repository root.
-const dirty = execSync('git status --porcelain -- policy-library', { cwd: ROOT }).toString().trim();
+
+// ─── A DIRTY TREE REFUSES THE FREEZE ────────────────────────────────────────────────────────────
+//
+// The first oracle was frozen from a dirty tree and the manifest merely recorded that. Recording is
+// not a control: the freeze proceeded, and the freeze's soundness then had to be established after
+// the fact by a read-trace. Now it refuses: a dirty tree under the scope exits non-zero and writes
+// no manifest and no oracle.
+//
+// THE SCOPE IS policy-library, WITH IGNORED FILES COUNTED, and the choice is argued rather than
+// assumed:
+//
+//   - policy-library because it is what the freeze reads. The whole gate was traced (see
+//     fs-trace.cjs): 40 distinct paths, every one under policy-library. A dirty file elsewhere
+//     cannot change the bytes this freeze writes TODAY.
+//   - ignored files counted (--ignored=matching) because ignoring is how a file hides from a scoped
+//     status. A .gitignore edited at the repository root sits OUTSIDE a policy-library pathspec and
+//     could hide a file INSIDE it; so could .git/info/exclude or a global excludes file, which are
+//     not in the worktree at all. Counting ignored files closes every variant of that vector at
+//     once, at the cost that editor and Finder noise under policy-library refuses a freeze. For an
+//     instrument run a handful of times per phase, that is the right side of the trade.
+//
+//   What a file OUTSIDE the scope can still do, named rather than implied: it cannot change the
+//   frozen bytes today (the traced read set bounds that), and it cannot hide a file inside the
+//   scope (ignored files are counted). What remains is tomorrow: if this script or its imports ever
+//   grow a read outside policy-library, this refusal will not see that file. The scope is a claim
+//   about the current read set, and the read-trace is the instrument that re-establishes it.
+//
+// PATHSPEC RESOLVES RELATIVE TO cwd. The first version of the status line ran with cwd=LIB, which
+// IS policy-library, so the pathspec matched nothing and the check reported clean unconditionally.
+// It is the estate's own class: a check that returns green for a reason unrelated to its subject.
+// It runs from the repository root.
+const DIRTY_CMD = 'git status --porcelain=v1 -uall --ignored=matching -- policy-library';
+const dirty = execSync(DIRTY_CMD, { cwd: ROOT }).toString().trim();
+const OVERRIDE = process.argv.includes('--allow-dirty');
+if (dirty !== '' && !OVERRIDE) {
+  console.error('FREEZE REFUSED: the tree is dirty under policy-library, ignored files included.');
+  console.error('Nothing was written: no manifest, no oracle files.');
+  console.error('');
+  for (const l of dirty.split('\n')) console.error('  ' + l);
+  console.error('');
+  console.error('A deliberate freeze from a dirty tree is legitimate; a silent one is not.');
+  console.error('Re-run with --allow-dirty to freeze anyway. The override and the dirty paths as of');
+  console.error('that moment are recorded in the manifest.');
+  process.exit(1);
+}
+mkdirSync(OUT, { recursive: true });
 
 const manifest = {
   $note: 'Frozen output of the three hand-written evaluators. This file records WHAT was frozen and OVER WHICH POPULATION. It is not the oracle; the .out.jsonl and .digests.txt files are.',
   captured_at_commit: commit,
   captured_on_branch: branch,
+  freeze_discipline: {
+    scope: 'policy-library, ignored files included',
+    status_command: DIRTY_CMD,
+    refuses_when_dirty: true,
+    override_used: OVERRIDE && dirty !== '',
+  },
   worktree_clean_under_policy_library: dirty === '',
   worktree_dirty_paths: dirty === '' ? [] : dirty.split('\n').map((l) => l.slice(3)),
   seed: SEED,

@@ -15,6 +15,23 @@
  * correctly and emits the clauses in a different order FAILS, and that is deliberate: the register
  * fixes the order in which a determination is reported and a reader compares rows by position.
  *
+ * ─── THE TRUNCATION ASSUMPTION, STATED WHERE IT OPERATES ────────────────────────────────────────
+ *
+ * The wide arm compares sha256 digests TRUNCATED TO 64 BITS (16 hex characters), computed over the
+ * exact serialised output line; the same line feeds both arms, so this is the digest arm's only
+ * blindness beyond the byte arm's. What the truncation assumes:
+ *
+ *   - an ACCIDENTAL divergence escapes detection with probability ~2^-64 per record;
+ *   - a CHOSEN collision between two constructed lines costs ~2^32 hash evaluations (birthday on
+ *     64 bits), and a second preimage against a specific frozen digest ~2^64;
+ *   - THE THREAT MODEL THIS ASSUMES IS DRIFT, NOT AN ADVERSARY. Nothing in this estate's use of
+ *     parity involves a party motivated to construct a colliding output.
+ *
+ * If a parity result ever becomes evidence for someone outside the estate, the truncation must go:
+ * full sha256 per record, and an oracle whose own provenance a counterparty can verify, because a
+ * 64-bit truncation is not adversarially robust and an external party is exactly an adversary the
+ * current model excludes.
+ *
  * ─── THREE FAILURES THAT ARE NOT PARITY FAILURES, AND ARE REPORTED SEPARATELY ───────────────────
  *
  *   POPULATION MOVED     the sampled input stream no longer digests to what was frozen, so the

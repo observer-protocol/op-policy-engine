@@ -51,6 +51,31 @@ harness re-runs the hand-written evaluator for that one record, CHECKS the re-ru
 digest, and only then prints it as the oracle value. If the re-run disagrees it reports the oracle
 UNREPRODUCIBLE and makes no statement about the candidate.
 
+### The freeze's own provenance, recorded after the fact
+
+**The oracle was frozen from a dirty tree.** At `57b13bd`, `policy-library` carried five untracked
+files (`_sourcing/RETRIEVAL-CHECK-2026-08-21.md`, `_sourcing/poms-rs00202001.html`,
+`_sourcing/visa-core-rules.pdf`, `feca-2-0805/source/ecfr_20cfr10.txt`,
+`feca-2-0805/source/usc_ch81.txt`) plus the capture's own in-progress `_phase0/`, and the
+repository root carried two more untracked files outside the manifest's scope
+(`BANXICO-POLICY-INVENTORY.md`, `POLICY-ENGINE-PROVENANCE.md`). The manifest recorded the
+policy-library portion and the freeze proceeded anyway.
+
+**The frozen bytes' soundness therefore rests on a measurement, not on the tree having been
+clean:** the read-trace at `policy-library/_phase0/fs-trace.cjs`, preloaded into the whole gate,
+recorded 40 distinct paths read, every one under `policy-library` and none of the seven untracked
+files among them, with a positive control first showing the instrument seeing reads of exactly
+those files in every access mode it patches. Its stated limit: ESM module loading is outside its
+reach, and none of the seven is a loadable module.
+
+**The freeze now refuses.** `capture-oracle.mjs` exits non-zero on a dirty tree under
+`policy-library`, ignored files included so an excludes-file edit cannot hide a file inside the
+scope, and writes no manifest and no oracle. `--allow-dirty` overrides deliberately, and the
+override plus the dirty paths at that moment are recorded in the manifest under
+`freeze_discipline`. The oracle this report rests on predates the refusal and was NOT re-frozen
+under it; this note is the record a later reader needs in order not to reconstruct that from pull
+request comments.
+
 **Shown failing on all four branches before anything was asserted on it passing**, transcript
 generated rather than pasted at `_phase0/HARNESS-SHOWN-FAILING.md`:
 
