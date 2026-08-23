@@ -73,6 +73,44 @@ state whether anybody asked for it. The specification names that as its limit ra
 implying the axis answers a question the facts cannot.
 
 
+## The limit a new conversion will meet first, written for the session that converts it
+
+**An unresolved ambiguity resolution is not one of the five values, and it lands on `fact`.** If
+the document you are converting registers ambiguities, then a run whose resolutions are unsupplied
+will emit `waiting: "fact"` on the clauses those ambiguities gate, and the record will read as
+`go and gather a fact` when the true state is `an institution must choose between the registered
+readings`. Nothing gatherable resolves it, and an evidence tier dispatched against it would be
+dispatched against a question no document or system holds the answer to.
+
+**The first scoped document where this bites is the Molina provider-manual conversion**, whose
+section 4.3 enumerates ambiguities as a deliverable (as scoped in the 2026-08-24 coordinator
+block; the scoping is not verifiable from this repository and is recorded with that provenance).
+The session converting it should expect every A-register entry it produces to surface here: on any
+run left unresolved, the gated clauses will say `fact`, and the conversion report should say that
+the token is the vocabulary's limit, not a claim about the case. This is a named limit, not a fix;
+widening the vocabulary is a schema decision with its own R7-extension consequences, and it is not
+taken by a conversion session mid-document.
+
+## The first population measurement, with its caveat bound to the figures
+
+**These figures must not travel without the paragraph after them.**
+
+Over 120,000 sampled runs (40,000 per domain, seed 20260822, the `_corpus/space.mjs` sampler),
+3,960,000 records: **waiting on a fact 419,454; on a judgment 481,301; on a meaning 79,784; on a
+clause 12,750; not waiting 2,966,711** (993,289 records waiting in total). Per domain: banxico
+186,141 / 51,387 / 0 / 6,986 / 515,486; psr 174,136 / 86,700 / 0 / 5,764 / 573,400; feca 59,177 /
+343,214 / 79,784 / 0 / 1,877,825.
+
+**The caveat, bound here: the population is the seeded corpus sampler filling fact fields
+uniformly at random. It measures what the registers CAN wait on, not what any case mix DOES wait
+on.** A field the sampler leaves absent as often as it fills is nothing like a field a client's
+intake always carries, so these proportions say which absences the registers are structurally
+exposed to, and nothing about how often a real determination would wait. The population that would
+measure the second thing is a client's historical determinations replayed against the register,
+which is Phase 4's simulation surface, **and nothing in the estate has one**: no historical case
+set, no client intake distribution, no replay corpus. Quoting the waiting split as if it described
+operational load is the E29 shape, a count under the wrong population.
+
 ## What building it falsified in this specification, and how each was resolved
 
 1. **The value table above originally conditioned `fact` on an absence-token result, while the

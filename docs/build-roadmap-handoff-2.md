@@ -444,6 +444,22 @@ settle this" with "nobody looked". After this, the two are distinguishable, and 
 can say which. That is the same distinction as absent versus zero, at the level of a
 determination rather than a field.
 
+**MEASURED 2026-08-24, and the numbers sit in tension with this section's placement.** The
+waiting axis's first population measurement
+(`policy-library/_interpreter/WAITING-AXIS.md`, which carries the caveat these figures
+must not travel without): judgment-waits outnumber fact-waits, 481,301 against 419,454
+records over 120,000 sampled runs, and three-quarters of the judgment-waiting is FECA's.
+This section placed the evidence tier after Phase 1, alongside or before Phase 2, on the
+working assumption that ungathered facts were the gap; the sampled registers wait on
+unmade assessments at least as much. **The phases are not re-ordered here, and the counts
+do not decide what would re-order them:** which tier relieves more waiting is a routing
+ruling, made per clause against the register, not an inference from a population split.
+Two bounds on the tension itself: the population is the uniform sampler, which measures
+what the registers can wait on and not what a case mix does; and FECA is a procedure
+manual for internal adjudicators, the document class most likely to be judgment-heavy, so
+one domain dominating the judgment count may be a property of the specimen rather than of
+the estate. A second manual separates those, and none is converted.
+
 ## A.4 Design constraints, derived from what is already built
 
 **The register declares what a clause needs.** An evidence agent is dispatched against a
