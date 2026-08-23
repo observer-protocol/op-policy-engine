@@ -1195,3 +1195,68 @@ should return red.
 about a larger thing that contains it.** A branch for the repository, a branch's file list for what
 exists, and one direction of a comparison for the comparison. None was a wrong measurement; each was
 a correct measurement answering a smaller question than the one being asked.
+
+---
+
+## E17. The corpus reaches FECA, and finds a defect in the attribution I introduced
+
+**Observed:** 2026-08-23. **Status: ADAPTED. One defect found and RECORDED, NOT FIXED.**
+
+### The generator was adapted and the two existing domains did not move
+
+`explore-lib.mjs` and `coverage.mjs` did `m.set(v.result, ...)` for every emitted entry. The generator
+predates DEFINITIONAL, INSTRUCTION and EVIDENTIAL and assumed every clause yields a result, so run
+unchanged against FECA it recorded **all 24 no-result-domain clauses as having a result of
+`undefined`**, which is exactly the silent failure their refusal was built to prevent.
+
+The adaptation is one guard in each: **an entry with no `result` key is skipped, because that is not a
+result of `undefined`.**
+
+**The test was that Banxico and PSR must be identical afterwards, and they are: 62 and 30, 75 and 28,
+before and after.** The guard is a no-op for domains where every clause emits a result, which is the
+whole reason it is safe.
+
+One further widening: the harness's spy re-exported only `evaluate`, and FECA's cases also import
+`resultOf`. A spy exporting one name turns a missing re-export into a `SyntaxError` that **reads as
+the domain being broken rather than as the harness being narrow.**
+
+### FECA: 111 reachable, 41 reached
+
+| | clauses | reachable | reached | never reached |
+|---|---|---|---|---|
+| Banxico | 19 | 62 | 30 | 32 |
+| PSR | 21 | 75 | 28 | 47 |
+| **FECA** | **59** | **111** | **41** | **70** |
+
+**All 111 come from the 35 result-bearing clauses; the 24 contribute zero.** Measured directly, so
+the count does not exceed what the register's dispositions allow.
+
+All four clauses resting on an ungrounded term reach `undetermined` and their attributed forms, and
+**nine attributed results are reached in total**.
+
+### THE DEFECT: attribution is gated on a lexical read, not on dependence
+
+I introduced `attribute_to_supplied_meaning` and described it as attributing **only where the meaning
+was actually read**, using a proxy that records access. The corpus reached
+`not_applicable_on_supplied_meaning`, which should not exist: a clause that came out `not_applicable`
+did not depend on the meaning.
+
+Measured, same clause, precondition FALSE in both rows:
+
+| facts | result |
+|---|---|
+| `differentiates` absent, so `&&` short-circuits before the meaning is read | `not_applicable` |
+| `differentiates` true, so the meaning IS read before the precondition is tested | **`not_applicable_on_supplied_meaning`** |
+
+**The two differ only in whether JavaScript happened to short-circuit.** Arguments are evaluated
+before the call, so `meaning.accepts` is read whenever the conjunction reaches it, regardless of
+whether the precondition later makes the clause inapplicable.
+
+**So the gate is on a lexical read and I claimed it was on use.** An attributed `not_applicable`
+asserts an institution's supplied meaning bore on a determination it did not bear on, which
+overstates the institution's reach in exactly the direction the attribution exists to avoid
+overstating.
+
+Not fixed. Making it dependence-rather-than-access needs the meaning threaded through the computation
+rather than proxied at its edge, which changes the mechanism rather than patching it. **Found by the
+corpus, on the first run against a domain the corpus was said not to fit.**

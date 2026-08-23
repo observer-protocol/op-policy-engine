@@ -26,6 +26,15 @@ export function explore(fields, resolutions, evaluate, n, seed) {
     for (const [id, v] of Object.entries(out)) {
       if (!seen.has(id)) seen.set(id, new Map());
       const m = seen.get(id);
+      // A CLAUSE WITH NO RESULT DOMAIN EMITS NO `result` KEY, AND THAT IS NOT A RESULT OF `undefined`.
+      // Added 2026-08-23. This generator predates DEFINITIONAL, INSTRUCTION and EVIDENTIAL and assumed
+      // every clause yields a result. Run unchanged against FECA it recorded all 24 no-result-domain
+      // clauses as having a result of `undefined`, which is precisely the silent failure their refusal was
+      // built to prevent.
+//
+      // Banxico and PSR emit a `result` on every clause, so this skip is a no-op for them, AND THAT IS THE
+      // TEST: their figures must be identical afterwards.
+      if (!('result' in v)) continue;
       if (!m.has(v.result)) m.set(v.result, { facts, res });
     }
   }
