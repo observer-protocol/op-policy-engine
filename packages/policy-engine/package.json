@@ -1,6 +1,6 @@
 {
   "name": "@observer-protocol/policy-engine",
-  "version": "1.0.0-rc.20",
+  "version": "1.0.0-rc.21",
   "publishConfig": {
     "tag": "rc"
   },
