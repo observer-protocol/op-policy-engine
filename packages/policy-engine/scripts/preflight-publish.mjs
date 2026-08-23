@@ -201,7 +201,19 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   if (r.ok) {
     console.log(`  OK  ${r.tag} is annotated, pushed, and points at HEAD ${r.head.slice(0, 12)} on main.`);
-    console.log('      Publishing this version produces an artifact a reader can resolve to a commit.\n');
+    // THIS SENTENCE USED TO CLAIM MORE THAN THE CHECK ESTABLISHES. It read
+    // "Publishing this version produces an artifact a reader can resolve to a commit."
+    // That is a claim about what NPM RECORDS, and nothing before a publish can
+    // establish it: rc.20 satisfied every check above and was published with no
+    // gitHead at all, because npm reads `<gitRoot>/.git/HEAD` as a path and the
+    // publish ran from a linked worktree where `.git` is a file. The read threw
+    // ENOTDIR into an empty catch and the field was skipped in silence.
+    //
+    // What this check establishes is the tag's position IN GIT. The registry-side
+    // property is establishable only after the fact, by scripts/postflight-publish.mjs.
+    console.log('      That is a property of this repository. Whether npm RECORDS that commit is');
+    console.log('      a different claim, and only scripts/postflight-publish.mjs can establish it.');
+    console.log('      Run it after publishing:  node scripts/postflight-publish.mjs\n');
     process.exit(0);
   }
   if (r.unreachable) {
