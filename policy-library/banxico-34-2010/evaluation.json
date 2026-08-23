@@ -24,193 +24,920 @@
   "34-2010/3.6/p7/firmeza"
  ],
  "$resolution_keys_note": "The key by which an institution supplies a resolution. IT IS IN NO PUBLISHED REGISTER: ambiguities.json carries the id A1 and the evaluator reads resolutions.A1_dias_unit, and nothing joins the two but a string literal in a program.",
- "resolution_keys": {"A1": "A1_dias_unit", "A2": "A2_terminos_senalados"},
+ "resolution_keys": {
+  "A1": "A1_dias_unit",
+  "A2": "A2_terminos_senalados"
+ },
  "bindings": {
-  "auth_factor_kinds": {"op": "const", "value": ["2.6.a.i_knowledge", "2.6.a.ii_device_or_chip", "2.6.a.iii_biometric", "2.6.a.iv_authorised_other"]},
-  "factors": {"op": "coalesce", "value": {"op": "fact", "path": "operation.auth_factors"}, "fallback": {"op": "const", "value": []}},
-  "factors_recorded": {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "operation.auth_factors"}]}, "right": {"op": "const", "value": "present"}},
-  "all_factor_kinds_known": {"op": "eq", "left": {"op": "primitive", "name": "all_members_of_enumeration", "args": [{"op": "binding", "name": "factors"}, {"op": "binding", "name": "auth_factor_kinds"}]}, "right": {"op": "const", "value": "all_members"}},
-
-  "abroad_recorded": {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "operation.executed_abroad"}]}, "right": {"op": "const", "value": "present"}},
-  "abroad": {"op": "eq", "left": {"op": "fact", "path": "operation.executed_abroad"}, "right": {"op": "const", "value": true}},
-
-  "period_limit": {"op": "remap_result_domain", "value": {"op": "clause", "id": "34-2010/3.6/p5/foreign-deadline"}, "mapping": {
-   "selected_180_calendar_days": {"op": "const", "value": 180},
-   "selected_fourth_paragraph": {"op": "const", "value": 45},
-   "undetermined": {"op": "absent"}
-  }},
-  "period_unit": {"op": "remap_result_domain", "value": {"op": "clause", "id": "34-2010/3.6/p5/foreign-deadline"}, "mapping": {
-   "selected_180_calendar_days": {"op": "const", "value": "calendar_days"},
-   "selected_fourth_paragraph": {"op": "resolution", "name": "A1_dias_unit"},
-   "undetermined": {"op": "absent"}
-  }},
-  "period_unit_resolved": {"op": "not", "operand": {"op": "eq", "left": {"op": "binding", "name": "period_unit"}, "right": {"op": "absent"}}},
-  "applied_period": {"op": "concat", "parts": [
-   {"op": "binding", "name": "period_limit"},
-   {"op": "const", "value": " "},
-   {"op": "coalesce", "value": {"op": "binding", "name": "period_unit"}, "fallback": {"op": "const", "value": "UNRESOLVED"}},
-   {"op": "cond",
-    "if": {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/p5/foreign-deadline"}, "right": {"op": "const", "value": "selected_180_calendar_days"}},
-    "then": {"op": "const", "value": ", selected by p5/foreign-deadline (fifth paragraph)"},
-    "else": {"op": "const", "value": ", fourth paragraph"}}
-  ]},
-
-  "expediente_copy_run": {"op": "primitive", "name": "elapsed_within", "args": [
-   {"op": "fact", "path": "dictamen.made_available_at"},
-   {"op": "fact", "path": "expediente.delivered_at"},
-   {"op": "const", "value": 45},
-   {"op": "const", "value": "calendar_days"},
-   {"op": "fact", "path": "clock.now"}
-  ]}
+  "auth_factor_kinds": {
+   "op": "const",
+   "value": [
+    "2.6.a.i_knowledge",
+    "2.6.a.ii_device_or_chip",
+    "2.6.a.iii_biometric",
+    "2.6.a.iv_authorised_other"
+   ]
+  },
+  "factors": {
+   "op": "coalesce",
+   "value": {
+    "op": "fact",
+    "path": "operation.auth_factors"
+   },
+   "fallback": {
+    "op": "const",
+    "value": []
+   }
+  },
+  "factors_recorded": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "operation.auth_factors"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "all_factor_kinds_known": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "all_members_of_enumeration",
+    "args": [
+     {
+      "op": "binding",
+      "name": "factors"
+     },
+     {
+      "op": "binding",
+      "name": "auth_factor_kinds"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "all_members"
+   }
+  },
+  "abroad_recorded": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "operation.executed_abroad"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "abroad": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "operation.executed_abroad"
+   },
+   "right": {
+    "op": "const",
+    "value": true
+   }
+  },
+  "period_limit": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "34-2010/3.6/p5/foreign-deadline"
+   },
+   "mapping": {
+    "selected_180_calendar_days": {
+     "op": "const",
+     "value": 180
+    },
+    "selected_fourth_paragraph": {
+     "op": "const",
+     "value": 45
+    },
+    "undetermined": {
+     "op": "absent"
+    }
+   }
+  },
+  "period_unit": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "34-2010/3.6/p5/foreign-deadline"
+   },
+   "mapping": {
+    "selected_180_calendar_days": {
+     "op": "const",
+     "value": "calendar_days"
+    },
+    "selected_fourth_paragraph": {
+     "op": "resolution",
+     "name": "A1_dias_unit"
+    },
+    "undetermined": {
+     "op": "absent"
+    }
+   }
+  },
+  "period_unit_resolved": {
+   "op": "not",
+   "operand": {
+    "op": "eq",
+    "left": {
+     "op": "binding",
+     "name": "period_unit"
+    },
+    "right": {
+     "op": "absent"
+    }
+   }
+  },
+  "applied_period": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "binding",
+     "name": "period_limit"
+    },
+    {
+     "op": "const",
+     "value": " "
+    },
+    {
+     "op": "coalesce",
+     "value": {
+      "op": "binding",
+      "name": "period_unit"
+     },
+     "fallback": {
+      "op": "const",
+      "value": "UNRESOLVED"
+     }
+    },
+    {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "clause",
+       "id": "34-2010/3.6/p5/foreign-deadline"
+      },
+      "right": {
+       "op": "const",
+       "value": "selected_180_calendar_days"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": ", selected by p5/foreign-deadline (fifth paragraph)"
+     },
+     "else": {
+      "op": "const",
+      "value": ", fourth paragraph"
+     }
+    }
+   ]
+  },
+  "expediente_copy_run": {
+   "op": "primitive",
+   "name": "elapsed_within",
+   "args": [
+    {
+     "op": "fact",
+     "path": "dictamen.made_available_at"
+    },
+    {
+     "op": "fact",
+     "path": "expediente.delivered_at"
+    },
+    {
+     "op": "const",
+     "value": 45
+    },
+    {
+     "op": "const",
+     "value": "calendar_days"
+    },
+    {
+     "op": "fact",
+     "path": "clock.now"
+    }
+   ]
+  }
  },
  "clauses": {
   "34-2010/2.6/a/two-factor": {
    "op": "emit",
-   "result": {"op": "guard_on_unresolved",
-    "usable": {"op": "and", "operands": [{"op": "binding", "name": "factors_recorded"}, {"op": "binding", "name": "all_factor_kinds_known"}]},
-    "compute": {"op": "primitive", "name": "distinct_members_at_least", "args": [{"op": "binding", "name": "factors"}, {"op": "const", "value": 2}, {"op": "const", "value": "distinct_values"}]}},
-   "note": {"op": "const", "value": "Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermined` means a factor kind is not in the 2.6(a) enumeration and cannot be classified."}
+   "result": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "factors_recorded"
+      },
+      {
+       "op": "binding",
+       "name": "all_factor_kinds_known"
+      }
+     ]
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "distinct_members_at_least",
+     "args": [
+      {
+       "op": "binding",
+       "name": "factors"
+      },
+      {
+       "op": "const",
+       "value": 2
+      },
+      {
+       "op": "const",
+       "value": "distinct_values"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Independence approximated as distinctness of kind. Two factors of one kind do not count as two. `undetermined` means a factor kind is not in the 2.6(a) enumeration and cannot be classified."
+   }
   },
   "34-2010/3.3/p1/notice-types": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "member_of_enumeration", "args": [{"op": "fact", "path": "notice.type"}, {"op": "const", "value": ["robo_o_extravio", "reclamacion_cargo_no_reconocido"]}]}
+   "result": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "notice.type"
+     },
+     {
+      "op": "const",
+      "value": [
+       "robo_o_extravio",
+       "reclamacion_cargo_no_reconocido"
+      ]
+     }
+    ]
+   }
   },
   "34-2010/3.3/p5/receipt-record": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "all_present", "args": [{"op": "list", "items": [{"op": "fact", "path": "notice.reference"}, {"op": "fact", "path": "notice.received_at"}]}]}
+   "result": {
+    "op": "primitive",
+    "name": "all_present",
+    "args": [
+     {
+      "op": "list",
+      "items": [
+       {
+        "op": "fact",
+        "path": "notice.reference"
+       },
+       {
+        "op": "fact",
+        "path": "notice.received_at"
+       }
+      ]
+     }
+    ]
+   }
   },
   "34-2010/3.6/a/evidence": {
    "op": "emit",
-   "result": {"op": "cond", "if": {"op": "truthy", "value": {"op": "fact", "path": "dictamen.evidence_of_factors_present"}}, "then": {"op": "const", "value": "present"}, "else": {"op": "const", "value": "absent"}}
+   "result": {
+    "op": "cond",
+    "if": {
+     "op": "truthy",
+     "value": {
+      "op": "fact",
+      "path": "dictamen.evidence_of_factors_present"
+     }
+    },
+    "then": {
+     "op": "const",
+     "value": "present"
+    },
+    "else": {
+     "op": "const",
+     "value": "absent"
+    }
+   }
   },
   "34-2010/3.6/a/explanation": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "dictamen.language_is_plain"}]}
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "dictamen.language_is_plain"
+     }
+    ]
+   }
   },
   "34-2010/3.6/a/verification-method": {
    "op": "emit",
-   "result": {"op": "cond", "if": {"op": "truthy", "value": {"op": "fact", "path": "dictamen.verification_method_stated"}}, "then": {"op": "const", "value": "present"}, "else": {"op": "const", "value": "absent"}}
+   "result": {
+    "op": "cond",
+    "if": {
+     "op": "truthy",
+     "value": {
+      "op": "fact",
+      "path": "dictamen.verification_method_stated"
+     }
+    },
+    "then": {
+     "op": "const",
+     "value": "present"
+    },
+    "else": {
+     "op": "const",
+     "value": "absent"
+    }
+   }
   },
   "34-2010/3.6/b/time": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "operation.occurred_at"}]}
+   "result": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "operation.occurred_at"
+     }
+    ]
+   }
   },
   "34-2010/3.6/c/parties": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "all_present", "args": [{"op": "list", "items": [{"op": "fact", "path": "operation.acquirer_name"}, {"op": "fact", "path": "operation.merchant_name"}]}]}
+   "result": {
+    "op": "primitive",
+    "name": "all_present",
+    "args": [
+     {
+      "op": "list",
+      "items": [
+       {
+        "op": "fact",
+        "path": "operation.acquirer_name"
+       },
+       {
+        "op": "fact",
+        "path": "operation.merchant_name"
+       }
+      ]
+     }
+    ]
+   }
   },
   "34-2010/3.6/d/device-address": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
-    {"op": "eq", "left": {"op": "fact", "path": "issuer.holds_device_address"}, "right": {"op": "const", "value": true}},
-    {"op": "eq", "left": {"op": "primitive", "name": "any_present", "args": [{"op": "list", "items": [{"op": "fact", "path": "dictamen.device_address.physical_address"}, {"op": "fact", "path": "dictamen.device_address.ip_address"}]}]}, "right": {"op": "const", "value": "one_present"}}
-   ]},
-   "note": {"op": "const", "value": "not_applicable means the issuer holds no address, which the source treats as no breach."}
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "issuer.holds_device_address"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "any_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "dictamen.device_address.physical_address"
+          },
+          {
+           "op": "fact",
+           "path": "dictamen.device_address.ip_address"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "one_present"
+      }
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "not_applicable means the issuer holds no address, which the source treats as no breach."
+   }
   },
   "34-2010/3.6/p4/language": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "dictamen.language_is_plain"}]}
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "dictamen.language_is_plain"
+     }
+    ]
+   }
   },
   "34-2010/3.6/p4/signatory": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "member_of_register", "args": [{"op": "fact", "path": "dictamen.signatory_id"}, {"op": "coalesce", "value": {"op": "fact", "path": "issuer.authorised_signatories"}, "fallback": {"op": "const", "value": []}}]}
+   "result": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "fact",
+      "path": "dictamen.signatory_id"
+     },
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "issuer.authorised_signatories"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     }
+    ]
+   }
   },
   "34-2010/3.6/p4/channel": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
-    {"op": "eq", "left": {"op": "primitive", "name": "field_present", "args": [{"op": "fact", "path": "cardholder.channel_election"}]}, "right": {"op": "const", "value": "present"}},
-    {"op": "eq", "left": {"op": "fact", "path": "dictamen.channel"}, "right": {"op": "fact", "path": "cardholder.channel_election"}}
-   ]},
-   "note": {"op": "const", "value": "not_applicable means no election is on record, so the requirement is not yet fixed."}
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "cardholder.channel_election"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "dictamen.channel"
+      },
+      "right": {
+       "op": "fact",
+       "path": "cardholder.channel_election"
+      }
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "not_applicable means no election is on record, so the requirement is not yet fixed."
+   }
   },
   "34-2010/3.6/p5/foreign-deadline": {
    "op": "emit",
-   "result": {"op": "guard_on_unresolved",
-    "usable": {"op": "binding", "name": "abroad_recorded"},
-    "compute": {"op": "cond", "if": {"op": "binding", "name": "abroad"}, "then": {"op": "const", "value": "selected_180_calendar_days"}, "else": {"op": "const", "value": "selected_fourth_paragraph"}}},
-   "note": {"op": "const", "value": "`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected."}
+   "result": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "abroad_recorded"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "abroad"
+     },
+     "then": {
+      "op": "const",
+      "value": "selected_180_calendar_days"
+     },
+     "else": {
+      "op": "const",
+      "value": "selected_fourth_paragraph"
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "`undetermined` means whether the operation was executed abroad was not supplied, so neither the fourth nor the fifth paragraph can be selected."
+   }
   },
   "34-2010/3.6/p4/deadline": {
    "op": "emit",
-   "result": {"op": "guard_on_unresolved",
-    "usable": {"op": "and", "operands": [{"op": "binding", "name": "abroad_recorded"}, {"op": "binding", "name": "period_unit_resolved"}]},
-    "compute": {"op": "primitive", "name": "elapsed_within", "args": [
-     {"op": "fact", "path": "notice.received_at"},
-     {"op": "fact", "path": "dictamen.made_available_at"},
-     {"op": "binding", "name": "period_limit"},
-     {"op": "binding", "name": "period_unit"},
-     {"op": "fact", "path": "clock.now"}
-    ]}},
-   "note": {"op": "cond",
-    "if": {"op": "not", "operand": {"op": "binding", "name": "abroad_recorded"}},
-    "then": {"op": "const", "value": "Whether the operation was executed abroad was not supplied, so neither period can be selected."},
-    "else": {"op": "cond",
-     "if": {"op": "not", "operand": {"op": "binding", "name": "period_unit_resolved"}},
-     "then": {"op": "const", "value": "A1 unresolved: the unit of `cuarenta y cinco Días` was not supplied."},
-     "else": {"op": "concat", "parts": [{"op": "const", "value": "Period applied: "}, {"op": "binding", "name": "applied_period"}, {"op": "const", "value": "."}]}}}
+   "result": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "abroad_recorded"
+      },
+      {
+       "op": "binding",
+       "name": "period_unit_resolved"
+      }
+     ]
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "elapsed_within",
+     "args": [
+      {
+       "op": "fact",
+       "path": "notice.received_at"
+      },
+      {
+       "op": "fact",
+       "path": "dictamen.made_available_at"
+      },
+      {
+       "op": "binding",
+       "name": "period_limit"
+      },
+      {
+       "op": "binding",
+       "name": "period_unit"
+      },
+      {
+       "op": "fact",
+       "path": "clock.now"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "cond",
+    "if": {
+     "op": "not",
+     "operand": {
+      "op": "binding",
+      "name": "abroad_recorded"
+     }
+    },
+    "then": {
+     "op": "const",
+     "value": "Whether the operation was executed abroad was not supplied, so neither period can be selected."
+    },
+    "else": {
+     "op": "cond",
+     "if": {
+      "op": "not",
+      "operand": {
+       "op": "binding",
+       "name": "period_unit_resolved"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "A1 unresolved: the unit of `cuarenta y cinco D\u00edas` was not supplied."
+     },
+     "else": {
+      "op": "concat",
+      "parts": [
+       {
+        "op": "const",
+        "value": "Period applied: "
+       },
+       {
+        "op": "binding",
+        "name": "applied_period"
+       },
+       {
+        "op": "const",
+        "value": "."
+       }
+      ]
+     }
+    }
+   }
   },
   "34-2010/3.6/p4/floor": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "open_set_floor", "args": [{"op": "list", "items": [
-    {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/a/evidence"}, "right": {"op": "const", "value": "present"}},
-    {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/a/verification-method"}, "right": {"op": "const", "value": "present"}},
-    {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/b/time"}, "right": {"op": "const", "value": "present"}},
-    {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/c/parties"}, "right": {"op": "const", "value": "all_present"}},
-    {"op": "remap_result_domain", "value": {"op": "clause", "id": "34-2010/3.6/d/device-address"}, "mapping": {
-     "satisfied": {"op": "const", "value": true},
-     "not_applicable": {"op": "const", "value": true},
-     "breached": {"op": "const", "value": false},
-     "outstanding": {"op": "const", "value": false},
-     "undetermined": {"op": "const", "value": false}
-    }}
-   ]}]},
-   "note": {"op": "const", "value": "floor_met means every enumerated minimum was met. It does NOT mean the dictamen conforms: `por lo menos` declines to make the list sufficient."}
+   "result": {
+    "op": "primitive",
+    "name": "open_set_floor",
+    "args": [
+     {
+      "op": "list",
+      "items": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/a/evidence"
+        },
+        "right": {
+         "op": "const",
+         "value": "present"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/a/verification-method"
+        },
+        "right": {
+         "op": "const",
+         "value": "present"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/b/time"
+        },
+        "right": {
+         "op": "const",
+         "value": "present"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/c/parties"
+        },
+        "right": {
+         "op": "const",
+         "value": "all_present"
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "clause",
+         "id": "34-2010/3.6/d/device-address"
+        },
+        "mapping": {
+         "satisfied": {
+          "op": "const",
+          "value": true
+         },
+         "not_applicable": {
+          "op": "const",
+          "value": true
+         },
+         "breached": {
+          "op": "const",
+          "value": false
+         },
+         "outstanding": {
+          "op": "const",
+          "value": false
+         },
+         "undetermined": {
+          "op": "const",
+          "value": false
+         },
+         "$decided_on_absence": "Ruling 4, 2026-08-22: the floor asks whether every enumerated minimum was MET, and an element that cannot be established is not met. Deliberate; this annotation is the ruling's record at the site, demanded by R15."
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "floor_met means every enumerated minimum was met. It does NOT mean the dictamen conforms: `por lo menos` declines to make the list sufficient."
+   }
   },
   "34-2010/3.6/p5/expediente-copy": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "conditional_requirement", "args": [
-    {"op": "eq", "left": {"op": "fact", "path": "expediente.requested"}, "right": {"op": "const", "value": true}},
-    {"op": "remap_result_domain", "value": {"op": "binding", "name": "expediente_copy_run"}, "mapping": {
-     "within": {"op": "const", "value": true},
-     "exceeded": {"op": "const", "value": false},
-     "overdue": {"op": "const", "value": false},
-     "not_yet_due": {"op": "const", "value": "outstanding"},
-     "no_end_event": {"op": "const", "value": "undetermined"},
-     "out_of_order": {"op": "const", "value": "undetermined"}
-    }}
-   ]},
-   "note": {"op": "const", "value": "not_applicable means no copy was requested, which is not a breach. `outstanding` means requested, not yet delivered, and the period has not run. `undetermined` means not yet delivered and NO CLOCK was supplied, so late and outstanding cannot be told apart. The 45 day period runs from delivery of the dictamen and is stated as `días naturales`, so A1 does not reach it."}
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "expediente.requested"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "binding",
+       "name": "expediente_copy_run"
+      },
+      "mapping": {
+       "within": {
+        "op": "const",
+        "value": true
+       },
+       "exceeded": {
+        "op": "const",
+        "value": false
+       },
+       "overdue": {
+        "op": "const",
+        "value": false
+       },
+       "not_yet_due": {
+        "op": "const",
+        "value": "outstanding"
+       },
+       "no_end_event": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "out_of_order": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "not_applicable means no copy was requested, which is not a breach. `outstanding` means requested, not yet delivered, and the period has not run. `undetermined` means not yet delivered and NO CLOCK was supplied, so late and outstanding cannot be told apart. The 45 day period runs from delivery of the dictamen and is stated as `d\u00edas naturales`, so A1 does not reach it."
+   }
   },
   "34-2010/3.6/p6/no-moratory-interest": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "none_of_class_present", "args": [
-    {"op": "coalesce", "value": {"op": "fact", "path": "account.charges_posted"}, "fallback": {"op": "const", "value": []}},
-    {"op": "const", "value": ["interes_moratorio", "accesorio_otro"]}
-   ]}
+   "result": {
+    "op": "primitive",
+    "name": "none_of_class_present",
+    "args": [
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "account.charges_posted"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     },
+     {
+      "op": "const",
+      "value": [
+       "interes_moratorio",
+       "accesorio_otro"
+      ]
+     }
+    ]
+   }
   },
   "34-2010/3.6/p1/recovery-right": {
    "op": "emit",
-   "result": {"op": "primitive", "name": "held_judgment", "args": [{"op": "fact", "path": "charge.derived_from_2_6_a_operation"}]},
-   "note": {"op": "const", "value": "Never inferred from 2.6(a) being met. See ambiguity A3."}
+   "result": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "charge.derived_from_2_6_a_operation"
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "Never inferred from 2.6(a) being met. See ambiguity A3."
+   }
   },
   "34-2010/3.6/p7/firmeza": {
    "op": "decision_table",
    "$table_from": "clauses.json, the decision_table on this clause. build-register.mjs copies inputs, rows and the conformance subtable from there, so the table is not transcribed and cannot drift from the published one.",
    "inputs": [
-    {"name": "deadline", "expr": {"op": "clause", "id": "34-2010/3.6/p4/deadline"}},
-    {"name": "a2", "expr": {"op": "coalesce", "value": {"op": "resolution", "name": "A2_terminos_senalados"}, "fallback": {"op": "const", "value": "(unresolved)"}}}
+    {
+     "name": "deadline",
+     "expr": {
+      "op": "clause",
+      "id": "34-2010/3.6/p4/deadline"
+     }
+    },
+    {
+     "name": "a2",
+     "expr": {
+      "op": "coalesce",
+      "value": {
+       "op": "resolution",
+       "name": "A2_terminos_senalados"
+      },
+      "fallback": {
+       "op": "const",
+       "value": "(unresolved)"
+      }
+     }
+    }
    ],
    "subtable_inputs": {
-    "conformance_subtest": {"op": "conjunction_over_results", "undetermined_is": "undetermined", "results": {"op": "list", "items": [
-     {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/p4/floor"}, "right": {"op": "const", "value": "floor_met"}},
-     {"op": "eq", "left": {"op": "clause", "id": "34-2010/3.6/p4/signatory"}, "right": {"op": "const", "value": "member"}},
-     {"op": "remap_result_domain", "value": {"op": "clause", "id": "34-2010/3.6/p4/language"}, "mapping": {
-      "affirmed": {"op": "const", "value": true},
-      "denied": {"op": "const", "value": false},
-      "not_assessed": {"op": "const", "value": "undetermined"},
-      "$unmapped": {"op": "const", "value": "undetermined"}
-     }}
-    ]}}
+    "conformance_subtest": {
+     "op": "conjunction_over_results",
+     "undetermined_is": "undetermined",
+     "results": {
+      "op": "list",
+      "items": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/p4/floor"
+        },
+        "right": {
+         "op": "const",
+         "value": "floor_met"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "34-2010/3.6/p4/signatory"
+        },
+        "right": {
+         "op": "const",
+         "value": "member"
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "clause",
+         "id": "34-2010/3.6/p4/language"
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     }
+    }
    }
   }
  }

@@ -281,6 +281,72 @@ export function validate(register, label) {
     }
   }
 
+  // ── R15 / R16 / R17: three value-level shapes a converted register can carry ────────────────
+  // Added 2026-08-25 after three encoding defects in a converted register were value-level and
+  // invisible here. Each rule is the STRUCTURAL projection of a value-level defect; the residue
+  // that structure cannot see is stated in the rule text rather than implied covered.
+  {
+    const ABS = new Set(Object.keys(register.waiting?.absence_result_tokens ?? {}));
+    const isAbsenceValueNode = (node, key) => {
+      if (node === undefined || node === null) return false;
+      if (node.op === 'absent') return true;
+      if (node.op === 'const') return ABS.has(node.value) || node.value === key;
+      return false;   // a computed value: not statically judgeable, left to the fallback below
+    };
+    const walkR15 = (n, where, clauseId, annotated) => {
+      if (n === null || typeof n !== 'object') return;
+      if (Array.isArray(n)) { n.forEach((x, i) => walkR15(x, `${where}[${i}]`, clauseId, annotated)); return; }
+      if (n.op === 'remap_result_domain') {
+        for (const [k, v] of Object.entries(n.mapping)) {
+          if (k === '$unmapped' || k === '$decided_on_absence') continue;
+          if (ABS.has(k) && !isAbsenceValueNode(v, k) && n.mapping.$decided_on_absence === undefined) {
+            bad('R15', `${where}`, `absence-class token ${JSON.stringify(k)} maps to a decided value; deciding on an absent input needs $decided_on_absence with a reason`);
+          }
+        }
+      }
+      if (n.op === 'primitive' && ['field_present', 'all_present', 'any_present'].includes(n.name)) {
+        const seenB = new Set();
+        const hasClause = (m) => {
+          if (m === null || typeof m !== 'object') return false;
+          if (Array.isArray(m)) return m.some(hasClause);
+          if (m.op === 'clause') return true;
+          if (m.op === 'binding' && !seenB.has(m.name)) { seenB.add(m.name); if (hasClause(register.bindings?.[m.name])) return true; }
+          return Object.entries(m).some(([k, v]) => k !== 'op' && hasClause(v));
+        };
+        if (n.args.some(hasClause)) bad('R16', where, `${n.name} reads a clause result; a clause result is a token and never absent, so presence over it counts every token as present`);
+      }
+      if (n.op === 'guard_on_unresolved' && !annotated) {
+        const seenB = new Set();
+        const hasGate = (m) => {
+          if (m === null || typeof m !== 'object') return false;
+          if (Array.isArray(m)) return m.some(hasGate);
+          if (m.op === 'applicability_gate') return true;
+          if (m.op === 'binding' && !seenB.has(m.name)) { seenB.add(m.name); if (hasGate(register.bindings?.[m.name])) return true; }
+          return Object.entries(m).some(([k, v]) => k !== 'op' && hasGate(v));
+        };
+        if (hasGate(n.compute)) bad('R17', where, `applicability_gate under guard_on_unresolved's compute: the guard answers undetermined for an obligation that never arose. If the applicability itself needs the unresolved input, annotate the evaluation $applicability_needs_resolution with a reason`);
+      }
+      for (const [k, v] of Object.entries(n)) if (k !== 'op') walkR15(v, `${where}.${k}`, clauseId, annotated);
+    };
+    for (const c of register.clauses) {
+      if (c.evaluate === undefined) continue;
+      const annotated = c.evaluate.$applicability_needs_resolution !== undefined;
+      walkR15(c.evaluate, c.id, c.id, annotated);
+      if (c.evaluate.op === 'decision_table') {
+        const inputAbs = c.evaluate.inputs?.map((i) => i.name) ?? [];
+        for (const [ri, row] of (c.evaluate.rows ?? []).entries()) {
+          if (row.outcome === undefined) continue;
+          for (const nm of inputAbs) {
+            if (ABS.has(row.match?.[nm]) && !ABS.has(row.outcome) && row.outcome !== row.match[nm] && row.$decided_on_absence === undefined) {
+              bad('R15', `${c.id}.rows[${ri}]`, `row keyed on absence-class ${nm}=${JSON.stringify(row.match[nm])} yields decided ${JSON.stringify(row.outcome)}; needs $decided_on_absence with a reason`);
+            }
+          }
+        }
+      }
+    }
+    for (const [k, b] of Object.entries(register.bindings ?? {})) walkR15(b, `binding.${k}`, null, false);
+  }
+
   return { label, failures: fail, notes: note };
 }
 
