@@ -217,6 +217,33 @@ export function validate(register, label) {
   }
   for (const [k, v] of Object.entries(bindings)) walk(v, `binding.${k}`, { clausePosition: null, inUngrounded: false, inResult: false });
 
+  // ── R13 / R14: the lane lookup and the per-clause overrides ─────────────────────────────────
+  {
+    const LANE_TOKENS = SCHEMA.lanes.tokens;
+    const lookup = register.lanes?.lookup;
+    const inUse = [...new Set(register.clauses.map((c) => c.disposition))];
+    if (lookup === undefined) {
+      for (const d of inUse) bad('R13', 'lanes', `the register declares no lanes.lookup, so disposition ${d} has no entry`);
+    } else {
+      for (const d of inUse) {
+        const e = lookup[d];
+        if (e === undefined) { bad('R13', 'lanes', `disposition ${d} is in use and has no lookup entry`); continue; }
+        const hasLane = e.lane !== undefined, hasNo = e.no_lane !== undefined;
+        if (hasLane === hasNo) bad('R13', `lanes.${d}`, `an entry must carry exactly one of lane / no_lane, got ${JSON.stringify(e)}`);
+        else if (hasLane && !LANE_TOKENS.includes(e.lane)) bad('R13', `lanes.${d}`, `lane ${JSON.stringify(e.lane)} is not one of ${LANE_TOKENS.join(', ')}`);
+        else if (hasLane && !WITH_RESULT.includes(d)) bad('R13', `lanes.${d}`, `${d} has no result domain and must map to an explicit no_lane, not to lane ${JSON.stringify(e.lane)}`);
+        else if (hasNo && WITH_RESULT.includes(d)) bad('R13', `lanes.${d}`, `${d} has a result domain and must map to a lane, not to no_lane`);
+      }
+      for (const c of register.clauses) {
+        if (c.lane_override === null || c.lane_override === undefined) continue;
+        if (!LANE_TOKENS.includes(c.lane_override)) { bad('R14', c.id, `lane_override ${JSON.stringify(c.lane_override)} is not one of ${LANE_TOKENS.join(', ')}`); continue; }
+        const e = lookup[c.disposition];
+        if (e === undefined || e.no_lane !== undefined) { bad('R14', c.id, `lane_override on a clause whose disposition ${c.disposition} has no lane`); continue; }
+        if (e.lane === c.lane_override) bad('R14', c.id, `lane_override ${JSON.stringify(c.lane_override)} restates the lookup's lane for ${c.disposition}; an override must differ or not exist`);
+      }
+    }
+  }
+
   return { label, failures: fail, notes: note };
 }
 

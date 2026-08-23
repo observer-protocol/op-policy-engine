@@ -88,6 +88,19 @@ check('R11', 'a disposition the schema does not declare',
 check('R11', 'a no-result disposition with no declared emission',
   (r) => { delete r.dispositions.no_result_emission.INSTRUCTION; }, FE);
 
+check('R13', 'a disposition in use with no lookup entry',
+  (r) => { delete r.lanes.lookup.MECHANICAL; });
+check('R13', 'a no-result disposition mapped to a lane instead of no_lane',
+  (r) => { r.lanes.lookup.INSTRUCTION = { lane: 'engine' }; }, FE);
+check('R13', 'a with-result disposition mapped to no_lane',
+  (r) => { r.lanes.lookup.JUDGMENT = { no_lane: 'wrongly' }; });
+
+check('R14', 'an override naming a lane that does not exist',
+  (r) => { clause(r, '34-2010/3.6/p4/language').lane_override = 'oracle'; });
+check('R14', 'an override on a clause whose disposition has no lane',
+  (r) => { r.clauses.find((x) => x.disposition === 'INSTRUCTION').lane_override = 'person'; }, FE);
+check('R14', 'an override RESTATING the lane the lookup already gives',
+  (r) => { clause(r, '34-2010/3.6/p4/language').lane_override = 'person'; });
 // ── R12 does not depend on the register, so it is perturbed at the schema instead ───────────────
 console.log('\n  R12 compares the schema against the interpreter and cannot be broken from a register.');
 console.log('  Perturbed at the schema instead, in a copy under the scratch directory:');
@@ -105,6 +118,16 @@ console.log('  Perturbed at the schema instead, in a copy under the scratch dire
   if (hit.length === 0) { bad++; console.log('  DID NOT FIRE  R12'); }
   else { console.log(`  FIRES  R12  a schema whose primitive vocabulary has drifted from the interpreter`);
          for (const h of hit) console.log(`         ${h.where}: ${h.detail}`); }
+}
+
+// ── the legal-override counter-case: a differing override must NOT fire R14 ─────────────────────
+{
+  const r = BX();
+  r.clauses.find((c) => c.id === '34-2010/3.6/p4/language').lane_override = 'agent';
+  const res = validate(r, 'R14-legal');
+  const hit = res.failures.filter((f) => f.rule === 'R14');
+  if (hit.length) { bad++; console.log('  FIRED WRONGLY  R14 on a differing override, which is legal'); }
+  else console.log('  SILENT  R14  a differing override (person -> agent) is legal, and the rule correctly does not fire');
 }
 
 console.log(`\n${Object.keys(SCHEMA.rules).length} rules declared; every one shown firing.`);

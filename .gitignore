@@ -10,3 +10,4 @@ coverage/
 .vscode/
 .idea/
 packages/policy-engine/test/fixtures/out/
+.phase0-scratch/

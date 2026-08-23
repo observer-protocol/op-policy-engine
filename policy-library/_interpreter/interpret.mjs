@@ -39,11 +39,28 @@ import { readFileSync } from 'node:fs';
 /**
  * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
  *
- * Every record carries `v` FIRST. Version 1 names the current shape, which is the union:
+ * Every record opens `v, lane, lane_from`. VERSION 2 names the current shape, which is the union:
  *
- *   { v, result, note?, ...extras }          a clause with a result domain
- *   { v, no_result, supplies }               DEFINITIONAL
- *   { v, refused, why }                      INSTRUCTION, ILLUSTRATIVE
+ *   { v, lane, lane_from, result, note?, ...extras }   a clause with a result domain
+ *   { v, lane, lane_from, no_result, supplies }        DEFINITIONAL
+ *   { v, lane, lane_from, refused, why }               INSTRUCTION, ILLUSTRATIVE
+ *
+ * Version 1 was the same union without `lane` and `lane_from`.
+ *
+ * THE LANE ON THE RECORD. `lane` is one of the four lane tokens, or `none`. `lane_from` says
+ * whether it came from the register's disposition lookup (`lookup`) or a per-clause override
+ * (`override`). NOTHING DISPATCHES ON IT YET; the determination states which lane produced it and
+ * the record carries it, which is the property that makes the record interrogable.
+ *
+ * THE NO-LANE RULING, in the code rather than left to a reader. A record for a clause whose
+ * disposition has no lane says `lane: "none"`, and it says so whether the clause REFUSES
+ * (INSTRUCTION, ILLUSTRATIVE) or SUPPLIES A MEANING instead of a result (DEFINITIONAL). It is
+ * deliberately NOT `engine`, although this machinery emitted the record: a lane names what
+ * produced a DETERMINATION, and none of these records is one; stamping `engine` would let a
+ * refusal read as an engine determination. ONE TOKEN for both kinds of laneless record is
+ * acceptable because the conflation exists only on the lane axis and the record's own
+ * discriminant, `no_result` against `refused`, carries the difference one key away. On the lane
+ * axis the two really do share one fact: nothing was routed and nothing was decided.
  *
  * TWO RULINGS, IN THE CODE RATHER THAN LEFT TO A READER:
  *
@@ -52,19 +69,38 @@ import { readFileSync } from 'node:fs';
  *      independently, and a format change to refusals could then hide under an unchanged result
  *      version. A refusal read apart from its oracle must state what it is exactly as a result must.
  *
- *   2. AN ABSENT `v` IS UNVERSIONED, NOT VERSION 0. Absence has two causes: a record from the
- *      pre-versioning era, and a foreign record that dropped the field. Reading absent as 0 decides
- *      between them on no evidence, which is the absent-is-not-domestic defect (E9) on a record
- *      instead of a fact. `recordVersion` below is the choice enforced: it THROWS on an absent
- *      version rather than returning a default, the same discipline as `resultOf`.
+ *   2. AN ABSENT `v` IS UNVERSIONED, NOT VERSION 0. One statement of the property, three
+ *      granularities, and the enforcement sites: REUSE-LOG E30. `recordVersion` below is this
+ *      granularity's enforcement: it THROWS on an absent version, the same discipline as `resultOf`.
  */
-export const RECORD_VERSION = 1;
+export const RECORD_VERSION = 2;
+export const KNOWN_RECORD_VERSIONS = new Set([1, 2]);
 
-/** The absent-version ruling, enforced. Unversioned is a state, and it is not version 0. */
+/** The absent-version ruling, enforced. Unversioned is a state, not version 0: REUSE-LOG E30.
+ *  Accepts 1 and 2; a version outside the known set throws, because a reader that passes an
+ *  unknown version through has decided it understands a construction nobody has named yet. */
 export function recordVersion(rec) {
   if (rec === undefined || rec === null) throw new Error('recordVersion: no record');
   if (!('v' in rec)) throw new Error('recordVersion: the record carries no version. It is UNVERSIONED, which is not version 0; decide from its provenance, not from a default.');
+  if (!KNOWN_RECORD_VERSIONS.has(rec.v)) throw new Error(`recordVersion: unknown record version ${JSON.stringify(rec.v)}; known: ${[...KNOWN_RECORD_VERSIONS].join(', ')}`);
   return rec.v;
+}
+
+/** The v2 record opening, computed once per clause from the register's lanes section. */
+function laneStampOf(register, c) {
+  const lookup = register.lanes?.lookup;
+  if (lookup === undefined) throw new Error('the register declares no lanes.lookup; rebuild it');
+  const e = lookup[c.disposition];
+  if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
+  if (e.no_lane !== undefined) {
+    if (c.lane_override !== null && c.lane_override !== undefined) throw new Error(`${c.id}: lane_override on a laneless disposition`);
+    return { v: RECORD_VERSION, lane: 'none', lane_from: 'lookup' };
+  }
+  if (c.lane_override !== null && c.lane_override !== undefined) {
+    if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
+    return { v: RECORD_VERSION, lane: c.lane_override, lane_from: 'override' };
+  }
+  return { v: RECORD_VERSION, lane: e.lane, lane_from: 'lookup' };
 }
 
 const DAY_MS = 86400000;
@@ -330,7 +366,7 @@ const EMITTERS = {
   // OMITTED rather than emitted as null, because a clause carrying `note: undefined` and a clause
   // carrying no note are the same statement and must serialise the same way.
   emit: (n, ctx) => {
-    const rec = { v: RECORD_VERSION, result: force(n.result, ctx) };
+    const rec = { ...ctx.laneStamp, result: force(n.result, ctx) };
     if (n.note !== undefined) { const v = force(n.note, ctx); if (v !== undefined) rec.note = v; }
     for (const [k, e] of Object.entries(n.extra ?? {})) { const v = force(e, ctx); if (v !== undefined) rec[k] = v; }
     return rec;
@@ -353,9 +389,9 @@ const EMITTERS = {
       const sv = force(sub.input, ctx);
       const srow = sub.rows.find((r) => r.match === sv);
       if (srow === undefined) throw new Error(`decision_table: no ${row.outcome_from} row for ${JSON.stringify(sv)}`);
-      return srow.note === undefined ? { v: RECORD_VERSION, result: srow.outcome } : { v: RECORD_VERSION, result: srow.outcome, note: srow.note };
+      return srow.note === undefined ? { ...ctx.laneStamp, result: srow.outcome } : { ...ctx.laneStamp, result: srow.outcome, note: srow.note };
     }
-    return row.note === undefined ? { v: RECORD_VERSION, result: row.outcome } : { v: RECORD_VERSION, result: row.outcome, note: row.note };
+    return row.note === undefined ? { ...ctx.laneStamp, result: row.outcome } : { ...ctx.laneStamp, result: row.outcome, note: row.note };
   },
 
   // ═══ THE UNGROUNDED SHAPE ══════════════════════════════════════════════════════════════════════
@@ -385,18 +421,18 @@ const EMITTERS = {
       if (supplied === undefined) {
         // THE EVALUATOR NEVER SUPPLIES A MEANING. The sentence is declared once for the domain, not
         // once per clause, because four copies of one sentence is four places for it to drift.
-        return { v: RECORD_VERSION, result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
+        return { ...ctx.laneStamp, result: 'undetermined', undetermined_because: force(decl.undetermined_because, ctx) };
       }
       if (strictBoolean(force(n.applies, ctx), `ungrounded(${n.term})`) === false) {
-        return { v: RECORD_VERSION, result: 'not_applicable' };            // the meaning is never even reached
+        return { ...ctx.laneStamp, result: 'not_applicable' };            // the meaning is never even reached
       }
       const frame = { term: n.term, supplied, used: false };
       const saved = ctx.meaningFrame;
       ctx.meaningFrame = frame;
       let value;
       try { value = force(n.compute, ctx); } finally { ctx.meaningFrame = saved; }
-      if (!frame.used) return { v: RECORD_VERSION, result: value };
-      const rec = { v: RECORD_VERSION, result: `${value}_on_supplied_meaning` };
+      if (!frame.used) return { ...ctx.laneStamp, result: value };
+      const rec = { ...ctx.laneStamp, result: `${value}_on_supplied_meaning` };
       for (const [k, e] of Object.entries(decl.attribution)) rec[k] = force(e, ctx);
       return rec;
     } finally { ctx.ungroundedTerm = savedTerm; }
@@ -412,11 +448,12 @@ export function loadRegister(path) {
 
 export function interpret(register, facts, resolutions = {}) {
   const out = {};
-  const ctx = { facts, resolutions, out, register, clause: null, meaningFrame: null, ungroundedTerm: null };
+  const ctx = { facts, resolutions, out, register, clause: null, meaningFrame: null, ungroundedTerm: null, laneStamp: null };
   const hasResult = new Set(register.dispositions.with_result_domain);
 
   for (const c of register.clauses) {
     ctx.clause = c;
+    ctx.laneStamp = laneStampOf(register, c);
     if (hasResult.has(c.disposition)) {
       if (c.evaluate === undefined) throw new Error(`${c.id} is ${c.disposition} and carries no evaluation`);
       const e = EMITTERS[c.evaluate.op];
@@ -430,7 +467,7 @@ export function interpret(register, facts, resolutions = {}) {
       const shape = register.dispositions.no_result_emission[c.disposition];
       if (shape === undefined) throw new Error(`${c.id}: ${c.disposition} has neither a result domain nor a declared no-result emission`);
       if (c.evaluate !== undefined) throw new Error(`${c.id} is ${c.disposition} and has no result domain; it must not carry an evaluation`);
-      const rec = { v: RECORD_VERSION };
+      const rec = { ...ctx.laneStamp };
       for (const [k, e] of Object.entries(shape)) rec[k] = force(e, ctx);
       out[c.id] = rec;
     }

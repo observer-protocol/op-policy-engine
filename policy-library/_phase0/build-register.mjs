@@ -23,6 +23,34 @@ const FACT_SCHEMA_VERSION = '0.1.0';
 // each domain's file because it is a property of the schema, not of a document.
 const WITH_RESULT_DOMAIN = ['MECHANICAL', 'JUDGMENT', 'CONDITIONAL', 'DERIVED', 'EVIDENTIAL'];
 
+// ─── THE LANE LOOKUP, one authored copy, written into every register ────────────────────────────
+//
+// Four lanes, named now and read by nothing: engine, agent, panel, person. The routing key is the
+// clause's disposition, assigned once at conversion, not a confidence score guessed at runtime.
+//
+// The defaults, with the reason each is what it is:
+//   engine  for every disposition whose evaluation is mechanical over its inputs. EVIDENTIAL is
+//           here deliberately: its INPUTS are held judgments, but the clause's own evaluation
+//           composes them mechanically, and the judgment lanes belong to the clauses that hold
+//           the judgments.
+//   person  for JUDGMENT, because review starts high and falls as agreement is measured, and the
+//           agent tier does not exist yet. Moving a clause to `agent` is a per-clause override
+//           made when there is an agent to move it to.
+//   no_lane for the dispositions with no result domain. A lane names what produces a
+//           DETERMINATION; a clause that refuses one, or supplies a meaning instead of one, has
+//           nothing to route. The state is explicit, never an absent key.
+const LANES = ['engine', 'agent', 'panel', 'person'];
+const LANE_DEFAULTS = {
+  MECHANICAL: { lane: 'engine' },
+  CONDITIONAL: { lane: 'engine' },
+  DERIVED: { lane: 'engine' },
+  EVIDENTIAL: { lane: 'engine' },
+  JUDGMENT: { lane: 'person' },
+  DEFINITIONAL: { no_lane: 'supplies a meaning; produces no determination to route' },
+  INSTRUCTION: { no_lane: 'refuses; produces no determination to route' },
+  ILLUSTRATIVE: { no_lane: 'refuses; produces no determination to route' },
+};
+
 const read = (p) => JSON.parse(readFileSync(p, 'utf8'));
 const maybe = (p) => (existsSync(p) ? read(p) : null);
 
@@ -71,6 +99,7 @@ for (const d of DOMAINS) {
       reads: c.reads ?? null,
       operative_weight: c.operative_weight ?? null,
       rests_on_ungrounded_term: c.rests_on_ungrounded_term ?? null,
+      lane_override: c.lane_override ?? null,
       evidential_role: c.evidential_role ?? null,
       governs: c.governs ?? null,
     };
@@ -147,6 +176,24 @@ for (const d of DOMAINS) {
     })),
   };
 
+  // ── lanes: the lookup restricted to the dispositions this register actually uses, plus the
+  //    per-clause overrides authored in evaluation.json. An override that restates the lookup's
+  //    lane is an ERROR, enforced by the validator (R14): a same-value override is a second
+  //    representation of one fact, it silently pins the old lane when the lookup changes, and it
+  //    makes the population of genuinely overridden clauses unmeasurable.
+  const inUse = [...new Set(clauses.map((c) => c.disposition))].sort();
+  const lookup = {};
+  for (const disp of inUse) {
+    if (LANE_DEFAULTS[disp] === undefined) throw new Error(`${d.name}: disposition ${disp} has no lane default`);
+    lookup[disp] = LANE_DEFAULTS[disp];
+  }
+  const overrides = ev.lane_overrides ?? {};
+  for (const [cid, lane] of Object.entries(overrides)) {
+    const c = clauses.find((x) => x.id === cid);
+    if (c === undefined) throw new Error(`${d.name}: lane_overrides names ${cid}, which this register does not have`);
+    c.lane_override = lane;
+  }
+
   const register = {
     $note: 'A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain\'s published registers plus evaluation.json. Do not edit by hand.',
     register_version: REGISTER_VERSION,
@@ -175,6 +222,11 @@ for (const d of DOMAINS) {
     ambiguities: ambSection,
     defined_terms: defined === null ? null : { $from: `${d.dir}/defined-terms.json`, terms: defined.terms },
     undefined_terms: undefinedTerms === null ? null : { $from: `${d.dir}/undefined-terms.json`, $how_the_evaluator_must_treat_it: undefinedTerms.$how_the_evaluator_must_treat_it, terms: undefinedTerms.terms },
+    lanes: {
+      $note: 'Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.',
+      lanes: LANES,
+      lookup,
+    },
     ungrounded_terms: ev.ungrounded_terms ?? null,
     bindings: ev.bindings ?? {},
     clauses,

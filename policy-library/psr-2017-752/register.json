@@ -147,6 +147,32 @@
  },
  "defined_terms": null,
  "undefined_terms": null,
+ "lanes": {
+  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
+  "lanes": [
+   "engine",
+   "agent",
+   "panel",
+   "person"
+  ],
+  "lookup": {
+   "CONDITIONAL": {
+    "lane": "engine"
+   },
+   "DERIVED": {
+    "lane": "engine"
+   },
+   "EVIDENTIAL": {
+    "lane": "engine"
+   },
+   "JUDGMENT": {
+    "lane": "person"
+   },
+   "MECHANICAL": {
+    "lane": "engine"
+   }
+  }
+ },
  "ungrounded_terms": null,
  "bindings": {
   "series_limb": {
@@ -368,6 +394,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -448,6 +475,7 @@
    ],
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -543,6 +571,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -583,6 +612,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -634,6 +664,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -671,6 +702,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -700,6 +732,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -749,6 +782,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -793,6 +827,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": "allocates the burden of proving the reg 67 question to the provider",
    "governs": "psr-2017/67/1/consent",
    "evaluate": {
@@ -945,6 +980,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": "allocates the same burden to a payment initiation service provider, within its sphere of competence",
    "governs": "psr-2017/67/1/consent",
    "evaluate": {
@@ -988,6 +1024,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": "bounds what the recorded use of an instrument suffices to prove",
    "governs": "psr-2017/67/1/consent",
    "evaluate": {
@@ -1039,6 +1076,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": "requires disclosure of supporting evidence to the payer",
    "governs": "psr-2017/67/1/consent",
    "evaluate": {
@@ -1092,6 +1130,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1132,6 +1171,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1169,6 +1209,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1240,6 +1281,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1269,6 +1311,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1326,6 +1369,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1428,6 +1472,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1486,6 +1531,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {
@@ -1539,6 +1585,7 @@
    "reads": null,
    "operative_weight": null,
    "rests_on_ungrounded_term": null,
+   "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "evaluate": {

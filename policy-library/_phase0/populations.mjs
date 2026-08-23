@@ -12,11 +12,21 @@
  * records every (facts, resolutions) pair the committed cases actually evaluate.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS } from '../_corpus/space.mjs';
 
 export const LIB = new URL('..', import.meta.url).pathname;
-export const SCRATCH = process.env.PHASE0_SCRATCH || '/tmp';
+// PER-RUN, ISOLATED, INSIDE THE REPOSITORY, IGNORED. This defaulted to /tmp until 2026-08-24,
+// which put run artifacts where any process could read them and two concurrent runs shared file
+// names. Now: one directory per process under .phase0-scratch/ at the repository root, named by
+// pid plus a UUID so two concurrent runs cannot collide, OUTSIDE the freeze scope (which counts
+// ignored files under policy-library as dirty, so the scratch cannot live there).
+// RESOLVED AS A URL, NOT CONCATENATED AS A STRING. The first version built `${LIB}/../...`, and the
+// unnormalised `//..` means two different things to the two consumers: POSIX fs resolves it to the
+// repository root, URL segment removal resolves it to policy-library. The spy was WRITTEN at one
+// path and IMPORTED from the other, and the failure arrived on the first concurrent-run test.
+const REPO_ROOT = new URL('../../', import.meta.url).pathname;
+export const SCRATCH = process.env.PHASE0_SCRATCH || `${REPO_ROOT}.phase0-scratch/${process.pid}-${randomUUID()}`;
 
 export const DOMAINS = [
   { name: 'banxico', dir: 'banxico-34-2010', fields: BX_FIELDS,   resolutions: BX_RESOLUTIONS,   corpusKey: 'banxico' },

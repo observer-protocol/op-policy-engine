@@ -1837,13 +1837,41 @@ instruction round-trip.
 
 ---
 
+## E30. STANDING PROPERTY: an absent input is never read as a value of the domain it is absent from
+
+**Established:** 2026-08-24, writing once what had landed three times. **Status: STANDING PROPERTY,
+in force. One statement here; the code sites reference this entry rather than restating it.**
+
+**The property.** Absence is a state of its own at every granularity. Reading an absent thing as any
+member of its domain decides a question on no evidence, and the decision is invisible because the
+output is a plausible member of the domain (`a wrong key returns a plausible number`). Three
+granularities, one property:
+
+| granularity | the conflation refused | where it is enforced in code |
+|---|---|---|
+| **a field** | an absent fact read as a recorded value. E9's instance: absent `executed_abroad` read as `domestic`, selecting a 45-day period nobody's facts supported | `field_present` guards at the E9 sites: `banxico-34-2010/evaluate.mjs` (`abroadRecorded`, `factorsRecorded`) and the `abroad_recorded`, `factors_recorded` bindings in `banxico-34-2010/register.json`, evaluated by `_interpreter/interpret.mjs` |
+| **a determination** | a determination that could not be made read as one that was. An absent judgment, end event or operand gets its own token, never a decided value: `not_assessed`, `no_end_event`, `missing_operand`, `no_candidate` | the primitive result domains, in all four implementations: `held_judgment`, `elapsed_within`, `ordered_before`, `amounts_equal`, `member_of_register` in the three `evaluate.mjs` and in `_interpreter/interpret.mjs` PRIMITIVES |
+| **a record** | an unversioned record read as version 0. Absence has two causes, a pre-versioning record and a foreign record that dropped the field, and 0 names the first without evidence | `recordVersion()` in `_interpreter/interpret.mjs`, which THROWS on an absent version |
+
+**The known boundary of the second instance, so this entry does not overclaim.** The distinct tokens
+survive only until composition: `conjunction_over_results` maps `not_assessed` (via a remap) into
+`undetermined`, so one level up `nobody assessed` and `the facts do not settle it` share a token.
+That is E28's prospective instance and A.4's shape-vocabulary constraint, recorded there and not
+resolved here.
+
+**How to apply.** When absence appears at a new granularity, add a row to this table with the code
+site that enforces it; do not write a fourth prose statement. A local comment says
+`REUSE-LOG E30` and nothing else, because four texts drift and one does not.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E29 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now twenty-nine. Two of the additions change what
+> **E18 to E30 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was
