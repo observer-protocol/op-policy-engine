@@ -16,7 +16,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS } from '../_corpus/space.mjs';
 
 export const LIB = new URL('..', import.meta.url).pathname;
-// PER-RUN, ISOLATED, INSIDE THE REPOSITORY, IGNORED. This defaulted to /tmp until 2026-08-24,
+// PER-RUN, ISOLATED, INSIDE THE REPOSITORY, IGNORED. This defaulted to /tmp until 2026-08-23 (the commit's date; the written date was invented, not observed),
 // which put run artifacts where any process could read them and two concurrent runs shared file
 // names. Now: one directory per process under .phase0-scratch/ at the repository root, named by
 // pid plus a UUID so two concurrent runs cannot collide, OUTSIDE the freeze scope (which counts

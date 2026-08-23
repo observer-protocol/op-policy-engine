@@ -69,7 +69,7 @@ import { readFileSync } from 'node:fs';
  * THE LANE'S SEMANTICS AT v5, amended by extension: `lane` names the lane the register ROUTES the
  * clause to. For every record v4 could emit, routing and ownership coincide, so no v4 byte
  * differs; the two diverge only on agent-routed records, where the ROUTE is the agent and the
- * DETERMINATION is always a person's, which is the item-2 ruling of 2026-08-24: an agent
+ * DETERMINATION is always a person's, which is the item-2 ruling of 2026-08-23 (the commit's date; the written date was invented, not observed): an agent
  * assessment does not satisfy a clause; it is carried, not taken, until a person adopts it. A
  * determination adopted from an agent assessment carries that IN THE RESULT TOKEN, as
  * `<token>_on_agent_assessment`, following the supplied-meaning precedent; that state is ruled

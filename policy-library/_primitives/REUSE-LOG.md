@@ -4,6 +4,17 @@ One entry per observation about the primitive set, made while encoding a domain.
 that a shape that looks wrong in one domain is not fixed there and then, before there is evidence
 about whether it is wrong generally.
 
+**A date in an artifact is read from the environment or from a source, never composed.** Added
+2026-08-23, after twenty dates in this estate's artifacts turned out to be a model inferring day
+boundaries from block sequence: entry-observation dates and comment dates said 2026-08-24 and
+2026-08-25 while the environment and every commit timestamp said 2026-08-23. The estate already
+held this rule for evaluation time (a clock is an explicit fact, never `Date.now()`) and for
+record provenance (`at` is caller-supplied); NOTHING IN THIS REPOSITORY PROMPTED IT FOR AUTHORSHIP
+DATES, which is exactly how twenty of them shipped, and this paragraph is now the prompt, placed
+where a session writing an entry reads before writing. Before dating an entry: the date comes from
+the environment's supplied date or from a source being cited, and if neither supplies one, the
+entry carries no date rather than a plausible one.
+
 **The rule this log encodes: one domain is an anecdote, and one representation is a blind spot.** A
 primitive that fits awkwardly in the first regulation encoded against it may be too narrow, or the
 regulation may be unusual, and only a second domain separates those. But a second domain cannot see
@@ -1839,7 +1850,7 @@ instruction round-trip.
 
 ## E30. STANDING PROPERTY: an absent input is never read as a value of the domain it is absent from
 
-**Established:** 2026-08-24, writing once what had landed three times. **Status: STANDING PROPERTY,
+**Established:** 2026-08-23 (the commit's date; the written date was invented, not observed), writing once what had landed three times. **Status: STANDING PROPERTY,
 in force. One statement here; the code sites reference this entry rather than restating it.**
 
 **The property.** Absence is a state of its own at every granularity. Reading an absent thing as any
@@ -1868,7 +1879,7 @@ property does not belong to `policy-library/`; it belongs to anything that reads
 survive only until composition: `conjunction_over_results` maps `not_assessed` (via a remap) into
 `undetermined`, so one level up `nobody assessed` and `the facts do not settle it` share a token.
 That is A.4's shape-vocabulary constraint, now E32, closed for the waiting axis's cases on
-2026-08-24 and still open at the result-token layer. (This line originally called it `E28's
+2026-08-23 (the commit's date; the written date was invented, not observed) and still open at the result-token layer. (This line originally called it `E28's
 prospective instance`, which was the mislabel E32 corrects: E28 is dispatch-as-a-set.)
 
 **How to apply.** When absence appears at a new granularity, add a row to this table with the code
@@ -1879,8 +1890,8 @@ site that enforces it; do not write a fourth prose statement. A local comment sa
 
 ## E31. A categorisation asserted in prose that no register carries fed a coordinator ruling
 
-**Where:** `_primitives/EVIDENTIAL.md`, and from there a coordinator block of 2026-08-24.
-**Observed:** 2026-08-24, when the block's premise was verified against the register before being
+**Where:** `_primitives/EVIDENTIAL.md`, and from there a coordinator block of 2026-08-23 (the commit's date; the written date was invented, not observed).
+**Observed:** 2026-08-23 (the commit's date; the written date was invented, not observed), when the block's premise was verified against the register before being
 reported on. **Status: RULED same day; both documents corrected.**
 
 ### What happened
@@ -1924,7 +1935,7 @@ regardless of how quickly the artifact follows.
 
 **Where the constraint lives:** handoff Addendum A.4, second design constraint (`Composition can
 erase the distinction before an agent sees it`), restated as E30's boundary. **Observed closed:**
-2026-08-24, building the waiting axis. **Status: CLOSED FOR THE WAITING AXIS'S CASES, OPEN AT THE
+2026-08-23 (the commit's date; the written date was invented, not observed), building the waiting axis. **Status: CLOSED FOR THE WAITING AXIS'S CASES, OPEN AT THE
 RESULT-TOKEN LAYER. See the split below.**
 
 ### First, a label corrected, because this entry exists partly to stop its spread

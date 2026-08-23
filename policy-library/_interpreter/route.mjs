@@ -45,7 +45,7 @@ import { interpret, laneStampOf, RECORD_VERSION } from './interpret.mjs';
 //
 // ONE AGENT, AGAINST JUDGMENT CLAUSES ONLY. Its input is what agentBriefs() returns: the clause
 // text, the register's own statement of the clause, and the facts. Its output is an ASSESSMENT,
-// and THE ASSESSMENT IS NOT A RESULT: ruled 2026-08-24, argued from the category's own definition
+// and THE ASSESSMENT IS NOT A RESULT: ruled 2026-08-23 (the commit's date; the written date was invented, not observed), argued from the category's own definition
 // (`JUDGMENT: taking the judgment as an INPUT. Never inferred, never defaulted`; an agent output
 // adopted silently is an inferred judgment), from section 6's own words (`an assessment recorded
 // as an assessment`), from the gathering rule with `assessor` substituted (the moment an assessor
@@ -68,7 +68,7 @@ import { interpret, laneStampOf, RECORD_VERSION } from './interpret.mjs';
 
 // ─── ADOPTION, the act that completes a JUDGMENT clause ─────────────────────────────────────────
 //
-// RULED 2026-08-24: adopting an assessment is a DISTINCT ACT from supplying a judgment directly,
+// RULED 2026-08-23 (the commit's date; the written date was invented, not observed): adopting an assessment is a DISTINCT ACT from supplying a judgment directly,
 // with a distinct record. Review falls as agreement is measured, and agreement between agent and
 // person is measurable only if the record distinguishes a person who RATIFIED from a person who
 // ASSESSED COLD; record adoption as a plain judgment and that measurement is impossible. The

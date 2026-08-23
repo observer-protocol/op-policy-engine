@@ -3,7 +3,7 @@
 Added to the schema 2026-08-23, on the reg 75 ruling. **Nothing has been recategorised.** The survey
 below is the reason.
 
-> **TWO CLAIMS, AND THEY ARE DIFFERENT. Ruled 2026-08-24, after this document fed a wrong premise
+> **TWO CLAIMS, AND THEY ARE DIFFERENT. Ruled 2026-08-23 (the commit's date; the written date was invented, not observed), after this document fed a wrong premise
 > into a coordinator ruling** that said five FECA clauses "carry EVIDENTIAL and route to engine".
 > They do not: THE REGISTER IS THE OPERATIVE CLAIM, and it carries JUDGMENT for three of the five,
 > MECHANICAL and CONDITIONAL for the other two, which route to person, engine and engine. This

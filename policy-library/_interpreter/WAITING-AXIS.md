@@ -1,6 +1,6 @@
 # The waiting axis
 
-**BUILT 2026-08-24, at record format v4.** This document was the specification; it is now the
+**BUILT 2026-08-23 (the commit's date; the written date was invented, not observed), at record format v4.** This document was the specification; it is now the
 specification as corrected by building it, and the corrections are listed at the end because a
 spec that silently absorbs its own falsifications teaches nothing. The authoritative statement of
 what `waiting: "fact"` does and does not establish is on the record's own documentation, the
@@ -11,7 +11,7 @@ format header of `_interpreter/interpret.mjs`; this file explains the design.
 A field `waiting`, on every record, beside `lane`, at the next record-format version (v4 when
 taken, with the one authorised re-freeze that implies; three measurements put that cost at about
 two seconds, one needle, a dozen files). It is a SECOND AXIS, not a value of an existing field,
-ruled in the block of 2026-08-24: as a lane value it conflates who-owns with can-it-be-decided (a
+ruled in the block of 2026-08-23 (the commit's date; the written date was invented, not observed): as a lane value it conflates who-owns with can-it-be-decided (a
 clause routed to person and waiting on that person needs both facts in one field), and as a result
 value it collides with the absence tokens that already exist at determination granularity
 (`not_assessed`, `no_end_event`, `missing_operand`, `no_candidate`), each of which every existing
@@ -83,7 +83,7 @@ readings`. Nothing gatherable resolves it, and an evidence tier dispatched again
 dispatched against a question no document or system holds the answer to.
 
 **The first scoped document where this bites is the Molina provider-manual conversion**, whose
-section 4.3 enumerates ambiguities as a deliverable (as scoped in the 2026-08-24 coordinator
+section 4.3 enumerates ambiguities as a deliverable (as scoped in the 2026-08-23 (the commit's date; the written date was invented, not observed) coordinator
 block; the scoping is not verifiable from this repository and is recorded with that provenance).
 The session converting it should expect every A-register entry it produces to surface here: on any
 run left unresolved, the gated clauses will say `fact`, and the conversion report should say that
