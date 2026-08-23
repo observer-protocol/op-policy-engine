@@ -216,7 +216,9 @@
    "ungrounded": "computed",
    "no_result": "none",
    "awaiting": "judgment",
-   "assessment": "judgment"
+   "assessment": "judgment",
+   "adoption": "none",
+   "rejection": "none"
   }
  },
  "lanes": {
