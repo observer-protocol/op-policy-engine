@@ -1,7 +1,7 @@
 {
  "$note": "Frozen output of the three hand-written evaluators. This file records WHAT was frozen and OVER WHICH POPULATION. It is not the oracle; the .out.jsonl and .digests.txt files are.",
- "captured_at_commit": "0c952d2cfdfb64fa6c07d79a55d43b6bd1192075",
- "captured_on_branch": "phase-2/adoption",
+ "captured_at_commit": "e5d257bf6b1ce6dd90f88a9f257dcf113ae19698",
+ "captured_on_branch": "agent/rationale",
  "freeze_discipline": {
   "scope": "policy-library, ignored files included",
   "status_command": "git status --porcelain=v1 -uall --ignored=matching -- policy-library",
@@ -137,19 +137,19 @@
   },
   "banxico.fixtures.out.jsonl": {
    "bytes": 10128,
-   "sha256": "94bfd3aac8a3543aeba6d348ed85d15da8bea85a63c76b4488e084966df670d6"
+   "sha256": "4efed16be6f6022382980498583ac97c8bdeb8ae98a666c5ba55f673f5bcd859"
   },
   "banxico.corpus.out.jsonl": {
    "bytes": 58507,
-   "sha256": "b19a37b49c59ebed1e0c119060d690af8e2d9a8af3da3de771f49aa4929211ba"
+   "sha256": "7e6d3208235861af3177ee88fec8e1b6cd52eecea094faa964e24c5bf58f4068"
   },
   "banxico.sample.out.jsonl": {
    "bytes": 856560,
-   "sha256": "0e684f8e828fc04c39829c2289a93063acfea340c930836e7a8647b26743b381"
+   "sha256": "780f03eae70db4b6b21a2d428f0ae8efb20e941f30c6352eadbc2a60247bca5c"
   },
   "banxico.sample.digests.txt": {
    "bytes": 640000,
-   "sha256": "2a48db621fe64f08e14d3cdb4ce2744c8c779004e94e6ee26d52a3395148cd9d"
+   "sha256": "849de4764bb2c9c10a739e40e2fcba4272061f4a51e5c00e951b5a2ce5f975cf"
   },
   "psr.fixtures.inputs.json": {
    "bytes": 5077,
@@ -157,19 +157,19 @@
   },
   "psr.fixtures.out.jsonl": {
    "bytes": 10362,
-   "sha256": "61d09987a0bc10d56533ac0fdd6ae4870d4a1e793d79f4db03d3966a76283547"
+   "sha256": "029c86c52f6ca5dcbf2a448ec22ed06185fe5789dfbaaaec64aa5ca8afcd4f46"
   },
   "psr.corpus.out.jsonl": {
    "bytes": 86021,
-   "sha256": "877c0537b9f77124cced932f7a0c929d85b3b9b890a6370993f6aa0d8a11ed5e"
+   "sha256": "d8719f308b8988516ce36d344a48cfd505c1e7341d14a7b5663493e44932ed6a"
   },
   "psr.sample.out.jsonl": {
    "bytes": 860945,
-   "sha256": "3082d2d79e298f6decbbe77829f39bf73ea65e0d5f54cbf12e9ab03398f0ce55"
+   "sha256": "8b249216b07b0a58332ce6ae0e42bd3939a7fc34af4b0c1d24c7e06629ff0194"
   },
   "psr.sample.digests.txt": {
    "bytes": 640000,
-   "sha256": "c1d100eaec82a781b8acc0868c222764124759a7504e2ea1beff68e888a299d2"
+   "sha256": "c7a76023d3ac5720c80066e7d6ee1d23de4fea7f18439840276cb9dbf02f18a2"
   },
   "feca.fixtures.inputs.json": {
    "bytes": 7906,
@@ -177,15 +177,15 @@
   },
   "feca.fixtures.out.jsonl": {
    "bytes": 39070,
-   "sha256": "d5bcc2e0f83f75f27ee0547dda356462ef8593623fc69c9a8881300fbdaafb37"
+   "sha256": "a245172576251e6b007370cf161cc85e05dfd5b0864f35cf66ffff2aa4c07379"
   },
   "feca.sample.out.jsonl": {
    "bytes": 2414946,
-   "sha256": "876af954148cb2ea76463dbafd21c6517bbb717da6a4bcb970b07be3c0bec058"
+   "sha256": "9f241ee183a712db68d69966a201cdbe6933d4083111b6f41a0b6cbf8d5f313c"
   },
   "feca.sample.digests.txt": {
    "bytes": 640000,
-   "sha256": "417ecb69d7f0a2fb49010450bafb902b332e1c6399cd49b0858ab8c1874d3d74"
+   "sha256": "493d20cb095e47c6d814c712b42b83226a9d49c410e8b7c23864e92eb0956a9f"
   }
  }
 }
