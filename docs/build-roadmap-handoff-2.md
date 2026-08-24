@@ -298,6 +298,19 @@ text. If three agents agree a standard was satisfied, that is an assessment, not
 interpretation with a basis anyone can check. It must be recorded as an assessment, and the
 ambiguity it touches stays registered as unresolved.
 
+**A SECOND PANEL QUESTION, PARKED 2026-08-23, written down before it is a build.** A panel
+proposing answers to INSTITUTION questions, ambiguities, undefined terms, event-record
+mappings, is not this section's panel, which weighs what a clause left open. Answering an
+ambiguity is the institution's act: it chooses between readings the text permits, and a
+panel doing it would be agents making institutional decisions, which A.1 rejects. If such a
+panel is ever built, the record's legitimacy condition is already known from the adoption
+path: THE PROPOSAL IS CARRIED, NOT TAKEN. The record must say that an institution's
+decision was PROPOSED and by what, distinguishably from one the institution made, an
+unadopted proposal must never be consumable as a resolution, and a resolution the
+institution adopted from a proposal must carry that provenance the way an adopted
+assessment carries `_on_agent_assessment`. Not built, not scheduled; a question with its
+answer's shape recorded so nobody re-derives it under deadline.
+
 ---
 
 ## 10. Cutting across all phases

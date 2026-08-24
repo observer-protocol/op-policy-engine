@@ -4,6 +4,21 @@ One entry per observation about the primitive set, made while encoding a domain.
 that a shape that looks wrong in one domain is not fixed there and then, before there is evidence
 about whether it is wrong generally.
 
+**THIS LOG IS CLOSED AT E35. New design reasoning is written to op-at-specs, which is private;
+the thirty-five entries here stay where they are.** Ruled 2026-08-23, and the reason is the rule,
+not the instruction: this log accumulates OPEN weaknesses beside solved ones, and on a public
+repository that publishes the open set continuously, to anyone, as it grows. A finding worth
+publishing is published deliberately, as writing somebody chose to release, not by the default of
+where the log file happens to live.
+
+**FORWARD REFERENCES, so a reader here never hits a reference that looks resolvable and is not**
+(the estate's own defect class): entries in this log are `E1` through `E35`, a CLOSED SET, and
+every bare `E<n>` in this repository resolves here, forever. New entries in op-at-specs carry the
+`S` series (`S1`, `S2`, ...), and any artifact in this repository that must cite one writes it as
+`op-at-specs S<n>`, naming the repository, so resolvability is decidable from the token's shape
+rather than from a reader's luck. Measured at the closing: 407 `E<n>` references across 35
+artifacts of this repository's 234 tracked files, all within E1 to E35, none dangling.
+
 **A date in an artifact is read from the environment or from a source, never composed.** Added
 2026-08-23, after twenty dates in this estate's artifacts turned out to be a model inferring day
 boundaries from block sequence: entry-observation dates and comment dates said 2026-08-24 and
