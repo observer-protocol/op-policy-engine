@@ -1,12 +1,20 @@
 // What do the committed worked cases reach, against what the registers can produce?
 import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS } from './space.mjs';
 import { explore } from './explore-lib.mjs';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 const LIB = new URL('..', import.meta.url).pathname;
 
 // Run the REAL cases.mjs against a spy, so the fixtures are the committed ones.
+// THE SPY AND CASE FILES ARE PER-RUN SCRATCH, in the same isolated directory populations.mjs
+// uses: pid plus UUID under .phase0-scratch/ at the repository root, gitignored, outside the
+// freeze scope. They were written to process.cwd() until 2026-08-23, which put six of them at
+// policy-library's root when this ran from there, and a broad git add swept all six onto public
+// main; the /tmp fix had covered populations.mjs and never this second writer.
+import { randomUUID } from 'node:crypto';
+const __SCRATCH = `${new URL('../../', import.meta.url).pathname}.phase0-scratch/${process.pid}-${randomUUID()}`;
+mkdirSync(__SCRATCH, { recursive: true });
 async function fixtureResults(dir, tag) {
-  const spy = `${process.cwd()}/spy-${tag}.mjs`;
+  const spy = `${__SCRATCH}/spy-${tag}.mjs`;
   // RE-EXPORT EVERYTHING THE REAL MODULE EXPORTS, not just `evaluate`. FECA's cases.mjs also imports
   // `resultOf`, and a spy that exports one name turns a missing re-export into a SyntaxError that
   // reads as the domain being broken rather than as the harness being narrow.
@@ -17,7 +25,7 @@ async function fixtureResults(dir, tag) {
     export const evaluate = (f, r) => { const o = real(f, r); globalThis.__hits.push(o); return o; };
   `);
   const cs = readFileSync(`${LIB}/${dir}/cases.mjs`, 'utf8').replace(/from '\.\/evaluate\.mjs'/, `from '${spy}'`);
-  const tc = `${process.cwd()}/cases-${tag}.mjs`;
+  const tc = `${__SCRATCH}/cases-${tag}.mjs`;
   writeFileSync(tc, cs);
   globalThis.__hits = [];
   const log = console.log; console.log = () => {};
