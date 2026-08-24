@@ -275,7 +275,28 @@ for (const d of DOMAINS) {
       lanes: LANES,
       lookup,
     },
-    ungrounded_terms: ev.ungrounded_terms ?? null,
+    ungrounded_terms: ev.ungrounded_terms === undefined || ev.ungrounded_terms === null ? null : {
+      ...ev.ungrounded_terms,
+      // THE MEANING SHAPES, DERIVED FROM THE EVALUATION TREES, NEVER HAND-WRITTEN (E34's ruling):
+      // for each term, the meaning keys its clauses consult. A supplied meaning missing one of
+      // these crashed both implementations mid-run on input-reachable data; now it refuses,
+      // against this derived declaration, which cannot drift from the evaluations it is read from.
+      shapes: (() => {
+        const shapes = {};
+        const collectMeaningKeys = (n, acc) => {
+          if (n === null || typeof n !== 'object') return;
+          if (Array.isArray(n)) { for (const x of n) collectMeaningKeys(x, acc); return; }
+          if (n.op === 'meaning') acc.add(n.key);
+          for (const [k, v] of Object.entries(n)) if (k !== 'op') collectMeaningKeys(v, acc);
+        };
+        for (const c of clauses) {
+          if (c.evaluate?.op !== 'ungrounded') continue;
+          const acc = shapes[c.evaluate.term] ??= new Set();
+          collectMeaningKeys(c.evaluate.compute, acc);
+        }
+        return Object.fromEntries(Object.entries(shapes).map(([t, ks]) => [t, [...ks].sort()]));
+      })(),
+    },
     bindings: ev.bindings ?? {},
     clauses,
   };

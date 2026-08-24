@@ -2059,8 +2059,12 @@ twice over.
 ## E34. The undefined-valued supplied meaning, verified as two findings, attribution NOT_RECOVERABLE
 
 **Domain:** FECA (the ungrounded machinery). **Observed:** 2026-08-23, verifying a relay recorded in
-another session and not previously passed on. **Status: VERIFIED AND RECORDED, NOT FIXED. The fix
-is a ruling about meaning shape, not a patch.**
+another session and not previously passed on. **Status: RULED AND CLOSED 2026-08-23, same day. Both
+constructions refuse, and the meaning shape is DECLARED BY DERIVATION: build-register derives each
+term's consulted keys from the evaluation trees into `ungrounded_terms.shapes`, both
+implementations validate a supplied meaning against it before anything consults it, and an entry
+valued `undefined` refuses rather than silently reading as never-supplied. E23's fourth artifact
+answered the estate's way: derive the declaration, never hand-write it.**
 
 The relay carried no detail, so both constructions were established against this repository's own
 artifacts:
@@ -2086,13 +2090,44 @@ which is E23's gap on a fourth artifact.
 
 ---
 
+## E35. A defect predicted in the code before it occurred, and what made the prediction possible
+
+**Where:** `_interpreter/route.mjs`, the unproduced-person predicate. **Predicted:** at the
+predicate's own landing, in its header. **Occurred and closed:** 2026-08-23.
+**Status: CLOSED, recorded for the mechanism.**
+
+When the router's person lane landed, its unproduced predicate (`result === 'not_assessed'`) was
+exact for every JUDGMENT clause then in the registers, all bare `held_judgment` reads, and the file
+said so AND said where it would stop being exact: `a future JUDGMENT clause whose evaluation is not
+a bare held_judgment needs its own unproduced predicate ... the assumption is stated where the next
+author will look.`
+
+The case arrived: `feca/2-0805/7/b/chain` is JUDGMENT with an `ungrounded` evaluation. With no
+meaning supplied it evaluates `undetermined`, never `not_assessed`, and the old predicate read that
+as a person's determination: agent-routed, the record said `determined: "person"` for a
+determination nobody made. Measured before fixing. Closed by keying the person and agent arms on
+the evaluation shape: an ungrounded clause's evaluated record passes through, because its
+determination rests on the institution's meaning and no lane assesses or adopts it, and an
+assessment or adoption offered for one refuses naming the owner.
+
+**What made the prediction possible, which is the case worth reproducing: the predicate's
+exactness conditions were measured at write time and WRITTEN AT THE SITE.** The author counted the
+population the predicate was exact over (every JUDGMENT clause, bare held_judgment, measured) and
+named the population that would break it, in the file, where the next change lands. The defect
+still shipped when the populations crossed, but it shipped PRE-DESCRIBED: verification was reading
+a sentence against a register, not discovery. The discipline is the estate's `limits live with the
+control`, and this entry is its first instance where the limit's owner met the limit and the fix
+took minutes because the sentence was waiting for it.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E34 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now thirty-four. Two of the additions change what
+> **E18 to E35 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty-five. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was

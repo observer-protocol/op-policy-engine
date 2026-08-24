@@ -104,7 +104,45 @@ import { interpret, laneStampOf, RECORD_VERSION } from './interpret.mjs';
 // assessment of other facts is deciding on evidence nobody is looking at; a REJECTION tolerates
 // the difference, because the person's own judgment IS a changed fact and their determination
 // overrides the assessment anyway.
-const ASSESSMENT_KEYS = ['value', 'by', 'at', 'factsDigest'];
+// ─── THE RATIONALE, RULED BY BOYD 2026-08-23: the assessment record carries it ──────────────────
+//
+// The agent lane was opened on the property that a competent reader can check the assessment
+// afterwards, and a record with no slot for the rationale cannot deliver that. FORM, ruled:
+// STRUCTURED AGAINST THE CLAUSE'S OWN TEST, not free text, because free text can only be read and
+// structure can be checked. The structure:
+//
+//   rationale: {
+//     observations: [ { of: <a fact path THE BRIEF CARRIED>, saw: <the value at that path>,
+//                       noted: <what the agent took from it> } ... ],
+//     application:  <how the observations meet or fail the clause's standard>
+//   }
+//
+// The checkable half is mechanical and CHECKED HERE: every observation must cite a path present in
+// the briefed facts, and `saw` must equal the value actually at that path, so an agent citing
+// facts it was never shown, or misquoting ones it was, refuses at the record rather than
+// surviving to a reviewer. The application is prose and is the judgment's irreducible part.
+//
+// SIGNED BY DIGEST, ruled with both sides argued: the rationale is the thing a challenger would
+// dispute, which argues for signing it; it is model-authored prose, which the estate's
+// refusal-signing precedent keeps out of signed bytes (a sentence inside a signature is a claim
+// being attested). Both are honoured: the carried assessment holds rationaleDigest (sha256, this
+// process's serialisation, E11), the full rationale rides BESIDE the record, outside any signed
+// payload, and a swapped rationale breaks the digest without a signature ever attesting prose.
+const ASSESSMENT_KEYS = ['value', 'by', 'at', 'factsDigest', 'rationale'];
+
+const getPath = (root, path) => { let c = root; for (const k of String(path).split('.')) { if (c === null || c === undefined) return undefined; c = c[k]; } return c; };
+
+function validateRationale(clauseId, r, facts) {
+  if (r === null || typeof r !== 'object' || Array.isArray(r)) throw new Error(`route: assessment for ${clauseId} refused: the rationale is required and must be structured {observations, application}; it is never defaulted (E30), because an assessment nobody can check is a second opinion with provenance, which A.1 rejects`);
+  if (!Array.isArray(r.observations) || r.observations.length === 0) throw new Error(`route: assessment for ${clauseId} refused: the rationale carries no observations; the checkable half of a rationale is what anchors it to the briefed facts`);
+  for (const [i, o] of r.observations.entries()) {
+    if (typeof o?.of !== 'string' || typeof o?.noted !== 'string' || o.noted === '') throw new Error(`route: assessment for ${clauseId} refused: observation ${i} must carry of (a briefed fact path) and noted (what was taken from it)`);
+    const actual = getPath(facts, o.of);
+    if (actual === undefined) throw new Error(`route: assessment for ${clauseId} refused: observation ${i} cites ${JSON.stringify(o.of)}, which the briefed facts do not carry. An assessment resting on facts the agent was never shown refuses at the record.`);
+    if (JSON.stringify(o.saw) !== JSON.stringify(actual)) throw new Error(`route: assessment for ${clauseId} refused: observation ${i} says it saw ${JSON.stringify(o.saw)} at ${o.of}, and the briefed facts hold ${JSON.stringify(actual)}. A misquoted fact refuses at the record.`);
+  }
+  if (typeof r.application !== 'string' || r.application === '') throw new Error(`route: assessment for ${clauseId} refused: the rationale carries no application; the observations alone do not say how they meet or fail the standard`);
+}
 const ADOPTION_KEYS = ['of', 'by', 'at'];
 const REJECTION_KEYS = ['rejects', 'by', 'at'];
 
@@ -124,16 +162,17 @@ const REFUSE_KEYS = [
   [/^meanings?$|^ungrounded/, 'an agent must not supply a meaning: a meaning is the institution\'s, supplied in `resolutions.ungrounded_terms`'],
 ];
 
-function validateAssessment(clauseId, a) {
+function validateAssessment(clauseId, a, facts) {
   for (const [re, why] of REFUSE_KEYS) {
     for (const k of Object.keys(a)) if (re.test(k)) throw new Error(`route: assessment for ${clauseId} refused: ${why} (offending key ${JSON.stringify(k)})`);
   }
   for (const k of Object.keys(a)) {
     if (!ASSESSMENT_KEYS.includes(k)) throw new Error(`route: assessment for ${clauseId} refused: unknown key ${JSON.stringify(k)}; an assessment carries exactly value, by, at`);
   }
-  for (const k of ASSESSMENT_KEYS) {
+  for (const k of ['value', 'by', 'at', 'factsDigest']) {
     if (typeof a[k] !== 'string' || a[k] === '') throw new Error(`route: assessment for ${clauseId} refused: ${k} is required and absent. Provenance is part of the assessment, and absent is not a default (E30).`);
   }
+  validateRationale(clauseId, a.rationale, facts);
 }
 
 /** What to dispatch the agent against: the register's own declaration, never a free-form
@@ -189,6 +228,9 @@ export function route(register, facts, resolutions = {}, opts = {}) {
         out[c.id] = rec;
         break;
       case 'person':
+        // An ungrounded clause's determination rests on the institution's meaning, not the person:
+        // the evaluated record passes through (the predicate fix of 2026-08-23; see the agent arm).
+        if (c.evaluate?.op === 'ungrounded') { out[c.id] = rec; break; }
         // The person's determination arrived as a fact, or it did not exist to arrive.
         out[c.id] = rec.result === 'not_assessed'
           ? { ...stamp, waiting: 'judgment', awaiting: 'person' }
@@ -200,9 +242,22 @@ export function route(register, facts, resolutions = {}, opts = {}) {
         }
         const a = assessments[c.id];
         const act = adoptions[c.id];
+        // ─── the ungrounded predicate, closed 2026-08-23. PREDICTED BY THIS FILE'S OWN HEADER
+        //     before it occurred: a JUDGMENT clause whose evaluation is not a bare held_judgment
+        //     needed its own unproduced predicate. feca/2-0805/7/b/chain is `ungrounded`: with no
+        //     meaning it evaluates `undetermined`, never `not_assessed`, and the old test read
+        //     that as a person's determination. An ungrounded clause's determination rests on the
+        //     institution's meaning, not on any lane: the evaluated record passes through, and an
+        //     assessment or adoption offered for it refuses naming the owner.
+        if (c.evaluate?.op === 'ungrounded') {
+          if (a !== undefined || act !== undefined) throw new Error(`route: ${c.id} rests on an ungrounded term; its determination is the evaluation over the institution's supplied meaning, and no lane assesses or adopts it. Owner: resolutions.ungrounded_terms.`);
+          out[c.id] = rec;
+          break;
+        }
         const carried = a === undefined ? undefined
-          : (validateAssessment(c.id, a),
-             { value: a.value, by: a.by, at: a.at, register: `${register.domain}@${register.register_version}`, factsDigest: a.factsDigest });
+          : (validateAssessment(c.id, a, facts),
+             { value: a.value, by: a.by, at: a.at, register: `${register.domain}@${register.register_version}`, factsDigest: a.factsDigest,
+               rationaleDigest: createHash('sha256').update(JSON.stringify(a.rationale)).digest('hex').slice(0, 16) });
         if (rec.result !== 'not_assessed') {
           // The person's judgment arrived as a fact: the determination is theirs.
           if (act !== undefined && act.of !== undefined) {
@@ -239,6 +294,7 @@ export function route(register, facts, resolutions = {}, opts = {}) {
             determined: 'person',
             assessment: carried,
             adoption: { of: dg, by: act.by, at: act.at },
+            rationale: a.rationale,   // beside the record, outside any signed payload; the digest above binds it
           };
           break;
         }
@@ -246,7 +302,7 @@ export function route(register, facts, resolutions = {}, opts = {}) {
           out[c.id] = { ...stamp, waiting: 'judgment', awaiting: 'person' };
           break;
         }
-        out[c.id] = { ...stamp, waiting: 'judgment', awaiting: 'person', assessment: carried };
+        out[c.id] = { ...stamp, waiting: 'judgment', awaiting: 'person', assessment: carried, rationale: a.rationale };
         break;
       }
       case 'panel':

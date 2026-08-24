@@ -30,10 +30,10 @@ const cases = [];
   const f = 'banxico.fixtures.out.jsonl';
   backup(f);
   const b = Buffer.from(readFileSync(OR + f));
-  // RECORD FORMAT v6: records open v, lane, lane_from, waiting, and this needle names the frozen bytes.
-  const needle = Buffer.from('"34-2010/3.6/p4/signatory":{"v":6,"lane":"engine","lane_from":"lookup","waiting":"none","result":"member"}');
+  // RECORD FORMAT v7: records open v, lane, lane_from, waiting, and this needle names the frozen bytes.
+  const needle = Buffer.from('"34-2010/3.6/p4/signatory":{"v":7,"lane":"engine","lane_from":"lookup","waiting":"none","result":"member"}');
   const i = b.indexOf(needle);
-  const off = i + '"34-2010/3.6/p4/signatory":{"v":6,"lane":"engine","lane_from":"lookup","waiting":"none","result":"memb'.length;
+  const off = i + '"34-2010/3.6/p4/signatory":{"v":7,"lane":"engine","lane_from":"lookup","waiting":"none","result":"memb'.length;
   const was = String.fromCharCode(b[off]);
   b[off] = 'f'.charCodeAt(0);
   writeFileSync(OR + f, b);
