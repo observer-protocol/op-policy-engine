@@ -119,6 +119,11 @@ check('R16', 'a presence primitive reading a clause result',
 check('R17', 'applicability_gate under guard_on_unresolved (the gate decided before its precondition)',
   (r) => { const c = r.clauses.find((x) => x.id === 'feca/2-0805/2/b/lesser-diagnosis'); c.evaluate = { op: 'emit', result: { op: 'guard_on_unresolved', usable: { op: 'const', value: true }, compute: c.evaluate.result } }; }, FE);
 
+check('R7', 'a closed argument fed by an expression that can leave the vocabulary',
+  (r) => { clause(r, '34-2010/3.6/p4/channel').evaluate.result.args[1] = { op: 'remap_result_domain', value: { op: 'primitive', name: 'held_judgment', args: [{ op: 'fact', path: 'dictamen.language_is_plain' }] }, mapping: { affirmed: { op: 'const', value: true }, denied: { op: 'const', value: 'denied_hard' }, not_assessed: { op: 'const', value: 'undetermined' }, $unmapped: { op: 'const', value: 'undetermined' } } }; });
+check('R18', 'an operand-requiring list primitive over a bare fact',
+  (r) => { clause(r, '34-2010/3.6/p6/no-moratory-interest').evaluate.result.args[0] = { op: 'fact', path: 'account.charges_posted' }; });
+
 // ── R12 does not depend on the register, so it is perturbed at the schema instead ───────────────
 console.log('\n  R12 compares the schema against the interpreter and cannot be broken from a register.');
 console.log('  Perturbed at the schema instead, in a copy under the scratch directory:');
@@ -136,6 +141,17 @@ console.log('  Perturbed at the schema instead, in a copy under the scratch dire
   if (hit.length === 0) { bad++; console.log('  DID NOT FIRE  R12'); }
   else { console.log(`  FIRES  R12  a schema whose primitive vocabulary has drifted from the interpreter`);
          for (const h of hit) console.log(`         ${h.where}: ${h.detail}`); }
+}
+
+// ── R7-extension and R18 legal counter-cases ───────────────────────────────────────────────────
+{
+  const res = validate(BX(), 'ranges-legal');
+  const wrong = res.failures.filter((f) => f.rule === 'R7' || f.rule === 'R18');
+  if (wrong.length) { bad++; console.log('  FIRED WRONGLY  R7-range/R18 on the intact register'); }
+  else {
+    const notes = res.notes.filter((n) => String(n.detail).includes('structurally unreachable here')).length;
+    console.log(`  SILENT  R7-range/R18 on the intact register, which instead carries ${notes} reachable-subset NOTES naming what each conditional site can emit`);
+  }
 }
 
 // ── the value-level rules' legal counter-cases ─────────────────────────────────────────────────

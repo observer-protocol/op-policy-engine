@@ -1996,13 +1996,103 @@ constraint said was lost.
 
 ---
 
+## E33. Twenty-one conditional sites, thirty-seven declared tokens no site can emit, ruled correct at the primitive and under-declared at the register
+
+**Domains:** all three. **Observed:** 2026-08-23, verifying a relayed finding before ruling on it.
+**Status: RULED. The primitive behaviour is correct; the declaration layer was silent; R7 now
+derives and reports what each site can actually emit, and R18 closes the register-reachable throw.**
+
+### The finding, verified by measurement
+
+Presence, enumeration, prohibited-class, floor and distinctness primitives carry NO absence token
+in their declared domains, measured against the schema: of the fourteen primitives, five carry one
+(`member_of_register`, `elapsed_within`, `ordered_before`, `amounts_equal`,
+`conditional_requirement`), `held_judgment` passes `not_assessed` through an open domain, and the
+other eight decide every input. So a `conditional_requirement` whose requirement is a boolean
+projection of the deciding families can reach `satisfied`, `breached` and `not_applicable` only.
+**Measured over the population of all 21 conditional sites in the three registers (105
+declared-token instances): 37 declared-token instances are structurally unreachable.** 18 sites
+cannot reach `outstanding` and `undetermined`; `psr-2017/74/2/information-failure`, whose
+requirement is the constant `true`, cannot reach `breached` either; one site
+(`expediente-copy`) reaches all five.
+
+**The coverage figures are untouched by this, in both directions, and that is worth one sentence:**
+the sampler-derived `reachable` denominators are lower bounds that never contained these tokens,
+so nothing coverage called unreached is explained by this, and nothing in coverage's numerators or
+denominators ever counted them. The structural unreachability was invisible to every instrument
+that works by running.
+
+### The ruling, both sides argued
+
+**For gap:** the H1 fix read an unsupplied list as a list of unsupplied members, and this is the
+same shape one level up; and a register carrying a five-token declaration over a three-token site
+asserts something the primitive set cannot deliver.
+
+**For correct:** a presence check over a supplied structure genuinely answers; there is nothing
+absent to report, and the absence SIGNAL already lives on the waiting axis (the argument probes),
+which is where the 2026-08-21 standing ruling on the Banxico evidence pair and the H1 boundary
+both deliberately put it. Adding absence tokens to the deciding families would make every presence
+check three-valued for a state the waiting axis already carries, and would re-open E9's class at
+every call site that today maps two values.
+
+**RULED: correct behaviour at the primitive; the defect is at the DECLARATION layer, and the fix
+is at the register.** The deciding families stay two-valued. What was wrong is that nothing said
+which subset of `conditional_requirement`'s five declared results a site can emit, which is E23's
+under-specification surfacing at the one primitive whose operand vocabulary is closed. What R7 did
+not check and now does: a closed-argument's FEEDING EXPRESSION must range within the vocabulary
+(the out-of-vocabulary throw was input-reachable and no rule saw it), and each conditional site's
+reachable result subset is derived and reported as a NOTE, twenty of them across the three
+registers, so a register stops silently asserting five where it delivers three.
+
+### The H1 boundary, resolved the register way (item 3 of the ordering block)
+
+`none_of_class_present` and `distinct_members_at_least` THREW on an unsupplied list, measured
+(TypeError, both). Ruled: **the throw stays, and R18 makes it unreachable from a valid register**:
+their list operand must be structurally non-absent (a list, a coalesce, a constant, or a binding
+resolving to one), so a bare fact read fails validation. The operand requirement is documented at
+the primitive site; a decided `clear` over a list nobody supplied would be E30's defect
+reintroduced, and a refusal-with-absence-token would put the absence signal in the wrong layer
+twice over.
+
+---
+
+## E34. The undefined-valued supplied meaning, verified as two findings, attribution NOT_RECOVERABLE
+
+**Domain:** FECA (the ungrounded machinery). **Observed:** 2026-08-23, verifying a relay recorded in
+another session and not previously passed on. **Status: VERIFIED AND RECORDED, NOT FIXED. The fix
+is a ruling about meaning shape, not a patch.**
+
+The relay carried no detail, so both constructions were established against this repository's own
+artifacts:
+
+**(a) A term supplied with the VALUE `undefined`** (`ungrounded_terms: { term: undefined }`):
+`supplied === undefined` routes to the never-supplied branch, and the record says `this chapter
+neither defines it` although the institution submitted an entry. E30's second granularity on the
+resolutions channel: key-present-with-undefined and key-absent are one state. Reachable from JS
+callers only; JSON cannot carry `undefined`, so a JSON input surface never produces it.
+
+**(b) A supplied meaning whose CONSULTED FIELD is absent** (`ungrounded_terms: { term: {} }`):
+`meaning.accepts` is `undefined`, `member_of_enumeration(v, undefined)` throws TypeError, and BOTH
+implementations crash mid-run, measured. This is an INPUT-REACHABLE crash: resolutions are runtime
+inputs, the validator never sees them, and R18's register-shape remedy does not apply. Nothing
+validates a supplied meaning's shape anywhere.
+
+**Which of the two the other session recorded: NOT_RECOVERABLE from here.** What would establish
+it: that session's own log or transcript. Both findings stand on their own verification
+regardless. Not fixed here because the remedy is a ruling with options that differ in kind: refuse
+the run with a reason, treat a malformed meaning as unsupplied (which is (a)'s conflation applied
+deliberately), or validate meaning shape against a declaration the register does not yet carry,
+which is E23's gap on a fourth artifact.
+
+---
+
 ---
 ---
 
 # What Phase 0 inherits
 
-> **E18 to E32 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
-> section says `seventeen log entries`; there are now thirty-two. Two of the additions change what
+> **E18 to E34 WERE WRITTEN AFTER THIS SECTION, on 2026-08-23, while Phase 0 was carried out. This
+> section says `seventeen log entries`; there are now thirty-four. Two of the additions change what
 > this section claims: E7's fifth shape is no longer unnamed (E18), and E5 is dissolved in the
 > interpreter but is still live in the three `evaluate.mjs` files, which are untouched and remain the
 > oracle. The section is kept as written rather than edited, so the count and the claims it was
