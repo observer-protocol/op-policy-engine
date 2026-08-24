@@ -39,7 +39,13 @@ import { readFileSync } from 'node:fs';
 /**
  * ─── RECORD FORMAT VERSION ──────────────────────────────────────────────────────────────────────
  *
- * Every record opens `v, lane, lane_from, waiting`. VERSION 6 names the current shape, the union:
+ * Every record opens `v, lane, lane_from, waiting`. VERSION 7 names the current shape, the union:
+ * (v7 adds, on the agent shapes only: `assessment.rationaleDigest`, and a `rationale` SIBLING field
+ * carrying the full rationale OUTSIDE any signed payload. Ruled 2026-08-23: the rationale is what a
+ * challenger disputes, which argues for signing it, and it is model-authored prose, which the
+ * estate's refusal-signing precedent keeps OUT of signed bytes; both are honoured by signing its
+ * DIGEST inside the assessment and carrying the text beside the record, so a swap breaks the
+ * digest and no prose is attested.)
  *
  *   { v, lane, lane_from, waiting, result, note?, ...extras }   a determination
  *   { v, lane, lane_from, waiting, result, determined }         a determination on an AGENT-routed
@@ -136,8 +142,8 @@ import { readFileSync } from 'node:fs';
  *      granularities, and the enforcement sites: REUSE-LOG E30. `recordVersion` below is this
  *      granularity's enforcement: it THROWS on an absent version, the same discipline as `resultOf`.
  */
-export const RECORD_VERSION = 6;
-export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3, 4, 5, 6]);
+export const RECORD_VERSION = 7;
+export const KNOWN_RECORD_VERSIONS = new Set([1, 2, 3, 4, 5, 6, 7]);
 
 /** The absent-version ruling, enforced. Unversioned is a state, not version 0: REUSE-LOG E30.
  *  Accepts 1 and 2; a version outside the known set throws, because a reader that passes an
@@ -568,7 +574,22 @@ const EMITTERS = {
     const savedTerm = ctx.ungroundedTerm;
     ctx.ungroundedTerm = n.term;
     try {
-      const supplied = (ctx.resolutions?.ungrounded_terms ?? {})[n.term];
+      const terms = ctx.resolutions?.ungrounded_terms ?? {};
+      // E34, RULED: an entry VALUED undefined is neither supplied nor absent, and treating it as
+      // unsupplied would be the key-present/key-absent conflation made deliberate. It refuses.
+      if (Object.prototype.hasOwnProperty.call(terms, n.term) && terms[n.term] === undefined) {
+        throw new Error(`ungrounded(${n.term}): the meaning is SUPPLIED WITH THE VALUE undefined, which is neither a meaning nor an absence. Supply the meaning or omit the key; E30, E34.`);
+      }
+      const supplied = terms[n.term];
+      // E34, RULED: a supplied meaning is validated against the register's DERIVED shape before
+      // anything consults it. A missing consulted key crashed both implementations mid-run on
+      // input-reachable data; now it refuses, naming the key and where the shape comes from.
+      if (supplied !== undefined) {
+        const shape = ctx.register.ungrounded_terms?.shapes?.[n.term] ?? [];
+        for (const k of shape) {
+          if (supplied[k] === undefined) throw new Error(`ungrounded(${n.term}): the supplied meaning is missing ${JSON.stringify(k)}, which the clause's own evaluation consults. The required keys are derived from the register (ungrounded_terms.shapes), not hand-written; E34.`);
+        }
+      }
       if (supplied === undefined) {
         // THE EVALUATOR NEVER SUPPLIES A MEANING. The sentence is declared once for the domain, not
         // once per clause, because four copies of one sentence is four places for it to drift.

@@ -49,7 +49,7 @@ for (const d of DOMAINS) {
   console.log(`  undefined terms registered       ${undef_}   ${undef_ ? '(undefined-terms.json)' : '(none registered; absence of a register, not evidence of absence of terms)'}`);
   console.log(`  primitives NEW                   ${d.prims.new}   (${d.prims.basis})`);
   console.log(`  worked cases authored            ${cases}   (cases.mjs, counted from the run loop)`);
-  console.log(`  coverage, fixture over register  ${cov.reached} of ${cov.reachable} reachable results (coverage.json, seeded sampler; its population caveat travels with it)`);
+  console.log(`  coverage, fixture over register  ${cov.reached} of ${cov.reachable} reachable results (coverage.json, seeded sampler; its population caveat travels with it, and the denominator is a lower bound BLIND to structurally unreachable declared tokens, E33: 37 such instances across the three registers appear in neither reachable nor missed)`);
   console.log(`  documented ruling markers        ${markers}   (LOWER BOUND, prose-keyed; the instrument limit is stated in this file's header)`);
   console.log(`  clauses without a ruling marker  NOT_RECOVERABLE as a distinct figure: markers attach to files and log entries, not to clauses, and nothing recorded per-clause ruling demand`);
   console.log('');

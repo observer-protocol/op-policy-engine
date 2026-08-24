@@ -55,6 +55,10 @@ for (const [name, dir, fields, res] of [['banxico','banxico-34-2010',BX_FIELDS,B
   console.log(`  distinct results the worked cases reach   ${reached}`);
   console.log(`  NEVER REACHED BY ANY FIXTURE              ${missed.length}`);
 }
-writeFileSync('coverage.json', JSON.stringify(
-  Object.fromEntries(Object.entries(out).map(([k,v]) => [k, {reachable:v.reachable, reached:v.reached, missed:v.missed}])), null, 1));
+// Written beside this script, not into whatever directory the caller stood in: the first caveat
+// run wrote a stray copy at the caller's cwd while the committed artifact stayed caveat-less.
+writeFileSync(new URL('./coverage.json', import.meta.url), JSON.stringify({
+  $caveat: 'REACHABLE IS A SAMPLER-DERIVED LOWER BOUND AND IS BLIND TO STRUCTURAL UNREACHABILITY (E33): 37 declared-token instances across the three registers, tokens conditional_requirement declares that its call sites can never emit, appear in neither these reachable counts nor these missed lists, because no running instrument can see a token no input reaches. Only the structural derivation (validate.mjs, the R7 reachable-subset notes) sees them. A coverage figure quoted without this sentence overstates what was measured.',
+  ...Object.fromEntries(Object.entries(out).map(([k,v]) => [k, {reachable:v.reachable, reached:v.reached, missed:v.missed}]))}, null, 1));
+console.log('\nCAVEAT (E33): reachable is a lower bound blind to structurally unreachable declared tokens; see coverage.json $caveat.');
 console.log('\nwritten: coverage.json');

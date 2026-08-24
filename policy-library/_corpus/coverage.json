@@ -1,4 +1,5 @@
 {
+ "$caveat": "REACHABLE IS A SAMPLER-DERIVED LOWER BOUND AND IS BLIND TO STRUCTURAL UNREACHABILITY (E33): 37 declared-token instances across the three registers, tokens conditional_requirement declares that its call sites can never emit, appear in neither these reachable counts nor these missed lists, because no running instrument can see a token no input reaches. Only the structural derivation (validate.mjs, the R7 reachable-subset notes) sees them. A coverage figure quoted without this sentence overstates what was measured.",
  "banxico": {
   "reachable": 62,
   "reached": 30,

@@ -347,6 +347,17 @@
    "term": {
     "op": "ungrounded_term"
    }
+  },
+  "shapes": {
+   "rationalized medical opinion": [
+    "accepts"
+   ],
+   "independent intervening cause": [
+    "defeaters"
+   ],
+   "chain of causation": [
+    "breaks"
+   ]
   }
  },
  "bindings": {

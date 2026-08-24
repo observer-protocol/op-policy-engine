@@ -37,13 +37,13 @@ const LANE_STAMP = Object.fromEntries(__REG.clauses.map((c) => {
   if (e === undefined) throw new Error(`${c.id}: disposition ${c.disposition} has no lane lookup entry`);
   if (e.no_lane !== undefined) {
     if (c.lane_override) throw new Error(`${c.id}: lane_override on a laneless disposition`);
-    return [c.id, { v: 6, lane: 'none', lane_from: 'lookup' }];
+    return [c.id, { v: 7, lane: 'none', lane_from: 'lookup' }];
   }
   if (c.lane_override) {
     if (c.lane_override === e.lane) throw new Error(`${c.id}: lane_override restates the lookup's lane; R14`);
-    return [c.id, { v: 6, lane: c.lane_override, lane_from: 'override' }];
+    return [c.id, { v: 7, lane: c.lane_override, lane_from: 'override' }];
   }
-  return [c.id, { v: 6, lane: e.lane, lane_from: 'lookup' }];
+  return [c.id, { v: 7, lane: e.lane, lane_from: 'lookup' }];
 }));
 
 // ─── the waiting axis: independent tracking against the register's one-copy vocabulary ──────────
@@ -214,7 +214,18 @@ export function evaluate(facts, resolutions = {}) {
   // it unread and unattributed.
   const ungrounded = (id, applies, compute) => {
     const t = BY_ID[id].rests_on_ungrounded_term;
+    // E34, ruled: an entry valued undefined refuses, and a supplied meaning is validated against
+    // the register's derived shape before anything consults it. Second implementation of the
+    // interpreter's refusals, against the same one-copy declaration.
+    if (Object.prototype.hasOwnProperty.call(terms, t) && terms[t] === undefined) {
+      throw new Error(`ungrounded(${t}): the meaning is SUPPLIED WITH THE VALUE undefined, which is neither a meaning nor an absence. Supply the meaning or omit the key; E30, E34.`);
+    }
     const supplied = terms[t];
+    if (supplied !== undefined) {
+      for (const k of (__REG.ungrounded_terms?.shapes?.[t] ?? [])) {
+        if (supplied[k] === undefined) throw new Error(`ungrounded(${t}): the supplied meaning is missing ${JSON.stringify(k)}, which the clause's own evaluation consults. The required keys are derived from the register (ungrounded_terms.shapes), not hand-written; E34.`);
+      }
+    }
     if (supplied === undefined) {
       __meaning = true;
       put(id, 'undetermined', { undetermined_because: `the operative term \`${t}\` is ungrounded: this chapter neither defines it nor points anywhere that does` });

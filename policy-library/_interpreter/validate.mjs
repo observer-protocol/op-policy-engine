@@ -219,6 +219,8 @@ export function validate(register, label) {
   }
   for (const [k, v] of Object.entries(register.ungrounded_terms ?? {})) {
     if (k.startsWith('$')) continue;
+    if (k === 'shapes') continue;   // derived DATA (term -> consulted keys), not an expression
+
     if (k === 'attribution') { for (const [ak, av] of Object.entries(v)) walk(av, `ungrounded_terms.attribution.${ak}`, { clausePosition: null, inUngrounded: true, inResult: false }); }
     else walk(v, `ungrounded_terms.${k}`, { clausePosition: null, inUngrounded: true, inResult: false });
   }
