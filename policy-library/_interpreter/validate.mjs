@@ -288,6 +288,68 @@ export function validate(register, label) {
     }
   }
 
+  // ── R7 extension: closed-argument expression ranges, and the reachable-results note ─────────
+  // A conditional_requirement site whose requirement is a boolean reaches three of the primitive's
+  // five declared results, and nothing said so: the declared domain asserted something the site
+  // cannot deliver. The range of the feeding expression is derived statically where possible;
+  // an out-of-vocabulary member fails, and the site's reachable subset is reported as a note.
+  {
+    const rangeOf = (n, seen) => {
+      if (n === null || typeof n !== 'object') return null;
+      switch (n.op) {
+        case 'const': return new Set([n.value]);
+        case 'eq': case 'not': case 'truthy': case 'and': case 'or': return new Set([true, false]);
+        case 'remap_result_domain': {
+          const out = new Set();
+          for (const [k, v] of Object.entries(n.mapping)) {
+            if (k.startsWith('$') && k !== '$unmapped') continue;
+            const r = rangeOf(v, seen); if (r === null) return null; for (const x of r) out.add(x);
+          }
+          return out;
+        }
+        case 'cond': { const a = rangeOf(n.then, seen), b = rangeOf(n.else, seen); return a && b ? new Set([...a, ...b]) : null; }
+        case 'coalesce': { const a = rangeOf(n.value, seen), b = rangeOf(n.fallback, seen); return a && b ? new Set([...a, ...b]) : null; }
+        case 'primitive': { const p = PRIMS[n.name]; return p && !p.result_domain_open ? new Set(p.result_domain) : null; }
+        case 'binding': { if (seen.has(n.name)) return null; seen.add(n.name); return rangeOf(register.bindings?.[n.name], seen); }
+        default: return null;
+      }
+    };
+    const walkRanges = (n, where) => {
+      if (n === null || typeof n !== 'object') return;
+      if (Array.isArray(n)) { n.forEach((x, i) => walkRanges(x, `${where}[${i}]`)); return; }
+      if (n.op === 'primitive') {
+        const p = PRIMS[n.name];
+        const ca = p?.closed_argument;
+        if (ca !== undefined) {
+          const r = rangeOf(n.args[ca.index], new Set());
+          if (r !== null) {
+            const out = [...r].filter((v) => !ca.tokens.some((t) => t === v));
+            if (out.length) bad('R7', where, `${n.name}'s closed argument ${ca.index} can carry ${out.map((x) => JSON.stringify(x)).join(', ')}, outside its vocabulary ${JSON.stringify(ca.tokens)}; the throw behind it would be input-reachable`);
+            if (n.name === 'conditional_requirement' && out.length === 0) {
+              const reach = new Set(['not_applicable']);
+              for (const v of r) reach.add(v === true ? 'satisfied' : v === false ? 'breached' : v);
+              const miss = p.result_domain.filter((t) => !reach.has(t));
+              if (miss.length) note.push({ rule: 'R7', where, detail: `this site reaches ${[...reach].sort().join(', ')} of conditional_requirement's five declared results; ${miss.join(', ')} are structurally unreachable here, which is a fact about the site, not a defect` });
+            }
+          }
+        }
+        // R18: the operand-requiring list primitives
+        if (['none_of_class_present', 'distinct_members_at_least'].includes(n.name)) {
+          const a0 = n.args[0];
+          const okShape = (m) => m && (m.op === 'list' || m.op === 'coalesce' || m.op === 'const' || (m.op === 'binding' && okShape(register.bindings?.[m.name])));
+          if (!okShape(a0)) bad('R18', where, `${n.name}'s list operand is a bare ${a0?.op}; these primitives REQUIRE their operand, and an unsupplied list must be made unreachable here rather than thrown on at runtime`);
+        }
+      }
+      for (const [k, v] of Object.entries(n)) {
+        if (k === 'op') continue;
+        if (k === 'mapping') { for (const [mk, mv] of Object.entries(v)) { if (mk.startsWith('$') && mk !== '$unmapped') continue; walkRanges(mv, `${where}.mapping.${mk}`); } continue; }
+        walkRanges(v, `${where}.${k}`);
+      }
+    };
+    for (const c of register.clauses) if (c.evaluate) walkRanges(c.evaluate, c.id);
+    for (const [k, b] of Object.entries(register.bindings ?? {})) walkRanges(b, `binding.${k}`);
+  }
+
   // ── R15 / R16 / R17: three value-level shapes a converted register can carry ────────────────
   // Added 2026-08-23 after three encoding defects in a converted register were value-level and
   // invisible here. Each rule is the STRUCTURAL projection of a value-level defect; the residue
