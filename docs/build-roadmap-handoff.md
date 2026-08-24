@@ -332,11 +332,22 @@ front-loaded conversion engineering is unrecoverable and the multi-year revenue 
 collapses. Licensed, with the encodings and primitives retained, is what makes it work.
 Settle before the first contract.
 
-**The open/closed split**, already ruled: sources and their encodings follow the source, so
-public regulation encodes to a public artifact and client policy stays confidential.
-Tooling, primitives and the harness are closed regardless. Two exceptions: a published
-encoding asserts a reading, and a client may object to their encoding of a public rule being
-public because it reveals which readings they chose.
+**The open/closed split, restated 2026-08-23 with the reason rather than the list, so a
+future artifact classifies without asking.** The test is the question an artifact serves:
+WHAT IS REQUIRED TO CHECK A DETERMINATION SHIPS SOURCE-AVAILABLE, because verification
+requires the thing that evaluates a register, and a verifier a challenger must obtain from
+us is not verification. WHAT PRODUCES A REGISTER OR PRICES A CONVERSION STAYS CLOSED,
+because the conversion economics live there and nothing there is needed to check a record.
+Under that test today: the interpreter, the register schema, the validator and the
+canonicaliser are source-available (read and run, not fork into a competing product;
+licence text undrafted), and the router belongs with them the moment routed records are
+verified by third parties; the harness, the primitives development work and the conversion
+instruments stay closed. Sources and their encodings still follow the source, with the two
+standing exceptions: a published encoding asserts a reading, and a client may object to
+their encoding of a public rule being public because it reveals which readings they chose.
+One audit finding stands beside this ruling and is not resolved by it: as of 2026-08-23
+every closed-side artifact sits on a public main, so the split is presently a ruling about
+licences and supported surfaces, not a fact about repository visibility.
 
 ---
 
