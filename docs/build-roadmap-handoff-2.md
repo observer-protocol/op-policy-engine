@@ -350,6 +350,36 @@ One audit finding stands beside this ruling and is not resolved by it: as of 202
 every closed-side artifact sits on a public main, so the split is presently a ruling about
 licences and supported surfaces, not a fact about repository visibility.
 
+**THE SOURCE'S OWN LICENCE POSITION, added 2026-08-23, because the source rule was written
+for two positions and a conversion met a third.** The rule above says encodings follow the
+source, and it enumerated two source positions: public regulation, and client policy. A
+substrate document arrived publicly posted with no wall and every page footed PROPRIETARY,
+with no reuse basis and no prohibition text, which is neither. The classification axis, so
+future sources classify without asking: **a source is classified by its own stated
+position, read from the document, never inferred from its availability.** Availability is
+not permission; the estate already holds that possession of a thing is not a right to it,
+and an unwalled URL is possession. Three positions:
+
+1. **Affirmative permission** (public domain, statute, open licence): the source rule as
+   written; the encoding follows it.
+2. **An explicit restriction marking**, PROPRIETARY, confidential, or a stated reuse
+   restriction, HOWEVER PUBLICLY POSTED: the source classifies RESTRICTED. Retrieval for
+   conversion inside a client's perimeter is one act; publishing the source, or its
+   encoding, is another, and both default CLOSED. Whether an encoding of a restricted
+   document could lawfully be published anyway, the derivative-work and idea-expression
+   question and the enforceability of a footer, is a LEGAL question, not a discipline
+   question, and this rule stops at that line: it is Boyd's, with counsel, per instance.
+3. **No stated position at all**: not permission either. Classifies with (2) by default,
+   because a rule that reads silence as permission is deciding on an absent input, which
+   is the estate's oldest defect class.
+
+The estate's nearest held instance, classified now for the record: the Visa Core Rules PDF
+in the conversion staging is footed `Visa Public` with a stated reuse restriction on
+duplication, position (2) by the restriction, and it was retrieved AND REDISTRIBUTED on
+this public repository before this position existed. The classification is made here; what
+to do about the copy is Boyd's, and moving or removing it is not smuggled into the block
+that classified it.
+
 ---
 
 ## 11. What is measured and what is not
