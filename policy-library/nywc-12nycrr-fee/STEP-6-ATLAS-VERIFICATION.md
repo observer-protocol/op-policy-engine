@@ -50,12 +50,20 @@ divergence findings in the third-comparison run, not as clauses of the regulatio
 ## The gate, shown refusing
 
 `checkVersionProvenance(vid, meta)` in `project-versions.mjs` runs on every register version
-before anything is projected. A version whose `provenance.agent_claims` carries any claim not
-`verified: true`, or without `verified_against`, `method` and `verified_value`, makes the
-projector throw and write nothing for that version. `show-provenance-refusal.mjs` output,
-verbatim:
+before anything is projected. Every version carries a `provenance` block: `retrieved_by`, the
+session that retrieved its text and when, and `agent_claims`, an empty array when no agent
+supplied anything. A version with no block, or no `retrieved_by`, is refused: absence is a
+positive state, never an omitted key. (Rule added 2026-08-25. The gate's first form returned OK on
+the omitted key, so a version an agent described and nobody recorded would have projected; the
+two real versions now carry their blocks, each with an empty `agent_claims`.) A version whose
+`provenance.agent_claims` carries any claim not `verified: true`, or without `verified_against`,
+`method` and `verified_value`, makes the projector throw and write nothing for that version.
+`show-provenance-refusal.mjs` output, verbatim:
 
 ```
+=== 0. mock entry with NO provenance block (the omitted key)
+mock-absent: REFUSED register version restatement-mock: no provenance block. A version carries provenance.retrieved_by and provenance.agent_claims (an empty array when no agent supplied anything); one that carries neither has said nothing about where its text came from, and a version that says nothing is not an entry.
+
 === 1. mock entry with unverified agent claims
 mock-unverified: REFUSED register version restatement-mock: 13 agent claim(s) not verified. An unverified agent claim is not an entry.
   restatement-mock: agent_claims[0] ("document URL"): verified is undefined, not true

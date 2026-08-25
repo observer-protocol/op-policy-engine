@@ -11,7 +11,12 @@
   "text_source": "Board's proposal text as published at wcb.ny.gov/content/main/regulations/proposed/med-fee-sched-2026-01/text.pdf, retrieved via the Internet Archive capture of 2026-05-21 because the Board's page had been withdrawn by 2026-08-25; digest in source/PROVENANCE.md",
   "effective_date": null,
   "$effective_date_is": "NOT STATED. The proposal carries no effective date; the Board's assessment of public comment (2026-08-21) calls the January 1, 2026 date in the draft schedules a placeholder and anticipates adoption before the end of 2026 with an effective date of July 2027. A determination replayed against this version cannot pass a date-of-service test without a supplied resolution NY-A2.",
-  "superseded_by": "Revised proposal of 2026-08-21 (Notice of Revised Rule Making to be published in the State Register of 2026-09-02), which is NOT encoded: the brief names the 14 January 2026 amendment. Its text is retained in source/ for the record; its differences from the January text are listed in FINDINGS.md."
+  "superseded_by": "Revised proposal of 2026-08-21 (Notice of Revised Rule Making to be published in the State Register of 2026-09-02), which is NOT encoded: the brief names the 14 January 2026 amendment. Its text is retained in source/ for the record; its differences from the January text are listed in FINDINGS.md.",
+  "provenance": {
+   "retrieved_by": "the building session, from this machine, 2026-08-25, via the Internet Archive capture of 2026-05-21 named in text_source; recorded with digests in source/PROVENANCE.md",
+   "agent_claims": [],
+   "$agent_claims_is": "empty: no agent supplied anything about this version; every retrieval was done by the session"
+  }
  },
  "clauses": [
   {
