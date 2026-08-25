@@ -18,6 +18,7 @@ The file contained the line: `The register found 444/600 (74.0%) cite a version 
 
 ```
 check-figures: 113 figure values over 600, 69 occurrence(s) scanned in 31 file(s), live parameters sha256 ceb49c4d590d
+LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository).
   FAIL  /out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
 RESULT: 1 bare or stale figure(s). [exit 1]
 [exit 1]
@@ -29,6 +30,7 @@ RESULT: 1 bare or stale figure(s). [exit 1]
 
 ```
 check-figures: 113 figure values over 600, 68 occurrence(s) scanned in 30 file(s), live parameters sha256 ceb49c4d590d
+LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository).
 RESULT: every figure carries its population. [exit 0]
 [exit 0]
 ```

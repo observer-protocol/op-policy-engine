@@ -93,6 +93,9 @@ for (const path of files) {
   }
 }
 console.log(`check-figures: ${counts.size} figure values over ${n}, ${occurrences} occurrence(s) scanned in ${files.length} file(s), live parameters sha256 ${live}`);
+// What a green does NOT cover, printed every run (recorded 2026-08-25, open, not fixed): the
+// patterns are k/n, "k of n", and the headline percentages to one decimal, inside this directory.
+console.log('LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository).');
 for (const f of failures) console.log(`  FAIL  ${f}`);
 console.log(failures.length ? `RESULT: ${failures.length} bare or stale figure(s). [exit 1]` : 'RESULT: every figure carries its population. [exit 0]');
 process.exit(failures.length ? 1 : 0);
