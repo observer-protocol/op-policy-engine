@@ -63,6 +63,9 @@ for (const vid of ['in-force', 'proposed-2026-01-14']) {
   for (const id of ung) lines.push(`    ${id.padEnd(50)} ${JSON.stringify(ungrounded[id].tokens)}`);
   lines.push(`  clauses never reaching a decided token: ${neverReached.length ? neverReached.join(', ') : 'none'}`);
 }
+const figs = new Set();
+for (const v of Object.values(out.versions)) { figs.add(v.determinations_with_a_record_waiting_on_a_meaning); for (const t of Object.values(v.per_clause)) for (const k of Object.values(t)) figs.add(k); for (const k of ['decided', 'undetermined', 'on_supplied_meaning', 'not_applicable']) figs.add(v.ungrounded_split[k]); figs.add(v.undetermined_decomposition.would_have_applied); figs.add(v.undetermined_decomposition.applicability_never_tested); }
+out.figures = [...figs].sort((a, b) => a - b);
 out.rendered = lines.join('\n');
 writeFileSync(`${HERE}/out/tally.json`, JSON.stringify(out, null, 1) + '\n');
 console.log(out.rendered);

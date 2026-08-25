@@ -68,6 +68,15 @@ ${r3.stdout.trim()}
 [exit ${r3.status}]
 \`\`\`
 
+## Retired figures (item 8 of the CV8 box, 2026-08-25)
+
+The population moved when five fields left the fact schema under the amendment of 2026-08-24: the generator's draw sequence changed and the parameters digest went 2268173b241c -> ceb49c4d590d. The figures rendered over the earlier population are STALE, not merely repository-internal, and a future session must not pick them up as a baseline. Named here so the scanner's RETIRED exemption applies to these lines and to nothing else:
+
+> RETIRED: 57/600 carry no applied bound (population 2268173b241c). Superseded by the figure in DIVERGENCE.md over population ceb49c4d590d.
+> RETIRED: 435/600 cite a version not in force (population 2268173b241c). Superseded likewise.
+
+Anywhere else in this directory those two strings would fail \`check-figures.mjs\` as stale under a live marker or bare without one.
+
 ## Verdict
 
 ${r2.status === 1 && r3.status === 0 && out1.startsWith('threw') && out1b.startsWith('threw') ? '**SHOWN REFUSING, THEN CLEAN.** The programmatic path throws on a figure without its population; the scanner fails a surface carrying a bare figure and names the file and line; the committed directory passes.' : '**STOP.** The caveat is not structural: one of the three checks did not behave as required.'}

@@ -40,7 +40,11 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 
-const HERE = new URL('.', import.meta.url).pathname;
+const SELF = new URL('.', import.meta.url).pathname;
+// --dir <register directory>: project another register with this projector (one projector, many
+// registers). Default: this directory.
+const argDir = process.argv.indexOf('--dir') >= 0 ? process.argv[process.argv.indexOf('--dir') + 1] : null;
+const HERE = argDir ? (argDir.endsWith('/') ? argDir : argDir + '/') : SELF;
 const read = (f) => JSON.parse(readFileSync(`${HERE}/${f}`, 'utf8'));
 const cj = read('clauses.json'), ev = read('evaluation.json'), amb = read('ambiguities.json'), facts = read('facts.json');
 const VERSIONS = Object.keys(cj.register_versions).filter((k) => !k.startsWith("$"));
@@ -97,17 +101,19 @@ if (import.meta.url === `file://${process.argv[1]}`) for (const vid of VERSIONS)
 
 // ── pass 1: which facts each version reads, so the unread refusal can be stated over ALL versions ──
 if (import.meta.url === `file://${process.argv[1]}`) {
-const presentIn = (vid) => new Set(cj.clauses.filter((c) => !(c.absent_in_versions ?? []).includes(vid)).map((c) => c.id));
+const presentIn = (vid) => new Set(cj.clauses.filter((c) => !(c.absent_in_versions ?? []).includes(vid) && (c.only_in_versions === undefined || c.only_in_versions.includes(vid))).map((c) => c.id));
 const readByIn = {};
 for (const vid of VERSIONS) {
   const present = presentIn(vid);
   const bindings = { ...ev.bindings, ...ev.bindings_by_version[vid] };
   readByIn[vid] = {};
-  for (const [id, tree] of Object.entries(ev.clauses)) if (present.has(id)) for (const p of factsRead(tree, bindings)) (readByIn[vid][p] ??= []).push(id);
+  const evAll = { ...ev.clauses, ...(ev.clauses_by_version?.[vid] ?? {}) };
+  for (const [id, tree] of Object.entries(evAll)) if (present.has(id)) for (const p of factsRead(tree, bindings)) (readByIn[vid][p] ??= []).push(id);
 }
 const readAnywhere = new Set(VERSIONS.flatMap((v) => Object.keys(readByIn[v])));
 for (const f of facts.fields) if (!readAnywhere.has(f.field) && f.$read_by_no_clause_because === undefined) throw new Error(`facts.json declares ${f.field} and no clause of any version reads it`);
 
+const consultedAnywhere = {};
 for (const vid of VERSIONS) {
   const meta = cj.register_versions[vid];
   const dir = `${HERE}/versions/${vid}`;
@@ -115,10 +121,10 @@ for (const vid of VERSIONS) {
   const projected = { $projected: `PROJECTED by project-versions.mjs from ../../clauses.json for register version ${vid}. DO NOT EDIT. The authored source is the parent directory.` };
 
   // ── clauses ───────────────────────────────────────────────────────────────────────────────
-  const clauses = cj.clauses.filter((c) => !(c.absent_in_versions ?? []).includes(vid)).map((c) => {
+  const clauses = cj.clauses.filter((c) => !(c.absent_in_versions ?? []).includes(vid) && (c.only_in_versions === undefined || c.only_in_versions.includes(vid))).map((c) => {
     const o = {};
     for (const [k, v] of Object.entries(c)) {
-      if (k.endsWith('_by_version') || k === 'absent_in_versions' || k === '$absent_because') continue;
+      if (k.endsWith('_by_version') || k === 'absent_in_versions' || k === '$absent_because' || k === 'only_in_versions') continue;
       o[k] = v;
     }
     for (const [k, v] of Object.entries(c)) {
@@ -140,8 +146,11 @@ for (const vid of VERSIONS) {
   // ── evaluation ────────────────────────────────────────────────────────────────────────────
   const bindings = { ...ev.bindings, ...ev.bindings_by_version[vid] };
   const emit_order = cj.clauses.map((c) => c.id).filter((id) => present.has(id));
-  const evClauses = Object.fromEntries(Object.entries(ev.clauses).filter(([id]) => present.has(id)));
-  for (const id of Object.keys(ev.clauses)) if (!cj.clauses.some((c) => c.id === id)) throw new Error(`evaluation.json evaluates ${id}, which clauses.json does not carry`);
+  // A restatement or a later version may evaluate a clause DIFFERENTLY (a different reading of the
+  // same rule): evaluation.json clauses_by_version[vid][id] replaces clauses[id] for that version.
+  const perVersion = ev.clauses_by_version?.[vid] ?? {};
+  const evClauses = Object.fromEntries([...Object.entries(ev.clauses), ...Object.entries(perVersion)].filter(([id]) => present.has(id)));
+  for (const id of [...Object.keys(ev.clauses), ...Object.keys(perVersion)]) if (!cj.clauses.some((c) => c.id === id)) throw new Error(`evaluation.json evaluates ${id}, which clauses.json does not carry`);
   // R3 at projection time: a clause read must be present in this version and emitted earlier.
   for (const [id, tree] of Object.entries(evClauses)) walk(tree, (n) => {
     if (n.op === 'clause' && !present.has(n.id)) throw new Error(`${vid}: ${id} reads ${n.id}, which this version does not carry`);
@@ -149,7 +158,7 @@ for (const vid of VERSIONS) {
   writeFileSync(`${dir}/evaluation.json`, JSON.stringify({
     ...projected, $note: ev.$note, evaluation_version: ev.evaluation_version, $emit_order_note: ev.$emit_order_note,
     register_version_id: vid, emit_order, resolution_keys: ev.resolution_keys, no_result_emission: ev.no_result_emission,
-    ungrounded_terms: ev.ungrounded_terms ?? null,
+    ungrounded_terms: ev.ungrounded_terms_by_version?.[vid] ?? ev.ungrounded_terms ?? null,
     $bindings_from_version: Object.keys(ev.bindings_by_version[vid]).sort(), bindings, clauses: evClauses,
   }, null, 1) + '\n');
 
@@ -182,12 +191,14 @@ for (const vid of VERSIONS) {
     const decl = (facts.meanings ?? []).find((m) => m.term === term);
     if (decl === undefined) throw new Error(`${vid}: ${id} rests on ${JSON.stringify(term)}, which facts.json declares no meaning for`);
     if (!decl.clauses.includes(id)) throw new Error(`${vid}: facts.json meaning ${JSON.stringify(term)} does not list ${id} among its clauses`);
+    // rests_on_ungrounded_term may itself vary: a restatement can ground a term (the projection carries the clause's value for this version)
+
   }
   for (const m of facts.meanings ?? []) {
-    if (!m.clauses.some((id) => present.has(id))) continue;   // the term's clauses are absent from this version
+    if (!m.clauses.some((id) => present.has(id) && evClauses[id]?.op === 'ungrounded')) continue;   // no clause of this version rests on the term
     const have = new Set(Object.keys(m.keys)), used = consulted[m.term] ?? new Set();
-    for (const k of have) if (!used.has(k)) throw new Error(`${vid}: facts.json declares meaning key ${m.term}.${k} and no clause consults it`);
     for (const k of used) if (!have.has(k)) throw new Error(`${vid}: a clause consults meaning key ${m.term}.${k}, which facts.json does not declare`);
+    for (const k of used) (consultedAnywhere[m.term] ??= new Set()).add(k);
   }
   const fields = facts.fields.map((f) => {
     const rb = (readBy[f.field] ?? []).sort();
@@ -202,4 +213,7 @@ for (const vid of VERSIONS) {
   for (const c of clauses) split[c.disposition] = (split[c.disposition] ?? 0) + 1;
   console.log(`${vid.padEnd(22)} ${clauses.length} clauses  ${JSON.stringify(split)}  ${Object.keys(consulted).length} ungrounded terms on ${Object.values(evClauses).filter((t) => t.op === 'ungrounded').length} clauses  ${ambiguities.length} ambiguities  ${fields.length} fields, ${Object.keys(readBy).length} read${unread.length ? `, ${unread.length} unread in this version: ${unread.join(', ')}` : ''}`);
 }
+// A declared meaning key no version consults is a meaning nobody reads: refused across versions,
+// not per version, because a restatement may consume a subset of a term's keys.
+for (const m of facts.meanings ?? []) for (const k of Object.keys(m.keys)) if (!(consultedAnywhere[m.term]?.has(k))) throw new Error(`facts.json declares meaning key ${m.term}.${k} and no clause of any version consults it`);
 }

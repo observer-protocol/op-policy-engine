@@ -12,7 +12,7 @@
  * the harness self-check trusts, so it must be shown to go nonzero on a known mutation before any
  * divergence figure from this file is read as evidence.
  *
- *   node compare.mjs <left.jsonl> <right.jsonl> [--json <report.json>] [--label-left X --label-right Y]
+ *   node compare.mjs <left.jsonl> <right.jsonl> [--json <report.json>] [--label-left X --label-right Y] [--dir <register dir>]
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { figure, renderFigure, populationBlock, populationOf } from './figure.mjs';
@@ -84,10 +84,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const opt = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
   const [lp, rp] = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !args[i - 1].startsWith('--')));
   const rep = compareRuns(readJsonl(lp), readJsonl(rp), { left: opt('--label-left') ?? lp, right: opt('--label-right') ?? rp });
-  const pop = populationOf(JSON.parse(readFileSync(new URL('./determinations.json', import.meta.url), 'utf8')));
+  const dir = opt('--dir') ? (opt('--dir').endsWith('/') ? opt('--dir') : opt('--dir') + '/') : new URL('./', import.meta.url).pathname;
+  const pop = populationOf(JSON.parse(readFileSync(`${dir}determinations.json`, 'utf8')), dir);
   const text = render(rep, pop);
   console.log(text);
-  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', population: pop, ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
+  const figs = new Set([rep.determinationsDiverging, rep.determinationsDivergingOnToken]);
+  for (const c of Object.values(rep.byClause)) for (const k of [c.agree, c.diverge, c.absent_left, c.absent_right]) figs.add(k);
+  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', population: pop, figures: [...figs].sort((a, b) => a - b), headline_figures: [rep.determinationsDiverging, rep.determinationsDivergingOnToken], ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
   const anyDiverge = Object.values(rep.byClause).some((c) => c.diverge || c.absent_left || c.absent_right);
   process.exit(anyDiverge ? 1 : 0);
 }

@@ -107,6 +107,11 @@ const DOMAINS = [
   // the per-version inputs; the assembler reads them exactly as it reads a hand-authored domain.
   { name: 'nywc-in-force', dir: 'nywc-12nycrr-fee/versions/in-force', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
   { name: 'nywc-proposed-2026-01-14', dir: 'nywc-12nycrr-fee/versions/proposed-2026-01-14', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
+  // 12 NYCRR 325-1.25: the regulation (reference) and two restatement layers under test, projected
+  // from one source by nywc-12nycrr-fee/project-versions.mjs --dir nywc-325-1-25.
+  { name: 'ny325-regulation', dir: 'nywc-325-1-25/versions/regulation', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
+  { name: 'ny325-layer-a-wcb', dir: 'nywc-325-1-25/versions/layer-a-wcb', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
+  { name: 'ny325-layer-b-daisybill', dir: 'nywc-325-1-25/versions/layer-b-daisybill', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
 ];
 
 const only = process.argv[2];

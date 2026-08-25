@@ -80,7 +80,7 @@ ${populationMarker(pop)}
 ${divergeM && onClause > 0 && !divergeR ? `**SHOWN FAILING, THEN CLEAN.** The comparator detects a single-constant mutation on the clause that carries it (${onClause}/${det.length} determinations) and exits nonzero, and reports zero divergence on an identical re-run. The divergence figures in DIVERGENCE.md may be read.` : '**STOP.** The self-check did not pass. No divergence figure after this point is interpretable.'}
 `;
 writeFileSync(`${HERE}/HARNESS-SELF-CHECK.md`, md);
-writeFileSync(`${HERE}/out/selfcheck.json`, JSON.stringify({ $derived_by: 'harness-selfcheck.mjs', population: pop, denominator: det.length, mutated_clause: MUTANT_CLAUSE, changed_on_clause: onClause, unchanged_on_clause: det.length - onClause, changed_off_clause: offClause.length, rerun_diverging: 0, mutated_exit: divergeM ? 1 : 0, rerun_exit: divergeR ? 1 : 0 }, null, 1) + '\n');
+writeFileSync(`${HERE}/out/selfcheck.json`, JSON.stringify({ $derived_by: 'harness-selfcheck.mjs', population: pop, denominator: det.length, figures: [onClause, det.length - onClause, 0], mutated_clause: MUTANT_CLAUSE, changed_on_clause: onClause, unchanged_on_clause: det.length - onClause, changed_off_clause: offClause.length, rerun_diverging: 0, mutated_exit: divergeM ? 1 : 0, rerun_exit: divergeR ? 1 : 0 }, null, 1) + '\n');
 console.log(textM); console.log(''); console.log(textR);
 console.log(`\nself-check: mutated diverges=${divergeM} on-clause=${onClause} off-clause=${offClause.length}; rerun diverges=${divergeR}`);
 if (!(divergeM && onClause > 0 && !divergeR)) { console.error('SELF-CHECK FAILED: stop the sequence'); process.exit(2); }

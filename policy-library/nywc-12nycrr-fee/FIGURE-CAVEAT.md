@@ -17,9 +17,10 @@ renderFigure(figure(444, 600, pop)) -> 444/600 (74.0%) [population: 600 syntheti
 The file contained the line: `The register found 444/600 (74.0%) cite a version not in force.` [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ```
-check-figures: 113 figure values over 600, 69 occurrence(s) scanned in 31 file(s), live parameters sha256 ceb49c4d590d
+check-figures: 113 figure values over 600, 70 occurrence(s) scanned in 32 file(s), live parameters sha256 ceb49c4d590d
   FAIL  /out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
-RESULT: 1 bare or stale figure(s). [exit 1]
+  FAIL  //out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
+RESULT: 2 bare or stale figure(s). [exit 1]
 [exit 1]
 ```
 
@@ -32,6 +33,15 @@ check-figures: 113 figure values over 600, 68 occurrence(s) scanned in 30 file(s
 RESULT: every figure carries its population. [exit 0]
 [exit 0]
 ```
+
+## Retired figures (item 8 of the CV8 box, 2026-08-25)
+
+The population moved when five fields left the fact schema under the amendment of 2026-08-24: the generator's draw sequence changed and the parameters digest went 2268173b241c -> ceb49c4d590d. The figures rendered over the earlier population are STALE, not merely repository-internal, and a future session must not pick them up as a baseline. Named here so the scanner's RETIRED exemption applies to these lines and to nothing else:
+
+> RETIRED: 57/600 carry no applied bound (population 2268173b241c). Superseded by the figure in DIVERGENCE.md over population ceb49c4d590d.
+> RETIRED: 435/600 cite a version not in force (population 2268173b241c). Superseded likewise.
+
+Anywhere else in this directory those two strings would fail `check-figures.mjs` as stale under a live marker or bare without one.
 
 ## Verdict
 
