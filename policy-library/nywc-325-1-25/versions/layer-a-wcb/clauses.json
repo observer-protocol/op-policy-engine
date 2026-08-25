@@ -24,7 +24,53 @@
    }
   ],
   "currency_disposition": "UNDATED_RESTATEMENT",
-  "$currency": "The hub page carries no date. The CMS-1500 page dates its field matrix and not its narrative. Neither can be checked for currency against a regulation amended in 2020 and 2021 by anyone; the disposition is a value on this version, not a footnote."
+  "$currency": "The hub page carries no date. The CMS-1500 page dates its field matrix and not its narrative. Neither can be checked for currency against a regulation amended in 2020 and 2021 by anyone; the disposition is a value on this version, not a footnote.",
+  "provenance": {
+   "retrieved_by": "the building session (worktree of session 68b6fdc1), from this machine, at 2026-08-25T05:18:13Z (the instant read from the environment clock, source/PROVENANCE.md): both WCB pages fetched by the session, not by the agent that wrote the specimen CSV; raw HTML sha256 5663ddee0eefe4b3b945800c30714d9f85c5ab871bbf3453d17c65b74f891a19 and ff8690009e7e36af54033d794048280f578d1972b55638b4ac47cf94f61c30b6 (source/DIGESTS-raw.txt); extracted texts in source/ (SHA256SUMS)",
+   "agent_claims": [
+    {
+     "claim": "document \"What Providers Need to Know\" exists at https://www.wcb.ny.gov/content/main/hcpp/what-providers-need-to-know.jsp",
+     "value": "https://www.wcb.ny.gov/content/main/hcpp/what-providers-need-to-know.jsp",
+     "verified": true,
+     "verified_against": "source/PROVENANCE.md and source/DIGESTS-raw.txt, written by the retrieving session",
+     "method": "read from the artifact by the session adding this block (2026-08-25); the raw HTML is not stored, so its digest is not recomputable here; the extracted text digest re-checked with shasum -a 256 -c source/SHA256SUMS, OK",
+     "verified_value": "retrieved 2026-08-25T05:18:13Z; raw HTML sha256 5663ddee0eefe4b3… (DIGESTS-raw.txt); kept as source/layerA-wcb-what-providers-need-to-know.txt (SHA256SUMS)"
+    },
+    {
+     "claim": "document \"CMS-1500 Requirements\" exists at https://www.wcb.ny.gov/CMS-1500/requirements.jsp",
+     "value": "https://www.wcb.ny.gov/CMS-1500/requirements.jsp",
+     "verified": true,
+     "verified_against": "source/PROVENANCE.md and source/DIGESTS-raw.txt, written by the retrieving session",
+     "method": "read from the artifact by the session adding this block (2026-08-25); the raw HTML is not stored, so its digest is not recomputable here; the extracted text digest re-checked with shasum -a 256 -c source/SHA256SUMS, OK",
+     "verified_value": "retrieved 2026-08-25T05:18:13Z; raw HTML sha256 ff8690009e7e36af… (DIGESTS-raw.txt); kept as source/layerA-wcb-cms1500-requirements.txt (SHA256SUMS)"
+    },
+    {
+     "claim": "\"What Providers Need to Know\" is undated",
+     "value": "Undated",
+     "verified": true,
+     "verified_against": "source/layerA-wcb-what-providers-need-to-know.txt (the extracted text of the retrieved page)",
+     "method": "grep for Updated / Last update / Revised / Effective followed by a date, and for year tokens",
+     "verified_value": "no page date. The only dated lines are inside the content: a GovDelivery notice \"dated May 11, 2026\" (line 83) and \"January 1, 2028\" as an effective date of a future change (line 80); \"Updated process for requesting Board records\" (line 81) is a heading, not a date"
+    },
+    {
+     "claim": "\"CMS-1500 Requirements\" field matrix is dated \"Updated 05/18/2026\"",
+     "value": "Field matrix updated 05/18/2026",
+     "verified": true,
+     "verified_against": "source/layerA-wcb-cms1500-requirements.txt (the extracted text of the retrieved page)",
+     "method": "grep for Updated",
+     "verified_value": "\"CMS-1500 Field Table Matrix for Electronic Submission (MS Excel) (Updated 05/18/2026)\" at line 22; the date is on the spreadsheet link and the narrative carries none"
+    },
+    {
+     "claim": "author is the New York State Workers' Compensation Board, a state regulator",
+     "value": "NYS WCB, state regulator",
+     "verified": true,
+     "verified_against": "source/layerA-wcb-what-providers-need-to-know.txt and the URL host (the extracted text of the retrieved page)",
+     "method": "URL host read from the URL; the author read from the page text",
+     "verified_value": "host wcb.ny.gov; \"The New York State Workers' Compensation Board (Board)\" at line 82 and \"Workers' Compensation Board\" at line 20"
+    }
+   ],
+   "$agent_claims_is": "the specimen CSV's claims about these two documents (existence at the URL, dating, author), each checked by the session adding this block against the stored artifacts named. The CSV's RESTATES classification is not adopted as a claim: what this version restates is the register's own encoding from the retrieved text (clauses_by_version)."
+  }
  },
  "clauses": [
   {

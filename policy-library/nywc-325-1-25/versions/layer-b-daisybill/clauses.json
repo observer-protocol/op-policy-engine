@@ -32,7 +32,69 @@
   ],
   "currency_disposition": "DATED_BY_PUBLISHER_ONLY",
   "$currency": "Dates are self-published with no independent corroboration (the specimen CSV's own self-check found none). Distinct from undated and from dated-by-compilation.",
-  "$quoted_regulation_text": "Each article ends with a `Subsection Text` block quoting 325-1.25. The quoted (c)(1) is NOT the in-force text: it says `submitted` where the compilation says `received`, `placed on the chair prescribed form` where the compilation says `made in the format prescribed by the Chair`, and omits the claimant, the claimant's attorney and the simultaneity sentences. 57 word deletions, 24 insertions against 426 words (source/PROVENANCE.md). The register encodes the restatement's OWN prose, not its quotation."
+  "$quoted_regulation_text": "Each article ends with a `Subsection Text` block quoting 325-1.25. The quoted (c)(1) is NOT the in-force text: it says `submitted` where the compilation says `received`, `placed on the chair prescribed form` where the compilation says `made in the format prescribed by the Chair`, and omits the claimant, the claimant's attorney and the simultaneity sentences. 57 word deletions, 24 insertions against 426 words (source/PROVENANCE.md). The register encodes the restatement's OWN prose, not its quotation.",
+  "provenance": {
+   "retrieved_by": "the building session (worktree of session 68b6fdc1), from this machine, at 2026-08-25T05:18:13Z (the instant read from the environment clock, source/PROVENANCE.md): the three articles fetched by the session from the URLs the specimen CSV supplied; raw HTML sha256 ca74294d82bf2b5f0b546e74aeb02afce49b3cf5fcedc37343b2f740cef92aa1, 8b64665e2eaea5f124f74ac8078bb607777347cb8520ae169754bba2f394989e, f257484c343bffbed517f347f1c997fac91f1b4f65c5088fe9024c6b1e70c350 (source/DIGESTS-raw.txt); extracted texts in source/ (SHA256SUMS)",
+   "agent_claims": [
+    {
+     "claim": "document \"Timely Payment Requirements\" exists at https://kb.daisybill.com/articles/timely-payment-abc780c1-004b-42f9-b6da-16dcdf84eb24",
+     "value": "https://kb.daisybill.com/articles/timely-payment-abc780c1-004b-42f9-b6da-16dcdf84eb24",
+     "verified": true,
+     "verified_against": "source/PROVENANCE.md and source/DIGESTS-raw.txt, written by the retrieving session",
+     "method": "read from the artifact by the session adding this block (2026-08-25); the raw HTML is not stored, so its digest is not recomputable here; the extracted text digest re-checked with shasum -a 256 -c source/SHA256SUMS, OK",
+     "verified_value": "retrieved 2026-08-25T05:18:13Z; raw HTML sha256 ca74294d82bf2b5f… (DIGESTS-raw.txt); kept as source/layerB-daisybill-timely-payment.txt (SHA256SUMS)"
+    },
+    {
+     "claim": "document \"Timely Filing\" exists at https://kb.daisybill.com/articles/billing-guides-a7397df4-a566-403f-8bf3-51218b621be8",
+     "value": "https://kb.daisybill.com/articles/billing-guides-a7397df4-a566-403f-8bf3-51218b621be8",
+     "verified": true,
+     "verified_against": "source/PROVENANCE.md and source/DIGESTS-raw.txt, written by the retrieving session",
+     "method": "read from the artifact by the session adding this block (2026-08-25); the raw HTML is not stored, so its digest is not recomputable here; the extracted text digest re-checked with shasum -a 256 -c source/SHA256SUMS, OK",
+     "verified_value": "retrieved 2026-08-25T05:18:13Z; raw HTML sha256 8b64665e2eaea5f1… (DIGESTS-raw.txt); kept as source/layerB-daisybill-timely-filing.txt (SHA256SUMS)"
+    },
+    {
+     "claim": "document \"Reimbursement Disputes\" exists at https://kb.daisybill.com/articles/payment-guides-be5200b6-d23a-4f04-a93c-d3bb930f8e34",
+     "value": "https://kb.daisybill.com/articles/payment-guides-be5200b6-d23a-4f04-a93c-d3bb930f8e34",
+     "verified": true,
+     "verified_against": "source/PROVENANCE.md and source/DIGESTS-raw.txt, written by the retrieving session",
+     "method": "read from the artifact by the session adding this block (2026-08-25); the raw HTML is not stored, so its digest is not recomputable here; the extracted text digest re-checked with shasum -a 256 -c source/SHA256SUMS, OK",
+     "verified_value": "retrieved 2026-08-25T05:18:13Z; raw HTML sha256 f257484c343bffbe… (DIGESTS-raw.txt); kept as source/layerB-daisybill-reimbursement-disputes.txt (SHA256SUMS)"
+    },
+    {
+     "claim": "\"Timely Payment Requirements\" last updated December 16, 2025",
+     "value": "Last update December 16, 2025",
+     "verified": true,
+     "verified_against": "source/layerB-daisybill-timely-payment.txt (the extracted text of the retrieved page)",
+     "method": "read lines 3 and 4",
+     "verified_value": "\"Last update\" / \"December 16, 2025\" at lines 3 and 4; self-published, no independent source"
+    },
+    {
+     "claim": "\"Timely Filing\" last updated December 4, 2025",
+     "value": "December 4, 2025",
+     "verified": true,
+     "verified_against": "source/layerB-daisybill-timely-filing.txt (the extracted text of the retrieved page)",
+     "method": "read lines 3 and 4",
+     "verified_value": "\"Last update\" / \"December 4, 2025\" at lines 3 and 4; self-published, no independent source"
+    },
+    {
+     "claim": "\"Reimbursement Disputes\" last updated December 16, 2025",
+     "value": "Last update December 16, 2025",
+     "verified": true,
+     "verified_against": "source/layerB-daisybill-reimbursement-disputes.txt (the extracted text of the retrieved page)",
+     "method": "read lines 3 and 4",
+     "verified_value": "\"Last update\" / \"December 16, 2025\" at lines 3 and 4; self-published, no independent source"
+    },
+    {
+     "claim": "author is daisyBill, a bill-review and revenue-cycle software vendor, not a claims administrator",
+     "value": "daisyBill (commercial)",
+     "verified": true,
+     "verified_against": "source/the three layerB-daisybill-*.txt files and the URL host (the extracted text of the retrieved page)",
+     "method": "URL host read from the URLs; the name read from each page text",
+     "verified_value": "host kb.daisybill.com; \"daisyBill\" in each text (lines 23, 26, 96 of the three files). The vendor class is the register's own classification, kept in $why_unpublishable"
+    }
+   ],
+   "$agent_claims_is": "the specimen CSV's claims about these three documents (existence at the URL, self-published dating, author), each checked by the session adding this block against the stored artifacts named. The CSV's RESTATES classification and its quoted passages are not adopted as claims: what this version restates is the register's own encoding from the retrieved text. The CSV's own self-check found no independent source for the dates; none is claimed here."
+  }
  },
  "clauses": [
   {

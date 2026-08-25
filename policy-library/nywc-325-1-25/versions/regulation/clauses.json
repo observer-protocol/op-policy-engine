@@ -13,7 +13,12 @@
   "$as_of_is": "the retrieval instant read from the environment clock",
   "compiled_text_source": "LII (law.cornell.edu) 12-NYCRR-325-1.25, sha256 of raw HTML in source/PROVENANCE.md; history: amended State Register 2020-01-29 eff. 2020-01-29, 2021-10-27 eff. 2021-11-01; (g) says effective 2020-01-01",
   "cross_check": "NOT DONE. Westlaw (govt.westlaw.com) returned HTTP 403 to curl and is blocked to the session's fetcher; no archive capture exists; Justia 403; Casetext 410. LII is the one rendering this session can cite. The specimen CSV's line that LII and Westlaw agree is an agent claim this session could not verify.",
-  "currency_disposition": "dated_by_compilation_history"
+  "currency_disposition": "dated_by_compilation_history",
+  "provenance": {
+   "retrieved_by": "the building session (worktree of session 68b6fdc1), from this machine, at 2026-08-25T05:18:13Z (the instant read from the environment clock, source/PROVENANCE.md): LII, 12 NYCRR 325-1.25, https://www.law.cornell.edu/regulations/new-york/12-NYCRR-325-1.25; raw HTML sha256 d716273ae539673f6faaf454d9749d6877c857a705ea3521471248de2165fb0a (source/DIGESTS-raw.txt); extracted text source/lii-325-1.25.txt (source/SHA256SUMS)",
+   "agent_claims": [],
+   "$agent_claims_is": "empty: the URL and the text are the session's own retrieval, not an agent's. The specimen CSV's line that LII and Westlaw agree is an agent claim this version does not rely on (cross_check, above) and is therefore not a claim of this entry; it stays recorded there as unverifiable."
+  }
  },
  "clauses": [
   {
