@@ -1,0 +1,57 @@
+A new subdivision (c) of section 329-1.3 of Title 12 NYCRR is hereby added to read as follows:
+
+Section 329-1.3. Medical fee schedule; incorporation by reference
+
+(a) The medical fee schedule for medical services shall be the Official New York Workers'
+Compensation Medical Fee Schedule, updated December 11, 2019, prepared by the board and
+published by OptumInsight, which is herein incorporated by reference.
+
+(b) The Official New York Workers' Compensation Medical Fee Schedule incorporated by
+reference herein may be examined at the office of the Department of State, One Commerce
+Plaza, 99 Washington Avenue, Albany, NY 12231, the Legislative Library, the libraries of the
+New York State Supreme Court, and the district offices of the board. Copies may be purchased
+from OptumInsight, by writing to Official New York Workers' Compensation Fee Schedule, PO
+Box 88050, Chicago, IL 60680-9920; by telephone at 1-800-464-3649, option 1; or online at
+www.optum360coding.com keyword New York or
+https://www.optum360coding.com/Product/40508/.
+
+(c) Physical Therapy Assistants (PTAs) and Occupational Therapy Assistants (OTAs) may
+provide services under the direct supervision of an authorized Physical Therapist (PT) or
+authorized Occupational Therapist (OT) respectively.
+       (1) When billing for PTA services, supervising authorized PTs must select codes from
+       the Physical Medicine Section of the Official New York State Workers’ Compensation
+       Medical Fee Schedule that are permissible and within the scope of practice for PTAs
+       using modifier CQ.
+       (2) When billing for OTA services, supervising authorized OTs must select codes from
+       the Physical Medicine Section of the Official New York State Workers’ Compensation
+       Medical Fee Schedule that are permissible and within the scope of practice of OTAs
+       using modifier CO.
+       (3) Services billed using the modifiers CQ or CO must be billed and paid at 85 percent of
+       the amount payable for such services had they been performed directly by PTs and OTs.
+       Clinical notes by PTAs must be cosigned by the supervising PT. Clinical notes by OTAs
+       must be cosigned by the supervising OT. PTAs and OTAs may not provide services or
+       bill for services independently.
+       (4) Nothing in this section shall change the maximum numbers of billable Relative Value
+       Units (RVUs) for physical therapy and occupational therapy on any given date of service,
+       as outlined elsewhere in the fee schedule. They are not increased or otherwise changed
+       based on whether the services are provided by PTs, OTs, PTAs or OTAs.
+       (5) When services are performed by PTs and PTAs (or OTs and OTAs) on the same date
+       of service, the services applied to the maximum number of RVUs on any given date of
+       service shall be determined giving priority to services provided by PTs over those
+       provided by PTAs, and services provided by OTs over those provided by OTAs.
+(6) The ability of PTAs and OTAs to provide services under NYS Workers
+Compensation, and for supervising PTs and OTs to submit bills for said services, shall in
+no way expand or otherwise change the scope of practice or permissible activities for
+PTAs or OTAs by statute, and/or any applicable regulations promulgated by the New
+York State Education Department, New York State Department of Health, or the New
+York State Workers’ Compensation Board. As such, it shall be impermissible for
+PTAs/OTAs to perform any services or activities otherwise reserved for PTs and OTs
+respectively, or for supervising PTs or OTs to bill for such services, and Current
+Procedural Terminology (CPT) codes must be selected accordingly.
+       (i) Examples may include, but are not limited to: a PTA is prohibited by section
+       6738(a) of the NYS Education Law from performing evaluation, testing,
+       interpretation, planning or modification of patient/client programs; a PT conducts
+       the initial evaluation and develops the plan of care, and the treatment may be
+       provided by the PTA; PTAs and OTAs may not perform Functional Capacity
+       Evaluations (FCEs).
+

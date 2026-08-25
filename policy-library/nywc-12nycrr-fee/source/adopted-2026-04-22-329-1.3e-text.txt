@@ -1,0 +1,81 @@
+A new subdivision (e) of section 329-1.3 of Title 12 NYCRR is hereby added to read as follows:
+
+       (e) Residents and fellows may provide services under the supervision of authorized
+       physicians. The services provided must be in the context of an Accreditation Council for
+       Graduate Medical Education (ACGME) accredited residency or fellowship program and
+       cannot be part of any activities that are external to the program. Residents and fellows
+       may not provide services or bill for services independently, and the supervising physician
+       may not bill separately for the supervision of residents and/or fellows but rather, only for
+       the specific clinical services performed.
+
+
+              (1) When billing for non-surgical services provided by residents or fellows,
+              supervising physicians must bill using the Official New York Workers'
+              Compensation Medical Fee Schedule and use the modifier 1R. Services billed
+              using the modifier 1R must be billed and paid at the same amount payable for
+              such services had they been performed directly by the supervising, authorized,
+              billing physician.
+
+              (2) When billing for services performed by a resident or fellow functioning as an
+              assistant at surgery, supervising physicians must bill using the Official New York
+              Workers’ Compensation Medical Fee Schedule and use the modifier 84. Codes
+              billed with modifier 84 must accurately represent work performed by the resident
+              or fellow and be documented appropriately in the surgical report. Resident/fellow
+              surgical services billed using modifier 84 must be billed and paid at 16% of the
+              physician code fee or fees, and only for the procedure or procedures in which the
+              resident or fellow assisted.
+                      (i) The supervising surgeon may bill for no more than one resident or
+                      fellow (even if more than one resident or fellow assisted) for any
+                      procedure or portion of a procedure for which the resident(s) or fellow(s)
+                      provided assistance, unless the length, complexity or number of the
+                      procedure(s) require multiple resident(s) or fellow(s) to assist, in which
+                      case the use of more than one resident or fellow as assistants must be
+                      clearly documented contemporaneously at the time of the procedure and in
+                      the medical narrative at the time of billing.
+                      (ii) If different resident(s) or fellow(s) provide assistance on different
+                      procedures or portions of procedures, then the supervising surgeon may
+                      bill for the surgical assistant services for each such procedure or portion of
+                      a procedure, but only for one such assistant for each procedure or portion
+                      of a procedure.
+                      (iii) If other physicians, physician assistants or nurse practitioners are also
+                      utilized as assistants at surgery in conjunction with residents or fellows,
+                      the supervising surgeon may bill for no more than one assistant, unless the
+                      length, complexity or number of the procedure(s) require multiple
+                      assistants, in which case the use of more than one assistant must be clearly
+                      documented contemporaneously at the time of the procedure and in the
+                      medical narrative at the time of billing.
+               (iv) Surgical services billed for resident and/or fellow surgical assistants
+               using modifier 84 must be billed on the same bill as the underlying
+               surgery. For non-surgical services using modifier 1R, a single bill
+               reflecting the services and/or level of service provided to the patient on
+               any given day or at any given appointment must be submitted, and
+               supervising physicians cannot submit two separate bills for resident and/or
+               fellow services and supervising physician services on the same date of
+               service, unless the bills are for demonstrably different services, and
+               designating services as “resident and/or fellow services” versus
+               “supervising physician services” shall not be considered demonstrably
+               different services.
+               (v) Nothing about this subdivision shall change the rules or application
+               thereof related to the billing for “Co-Surgeons” or “Assistant Surgeons” or
+               “Minimum Assistant Surgeons” or “Surgical Teams”, nor shall it apply to
+               inpatient hospital billing, as these terms are outlined and addressed
+               elsewhere in the Official New York Workers’ Compensation Medical Fee
+               Schedules, and not specifically pertaining to residents and fellows, except
+               that this subdivision shall supersede the provision in Surgery Ground Rule
+               12(B) of the Official New York Workers’ Compensation Medical Fee
+               Schedule that states “Assistants’ fees are not payable when the hospital
+               provides intern or resident staff to assist at surgery.”
+
+
+(3) Medical narratives, clinical notes, procedure notes, and/or operative reports must
+clearly state the name of the resident or fellow, as well as the name of the supervising
+physician, and the program or institution where the services are being performed.
+
+
+(4) The ability of residents and fellows to provide services under NYS Workers’
+Compensation, and for supervising physicians to submit bills for said services, shall in no
+way expand or otherwise change the scope of practice or permissible activities for
+residents and fellows by statute, and/or any applicable regulations promulgated by the
+New York State Education Department, New York State Department of Health, or the
+New York State Workers' Compensation Board.
+
