@@ -1,0 +1,800 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version proposed-2026-01-14. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Every fact a clause of this register reads, with its declared kind. `read_by` IS NOT WRITTEN HERE: project-versions.mjs derives it from the evaluation trees per version and refuses a declared field no clause reads unless the field carries `$read_by_no_clause_because`, and refuses an evaluation path this file does not declare. The synthetic generator draws values from `domain.kind`, never from an outcome.",
+ "$what_a_determination_is": "One payer determination on one bill line for one service under the New York workers' compensation fee schedules. The APPLIED BOUND is the scheduled amount and code the determination applied (applied_bound.*); the register never holds a scheduled amount, so the bound arrives on the determination and the register tests relations the regulation itself states (85 percent, 16 percent, the same amount, the regional fees of 329-1.3(d)(1)).",
+ "register_version_id": "proposed-2026-01-14",
+ "fields": [
+  {
+   "field": "service.kind",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "medical",
+     "physical_therapy",
+     "occupational_therapy",
+     "acupuncture",
+     "psychology",
+     "podiatry",
+     "chiropractic"
+    ]
+   },
+   "note": "The schedule family the service falls under. PT and OT are distinct from medical because 329-1.1 and 329-4.1(b) both claim them (NY-A1).",
+   "read_by": [
+    "12nycrr/329-1.1/schedule-in-effect-on-dos",
+    "12nycrr/329-4.1/a/acupuncture-dos",
+    "12nycrr/329-4.1/b/pt-ot-dos",
+    "12nycrr/333.1/psychology-dos",
+    "12nycrr/343.1/podiatry-dos",
+    "12nycrr/348.1/chiropractic-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "service.date",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "minute",
+    "timezone": "required"
+   },
+   "note": "The date of service. The clock every date-of-service clause reads.",
+   "read_by": [
+    "12nycrr/329-1.1/schedule-in-effect-on-dos",
+    "12nycrr/329-4.1/a/acupuncture-dos",
+    "12nycrr/329-4.1/b/pt-ot-dos",
+    "12nycrr/333.1/psychology-dos",
+    "12nycrr/343.1/podiatry-dos",
+    "12nycrr/348.1/chiropractic-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "accident.date",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "minute",
+    "timezone": "required"
+   },
+   "$read_by_no_clause_because": "Every date-of-service clause says `regardless of the date of accident`. The field is declared so a determination carries it and the derived read_by shows, per version, that no clause consults it.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "schedule.cited.kind",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "medical",
+     "acu_pt_ot",
+     "behavioral_health",
+     "podiatry",
+     "chiropractic"
+    ]
+   },
+   "note": "Which schedule the determination says it applied.",
+   "read_by": [
+    "12nycrr/329-1.1/schedule-in-effect-on-dos",
+    "12nycrr/329-4.1/a/acupuncture-dos",
+    "12nycrr/329-4.1/b/pt-ot-dos",
+    "12nycrr/333.1/psychology-dos",
+    "12nycrr/343.1/podiatry-dos",
+    "12nycrr/348.1/chiropractic-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "schedule.cited.edition_date",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "2018-12-26",
+     "2019-12-04",
+     "2019-12-11",
+     "2025-12-30",
+     "2026-08"
+    ]
+   },
+   "note": "The edition identifier the determination cites. The five values are every edition date any retrieved text names, including the two the Board's revised proposal and its bracketed current text name (NY-A3).",
+   "read_by": [
+    "12nycrr/329-1.1/schedule-in-effect-on-dos",
+    "12nycrr/329-4.1/a/acupuncture-dos",
+    "12nycrr/329-4.1/b/pt-ot-dos",
+    "12nycrr/333.1/psychology-dos",
+    "12nycrr/343.1/podiatry-dos",
+    "12nycrr/348.1/chiropractic-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "schedule.cited.publisher",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "OptumInsight",
+     "RefMed"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.1/schedule-in-effect-on-dos",
+    "12nycrr/329-4.1/a/acupuncture-dos",
+    "12nycrr/329-4.1/b/pt-ot-dos",
+    "12nycrr/333.1/psychology-dos",
+    "12nycrr/343.1/podiatry-dos",
+    "12nycrr/348.1/chiropractic-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "schedule.cited.code_source",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "medical_physical_medicine_section",
+     "medical_other_section",
+     "acu_pt_ot_schedule",
+     "behavioral_health_schedule",
+     "podiatry_schedule",
+     "chiropractic_schedule"
+    ]
+   },
+   "note": "The schedule, and for the medical schedule the section, the code was selected from. 329-1.3(c)(1) and (2) name the required source and the name changes between versions.",
+   "read_by": [
+    "12nycrr/329-1.3/c/1/pta-code-source",
+    "12nycrr/329-1.3/c/2/ota-code-source"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "applied_bound.code",
+   "domain": {
+    "kind": "string",
+    "nullable": true
+   },
+   "note": "A code IDENTIFIER. Synthetic determinations use opaque identifiers except where the regulation itself names a code (87635, 99441, 99442, 99443).",
+   "read_by": [
+    "12nycrr/329-1.3/d/1/regional-fee",
+    "12nycrr/329-1.3/d/1/rvu",
+    "12nycrr/329-1.3/d/2/billable-basis",
+    "12nycrr/329-1.3/d/3/no-routine-screening",
+    "12nycrr/329-1.3/d/5/single-instance",
+    "12nycrr/329-1.3/d/covid-testing-code"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "applied_bound.amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": "The scheduled amount the determination applied: the amount payable for the service had it been performed directly by the billing PT, OT or physician. Licensed content; arrives on the determination, never held by the register.",
+   "read_by": [
+    "12nycrr/329-1.3/c/3/eighty-five-percent"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "payment.amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": "The amount the determination pays.",
+   "read_by": [
+    "12nycrr/329-1.3/c/3/eighty-five-percent",
+    "12nycrr/329-1.3/d/1/regional-fee"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.rendering_class",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "physician",
+     "pt",
+     "ot",
+     "pta",
+     "ota",
+     "acupuncturist",
+     "psychologist",
+     "lcsw",
+     "podiatrist",
+     "chiropractor",
+     "resident",
+     "fellow",
+     "physician_assistant",
+     "nurse_practitioner"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/1/pta-code-source",
+    "12nycrr/329-1.3/c/1/pta-modifier",
+    "12nycrr/329-1.3/c/2/ota-code-source",
+    "12nycrr/329-1.3/c/2/ota-modifier",
+    "12nycrr/329-1.3/c/3/cosign",
+    "12nycrr/329-1.3/c/3/no-independent-billing",
+    "12nycrr/329-1.3/c/6/scope-not-expanded",
+    "12nycrr/329-1.3/c/supervision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.billing_class",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "physician",
+     "pt",
+     "ot",
+     "pta",
+     "ota",
+     "acupuncturist",
+     "psychologist",
+     "lcsw",
+     "podiatrist",
+     "chiropractor",
+     "resident",
+     "fellow",
+     "physician_assistant",
+     "nurse_practitioner"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/3/no-independent-billing"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.supervising_class",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "physician",
+     "pt",
+     "ot"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/supervision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.supervision_present",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/supervision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.supervising_authorized",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Board-authorized, as recorded.",
+   "read_by": [
+    "12nycrr/329-1.3/c/supervision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "provider.supervision_direct",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "329-1.3(c) requires DIRECT supervision; (e) requires supervision.",
+   "read_by": [
+    "12nycrr/329-1.3/c/supervision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.modifiers",
+   "domain": {
+    "kind": "list_of_enum",
+    "values": [
+     "CQ",
+     "CO",
+     "1R",
+     "84",
+     "1B",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/1/pta-modifier",
+    "12nycrr/329-1.3/c/2/ota-modifier",
+    "12nycrr/329-1.3/c/3/eighty-five-percent"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.notes_cosigned_by",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "supervising_pt",
+     "supervising_ot",
+     "supervising_physician",
+     "none"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/c/3/cosign"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.supervision_billed_separately",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "assistant.mixed_same_dos",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "PT and PTA (or OT and OTA) services on the same date of service.",
+   "read_by": [
+    "12nycrr/329-1.3/c/5/priority"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "assistant.priority_given_to",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "pt",
+     "pta",
+     "ot",
+     "ota"
+    ]
+   },
+   "note": "Which class the determination applied to the daily RVU maximum first.",
+   "read_by": [
+    "12nycrr/329-1.3/c/5/priority"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "assistant.service_reserved_for_pt_ot",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": "affirmed = the service is reserved to PTs/OTs by statute or regulation.",
+   "read_by": [
+    "12nycrr/329-1.3/c/6/scope-not-expanded"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.claim_basis",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "workplace_exposure_claim",
+     "preop_protocol_doh",
+     "routine_screening",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/d/2/billable-basis",
+    "12nycrr/329-1.3/d/3/no-routine-screening",
+    "12nycrr/329-1.3/d/covid-testing-code"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.region",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "I",
+     "II",
+     "III",
+     "IV"
+    ]
+   },
+   "note": "The fee schedule region the determination applied for 87635.",
+   "read_by": [
+    "12nycrr/329-1.3/d/1/regional-fee"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.rvu_applied",
+   "domain": {
+    "kind": "number"
+   },
+   "note": "The RVU the determination applied to 87635.",
+   "read_by": [
+    "12nycrr/329-1.3/d/1/rvu"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.tests_billed",
+   "domain": {
+    "kind": "list_of_enum",
+    "values": [
+     "molecular",
+     "serological",
+     "antibody",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/d/4/no-antibody",
+    "12nycrr/329-1.3/d/covid-testing-code"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.prior_87635_lines",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "Prior instances of 87635 on the claim.",
+   "read_by": [
+    "12nycrr/329-1.3/d/5/single-instance"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "covid.repeat_documentation",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "change_or_recurrence",
+     "new_exposure",
+     "none"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.3/d/5/single-instance"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "resident.program_acgme_accredited",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "resident.activity_external_to_program",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "resident.role",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "non_surgical",
+     "assistant_at_surgery"
+    ]
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.resident_assistants_billed",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "Resident or fellow assistants billed for the procedure under determination.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.other_assistants_billed",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "Other physicians, physician assistants or nurse practitioners billed as assistants for the same procedure.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.all_assistants_billed",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "STATED LIMIT: supplied separately from the two lists above; consistency between them is not checked.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.complexity_requires_multiple",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.multiple_documented_contemporaneously",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.on_same_bill_as_surgery",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "surgery.work_accurately_documented",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "bills.same_dos_bill_ids",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "Bills submitted by the supervising physician for the patient on the date of service, this one included.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "bills.services_demonstrably_different",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": "(e)(2)(iv) excludes one ground: the resident-versus-supervisor designation.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "narrative.resident_name",
+   "domain": {
+    "kind": "string",
+    "nullable": true
+   },
+   "note": "Synthetic determinations carry placeholder identifiers, never names.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "narrative.supervising_physician_name",
+   "domain": {
+    "kind": "string",
+    "nullable": true
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "narrative.program_name",
+   "domain": {
+    "kind": "string",
+    "nullable": true
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "telemedicine.per_325_1_8",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Whether the encounter qualifies as telemedicine under 12 NYCRR 325-1.8, a section outside scope. Supplied.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "telemedicine.units_same_day",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "Units of the telemedicine code billed for the patient on the day, this line included.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by in-force and by no clause this version carries"
+  },
+  {
+   "field": "proration.unit_fee_specified",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Whether the schedule specifies a unit fee for the treatment (NY-A9).",
+   "read_by": [
+    "12nycrr/329-1.2/agreed-proration-separate-bills",
+    "12nycrr/329-1.2/unit-fee-on-transfer"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.transferred",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.2/agreed-proration-separate-bills",
+    "12nycrr/329-1.2/unit-fee-on-transfer"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.unit_fee_amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": "The scheduled unit fee; licensed content, supplied.",
+   "read_by": [
+    "12nycrr/329-1.2/death-no-proration",
+    "12nycrr/329-1.2/unit-fee-on-transfer"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.total_paid",
+   "domain": {
+    "kind": "money"
+   },
+   "note": "Total paid across the concerned physicians.",
+   "read_by": [
+    "12nycrr/329-1.2/death-no-proration",
+    "12nycrr/329-1.2/unit-fee-on-transfer"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.physicians_agreed",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.2/agreed-proration-separate-bills"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.separate_bills_rendered",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.2/agreed-proration-separate-bills"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.terminated_by",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "death",
+     "departure_from_nys",
+     "none"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "12nycrr/329-1.2/death-no-proration",
+    "12nycrr/329-1.2/departure-earned-portion"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proration.earned_portion_assessment",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": "affirmed = the fee paid is the earned portion.",
+   "read_by": [
+    "12nycrr/329-1.2/departure-earned-portion"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  }
+ ],
+ "resolutions": [
+  {
+   "key": "pt_ot_governing_schedule",
+   "ambiguity": "NY-A1",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "medical_physical_medicine_section",
+     "acu_pt_ot_schedule"
+    ]
+   }
+  },
+  {
+   "key": "proposed_effective_date",
+   "ambiguity": "NY-A2",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "Meaningful only under the proposed version."
+  }
+ ]
+}

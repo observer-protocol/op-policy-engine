@@ -1,0 +1,167 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version proposed-2026-01-14. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Points where 12 NYCRR's fee schedule provisions, as retrieved, leave a reading open. REGISTERED, NOT RESOLVED. Each entry names who would have to settle it. Where the settling text sits in a document that cannot be retrieved without purchase, that is recorded as the disposition `stated_elsewhere_purchase_required`, not as unknown.",
+ "$method_note": "Found by reading the compiled text against the Board's own restatements of the same text in its 2025 and 2026 rulemaking documents. Nine registered. Two carry resolution keys (NY-A1, NY-A2) because a clause's evaluation is gated on them; the others bear on text, lettering or rounding and gate nothing in this register.",
+ "register_version_id": "proposed-2026-01-14",
+ "ambiguities": [
+  {
+   "id": "NY-A1",
+   "clause_id": "12nycrr/329-1.1/schedule-in-effect-on-dos",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "For a physical therapy or occupational therapy service, which schedule governs: the medical fee schedule (329-1.1) or the physical therapy and occupational therapy fee schedule (329-4.1(b))?",
+   "competing_readings": [
+    {
+     "reading": "The medical fee schedule",
+     "basis": "329-1.1 names `medical, physical therapy and occupational therapy services` and `the medical fee schedule`, and has not been amended since its 2015 renumbering."
+    },
+    {
+     "reading": "The PT/OT schedule under Subpart 329-4",
+     "basis": "329-4.1(b), adopted 2019 effective 2020-01-01, is the later and the specific provision, and 329-4.2(b) incorporates a schedule whose title names physical and occupational therapy. The Board's 2026 proposal moves PTA/OTA coding to that schedule, which reads as the Board's own view."
+    }
+   ],
+   "textual_basis": "329-1.1 against 329-4.1(b); both in force on the same date.",
+   "materiality": "Decisive for every PT/OT determination's date-of-service and edition test, and for which incorporated document the applied bound comes from.",
+   "who_settles": "The Board, by amendment or guidance, or an adjudicator on a disputed bill. The schedules' own ground rules may address it: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A2",
+   "clause_id": "12nycrr/329-1.3/a/edition",
+   "versions": [
+    "proposed-2026-01-14"
+   ],
+   "question": "On what date does the proposed edition (updated December 30, 2025, RefMed) take effect?",
+   "competing_readings": [
+    {
+     "reading": "Not stated; effective on publication of a Notice of Adoption",
+     "basis": "The Regulatory Impact Statement says the effective date `will be upon publication of a Notice of Adoption in the State Register`."
+    },
+    {
+     "reading": "July 2027, as anticipated",
+     "basis": "The Board's assessment of public comment of 2026-08-21 anticipates adoption before the end of 2026 `with an effective date of July 2027`, and calls the January 1, 2026 date in the draft schedules a placeholder."
+    }
+   ],
+   "textual_basis": "Proposal text, RIS section 10, assessment of public comment (revised proposal).",
+   "materiality": "Without it no date-of-service clause can be decided under the proposed version: every such clause returns undetermined unless a resolution is supplied.",
+   "who_settles": "The Board, by the Notice of Adoption in the State Register.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A5",
+   "clause_id": "12nycrr/329-1.3/c/3/eighty-five-percent",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "How is 85 percent (and 16% under (e)(2)) of an amount that does not divide to the cent to be rounded?",
+   "competing_readings": [
+    {
+     "reading": "No rounding; the fraction is exact",
+     "basis": "The text states a percentage and nothing else. The register's primitive tests exact equality."
+    },
+    {
+     "reading": "Rounded per the schedule's ground rules",
+     "basis": "Fee schedules commonly carry a rounding ground rule; if this one does, the rule sits in the incorporated document."
+    }
+   ],
+   "textual_basis": "329-1.3(c)(3) and (e)(2).",
+   "materiality": "Every 85 percent or 16 percent determination whose direct amount is not a multiple of the cent-exact divisor is `not_equal` under the register and may be conforming under a rounding rule.",
+   "who_settles": "The Board, or the schedule's ground rules: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A6",
+   "clause_id": "12nycrr/329-1.3/c/4/rvu-cap-unchanged",
+   "versions": [
+    "proposed-2026-01-14"
+   ],
+   "question": "Once (c)(1) and (c)(2) point PTA/OTA coding at the Acupuncture and PT/OT schedule, which document is `the fee schedule` whose RVU maximum (c)(4) preserves?",
+   "competing_readings": [
+    {
+     "reading": "The medical fee schedule, unchanged",
+     "basis": "(c)(4) is not amended by the proposal and 329-1.3 is the medical fee schedule section."
+    },
+    {
+     "reading": "The Acupuncture and PT/OT schedule",
+     "basis": "That is where the PTA/OTA codes now come from, and its ground rules carry their own daily RVU maximum."
+    }
+   ],
+   "textual_basis": "329-1.3(c)(4) against (c)(1) and (c)(2) as proposed.",
+   "materiality": "Determines which incorporated document a PT/OT daily-cap determination rests on.",
+   "who_settles": "The Board.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A7",
+   "clause_id": "12nycrr/329-1.3/a/edition",
+   "versions": [
+    "proposed-2026-01-14"
+   ],
+   "question": "The proposal restates each amended section `to read as follows` and the restatements omit 329-1.3(e), 329-4.2(d), 333.2(c) and 348.2(c). Repeal, or drafting from a base text that lacked them?",
+   "competing_readings": [
+    {
+     "reading": "Repeal",
+     "basis": "`is hereby amended to read as follows` followed by a full text is, read literally, the whole section."
+    },
+    {
+     "reading": "Drafting artefact",
+     "basis": "329-1.3(e) was adopted on 2026-04-22, after the proposal was drafted; the telemedicine subdivisions were adopted in 2023 and are in the compilation; the Board's regulatory impact statement discusses residents and fellows as a focus of the update; and the revised proposal of 2026-08-21 repeats the same omissions."
+    }
+   ],
+   "textual_basis": "source/proposed-2026-01-14-text.txt against source/lii-sections.txt and source/adopted-2026-04-22-329-1.3e-text.txt.",
+   "materiality": "27 of the 74 in-force clauses are absent from the proposed version. A determination that applies any of them and cites the proposed version has no clause to rest on.",
+   "who_settles": "The Board at adoption, and the Department of State's compilation of the adopted text.",
+   "required_resolution": null,
+   "$anchored_on": "the clause that opens the proposal's restatement of 329-1.3, because the clauses the omission concerns do not exist in the version the ambiguity belongs to; the projector refuses an ambiguity anchored on an absent clause, and did."
+  },
+  {
+   "id": "NY-A8",
+   "clause_id": "12nycrr/329-1.3/d/2/billable-basis",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "What Department of Health guidance makes a pre-operative COVID-19 testing protocol `required`?",
+   "competing_readings": [
+    {
+     "reading": "Guidance in force on the date of the test",
+     "basis": "The subdivision is tied to a current infection and a current protocol."
+    },
+    {
+     "reading": "Guidance in force when the subdivision was adopted",
+     "basis": "The text is static and names no updating mechanism."
+    }
+   ],
+   "textual_basis": "329-1.3(d)(2).",
+   "materiality": "Decides whether a pre-operative test billed after the guidance changed is on a billable basis.",
+   "who_settles": "The Department of Health, by its guidance, and the Board on a disputed bill.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A9",
+   "clause_id": "12nycrr/329-1.2/unit-fee-on-transfer",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "Does the current medical fee schedule specify any `unit fee for a definite treatment and period of aftercare`, so that 329-1.2 has any application?",
+   "competing_readings": [
+    {
+     "reading": "Yes, for global surgical periods",
+     "basis": "Surgical ground rules commonly bundle aftercare into one fee."
+    },
+    {
+     "reading": "No; 329-1.2 is a survival from an earlier schedule",
+     "basis": "The section was renumbered in 2015 from 329.2 and its language predates relative-value schedules."
+    }
+   ],
+   "textual_basis": "329-1.2, whose applicability turns on the content of the incorporated schedule.",
+   "materiality": "Whether the five 329-1.2 clauses can ever arise.",
+   "who_settles": "The schedule's own ground rules: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  }
+ ]
+}

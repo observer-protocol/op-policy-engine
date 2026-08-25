@@ -1,0 +1,144 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version in-force. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Points where 12 NYCRR's fee schedule provisions, as retrieved, leave a reading open. REGISTERED, NOT RESOLVED. Each entry names who would have to settle it. Where the settling text sits in a document that cannot be retrieved without purchase, that is recorded as the disposition `stated_elsewhere_purchase_required`, not as unknown.",
+ "$method_note": "Found by reading the compiled text against the Board's own restatements of the same text in its 2025 and 2026 rulemaking documents. Nine registered. Two carry resolution keys (NY-A1, NY-A2) because a clause's evaluation is gated on them; the others bear on text, lettering or rounding and gate nothing in this register.",
+ "register_version_id": "in-force",
+ "ambiguities": [
+  {
+   "id": "NY-A1",
+   "clause_id": "12nycrr/329-1.1/schedule-in-effect-on-dos",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "For a physical therapy or occupational therapy service, which schedule governs: the medical fee schedule (329-1.1) or the physical therapy and occupational therapy fee schedule (329-4.1(b))?",
+   "competing_readings": [
+    {
+     "reading": "The medical fee schedule",
+     "basis": "329-1.1 names `medical, physical therapy and occupational therapy services` and `the medical fee schedule`, and has not been amended since its 2015 renumbering."
+    },
+    {
+     "reading": "The PT/OT schedule under Subpart 329-4",
+     "basis": "329-4.1(b), adopted 2019 effective 2020-01-01, is the later and the specific provision, and 329-4.2(b) incorporates a schedule whose title names physical and occupational therapy. The Board's 2026 proposal moves PTA/OTA coding to that schedule, which reads as the Board's own view."
+    }
+   ],
+   "textual_basis": "329-1.1 against 329-4.1(b); both in force on the same date.",
+   "materiality": "Decisive for every PT/OT determination's date-of-service and edition test, and for which incorporated document the applied bound comes from.",
+   "who_settles": "The Board, by amendment or guidance, or an adjudicator on a disputed bill. The schedules' own ground rules may address it: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A3",
+   "clause_id": "12nycrr/329-4.2/b/pt-ot-edition",
+   "versions": [
+    "in-force"
+   ],
+   "question": "Which text is the in-force text where the compilation and the Board's own restatement of current text disagree?",
+   "competing_readings": [
+    {
+     "reading": "The compilation (LII)",
+     "basis": "329-4.2(b) `created December 11, 2019`; 333.2(b) `1-800-464-3641` and `www.optum36-coding.com`."
+    },
+    {
+     "reading": "The Board's bracketed current text in the January 2026 proposal",
+     "basis": "329-4.2(b) `created December 4, 2019`; 333.2(b) `1-800-464-3649` and `www.optum360coding.com`."
+    }
+   ],
+   "textual_basis": "source/lii-sections.txt against source/proposed-2026-01-14-text.txt, bracketed text.",
+   "materiality": "An edition identifier is what the date-of-service clauses compare against. A PT/OT determination citing `2019-12-04` is `not the one in force` under the compilation's text and would be in force under the Board's. The register encodes the compilation.",
+   "who_settles": "The Department of State's official compilation, which was not retrieved (HTTP 403, 2026-08-25T04:16:51Z).",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A4",
+   "clause_id": "12nycrr/329-1.3/d/covid-testing-code",
+   "versions": [
+    "in-force"
+   ],
+   "question": "Which amendment added subdivision (d), and is the lettering (a) to (e) the official lettering?",
+   "competing_readings": [
+    {
+     "reading": "(d) is in force as lettered",
+     "basis": "The compilation carries (a) to (d); the Board's January 2026 restatement carries (a) to (d); the April 2026 adoption adds `a new subdivision (e)`, which presupposes (d)."
+    },
+    {
+     "reading": "The lettering is unsettled",
+     "basis": "The Board's February 2025 adoption added `a new subdivision (c)` and restated the section as (a) to (c) with no (d), although the COVID-19 subdivision predates it. The compilation lists amendments effective 2020-03-16, 2021-04-07 and 2023-04-11 without attributing any to a subdivision."
+    }
+   ],
+   "textual_basis": "source/adopted-2025-02-26-329-1.3c-text.txt, source/adopted-2026-04-22-329-1.3e-text.txt, source/lii-sections.txt notes block.",
+   "materiality": "Affects `in_force_from` for the (d) clauses, recorded as null, and the citation a determination gives for the COVID-19 testing rule.",
+   "who_settles": "The Department of State's official compilation.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A5",
+   "clause_id": "12nycrr/329-1.3/c/3/eighty-five-percent",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "How is 85 percent (and 16% under (e)(2)) of an amount that does not divide to the cent to be rounded?",
+   "competing_readings": [
+    {
+     "reading": "No rounding; the fraction is exact",
+     "basis": "The text states a percentage and nothing else. The register's primitive tests exact equality."
+    },
+    {
+     "reading": "Rounded per the schedule's ground rules",
+     "basis": "Fee schedules commonly carry a rounding ground rule; if this one does, the rule sits in the incorporated document."
+    }
+   ],
+   "textual_basis": "329-1.3(c)(3) and (e)(2).",
+   "materiality": "Every 85 percent or 16 percent determination whose direct amount is not a multiple of the cent-exact divisor is `not_equal` under the register and may be conforming under a rounding rule.",
+   "who_settles": "The Board, or the schedule's ground rules: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A8",
+   "clause_id": "12nycrr/329-1.3/d/2/billable-basis",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "What Department of Health guidance makes a pre-operative COVID-19 testing protocol `required`?",
+   "competing_readings": [
+    {
+     "reading": "Guidance in force on the date of the test",
+     "basis": "The subdivision is tied to a current infection and a current protocol."
+    },
+    {
+     "reading": "Guidance in force when the subdivision was adopted",
+     "basis": "The text is static and names no updating mechanism."
+    }
+   ],
+   "textual_basis": "329-1.3(d)(2).",
+   "materiality": "Decides whether a pre-operative test billed after the guidance changed is on a billable basis.",
+   "who_settles": "The Department of Health, by its guidance, and the Board on a disputed bill.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY-A9",
+   "clause_id": "12nycrr/329-1.2/unit-fee-on-transfer",
+   "versions": [
+    "in-force",
+    "proposed-2026-01-14"
+   ],
+   "question": "Does the current medical fee schedule specify any `unit fee for a definite treatment and period of aftercare`, so that 329-1.2 has any application?",
+   "competing_readings": [
+    {
+     "reading": "Yes, for global surgical periods",
+     "basis": "Surgical ground rules commonly bundle aftercare into one fee."
+    },
+    {
+     "reading": "No; 329-1.2 is a survival from an earlier schedule",
+     "basis": "The section was renumbered in 2015 from 329.2 and its language predates relative-value schedules."
+    }
+   ],
+   "textual_basis": "329-1.2, whose applicability turns on the content of the incorporated schedule.",
+   "materiality": "Whether the five 329-1.2 clauses can ever arise.",
+   "who_settles": "The schedule's own ground rules: stated_elsewhere_purchase_required.",
+   "required_resolution": null
+  }
+ ]
+}

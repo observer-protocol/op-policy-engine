@@ -1,0 +1,4158 @@
+{
+ "$note": "The evaluation layer for the 12 NYCRR fee schedule provisions. The descriptive half is taken from clauses.json and ambiguities.json by project-versions.mjs and then _phase0/build-register.mjs, and is not repeated here. ONE evaluation for both versions: what differs between versions is DATA, carried in bindings_by_version (edition identity, publisher, effective date, the required code source for PTA/OTA services); a clause whose evaluation reads one of those bindings is a clause whose determination can differ between versions, and version-diff.mjs derives that set from the trees rather than listing it.",
+ "evaluation_version": "0.1.0",
+ "$emit_order_note": "The order a determination is reported in. Instrument order, except that 329-1.3(e)(2)(ii) is emitted before (e)(2)(i) because (i) reads it. project-versions.mjs drops the clauses a version does not carry.",
+ "emit_order": null,
+ "resolution_keys": {
+  "NY-A1": "pt_ot_governing_schedule",
+  "NY-A2": "proposed_effective_date"
+ },
+ "no_result_emission": {
+  "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE, so a category cannot acquire a result by a clause author forgetting.",
+  "DEFINITIONAL": {
+   "no_result": {
+    "op": "const",
+    "value": "DEFINITIONAL"
+   },
+   "supplies": {
+    "op": "coalesce",
+    "value": {
+     "op": "clause_field",
+     "name": "operative_weight"
+    },
+    "fallback": {
+     "op": "const",
+     "value": "a meaning other clauses consume"
+    }
+   }
+  },
+  "INSTRUCTION": {
+   "refused": {
+    "op": "const",
+    "value": "INSTRUCTION"
+   },
+   "why": {
+    "op": "const",
+    "value": "directs an act; no fact of the bill makes it true or false, so it has no result domain"
+   }
+  },
+  "ILLUSTRATIVE": {
+   "refused": {
+    "op": "const",
+    "value": "ILLUSTRATIVE"
+   },
+   "why": {
+    "op": "const",
+    "value": "carries no requirement; ILLUSTRATIVE is not in the schema"
+   }
+  },
+  "INCORPORATED_BY_REFERENCE": {
+   "no_result": {
+    "op": "const",
+    "value": "INCORPORATED_BY_REFERENCE"
+   },
+   "stated_in": {
+    "op": "clause_field",
+    "name": "incorporated_document"
+   },
+   "why": {
+    "op": "const",
+    "value": "the operative rule is stated in a document the instrument incorporates by reference and which cannot be retrieved without purchase; the register records where the rule is and does not hold it. Not undetermined, not unknown: a disposition."
+   }
+  }
+ },
+ "bindings": {
+  "a1_supplied": {
+   "op": "not",
+   "operand": {
+    "op": "eq",
+    "left": {
+     "op": "resolution",
+     "name": "pt_ot_governing_schedule"
+    },
+    "right": {
+     "op": "absent"
+    }
+   }
+  },
+  "a2_supplied": {
+   "op": "not",
+   "operand": {
+    "op": "eq",
+    "left": {
+     "op": "resolution",
+     "name": "proposed_effective_date"
+    },
+    "right": {
+     "op": "absent"
+    }
+   }
+  },
+  "edition_cited": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "schedule.cited.edition_date"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "modifiers_present": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.modifiers"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "mods": {
+   "op": "coalesce",
+   "value": {
+    "op": "fact",
+    "path": "bill.modifiers"
+   },
+   "fallback": {
+    "op": "const",
+    "value": []
+   }
+  },
+  "cq_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "CQ"
+     },
+     {
+      "op": "binding",
+      "name": "mods"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "co_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "CO"
+     },
+     {
+      "op": "binding",
+      "name": "mods"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "cq_or_co_billed": {
+   "op": "or",
+   "operands": [
+    {
+     "op": "binding",
+     "name": "cq_billed"
+    },
+    {
+     "op": "binding",
+     "name": "co_billed"
+    }
+   ]
+  },
+  "r1_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "1R"
+     },
+     {
+      "op": "binding",
+      "name": "mods"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "m84_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "84"
+     },
+     {
+      "op": "binding",
+      "name": "mods"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "b1_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "1B"
+     },
+     {
+      "op": "binding",
+      "name": "mods"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "rendering_pta_ota": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     {
+      "op": "const",
+      "value": [
+       "pta",
+       "ota"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "rendering_resident": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     {
+      "op": "const",
+      "value": [
+       "resident",
+       "fellow"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "service_pt_ot": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     {
+      "op": "const",
+      "value": [
+       "physical_therapy",
+       "occupational_therapy"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "service_acu_pt_ot": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     {
+      "op": "const",
+      "value": [
+       "acupuncture",
+       "physical_therapy",
+       "occupational_therapy"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "code_is_87635": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "applied_bound.code"
+   },
+   "right": {
+    "op": "const",
+    "value": "87635"
+   }
+  },
+  "covid_test_billed": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "any_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "covid.tests_billed"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "one_present"
+   }
+  },
+  "telemed_used": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "telemedicine.per_325_1_8"
+   },
+   "right": {
+    "op": "const",
+    "value": true
+   }
+  },
+  "bh_telemed_code": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "applied_bound.code"
+     },
+     {
+      "op": "const",
+      "value": [
+       "99441",
+       "99442",
+       "99443"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "dos_check_medical": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "medical"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_medical"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_medical"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "dos_check_acu": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "acu_pt_ot"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_acu"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_acu"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "dos_check_pt_ot": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "acu_pt_ot"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_pt_ot"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_pt_ot"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "dos_check_bh": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "behavioral_health"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_bh"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_bh"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "dos_check_pod": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "podiatry"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_pod"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_pod"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "dos_check_chiro": {
+   "op": "cond",
+   "if": {
+    "op": "not",
+    "operand": {
+     "op": "binding",
+     "name": "edition_cited"
+    }
+   },
+   "then": {
+    "op": "const",
+    "value": "no_edition_cited"
+   },
+   "else": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "binding",
+     "name": "v_effective_known"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        },
+        "right": {
+         "op": "const",
+         "value": "chiropractic"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.edition_date"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_edition_chiro"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "schedule.cited.publisher"
+        },
+        "right": {
+         "op": "binding",
+         "name": "v_publisher"
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "ordered_before",
+       "args": [
+        {
+         "op": "fact",
+         "path": "service.date"
+        },
+        {
+         "op": "binding",
+         "name": "v_effective_from_chiro"
+        }
+       ]
+      },
+      "mapping": {
+       "before": {
+        "op": "const",
+        "value": "dos_precedes_edition_effect"
+       },
+       "after": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "simultaneous": {
+        "op": "const",
+        "value": "cited_edition_in_force_on_dos"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "missing_operand"
+       }
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": "cited_edition_not_the_one_in_force"
+     }
+    }
+   }
+  },
+  "complexity_exception": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "primitive",
+    "name": "held_judgment",
+    "args": [
+     {
+      "op": "fact",
+      "path": "surgery.complexity_requires_multiple"
+     }
+    ]
+   },
+   "mapping": {
+    "affirmed": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "surgery.multiple_documented_contemporaneously"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "absent"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "outstanding"
+     },
+     "else": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "surgery.multiple_documented_contemporaneously"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     }
+    },
+    "denied": {
+     "op": "const",
+     "value": false
+    },
+    "not_assessed": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "$unmapped": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "units_over_one": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "primitive",
+    "name": "distinct_members_at_least",
+    "args": [
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "telemedicine.units_same_day"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     },
+     {
+      "op": "const",
+      "value": 2
+     },
+     {
+      "op": "const",
+      "value": "distinct_values"
+     }
+    ]
+   },
+   "mapping": {
+    "met": {
+     "op": "const",
+     "value": "more_than_one_unit_per_day"
+    },
+    "not_met": {
+     "op": "const",
+     "value": "within_one_unit_per_day"
+    }
+   }
+  }
+ },
+ "bindings_by_version": {
+  "in-force": {
+   "v_publisher": {
+    "op": "const",
+    "value": "OptumInsight"
+   },
+   "v_effective_known": {
+    "op": "const",
+    "value": true
+   },
+   "v_pta_code_source": {
+    "op": "const",
+    "value": "medical_physical_medicine_section"
+   },
+   "v_edition_medical": {
+    "op": "const",
+    "value": "2019-12-11"
+   },
+   "v_edition_acu": {
+    "op": "const",
+    "value": "2019-12-11"
+   },
+   "v_edition_pt_ot": {
+    "op": "const",
+    "value": "2019-12-11"
+   },
+   "v_edition_bh": {
+    "op": "const",
+    "value": "2019-12-11"
+   },
+   "v_edition_pod": {
+    "op": "const",
+    "value": "2018-12-26"
+   },
+   "v_edition_chiro": {
+    "op": "const",
+    "value": "2019-12-11"
+   },
+   "v_effective_from_medical": {
+    "op": "const",
+    "value": "2020-01-01"
+   },
+   "v_effective_from_acu": {
+    "op": "const",
+    "value": "2020-01-01"
+   },
+   "v_effective_from_pt_ot": {
+    "op": "const",
+    "value": "2020-01-01"
+   },
+   "v_effective_from_bh": {
+    "op": "const",
+    "value": "2020-01-01"
+   },
+   "v_effective_from_pod": {
+    "op": "const",
+    "value": "2019-04-01"
+   },
+   "v_effective_from_chiro": {
+    "op": "const",
+    "value": "2020-01-01"
+   }
+  },
+  "proposed-2026-01-14": {
+   "v_publisher": {
+    "op": "const",
+    "value": "RefMed"
+   },
+   "v_effective_known": {
+    "op": "binding",
+    "name": "a2_supplied"
+   },
+   "v_pta_code_source": {
+    "op": "const",
+    "value": "acu_pt_ot_schedule"
+   },
+   "v_edition_medical": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_edition_acu": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_edition_pt_ot": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_edition_bh": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_edition_pod": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_edition_chiro": {
+    "op": "const",
+    "value": "2025-12-30"
+   },
+   "v_effective_from_medical": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   },
+   "v_effective_from_acu": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   },
+   "v_effective_from_pt_ot": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   },
+   "v_effective_from_bh": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   },
+   "v_effective_from_pod": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   },
+   "v_effective_from_chiro": {
+    "op": "resolution",
+    "name": "proposed_effective_date"
+   }
+  }
+ },
+ "clauses": {
+  "12nycrr/329-1.1/schedule-in-effect-on-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       {
+        "op": "const",
+        "value": [
+         "medical",
+         "physical_therapy",
+         "occupational_therapy"
+        ]
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "service.kind"
+      },
+      "right": {
+       "op": "const",
+       "value": "medical"
+      }
+     },
+     "then": {
+      "op": "binding",
+      "name": "dos_check_medical"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "binding",
+       "name": "a1_supplied"
+      },
+      "compute": {
+       "op": "applicability_gate",
+       "applies": {
+        "op": "eq",
+        "left": {
+         "op": "resolution",
+         "name": "pt_ot_governing_schedule"
+        },
+        "right": {
+         "op": "const",
+         "value": "medical_physical_medicine_section"
+        }
+       },
+       "compute": {
+        "op": "binding",
+        "name": "dos_check_medical"
+       }
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "cond",
+    "if": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "service_pt_ot"
+      },
+      {
+       "op": "not",
+       "operand": {
+        "op": "binding",
+        "name": "a1_supplied"
+       }
+      }
+     ]
+    },
+    "then": {
+     "op": "const",
+     "value": "NY-A1 unresolved: whether 329-1.1 or 329-4.1(b) governs a physical or occupational therapy service is open, and nobody has settled it."
+    },
+    "else": {
+     "op": "absent"
+    }
+   },
+   "$applicability_needs_resolution": "Whether this section applies to a PT/OT service at all IS the open question NY-A1; the applicability gate must sit under the guard on that resolution."
+  },
+  "12nycrr/329-1.2/unit-fee-on-transfer": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "proration.unit_fee_specified"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "proration.transferred"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "amounts_equal",
+     "args": [
+      {
+       "op": "fact",
+       "path": "proration.total_paid"
+      },
+      {
+       "op": "fact",
+       "path": "proration.unit_fee_amount"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "equal: the employer paid the scheduled unit fee once across the concerned physicians. The unit fee itself is licensed content supplied on the determination."
+   }
+  },
+  "12nycrr/329-1.2/agreed-proration-separate-bills": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "proration.unit_fee_specified"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "proration.transferred"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "proration.physicians_agreed"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "proration.separate_bills_rendered"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "absent"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "outstanding"
+      },
+      "else": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "proration.separate_bills_rendered"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     }
+    ]
+   }
+  },
+  "12nycrr/329-1.2/death-no-proration": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "proration.terminated_by"
+      },
+      "right": {
+       "op": "const",
+       "value": "death"
+      }
+     },
+     {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "amounts_equal",
+       "args": [
+        {
+         "op": "fact",
+         "path": "proration.total_paid"
+        },
+        {
+         "op": "fact",
+         "path": "proration.unit_fee_amount"
+        }
+       ]
+      },
+      "mapping": {
+       "equal": {
+        "op": "const",
+        "value": true
+       },
+       "not_equal": {
+        "op": "const",
+        "value": false
+       },
+       "incomparable_currency": {
+        "op": "const",
+        "value": "undetermined"
+       },
+       "missing_operand": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     }
+    ]
+   },
+   "note": {
+    "op": "const",
+    "value": "satisfied: the full scheduled fee was paid without proration."
+   }
+  },
+  "12nycrr/329-1.2/departure-earned-portion": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "proration.terminated_by"
+     },
+     "right": {
+      "op": "const",
+      "value": "departure_from_nys"
+     }
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "proration.earned_portion_assessment"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "affirmed: the fee paid is the earned portion, as assessed. Never inferred."
+   }
+  },
+  "12nycrr/329-1.3/c/supervision": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "provider.supervision_present"
+          },
+          {
+           "op": "fact",
+           "path": "provider.supervising_authorized"
+          },
+          {
+           "op": "fact",
+           "path": "provider.supervision_direct"
+          },
+          {
+           "op": "fact",
+           "path": "provider.supervising_class"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_present"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervising_authorized"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_direct"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "cond",
+         "if": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.rendering_class"
+          },
+          "right": {
+           "op": "const",
+           "value": "pta"
+          }
+         },
+         "then": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.supervising_class"
+          },
+          "right": {
+           "op": "const",
+           "value": "pt"
+          }
+         },
+         "else": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.supervising_class"
+          },
+          "right": {
+           "op": "const",
+           "value": "ot"
+          }
+         }
+        }
+       ]
+      },
+      "then": {
+       "op": "const",
+       "value": "direct_supervision_by_authorized_therapist"
+      },
+      "else": {
+       "op": "const",
+       "value": "supervision_requirement_not_met"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/c/1/pta-code-source": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     "right": {
+      "op": "const",
+      "value": "pta"
+     }
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "schedule.cited.code_source"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "schedule.cited.code_source"
+       },
+       "right": {
+        "op": "binding",
+        "name": "v_pta_code_source"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "codes_from_required_schedule"
+      },
+      "else": {
+       "op": "const",
+       "value": "codes_not_from_required_schedule"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "concat",
+    "parts": [
+     {
+      "op": "const",
+      "value": "Required source under this version: "
+     },
+     {
+      "op": "binding",
+      "name": "v_pta_code_source"
+     }
+    ]
+   }
+  },
+  "12nycrr/329-1.3/c/1/pta-modifier": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     "right": {
+      "op": "const",
+      "value": "pta"
+     }
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "modifiers_present"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "cq_billed"
+      },
+      "then": {
+       "op": "const",
+       "value": "modifier_present"
+      },
+      "else": {
+       "op": "const",
+       "value": "modifier_absent"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/c/2/ota-code-source": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     "right": {
+      "op": "const",
+      "value": "ota"
+     }
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "schedule.cited.code_source"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "schedule.cited.code_source"
+       },
+       "right": {
+        "op": "binding",
+        "name": "v_pta_code_source"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "codes_from_required_schedule"
+      },
+      "else": {
+       "op": "const",
+       "value": "codes_not_from_required_schedule"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "concat",
+    "parts": [
+     {
+      "op": "const",
+      "value": "Required source under this version: "
+     },
+     {
+      "op": "binding",
+      "name": "v_pta_code_source"
+     }
+    ]
+   }
+  },
+  "12nycrr/329-1.3/c/2/ota-modifier": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "provider.rendering_class"
+     },
+     "right": {
+      "op": "const",
+      "value": "ota"
+     }
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "modifiers_present"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "co_billed"
+      },
+      "then": {
+       "op": "const",
+       "value": "modifier_present"
+      },
+      "else": {
+       "op": "const",
+       "value": "modifier_absent"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/c/3/eighty-five-percent": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "cq_or_co_billed"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "amount_fraction_of",
+     "args": [
+      {
+       "op": "fact",
+       "path": "payment.amount"
+      },
+      {
+       "op": "fact",
+       "path": "applied_bound.amount"
+      },
+      {
+       "op": "const",
+       "value": 85
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Exact: 100 x paid == 85 x the direct-therapist amount at a common scale. No rounding convention is stated (NY-A5)."
+   }
+  },
+  "12nycrr/329-1.3/c/3/cosign": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "bill.notes_cosigned_by"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "cond",
+       "if": {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "provider.rendering_class"
+        },
+        "right": {
+         "op": "const",
+         "value": "pta"
+        }
+       },
+       "then": {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "bill.notes_cosigned_by"
+        },
+        "right": {
+         "op": "const",
+         "value": "supervising_pt"
+        }
+       },
+       "else": {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "bill.notes_cosigned_by"
+        },
+        "right": {
+         "op": "const",
+         "value": "supervising_ot"
+        }
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "cosigned_by_supervising_therapist"
+      },
+      "else": {
+       "op": "const",
+       "value": "not_cosigned_by_supervising_therapist"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/c/3/no-independent-billing": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "provider.billing_class"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "provider.billing_class"
+         },
+         {
+          "op": "const",
+          "value": [
+           "pta",
+           "ota"
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "member"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "billed_independently"
+      },
+      "else": {
+       "op": "const",
+       "value": "billed_by_supervising_therapist"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/c/5/priority": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "assistant.mixed_same_dos"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "assistant.priority_given_to"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "absent"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "outstanding"
+      },
+      "else": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "assistant.priority_given_to"
+         },
+         {
+          "op": "const",
+          "value": [
+           "pt",
+           "ot"
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "member"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "12nycrr/329-1.3/c/6/scope-not-expanded": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "assistant.service_reserved_for_pt_ot"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "affirmed: the service IS reserved to PTs or OTs, so the assistant provision and its billing are impermissible. The reservation is decided under external statute and regulation; it arrives as an assessment."
+   }
+  },
+  "12nycrr/329-1.3/d/covid-testing-code": {
+   "op": "emit",
+   "result": {
+    "op": "primitive",
+    "name": "conditional_requirement",
+    "args": [
+     {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "covid.claim_basis"
+        },
+        "right": {
+         "op": "const",
+         "value": "workplace_exposure_claim"
+        }
+       },
+       {
+        "op": "binding",
+        "name": "covid_test_billed"
+       }
+      ]
+     },
+     {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "applied_bound.code"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "absent"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "outstanding"
+      },
+      "else": {
+       "op": "binding",
+       "name": "code_is_87635"
+      }
+     }
+    ]
+   }
+  },
+  "12nycrr/329-1.3/d/1/rvu": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "covid.rvu_applied"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "absent"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "rvu_not_stated"
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "covid.rvu_applied"
+       },
+       "right": {
+        "op": "const",
+        "value": 39.18
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "rvu_as_regulated"
+      },
+      "else": {
+       "op": "const",
+       "value": "rvu_not_as_regulated"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/d/1/regional-fee": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "covid.region"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "amounts_equal",
+      "args": [
+       {
+        "op": "fact",
+        "path": "payment.amount"
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "fact",
+         "path": "covid.region"
+        },
+        "mapping": {
+         "IV": {
+          "op": "const",
+          "value": {
+           "amountRaw": "5133",
+           "decimals": "2",
+           "currency": "USD"
+          }
+         },
+         "III": {
+          "op": "const",
+          "value": {
+           "amountRaw": "4741",
+           "decimals": "2",
+           "currency": "USD"
+          }
+         },
+         "I": {
+          "op": "const",
+          "value": {
+           "amountRaw": "4153",
+           "decimals": "2",
+           "currency": "USD"
+          }
+         },
+         "II": {
+          "op": "const",
+          "value": {
+           "amountRaw": "4153",
+           "decimals": "2",
+           "currency": "USD"
+          }
+         },
+         "$unmapped": {
+          "op": "absent"
+         }
+        }
+       }
+      ]
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "The three fees are the regulation's own numbers (51.33 / 47.41 / 41.53 USD), the one bound in this register a party holding no schedule text can verify to the cent."
+   }
+  },
+  "12nycrr/329-1.3/d/2/billable-basis": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "covid.claim_basis"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "covid.claim_basis"
+       },
+       {
+        "op": "const",
+        "value": [
+         "workplace_exposure_claim",
+         "preop_protocol_doh"
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/d/3/no-routine-screening": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "covid.claim_basis"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "covid.claim_basis"
+       },
+       "right": {
+        "op": "const",
+        "value": "routine_screening"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "billed_for_routine_screening"
+      },
+      "else": {
+       "op": "const",
+       "value": "not_routine_screening"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/d/4/no-antibody": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "covid_test_billed"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "none_of_class_present",
+     "args": [
+      {
+       "op": "coalesce",
+       "value": {
+        "op": "fact",
+        "path": "covid.tests_billed"
+       },
+       "fallback": {
+        "op": "const",
+        "value": []
+       }
+      },
+      {
+       "op": "const",
+       "value": [
+        "antibody"
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "12nycrr/329-1.3/d/5/single-instance": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "any_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "covid.prior_87635_lines"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "none_present"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "first_instance"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "covid.repeat_documentation"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "present"
+       }
+      },
+      "compute": {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "covid.repeat_documentation"
+         },
+         {
+          "op": "const",
+          "value": [
+           "change_or_recurrence",
+           "new_exposure"
+          ]
+         }
+        ]
+       },
+       "mapping": {
+        "member": {
+         "op": "const",
+         "value": "repeat_supported_by_documentation"
+        },
+        "not_member": {
+         "op": "const",
+         "value": "repeat_not_permitted"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/supervision": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "provider.supervision_present"
+          },
+          {
+           "op": "fact",
+           "path": "provider.supervising_authorized"
+          },
+          {
+           "op": "fact",
+           "path": "provider.supervising_class"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_present"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervising_authorized"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervising_class"
+         },
+         "right": {
+          "op": "const",
+          "value": "physician"
+         }
+        }
+       ]
+      },
+      "then": {
+       "op": "const",
+       "value": "supervised_by_authorized_physician"
+      },
+      "else": {
+       "op": "const",
+       "value": "supervision_requirement_not_met"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/acgme-program": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
+           "op": "fact",
+           "path": "resident.program_acgme_accredited"
+          },
+          {
+           "op": "fact",
+           "path": "resident.activity_external_to_program"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "resident.program_acgme_accredited"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "resident.activity_external_to_program"
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      },
+      "then": {
+       "op": "const",
+       "value": "within_accredited_program"
+      },
+      "else": {
+       "op": "const",
+       "value": "outside_program_requirement"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/no-independent-billing": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "provider.billing_class"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "member_of_enumeration",
+        "args": [
+         {
+          "op": "fact",
+          "path": "provider.billing_class"
+         },
+         {
+          "op": "const",
+          "value": [
+           "resident",
+           "fellow"
+          ]
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "member"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "billed_independently"
+      },
+      "else": {
+       "op": "const",
+       "value": "billed_by_supervising_physician"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/no-separate-supervision-fee": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "bill.supervision_billed_separately"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "bill.supervision_billed_separately"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "supervision_billed_separately"
+      },
+      "else": {
+       "op": "const",
+       "value": "supervision_not_billed_separately"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/1/uses-medical-schedule": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "rendering_resident"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "resident.role"
+       },
+       "right": {
+        "op": "const",
+        "value": "non_surgical"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "schedule.cited.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "medical"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "medical_schedule_cited"
+      },
+      "else": {
+       "op": "const",
+       "value": "other_schedule_cited"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/1/non-surgical-modifier": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "rendering_resident"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "resident.role"
+       },
+       "right": {
+        "op": "const",
+        "value": "non_surgical"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "modifiers_present"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "r1_billed"
+      },
+      "then": {
+       "op": "const",
+       "value": "modifier_present"
+      },
+      "else": {
+       "op": "const",
+       "value": "modifier_absent"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/1/same-amount": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "r1_billed"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "amounts_equal",
+     "args": [
+      {
+       "op": "fact",
+       "path": "payment.amount"
+      },
+      {
+       "op": "fact",
+       "path": "applied_bound.amount"
+      }
+     ]
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/uses-medical-schedule": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "rendering_resident"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "resident.role"
+       },
+       "right": {
+        "op": "const",
+        "value": "assistant_at_surgery"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "schedule.cited.kind"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "schedule.cited.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "medical"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "medical_schedule_cited"
+      },
+      "else": {
+       "op": "const",
+       "value": "other_schedule_cited"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/assistant-modifier": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "rendering_resident"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "resident.role"
+       },
+       "right": {
+        "op": "const",
+        "value": "assistant_at_surgery"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "modifiers_present"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "m84_billed"
+      },
+      "then": {
+       "op": "const",
+       "value": "modifier_present"
+      },
+      "else": {
+       "op": "const",
+       "value": "modifier_absent"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/work-documented": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "m84_billed"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "surgery.work_accurately_documented"
+      }
+     ]
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/sixteen-percent": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "m84_billed"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "amount_fraction_of",
+     "args": [
+      {
+       "op": "fact",
+       "path": "payment.amount"
+      },
+      {
+       "op": "fact",
+       "path": "applied_bound.amount"
+      },
+      {
+       "op": "const",
+       "value": 16
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Exact: 100 x paid == 16 x the physician fee at a common scale. No rounding convention is stated (NY-A5). Ground Rule 12(B)'s bar does not apply: (e)(2)(v)."
+   }
+  },
+  "12nycrr/329-1.3/e/2/ii/one-per-procedure": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "m84_billed"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "surgery.resident_assistants_billed"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "distinct_members_at_least",
+       "args": [
+        {
+         "op": "coalesce",
+         "value": {
+          "op": "fact",
+          "path": "surgery.resident_assistants_billed"
+         },
+         "fallback": {
+          "op": "const",
+          "value": []
+         }
+        },
+        {
+         "op": "const",
+         "value": 2
+        },
+        {
+         "op": "const",
+         "value": "distinct_values"
+        }
+       ]
+      },
+      "mapping": {
+       "met": {
+        "op": "const",
+        "value": "more_than_one_resident_billed"
+       },
+       "not_met": {
+        "op": "const",
+        "value": "at_most_one_resident_billed"
+       }
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/i/one-resident-unless-complex": {
+   "op": "emit",
+   "result": {
+    "op": "guard_on_unresolved",
+    "usable": {
+     "op": "not",
+     "operand": {
+      "op": "eq",
+      "left": {
+       "op": "clause",
+       "id": "12nycrr/329-1.3/e/2/ii/one-per-procedure"
+      },
+      "right": {
+       "op": "const",
+       "value": "undetermined"
+      }
+     }
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "clause",
+        "id": "12nycrr/329-1.3/e/2/ii/one-per-procedure"
+       },
+       "right": {
+        "op": "const",
+        "value": "more_than_one_resident_billed"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "complexity_exception"
+      }
+     ]
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "not_applicable: at most one resident was billed, or no 84 was billed, so the exception never arose."
+   }
+  },
+  "12nycrr/329-1.3/e/2/iii/other-assistants": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "m84_billed"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "any_present",
+        "args": [
+         {
+          "op": "fact",
+          "path": "surgery.other_assistants_billed"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "one_present"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "surgery.all_assistants_billed"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "primitive",
+         "name": "distinct_members_at_least",
+         "args": [
+          {
+           "op": "coalesce",
+           "value": {
+            "op": "fact",
+            "path": "surgery.all_assistants_billed"
+           },
+           "fallback": {
+            "op": "const",
+            "value": []
+           }
+          },
+          {
+           "op": "const",
+           "value": 2
+          },
+          {
+           "op": "const",
+           "value": "distinct_values"
+          }
+         ]
+        },
+        "right": {
+         "op": "const",
+         "value": "met"
+        }
+       },
+       {
+        "op": "binding",
+        "name": "complexity_exception"
+       }
+      ]
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/iv/same-bill-84": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "m84_billed"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "surgery.on_same_bill_as_surgery"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "surgery.on_same_bill_as_surgery"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "on_same_bill_as_surgery"
+      },
+      "else": {
+       "op": "const",
+       "value": "not_on_same_bill_as_surgery"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-1.3/e/2/iv/single-bill-1R": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "r1_billed"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "bills.same_dos_bill_ids"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "distinct_members_at_least",
+        "args": [
+         {
+          "op": "coalesce",
+          "value": {
+           "op": "fact",
+           "path": "bills.same_dos_bill_ids"
+          },
+          "fallback": {
+           "op": "const",
+           "value": []
+          }
+         },
+         {
+          "op": "const",
+          "value": 2
+         },
+         {
+          "op": "const",
+          "value": "distinct_values"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "not_met"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "single_bill"
+      },
+      "else": {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "held_judgment",
+        "args": [
+         {
+          "op": "fact",
+          "path": "bills.services_demonstrably_different"
+         }
+        ]
+       },
+       "mapping": {
+        "affirmed": {
+         "op": "const",
+         "value": "separate_bills_for_demonstrably_different_services"
+        },
+        "denied": {
+         "op": "const",
+         "value": "separate_bills_not_permitted"
+        },
+        "not_assessed": {
+         "op": "const",
+         "value": "not_assessed"
+        },
+        "$unmapped": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "The designation resident-versus-supervisor is by the text not a demonstrable difference; the assessment is taken as recorded."
+   }
+  },
+  "12nycrr/329-1.3/e/3/narrative-names": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        {
+         "op": "fact",
+         "path": "narrative.resident_name"
+        },
+        {
+         "op": "fact",
+         "path": "narrative.supervising_physician_name"
+        },
+        {
+         "op": "fact",
+         "path": "narrative.program_name"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "12nycrr/329-4.1/a/acupuncture-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     "right": {
+      "op": "const",
+      "value": "acupuncture"
+     }
+    },
+    "compute": {
+     "op": "binding",
+     "name": "dos_check_acu"
+    }
+   }
+  },
+  "12nycrr/329-4.1/b/pt-ot-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "service_pt_ot"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "a1_supplied"
+     },
+     "compute": {
+      "op": "applicability_gate",
+      "applies": {
+       "op": "eq",
+       "left": {
+        "op": "resolution",
+        "name": "pt_ot_governing_schedule"
+       },
+       "right": {
+        "op": "const",
+        "value": "acu_pt_ot_schedule"
+       }
+      },
+      "compute": {
+       "op": "binding",
+       "name": "dos_check_pt_ot"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "cond",
+    "if": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "service_pt_ot"
+      },
+      {
+       "op": "not",
+       "operand": {
+        "op": "binding",
+        "name": "a1_supplied"
+       }
+      }
+     ]
+    },
+    "then": {
+     "op": "const",
+     "value": "NY-A1 unresolved: whether 329-1.1 or 329-4.1(b) governs a physical or occupational therapy service is open, and nobody has settled it."
+    },
+    "else": {
+     "op": "absent"
+    }
+   },
+   "$applicability_needs_resolution": "Whether this section applies to a PT/OT service at all IS the open question NY-A1; the applicability gate must sit under the guard on that resolution."
+  },
+  "12nycrr/329-4.2/d/telemedicine-code": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "service_acu_pt_ot"
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "applied_bound.code"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "applied_bound.code"
+       },
+       "right": {
+        "op": "const",
+        "value": "99441"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "telemedicine_code_used"
+      },
+      "else": {
+       "op": "const",
+       "value": "other_code_used"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/329-4.2/d/one-unit-per-day": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "service_acu_pt_ot"
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "applied_bound.code"
+       },
+       "right": {
+        "op": "const",
+        "value": "99441"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "telemedicine.units_same_day"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "binding",
+      "name": "units_over_one"
+     }
+    }
+   }
+  },
+  "12nycrr/333.1/psychology-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     "right": {
+      "op": "const",
+      "value": "psychology"
+     }
+    },
+    "compute": {
+     "op": "binding",
+     "name": "dos_check_bh"
+    }
+   }
+  },
+  "12nycrr/333.2/c/telemedicine-codes": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "psychology"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "applied_bound.code"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "bh_telemed_code"
+      },
+      "then": {
+       "op": "const",
+       "value": "telemedicine_code_used"
+      },
+      "else": {
+       "op": "const",
+       "value": "other_code_used"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/333.2/c/one-unit-per-day": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "psychology"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      },
+      {
+       "op": "binding",
+       "name": "bh_telemed_code"
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "telemedicine.units_same_day"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "binding",
+      "name": "units_over_one"
+     }
+    }
+   }
+  },
+  "12nycrr/333.2/c/no-1b-enhancement": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "psychology"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      },
+      {
+       "op": "binding",
+       "name": "bh_telemed_code"
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "binding",
+      "name": "modifiers_present"
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "b1_billed"
+      },
+      "then": {
+       "op": "const",
+       "value": "enhancement_claimed_not_eligible"
+      },
+      "else": {
+       "op": "const",
+       "value": "no_enhancement_claimed"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/343.1/podiatry-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     "right": {
+      "op": "const",
+      "value": "podiatry"
+     }
+    },
+    "compute": {
+     "op": "binding",
+     "name": "dos_check_pod"
+    }
+   }
+  },
+  "12nycrr/348.1/chiropractic-dos": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "service.kind"
+     },
+     "right": {
+      "op": "const",
+      "value": "chiropractic"
+     }
+    },
+    "compute": {
+     "op": "binding",
+     "name": "dos_check_chiro"
+    }
+   }
+  },
+  "12nycrr/348.2/c/telemedicine-code": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "chiropractic"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "applied_bound.code"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "applied_bound.code"
+       },
+       "right": {
+        "op": "const",
+        "value": "99441"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "telemedicine_code_used"
+      },
+      "else": {
+       "op": "const",
+       "value": "other_code_used"
+      }
+     }
+    }
+   }
+  },
+  "12nycrr/348.2/c/one-unit-per-day": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "service.kind"
+       },
+       "right": {
+        "op": "const",
+        "value": "chiropractic"
+       }
+      },
+      {
+       "op": "binding",
+       "name": "telemed_used"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "applied_bound.code"
+       },
+       "right": {
+        "op": "const",
+        "value": "99441"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "telemedicine.units_same_day"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "binding",
+      "name": "units_over_one"
+     }
+    }
+   }
+  }
+ }
+}
