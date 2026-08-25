@@ -2,7 +2,8 @@
 /**
  * THE PROVENANCE GATE, SHOWN REFUSING. A mock third register version whose provenance carries the
  * kinds of claim Atlas has fabricated before (a PR number, a commit hash, a test count, a
- * publication date), unverified. The gate must refuse it and name each claim. Then the same entry
+ * publication date), unverified, preceded by a mock entry with NO provenance block at all, the omitted key
+ * (refused since 2026-08-25; before that the gate returned OK on it). The gate must refuse both and name each claim. Then the same entry
  * with every claim verified against a named primary source, which it must accept. Then the two
  * real versions, which carry no agent claims and pass. Output written to STEP-6-ATLAS-VERIFICATION.md
  * by hand-authored surround; this script prints the three results verbatim.
@@ -32,7 +33,9 @@ const verified = {
   ] },
 };
 const show = (label, meta) => { try { const r = checkVersionProvenance('restatement-mock', meta); console.log(`${label}: ACCEPTED (${r.agent_claims} verified agent claims)`); } catch (e) { console.log(`${label}: ${e.message}`); } };
-console.log('=== 1. mock entry with unverified agent claims'); show('mock-unverified', unverified);
+const absent = { status: 'restatement_candidate', text_source: 'returned by Atlas 2026-08-24' };
+console.log('=== 0. mock entry with NO provenance block (the omitted key)'); show('mock-absent', absent);
+console.log('\n=== 1. mock entry with unverified agent claims'); show('mock-unverified', unverified);
 console.log('\n=== 2. the same entry, every claim verified against a named primary source'); show('mock-verified', verified);
 console.log('\n=== 3. the two real versions as committed');
 for (const vid of Object.keys(cj.register_versions).filter((k) => !k.startsWith('$'))) { const r = checkVersionProvenance(vid, cj.register_versions[vid]); console.log(`${vid}: ACCEPTED (${r.agent_claims} agent claims; provenance by this session's retrieval, recorded in source/PROVENANCE.md)`); }

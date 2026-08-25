@@ -75,17 +75,23 @@ export const bindingsRead = (tree, bindings) => {
 
 // ── THE PROVENANCE GATE ON A REGISTER VERSION ───────────────────────────────────────────────────
 //
-// A register version may carry `provenance.agent_claims`: the claims an agent (Atlas) made about the
-// document it returned. EVERY such claim must have been verified against a primary source by the
-// session that lands the entry, and the entry records how. A claim with `verified` anything other
+// EVERY register version carries `provenance`: `retrieved_by`, the session that retrieved its text and
+// when, and `agent_claims`, the claims an agent (Atlas) made about the document it returned, an EMPTY
+// array when no agent supplied anything. Absence is a positive state, never an omitted key: a version
+// with no provenance block has said nothing about where its text came from, and a version that says
+// nothing is not an entry. (Rule added 2026-08-25. The first form of this gate returned OK on the
+// omitted key, so a version an agent described and nobody recorded would have projected.) EVERY
+// agent claim must have been verified against a primary source by the session that lands the entry,
+// and the entry records how. A claim with `verified` anything other
 // than `true`, or without `verified_against` and `method`, makes the WHOLE VERSION invalid: the
 // projector throws and writes nothing for it. An unverified agent claim is not a pending entry; it
 // is not an entry. Exported so the refusal can be shown on a mock entry without writing files.
 export function checkVersionProvenance(vid, meta) {
   const prov = meta.provenance;
-  if (prov === undefined) return { vid, agent_claims: 0 };
+  if (prov === undefined || prov === null || typeof prov !== 'object' || Array.isArray(prov)) throw new Error(`REFUSED register version ${vid}: no provenance block. A version carries provenance.retrieved_by and provenance.agent_claims (an empty array when no agent supplied anything); one that carries neither has said nothing about where its text came from, and a version that says nothing is not an entry.`);
+  if (typeof prov.retrieved_by !== 'string' || prov.retrieved_by.length === 0) throw new Error(`REFUSED register version ${vid}: provenance.retrieved_by is missing; the session that retrieved the text, and when, is the first fact an entry carries.`);
   const claims = prov.agent_claims;
-  if (!Array.isArray(claims)) throw new Error(`${vid}: provenance.agent_claims must be an array (empty when no agent supplied anything)`);
+  if (!Array.isArray(claims)) throw new Error(`REFUSED register version ${vid}: provenance.agent_claims must be an array (empty when no agent supplied anything)`);
   const problems = [];
   claims.forEach((c, i) => {
     const where = `${vid}: agent_claims[${i}] (${JSON.stringify(c.claim ?? '?')})`;

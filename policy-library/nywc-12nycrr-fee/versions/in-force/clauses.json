@@ -10,7 +10,12 @@
   "as_of": "2026-08-25T04:08:39Z",
   "$as_of_is": "the retrieval instant read from the environment clock, not composed",
   "compiled_text_source": "LII (law.cornell.edu) compilation of 12 NYCRR, retrieved 2026-08-25, plus the Board's adopted texts for 329-1.3(c) (adopted, eff. 2025-03-22) and 329-1.3(e) (adopted, Notice of Adoption published 2026-04-22, effective on publication), which LII does not yet carry for (e)",
-  "official_compilation": "NOT RETRIEVED. govt.westlaw.com/nycrr returned HTTP 403 at 2026-08-25T04:16:51Z. The lettering of 329-1.3's subdivisions is therefore established from the Board's texts and LII, not from the Department of State's compilation; see ambiguity NY-A4."
+  "official_compilation": "NOT RETRIEVED. govt.westlaw.com/nycrr returned HTTP 403 at 2026-08-25T04:16:51Z. The lettering of 329-1.3's subdivisions is therefore established from the Board's texts and LII, not from the Department of State's compilation; see ambiguity NY-A4.",
+  "provenance": {
+   "retrieved_by": "the building session, from this machine, at 2026-08-25T04:08:39Z (LII and the Board's adopted texts) and 2026-08-25T04:16:51Z (the official-compilation attempt, HTTP 403); recorded with digests in source/PROVENANCE.md",
+   "agent_claims": [],
+   "$agent_claims_is": "empty: no agent supplied anything about this version; every retrieval was done by the session"
+  }
  },
  "clauses": [
   {
