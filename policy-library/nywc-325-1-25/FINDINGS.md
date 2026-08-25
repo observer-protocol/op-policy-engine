@@ -67,6 +67,8 @@ fetcher; no archive capture); Justia 403; Casetext 410. LII is the one rendering
 
 ## 4. Harness self-check
 
+MARKER: [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+
 `harness-selfcheck.mjs`, recorded in `HARNESS-SELF-CHECK.md`:
 
 > **Mutation:** the constant 45 in `bindings.action_within_45_of_submission`, set to 40, in memory.
@@ -87,6 +89,8 @@ differently). The last is a disagreement about the rule.
 
 ### Layer A (WCB), publishable: 4 of 4 stated clauses diverge, all 4 on a decision
 
+MARKER: [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+
 | clause | diverge / 600 | diverge / reached | decision / reached | what turns on it |
 |---|---|---|---|---|
 | `d/1/award-availability` | 548/600 | 548/600 | 224/600 | the page states one condition (not paid in full within 45 days of submission) where (d)(1) has three; 182 bills ineligible under (b)(1) get `remedy_available`, 5 with a timely valuation notice do, 9 paid in full after day 45 do; 323 are regulation-waiting on the format meaning |
@@ -95,6 +99,8 @@ differently). The last is a disagreement about the rule.
 | `c/6/legally-defective-report` | 315/600 | 10/10 | 4/10 | the page decides `legally defective` by three elements; the regulation waits on a meaning (311 regulation-waiting) or attributes one |
 
 ### Layer B (daisyBill), REPOSITORY-INTERNAL: 11 of 20 stated clauses diverge, all 11 on a decision
+
+MARKER: [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 | clause | diverge / 600 | diverge / reached | decision / reached | what turns on it |
 |---|---|---|---|---|
@@ -117,6 +123,8 @@ rule and the EOB exception. One rule is added by the restatement and has no regu
 clause, (b)(1) format, and read it differently (field matrix; electronic submission).
 
 ### The waiting axis
+
+MARKER: [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 Regulation: 35,400 records, meaning-waiting 3,470 (9.80%); 323 of 600 determinations carry at
 least one such record (the unsupplied-format population). Ungrounded split over 11 clauses x 600 =
@@ -145,8 +153,8 @@ superseded text (57 deletions, 24 insertions against the in-force 426 words).
 from `figures` arrays in `out/*.json`; `project-versions.mjs` takes `--dir`, `clauses_by_version`,
 `only_in_versions` and `rests_on_ungrounded_term_by_version`, and checks declared meaning keys
 across versions; `compare.mjs` takes `--dir`; the scanner exempts `RETIRED:` lines; three domain
-rows in `_phase0/build-register.mjs`. CV7's `FIGURE-CAVEAT.md` retires 57/600 and 435/600 by name
-(item 8). Design reasoning in op-at-specs, `2026-08-25-nywc-325-1-25-restatements-as-versions.md`.
+rows in `_phase0/build-register.mjs`. CV7's `FIGURE-CAVEAT.md` retires the two CV7-era headline figures by name
+(item 8; the strings themselves appear only on that file's RETIRED lines). Design reasoning in op-at-specs, `2026-08-25-nywc-325-1-25-restatements-as-versions.md`.
 
 ## Stated limits
 
