@@ -408,7 +408,9 @@ export function refusalPayload(r: SignableRefusal): string {
  *
  * DERIVED FROM THE RECORD, NEVER STORED ALONGSIDE IT. A persisted copy of the signed bytes would be
  * a second source for the same fact, and the two would disagree the first time the payload changed. */
-export function signableFromRefusal(r: Refusal): SignableRefusal {
+/** `reason` is optional on the input because it is prose outside the signed bytes, and a record
+ *  rebuilt from a served row (see `signableFromRefusalRow`) does not carry it. */
+export function signableFromRefusal(r: Omit<Refusal, 'reason'> & { reason?: string }): SignableRefusal {
   // A SERVED ROW IS REFUSED BY NAME, NOT BY ACCIDENT. Handed the shape `GET /v1/refusals` sends,
   // this function used to read the top-level `agentId` as absent and throw "no agentId", and read
   // the version from a top-level `payloadType` the served shape does not have, so a v3 row

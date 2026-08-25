@@ -106,7 +106,13 @@ export function isRefusalRow(r: unknown): r is RefusalRow {
  *  covers. The version is taken from the ROW'S OWN SIGNATURE VIEW, so a rebuild uses the field list
  *  the record was signed under rather than the one this build issues. An unsigned row has no
  *  version, because a version describes a signature. */
-export function signableFromRefusalRow(row: RefusalRow): Refusal {
+/** What a served row rebuilds to: the store record minus `reason`, which is prose, is not in the
+ *  signed bytes, and is not served. Not `''`: the three existing copies of this mapping emit no
+ *  such key, and a cross-repo comparison of the rebuilt OBJECTS (not only the bytes) would catch
+ *  one that did. `signableFromRefusal` accepts this shape. */
+export type RebuiltRefusal = Omit<Refusal, 'reason'>;
+
+export function signableFromRefusalRow(row: RefusalRow): RebuiltRefusal {
   const sig = row.signature;
   const sigPayloadType = sig !== null && typeof sig === 'object' && 'payloadType' in sig
     ? sig.payloadType
@@ -124,10 +130,6 @@ export function signableFromRefusalRow(row: RefusalRow): Refusal {
     at: row.at,
     authority: row.refusedBy,
     code: row.code,
-    // PROSE IS NOT IN THE SIGNED BYTES AND THE SERVED ROW DOES NOT CARRY IT. The store type requires
-    // the field; an empty string here is never canonicalised, because `refusalPayload` reads only
-    // `code` and `breachedConstraint`.
-    reason: '',
     attribution: withoutNulls({ agentId: row.agentId, mandateId: row.mandateId }) as Refusal['attribution'],
     spend: withoutNulls({
       rail: attempted.rail, asset: attempted.asset,
