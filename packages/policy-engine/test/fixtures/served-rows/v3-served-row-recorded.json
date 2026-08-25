@@ -1,0 +1,38 @@
+{
+  "refusalId": "refusal-2",
+  "at": "2026-08-20T17:50:24.382Z",
+  "observedAt": "2026-08-20T17:52:41.507Z",
+  "agentId": "did:web:emisor-demo.example:agents:disputas-0001",
+  "mandateId": "urn:uuid:card-dispute-demo-mandate",
+  "refusedBy": "mandate",
+  "code": "CEILING_EXCEEDED",
+  "constraint": "actionScope.per_transaction_ceiling",
+  "attempted": {
+    "amountRaw": "2887437",
+    "decimals": 2,
+    "asset": "MXN",
+    "rail": "demo:emisor-demo:tarjetas",
+    "counterparty": "cuenta:emisor-demo-recuperaciones-0001"
+  },
+  "appliedBound": {
+    "state": "recorded",
+    "limit": "25000",
+    "unit": "MXN",
+    "observed": "28874.37"
+  },
+  "credential": {
+    "state": "not-supplied",
+    "note": "The evaluator supplied no credentialDigest with this verdict, so this service cannot say which credential document the bound came from."
+  },
+  "attestation": {
+    "state": "not-evaluated",
+    "note": "This refusal was recorded before any attestation was verified, so there is no block to report. It is NOT a claim that the payment cited nothing — that is `not-cited`, which means the citation was looked for. Nothing here was looked at."
+  },
+  "network": "demo:emisor-demo:tarjetas",
+  "signature": {
+    "state": "signed",
+    "value": "/c7D4dpHaEQ3Wr4Z8q7y+4phsxODhwYb8fLvZCMXcf0LVuzUCthENYbBz81Y+JFIWcSBvZ+1ivONav4G6zWKBQ==",
+    "signedBy": "did:key:z6MkfanQUxSYHy3xVWA2KJm6cKwrUSCHVJVQFr8mXWHD7o6s",
+    "payloadType": "op.enforcement.refusal.v3"
+  }
+}

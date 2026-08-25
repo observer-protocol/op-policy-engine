@@ -197,6 +197,25 @@ Two further limits, so you can size them before building:
 - **Nothing can yet require an attestation.** A delegation credential cannot compel a payment to cite
   one; that field is not in a published schema.
 
+## Verify a refusal you were handed
+
+A refused party holds the row a console copied for them, not the store record behind it. Rebuild
+the signed bytes from that row and check the signature against the key it names:
+
+```js
+import { refusalPayload, signableFromRefusal, signableFromRefusalRow,
+         decodeEd25519DidKey, ed25519Verify } from '@observer-protocol/policy-engine';
+
+const row = /* one entry of GET /v1/refusals, or what a console's copy button gave you */;
+const bytes = refusalPayload(signableFromRefusal(signableFromRefusalRow(row)));
+const key   = decodeEd25519DidKey(row.signature.signedBy).publicKey;
+const ok    = ed25519Verify(Buffer.from(key), Buffer.from(bytes, 'utf8'), Buffer.from(row.signature.value, 'base64'));
+```
+
+The field set is chosen by the row's own `signature.payloadType`, so a record signed under an
+earlier version rebuilds under that version. A store-shape record goes straight to
+`signableFromRefusal`. `isRefusalRow(x)` tells the two apart.
+
 ## What else is exported
 
 `enforceMandate` and `evaluateMandate` for evaluating a proposed transfer against a credential's

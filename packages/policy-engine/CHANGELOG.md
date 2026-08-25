@@ -2,6 +2,93 @@
 
 All notable changes to `@observer-protocol/policy-engine`.
 
+## 1.0.0-rc.22
+
+**Two things, and the second is why the first can ship. `op.enforcement.refusal.v3` becomes the
+version this build issues, and the package can now rebuild the SERVED shape of a refusal, which is
+the shape a counterparty actually holds.**
+
+### v3: a closed `reason` on the bound, and the citation the v2 equality dropped
+
+`REFUSAL_PAYLOAD_TYPE` is `op.enforcement.refusal.v3`. `REFUSAL_PAYLOAD_TYPE_V3` is exported and
+pinned by `test/public-exports.mjs`. What v3 signs that v2 did not:
+
+- `appliedBound.reason` on the `not-supplied` arm, a closed set (`AppliedBoundReason`:
+  `no-authority`, `not-reached`, `none-configured`), REQUIRED on that arm, refused rather than
+  omitted when unrecognised. Until now a recipient could separate "no bound because no authority"
+  from "no bound because an earlier gate fired" only by reading English.
+- `appliedBound.note` on the `recorded` arm. The type accepted it and the construction dropped it,
+  so a note there would have been stored, served, rendered and unsigned.
+
+Citation-bearing and reason-bearing versions are SETS, not floors: a fourth version is a decision
+someone states here, and the tokens are not ordered (`v10` sorts below `v2`). The equality
+`type === V2` that gated the citation is what made a v3 record rebuild without its citation in the
+build that introduced v3; that is the regression test in `test/record-payloads.mjs`.
+
+**Every record signed under v1 or v2 rebuilds byte-identically.** The field list is chosen by the
+record's own `payloadType`, never by this build; both v3 fields are gated on the version.
+
+The construction was committed 2026-08-20 at `6f58fcb` on a branch with no remote and was already
+issuing records: a service on this estate's :9093 has served 145 v3 refusals since 2026-08-20, and
+`observerprotocol.org/check` has verified them with a construction that existed only in that page's
+own script. This release is the construction reaching the package.
+
+### The served shape: `signableFromRefusalRow`, `isRefusalRow`, and the types
+
+A refusal exists in two shapes. The STORE shape is what an enforcement point writes and what
+`signableFromRefusal` reads. The SERVED shape is what `GET /v1/refusals` sends and what a console's
+copy button puts on the clipboard: `refusedBy` for authority, `attempted` for spend, `agentId` and
+`mandateId` at the top level, absent fields as `null`, the signature as an object
+`{ state, value, signedBy, payloadType }`.
+
+**Measured 2026-08-24 against rc.21 over the five v3 vectors now vendored under
+`test/fixtures/served-rows/`:** the two served rows threw `Cannot sign a refusal with no agentId`;
+two store records reported DOES NOT VERIFY while sound; one verified only because its v2 and v3
+bytes coincide. A served v3 row had no way to verify with the published package at all, and a
+store v3 record verified only by luck. Both are false negatives on the records v3 exists to
+describe, in front of the party the record exists to convince.
+
+```js
+import { refusalPayload, signableFromRefusal, signableFromRefusalRow } from '@observer-protocol/policy-engine';
+const bytes = refusalPayload(signableFromRefusal(signableFromRefusalRow(row)));   // row: one GET /v1/refusals entry
+// verify `bytes` against row.signature.value with the key in row.signature.signedBy
+```
+
+`signableFromRefusalRow` is the mapping that has lived in `op-mcp-payment-server/src/http/reads.ts`,
+vendored into the console and ported into `/check`, output-identical to those copies. The version
+comes from the ROW'S OWN signature view; an unsigned row rebuilds with no version. Nulls become
+omitted keys, never nulls, because the canonicaliser refuses null. `not-evaluated` on the attestation
+maps back to absent: it is the read route describing itself and was never signed.
+
+`signableFromRefusal` handed a served row now refuses BY NAME, naming the served shape and
+`signableFromRefusalRow`, instead of `no agentId`.
+
+**What the oracle is.** `test/served-rows.mjs` runs against `dist/` over 16 served rows and 3
+store records copied verbatim from running services (14 v2 rows, 5 v3 vectors signed by an engine
+at `6f58fcb`), and the SIGNATURE is the oracle: a rebuild wrong in any field does not verify. Shown
+failing before it was trusted: with the version lift removed, 16 of 16 served rows fail; with nulls
+let into the bound, two named failures and no crash. The first negative control was inert (no
+signed row can carry a null `agentId`) and is recorded in the file.
+
+**One cell no deployment serves:** a served row on the `recorded` arm carrying a `note`. The read
+route's `appliedBoundView` does not serve that note yet. The test covers the cell by projecting the
+constructed store record to the served shape and requiring the enforcement point's own signature
+to verify over the rebuild, and says so on every run.
+
+**Not changed, deliberately:** a `not-recorded` bound view is carried through as it arrives rather
+than mapped back to absent, because three existing copies agree on that and cross-repo controls
+hold them to it. A change is a change to all of them and is a separate decision.
+
+### What a consumer must do
+
+- `op-mcp-payment-server`: `src/store.ts` on `session/banxico-corpus` imports `AppliedBoundReason`
+  and its refusal sites write `reason`; that branch typechecks only against this release. Its
+  `reads.ts` copy of `signableFromRefusalRow` should become a re-export of this one, as
+  `refusal-signing.ts` did for `refusalPayload` at rc.8.
+- Every verifier that can reach a v3 record must understand v3 BEFORE one reaches it. The console's
+  vendored copy learned v3 on 2026-08-20 (`0765b1c7`); `/check` on 2026-08-20 (`9a0d151`). A
+  verifier pinned to rc.21 or earlier reports DOES NOT VERIFY on every sound v3 record.
+
 ## 1.0.0-rc.21
 
 **Byte-identical in packaged content to rc.20. It exists because rc.20 was published without a

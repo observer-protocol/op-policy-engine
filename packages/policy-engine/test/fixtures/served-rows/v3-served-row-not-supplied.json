@@ -1,0 +1,71 @@
+{
+  "refusalId": "refusal-1",
+  "at": "2026-08-20T17:51:23.382Z",
+  "observedAt": "2026-08-20T17:52:41.490Z",
+  "agentId": "did:web:emisor-demo.example:agents:disputas-0001",
+  "mandateId": "urn:uuid:card-dispute-demo-mandate",
+  "refusedBy": "mandate",
+  "code": "OUTCOME_NOT_AUTHORIZING",
+  "constraint": "actionScope.requiresDecisionAttestation",
+  "attempted": {
+    "amountRaw": "534598",
+    "decimals": 2,
+    "asset": "MXN",
+    "rail": "demo:emisor-demo:tarjetas",
+    "counterparty": "cuenta:emisor-demo-recuperaciones-0001"
+  },
+  "appliedBound": {
+    "state": "not-supplied",
+    "constraint": "actionScope.requiresDecisionAttestation",
+    "reason": "not-reached",
+    "note": "The mandate required a decision attestation; the one this payment cited verified, and its outcome is not one this mandate treats as authorising a payment. No spending bound was compared, because no mandate amount constraint was reached."
+  },
+  "credential": {
+    "state": "not-supplied",
+    "note": "The evaluator supplied no credentialDigest with this verdict, so this service cannot say which credential document the bound came from."
+  },
+  "attestation": {
+    "state": "attested",
+    "decisionId": "DICT-2026-1003",
+    "decider": "did:key:z6Mkj5deK1cmKEWgasaVX6gjjUNyRZZ9rA9cL3XW9sRy8ZVM",
+    "outcome": "no_procede_reverso_abono",
+    "policyRef": {
+      "id": "https://emisor-demo.example/policy/banxico-34-2010/numeral-3-6/v1",
+      "hash": "sha256:51ba8f7cf6300e6d71334954afccf740eae8effcf294016efb17ddd93f36537b",
+      "hashMethod": "sha256"
+    },
+    "vocabularyRef": {
+      "id": "https://emisor-demo.example/vocab/dictamen-34-2010",
+      "version": "1.0.0",
+      "hashMethod": "sha256",
+      "source": "client-defined",
+      "values": [
+        "procede_reverso_abono",
+        "no_acredita_elemento_36b",
+        "abono_firme_periodo_transcurrido",
+        "no_procede_reverso_abono"
+      ],
+      "hash": "sha256:669c84a02eac537c2d02f27ef3867ca8c95d231dca7e283da822d1f94e178c76"
+    },
+    "decidedAt": "2026-08-18T17:51:23.382Z",
+    "inputsDigest": "sha256:2b3f9476dfd9ac146db99a7d8c783505f908a734f8487c0f0ec5f261207da005",
+    "deciderArtifactDigest": {
+      "state": "digest",
+      "value": "sha256:3f856973618843ccd7c6a8caa7cd9ef34e3f36d20d5b442a2c81180a35878d27"
+    },
+    "amount": {
+      "amountRaw": "534598",
+      "decimals": "2",
+      "asset": "MXN"
+    },
+    "counterparty": "cuenta:emisor-demo-recuperaciones-0001",
+    "rail": "demo:emisor-demo:tarjetas"
+  },
+  "network": "demo:emisor-demo:tarjetas",
+  "signature": {
+    "state": "signed",
+    "value": "+weFCe2Hs9NLWiZp5l2808P6DlM1svxzyPfzfmT6oNkFPB0R/b2/jLlMiyEfrqtM1B74DmFAFTH9NIoNnC5fDw==",
+    "signedBy": "did:key:z6MkfanQUxSYHy3xVWA2KJm6cKwrUSCHVJVQFr8mXWHD7o6s",
+    "payloadType": "op.enforcement.refusal.v3"
+  }
+}

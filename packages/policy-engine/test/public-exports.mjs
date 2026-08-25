@@ -87,6 +87,11 @@ console.log('\n── the decision-attestation surface is reachable from the ent
   assert('evaluationVerdictPayload is reachable', typeof mod.evaluationVerdictPayload === 'function');
   assert('refusalPayload is reachable', typeof mod.refusalPayload === 'function');
   assert('signableFromRefusal is reachable', typeof mod.signableFromRefusal === 'function');
+  // rc.22: the served shape. Its reachability is the point of the export, as with rc.8's move.
+  assert('signableFromRefusalRow is reachable', typeof mod.signableFromRefusalRow === 'function');
+  assert('isRefusalRow is reachable', typeof mod.isRefusalRow === 'function');
+  assert('REFUSAL_PAYLOAD_TYPE_V3 is reachable AND pinned', mod.REFUSAL_PAYLOAD_TYPE_V3 === 'op.enforcement.refusal.v3');
+  assert('REFUSAL_PAYLOAD_TYPE issues v3', mod.REFUSAL_PAYLOAD_TYPE === 'op.enforcement.refusal.v3', mod.REFUSAL_PAYLOAD_TYPE);
   assert('lapsePayload is reachable', typeof mod.lapsePayload === 'function');
   assert('stripUndefinedDeep is reachable', typeof mod.stripUndefinedDeep === 'function');
 

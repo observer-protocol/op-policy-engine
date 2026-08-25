@@ -409,6 +409,21 @@ export function refusalPayload(r: SignableRefusal): string {
  * DERIVED FROM THE RECORD, NEVER STORED ALONGSIDE IT. A persisted copy of the signed bytes would be
  * a second source for the same fact, and the two would disagree the first time the payload changed. */
 export function signableFromRefusal(r: Refusal): SignableRefusal {
+  // A SERVED ROW IS REFUSED BY NAME, NOT BY ACCIDENT. Handed the shape `GET /v1/refusals` sends,
+  // this function used to read the top-level `agentId` as absent and throw "no agentId", and read
+  // the version from a top-level `payloadType` the served shape does not have, so a v3 row
+  // rebuilt as v1. Both are wrong answers to a wrong-shape input, and the second is a false
+  // negative. The served shape has a positive marker, so it is named and redirected instead.
+  const sig = (r as { signature?: unknown }).signature;
+  if ((sig !== null && typeof sig === 'object' && 'state' in (sig as object))
+      || typeof (r as { refusedBy?: unknown }).refusedBy === 'string') {
+    throw new Error(
+      'signableFromRefusal was handed a SERVED refusal row (the shape GET /v1/refusals sends and a ' +
+      'console copy button emits: `refusedBy`, `attempted`, a signature OBJECT). It reads the store ' +
+      'shape. Rebuild a served row with signableFromRefusalRow(row) first: ' +
+      'refusalPayload(signableFromRefusal(signableFromRefusalRow(row))).',
+    );
+  }
   const digest = (r as { credentialDigest?: string }).credentialDigest;
   return {
     // ABSENT MEANS v1, and this is the ONLY place that decision is made, so a record written before

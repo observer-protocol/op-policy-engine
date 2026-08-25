@@ -126,6 +126,10 @@ export { jcsBytes } from './core/jcs.js';
 // exported it, catching a widening past both a ruling and the decision recorded in that file's header.
 export { stripUndefinedDeep } from './core/jcs.js';
 export { refusalPayload, signableFromRefusal, REFUSAL_PAYLOAD_TYPE, REFUSAL_PAYLOAD_TYPE_V1, REFUSAL_PAYLOAD_TYPE_V2, REFUSAL_PAYLOAD_TYPE_V3 } from './core/records/refusal.js';
+// THE SERVED SHAPE, rc.22. A counterparty holds what a console handed them, not what a store holds,
+// and until this export the published package could rebuild only the latter. Same reason as rc.8.
+export { signableFromRefusalRow, isRefusalRow } from './core/records/refusal-row.js';
+export type { RefusalRow, ServedAppliedBound, ServedRefusalSignature, ServedAttestation } from './core/records/refusal-row.js';
 export { lapsePayload, LAPSE_PAYLOAD_TYPE } from './core/records/lapse.js';
 // `resolutionPayload` RETURNS IN rc.13, AND THE rc.9 WITHDRAWAL NOTE BELOW IS LEFT INTACT. Its two
 // objections are answered in `core/records/resolution.ts` rather than deleted here: the adjacency

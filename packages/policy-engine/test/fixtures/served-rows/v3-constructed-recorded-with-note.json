@@ -1,0 +1,31 @@
+{
+  "k": "refused",
+  "refusalId": "constructed-recorded-with-note-1",
+  "authority": "mandate",
+  "at": "2026-08-20T17:50:24.382Z",
+  "code": "CEILING_EXCEEDED",
+  "reason": "This payment moves 2887437 minor units (2 dp) of MXN and the mandate's per_transaction_ceiling is 25000 MXN, which is 2500000 at the same scale. The payment exceeds it and is refused. The constraint breached is `actionScope.per_transaction_ceiling`. This figure is the EFFECTIVE ceiling: a deployment may tighten it below what the credential declares and may never raise it, so compare against the credential to see whether it was tightened.",
+  "network": "demo:emisor-demo:tarjetas",
+  "attribution": {
+    "agentId": "did:web:emisor-demo.example:agents:disputas-0001",
+    "mandateId": "urn:uuid:card-dispute-demo-mandate"
+  },
+  "spend": {
+    "rail": "demo:emisor-demo:tarjetas",
+    "asset": "MXN",
+    "amountRaw": "2887437",
+    "decimals": 2,
+    "counterparty": "cuenta:emisor-demo-recuperaciones-0001"
+  },
+  "breachedConstraint": "actionScope.per_transaction_ceiling",
+  "appliedBound": {
+    "state": "recorded",
+    "limit": "25000",
+    "unit": "MXN",
+    "observed": "28874.37",
+    "note": "The ceiling applied is the EFFECTIVE one: a deployment may have tightened the credential figure, and at this point the two are indistinguishable."
+  },
+  "payloadType": "op.enforcement.refusal.v3",
+  "signature": "QLjNu6pTJmX7omQf/UWNdCK38F2A5/n9POaEJN9UAp5m8gMeRZM9KFHwKdJ5KyP4ppx7zZMM8yuSxox0s2F8Bg==",
+  "signedBy": "did:key:z6MkfanQUxSYHy3xVWA2KJm6cKwrUSCHVJVQFr8mXWHD7o6s"
+}
