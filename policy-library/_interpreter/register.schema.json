@@ -13,6 +13,7 @@
   "without_result_domain": {
    "DEFINITIONAL": "do not evaluate to a result. It supplies a meaning other clauses consume, and the run must report WHICH definition applied to each consuming clause",
    "INSTRUCTION": "REFUSE. It directs an act and no fact makes it true or false, so it has no result domain",
+   "INCORPORATED_BY_REFERENCE": "do not evaluate to a result. The operative rule is stated in a document the instrument incorporates by reference and which cannot be retrieved without purchase. The emission names the document and the retrieval condition. It is a DISPOSITION with a distinct value, not undetermined and not unknown: the register knows where the rule is and records that it does not hold it. Ruled for the 12 NYCRR encoding 2026-08-24; reasoning in op-at-specs.",
    "ILLUSTRATIVE": "NOT A CATEGORY OF THE SCHEMA. One clause in the estate carries it, it fits no category, and that is recorded rather than smoothed away. It is listed here so a register carrying it validates and so nothing silently gives it a result."
   }
  },
@@ -167,6 +168,20 @@
     "incomparable_currency",
     "missing_operand"
    ]
+  },
+  "amount_fraction_of": {
+   "parameters": [
+    "part",
+    "whole",
+    "percent"
+   ],
+   "result_domain": [
+    "equal",
+    "not_equal",
+    "incomparable_currency",
+    "missing_operand"
+   ],
+   "$added": "For 12 NYCRR 329-1.3(c)(3) and (e)(2). See REUSE-LOG E36. Exact, no rounding; the rounding convention is a registered ambiguity, not a parameter."
   },
   "conditional_requirement": {
    "parameters": [

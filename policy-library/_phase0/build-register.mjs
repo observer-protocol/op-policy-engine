@@ -93,6 +93,7 @@ const LANE_DEFAULTS = {
   DEFINITIONAL: { no_lane: 'supplies a meaning; produces no determination to route' },
   INSTRUCTION: { no_lane: 'refuses; produces no determination to route' },
   ILLUSTRATIVE: { no_lane: 'refuses; produces no determination to route' },
+  INCORPORATED_BY_REFERENCE: { no_lane: 'the operative rule is stated in a document the register does not hold; produces no determination to route' },
 };
 
 const read = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -102,6 +103,10 @@ const DOMAINS = [
   { name: 'banxico', dir: 'banxico-34-2010', text_field: 'text_es', source_field: 'source_locator' },
   { name: 'psr', dir: 'psr-2017-752', text_field: 'text_en', source_field: 'source' },
   { name: 'feca', dir: 'feca-2-0805', text_field: 'text', source_field: 'source_locator' },
+  // 12 NYCRR: ONE authored source, TWO projected versions. nywc-12nycrr-fee/project-versions.mjs writes
+  // the per-version inputs; the assembler reads them exactly as it reads a hand-authored domain.
+  { name: 'nywc-in-force', dir: 'nywc-12nycrr-fee/versions/in-force', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
+  { name: 'nywc-proposed-2026-01-14', dir: 'nywc-12nycrr-fee/versions/proposed-2026-01-14', text_field: 'text', source_field: 'source_locator', amb_field: 'competing_readings' },
 ];
 
 const only = process.argv[2];
@@ -146,6 +151,9 @@ for (const d of DOMAINS) {
       lane_override: c.lane_override ?? null,
       evidential_role: c.evidential_role ?? null,
       governs: c.governs ?? null,
+      // The document an INCORPORATED_BY_REFERENCE clause points at. Null on every other clause.
+      incorporated_document: c.incorporated_document ?? null,
+      register_version_id: c.register_version_id ?? null,
     };
     const e = ev.clauses[id];
     if (e !== undefined) {
@@ -205,7 +213,7 @@ for (const d of DOMAINS) {
   // ── ambiguities. THE FIELD NAMES DISAGREE ACROSS THE THREE and are reconciled here under one
   //    name, with the disagreement recorded rather than smoothed away.
   const ambSection = amb === null ? null : {
-    $source_field_name: d.name === 'banxico' ? 'competing_readings' : d.name === 'psr' ? 'readings' : 'NONE',
+    $source_field_name: d.amb_field ?? (d.name === 'banxico' ? 'competing_readings' : d.name === 'psr' ? 'readings' : 'NONE'),
     entries: amb.ambiguities.map((a) => ({
       id: a.id,
       clause_id: a.clause_id,

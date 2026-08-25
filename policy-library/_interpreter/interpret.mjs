@@ -272,6 +272,24 @@ const PRIMITIVES = {
     return scale(a) === scale(b) ? 'equal' : 'not_equal';
   },
 
+  // ADDED FOR 12 NYCRR (nywc-12nycrr-fee). See REUSE-LOG E36. Whether `part` is exactly `percent`
+  // per cent of `whole`, compared at a common scale. 12 NYCRR 329-1.3(c)(3) says `85 percent` and
+  // (e)(2) says `16%`; the existing set could compare two amounts for equality and could not
+  // compare one against a fraction of another without arithmetic no expression op carries. Same
+  // result domain as amounts_equal, so the waiting classifier's totality over declared tokens is
+  // unchanged. ROUNDING IS NOT APPLIED: a rule that names a percentage and states no rounding
+  // convention leaves the convention open, and an exact test reports a rounded payment as
+  // not_equal rather than deciding the convention on the rule's behalf. Registered as ambiguity
+  // NY-A5 in that domain. `percent` must be an integer constant from the register; anything else
+  // throws, because a fraction the rule did not state is not a fraction this primitive may test.
+  amount_fraction_of: (part, whole, percent) => {
+    if (!Number.isInteger(percent)) throw new Error(`amount_fraction_of: percent must be an integer from the register, got ${JSON.stringify(percent)}`);
+    if (!part || !whole) return 'missing_operand';
+    if (part.currency !== whole.currency) return 'incomparable_currency';
+    const scale = (v) => BigInt(v.amountRaw) * (10n ** BigInt(6 - Number(v.decimals)));
+    return scale(part) * 100n === scale(whole) * BigInt(percent) ? 'equal' : 'not_equal';
+  },
+
   // A CLOSED FOUR-TOKEN VOCABULARY that throws on anything else, so a register that invents a fifth
   // state fails loudly instead of being read as `false`. Deliberately NOT coupled to any other
   // primitive's tokens: mapping a result domain into these four is the clause's reading and belongs
