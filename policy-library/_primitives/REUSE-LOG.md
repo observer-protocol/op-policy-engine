@@ -2151,6 +2151,54 @@ took minutes because the sentence was waiting for it.
 Written 2026-08-23, closing this session. Three domains, two document classes, 99 clauses, seventeen
 log entries all carrying a status.
 
+## E36. A rule that states a percentage, and a set that could only compare two amounts for equality
+
+**Domain:** 12 NYCRR (`nywc-12nycrr-fee`), 2026-08-24. **Clauses:** `12nycrr/329-1.3/c/3/eighty-five-percent`
+("billed and paid at 85 percent of the amount payable ... had they been performed directly") and
+`12nycrr/329-1.3/e/2/sixteen-percent` ("16% of the physician code fee").
+
+**What the set had.** `amounts_equal(a, b)`, from PSR reg 76(1)(a). Nothing that compares one amount
+against a fraction of another, and no arithmetic op in the expression language, so a fraction cannot
+be composed from what exists without adding an op that is arithmetic by another name.
+
+**What was added.** `amount_fraction_of(part, whole, percent)`: `equal | not_equal |
+incomparable_currency | missing_operand`, the same domain as `amounts_equal`, so the waiting
+classifier's totality over declared tokens is unchanged. `percent` must be an integer constant from
+the register; anything else throws, because a fraction the rule did not state is not one the
+primitive may test. Two users in one regulation, at two different percentages, which is the same
+argument E-entries have used before for recording a shape rather than a one-off.
+
+**What was deliberately not added: rounding.** The rule names a percentage and no rounding
+convention. An exact test reports a rounded payment as `not_equal`; a tolerant test would decide the
+convention on the rule's behalf. Registered as ambiguity NY-A5 in that domain, with the ground rules
+of the purchased schedule named as where the convention would sit.
+
+**Measured against the frozen oracle:** `_phase0/parity.mjs --candidate=interpreter` after the
+addition, PARITY: IDENTICAL, 120,052 record comparisons. The addition is additive.
+
+## E37. A rule the instrument incorporates from a document nobody may reproduce, and a disposition for it
+
+**Domain:** 12 NYCRR, 2026-08-24. **Clauses:** eight, every `... incorporated by reference` limb of
+329-1.3(a), 329-4.2(a) and (b), 333.2(a), 343.2(a), 348.2(a), plus 329-1.3(c)(4) (the daily RVU
+maximum "as outlined elsewhere in the fee schedule") and 329-1.3(e)(2)(v) (co-surgeon and surgical
+team rules "outlined and addressed elsewhere in the Official ... Medical Fee Schedules").
+
+**The shape.** The regulation's operative fee rules are in a licensed document it incorporates by
+reference and which, per 329-1.3(b) and its siblings, may be examined at listed offices or
+purchased. The register cannot hold the text. The existing categories all mis-state that:
+`undetermined` says the facts do not decide it; DEFINITIONAL says the clause supplies a meaning;
+INSTRUCTION says it directs an act. None says "the rule is stated, elsewhere, and the register knows
+where and does not hold it".
+
+**What was added.** `INCORPORATED_BY_REFERENCE`, a without-result disposition, `no_lane`. Its
+emission names the document, the clause that identifies the edition, and the retrieval condition,
+and is declared once per domain. The brief pre-ruled that this state gets a distinct value and is
+not folded into undecidable or unknown; this entry records the value and where it is used.
+
+**What the estate must now carry.** `_conversion/misfit-report.mjs` hard-codes the no-result
+dispositions (line 18) and will report the new one as a misfit until it derives the list from the
+schema. Not changed in this block; recorded here so it is a known drift and not a discovery.
+
 ## The seven categories, and what each requires of an evaluator
 
 | category | requires |
