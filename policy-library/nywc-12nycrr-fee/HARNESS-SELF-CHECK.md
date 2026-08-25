@@ -10,10 +10,35 @@ An instrument that cannot fail is not evidence. Before any divergence figure fro
 
 ```
 COMPARE  in-force (unmutated)  vs  in-force MUTATED: 85 -> 80 at 12nycrr/329-1.3/c/3/eighty-five-percent
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
+state is a choice the reader cannot discount):
+  N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
+                           or seed is a different population with a different digest
+  service.kind             uniform over the seven declared kinds
+  rendering class          uniform over the classes the kind admits (a physician, resident, fellow,
+                           PA or NP for medical; PT or PTA; OT or OTA; one class for the others)
+  cited register version   in-force 70%, proposed-2026-01-14 30%
+  cited edition            the in-force edition for the kind 60%, the proposed edition 25%,
+                           another declared edition 15%; publisher matches the edition 90%
+  cited schedule kind      the natural schedule for the kind 85%, another 15%; for PT and OT the
+                           natural schedule is itself split, medical 50% / acu_pt_ot 50% (NY-A1)
+  applied bound            present 90%, absent 10% (code and amount both unsupplied)
+  payment relation         see paymentFor(): exact fraction 65%, an off-by-one-cent rounding 15%,
+                           unrelated 20%
+  branch facts             COVID-19 testing on 15% of medical; telemedicine on 20% of the five
+                           kinds the telemedicine subdivisions cover; proration on 10% of physician
+                           services; each optional fact unsupplied (undefined) 5% of the time
+  resolutions              NY-A1 pt_ot_governing_schedule: medical 40% / acu_pt_ot 40% / unsupplied
+                           20%. NY-A2 proposed_effective_date: unsupplied 40% / 2026-07-01 30% /
+                           2027-07-01 30% (the Board's anticipated July 2027 and a placeholder)
+  dates                    service dates on a ladder around the edition effective dates the
+                           register declares (2019-04-01, 2020-01-01) and the two assumed
+                           proposed effective dates; never composed from the clock
 denominator: 600 determinations; 74 clauses in the union of both runs
 clauses on which at least one determination diverges: 1 of 74
-determinations diverging on at least one clause: 33 of 600 (on a result token: 33 of 600; the rest only on clause absence)
-  12nycrr/329-1.3/c/3/eighty-five-percent              diverge 33/600; agree 567/600
+determinations diverging on at least one clause: 33/600 (5.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header] (on a result token: 33/600 (5.5%); the rest only on clause absence)
+  12nycrr/329-1.3/c/3/eighty-five-percent              diverge 33/600 (5.5%); agree 567/600 (94.5%)
         33  equal -> not_equal
 RESULT: DIVERGENT. [exit 1]
 ```
@@ -26,9 +51,34 @@ Comparator exit status on the mutated comparison: **1 (nonzero, as required)**.
 
 ```
 COMPARE  in-force (unmutated)  vs  in-force (unmutated, second run)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
+state is a choice the reader cannot discount):
+  N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
+                           or seed is a different population with a different digest
+  service.kind             uniform over the seven declared kinds
+  rendering class          uniform over the classes the kind admits (a physician, resident, fellow,
+                           PA or NP for medical; PT or PTA; OT or OTA; one class for the others)
+  cited register version   in-force 70%, proposed-2026-01-14 30%
+  cited edition            the in-force edition for the kind 60%, the proposed edition 25%,
+                           another declared edition 15%; publisher matches the edition 90%
+  cited schedule kind      the natural schedule for the kind 85%, another 15%; for PT and OT the
+                           natural schedule is itself split, medical 50% / acu_pt_ot 50% (NY-A1)
+  applied bound            present 90%, absent 10% (code and amount both unsupplied)
+  payment relation         see paymentFor(): exact fraction 65%, an off-by-one-cent rounding 15%,
+                           unrelated 20%
+  branch facts             COVID-19 testing on 15% of medical; telemedicine on 20% of the five
+                           kinds the telemedicine subdivisions cover; proration on 10% of physician
+                           services; each optional fact unsupplied (undefined) 5% of the time
+  resolutions              NY-A1 pt_ot_governing_schedule: medical 40% / acu_pt_ot 40% / unsupplied
+                           20%. NY-A2 proposed_effective_date: unsupplied 40% / 2026-07-01 30% /
+                           2027-07-01 30% (the Board's anticipated July 2027 and a placeholder)
+  dates                    service dates on a ladder around the edition effective dates the
+                           register declares (2019-04-01, 2020-01-01) and the two assumed
+                           proposed effective dates; never composed from the clock
 denominator: 600 determinations; 74 clauses in the union of both runs
 clauses on which at least one determination diverges: 0 of 74
-determinations diverging on at least one clause: 0 of 600 (on a result token: 0 of 600; the rest only on clause absence)
+determinations diverging on at least one clause: 0/600 (0.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header] (on a result token: 0/600 (0.0%); the rest only on clause absence)
 RESULT: IDENTICAL on every clause of every determination. [exit 0]
 ```
 

@@ -15,6 +15,7 @@
  *   node compare.mjs <left.jsonl> <right.jsonl> [--json <report.json>] [--label-left X --label-right Y]
  */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { figure, renderFigure, populationBlock, populationOf } from './figure.mjs';
 
 const tokenOf = (rec) => (rec === undefined ? undefined : (rec.result ?? rec.no_result ?? rec.refused));
 
@@ -50,21 +51,25 @@ export function compareRuns(left, right, labels = { left: 'left', right: 'right'
   return { labels, denominator: n, clauses: clauseIds.size, byClause, perDetermination, determinationsDiverging, determinationsDivergingOnToken };
 }
 
-export function render(rep) {
+export function render(rep, pop) {
+  // EVERY COUNT OVER DETERMINATIONS IS A FIGURE and goes through renderFigure, which refuses a
+  // missing or stale population. The parameters block is printed once, at the top, adjacent.
   const out = [];
   const { labels: { left, right }, denominator: n } = rep;
+  const F = (k) => renderFigure(figure(k, n, pop), { marker: false });
   out.push(`COMPARE  ${left}  vs  ${right}`);
+  out.push(populationBlock(pop));
   out.push(`denominator: ${n} determinations; ${rep.clauses} clauses in the union of both runs`);
   const rows = Object.entries(rep.byClause).sort();
   const changed = rows.filter(([, c]) => c.diverge || c.absent_left || c.absent_right);
   out.push(`clauses on which at least one determination diverges: ${changed.length} of ${rep.clauses}`);
-  out.push(`determinations diverging on at least one clause: ${rep.determinationsDiverging} of ${n} (on a result token: ${rep.determinationsDivergingOnToken} of ${n}; the rest only on clause absence)`);
+  out.push(`determinations diverging on at least one clause: ${renderFigure(figure(rep.determinationsDiverging, n, pop))} (on a result token: ${F(rep.determinationsDivergingOnToken)}; the rest only on clause absence)`);
   for (const [id, c] of changed) {
     const parts = [];
-    if (c.diverge) parts.push(`diverge ${c.diverge}/${n}`);
-    if (c.absent_left) parts.push(`absent in ${left} ${c.absent_left}/${n}`);
-    if (c.absent_right) parts.push(`absent in ${right} ${c.absent_right}/${n}`);
-    parts.push(`agree ${c.agree}/${n}`);
+    if (c.diverge) parts.push(`diverge ${F(c.diverge)}`);
+    if (c.absent_left) parts.push(`absent in ${left} ${F(c.absent_left)}`);
+    if (c.absent_right) parts.push(`absent in ${right} ${F(c.absent_right)}`);
+    parts.push(`agree ${F(c.agree)}`);
     out.push(`  ${id.padEnd(52)} ${parts.join('; ')}`);
     for (const [t, k] of Object.entries(c.transitions).sort((a, b) => b[1] - a[1])) out.push(`      ${String(k).padStart(4)}  ${t}`);
   }
@@ -79,9 +84,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const opt = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
   const [lp, rp] = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !args[i - 1].startsWith('--')));
   const rep = compareRuns(readJsonl(lp), readJsonl(rp), { left: opt('--label-left') ?? lp, right: opt('--label-right') ?? rp });
-  const text = render(rep);
+  const pop = populationOf(JSON.parse(readFileSync(new URL('./determinations.json', import.meta.url), 'utf8')));
+  const text = render(rep, pop);
   console.log(text);
-  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
+  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', population: pop, ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
   const anyDiverge = Object.values(rep.byClause).some((c) => c.diverge || c.absent_left || c.absent_right);
   process.exit(anyDiverge ? 1 : 0);
 }

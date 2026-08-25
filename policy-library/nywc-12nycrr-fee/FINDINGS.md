@@ -26,8 +26,12 @@ What that leaves the register able to do, stated positively:
   CQ or CO and is paid at 85 percent of the direct-therapist amount; that a resident's non-surgical
   service carries 1R at the same amount and an assistant-at-surgery service carries 84 at 16 percent;
   the one-unit-per-day telemedicine limits; the COVID-19 testing code's regional fees, which the
-  regulation states to the cent and are **the one bound in this register a party holding no schedule
-  text can verify completely** (`12nycrr/329-1.3/d/1/regional-fee`).
+  regulation states to the cent. Those three amounts are the one bound in this register a party
+  holding no schedule text can verify completely, **given the region**: `Region I` to `Region IV`
+  are used by 329-1.3(d)(1) and defined nowhere in 12 NYCRR; a provider's region is assigned by the
+  schedule's ground rules, which the section incorporates and does not cite by location. Corrected
+  2026-08-24 from a first draft that claimed the bound without the qualification; see
+  `INCORPORATION-COMPARISON.md`.
 - **The scheduled amount itself arrives on the determination as the applied bound**
   (`applied_bound.amount`, `applied_bound.code`), supplied by the payer that holds the schedule. The
   register never holds it and never needs it: it tests the RELATIONS the regulation states between
@@ -106,6 +110,8 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 
 ## Harness self-check, before any divergence figure
 
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+
 `harness-selfcheck.mjs`, recorded verbatim in `HARNESS-SELF-CHECK.md`:
 
 > **Mutation:** `12nycrr/329-1.3/c/3/eighty-five-percent`, constant 85 set to 80, in memory.
@@ -116,6 +122,8 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 ---
 
 ## Divergence by clause (denominator 600 determinations)
+
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
 
 `compare.mjs out/in-force.jsonl out/proposed-2026-01-14.jsonl`, rendered in full in
 `DIVERGENCE.md`:
@@ -147,6 +155,8 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 
 ## Defensibility (denominator 600)
 
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+
 `defensibility.mjs out/in-force.jsonl`, verbatim:
 
 ```
@@ -159,7 +169,7 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
   no edition cited at all:                         26/600 (4.3%)  [counted under neither; it is a missing citation, not a wrong one]
 ```
 
-**These figures describe the synthetic population and nothing else.** The generator cites the
+**These figures describe the synthetic population and nothing else, and the caveat is structural:** every figure is built with `figure(k, n, population)` and rendered only through `renderFigure`, which refuses a figure without the population block or with a stale one; `check-figures.mjs` fails any surface in this directory carrying one of these figures without the marker above in its section (`FIGURE-CAVEAT.md` shows it refusing). The generator cites the
 proposed register version on 30% of determinations, cites a non-in-force edition on 40%, and
 draws dates of service from a ladder that includes dates before the 2020-01-01 effective date;
 the 72.5% is the product of those parameters, and quoting it as an operational rate would be a
@@ -209,6 +219,10 @@ disposition of the ambiguity, not as unknown.
 ---
 
 ## Harness and gates, what ran
+
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+
+The scanner found the paragraph below rendered bare on its first run over this file (`FINDINGS.md:237`, the `600 of 600` of the unreached clauses) and refused the render; the marker above is the fix, and the refusal is recorded in `FIGURE-CAVEAT.md`'s history rather than hidden by it.
 
 - `_interpreter/validate.mjs` on both projected registers: **PASS, no rule failed** (R1 to R18);
   four R7 notes on structurally unreachable `conditional_requirement` tokens, which are facts about

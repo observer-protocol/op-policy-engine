@@ -20,7 +20,10 @@ import { replayAll } from './replay.mjs';
 import { compareRuns, render } from './compare.mjs';
 const HERE = new URL('.', import.meta.url).pathname;
 const REG = `${HERE}/versions/in-force/register.json`;
-const det = JSON.parse(readFileSync(`${HERE}/determinations.json`, 'utf8')).determinations;
+import { populationOf } from './figure.mjs';
+const DET = JSON.parse(readFileSync(`${HERE}/determinations.json`, 'utf8'));
+const det = DET.determinations;
+const pop = populationOf(DET);
 
 const load = () => JSON.parse(readFileSync(REG, 'utf8'));
 const MUTANT_CLAUSE = '12nycrr/329-1.3/c/3/eighty-five-percent';
@@ -38,7 +41,7 @@ const rerun = replayAll(load(), det);
 
 const repM = compareRuns(baseline, mutated, { left: 'in-force (unmutated)', right: 'in-force MUTATED: 85 -> 80 at ' + MUTANT_CLAUSE });
 const repR = compareRuns(baseline, rerun, { left: 'in-force (unmutated)', right: 'in-force (unmutated, second run)' });
-const textM = render(repM), textR = render(repR);
+const textM = render(repM, pop), textR = render(repR, pop);
 const divergeM = Object.values(repM.byClause).some((c) => c.diverge || c.absent_left || c.absent_right);
 const divergeR = Object.values(repR.byClause).some((c) => c.diverge || c.absent_left || c.absent_right);
 const onClause = repM.byClause[MUTANT_CLAUSE]?.diverge ?? 0;

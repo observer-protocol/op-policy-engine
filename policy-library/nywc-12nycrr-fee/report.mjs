@@ -6,17 +6,25 @@
  * printed them. Rerun after any change to the register or the determinations.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { populationOf, populationMarker, populationBlock } from './figure.mjs';
 const HERE = new URL('.', import.meta.url).pathname;
 const rd = (f) => JSON.parse(readFileSync(`${HERE}/${f}`, 'utf8'));
 const div = rd('out/divergence.json'), vd = rd('out/version-diff.json'), df = rd('out/defensibility.json');
 const det = rd('determinations.json');
+const pop = populationOf(det);
+const MARK = populationMarker(pop);
 const n = div.denominator;
 const changedRows = vd.rows.filter((r) => r.change !== 'unchanged');
 const md = `# Divergence by clause: in-force against proposed-2026-01-14
 
 Rendered by \`report.mjs\` from \`out/divergence.json\`, \`out/version-diff.json\` and \`out/defensibility.json\`. Do not edit by hand.
 
-**Population:** ${n} synthetic determinations (\`determinations.json\`, seed ${det.seed}); every figure below is over that denominator unless it says otherwise. The population's parameters are stated in the header of \`generate-determinations.mjs\`; the figures measure that population and say nothing about any real case mix.
+**Population:** ${n} synthetic determinations (\`determinations.json\`, seed ${det.seed}); every figure below is over that denominator unless it says otherwise. The population's parameters are stated in the header of \`generate-determinations.mjs\` and reproduced here, adjacent, because a figure that travels without them becomes an operational claim; \`check-figures.mjs\` refuses any surface in this directory that carries one of these figures without the marker ${MARK}.
+
+\`\`\`
+${populationBlock(pop)}
+\`\`\`
 
 **Read only after \`HARNESS-SELF-CHECK.md\`**, which shows the comparator catching a single-constant mutation on the clause that carries it and reporting zero on an identical re-run.
 
@@ -38,7 +46,7 @@ ${changedRows.map((r) => `| ${r.change} | ${r.disposition} | \`${r.id}\` | ${r.d
 ${div.rendered}
 \`\`\`
 
-**Reading the transitions.** \`X -> Y\` is the token under in-force, then under proposed, for one determination. \`-> undetermined\` on a date-of-service clause is the proposed version's effective date being unsupplied (NY-A2) on that determination; the register refuses to decide a date test against a date the source does not state. \`cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\` is a determination citing the 2019 OptumInsight edition, correct today, wrong under the proposal. The reverse transition is a determination citing the 2025 RefMed edition, wrong today, right under the proposal on the effective date it assumed. \`absent in proposed-2026-01-14 ${n}/${n}\` is a clause the proposal's restatement does not carry (NY-A7): a determination applying it under the proposed version has no clause to rest on.
+**Reading the transitions.** \`X -> Y\` is the token under in-force, then under proposed, for one determination. \`-> undetermined\` on a date-of-service clause is the proposed version's effective date being unsupplied (NY-A2) on that determination; the register refuses to decide a date test against a date the source does not state. \`cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\` is a determination citing the 2019 OptumInsight edition, correct today, wrong under the proposal. The reverse transition is a determination citing the 2025 RefMed edition, wrong today, right under the proposal on the effective date it assumed. \`absent in proposed-2026-01-14 ${n}/${n}\` is a clause the proposal's restatement does not carry (NY-A7): a determination applying it under the proposed version has no clause to rest on. ${MARK}
 
 ## 3. Defensibility
 
@@ -50,3 +58,7 @@ The union is the figure. Its two parts are independent facts about a determinati
 `;
 writeFileSync(`${HERE}/DIVERGENCE.md`, md);
 console.log('DIVERGENCE.md rendered');
+// A bare figure anywhere in the directory fails the render.
+const chk = spawnSync('node', [`${HERE}/check-figures.mjs`], { encoding: 'utf8' });
+process.stdout.write(chk.stdout);
+if (chk.status !== 0) { console.error('report.mjs: check-figures failed; a figure is rendered bare somewhere in this directory'); process.exit(chk.status); }

@@ -272,7 +272,7 @@
    "text": "and the total fee for such test shall be 51.33 for Region IV, 47.41 for Region III, and 41.53 for Regions I and II.",
    "assertion": "The fee for 87635 is fixed by region.",
    "disposition": "MECHANICAL",
-   "disposition_basis": "Amounts stated in the regulation itself, selected by region. This is the one bound in the register that a party holding zero schedule text can verify to the cent.",
+   "disposition_basis": "Amounts stated in the regulation itself, selected by region. The AMOUNTS are verifiable to the cent by a party holding zero schedule text; the REGION is not: `Region I` to `Region IV` are used here and defined nowhere in 12 NYCRR, and which region a provider falls in is stated in the schedule's ground rules, a document this section incorporates and does not cite by location. The register takes the region as a supplied fact (covid.region). See INCORPORATION-COMPARISON.md.",
    "in_force_from": null,
    "register_version_id": "proposed-2026-01-14"
   },
