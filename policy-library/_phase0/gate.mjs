@@ -20,10 +20,11 @@ const steps = [
   ['parity, hand-written evaluators against the frozen oracle (identity)', ['node', `${HERE}parity.mjs`, '--candidate=hand']],
   ['parity, interpreter against the frozen oracle', ['node', `${HERE}parity.mjs`, '--candidate=interpreter']],
   ['12 NYCRR figure gate: no synthetic figure rendered without its population', ['node', `${LIB}/nywc-12nycrr-fee/check-figures.mjs`]],
+  ['12 NYCRR 325-1.25 figure gate: the same check over the second register directory', ['node', `${LIB}/nywc-12nycrr-fee/check-figures.mjs`, '--dir', `${LIB}/nywc-325-1-25`]],
 ];
 // The last step's own summary and LIMITS lines are printed on a pass too: a green that does not say
 // what it did not cover reads as covering everything.
-const SHOW_ON_PASS = new Set(['12 NYCRR figure gate: no synthetic figure rendered without its population']);
+const SHOW_ON_PASS = new Set(['12 NYCRR figure gate: no synthetic figure rendered without its population', '12 NYCRR 325-1.25 figure gate: the same check over the second register directory']);
 let bad = 0;
 for (const [label, cmd] of steps) {
   let ok = true, out = '';

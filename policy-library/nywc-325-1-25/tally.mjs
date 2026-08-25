@@ -33,6 +33,8 @@ const tokenOf = (rec) => (rec === undefined ? undefined : (rec.result ?? rec.no_
 const reaches = (id, i) => { const rec = runs.regulation[i].records[id]; if (rec === undefined || !('result' in rec)) return false; if (rec.result === 'not_applicable') return false; if (ung.has(id) && rec.result === 'undetermined' && !APPLIES[id](det[i], runs.regulation[i].records)) return false; return true; };
 const out = { $derived_by: 'tally.mjs', population: pop, denominator: n, versions: {}, comparisons: {} };
 const figs = new Set([0, n]);
+const pairs = [];   // [k, denominator] over population-level denominators (records, with-result, the split): both scanner rules
+const local = [];   // [k, denominator] over a clause's reached count or the clause count: the bare rule only (small denominators collide)
 const lines = [`TALLY over ${n} synthetic determinations ${populationMarker(pop)}`, populationBlock(pop)];
 for (const [vid, run] of Object.entries(runs)) {
   const waiting = {}, perClause = {}; let records = 0, withResult = 0;
@@ -40,13 +42,14 @@ for (const [vid, run] of Object.entries(runs)) {
   const withMeaning = run.filter((r) => Object.values(r.records).some((x) => x.waiting === 'meaning')).length;
   out.versions[vid] = { records, with_result: withResult, waiting, meaning_rate_all_records: (waiting.meaning ?? 0) / records, determinations_with_a_record_waiting_on_a_meaning: withMeaning, per_clause: perClause };
   figs.add(withMeaning); for (const t of Object.values(perClause)) for (const k of Object.values(t)) figs.add(k);
+  for (const w of Object.values(waiting)) pairs.push([w, records], [w, withResult]); pairs.push([waiting.meaning ?? 0, records], [withResult, records], [withMeaning, n]);
   lines.push(`\n${vid}: ${records} records (${withResult} with a result domain); waiting ${JSON.stringify(waiting)}; meaning-waiting ${waiting.meaning ?? 0} of ${records} (${(100 * (waiting.meaning ?? 0) / records).toFixed(2)}%), determinations with one ${renderFigure(figure(withMeaning, n, pop), { marker: false })}`);
 }
 // reach, per regulation clause; the ungrounded split with the decomposition
 const reach = {}; for (const c of REG.clauses) if (c.evaluate) reach[c.id] = det.map((_, i) => reaches(c.id, i)).filter(Boolean).length;
 const split = { decided: 0, undetermined_reached: 0, undetermined_refused_before_applicability: 0, on_supplied_meaning: 0, not_applicable: 0 };
 for (const id of ung) for (let i = 0; i < n; i++) { const t = runs.regulation[i].records[id].result; if (t === 'not_applicable') split.not_applicable++; else if (t === 'undetermined') { if (APPLIES[id](det[i], runs.regulation[i].records)) split.undetermined_reached++; else split.undetermined_refused_before_applicability++; } else if (t.endsWith('_on_supplied_meaning')) split.on_supplied_meaning++; else split.decided++; }
-out.ungrounded_split = { clauses: [...ung], denominator: ung.size * n, ...split }; for (const v of Object.values(split)) figs.add(v);
+out.ungrounded_split = { clauses: [...ung], denominator: ung.size * n, ...split }; for (const v of Object.values(split)) { figs.add(v); pairs.push([v, ung.size * n]); }
 lines.push(`\nungrounded split (regulation), ${ung.size} clauses x ${n} = ${ung.size * n} records: ${JSON.stringify(split)}`);
 // the two comparisons, both denominators
 for (const [vid, label] of [['layer-a-wcb', 'A'], ['layer-b-daisybill', 'B']]) {
@@ -70,6 +73,7 @@ for (const [vid, label] of [['layer-a-wcb', 'A'], ['layer-b-daisybill', 'B']]) {
       const t = `${a} -> ${b}`; row.transitions[t] = (row.transitions[t] ?? 0) + 1;
     }
     rows[id] = row; for (const k of ['agree', 'diverge', 'absent_in_restatement', 'added_by_restatement', 'reached', 'diverge_reached', 'decision_reached']) figs.add(row[k]); for (const v of Object.values(row.classes)) figs.add(v);
+    local.push([row.diverge_reached, row.reached], [row.decision_reached, row.reached]);
   }
   const stated = Object.entries(rows).filter(([, r]) => r.absent_in_restatement === 0 && r.added_by_restatement === 0);
   const diverging = stated.filter(([, r]) => r.diverge > 0), decisionDiverging = stated.filter(([, r]) => r.classes.decision > 0);
@@ -85,6 +89,7 @@ for (const [vid, label] of [['layer-a-wcb', 'A'], ['layer-b-daisybill', 'B']]) {
   if (added.length) lines.push(`  added by the restatement (no regulation clause): ${added.join(', ')}`);
 }
 out.figures = [...figs].sort((a, b) => a - b);
+out.figure_pairs = pairs; out.figure_pairs_local = local;
 out.rendered = lines.join('\n');
 writeFileSync(`${HERE}/out/tally.json`, JSON.stringify(out, null, 1) + '\n');
 console.log(out.rendered);

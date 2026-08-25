@@ -38,6 +38,12 @@
   600,
   498
  ],
+ "figure_pairs_local": [
+  [
+   51,
+   60
+  ]
+ ],
  "labels": {
   "left": "regulation",
   "right": "layer-b-daisybill"

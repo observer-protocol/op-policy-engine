@@ -23,6 +23,12 @@
   600,
   600
  ],
+ "figure_pairs_local": [
+  [
+   59,
+   59
+  ]
+ ],
  "labels": {
   "left": "regulation",
   "right": "layer-a-wcb"

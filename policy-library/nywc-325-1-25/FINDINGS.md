@@ -126,10 +126,16 @@ clause, (b)(1) format, and read it differently (field matrix; electronic submiss
 
 MARKER: [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
-Regulation: 35,400 records, meaning-waiting 3,470 (9.80%); 323 of 600 determinations carry at
-least one such record (the unsupplied-format population). Ungrounded split over 11 clauses x 600 =
-6,600 records: decided 516, on supplied meaning 1,021, undetermined reached 1,776, undetermined
-refused before applicability 1,694, not applicable 1,593. Not reconciled to CV7 (5.54%) or Molina
+Regulation: 35,400 records, meaning-waiting 3,979 of 35,400 (11.24%); 569 of 600 determinations
+carry at least one such record. Of the 3,979, 3,470 are the undetermined records on the 11
+ungrounded clauses (1,776 reached plus 1,694 refused before applicability) and 509 sit on other
+clauses that consume a meaning through a binding; 323 of 600 is the unsupplied-format population,
+the determinations on which the objection-format meaning is unsupplied, not the count of
+determinations with a meaning-waiting record. Corrected 2026-08-25: as first typed, this paragraph
+gave the 3,470 and the 323 under the label meaning-waiting, with 9.80 percent; the derived tally
+never did, and the scanner of the time matched figures over 600 only. Ungrounded split over
+11 clauses x 600 = 6,600 records: decided 516, on supplied meaning 1,021, undetermined reached
+1,776, undetermined refused before applicability 1,694, not applicable 1,593. Not reconciled to CV7 (5.54%) or Molina
 (2.8%); 325-1.25 rests on a term (the objection format) that six clauses consume, which is why it
 lands higher.
 

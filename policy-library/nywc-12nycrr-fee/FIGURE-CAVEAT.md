@@ -17,8 +17,8 @@ renderFigure(figure(444, 600, pop)) -> 444/600 (74.0%) [population: 600 syntheti
 The file contained the line: `The register found 444/600 (74.0%) cite a version not in force.` [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ```
-check-figures: 113 figure values over 600, 70 occurrence(s) scanned in 32 file(s), live parameters sha256 ceb49c4d590d
-LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository).
+check-figures: 113 figure values over 600, 6 other population denominator(s) under both rules, 1 local denominator(s) under the bare rule only; 75 occurrence(s) scanned in 32 file(s), live parameters sha256 ceb49c4d590d
+LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository); staleness of a figure over a per-clause or clause-count denominator (bare rule only, because small denominators collide).
   FAIL  /out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
   FAIL  //out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
 RESULT: 2 bare or stale figure(s). [exit 1]
@@ -30,8 +30,8 @@ RESULT: 2 bare or stale figure(s). [exit 1]
 [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ```
-check-figures: 113 figure values over 600, 68 occurrence(s) scanned in 30 file(s), live parameters sha256 ceb49c4d590d
-LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository).
+check-figures: 113 figure values over 600, 6 other population denominator(s) under both rules, 1 local denominator(s) under the bare rule only; 73 occurrence(s) scanned in 30 file(s), live parameters sha256 ceb49c4d590d
+LIMITS: not covered: a percentage written without its decimal; a figure spelled in words; any file outside this directory (the scan is per register directory, not per repository); staleness of a figure over a per-clause or clause-count denominator (bare rule only, because small denominators collide).
 RESULT: every figure carries its population. [exit 0]
 [exit 0]
 ```

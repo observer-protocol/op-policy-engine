@@ -66,6 +66,16 @@ for (const vid of ['in-force', 'proposed-2026-01-14']) {
 const figs = new Set();
 for (const v of Object.values(out.versions)) { figs.add(v.determinations_with_a_record_waiting_on_a_meaning); for (const t of Object.values(v.per_clause)) for (const k of Object.values(t)) figs.add(k); for (const k of ['decided', 'undetermined', 'on_supplied_meaning', 'not_applicable']) figs.add(v.ungrounded_split[k]); figs.add(v.undetermined_decomposition.would_have_applied); figs.add(v.undetermined_decomposition.applicability_never_tested); }
 out.figures = [...figs].sort((a, b) => a - b);
+// [k, denominator] for every figure rendered over a denominator other than n; the scanner checks these too
+const pairs = [];
+for (const v of Object.values(out.versions)) {
+  for (const w of Object.values(v.waiting)) pairs.push([w, v.records], [w, v.with_result]);
+  pairs.push([v.with_result, v.records], [v.determinations_with_a_record_waiting_on_a_meaning, n]);
+  const D = v.ungrounded_split.denominator;
+  for (const k of ['decided', 'undetermined', 'on_supplied_meaning', 'not_applicable']) pairs.push([v.ungrounded_split[k], D]);
+  pairs.push([v.undetermined_decomposition.would_have_applied, D], [v.undetermined_decomposition.applicability_never_tested, D]);
+}
+out.figure_pairs = pairs;
 out.rendered = lines.join('\n');
 writeFileSync(`${HERE}/out/tally.json`, JSON.stringify(out, null, 1) + '\n');
 console.log(out.rendered);

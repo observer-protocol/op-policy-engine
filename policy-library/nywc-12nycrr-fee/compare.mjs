@@ -90,7 +90,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(text);
   const figs = new Set([rep.determinationsDiverging, rep.determinationsDivergingOnToken]);
   for (const c of Object.values(rep.byClause)) for (const k of [c.agree, c.diverge, c.absent_left, c.absent_right]) figs.add(k);
-  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', population: pop, figures: [...figs].sort((a, b) => a - b), headline_figures: [rep.determinationsDiverging, rep.determinationsDivergingOnToken], ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
+  const divergingClauses = Object.values(rep.byClause).filter((c) => c.diverge || c.absent_left || c.absent_right).length;   // the "k of <clauses>" line above
+  if (opt('--json')) writeFileSync(opt('--json'), JSON.stringify({ $derived_by: 'compare.mjs', population: pop, figures: [...figs].sort((a, b) => a - b), headline_figures: [rep.determinationsDiverging, rep.determinationsDivergingOnToken], figure_pairs_local: [[divergingClauses, rep.clauses]], ...rep, perDetermination: undefined, rendered: text }, null, 1) + '\n');
   const anyDiverge = Object.values(rep.byClause).some((c) => c.diverge || c.absent_left || c.absent_right);
   process.exit(anyDiverge ? 1 : 0);
 }
