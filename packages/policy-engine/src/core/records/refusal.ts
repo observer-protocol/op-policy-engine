@@ -30,7 +30,7 @@
 // asserts "no bound was supplied, and here is why" rather than staying silent and letting a reader
 // guess whether the field was dropped.
 import { canonicalise } from '../attestation-jcs.js';
-import type { AppliedBound, Refusal, RefusalAuthority } from './types.js';
+import type { AppliedBound, AppliedBoundReason, Refusal, RefusalAuthority } from './types.js';
 import type { AttestationBlock } from '../attestation.js';
 import type { SpendRecord } from './types.js';
 
@@ -38,7 +38,7 @@ import type { SpendRecord } from './types.js';
  * five different claims, by different parties, about different things. */
 /** THE VERSION THIS BUILD ISSUES. Changing it changes only what NEW records are signed under.
  * A stored record is rebuilt under ITS OWN type, never under this one — see `REFUSAL_PAYLOAD_TYPE_V1`. */
-export const REFUSAL_PAYLOAD_TYPE = 'op.enforcement.refusal.v2';
+export const REFUSAL_PAYLOAD_TYPE = 'op.enforcement.refusal.v3';
 
 /** WHAT A RECORD WITH NO RECORDED TYPE WAS SIGNED UNDER, and it is a fact rather than a fallback:
  * every refusal written before the type was persisted was signed under v1.
@@ -58,6 +58,54 @@ export const REFUSAL_PAYLOAD_TYPE_V1 = 'op.enforcement.refusal.v1';
  * `@context` fix could be made on both sides because both sides were ours. A recipient's verifier is
  * not ours, so correctness must not depend on them upgrading first. */
 export const REFUSAL_PAYLOAD_TYPE_V2 = 'op.enforcement.refusal.v2';
+
+/** v3 ADDS `appliedBound.reason` AND SIGNS `appliedBound.note` ON THE `recorded` ARM.
+ *
+ * Same reasoning as v2 and the same failure it avoids: a NEW record carrying either field does not
+ * verify under an OLD verifier, which rebuilds without them and reports a FALSE NEGATIVE on a valid
+ * record. Widening v2 in place would do that to every verifier already deployed.
+ *
+ * ─── A v3 RECORD REACHING A PRE-v3 VERIFIER IS A FALSE NEGATIVE, NOT A DETECTION ────────────────
+ *
+ * It reports DOES NOT VERIFY on a sound record, in front of the recipient the whole record exists to
+ * convince. This estate has paid for that once already: 906 of 906 verdicts rendered SIGNATURE NOT
+ * VERIFIED while every signature was sound. So every verifier that can reach a v3 record must
+ * understand v3 BEFORE such a record exists, and that ordering is not something this file can
+ * enforce — it is a release sequence. */
+export const REFUSAL_PAYLOAD_TYPE_V3 = 'op.enforcement.refusal.v3';
+
+/** WHICH PAYLOAD VERSIONS CARRY A CITATION, AS A SET AND DELIBERATELY NOT AS A FLOOR.
+ *
+ * This was `type === REFUSAL_PAYLOAD_TYPE_V2`, an equality, so a v3 record emitted the right token
+ * and rebuilt WITHOUT its citation — wrong bytes, read as a bad signature, in the build that
+ * introduced v3.
+ *
+ * A FLOOR (`>= v2`) WOULD BE THE WRONG FIX FOR TWO SEPARATE REASONS.
+ *
+ * These are opaque type tokens, not ordered versions: lexical comparison happens to rank v1 < v2 <
+ * v3 and ranks `v10` BELOW `v2`, so the ordering is not total and the comparison quietly stops being
+ * one the day a tenth version exists.
+ *
+ * And the deeper reason: a floor asserts that every FUTURE version carries a citation — a claim
+ * about payloads nobody has designed. That is the same guess this equality already made, widened
+ * rather than removed.
+ *
+ * A SET MAKES THE NEXT VERSION A DECISION. Adding v4 means adding it here, which means someone
+ * stating that v4 carries a citation, which is exactly the thought the floor would skip. */
+const CITATION_BEARING: ReadonlySet<string> = new Set([
+  REFUSAL_PAYLOAD_TYPE_V2,
+  REFUSAL_PAYLOAD_TYPE_V3,
+]);
+
+/** The versions whose `appliedBound` carries `reason`, and whose `recorded` arm signs its `note`.
+ *  Same construction and the same reason: a set, so a fourth version is a decision. */
+const REASON_BEARING: ReadonlySet<string> = new Set([REFUSAL_PAYLOAD_TYPE_V3]);
+
+/** THE REASON VOCABULARY AT RUNTIME, because the union is erased at the boundary this package sits
+ *  on. Every caller here is JavaScript to the compiler; a closed type it cannot see is a convention. */
+const REASON_VALUES: ReadonlySet<string> = new Set<AppliedBoundReason>(
+  ['no-authority', 'not-reached', 'none-configured'],
+);
 
 /** WHICH CREDENTIAL'S CAP WAS APPLIED, as a positive state.
  *
@@ -133,8 +181,33 @@ function enumeratedSpend(s: SpendRecord): Record<string, string> {
   };
 }
 
-/** The bound, per state. `recorded` must carry a limit: a bound with no limit is not a bound. */
-function enumeratedBound(b: AppliedBound): Record<string, unknown> {
+/** The bound, per state. `recorded` must carry a limit: a bound with no limit is not a bound.
+ *
+ * ─── VERSION-GATED, BECAUSE THE ONLY SAFE ASSUMPTION IS ABOUT RECORDS I CANNOT SEE ─────────────
+ *
+ * `reason` and the `recorded` arm's `note` are emitted only for `REASON_BEARING` types. Not because
+ * old records are known to lack them — because they are NOT known to. This package is deployed
+ * beyond the stores anyone here can inspect, and a v1 record somewhere carrying a `recorded` note
+ * would, under an ungated copy, rebuild with a field its signature never covered and flip to DOES
+ * NOT VERIFY. Gating makes "old records rebuild byte-identically" a property of the code rather than
+ * a belief about deployments.
+ *
+ * ─── S10, RULED: `recorded.note` JOINS THE SIGNED SET RATHER THAN LEAVING THE TYPE ──────────────
+ *
+ * The type accepted `note` on the `recorded` arm and this function dropped it, so a note there would
+ * have been stored, served, rendered and unsigned — with the type telling every caller otherwise.
+ * Nothing sets it today, so it was a trap rather than a live defect. Both fixes were available.
+ *
+ * IT IS SIGNED, AND THE `not-supplied` ARM IS WHY. That arm signs its note and refuses to sign
+ * without one, on the stated grounds that a note is what makes the bound a claim rather than a
+ * silence. The same field, on the same object, signed on one arm and discarded on the other, is the
+ * inconsistency — not the note's existence.
+ *
+ * AND REMOVING IT WOULD FORECLOSE A REAL CLAIM. `mandateCeiling` may be the credential's figure or a
+ * deployment's tighter one, and the two are indistinguishable at the point this is built. A
+ * `recorded` bound that needs to say which is describing its own arithmetic, which is exactly what a
+ * signed note is for. Dropping the field would have removed the only place to say it. */
+function enumeratedBound(b: AppliedBound, type: string): Record<string, unknown> {
   if (b?.state === 'recorded') {
     if (!nonEmpty(b.limit)) {
       throw new Error(
@@ -148,6 +221,7 @@ function enumeratedBound(b: AppliedBound): Record<string, unknown> {
       ...(b.unit === undefined ? {} : { unit: b.unit }),
       ...(b.observed === undefined ? {} : { observed: b.observed }),
       ...(b.headroom === undefined ? {} : { headroom: b.headroom }),
+      ...(REASON_BEARING.has(type) && b.note !== undefined ? { note: b.note } : {}),
     };
   }
   if (b?.state === 'not-supplied') {
@@ -157,9 +231,21 @@ function enumeratedBound(b: AppliedBound): Record<string, unknown> {
         'makes the absence a claim rather than a silence.',
       );
     }
+    // REFUSED RATHER THAN DEFAULTED. A `reason` this function does not recognise must not be
+    // silently dropped into prose: that is the state this field exists to end, and a payload that
+    // omitted it would be signed as though the absence were the claim.
+    if (REASON_BEARING.has(type) && !REASON_VALUES.has(b.reason as string)) {
+      throw new Error(
+        `Cannot sign a ${type} refusal whose appliedBound reason is ${JSON.stringify(b.reason)}. ` +
+        `The reasons are ${[...REASON_VALUES].join(', ')}; an unrecognised one is refused rather ` +
+        'than omitted, because a bound whose absence this service cannot explain must not carry a ' +
+        'signature saying it can.',
+      );
+    }
     return {
       state: 'not-supplied',
       ...(b.constraint === undefined ? {} : { constraint: b.constraint }),
+      ...(REASON_BEARING.has(type) ? { reason: b.reason } : {}),
       note: b.note,
     };
   }
@@ -235,7 +321,7 @@ export function refusalPayload(r: SignableRefusal): string {
   // THE FIELD LIST IS CHOSEN BY THE RECORD'S VERSION, NOT BY THIS BUILD. A v1 record that carries an
   // attestation must STILL rebuild WITHOUT a citation: v1 did not cover it, so including it would
   // emit bytes that signature never saw. This is the whole reason the type is recorded.
-  const citation = type === REFUSAL_PAYLOAD_TYPE_V2 ? citationOf(r.attestation) : undefined;
+  const citation = CITATION_BEARING.has(type) ? citationOf(r.attestation) : undefined;
   const base = {
     // FROM THE RECORD, NOT FROM THIS BUILD. See REFUSAL_PAYLOAD_TYPE_V1.
     type,
@@ -269,7 +355,7 @@ export function refusalPayload(r: SignableRefusal): string {
       ...base,
       authority: 'mandate',
       breachedConstraint: r.breachedConstraint,
-      appliedBound: enumeratedBound(r.appliedBound),
+      appliedBound: enumeratedBound(r.appliedBound, type),
     });
   }
 
@@ -307,7 +393,7 @@ export function refusalPayload(r: SignableRefusal): string {
       ...base,
       authority: 'deployment-guard',
       network: r.network,
-      ...(r.appliedBound === undefined ? {} : { appliedBound: enumeratedBound(r.appliedBound) }),
+      ...(r.appliedBound === undefined ? {} : { appliedBound: enumeratedBound(r.appliedBound, type) }),
     });
   }
 
