@@ -58,7 +58,34 @@ export const bindingsRead = (tree, bindings) => {
   return out;
 };
 
+// ── THE PROVENANCE GATE ON A REGISTER VERSION ───────────────────────────────────────────────────
+//
+// A register version may carry `provenance.agent_claims`: the claims an agent (Atlas) made about the
+// document it returned. EVERY such claim must have been verified against a primary source by the
+// session that lands the entry, and the entry records how. A claim with `verified` anything other
+// than `true`, or without `verified_against` and `method`, makes the WHOLE VERSION invalid: the
+// projector throws and writes nothing for it. An unverified agent claim is not a pending entry; it
+// is not an entry. Exported so the refusal can be shown on a mock entry without writing files.
+export function checkVersionProvenance(vid, meta) {
+  const prov = meta.provenance;
+  if (prov === undefined) return { vid, agent_claims: 0 };
+  const claims = prov.agent_claims;
+  if (!Array.isArray(claims)) throw new Error(`${vid}: provenance.agent_claims must be an array (empty when no agent supplied anything)`);
+  const problems = [];
+  claims.forEach((c, i) => {
+    const where = `${vid}: agent_claims[${i}] (${JSON.stringify(c.claim ?? '?')})`;
+    if (c.verified !== true) problems.push(`${where}: verified is ${JSON.stringify(c.verified)}, not true`);
+    if (typeof c.verified_against !== 'string' || c.verified_against.length === 0) problems.push(`${where}: no verified_against (the primary source the claim was checked against)`);
+    if (typeof c.method !== 'string' || c.method.length === 0) problems.push(`${where}: no method (how it was checked)`);
+    if (c.verified === true && c.verified_value === undefined) problems.push(`${where}: verified but no verified_value recorded (the value the primary source actually carries)`);
+  });
+  if (problems.length) throw new Error(`REFUSED register version ${vid}: ${problems.length} agent claim(s) not verified. An unverified agent claim is not an entry.\n  ${problems.join('\n  ')}`);
+  return { vid, agent_claims: claims.length };
+}
+if (import.meta.url === `file://${process.argv[1]}`) for (const vid of VERSIONS) checkVersionProvenance(vid, cj.register_versions[vid]);
+
 // ── pass 1: which facts each version reads, so the unread refusal can be stated over ALL versions ──
+if (import.meta.url === `file://${process.argv[1]}`) {
 const presentIn = (vid) => new Set(cj.clauses.filter((c) => !(c.absent_in_versions ?? []).includes(vid)).map((c) => c.id));
 const readByIn = {};
 for (const vid of VERSIONS) {
@@ -142,4 +169,5 @@ for (const vid of VERSIONS) {
   const split = {};
   for (const c of clauses) split[c.disposition] = (split[c.disposition] ?? 0) + 1;
   console.log(`${vid.padEnd(22)} ${clauses.length} clauses  ${JSON.stringify(split)}  ${ambiguities.length} ambiguities  ${fields.length} fields, ${Object.keys(readBy).length} read${unread.length ? `, ${unread.length} unread in this version: ${unread.join(', ')}` : ''}`);
+}
 }
