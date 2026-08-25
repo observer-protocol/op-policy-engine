@@ -43,9 +43,36 @@ export type RefusalAuthority = 'mandate' | 'deployment-guard';
  *
  * `not-supplied` says the evaluator compared nothing; a record with the field simply absent would leave
  * a reader unable to tell that from a record whose writer forgot. */
+/** WHY NO BOUND WAS COMPARED, AS A CLOSED SET RATHER THAN AS PROSE.
+ *
+ * ─── THE NOTE WAS ALREADY SIGNED, AND PROSE IS THE WEAK FORM OF CLOSED ──────────────────────────
+ *
+ * `not-supplied` has always carried a `note`, inside the signature, and refuses to sign without one.
+ * So the absence was already a claim rather than a silence. What it was not is READABLE BY ANYTHING
+ * BUT A PERSON: a recipient cannot separate "no bound compared because no authority was granted"
+ * from "no bound compared because an earlier gate fired" except by reading English.
+ *
+ * Three deployments' worth of findings point at the same missing fact — which checks were reached
+ * and which were not — and this is the smallest field that answers it where the record already has
+ * somewhere to put it.
+ *
+ *   `not-reached`      an earlier check refused first, so this bound was never evaluated. The
+ *                      ceiling comparison precedes the citation gate, so a payment over the ceiling
+ *                      never reaches the outcome comparison; that fact existed only as a read-layer
+ *                      state a third party never received.
+ *   `no-authority`     the mandate grants no spending authority at all, so there is no bound to
+ *                      compare rather than a bound that was not reached. Distinct on purpose: one
+ *                      is an ordering, the other is a scope.
+ *   `none-configured`  the deployment has no bound configured for this constraint. The absence is
+ *                      the deployment's, not the mandate's.
+ *
+ * CLOSED, so a fourth case stops compiling rather than falling into `note` and becoming prose again.
+ * REQUIRED, on the same reasoning the note is: the thing that must be there has nowhere not to be. */
+export type AppliedBoundReason = 'no-authority' | 'not-reached' | 'none-configured';
+
 export type AppliedBound =
   | { state: 'recorded'; limit: string; unit?: string; observed?: string; headroom?: string; note?: string }
-  | { state: 'not-supplied'; constraint?: string; note?: string };
+  | { state: 'not-supplied'; constraint?: string; reason: AppliedBoundReason; note?: string };
 
 /** THE SCHEMA VERSION `RequiredKeyCustody` MIRRORS. A vocabulary type with no version is a claim
  * about a moving target: it says "these are the values" without saying values of WHAT, at WHEN.
