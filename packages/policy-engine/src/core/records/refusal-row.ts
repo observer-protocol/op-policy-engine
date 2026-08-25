@@ -91,14 +91,21 @@ function withoutNulls<T extends object>(obj: T): Record<string, unknown> {
   return out;
 }
 
-/** Whether a value has the served shape: the signature is an OBJECT carrying a state, or the
- *  authority is under `refusedBy`. Both markers are positive facts about the served projection and
- *  neither exists on a store record, whose signature is a string and whose authority is `authority`. */
+/** Whether a value has the served shape. THE MARKER IS THE SIGNATURE: a served row carries it as an
+ *  OBJECT with a `state` (`signed` / `unverified` / `unsigned`), a store record as a string or not
+ *  at all. That is a total discriminator between the two shapes.
+ *
+ *  `refusedBy` IS NOT USED AS A MARKER, and a comment is owed because the obvious version of this
+ *  function did use it. A store record's `authority` lives under `authority`, and `refusedBy` should
+ *  never appear on one — but `test/read-path-gaps.mjs` in `op-mcp-payment-server` writes fixtures
+ *  with a stray `refusedBy`, and keying on it classified those as served rows and made
+ *  `signableFromRefusal` throw on a store record it had always accepted. The signature marker does
+ *  not have that failure mode: an unsigned store record has a string-or-absent signature, so it is
+ *  correctly a store record. */
 export function isRefusalRow(r: unknown): r is RefusalRow {
   if (r === null || typeof r !== 'object') return false;
-  const o = r as { signature?: unknown; refusedBy?: unknown };
-  return (o.signature !== null && typeof o.signature === 'object' && 'state' in (o.signature as object))
-    || typeof o.refusedBy === 'string';
+  const sig = (r as { signature?: unknown }).signature;
+  return sig !== null && typeof sig === 'object' && 'state' in (sig as object);
 }
 
 /** The store-shape record a served row was projected from, so that

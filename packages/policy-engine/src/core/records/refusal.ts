@@ -417,8 +417,7 @@ export function signableFromRefusal(r: Omit<Refusal, 'reason'> & { reason?: stri
   // rebuilt as v1. Both are wrong answers to a wrong-shape input, and the second is a false
   // negative. The served shape has a positive marker, so it is named and redirected instead.
   const sig = (r as { signature?: unknown }).signature;
-  if ((sig !== null && typeof sig === 'object' && 'state' in (sig as object))
-      || typeof (r as { refusedBy?: unknown }).refusedBy === 'string') {
+  if (sig !== null && typeof sig === 'object' && 'state' in (sig as object)) {
     throw new Error(
       'signableFromRefusal was handed a SERVED refusal row (the shape GET /v1/refusals sends and a ' +
       'console copy button emits: `refusedBy`, `attempted`, a signature OBJECT). It reads the store ' +
