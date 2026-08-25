@@ -1,0 +1,5445 @@
+{
+ "$derived_by": "defensibility.mjs",
+ "denominator": 600,
+ "no_applied_bound": 57,
+ "cites_version_not_in_force": {
+  "union": 435,
+  "cites_other_register_version": 160,
+  "edition_not_in_force_on_dos": 368,
+  "both": 93
+ },
+ "dos_undetermined": 29,
+ "no_edition_cited": 26,
+ "rendered": "DEFENSIBILITY over 600 synthetic determinations (denominator 600; in-force register, replay in-force.jsonl)\n  carry NO APPLIED BOUND:                         57/600 (9.5%)\n  CITE A VERSION NOT IN FORCE (union):            435/600 (72.5%)\n    (a) cite a register version other than in-force: 160/600 (26.7%)\n    (b) cite a schedule edition not in force on DOS:  368/600 (61.3%)   [read off the replay's date-of-service clauses]\n    both (a) and (b):                                 93/600 (15.5%)\n  date-of-service clauses undetermined (NY-A1/NY-A2 unresolved, or DOS unsupplied): 29/600 (4.8%)  [counted under neither]\n  no edition cited at all:                         26/600 (4.3%)  [counted under neither; it is a missing citation, not a wrong one]",
+ "rows": [
+  {
+   "id": "NYWC-SYN-0001",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0002",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0003",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0004",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0005",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0006",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0007",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0008",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0009",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0010",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0011",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0012",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0013",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0014",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0015",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0016",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0017",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0018",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0019",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0020",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0021",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0022",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0023",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0024",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0025",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0026",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0027",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0028",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0029",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0030",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0031",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0032",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0033",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0034",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0035",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0036",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0037",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0038",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0039",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0040",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0041",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0042",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0043",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0044",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0045",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0046",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0047",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0048",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0049",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0050",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0051",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0052",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0053",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0054",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0055",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0056",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0057",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0058",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0059",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0060",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0061",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0062",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0063",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0064",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0065",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0066",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0067",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0068",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0069",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0070",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0071",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0072",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0073",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0074",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0075",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0076",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0077",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0078",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0079",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0080",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0081",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0082",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0083",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0084",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0085",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0086",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0087",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0088",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0089",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0090",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0091",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0092",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0093",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0094",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0095",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0096",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0097",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0098",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0099",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0100",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0101",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0102",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0103",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0104",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0105",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0106",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0107",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0108",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0109",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0110",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0111",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0112",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0113",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0114",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0115",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0116",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0117",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0118",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0119",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0120",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0121",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0122",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0123",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0124",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0125",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0126",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0127",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0128",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0129",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0130",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0131",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0132",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0133",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0134",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0135",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0136",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0137",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0138",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0139",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0140",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0141",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0142",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0143",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0144",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0145",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0146",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0147",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0148",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0149",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0150",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0151",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0152",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0153",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0154",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0155",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0156",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0157",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0158",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0159",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0160",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0161",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0162",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0163",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0164",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0165",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0166",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0167",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0168",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0169",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0170",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0171",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0172",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0173",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0174",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0175",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0176",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0177",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0178",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0179",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0180",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0181",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0182",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0183",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0184",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0185",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0186",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0187",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0188",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0189",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0190",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0191",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0192",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0193",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0194",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0195",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0196",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0197",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0198",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0199",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0200",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0201",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0202",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0203",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0204",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0205",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0206",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0207",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0208",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0209",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0210",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0211",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0212",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0213",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0214",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0215",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0216",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0217",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0218",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0219",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0220",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0221",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0222",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0223",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0224",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0225",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0226",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0227",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0228",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0229",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0230",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0231",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0232",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0233",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0234",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0235",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0236",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0237",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0238",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0239",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0240",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0241",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0242",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0243",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0244",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0245",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0246",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0247",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0248",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0249",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0250",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0251",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0252",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0253",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0254",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0255",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0256",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0257",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0258",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0259",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0260",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0261",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0262",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0263",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0264",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0265",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0266",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0267",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0268",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0269",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0270",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0271",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0272",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0273",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0274",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0275",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0276",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0277",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0278",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0279",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0280",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0281",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0282",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0283",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0284",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0285",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0286",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0287",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0288",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0289",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0290",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0291",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0292",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0293",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0294",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0295",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0296",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0297",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0298",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0299",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0300",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0301",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0302",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0303",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0304",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0305",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0306",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0307",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0308",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0309",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0310",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0311",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0312",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0313",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0314",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0315",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0316",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0317",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0318",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0319",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0320",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0321",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0322",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0323",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0324",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0325",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0326",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0327",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0328",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0329",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0330",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0331",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0332",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0333",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0334",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0335",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0336",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0337",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0338",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0339",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0340",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0341",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0342",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0343",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0344",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0345",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0346",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0347",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0348",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0349",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0350",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0351",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0352",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0353",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0354",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0355",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0356",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0357",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0358",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0359",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0360",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0361",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0362",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0363",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0364",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0365",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0366",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0367",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "missing_operand"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0368",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0369",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0370",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0371",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0372",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0373",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0374",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0375",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0376",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0377",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0378",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0379",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0380",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0381",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0382",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0383",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0384",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0385",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0386",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0387",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0388",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0389",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0390",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0391",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0392",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0393",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0394",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0395",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0396",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0397",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0398",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0399",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0400",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0401",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0402",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0403",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0404",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0405",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0406",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0407",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0408",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0409",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0410",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0411",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0412",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0413",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0414",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0415",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0416",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0417",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0418",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0419",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0420",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0421",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0422",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0423",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0424",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0425",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0426",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0427",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0428",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0429",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0430",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0431",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0432",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0433",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0434",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0435",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0436",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0437",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0438",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0439",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0440",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0441",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0442",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0443",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0444",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0445",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0446",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0447",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0448",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0449",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0450",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0451",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0452",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0453",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0454",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0455",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0456",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0457",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0458",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0459",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0460",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0461",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0462",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0463",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0464",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0465",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0466",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0467",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0468",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0469",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0470",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0471",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0472",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0473",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0474",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0475",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0476",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0477",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0478",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0479",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0480",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0481",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0482",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0483",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0484",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0485",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0486",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0487",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0488",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0489",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0490",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0491",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0492",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0493",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0494",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0495",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0496",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0497",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0498",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0499",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0500",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0501",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0502",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0503",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0504",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0505",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0506",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0507",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0508",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0509",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0510",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0511",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0512",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0513",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0514",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0515",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0516",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0517",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0518",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0519",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0520",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0521",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0522",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0523",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0524",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0525",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0526",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0527",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0528",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0529",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0530",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0531",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0532",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0533",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0534",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0535",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0536",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0537",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0538",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0539",
+   "no_applied_bound": true,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0540",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0541",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0542",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0543",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0544",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0545",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0546",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0547",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0548",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0549",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0550",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0551",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "no_edition_cited"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0552",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0553",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0554",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0555",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0556",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0557",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0558",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0559",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0560",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0561",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0562",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0563",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0564",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0565",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0566",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0567",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0568",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0569",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0570",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0571",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0572",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0573",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0574",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0575",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0576",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0577",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0578",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0579",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0580",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0581",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0582",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0583",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0584",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0585",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0586",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0587",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0588",
+   "no_applied_bound": true,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0589",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0590",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0591",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0592",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0593",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0594",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0595",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "cited_edition_in_force_on_dos"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0596",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": false,
+   "dos_tokens": [
+    "undetermined",
+    "undetermined"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0597",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "dos_precedes_edition_effect"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0598",
+   "no_applied_bound": false,
+   "cites_register_version": "proposed-2026-01-14",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0599",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  },
+  {
+   "id": "NYWC-SYN-0600",
+   "no_applied_bound": false,
+   "cites_register_version": "in-force",
+   "edition_not_in_force_on_dos": true,
+   "dos_tokens": [
+    "cited_edition_not_the_one_in_force"
+   ]
+  }
+ ]
+}

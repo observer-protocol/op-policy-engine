@@ -1,0 +1,590 @@
+{
+ "$derived_by": "compare.mjs",
+ "labels": {
+  "left": "in-force",
+  "right": "proposed-2026-01-14"
+ },
+ "denominator": 600,
+ "clauses": 74,
+ "byClause": {
+  "12nycrr/329-1.1/schedule-in-effect-on-dos": {
+   "agree": 505,
+   "diverge": 95,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "cited_edition_not_the_one_in_force -> undetermined": 33,
+    "dos_precedes_edition_effect -> cited_edition_not_the_one_in_force": 10,
+    "cited_edition_in_force_on_dos -> undetermined": 12,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 7,
+    "dos_precedes_edition_effect -> undetermined": 4,
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 23,
+    "missing_operand -> undetermined": 2,
+    "missing_operand -> cited_edition_not_the_one_in_force": 1,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 3
+   }
+  },
+  "12nycrr/329-1.2/unit-fee-on-transfer": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.2/agreed-proration-separate-bills": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.2/no-agreement-arbitration": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.2/death-no-proration": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.2/departure-earned-portion": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/a/edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/a/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/b/availability": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/supervision": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/1/pta-code-source": {
+   "agree": 565,
+   "diverge": 35,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "codes_from_required_schedule -> codes_not_from_required_schedule": 23,
+    "codes_not_from_required_schedule -> codes_from_required_schedule": 12
+   }
+  },
+  "12nycrr/329-1.3/c/1/pta-modifier": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/2/ota-code-source": {
+   "agree": 566,
+   "diverge": 34,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "codes_from_required_schedule -> codes_not_from_required_schedule": 18,
+    "codes_not_from_required_schedule -> codes_from_required_schedule": 16
+   }
+  },
+  "12nycrr/329-1.3/c/2/ota-modifier": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/3/eighty-five-percent": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/3/cosign": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/3/no-independent-billing": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/4/rvu-cap-unchanged": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/5/priority": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/6/scope-not-expanded": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/c/6/i/examples": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/covid-testing-code": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/1/rvu": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/1/regional-fee": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/2/billable-basis": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/3/no-routine-screening": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/4/no-antibody": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/d/5/single-instance": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/supervision": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/acgme-program": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/no-independent-billing": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/no-separate-supervision-fee": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/1/uses-medical-schedule": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/1/non-surgical-modifier": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/1/same-amount": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/uses-medical-schedule": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/assistant-modifier": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/work-documented": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/sixteen-percent": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/ii/one-per-procedure": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/i/one-resident-unless-complex": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/iii/other-assistants": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/iv/same-bill-84": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/iv/single-bill-1R": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/v/rules-elsewhere": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/2/v/supersedes-gr12b": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/3/narrative-names": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-1.3/e/4/scope-not-expanded": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-4.1/a/acupuncture-dos": {
+   "agree": 531,
+   "diverge": 69,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "cited_edition_not_the_one_in_force -> undetermined": 18,
+    "cited_edition_in_force_on_dos -> undetermined": 11,
+    "dos_precedes_edition_effect -> undetermined": 5,
+    "dos_precedes_edition_effect -> cited_edition_not_the_one_in_force": 7,
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 15,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 9,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 4
+   }
+  },
+  "12nycrr/329-4.1/b/pt-ot-dos": {
+   "agree": 550,
+   "diverge": 50,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "dos_precedes_edition_effect -> undetermined": 3,
+    "dos_precedes_edition_effect -> cited_edition_not_the_one_in_force": 3,
+    "cited_edition_not_the_one_in_force -> undetermined": 27,
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 10,
+    "cited_edition_in_force_on_dos -> undetermined": 4,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 1,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 2
+   }
+  },
+  "12nycrr/329-4.2/a/acupuncture-edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/a/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/b/pt-ot-edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/b/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/c/availability": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/d/telemedicine-code": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/329-4.2/d/one-unit-per-day": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/333.1/psychology-dos": {
+   "agree": 542,
+   "diverge": 58,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "cited_edition_not_the_one_in_force -> undetermined": 17,
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 12,
+    "cited_edition_in_force_on_dos -> undetermined": 12,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 4,
+    "dos_precedes_edition_effect -> undetermined": 4,
+    "missing_operand -> undetermined": 2,
+    "dos_precedes_edition_effect -> cited_edition_not_the_one_in_force": 5,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 2
+   }
+  },
+  "12nycrr/333.2/a/edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/333.2/a/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/333.2/b/availability": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/333.2/c/telemedicine-codes": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/333.2/c/one-unit-per-day": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/333.2/c/no-1b-enhancement": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/343.1/podiatry-dos": {
+   "agree": 547,
+   "diverge": 53,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "missing_operand -> cited_edition_not_the_one_in_force": 1,
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 15,
+    "missing_operand -> undetermined": 2,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 4,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 5,
+    "cited_edition_in_force_on_dos -> undetermined": 10,
+    "cited_edition_not_the_one_in_force -> undetermined": 14,
+    "cited_edition_not_the_one_in_force -> missing_operand": 2
+   }
+  },
+  "12nycrr/343.2/a/edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/343.2/a/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/343.2/b/availability": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/348.1/chiropractic-dos": {
+   "agree": 517,
+   "diverge": 83,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force": 27,
+    "cited_edition_not_the_one_in_force -> undetermined": 17,
+    "dos_precedes_edition_effect -> undetermined": 5,
+    "cited_edition_in_force_on_dos -> undetermined": 18,
+    "dos_precedes_edition_effect -> cited_edition_not_the_one_in_force": 6,
+    "cited_edition_not_the_one_in_force -> dos_precedes_edition_effect": 7,
+    "cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos": 3
+   }
+  },
+  "12nycrr/348.2/a/edition": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/348.2/a/incorporation": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/348.2/b/availability": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "12nycrr/348.2/c/telemedicine-code": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "12nycrr/348.2/c/one-unit-per-day": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  }
+ },
+ "determinationsDiverging": 600,
+ "determinationsDivergingOnToken": 443,
+ "rendered": "COMPARE  in-force  vs  proposed-2026-01-14\ndenominator: 600 determinations; 74 clauses in the union of both runs\nclauses on which at least one determination diverges: 35 of 74\ndeterminations diverging on at least one clause: 600 of 600 (on a result token: 443 of 600; the rest only on clause absence)\n  12nycrr/329-1.1/schedule-in-effect-on-dos            diverge 95/600; agree 505/600\n        33  cited_edition_not_the_one_in_force -> undetermined\n        23  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n        12  cited_edition_in_force_on_dos -> undetermined\n        10  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force\n         7  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n         4  dos_precedes_edition_effect -> undetermined\n         3  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n         2  missing_operand -> undetermined\n         1  missing_operand -> cited_edition_not_the_one_in_force\n  12nycrr/329-1.3/c/1/pta-code-source                  diverge 35/600; agree 565/600\n        23  codes_from_required_schedule -> codes_not_from_required_schedule\n        12  codes_not_from_required_schedule -> codes_from_required_schedule\n  12nycrr/329-1.3/c/2/ota-code-source                  diverge 34/600; agree 566/600\n        18  codes_from_required_schedule -> codes_not_from_required_schedule\n        16  codes_not_from_required_schedule -> codes_from_required_schedule\n  12nycrr/329-1.3/e/1/non-surgical-modifier            absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/1/same-amount                      absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/1/uses-medical-schedule            absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/assistant-modifier               absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/i/one-resident-unless-complex    absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/ii/one-per-procedure             absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/iii/other-assistants             absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/iv/same-bill-84                  absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/iv/single-bill-1R                absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/sixteen-percent                  absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/uses-medical-schedule            absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/v/rules-elsewhere                absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/v/supersedes-gr12b               absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/2/work-documented                  absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/3/narrative-names                  absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/4/scope-not-expanded               absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/acgme-program                      absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/no-independent-billing             absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/no-separate-supervision-fee        absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-1.3/e/supervision                        absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-4.1/a/acupuncture-dos                    diverge 69/600; agree 531/600\n        18  cited_edition_not_the_one_in_force -> undetermined\n        15  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n        11  cited_edition_in_force_on_dos -> undetermined\n         9  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n         7  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force\n         5  dos_precedes_edition_effect -> undetermined\n         4  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n  12nycrr/329-4.1/b/pt-ot-dos                          diverge 50/600; agree 550/600\n        27  cited_edition_not_the_one_in_force -> undetermined\n        10  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n         4  cited_edition_in_force_on_dos -> undetermined\n         3  dos_precedes_edition_effect -> undetermined\n         3  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force\n         2  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n         1  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n  12nycrr/329-4.2/d/one-unit-per-day                   absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/329-4.2/d/telemedicine-code                  absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/333.1/psychology-dos                         diverge 58/600; agree 542/600\n        17  cited_edition_not_the_one_in_force -> undetermined\n        12  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n        12  cited_edition_in_force_on_dos -> undetermined\n         5  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force\n         4  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n         4  dos_precedes_edition_effect -> undetermined\n         2  missing_operand -> undetermined\n         2  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n  12nycrr/333.2/c/no-1b-enhancement                    absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/333.2/c/one-unit-per-day                     absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/333.2/c/telemedicine-codes                   absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/343.1/podiatry-dos                           diverge 53/600; agree 547/600\n        15  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n        14  cited_edition_not_the_one_in_force -> undetermined\n        10  cited_edition_in_force_on_dos -> undetermined\n         5  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n         4  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n         2  missing_operand -> undetermined\n         2  cited_edition_not_the_one_in_force -> missing_operand\n         1  missing_operand -> cited_edition_not_the_one_in_force\n  12nycrr/348.1/chiropractic-dos                       diverge 83/600; agree 517/600\n        27  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force\n        18  cited_edition_in_force_on_dos -> undetermined\n        17  cited_edition_not_the_one_in_force -> undetermined\n         7  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect\n         6  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force\n         5  dos_precedes_edition_effect -> undetermined\n         3  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos\n  12nycrr/348.2/c/one-unit-per-day                     absent in proposed-2026-01-14 600/600; agree 0/600\n  12nycrr/348.2/c/telemedicine-code                    absent in proposed-2026-01-14 600/600; agree 0/600\nRESULT: DIVERGENT. [exit 1]"
+}

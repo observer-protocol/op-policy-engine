@@ -1,0 +1,473 @@
+{
+ "$derived_by": "version-diff.mjs",
+ "from": "in-force",
+ "to": "proposed-2026-01-14",
+ "changed_bindings": [
+  "v_edition_acu",
+  "v_edition_bh",
+  "v_edition_chiro",
+  "v_edition_medical",
+  "v_edition_pod",
+  "v_edition_pt_ot",
+  "v_effective_from_acu",
+  "v_effective_from_bh",
+  "v_effective_from_chiro",
+  "v_effective_from_medical",
+  "v_effective_from_pod",
+  "v_effective_from_pt_ot",
+  "v_effective_known",
+  "v_pta_code_source",
+  "v_publisher"
+ ],
+ "tally": {
+  "changed": 19,
+  "unchanged": 28,
+  "absent_in_proposed": 27
+ },
+ "rows": [
+  {
+   "id": "12nycrr/329-1.1/schedule-in-effect-on-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_medical+v_effective_from_medical+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/329-1.2/unit-fee-on-transfer",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.2/agreed-proration-separate-bills",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.2/no-agreement-arbitration",
+   "disposition": "INSTRUCTION",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.2/death-no-proration",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.2/departure-earned-portion",
+   "disposition": "JUDGMENT",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/a/edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/329-1.3/a/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/b/availability",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/329-1.3/c/supervision",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/1/pta-code-source",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "text, evaluation_data:v_pta_code_source"
+  },
+  {
+   "id": "12nycrr/329-1.3/c/1/pta-modifier",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/2/ota-code-source",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "text, evaluation_data:v_pta_code_source"
+  },
+  {
+   "id": "12nycrr/329-1.3/c/2/ota-modifier",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/3/eighty-five-percent",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/3/cosign",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/3/no-independent-billing",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/4/rvu-cap-unchanged",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/5/priority",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/6/scope-not-expanded",
+   "disposition": "JUDGMENT",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/c/6/i/examples",
+   "disposition": "ILLUSTRATIVE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/covid-testing-code",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/1/rvu",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/1/regional-fee",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/2/billable-basis",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/3/no-routine-screening",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/4/no-antibody",
+   "disposition": "MECHANICAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/d/5/single-instance",
+   "disposition": "CONDITIONAL",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-1.3/e/supervision",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/acgme-program",
+   "disposition": "MECHANICAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/no-independent-billing",
+   "disposition": "MECHANICAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/no-separate-supervision-fee",
+   "disposition": "MECHANICAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/1/uses-medical-schedule",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/1/non-surgical-modifier",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/1/same-amount",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/uses-medical-schedule",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/assistant-modifier",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/work-documented",
+   "disposition": "JUDGMENT",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/sixteen-percent",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/ii/one-per-procedure",
+   "disposition": "MECHANICAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/i/one-resident-unless-complex",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/iii/other-assistants",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/iv/same-bill-84",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/iv/single-bill-1R",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/v/rules-elsewhere",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/2/v/supersedes-gr12b",
+   "disposition": "DEFINITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/3/narrative-names",
+   "disposition": "MECHANICAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-1.3/e/4/scope-not-expanded",
+   "disposition": "DEFINITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-4.1/a/acupuncture-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_acu+v_effective_from_acu+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/329-4.1/b/pt-ot-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_pt_ot+v_effective_from_pt_ot+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/329-4.2/a/acupuncture-edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/329-4.2/a/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-4.2/b/pt-ot-edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/329-4.2/b/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/329-4.2/c/availability",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/329-4.2/d/telemedicine-code",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/329-4.2/d/one-unit-per-day",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/333.1/psychology-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_bh+v_effective_from_bh+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/333.2/a/edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/333.2/a/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/333.2/b/availability",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/333.2/c/telemedicine-codes",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/333.2/c/one-unit-per-day",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/333.2/c/no-1b-enhancement",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/343.1/podiatry-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_pod+v_effective_from_pod+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/343.2/a/edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/343.2/a/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/343.2/b/availability",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/348.1/chiropractic-dos",
+   "disposition": "MECHANICAL",
+   "change": "changed",
+   "detail": "evaluation_data:v_edition_chiro+v_effective_from_chiro+v_effective_known+v_publisher"
+  },
+  {
+   "id": "12nycrr/348.2/a/edition",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/348.2/a/incorporation",
+   "disposition": "INCORPORATED_BY_REFERENCE",
+   "change": "unchanged",
+   "detail": null
+  },
+  {
+   "id": "12nycrr/348.2/b/availability",
+   "disposition": "DEFINITIONAL",
+   "change": "changed",
+   "detail": "text, operative_weight"
+  },
+  {
+   "id": "12nycrr/348.2/c/telemedicine-code",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  },
+  {
+   "id": "12nycrr/348.2/c/one-unit-per-day",
+   "disposition": "CONDITIONAL",
+   "change": "absent_in_proposed",
+   "detail": "the proposal's restatement does not carry it (NY-A7)"
+  }
+ ]
+}
