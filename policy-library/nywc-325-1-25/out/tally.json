@@ -1,0 +1,2685 @@
+{
+ "$derived_by": "tally.mjs",
+ "population": {
+  "$source": "the POPULATION PARAMETERS block of this generator, one copy; this is a derived copy checked by digest",
+  "$generator_label": "nywc-325-1-25/generate-determinations.mjs",
+  "seed": 20260825,
+  "count": 600,
+  "parameters_sha256": "2c863ce04da2767468fd75201f8e1f16bebaf73622ac0456bd93849f7a7b0c82",
+  "parameters_text": "POPULATION PARAMETERS (choices, stated so a reader can discount them):\n  N                        600 determinations, seed 20260825 (seeded PRNG; rerunning reproduces);\n                           a different N or seed is a different population with a different digest\n  provider class           uniform over the eleven declared classes; hospital outpatient 10%\n  dates                    care rendered on a ladder; submitted 0 to 130 days after care on a\n                           ladder around the 120-day limit; received 0 to 6 days after submission\n                           (NY25-A1 is only visible when they differ); clock.now on a ladder\n  carrier action           paid_full 35% / paid_partial 15% / objected 35% / none 15%; action day\n                           on a ladder around 45 (10, 30, 40, 44, 45, 46, 60, 100) from receipt\n  objections               kinds drawn 1 to 3 from legal/valuation/mtg; grounds uniform over the\n                           declared enumerations including `other` and `s25a_liability`; forms\n                           uniform over C-8.1B / C-8.4 / EOB / other; recipients: the full set 60%,\n                           provider+board 25%, provider only 15%; simultaneous 80%\n  award request            present on 45% of bills not paid in full; request day on a ladder\n                           around 45 and 120; certifications each true 85%; complete 90%;\n                           eCase match 85%; Board-file match 85%; prior request 10%\n  legal issues / decisions on 30% of bills with a legal or MTG objection; dates laddered around 30\n  report elements          each present 80%; narrative table applied by layer A only\n  meanings                 four ungrounded terms; for EACH, independently, supplied 50% / unsupplied\n                           50%. authorized true 90%; prescribed format true 80%; report legally\n                           defective true 30%; fee schedule: scheduled and maximum amounts drawn by\n                           type, conforms true 80%. Not chosen to land any rate\n  optional facts           each unsupplied (undefined) 5% of the time",
+  "$dir": "/private/tmp/claude-501/-Users-agentic/68b6fdc1-e827-41c4-8e95-74f075d7aa44/scratchpad/nywc325/policy-library/nywc-325-1-25/"
+ },
+ "denominator": 600,
+ "versions": {
+  "regulation": {
+   "records": 35400,
+   "with_result": 30600,
+   "waiting": {
+    "none": 30296,
+    "judgment": 815,
+    "meaning": 3979,
+    "fact": 310
+   },
+   "meaning_rate_all_records": 0.11240112994350282,
+   "determinations_with_a_record_waiting_on_a_meaning": 569,
+   "per_clause": {
+    "325-1.25/a/1/provide-promptly": {
+     "denied": 186,
+     "not_assessed": 221,
+     "affirmed": 193
+    },
+    "325-1.25/a/1/mtg-consistent-care": {
+     "not_applicable": 261,
+     "not_assessed": 103,
+     "consistent_or_under_variance": 153,
+     "not_consistent_no_variance": 83
+    },
+    "325-1.25/a/2/liable-when-accepted": {
+     "not_assessed": 165,
+     "not_liable_not_medically_necessary": 133,
+     "liable": 123,
+     "not_applicable": 179
+    },
+    "325-1.25/a/2/i/within-mtg": {
+     "denied": 187,
+     "not_assessed": 218,
+     "affirmed": 195
+    },
+    "325-1.25/a/2/ii/variance-or-authorized": {
+     "satisfied": 249,
+     "not_satisfied": 351
+    },
+    "325-1.25/a/2/iii/agreed": {
+     "not_satisfied": 494,
+     "satisfied": 106
+    },
+    "325-1.25/a/2/iv/ordered": {
+     "not_satisfied": 528,
+     "satisfied": 72
+    },
+    "325-1.25/a/2/obligation-to-pay": {
+     "not_applicable": 357,
+     "obligated": 179,
+     "undetermined": 38,
+     "not_obligated": 26
+    },
+    "325-1.25/a/2/amount-fee-schedule-or-agreed": {
+     "undetermined": 293,
+     "not_applicable": 218,
+     "missing_operand_on_supplied_meaning": 32,
+     "not_equal_on_supplied_meaning": 31,
+     "equal_on_supplied_meaning": 2,
+     "not_equal": 5,
+     "missing_operand": 17,
+     "equal": 2
+    },
+    "325-1.25/a/2/not-obligated-outside-mtg": {
+     "not_obligated": 136,
+     "not_applicable": 413,
+     "obligated_by_exception": 51
+    },
+    "325-1.25/b/1/format-prescribed": {
+     "undetermined": 342,
+     "format_prescribed_on_supplied_meaning": 207,
+     "format_not_prescribed_on_supplied_meaning": 29,
+     "provider_not_authorized_on_supplied_meaning": 22
+    },
+    "325-1.25/b/1/120-days": {
+     "no_end_event": 27,
+     "submitted_within_120": 406,
+     "submitted_after_120": 167
+    },
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+     "undetermined": 355,
+     "eligible": 132,
+     "ineligible_format": 37,
+     "ineligible_late": 76
+    },
+    "325-1.25/b/1/pre-2020-care": {
+     "not_applicable": 509,
+     "submitted_within_120_of_2020": 64,
+     "out_of_order": 27
+    },
+    "325-1.25/b/2/hospital-format": {
+     "uds_format": 36,
+     "not_applicable": 550,
+     "not_uds_format": 14
+    },
+    "325-1.25/b/2/hospital-120-days": {
+     "submitted_within_120": 35,
+     "not_applicable": 550,
+     "submitted_after_120": 15
+    },
+    "325-1.25/b/3/good-cause-late-submission": {
+     "not_applicable": 578,
+     "affirmed": 10,
+     "not_assessed": 7,
+     "denied": 5
+    },
+    "325-1.25/c/1/pay-or-notify-45": {
+     "paid_after_45": 25,
+     "undetermined": 323,
+     "neither_within_45": 39,
+     "notified_within_45_on_supplied_meaning": 47,
+     "not_applicable": 14,
+     "notified_within_45_not_in_prescribed_manner_on_supplied_meaning": 37,
+     "paid_within_45": 53,
+     "notified_after_45": 53,
+     "out_of_order": 8,
+     "not_yet_due": 1
+    },
+    "325-1.25/c/1/notice-recipients": {
+     "not_applicable": 299,
+     "recipient_missing": 129,
+     "all_required_recipients": 172
+    },
+    "325-1.25/c/1/legal-objection-format": {
+     "not_applicable": 208,
+     "undetermined": 323,
+     "nonconforming_on_supplied_meaning": 22,
+     "conforming_on_supplied_meaning": 47
+    },
+    "325-1.25/c/1/valuation-objection-format": {
+     "not_applicable": 214,
+     "undetermined": 323,
+     "conforming_on_supplied_meaning": 42,
+     "nonconforming_on_supplied_meaning": 21
+    },
+    "325-1.25/c/1/eob-alternative": {
+     "not_applicable": 583,
+     "eob_in_lieu_of_form": 8,
+     "no_objection_document": 7,
+     "form_filed": 2
+    },
+    "325-1.25/c/1/mtg-objection-format": {
+     "not_applicable": 202,
+     "undetermined": 323,
+     "nonconforming_on_supplied_meaning": 39,
+     "conforming_on_supplied_meaning": 36
+    },
+    "325-1.25/c/2/pay-uncontested-portion": {
+     "not_applicable": 515,
+     "breached": 32,
+     "satisfied": 53
+    },
+    "325-1.25/c/3/no-timely-objection-liable-full": {
+     "undetermined": 293,
+     "liable_full_amount_up_to_maximum_on_supplied_meaning": 234,
+     "not_applicable": 73
+    },
+    "325-1.25/c/3/late-objection-barred": {
+     "not_applicable": 299,
+     "barred": 149,
+     "reviewable": 152
+    },
+    "325-1.25/c/4/objections-simultaneous": {
+     "not_applicable": 492,
+     "simultaneous": 81,
+     "not_simultaneous": 27
+    },
+    "325-1.25/c/5/valuation-ground-enumerated": {
+     "not_applicable": 476,
+     "enumerated": 109,
+     "not_enumerated_open_set": 15
+    },
+    "325-1.25/c/6/legal-ground-enumerated": {
+     "not_applicable": 469,
+     "enumerated": 105,
+     "not_enumerated_open_set": 26
+    },
+    "325-1.25/c/6/legally-defective-report": {
+     "undetermined": 311,
+     "not_applicable": 285,
+     "report_not_legally_defective_on_supplied_meaning": 4
+    },
+    "325-1.25/c/6/25a-not-valid": {
+     "not_applicable": 469,
+     "not_a_25a_objection": 120,
+     "not_valid_legal_objection": 11
+    },
+    "325-1.25/c/6/par-not-raised-denied": {
+     "not_applicable": 563,
+     "properly_raised": 22,
+     "denied_not_raised_in_par_response": 15
+    },
+    "325-1.25/c/6/attach-par-denial": {
+     "not_applicable": 563,
+     "attached": 21,
+     "not_attached": 16
+    },
+    "325-1.25/c/7/mtg-ground-member": {
+     "not_applicable": 442,
+     "not_an_mtg_objection": 48,
+     "member": 110
+    },
+    "325-1.25/c/7/iv/par-not-raised-denied": {
+     "not_applicable": 548,
+     "not_attached": 9,
+     "properly_raised_and_attached": 28,
+     "denied_not_raised_in_par_response": 15
+    },
+    "325-1.25/d/1/award-availability": {
+     "remedy_not_available_bill_ineligible": 210,
+     "undetermined": 323,
+     "remedy_not_available_paid_in_full": 24,
+     "remedy_available": 37,
+     "remedy_not_available_timely_valuation_notice_on_supplied_meaning": 5,
+     "remedy_available_on_supplied_meaning": 1
+    },
+    "325-1.25/d/1/request-window": {
+     "not_applicable": 427,
+     "within_window": 57,
+     "too_early": 78,
+     "out_of_order": 14,
+     "too_late": 24
+    },
+    "325-1.25/d/2/good-cause-late-request": {
+     "not_applicable": 596,
+     "denied": 2,
+     "not_assessed": 2
+    },
+    "325-1.25/d/3/i/not-before-legal-determined": {
+     "not_applicable": 585,
+     "out_of_order": 9,
+     "acceptable": 4,
+     "not_acceptable_issues_pending": 2
+    },
+    "325-1.25/d/3/ii/one-request-per-dos": {
+     "not_applicable": 427,
+     "first_request_for_dos": 158,
+     "rejected_duplicate_dos": 15
+    },
+    "325-1.25/d/4/certifications": {
+     "undetermined": 293,
+     "certification_failing_on_supplied_meaning": 17,
+     "not_applicable": 220,
+     "all_certified_on_supplied_meaning": 28,
+     "certification_failing": 42
+    },
+    "325-1.25/d/5/reject-incomplete-or-mismatch": {
+     "not_applicable": 427,
+     "may_be_rejected_mismatch": 28,
+     "accepted_for_examination": 114,
+     "rejected_incomplete": 31
+    },
+    "325-1.25/d/6/proposed-filing-date-30": {
+     "not_applicable": 502,
+     "filing_date_under_30_days": 59,
+     "filing_date_at_least_30_days": 39
+    },
+    "325-1.25/d/7/objection-to-proposed-award": {
+     "not_applicable": 502,
+     "final_on_filing_date_objection_late": 13,
+     "final_on_filing_date": 69,
+     "reconsideration": 16
+    },
+    "325-1.25/d/8/interest": {
+     "not_applicable": 538,
+     "satisfied": 45,
+     "breached": 17
+    },
+    "325-1.25/e/1/arbitration-availability": {
+     "not_applicable": 540,
+     "arbitration_not_available_bill_ineligible": 47,
+     "no_dispute_to_arbitrate": 1,
+     "arbitration_available": 12
+    },
+    "325-1.25/e/3/good-cause-late-arbitration": {
+     "not_applicable": 590,
+     "not_assessed": 5,
+     "affirmed": 1,
+     "denied": 4
+    },
+    "325-1.25/e/4/not-before-legal-determined": {
+     "not_applicable": 595,
+     "not_acceptable_issues_pending": 1,
+     "out_of_order": 2,
+     "not_acceptable_within_30_days": 2
+    },
+    "325-1.25/f/1/adjudication-of-legal-mtg": {
+     "not_applicable": 159,
+     "undetermined": 323,
+     "not_in_prescribed_format_on_supplied_meaning": 30,
+     "reviewed_by_board_on_supplied_meaning": 88
+    },
+    "325-1.25/f/2/pay-within-30-of-decision": {
+     "not_applicable": 567,
+     "paid_within_30": 15,
+     "payment_not_due_valuation_pending": 6,
+     "paid_after_30": 7,
+     "out_of_order": 5
+    },
+    "325-1.25/f/3/withhold-pending-review": {
+     "not_applicable": 590,
+     "withholding_permitted_pending_decision": 5,
+     "out_of_order": 5
+    }
+   }
+  },
+  "layer-a-wcb": {
+   "records": 2400,
+   "with_result": 2400,
+   "waiting": {
+    "none": 2400
+   },
+   "meaning_rate_all_records": 0,
+   "determinations_with_a_record_waiting_on_a_meaning": 0,
+   "per_clause": {
+    "325-1.25/b/1/format-prescribed": {
+     "format_prescribed": 439,
+     "format_not_prescribed": 161
+    },
+    "325-1.25/c/6/legally-defective-report": {
+     "not_applicable": 590,
+     "elements_present": 6,
+     "may_be_found_legally_defective_elements_missing": 4
+    },
+    "325-1.25/d/1/award-availability": {
+     "remedy_available": 497,
+     "remedy_not_available_paid_in_full": 103
+    },
+    "325-1.25/d/5/reject-incomplete-or-mismatch": {
+     "not_applicable": 427,
+     "accepted_for_examination": 148,
+     "denied_mismatch": 25
+    }
+   }
+  },
+  "layer-b-daisybill": {
+   "records": 12600,
+   "with_result": 10800,
+   "waiting": {
+    "meaning": 963,
+    "fact": 54,
+    "none": 11576,
+    "judgment": 7
+   },
+   "meaning_rate_all_records": 0.07642857142857143,
+   "determinations_with_a_record_waiting_on_a_meaning": 465,
+   "per_clause": {
+    "325-1.25/b/1/format-prescribed": {
+     "undetermined": 342,
+     "format_prescribed_on_supplied_meaning": 183,
+     "provider_not_authorized_on_supplied_meaning": 22,
+     "format_not_prescribed_on_supplied_meaning": 53
+    },
+    "325-1.25/b/1/120-days": {
+     "no_end_event": 27,
+     "submitted_within_120": 406,
+     "submitted_after_120": 167
+    },
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+     "undetermined": 355,
+     "eligible": 116,
+     "ineligible_late": 76,
+     "ineligible_format": 53
+    },
+    "325-1.25/b/3/good-cause-late-submission": {
+     "not_applicable": 578,
+     "affirmed": 10,
+     "not_assessed": 7,
+     "denied": 5
+    },
+    "325-1.25/c/1/pay-or-notify-45": {
+     "paid_after_45": 99,
+     "notified_after_45": 149,
+     "neither_within_45": 80,
+     "paid_within_45": 103,
+     "notified_within_45": 119,
+     "out_of_order": 14,
+     "notified_within_45_not_in_prescribed_manner": 33,
+     "not_yet_due": 3
+    },
+    "325-1.25/c/1/notice-recipients": {
+     "not_applicable": 299,
+     "all_required_recipients": 247,
+     "recipient_missing": 54
+    },
+    "325-1.25/c/1/legal-objection-format": {
+     "not_applicable": 469,
+     "nonconforming": 131
+    },
+    "325-1.25/c/1/valuation-objection-format": {
+     "not_applicable": 476,
+     "nonconforming": 103,
+     "conforming": 21
+    },
+    "325-1.25/c/1/eob-alternative": {
+     "not_applicable": 583,
+     "eob_in_lieu_of_form": 8,
+     "no_objection_document": 7,
+     "form_filed": 2
+    },
+    "325-1.25/c/1/mtg-objection-format": {
+     "not_applicable": 442,
+     "nonconforming": 158
+    },
+    "325-1.25/c/3/no-timely-objection-liable-full": {
+     "undetermined": 293,
+     "liable_full_amount_up_to_maximum_on_supplied_meaning": 234,
+     "not_applicable": 73
+    },
+    "325-1.25/c/3/late-objection-barred": {
+     "not_applicable": 299,
+     "barred": 149,
+     "reviewable": 152
+    },
+    "325-1.25/c/5/valuation-ground-enumerated": {
+     "not_applicable": 476,
+     "enumerated": 101,
+     "not_a_listed_ground": 23
+    },
+    "325-1.25/c/6/legal-ground-enumerated": {
+     "not_applicable": 469,
+     "enumerated": 105,
+     "not_enumerated_open_set": 26
+    },
+    "325-1.25/c/7/mtg-ground-member": {
+     "not_applicable": 442,
+     "not_enumerated_open_set": 48,
+     "member": 110
+    },
+    "325-1.25/e/1/arbitration-availability": {
+     "not_applicable": 540,
+     "arbitration_available": 60
+    },
+    "325-1.25/f/1/adjudication-of-legal-mtg": {
+     "not_applicable": 362,
+     "untimely": 127,
+     "reviewed_by_board": 111
+    },
+    "325-1.25/B/electronic-only-after-2025-08-01": {
+     "electronic": 371,
+     "not_applicable": 130,
+     "no_payment_obligation_non_electronic": 99
+    }
+   }
+  }
+ },
+ "comparisons": {
+  "layer-a-wcb": {
+   "label": "A",
+   "clauses_stated_by_restatement": 4,
+   "clauses_diverging": 4,
+   "clauses_diverging_on_a_decision": 4,
+   "rows": {
+    "325-1.25/a/1/provide-promptly": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/1/medical-care-defined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/1/mtg-consistent-care": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 339,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/liable-when-accepted": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 421,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/i/within-mtg": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/ii/variance-or-authorized": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/iii/agreed": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/iv/ordered": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/obligation-to-pay": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 243,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/amount-fee-schedule-or-agreed": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 179,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/not-obligated-outside-mtg": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 187,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/1/format-prescribed": {
+     "agree": 0,
+     "diverge": 600,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 600,
+     "classes": {
+      "regulation_waiting": 342,
+      "attribution_only": 164,
+      "applicability": 0,
+      "decision": 94
+     },
+     "decision_reached": 94,
+     "transitions": {
+      "undetermined -> format_prescribed": 246,
+      "undetermined -> format_not_prescribed": 96,
+      "format_prescribed_on_supplied_meaning -> format_prescribed": 155,
+      "format_not_prescribed_on_supplied_meaning -> format_prescribed": 20,
+      "provider_not_authorized_on_supplied_meaning -> format_not_prescribed": 4,
+      "format_prescribed_on_supplied_meaning -> format_not_prescribed": 52,
+      "format_not_prescribed_on_supplied_meaning -> format_not_prescribed": 9,
+      "provider_not_authorized_on_supplied_meaning -> format_prescribed": 18
+     }
+    },
+    "325-1.25/b/1/120-days": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/1/pre-2020-care": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 91,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/2/hospital-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 50,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/2/hospital-120-days": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 50,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/3/good-cause-late-submission": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 22,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/pay-or-notify-45": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 573,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/notice-recipients": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 301,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/legal-objection-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/valuation-objection-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 124,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/eob-alternative": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 17,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/mtg-objection-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 158,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/2/pay-uncontested-portion": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 85,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/3/no-timely-objection-liable-full": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 527,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/3/late-objection-barred": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 301,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/4/objections-simultaneous": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 108,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/5/valuation-categories": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/5/valuation-ground-enumerated": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 124,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/legal-categories": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/legal-ground-enumerated": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/legally-defective-report": {
+     "agree": 285,
+     "diverge": 315,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 10,
+     "classes": {
+      "regulation_waiting": 311,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 4
+     },
+     "decision_reached": 4,
+     "transitions": {
+      "undetermined -> not_applicable": 305,
+      "report_not_legally_defective_on_supplied_meaning -> elements_present": 3,
+      "undetermined -> may_be_found_legally_defective_elements_missing": 3,
+      "undetermined -> elements_present": 3,
+      "report_not_legally_defective_on_supplied_meaning -> may_be_found_legally_defective_elements_missing": 1
+     }
+    },
+    "325-1.25/c/6/25a-not-valid": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/par-not-raised-denied": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 37,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/attach-par-denial": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 37,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/7/mtg-categories": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/7/mtg-ground-member": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 158,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/7/iv/par-not-raised-denied": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 52,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/1/award-availability": {
+     "agree": 52,
+     "diverge": 548,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 548,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 1,
+      "applicability": 0,
+      "decision": 224
+     },
+     "decision_reached": 224,
+     "transitions": {
+      "remedy_not_available_bill_ineligible -> remedy_available": 182,
+      "undetermined -> remedy_available": 263,
+      "undetermined -> remedy_not_available_paid_in_full": 60,
+      "remedy_not_available_bill_ineligible -> remedy_not_available_paid_in_full": 28,
+      "remedy_not_available_paid_in_full -> remedy_available": 9,
+      "remedy_not_available_timely_valuation_notice_on_supplied_meaning -> remedy_available": 5,
+      "remedy_available_on_supplied_meaning -> remedy_available": 1
+     }
+    },
+    "325-1.25/d/1/request-window": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/2/good-cause-late-request": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 4,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/3/i/not-before-legal-determined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 15,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/3/ii/one-request-per-dos": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/4/certifications": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/5/reject-incomplete-or-mismatch": {
+     "agree": 526,
+     "diverge": 74,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 74,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 74
+     },
+     "decision_reached": 74,
+     "transitions": {
+      "may_be_rejected_mismatch -> accepted_for_examination": 21,
+      "rejected_incomplete -> accepted_for_examination": 28,
+      "may_be_rejected_mismatch -> denied_mismatch": 7,
+      "accepted_for_examination -> denied_mismatch": 15,
+      "rejected_incomplete -> denied_mismatch": 3
+     }
+    },
+    "325-1.25/d/6/proposed-award-process": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/6/proposed-filing-date-30": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 98,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/7/objection-to-proposed-award": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 98,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/8/interest": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 62,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/1/arbitration-availability": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 60,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/2/provider-option": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/3/good-cause-late-arbitration": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/4/not-before-legal-determined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 5,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/1/adjudication-of-legal-mtg": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 238,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/2/pay-within-30-of-decision": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 33,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/3/withhold-pending-review": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/3/no-stay-on-further-appeal": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/g/effective-date": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    }
+   }
+  },
+  "layer-b-daisybill": {
+   "label": "B",
+   "clauses_stated_by_restatement": 20,
+   "clauses_diverging": 11,
+   "clauses_diverging_on_a_decision": 11,
+   "rows": {
+    "325-1.25/a/1/provide-promptly": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/1/medical-care-defined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/1/mtg-consistent-care": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 339,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/liable-when-accepted": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 421,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/i/within-mtg": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/ii/variance-or-authorized": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/iii/agreed": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/iv/ordered": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/obligation-to-pay": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 243,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/amount-fee-schedule-or-agreed": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 179,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/a/2/not-obligated-outside-mtg": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 187,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/1/format-prescribed": {
+     "agree": 532,
+     "diverge": 68,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 68,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 68
+     },
+     "decision_reached": 68,
+     "transitions": {
+      "format_not_prescribed_on_supplied_meaning -> format_prescribed_on_supplied_meaning": 22,
+      "format_prescribed_on_supplied_meaning -> format_not_prescribed_on_supplied_meaning": 46
+     }
+    },
+    "325-1.25/b/1/120-days": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+     "agree": 554,
+     "diverge": 46,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 46,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 46
+     },
+     "decision_reached": 46,
+     "transitions": {
+      "ineligible_format -> eligible": 15,
+      "eligible -> ineligible_format": 31
+     }
+    },
+    "325-1.25/b/1/pre-2020-care": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 91,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/2/hospital-format": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 50,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/2/hospital-120-days": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 50,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/b/3/good-cause-late-submission": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 22,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/pay-or-notify-45": {
+     "agree": 166,
+     "diverge": 434,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 573,
+     "diverge_reached": 407,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 52,
+      "applicability": 14,
+      "decision": 45
+     },
+     "decision_reached": 45,
+     "transitions": {
+      "undetermined -> notified_after_45": 69,
+      "undetermined -> paid_within_45": 60,
+      "undetermined -> notified_within_45": 72,
+      "undetermined -> neither_within_45": 39,
+      "undetermined -> out_of_order": 5,
+      "notified_within_45_on_supplied_meaning -> notified_within_45": 37,
+      "not_applicable -> notified_within_45_not_in_prescribed_manner": 2,
+      "undetermined -> paid_after_45": 60,
+      "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45_not_in_prescribed_manner": 15,
+      "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45": 8,
+      "paid_within_45 -> paid_after_45": 13,
+      "not_applicable -> neither_within_45": 2,
+      "not_applicable -> notified_within_45": 2,
+      "notified_within_45_on_supplied_meaning -> notified_after_45": 10,
+      "not_applicable -> paid_within_45": 3,
+      "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_after_45": 14,
+      "undetermined -> not_yet_due": 2,
+      "not_applicable -> notified_after_45": 3,
+      "undetermined -> notified_within_45_not_in_prescribed_manner": 16,
+      "not_applicable -> paid_after_45": 1,
+      "not_applicable -> out_of_order": 1
+     }
+    },
+    "325-1.25/c/1/notice-recipients": {
+     "agree": 525,
+     "diverge": 75,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 301,
+     "diverge_reached": 75,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 75
+     },
+     "decision_reached": 75,
+     "transitions": {
+      "recipient_missing -> all_required_recipients": 75
+     }
+    },
+    "325-1.25/c/1/legal-objection-format": {
+     "agree": 208,
+     "diverge": 392,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 131,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 22,
+      "applicability": 0,
+      "decision": 47
+     },
+     "decision_reached": 47,
+     "transitions": {
+      "undetermined -> not_applicable": 261,
+      "nonconforming_on_supplied_meaning -> nonconforming": 22,
+      "undetermined -> nonconforming": 62,
+      "conforming_on_supplied_meaning -> nonconforming": 47
+     }
+    },
+    "325-1.25/c/1/valuation-objection-format": {
+     "agree": 214,
+     "diverge": 386,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 124,
+     "diverge_reached": 124,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 22,
+      "applicability": 0,
+      "decision": 41
+     },
+     "decision_reached": 41,
+     "transitions": {
+      "undetermined -> nonconforming": 53,
+      "undetermined -> not_applicable": 262,
+      "undetermined -> conforming": 8,
+      "conforming_on_supplied_meaning -> nonconforming": 35,
+      "nonconforming_on_supplied_meaning -> nonconforming": 15,
+      "conforming_on_supplied_meaning -> conforming": 7,
+      "nonconforming_on_supplied_meaning -> conforming": 6
+     }
+    },
+    "325-1.25/c/1/eob-alternative": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 17,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/1/mtg-objection-format": {
+     "agree": 202,
+     "diverge": 398,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 158,
+     "diverge_reached": 158,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 39,
+      "applicability": 0,
+      "decision": 36
+     },
+     "decision_reached": 36,
+     "transitions": {
+      "undetermined -> not_applicable": 240,
+      "undetermined -> nonconforming": 83,
+      "nonconforming_on_supplied_meaning -> nonconforming": 39,
+      "conforming_on_supplied_meaning -> nonconforming": 36
+     }
+    },
+    "325-1.25/c/2/pay-uncontested-portion": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 85,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/3/no-timely-objection-liable-full": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 527,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/3/late-objection-barred": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 301,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/4/objections-simultaneous": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 108,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/5/valuation-categories": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/5/valuation-ground-enumerated": {
+     "agree": 577,
+     "diverge": 23,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 124,
+     "diverge_reached": 23,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 23
+     },
+     "decision_reached": 23,
+     "transitions": {
+      "enumerated -> not_a_listed_ground": 8,
+      "not_enumerated_open_set -> not_a_listed_ground": 15
+     }
+    },
+    "325-1.25/c/6/legal-categories": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/legal-ground-enumerated": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/legally-defective-report": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/25a-not-valid": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 131,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/par-not-raised-denied": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 37,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/6/attach-par-denial": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 37,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/7/mtg-categories": {
+     "agree": 600,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/c/7/mtg-ground-member": {
+     "agree": 552,
+     "diverge": 48,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 158,
+     "diverge_reached": 48,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 48
+     },
+     "decision_reached": 48,
+     "transitions": {
+      "not_an_mtg_objection -> not_enumerated_open_set": 48
+     }
+    },
+    "325-1.25/c/7/iv/par-not-raised-denied": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 52,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/1/award-availability": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 600,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/1/request-window": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/2/good-cause-late-request": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 4,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/3/i/not-before-legal-determined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 15,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/3/ii/one-request-per-dos": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/4/certifications": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/5/reject-incomplete-or-mismatch": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 173,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/6/proposed-award-process": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/6/proposed-filing-date-30": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 98,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/7/objection-to-proposed-award": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 98,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/d/8/interest": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 62,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/1/arbitration-availability": {
+     "agree": 552,
+     "diverge": 48,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 60,
+     "diverge_reached": 48,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 48
+     },
+     "decision_reached": 48,
+     "transitions": {
+      "arbitration_not_available_bill_ineligible -> arbitration_available": 47,
+      "no_dispute_to_arbitrate -> arbitration_available": 1
+     }
+    },
+    "325-1.25/e/2/provider-option": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/3/good-cause-late-arbitration": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/e/4/not-before-legal-determined": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 5,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/1/adjudication-of-legal-mtg": {
+     "agree": 159,
+     "diverge": 441,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 0,
+     "reached": 238,
+     "diverge_reached": 238,
+     "classes": {
+      "regulation_waiting": 323,
+      "attribution_only": 33,
+      "applicability": 0,
+      "decision": 85
+     },
+     "decision_reached": 85,
+     "transitions": {
+      "undetermined -> not_applicable": 203,
+      "undetermined -> untimely": 55,
+      "undetermined -> reviewed_by_board": 65,
+      "not_in_prescribed_format_on_supplied_meaning -> reviewed_by_board": 13,
+      "reviewed_by_board_on_supplied_meaning -> reviewed_by_board": 33,
+      "not_in_prescribed_format_on_supplied_meaning -> untimely": 17,
+      "reviewed_by_board_on_supplied_meaning -> untimely": 55
+     }
+    },
+    "325-1.25/f/2/pay-within-30-of-decision": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 33,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/3/withhold-pending-review": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 10,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/f/3/no-stay-on-further-appeal": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/g/effective-date": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 600,
+     "added_by_restatement": 0,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    },
+    "325-1.25/B/electronic-only-after-2025-08-01": {
+     "agree": 0,
+     "diverge": 0,
+     "absent_in_restatement": 0,
+     "added_by_restatement": 600,
+     "reached": 0,
+     "diverge_reached": 0,
+     "classes": {
+      "regulation_waiting": 0,
+      "attribution_only": 0,
+      "applicability": 0,
+      "decision": 0
+     },
+     "decision_reached": 0,
+     "transitions": {}
+    }
+   }
+  }
+ },
+ "ungrounded_split": {
+  "clauses": [
+   "325-1.25/a/2/amount-fee-schedule-or-agreed",
+   "325-1.25/b/1/format-prescribed",
+   "325-1.25/c/1/pay-or-notify-45",
+   "325-1.25/c/1/legal-objection-format",
+   "325-1.25/c/1/valuation-objection-format",
+   "325-1.25/c/1/mtg-objection-format",
+   "325-1.25/c/3/no-timely-objection-liable-full",
+   "325-1.25/c/6/legally-defective-report",
+   "325-1.25/d/1/award-availability",
+   "325-1.25/d/4/certifications",
+   "325-1.25/f/1/adjudication-of-legal-mtg"
+  ],
+  "denominator": 6600,
+  "decided": 516,
+  "undetermined_reached": 1776,
+  "undetermined_refused_before_applicability": 1694,
+  "on_supplied_meaning": 1021,
+  "not_applicable": 1593
+ },
+ "figures": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  35,
+  36,
+  37,
+  38,
+  39,
+  41,
+  42,
+  45,
+  46,
+  47,
+  48,
+  50,
+  51,
+  52,
+  53,
+  54,
+  57,
+  59,
+  60,
+  62,
+  64,
+  68,
+  69,
+  72,
+  73,
+  74,
+  75,
+  76,
+  78,
+  80,
+  81,
+  83,
+  85,
+  88,
+  91,
+  94,
+  98,
+  99,
+  101,
+  103,
+  105,
+  106,
+  108,
+  109,
+  110,
+  111,
+  114,
+  116,
+  119,
+  120,
+  123,
+  124,
+  127,
+  129,
+  130,
+  131,
+  132,
+  133,
+  136,
+  148,
+  149,
+  152,
+  153,
+  158,
+  159,
+  161,
+  164,
+  165,
+  166,
+  167,
+  172,
+  173,
+  179,
+  183,
+  186,
+  187,
+  193,
+  195,
+  202,
+  207,
+  208,
+  210,
+  214,
+  218,
+  220,
+  221,
+  224,
+  234,
+  238,
+  243,
+  247,
+  249,
+  261,
+  285,
+  293,
+  299,
+  301,
+  311,
+  315,
+  323,
+  339,
+  342,
+  351,
+  355,
+  357,
+  362,
+  371,
+  386,
+  392,
+  398,
+  406,
+  407,
+  413,
+  421,
+  427,
+  434,
+  439,
+  441,
+  442,
+  465,
+  469,
+  476,
+  492,
+  494,
+  497,
+  502,
+  509,
+  515,
+  516,
+  525,
+  526,
+  527,
+  528,
+  532,
+  538,
+  540,
+  548,
+  550,
+  552,
+  554,
+  563,
+  567,
+  569,
+  573,
+  577,
+  578,
+  583,
+  585,
+  590,
+  595,
+  596,
+  600,
+  1021,
+  1593,
+  1694,
+  1776
+ ],
+ "rendered": "TALLY over 600 synthetic determinations [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]\nPOPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2c863ce04da2 is checked against it at render time)\nPOPULATION PARAMETERS (choices, stated so a reader can discount them):\n  N                        600 determinations, seed 20260825 (seeded PRNG; rerunning reproduces);\n                           a different N or seed is a different population with a different digest\n  provider class           uniform over the eleven declared classes; hospital outpatient 10%\n  dates                    care rendered on a ladder; submitted 0 to 130 days after care on a\n                           ladder around the 120-day limit; received 0 to 6 days after submission\n                           (NY25-A1 is only visible when they differ); clock.now on a ladder\n  carrier action           paid_full 35% / paid_partial 15% / objected 35% / none 15%; action day\n                           on a ladder around 45 (10, 30, 40, 44, 45, 46, 60, 100) from receipt\n  objections               kinds drawn 1 to 3 from legal/valuation/mtg; grounds uniform over the\n                           declared enumerations including `other` and `s25a_liability`; forms\n                           uniform over C-8.1B / C-8.4 / EOB / other; recipients: the full set 60%,\n                           provider+board 25%, provider only 15%; simultaneous 80%\n  award request            present on 45% of bills not paid in full; request day on a ladder\n                           around 45 and 120; certifications each true 85%; complete 90%;\n                           eCase match 85%; Board-file match 85%; prior request 10%\n  legal issues / decisions on 30% of bills with a legal or MTG objection; dates laddered around 30\n  report elements          each present 80%; narrative table applied by layer A only\n  meanings                 four ungrounded terms; for EACH, independently, supplied 50% / unsupplied\n                           50%. authorized true 90%; prescribed format true 80%; report legally\n                           defective true 30%; fee schedule: scheduled and maximum amounts drawn by\n                           type, conforms true 80%. Not chosen to land any rate\n  optional facts           each unsupplied (undefined) 5% of the time\n\nregulation: 35400 records (30600 with a result domain); waiting {\"none\":30296,\"judgment\":815,\"meaning\":3979,\"fact\":310}; meaning-waiting 3979 of 35400 (11.24%), determinations with one 569/600 (94.8%)\n\nlayer-a-wcb: 2400 records (2400 with a result domain); waiting {\"none\":2400}; meaning-waiting 0 of 2400 (0.00%), determinations with one 0/600 (0.0%)\n\nlayer-b-daisybill: 12600 records (10800 with a result domain); waiting {\"meaning\":963,\"fact\":54,\"none\":11576,\"judgment\":7}; meaning-waiting 963 of 12600 (7.64%), determinations with one 465/600 (77.5%)\n\nungrounded split (regulation), 11 clauses x 600 = 6600 records: {\"decided\":516,\"undetermined_reached\":1776,\"undetermined_refused_before_applicability\":1694,\"on_supplied_meaning\":1021,\"not_applicable\":1593}\n\nREGULATION vs LAYER A (layer-a-wcb) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]\n  restatement states 4 of 59 regulation clauses; 4 of those diverge on at least one determination; 4 on a DECISION (both sides decided, differently)\n  325-1.25/b/1/format-prescribed                     diverge 600/600 (100.0%) over all; 600/600 (100.0%) over reached; agree 0/600\n      of which: regulation waiting 342, attribution only 164, applicability 0, DECISION 94 (94/600 over reached)\n       246  undetermined -> format_prescribed\n       155  format_prescribed_on_supplied_meaning -> format_prescribed\n        96  undetermined -> format_not_prescribed\n        52  format_prescribed_on_supplied_meaning -> format_not_prescribed\n  325-1.25/c/6/legally-defective-report              diverge 315/600 (52.5%) over all;  10/ 10 (100.0%) over reached; agree 285/600\n      of which: regulation waiting 311, attribution only 0, applicability 0, DECISION 4 (4/10 over reached)\n       305  undetermined -> not_applicable\n         3  report_not_legally_defective_on_supplied_meaning -> elements_present\n         3  undetermined -> may_be_found_legally_defective_elements_missing\n         3  undetermined -> elements_present\n  325-1.25/d/1/award-availability                    diverge 548/600 (91.3%) over all; 548/600 (91.3%) over reached; agree 52/600\n      of which: regulation waiting 323, attribution only 1, applicability 0, DECISION 224 (224/600 over reached)\n       263  undetermined -> remedy_available\n       182  remedy_not_available_bill_ineligible -> remedy_available\n        60  undetermined -> remedy_not_available_paid_in_full\n        28  remedy_not_available_bill_ineligible -> remedy_not_available_paid_in_full\n  325-1.25/d/5/reject-incomplete-or-mismatch         diverge  74/600 (12.3%) over all;  74/173 (42.8%) over reached; agree 526/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 74 (74/173 over reached)\n        28  rejected_incomplete -> accepted_for_examination\n        21  may_be_rejected_mismatch -> accepted_for_examination\n        15  accepted_for_examination -> denied_mismatch\n         7  may_be_rejected_mismatch -> denied_mismatch\n\nREGULATION vs LAYER B (layer-b-daisybill) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]\n  restatement states 20 of 59 regulation clauses; 11 of those diverge on at least one determination; 11 on a DECISION (both sides decided, differently)\n  325-1.25/b/1/120-days                              diverge   0/600 (0.0%) over all;   0/600 (0.0%) over reached; agree 600/600\n  325-1.25/b/1/format-prescribed                     diverge  68/600 (11.3%) over all;  68/600 (11.3%) over reached; agree 532/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 68 (68/600 over reached)\n        46  format_prescribed_on_supplied_meaning -> format_not_prescribed_on_supplied_meaning\n        22  format_not_prescribed_on_supplied_meaning -> format_prescribed_on_supplied_meaning\n  325-1.25/b/1/ineligible-if-late-or-wrong-format    diverge  46/600 (7.7%) over all;  46/600 (7.7%) over reached; agree 554/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 46 (46/600 over reached)\n        31  eligible -> ineligible_format\n        15  ineligible_format -> eligible\n  325-1.25/b/3/good-cause-late-submission            diverge   0/600 (0.0%) over all;   0/ 22 (0.0%) over reached; agree 600/600\n  325-1.25/c/1/eob-alternative                       diverge   0/600 (0.0%) over all;   0/ 17 (0.0%) over reached; agree 600/600\n  325-1.25/c/1/legal-objection-format                diverge 392/600 (65.3%) over all; 131/131 (100.0%) over reached; agree 208/600\n      of which: regulation waiting 323, attribution only 22, applicability 0, DECISION 47 (47/131 over reached)\n       261  undetermined -> not_applicable\n        62  undetermined -> nonconforming\n        47  conforming_on_supplied_meaning -> nonconforming\n        22  nonconforming_on_supplied_meaning -> nonconforming\n  325-1.25/c/1/mtg-objection-format                  diverge 398/600 (66.3%) over all; 158/158 (100.0%) over reached; agree 202/600\n      of which: regulation waiting 323, attribution only 39, applicability 0, DECISION 36 (36/158 over reached)\n       240  undetermined -> not_applicable\n        83  undetermined -> nonconforming\n        39  nonconforming_on_supplied_meaning -> nonconforming\n        36  conforming_on_supplied_meaning -> nonconforming\n  325-1.25/c/1/notice-recipients                     diverge  75/600 (12.5%) over all;  75/301 (24.9%) over reached; agree 525/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 75 (75/301 over reached)\n        75  recipient_missing -> all_required_recipients\n  325-1.25/c/1/pay-or-notify-45                      diverge 434/600 (72.3%) over all; 407/573 (71.0%) over reached; agree 166/600\n      of which: regulation waiting 323, attribution only 52, applicability 14, DECISION 45 (45/573 over reached)\n        72  undetermined -> notified_within_45\n        69  undetermined -> notified_after_45\n        60  undetermined -> paid_within_45\n        60  undetermined -> paid_after_45\n  325-1.25/c/1/valuation-objection-format            diverge 386/600 (64.3%) over all; 124/124 (100.0%) over reached; agree 214/600\n      of which: regulation waiting 323, attribution only 22, applicability 0, DECISION 41 (41/124 over reached)\n       262  undetermined -> not_applicable\n        53  undetermined -> nonconforming\n        35  conforming_on_supplied_meaning -> nonconforming\n        15  nonconforming_on_supplied_meaning -> nonconforming\n  325-1.25/c/3/late-objection-barred                 diverge   0/600 (0.0%) over all;   0/301 (0.0%) over reached; agree 600/600\n  325-1.25/c/3/no-timely-objection-liable-full       diverge   0/600 (0.0%) over all;   0/527 (0.0%) over reached; agree 600/600\n  325-1.25/c/5/valuation-categories                  diverge   0/600 (0.0%) over all;   0/  0 (n/a%) over reached; agree 600/600\n  325-1.25/c/5/valuation-ground-enumerated           diverge  23/600 (3.8%) over all;  23/124 (18.5%) over reached; agree 577/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 23 (23/124 over reached)\n        15  not_enumerated_open_set -> not_a_listed_ground\n         8  enumerated -> not_a_listed_ground\n  325-1.25/c/6/legal-categories                      diverge   0/600 (0.0%) over all;   0/  0 (n/a%) over reached; agree 600/600\n  325-1.25/c/6/legal-ground-enumerated               diverge   0/600 (0.0%) over all;   0/131 (0.0%) over reached; agree 600/600\n  325-1.25/c/7/mtg-categories                        diverge   0/600 (0.0%) over all;   0/  0 (n/a%) over reached; agree 600/600\n  325-1.25/c/7/mtg-ground-member                     diverge  48/600 (8.0%) over all;  48/158 (30.4%) over reached; agree 552/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 48 (48/158 over reached)\n        48  not_an_mtg_objection -> not_enumerated_open_set\n  325-1.25/e/1/arbitration-availability              diverge  48/600 (8.0%) over all;  48/ 60 (80.0%) over reached; agree 552/600\n      of which: regulation waiting 0, attribution only 0, applicability 0, DECISION 48 (48/60 over reached)\n        47  arbitration_not_available_bill_ineligible -> arbitration_available\n         1  no_dispute_to_arbitrate -> arbitration_available\n  325-1.25/f/1/adjudication-of-legal-mtg             diverge 441/600 (73.5%) over all; 238/238 (100.0%) over reached; agree 159/600\n      of which: regulation waiting 323, attribution only 33, applicability 0, DECISION 85 (85/238 over reached)\n       203  undetermined -> not_applicable\n        65  undetermined -> reviewed_by_board\n        55  undetermined -> untimely\n        55  reviewed_by_board_on_supplied_meaning -> untimely\n  added by the restatement (no regulation clause): 325-1.25/B/electronic-only-after-2025-08-01"
+}

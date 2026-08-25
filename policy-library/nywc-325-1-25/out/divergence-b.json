@@ -1,0 +1,536 @@
+{
+ "$derived_by": "compare.mjs",
+ "population": {
+  "$source": "the POPULATION PARAMETERS block of this generator, one copy; this is a derived copy checked by digest",
+  "$generator_label": "nywc-325-1-25/generate-determinations.mjs",
+  "seed": 20260825,
+  "count": 600,
+  "parameters_sha256": "2c863ce04da2767468fd75201f8e1f16bebaf73622ac0456bd93849f7a7b0c82",
+  "parameters_text": "POPULATION PARAMETERS (choices, stated so a reader can discount them):\n  N                        600 determinations, seed 20260825 (seeded PRNG; rerunning reproduces);\n                           a different N or seed is a different population with a different digest\n  provider class           uniform over the eleven declared classes; hospital outpatient 10%\n  dates                    care rendered on a ladder; submitted 0 to 130 days after care on a\n                           ladder around the 120-day limit; received 0 to 6 days after submission\n                           (NY25-A1 is only visible when they differ); clock.now on a ladder\n  carrier action           paid_full 35% / paid_partial 15% / objected 35% / none 15%; action day\n                           on a ladder around 45 (10, 30, 40, 44, 45, 46, 60, 100) from receipt\n  objections               kinds drawn 1 to 3 from legal/valuation/mtg; grounds uniform over the\n                           declared enumerations including `other` and `s25a_liability`; forms\n                           uniform over C-8.1B / C-8.4 / EOB / other; recipients: the full set 60%,\n                           provider+board 25%, provider only 15%; simultaneous 80%\n  award request            present on 45% of bills not paid in full; request day on a ladder\n                           around 45 and 120; certifications each true 85%; complete 90%;\n                           eCase match 85%; Board-file match 85%; prior request 10%\n  legal issues / decisions on 30% of bills with a legal or MTG objection; dates laddered around 30\n  report elements          each present 80%; narrative table applied by layer A only\n  meanings                 four ungrounded terms; for EACH, independently, supplied 50% / unsupplied\n                           50%. authorized true 90%; prescribed format true 80%; report legally\n                           defective true 30%; fee schedule: scheduled and maximum amounts drawn by\n                           type, conforms true 80%. Not chosen to land any rate\n  optional facts           each unsupplied (undefined) 5% of the time",
+  "$dir": "/private/tmp/claude-501/-Users-agentic/68b6fdc1-e827-41c4-8e95-74f075d7aa44/scratchpad/nywc325/policy-library/nywc-325-1-25/"
+ },
+ "figures": [
+  0,
+  23,
+  46,
+  48,
+  68,
+  75,
+  159,
+  166,
+  202,
+  208,
+  214,
+  386,
+  392,
+  398,
+  434,
+  441,
+  498,
+  525,
+  532,
+  552,
+  554,
+  577,
+  600
+ ],
+ "headline_figures": [
+  600,
+  498
+ ],
+ "labels": {
+  "left": "regulation",
+  "right": "layer-b-daisybill"
+ },
+ "denominator": 600,
+ "clauses": 60,
+ "byClause": {
+  "325-1.25/a/1/provide-promptly": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/1/medical-care-defined": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/1/mtg-consistent-care": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/liable-when-accepted": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/i/within-mtg": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/ii/variance-or-authorized": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/iii/agreed": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/iv/ordered": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/obligation-to-pay": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/amount-fee-schedule-or-agreed": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/a/2/not-obligated-outside-mtg": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/b/1/format-prescribed": {
+   "agree": 532,
+   "diverge": 68,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "format_not_prescribed_on_supplied_meaning -> format_prescribed_on_supplied_meaning": 22,
+    "format_prescribed_on_supplied_meaning -> format_not_prescribed_on_supplied_meaning": 46
+   }
+  },
+  "325-1.25/b/1/120-days": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+   "agree": 554,
+   "diverge": 46,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "ineligible_format -> eligible": 15,
+    "eligible -> ineligible_format": 31
+   }
+  },
+  "325-1.25/b/1/pre-2020-care": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/b/2/hospital-format": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/b/2/hospital-120-days": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/b/3/good-cause-late-submission": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/1/pay-or-notify-45": {
+   "agree": 166,
+   "diverge": 434,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "undetermined -> notified_after_45": 69,
+    "undetermined -> paid_within_45": 60,
+    "undetermined -> notified_within_45": 72,
+    "undetermined -> neither_within_45": 39,
+    "undetermined -> out_of_order": 5,
+    "notified_within_45_on_supplied_meaning -> notified_within_45": 37,
+    "not_applicable -> notified_within_45_not_in_prescribed_manner": 2,
+    "undetermined -> paid_after_45": 60,
+    "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45_not_in_prescribed_manner": 15,
+    "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45": 8,
+    "paid_within_45 -> paid_after_45": 13,
+    "not_applicable -> neither_within_45": 2,
+    "not_applicable -> notified_within_45": 2,
+    "notified_within_45_on_supplied_meaning -> notified_after_45": 10,
+    "not_applicable -> paid_within_45": 3,
+    "notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_after_45": 14,
+    "undetermined -> not_yet_due": 2,
+    "not_applicable -> notified_after_45": 3,
+    "undetermined -> notified_within_45_not_in_prescribed_manner": 16,
+    "not_applicable -> paid_after_45": 1,
+    "not_applicable -> out_of_order": 1
+   }
+  },
+  "325-1.25/c/1/notice-recipients": {
+   "agree": 525,
+   "diverge": 75,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "recipient_missing -> all_required_recipients": 75
+   }
+  },
+  "325-1.25/c/1/legal-objection-format": {
+   "agree": 208,
+   "diverge": 392,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "undetermined -> not_applicable": 261,
+    "nonconforming_on_supplied_meaning -> nonconforming": 22,
+    "undetermined -> nonconforming": 62,
+    "conforming_on_supplied_meaning -> nonconforming": 47
+   }
+  },
+  "325-1.25/c/1/valuation-objection-format": {
+   "agree": 214,
+   "diverge": 386,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "undetermined -> nonconforming": 53,
+    "undetermined -> not_applicable": 262,
+    "undetermined -> conforming": 8,
+    "conforming_on_supplied_meaning -> nonconforming": 35,
+    "nonconforming_on_supplied_meaning -> nonconforming": 15,
+    "conforming_on_supplied_meaning -> conforming": 7,
+    "nonconforming_on_supplied_meaning -> conforming": 6
+   }
+  },
+  "325-1.25/c/1/eob-alternative": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/1/mtg-objection-format": {
+   "agree": 202,
+   "diverge": 398,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "undetermined -> not_applicable": 240,
+    "undetermined -> nonconforming": 83,
+    "nonconforming_on_supplied_meaning -> nonconforming": 39,
+    "conforming_on_supplied_meaning -> nonconforming": 36
+   }
+  },
+  "325-1.25/c/2/pay-uncontested-portion": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/3/no-timely-objection-liable-full": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/3/late-objection-barred": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/4/objections-simultaneous": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/5/valuation-categories": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/5/valuation-ground-enumerated": {
+   "agree": 577,
+   "diverge": 23,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "enumerated -> not_a_listed_ground": 8,
+    "not_enumerated_open_set -> not_a_listed_ground": 15
+   }
+  },
+  "325-1.25/c/6/legal-categories": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/6/legal-ground-enumerated": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/6/legally-defective-report": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/6/25a-not-valid": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/6/par-not-raised-denied": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/6/attach-par-denial": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/c/7/mtg-categories": {
+   "agree": 600,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {}
+  },
+  "325-1.25/c/7/mtg-ground-member": {
+   "agree": 552,
+   "diverge": 48,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "not_an_mtg_objection -> not_enumerated_open_set": 48
+   }
+  },
+  "325-1.25/c/7/iv/par-not-raised-denied": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/1/award-availability": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/1/request-window": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/2/good-cause-late-request": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/3/i/not-before-legal-determined": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/3/ii/one-request-per-dos": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/4/certifications": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/5/reject-incomplete-or-mismatch": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/6/proposed-award-process": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/6/proposed-filing-date-30": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/7/objection-to-proposed-award": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/d/8/interest": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/e/1/arbitration-availability": {
+   "agree": 552,
+   "diverge": 48,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "arbitration_not_available_bill_ineligible -> arbitration_available": 47,
+    "no_dispute_to_arbitrate -> arbitration_available": 1
+   }
+  },
+  "325-1.25/e/2/provider-option": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/e/3/good-cause-late-arbitration": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/e/4/not-before-legal-determined": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/f/1/adjudication-of-legal-mtg": {
+   "agree": 159,
+   "diverge": 441,
+   "absent_left": 0,
+   "absent_right": 0,
+   "transitions": {
+    "undetermined -> not_applicable": 203,
+    "undetermined -> untimely": 55,
+    "undetermined -> reviewed_by_board": 65,
+    "not_in_prescribed_format_on_supplied_meaning -> reviewed_by_board": 13,
+    "reviewed_by_board_on_supplied_meaning -> reviewed_by_board": 33,
+    "not_in_prescribed_format_on_supplied_meaning -> untimely": 17,
+    "reviewed_by_board_on_supplied_meaning -> untimely": 55
+   }
+  },
+  "325-1.25/f/2/pay-within-30-of-decision": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/f/3/withhold-pending-review": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/f/3/no-stay-on-further-appeal": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/g/effective-date": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 0,
+   "absent_right": 600,
+   "transitions": {}
+  },
+  "325-1.25/B/electronic-only-after-2025-08-01": {
+   "agree": 0,
+   "diverge": 0,
+   "absent_left": 600,
+   "absent_right": 0,
+   "transitions": {}
+  }
+ },
+ "determinationsDiverging": 600,
+ "determinationsDivergingOnToken": 498,
+ "rendered": "COMPARE  regulation  vs  layer-b-daisybill\nPOPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2c863ce04da2 is checked against it at render time)\nPOPULATION PARAMETERS (choices, stated so a reader can discount them):\n  N                        600 determinations, seed 20260825 (seeded PRNG; rerunning reproduces);\n                           a different N or seed is a different population with a different digest\n  provider class           uniform over the eleven declared classes; hospital outpatient 10%\n  dates                    care rendered on a ladder; submitted 0 to 130 days after care on a\n                           ladder around the 120-day limit; received 0 to 6 days after submission\n                           (NY25-A1 is only visible when they differ); clock.now on a ladder\n  carrier action           paid_full 35% / paid_partial 15% / objected 35% / none 15%; action day\n                           on a ladder around 45 (10, 30, 40, 44, 45, 46, 60, 100) from receipt\n  objections               kinds drawn 1 to 3 from legal/valuation/mtg; grounds uniform over the\n                           declared enumerations including `other` and `s25a_liability`; forms\n                           uniform over C-8.1B / C-8.4 / EOB / other; recipients: the full set 60%,\n                           provider+board 25%, provider only 15%; simultaneous 80%\n  award request            present on 45% of bills not paid in full; request day on a ladder\n                           around 45 and 120; certifications each true 85%; complete 90%;\n                           eCase match 85%; Board-file match 85%; prior request 10%\n  legal issues / decisions on 30% of bills with a legal or MTG objection; dates laddered around 30\n  report elements          each present 80%; narrative table applied by layer A only\n  meanings                 four ungrounded terms; for EACH, independently, supplied 50% / unsupplied\n                           50%. authorized true 90%; prescribed format true 80%; report legally\n                           defective true 30%; fee schedule: scheduled and maximum amounts drawn by\n                           type, conforms true 80%. Not chosen to land any rate\n  optional facts           each unsupplied (undefined) 5% of the time\ndenominator: 600 determinations; 60 clauses in the union of both runs\nclauses on which at least one determination diverges: 51 of 60\ndeterminations diverging on at least one clause: 600/600 (100.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2c863ce04da2 from nywc-325-1-25/generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history] (on a result token: 498/600 (83.0%); the rest only on clause absence)\n  325-1.25/B/electronic-only-after-2025-08-01          absent in regulation 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/1/medical-care-defined                    absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/1/mtg-consistent-care                     absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/1/provide-promptly                        absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/amount-fee-schedule-or-agreed           absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/i/within-mtg                            absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/ii/variance-or-authorized               absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/iii/agreed                              absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/iv/ordered                              absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/liable-when-accepted                    absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/not-obligated-outside-mtg               absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/a/2/obligation-to-pay                       absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/b/1/format-prescribed                       diverge 68/600 (11.3%); agree 532/600 (88.7%)\n        46  format_prescribed_on_supplied_meaning -> format_not_prescribed_on_supplied_meaning\n        22  format_not_prescribed_on_supplied_meaning -> format_prescribed_on_supplied_meaning\n  325-1.25/b/1/ineligible-if-late-or-wrong-format      diverge 46/600 (7.7%); agree 554/600 (92.3%)\n        31  eligible -> ineligible_format\n        15  ineligible_format -> eligible\n  325-1.25/b/1/pre-2020-care                           absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/b/2/hospital-120-days                       absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/b/2/hospital-format                         absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/1/legal-objection-format                  diverge 392/600 (65.3%); agree 208/600 (34.7%)\n       261  undetermined -> not_applicable\n        62  undetermined -> nonconforming\n        47  conforming_on_supplied_meaning -> nonconforming\n        22  nonconforming_on_supplied_meaning -> nonconforming\n  325-1.25/c/1/mtg-objection-format                    diverge 398/600 (66.3%); agree 202/600 (33.7%)\n       240  undetermined -> not_applicable\n        83  undetermined -> nonconforming\n        39  nonconforming_on_supplied_meaning -> nonconforming\n        36  conforming_on_supplied_meaning -> nonconforming\n  325-1.25/c/1/notice-recipients                       diverge 75/600 (12.5%); agree 525/600 (87.5%)\n        75  recipient_missing -> all_required_recipients\n  325-1.25/c/1/pay-or-notify-45                        diverge 434/600 (72.3%); agree 166/600 (27.7%)\n        72  undetermined -> notified_within_45\n        69  undetermined -> notified_after_45\n        60  undetermined -> paid_within_45\n        60  undetermined -> paid_after_45\n        39  undetermined -> neither_within_45\n        37  notified_within_45_on_supplied_meaning -> notified_within_45\n        16  undetermined -> notified_within_45_not_in_prescribed_manner\n        15  notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45_not_in_prescribed_manner\n        14  notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_after_45\n        13  paid_within_45 -> paid_after_45\n        10  notified_within_45_on_supplied_meaning -> notified_after_45\n         8  notified_within_45_not_in_prescribed_manner_on_supplied_meaning -> notified_within_45\n         5  undetermined -> out_of_order\n         3  not_applicable -> paid_within_45\n         3  not_applicable -> notified_after_45\n         2  not_applicable -> notified_within_45_not_in_prescribed_manner\n         2  not_applicable -> neither_within_45\n         2  not_applicable -> notified_within_45\n         2  undetermined -> not_yet_due\n         1  not_applicable -> paid_after_45\n         1  not_applicable -> out_of_order\n  325-1.25/c/1/valuation-objection-format              diverge 386/600 (64.3%); agree 214/600 (35.7%)\n       262  undetermined -> not_applicable\n        53  undetermined -> nonconforming\n        35  conforming_on_supplied_meaning -> nonconforming\n        15  nonconforming_on_supplied_meaning -> nonconforming\n         8  undetermined -> conforming\n         7  conforming_on_supplied_meaning -> conforming\n         6  nonconforming_on_supplied_meaning -> conforming\n  325-1.25/c/2/pay-uncontested-portion                 absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/4/objections-simultaneous                 absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/5/valuation-ground-enumerated             diverge 23/600 (3.8%); agree 577/600 (96.2%)\n        15  not_enumerated_open_set -> not_a_listed_ground\n         8  enumerated -> not_a_listed_ground\n  325-1.25/c/6/25a-not-valid                           absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/6/attach-par-denial                       absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/6/legally-defective-report                absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/6/par-not-raised-denied                   absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/7/iv/par-not-raised-denied                absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/c/7/mtg-ground-member                       diverge 48/600 (8.0%); agree 552/600 (92.0%)\n        48  not_an_mtg_objection -> not_enumerated_open_set\n  325-1.25/d/1/award-availability                      absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/1/request-window                          absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/2/good-cause-late-request                 absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/3/i/not-before-legal-determined           absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/3/ii/one-request-per-dos                  absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/4/certifications                          absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/5/reject-incomplete-or-mismatch           absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/6/proposed-award-process                  absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/6/proposed-filing-date-30                 absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/7/objection-to-proposed-award             absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/d/8/interest                                absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/e/1/arbitration-availability                diverge 48/600 (8.0%); agree 552/600 (92.0%)\n        47  arbitration_not_available_bill_ineligible -> arbitration_available\n         1  no_dispute_to_arbitrate -> arbitration_available\n  325-1.25/e/2/provider-option                         absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/e/3/good-cause-late-arbitration             absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/e/4/not-before-legal-determined             absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/f/1/adjudication-of-legal-mtg               diverge 441/600 (73.5%); agree 159/600 (26.5%)\n       203  undetermined -> not_applicable\n        65  undetermined -> reviewed_by_board\n        55  undetermined -> untimely\n        55  reviewed_by_board_on_supplied_meaning -> untimely\n        33  reviewed_by_board_on_supplied_meaning -> reviewed_by_board\n        17  not_in_prescribed_format_on_supplied_meaning -> untimely\n        13  not_in_prescribed_format_on_supplied_meaning -> reviewed_by_board\n  325-1.25/f/2/pay-within-30-of-decision               absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/f/3/no-stay-on-further-appeal               absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/f/3/withhold-pending-review                 absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\n  325-1.25/g/effective-date                            absent in layer-b-daisybill 600/600 (100.0%); agree 0/600 (0.0%)\nRESULT: DIVERGENT. [exit 1]"
+}
