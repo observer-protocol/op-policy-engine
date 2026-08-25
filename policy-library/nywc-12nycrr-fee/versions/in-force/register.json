@@ -379,18 +379,6 @@
     "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
    },
    {
-    "field": "provider.supervising_authorized",
-    "domain": {
-     "kind": "boolean"
-    },
-    "note": "Board-authorized, as recorded.",
-    "read_by": [
-     "12nycrr/329-1.3/c/supervision",
-     "12nycrr/329-1.3/e/supervision"
-    ],
-    "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
-   },
-   {
     "field": "provider.supervision_direct",
     "domain": {
      "kind": "boolean"
@@ -489,54 +477,21 @@
     "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
    },
    {
-    "field": "assistant.service_reserved_for_pt_ot",
-    "domain": {
-     "kind": "judgment",
-     "values": [
-      "affirmed",
-      "denied",
-      "not_assessed"
-     ]
-    },
-    "note": "affirmed = the service is reserved to PTs/OTs by statute or regulation.",
-    "read_by": [
-     "12nycrr/329-1.3/c/6/scope-not-expanded"
-    ],
-    "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
-   },
-   {
     "field": "covid.claim_basis",
     "domain": {
      "kind": "enum",
      "values": [
       "workplace_exposure_claim",
-      "preop_protocol_doh",
+      "preop_protocol",
       "routine_screening",
       "other"
      ]
     },
-    "note": null,
+    "note": "`preop_protocol` is the basis the determination asserts; whether the protocol qualifies under Department of Health guidance is the MEANING of an uncited term, supplied separately (see meanings).",
     "read_by": [
      "12nycrr/329-1.3/d/2/billable-basis",
      "12nycrr/329-1.3/d/3/no-routine-screening",
      "12nycrr/329-1.3/d/covid-testing-code"
-    ],
-    "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
-   },
-   {
-    "field": "covid.region",
-    "domain": {
-     "kind": "enum",
-     "values": [
-      "I",
-      "II",
-      "III",
-      "IV"
-     ]
-    },
-    "note": "The fee schedule region the determination applied for 87635.",
-    "read_by": [
-     "12nycrr/329-1.3/d/1/regional-fee"
     ],
     "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
    },
@@ -819,18 +774,6 @@
     "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
    },
    {
-    "field": "proration.unit_fee_specified",
-    "domain": {
-     "kind": "boolean"
-    },
-    "note": "Whether the schedule specifies a unit fee for the treatment (NY-A9).",
-    "read_by": [
-     "12nycrr/329-1.2/agreed-proration-separate-bills",
-     "12nycrr/329-1.2/unit-fee-on-transfer"
-    ],
-    "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
-   },
-   {
     "field": "proration.transferred",
     "domain": {
      "kind": "boolean"
@@ -838,18 +781,6 @@
     "note": null,
     "read_by": [
      "12nycrr/329-1.2/agreed-proration-separate-bills",
-     "12nycrr/329-1.2/unit-fee-on-transfer"
-    ],
-    "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
-   },
-   {
-    "field": "proration.unit_fee_amount",
-    "domain": {
-     "kind": "money"
-    },
-    "note": "The scheduled unit fee; licensed content, supplied.",
-    "read_by": [
-     "12nycrr/329-1.2/death-no-proration",
      "12nycrr/329-1.2/unit-fee-on-transfer"
     ],
     "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
@@ -1150,7 +1081,52 @@
    }
   }
  },
- "ungrounded_terms": null,
+ "ungrounded_terms": {
+  "$note": "A term the regulation decides an outcome with and defines only in a document the section does not cite for it (amendment 2026-08-24; INCORPORATION-COMPARISON.md). The interpreter NEVER supplies a meaning; an institution does, under resolutions.ungrounded_terms[term], and a determination that rests on one says so in its result token. Declared once for the domain.",
+  "undetermined_because": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "const",
+     "value": "the regulation decides this outcome with `"
+    },
+    {
+     "op": "ungrounded_term"
+    },
+    {
+     "op": "const",
+     "value": "`, a term it does not define and whose definition sits in a document the section does not cite for it; no meaning has been supplied"
+    }
+   ]
+  },
+  "attribution": {
+   "rests_on": {
+    "op": "const",
+    "value": "a meaning supplied by the institution, not by the regulation or by any document it cites for the term"
+   },
+   "term": {
+    "op": "ungrounded_term"
+   }
+  },
+  "shapes": {
+   "unit fee for a definite treatment and period of aftercare": [
+    "unit_fee_amount",
+    "unit_fee_specified"
+   ],
+   "authorized": [
+    "supervising_provider_authorized"
+   ],
+   "services or activities otherwise reserved for PTs and OTs": [
+    "service_reserved_to_pt_ot"
+   ],
+   "Region I to IV": [
+    "region"
+   ],
+   "required pre-operative testing protocol in accordance with Department of Health guidance": [
+    "preop_protocol_qualifies_under_doh_guidance"
+   ]
+  }
+ },
  "bindings": {
   "a1_supplied": {
    "op": "not",
@@ -2402,61 +2378,78 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "and",
-      "operands": [
-       {
-        "op": "eq",
-        "left": {
-         "op": "fact",
-         "path": "proration.unit_fee_specified"
-        },
-        "right": {
-         "op": "const",
-         "value": true
-        }
-       },
-       {
-        "op": "eq",
-        "left": {
-         "op": "fact",
-         "path": "proration.transferred"
-        },
-        "right": {
-         "op": "const",
-         "value": true
-        }
-       }
-      ]
+    "op": "ungrounded",
+    "term": "unit fee for a definite treatment and period of aftercare",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "proration.transferred"
      },
-     "compute": {
-      "op": "primitive",
-      "name": "amounts_equal",
-      "args": [
-       {
-        "op": "fact",
-        "path": "proration.total_paid"
-       },
-       {
-        "op": "fact",
-        "path": "proration.unit_fee_amount"
-       }
-      ]
+     "right": {
+      "op": "const",
+      "value": true
      }
     },
-    "note": {
-     "op": "const",
-     "value": "equal: the employer paid the scheduled unit fee once across the concerned physicians. The unit fee itself is licensed content supplied on the determination."
+    "compute": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "meaning",
+        "key": "unit_fee_specified"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "amounts_equal",
+        "args": [
+         {
+          "op": "fact",
+          "path": "proration.total_paid"
+         },
+         {
+          "op": "meaning",
+          "key": "unit_fee_amount"
+         }
+        ]
+       },
+       "mapping": {
+        "equal": {
+         "op": "const",
+         "value": true
+        },
+        "not_equal": {
+         "op": "const",
+         "value": false
+        },
+        "incomparable_currency": {
+         "op": "const",
+         "value": "undetermined"
+        },
+        "missing_operand": {
+         "op": "const",
+         "value": "undetermined"
+        }
+       }
+      }
+     ]
     }
    }
   },
@@ -2472,55 +2465,57 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
+    "op": "ungrounded",
+    "term": "unit fee for a definite treatment and period of aftercare",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "proration.transferred"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "proration.physicians_agreed"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      }
+     ]
+    },
+    "compute": {
      "op": "primitive",
      "name": "conditional_requirement",
      "args": [
       {
-       "op": "and",
-       "operands": [
-        {
-         "op": "eq",
-         "left": {
-          "op": "fact",
-          "path": "proration.unit_fee_specified"
-         },
-         "right": {
-          "op": "const",
-          "value": true
-         }
-        },
-        {
-         "op": "eq",
-         "left": {
-          "op": "fact",
-          "path": "proration.transferred"
-         },
-         "right": {
-          "op": "const",
-          "value": true
-         }
-        },
-        {
-         "op": "eq",
-         "left": {
-          "op": "fact",
-          "path": "proration.physicians_agreed"
-         },
-         "right": {
-          "op": "const",
-          "value": true
-         }
-        }
-       ]
+       "op": "eq",
+       "left": {
+        "op": "meaning",
+        "key": "unit_fee_specified"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
       },
       {
        "op": "cond",
@@ -2592,27 +2587,40 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
+    "op": "ungrounded",
+    "term": "unit fee for a definite treatment and period of aftercare",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "proration.terminated_by"
+     },
+     "right": {
+      "op": "const",
+      "value": "death"
+     }
+    },
+    "compute": {
      "op": "primitive",
      "name": "conditional_requirement",
      "args": [
       {
        "op": "eq",
        "left": {
-        "op": "fact",
-        "path": "proration.terminated_by"
+        "op": "meaning",
+        "key": "unit_fee_specified"
        },
        "right": {
         "op": "const",
-        "value": "death"
+        "value": true
        }
       },
       {
@@ -2626,8 +2634,8 @@
           "path": "proration.total_paid"
          },
          {
-          "op": "fact",
-          "path": "proration.unit_fee_amount"
+          "op": "meaning",
+          "key": "unit_fee_amount"
          }
         ]
        },
@@ -2651,10 +2659,6 @@
        }
       }
      ]
-    },
-    "note": {
-     "op": "const",
-     "value": "satisfied: the full scheduled fee was paid without proration."
     }
    }
   },
@@ -2782,140 +2786,135 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "authorized",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "binding",
-      "name": "rendering_pta_ota"
-     },
-     "compute": {
-      "op": "guard_on_unresolved",
-      "usable": {
-       "op": "eq",
-       "left": {
-        "op": "primitive",
-        "name": "all_present",
-        "args": [
-         {
-          "op": "list",
-          "items": [
-           {
-            "op": "fact",
-            "path": "provider.supervision_present"
-           },
-           {
-            "op": "fact",
-            "path": "provider.supervising_authorized"
-           },
-           {
-            "op": "fact",
-            "path": "provider.supervision_direct"
-           },
-           {
-            "op": "fact",
-            "path": "provider.supervising_class"
-           }
-          ]
-         }
-        ]
-       },
-       "right": {
-        "op": "const",
-        "value": "all_present"
-       }
-      },
-      "compute": {
-       "op": "cond",
-       "if": {
-        "op": "and",
-        "operands": [
-         {
-          "op": "eq",
-          "left": {
+    "op": "ungrounded",
+    "term": "authorized",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
            "op": "fact",
            "path": "provider.supervision_present"
           },
-          "right": {
-           "op": "const",
-           "value": true
-          }
-         },
-         {
-          "op": "eq",
-          "left": {
-           "op": "fact",
-           "path": "provider.supervising_authorized"
-          },
-          "right": {
-           "op": "const",
-           "value": true
-          }
-         },
-         {
-          "op": "eq",
-          "left": {
+          {
            "op": "fact",
            "path": "provider.supervision_direct"
           },
+          {
+           "op": "fact",
+           "path": "provider.supervising_class"
+          }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_present"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "meaning",
+          "key": "supervising_provider_authorized"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_direct"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "cond",
+         "if": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.rendering_class"
+          },
           "right": {
            "op": "const",
-           "value": true
+           "value": "pta"
           }
          },
-         {
-          "op": "cond",
-          "if": {
-           "op": "eq",
-           "left": {
-            "op": "fact",
-            "path": "provider.rendering_class"
-           },
-           "right": {
-            "op": "const",
-            "value": "pta"
-           }
+         "then": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.supervising_class"
           },
-          "then": {
-           "op": "eq",
-           "left": {
-            "op": "fact",
-            "path": "provider.supervising_class"
-           },
-           "right": {
-            "op": "const",
-            "value": "pt"
-           }
+          "right": {
+           "op": "const",
+           "value": "pt"
+          }
+         },
+         "else": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "provider.supervising_class"
           },
-          "else": {
-           "op": "eq",
-           "left": {
-            "op": "fact",
-            "path": "provider.supervising_class"
-           },
-           "right": {
-            "op": "const",
-            "value": "ot"
-           }
+          "right": {
+           "op": "const",
+           "value": "ot"
           }
          }
-        ]
-       },
-       "then": {
-        "op": "const",
-        "value": "direct_supervision_by_authorized_therapist"
-       },
-       "else": {
-        "op": "const",
-        "value": "supervision_requirement_not_met"
-       }
+        }
+       ]
+      },
+      "then": {
+       "op": "const",
+       "value": "direct_supervision_by_authorized_therapist"
+      },
+      "else": {
+       "op": "const",
+       "value": "supervision_requirement_not_met"
       }
      }
     }
@@ -3573,34 +3572,41 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "services or activities otherwise reserved for PTs and OTs",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "binding",
-      "name": "rendering_pta_ota"
-     },
-     "compute": {
-      "op": "primitive",
-      "name": "held_judgment",
-      "args": [
-       {
-        "op": "fact",
-        "path": "assistant.service_reserved_for_pt_ot"
-       }
-      ]
-     }
+    "op": "ungrounded",
+    "term": "services or activities otherwise reserved for PTs and OTs",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_pta_ota"
     },
-    "note": {
-     "op": "const",
-     "value": "affirmed: the service IS reserved to PTs or OTs, so the assistant provision and its billing are impermissible. The reservation is decided under external statute and regulation; it arrives as an assessment."
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "meaning",
+       "key": "service_reserved_to_pt_ot"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "reserved_service_billed_by_assistant"
+     },
+     "else": {
+      "op": "const",
+      "value": "not_reserved"
+     }
     }
    }
   },
@@ -3781,103 +3787,78 @@
    "text_language": "en",
    "assertion": "The fee for 87635 is fixed by region.",
    "disposition": "MECHANICAL",
-   "disposition_basis": "Amounts stated in the regulation itself, selected by region. The AMOUNTS are verifiable to the cent by a party holding zero schedule text; the REGION is not: `Region I` to `Region IV` are used here and defined nowhere in 12 NYCRR, and which region a provider falls in is stated in the schedule's ground rules, a document this section incorporates and does not cite by location. The register takes the region as a supplied fact (covid.region). See INCORPORATION-COMPARISON.md.",
+   "disposition_basis": "Amounts stated in the regulation itself, selected by region. The AMOUNTS are verifiable to the cent by a party holding zero schedule text. The REGION is not a fact the record can supply: `Region I` to `Region IV` are used here and defined nowhere in 12 NYCRR, and a provider's region is assigned by the schedule's ground rules, which the section incorporates and does not cite for it. The region is the institution's supplied MEANING of the term; unsupplied, the clause is undetermined and waits on a meaning; supplied, the record says `equal_on_supplied_meaning` and names what it rests on.",
    "in_force_from": null,
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "Region I to IV",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "binding",
-      "name": "code_is_87635"
-     },
-     "compute": {
-      "op": "guard_on_unresolved",
-      "usable": {
-       "op": "eq",
-       "left": {
-        "op": "primitive",
-        "name": "field_present",
-        "args": [
-         {
-          "op": "fact",
-          "path": "covid.region"
-         }
-        ]
-       },
-       "right": {
-        "op": "const",
-        "value": "present"
-       }
-      },
-      "compute": {
-       "op": "primitive",
-       "name": "amounts_equal",
-       "args": [
-        {
-         "op": "fact",
-         "path": "payment.amount"
-        },
-        {
-         "op": "remap_result_domain",
-         "value": {
-          "op": "fact",
-          "path": "covid.region"
-         },
-         "mapping": {
-          "IV": {
-           "op": "const",
-           "value": {
-            "amountRaw": "5133",
-            "decimals": "2",
-            "currency": "USD"
-           }
-          },
-          "III": {
-           "op": "const",
-           "value": {
-            "amountRaw": "4741",
-            "decimals": "2",
-            "currency": "USD"
-           }
-          },
-          "I": {
-           "op": "const",
-           "value": {
-            "amountRaw": "4153",
-            "decimals": "2",
-            "currency": "USD"
-           }
-          },
-          "II": {
-           "op": "const",
-           "value": {
-            "amountRaw": "4153",
-            "decimals": "2",
-            "currency": "USD"
-           }
-          },
-          "$unmapped": {
-           "op": "absent"
-          }
-         }
-        }
-       ]
-      }
-     }
+    "op": "ungrounded",
+    "term": "Region I to IV",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "binding",
+     "name": "code_is_87635"
     },
-    "note": {
-     "op": "const",
-     "value": "The three fees are the regulation's own numbers (51.33 / 47.41 / 41.53 USD), verifiable to the cent by a party holding no schedule text GIVEN the region; the region itself is a term the regulation uses and does not define, and its assignment sits in the schedule's ground rules. Supplied as covid.region."
+    "compute": {
+     "op": "primitive",
+     "name": "amounts_equal",
+     "args": [
+      {
+       "op": "fact",
+       "path": "payment.amount"
+      },
+      {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "meaning",
+        "key": "region"
+       },
+       "mapping": {
+        "IV": {
+         "op": "const",
+         "value": {
+          "amountRaw": "5133",
+          "decimals": "2",
+          "currency": "USD"
+         }
+        },
+        "III": {
+         "op": "const",
+         "value": {
+          "amountRaw": "4741",
+          "decimals": "2",
+          "currency": "USD"
+         }
+        },
+        "I": {
+         "op": "const",
+         "value": {
+          "amountRaw": "4153",
+          "decimals": "2",
+          "currency": "USD"
+         }
+        },
+        "II": {
+         "op": "const",
+         "value": {
+          "amountRaw": "4153",
+          "decimals": "2",
+          "currency": "USD"
+         }
+        },
+        "$unmapped": {
+         "op": "absent"
+        }
+       }
+      }
+     ]
     }
    }
   },
@@ -3893,23 +3874,24 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "required pre-operative testing protocol in accordance with Department of Health guidance",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "binding",
-      "name": "code_is_87635"
-     },
-     "compute": {
-      "op": "guard_on_unresolved",
-      "usable": {
+    "op": "ungrounded",
+    "term": "required pre-operative testing protocol in accordance with Department of Health guidance",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "code_is_87635"
+      },
+      {
        "op": "eq",
        "left": {
         "op": "primitive",
@@ -3925,23 +3907,64 @@
         "op": "const",
         "value": "present"
        }
+      }
+     ]
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "covid.claim_basis"
       },
-      "compute": {
-       "op": "primitive",
-       "name": "member_of_enumeration",
-       "args": [
-        {
-         "op": "fact",
-         "path": "covid.claim_basis"
+      "right": {
+       "op": "const",
+       "value": "workplace_exposure_claim"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "member"
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "covid.claim_basis"
+       },
+       "right": {
+        "op": "const",
+        "value": "preop_protocol"
+       }
+      },
+      "then": {
+       "op": "cond",
+       "if": {
+        "op": "eq",
+        "left": {
+         "op": "meaning",
+         "key": "preop_protocol_qualifies_under_doh_guidance"
         },
-        {
+        "right": {
          "op": "const",
-         "value": [
-          "workplace_exposure_claim",
-          "preop_protocol_doh"
-         ]
+         "value": true
         }
-       ]
+       },
+       "then": {
+        "op": "const",
+        "value": "member"
+       },
+       "else": {
+        "op": "const",
+        "value": "not_member"
+       }
+      },
+      "else": {
+       "op": "const",
+       "value": "not_member"
       }
      }
     }
@@ -4185,100 +4208,95 @@
    "depends_on": null,
    "reads": null,
    "operative_weight": null,
-   "rests_on_ungrounded_term": null,
+   "rests_on_ungrounded_term": "authorized",
    "lane_override": null,
    "evidential_role": null,
    "governs": null,
    "incorporated_document": null,
    "register_version_id": "in-force",
    "evaluate": {
-    "op": "emit",
-    "result": {
-     "op": "applicability_gate",
-     "applies": {
-      "op": "binding",
-      "name": "rendering_resident"
-     },
-     "compute": {
-      "op": "guard_on_unresolved",
-      "usable": {
-       "op": "eq",
-       "left": {
-        "op": "primitive",
-        "name": "all_present",
-        "args": [
-         {
-          "op": "list",
-          "items": [
-           {
-            "op": "fact",
-            "path": "provider.supervision_present"
-           },
-           {
-            "op": "fact",
-            "path": "provider.supervising_authorized"
-           },
-           {
-            "op": "fact",
-            "path": "provider.supervising_class"
-           }
-          ]
-         }
-        ]
-       },
-       "right": {
-        "op": "const",
-        "value": "all_present"
-       }
-      },
-      "compute": {
-       "op": "cond",
-       "if": {
-        "op": "and",
-        "operands": [
-         {
-          "op": "eq",
-          "left": {
+    "op": "ungrounded",
+    "term": "authorized",
+    "$term_from": "clauses.json rests_on_ungrounded_term",
+    "applies": {
+     "op": "binding",
+     "name": "rendering_resident"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "all_present",
+       "args": [
+        {
+         "op": "list",
+         "items": [
+          {
            "op": "fact",
            "path": "provider.supervision_present"
           },
-          "right": {
-           "op": "const",
-           "value": true
-          }
-         },
-         {
-          "op": "eq",
-          "left": {
-           "op": "fact",
-           "path": "provider.supervising_authorized"
-          },
-          "right": {
-           "op": "const",
-           "value": true
-          }
-         },
-         {
-          "op": "eq",
-          "left": {
+          {
            "op": "fact",
            "path": "provider.supervising_class"
-          },
-          "right": {
-           "op": "const",
-           "value": "physician"
           }
+         ]
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "all_present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervision_present"
+         },
+         "right": {
+          "op": "const",
+          "value": true
          }
-        ]
-       },
-       "then": {
-        "op": "const",
-        "value": "supervised_by_authorized_physician"
-       },
-       "else": {
-        "op": "const",
-        "value": "supervision_requirement_not_met"
-       }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "meaning",
+          "key": "supervising_provider_authorized"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "provider.supervising_class"
+         },
+         "right": {
+          "op": "const",
+          "value": "physician"
+         }
+        }
+       ]
+      },
+      "then": {
+       "op": "const",
+       "value": "supervised_by_authorized_physician"
+      },
+      "else": {
+       "op": "const",
+       "value": "supervision_requirement_not_met"
       }
      }
     }

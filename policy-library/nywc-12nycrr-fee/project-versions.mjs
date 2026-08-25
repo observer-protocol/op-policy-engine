@@ -25,6 +25,17 @@
  *     `$unread_in_this_version`, not refused: the first run of this script refused it, and the
  *     refusal was wrong about what it was looking at.
  *
+ * THE PROVENANCE GATE'S KNOWN HOLE, STATED WHERE THE GATE LIVES. checkVersionProvenance below
+ * checks the FORM of a verification record: that every agent claim carries verified: true, a
+ * named primary source, a method and a verified_value. It cannot check that the verification
+ * happened. A well-formed false verification passes it. What carries the weight is not this
+ * gate but the practice it enforces the recording of: retrieval BY THE LANDING SESSION, digests
+ * computed here, counts recomputed here, and the agent's own value kept beside the verified one.
+ * THE FAILURE MODE, NAMED: a future session accepting a verified_value it did not compute itself,
+ * because the row was already well formed when it arrived. A verified_value is a value THIS
+ * session computed; one inherited from a previous entry, a previous session, or the agent, is a
+ * claim wearing the field name of a verification. STEP-6-ATLAS-VERIFICATION.md carries the same.
+ *
  *   node project-versions.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -138,6 +149,7 @@ for (const vid of VERSIONS) {
   writeFileSync(`${dir}/evaluation.json`, JSON.stringify({
     ...projected, $note: ev.$note, evaluation_version: ev.evaluation_version, $emit_order_note: ev.$emit_order_note,
     register_version_id: vid, emit_order, resolution_keys: ev.resolution_keys, no_result_emission: ev.no_result_emission,
+    ungrounded_terms: ev.ungrounded_terms ?? null,
     $bindings_from_version: Object.keys(ev.bindings_by_version[vid]).sort(), bindings, clauses: evClauses,
   }, null, 1) + '\n');
 
@@ -157,6 +169,26 @@ for (const vid of VERSIONS) {
   const resolutionsRead = new Set();
   for (const tree of [...Object.values(evClauses), ...Object.values(bindings)]) walk(tree, (n) => { if (n.op === 'resolution') resolutionsRead.add(n.name); });
   for (const r of resolutionsRead) if (!facts.resolutions.some((x) => x.key === r)) throw new Error(`${vid}: evaluation reads resolution ${r}, which facts.json does not declare`);
+  // ── meanings: the keys facts.json declares per ungrounded term against the keys the evaluation
+  //    trees consult, BOTH DIRECTIONS, so a meaning nobody consults and a consulted key nobody
+  //    declares are both refused. The term on each clause must match clauses.json.
+  const consulted = {};
+  for (const [id, tree] of Object.entries(evClauses)) {
+    if (tree.op !== 'ungrounded') continue;
+    const term = cj.clauses.find((c) => c.id === id).rests_on_ungrounded_term;
+    if (term === undefined || term === null) throw new Error(`${vid}: ${id} carries an ungrounded evaluation and clauses.json declares no rests_on_ungrounded_term`);
+    const keys = consulted[term] ??= new Set();
+    walk(tree.compute, (n) => { if (n.op === 'meaning') keys.add(n.key); });
+    const decl = (facts.meanings ?? []).find((m) => m.term === term);
+    if (decl === undefined) throw new Error(`${vid}: ${id} rests on ${JSON.stringify(term)}, which facts.json declares no meaning for`);
+    if (!decl.clauses.includes(id)) throw new Error(`${vid}: facts.json meaning ${JSON.stringify(term)} does not list ${id} among its clauses`);
+  }
+  for (const m of facts.meanings ?? []) {
+    if (!m.clauses.some((id) => present.has(id))) continue;   // the term's clauses are absent from this version
+    const have = new Set(Object.keys(m.keys)), used = consulted[m.term] ?? new Set();
+    for (const k of have) if (!used.has(k)) throw new Error(`${vid}: facts.json declares meaning key ${m.term}.${k} and no clause consults it`);
+    for (const k of used) if (!have.has(k)) throw new Error(`${vid}: a clause consults meaning key ${m.term}.${k}, which facts.json does not declare`);
+  }
   const fields = facts.fields.map((f) => {
     const rb = (readBy[f.field] ?? []).sort();
     const o = { ...f, read_by: rb, $read_by_derived: 'by project-versions.mjs from the evaluation trees of this version' };
@@ -164,10 +196,10 @@ for (const vid of VERSIONS) {
     return o;
   });
   const unread = fields.filter((f) => f.$unread_in_this_version !== undefined).map((f) => f.field);
-  writeFileSync(`${dir}/facts.json`, JSON.stringify({ ...projected, $schema_note: facts.$schema_note, $what_a_determination_is: facts.$what_a_determination_is, register_version_id: vid, fields, resolutions: facts.resolutions }, null, 1) + '\n');
+  writeFileSync(`${dir}/facts.json`, JSON.stringify({ ...projected, $schema_note: facts.$schema_note, $what_a_determination_is: facts.$what_a_determination_is, $amendment_2026_08_24: facts.$amendment_2026_08_24, register_version_id: vid, fields, resolutions: facts.resolutions, meanings: (facts.meanings ?? []).filter((m) => m.clauses.some((id) => present.has(id))).map((m) => ({ ...m, clauses: m.clauses.filter((id) => present.has(id)), $keys_checked: 'against the meaning leaves of this version\'s evaluation trees, both directions, by project-versions.mjs' })) }, null, 1) + '\n');
 
   const split = {};
   for (const c of clauses) split[c.disposition] = (split[c.disposition] ?? 0) + 1;
-  console.log(`${vid.padEnd(22)} ${clauses.length} clauses  ${JSON.stringify(split)}  ${ambiguities.length} ambiguities  ${fields.length} fields, ${Object.keys(readBy).length} read${unread.length ? `, ${unread.length} unread in this version: ${unread.join(', ')}` : ''}`);
+  console.log(`${vid.padEnd(22)} ${clauses.length} clauses  ${JSON.stringify(split)}  ${Object.keys(consulted).length} ungrounded terms on ${Object.values(evClauses).filter((t) => t.op === 'ungrounded').length} clauses  ${ambiguities.length} ambiguities  ${fields.length} fields, ${Object.keys(readBy).length} read${unread.length ? `, ${unread.length} unread in this version: ${unread.join(', ')}` : ''}`);
 }
 }

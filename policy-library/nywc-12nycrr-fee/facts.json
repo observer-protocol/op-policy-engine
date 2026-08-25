@@ -2,62 +2,585 @@
   "$schema_note": "Every fact a clause of this register reads, with its declared kind. `read_by` IS NOT WRITTEN HERE: project-versions.mjs derives it from the evaluation trees per version and refuses a declared field no clause reads unless the field carries `$read_by_no_clause_because`, and refuses an evaluation path this file does not declare. The synthetic generator draws values from `domain.kind`, never from an outcome.",
   "$what_a_determination_is": "One payer determination on one bill line for one service under the New York workers' compensation fee schedules. The APPLIED BOUND is the scheduled amount and code the determination applied (applied_bound.*); the register never holds a scheduled amount, so the bound arrives on the determination and the register tests relations the regulation itself states (85 percent, 16 percent, the same amount, the regional fees of 329-1.3(d)(1)).",
   "fields": [
-    { "field": "service.kind", "domain": { "kind": "enum", "values": ["medical", "physical_therapy", "occupational_therapy", "acupuncture", "psychology", "podiatry", "chiropractic"] }, "note": "The schedule family the service falls under. PT and OT are distinct from medical because 329-1.1 and 329-4.1(b) both claim them (NY-A1)." },
-    { "field": "service.date", "domain": { "kind": "timestamp", "precision": "minute", "timezone": "required" }, "note": "The date of service. The clock every date-of-service clause reads." },
-    { "field": "accident.date", "domain": { "kind": "timestamp", "precision": "minute", "timezone": "required" }, "$read_by_no_clause_because": "Every date-of-service clause says `regardless of the date of accident`. The field is declared so a determination carries it and the derived read_by shows, per version, that no clause consults it." },
-    { "field": "schedule.cited.kind", "domain": { "kind": "enum", "values": ["medical", "acu_pt_ot", "behavioral_health", "podiatry", "chiropractic"] }, "note": "Which schedule the determination says it applied." },
-    { "field": "schedule.cited.edition_date", "domain": { "kind": "enum", "values": ["2018-12-26", "2019-12-04", "2019-12-11", "2025-12-30", "2026-08"] }, "note": "The edition identifier the determination cites. The five values are every edition date any retrieved text names, including the two the Board's revised proposal and its bracketed current text name (NY-A3)." },
-    { "field": "schedule.cited.publisher", "domain": { "kind": "enum", "values": ["OptumInsight", "RefMed"] }, "note": null },
-    { "field": "schedule.cited.code_source", "domain": { "kind": "enum", "values": ["medical_physical_medicine_section", "medical_other_section", "acu_pt_ot_schedule", "behavioral_health_schedule", "podiatry_schedule", "chiropractic_schedule"] }, "note": "The schedule, and for the medical schedule the section, the code was selected from. 329-1.3(c)(1) and (2) name the required source and the name changes between versions." },
-    { "field": "applied_bound.code", "domain": { "kind": "string", "nullable": true }, "note": "A code IDENTIFIER. Synthetic determinations use opaque identifiers except where the regulation itself names a code (87635, 99441, 99442, 99443)." },
-    { "field": "applied_bound.amount", "domain": { "kind": "money" }, "note": "The scheduled amount the determination applied: the amount payable for the service had it been performed directly by the billing PT, OT or physician. Licensed content; arrives on the determination, never held by the register." },
-    { "field": "payment.amount", "domain": { "kind": "money" }, "note": "The amount the determination pays." },
-    { "field": "provider.rendering_class", "domain": { "kind": "enum", "values": ["physician", "pt", "ot", "pta", "ota", "acupuncturist", "psychologist", "lcsw", "podiatrist", "chiropractor", "resident", "fellow", "physician_assistant", "nurse_practitioner"] }, "note": null },
-    { "field": "provider.billing_class", "domain": { "kind": "enum", "values": ["physician", "pt", "ot", "pta", "ota", "acupuncturist", "psychologist", "lcsw", "podiatrist", "chiropractor", "resident", "fellow", "physician_assistant", "nurse_practitioner"] }, "note": null },
-    { "field": "provider.supervising_class", "domain": { "kind": "enum", "values": ["physician", "pt", "ot"] }, "note": null },
-    { "field": "provider.supervision_present", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "provider.supervising_authorized", "domain": { "kind": "boolean" }, "note": "Board-authorized, as recorded." },
-    { "field": "provider.supervision_direct", "domain": { "kind": "boolean" }, "note": "329-1.3(c) requires DIRECT supervision; (e) requires supervision." },
-    { "field": "bill.modifiers", "domain": { "kind": "list_of_enum", "values": ["CQ", "CO", "1R", "84", "1B", "other"] }, "note": null },
-    { "field": "bill.notes_cosigned_by", "domain": { "kind": "enum", "values": ["supervising_pt", "supervising_ot", "supervising_physician", "none"] }, "note": null },
-    { "field": "bill.supervision_billed_separately", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "assistant.mixed_same_dos", "domain": { "kind": "boolean" }, "note": "PT and PTA (or OT and OTA) services on the same date of service." },
-    { "field": "assistant.priority_given_to", "domain": { "kind": "enum", "values": ["pt", "pta", "ot", "ota"] }, "note": "Which class the determination applied to the daily RVU maximum first." },
-    { "field": "assistant.service_reserved_for_pt_ot", "domain": { "kind": "judgment", "values": ["affirmed", "denied", "not_assessed"] }, "note": "affirmed = the service is reserved to PTs/OTs by statute or regulation." },
-    { "field": "covid.claim_basis", "domain": { "kind": "enum", "values": ["workplace_exposure_claim", "preop_protocol_doh", "routine_screening", "other"] }, "note": null },
-    { "field": "covid.region", "domain": { "kind": "enum", "values": ["I", "II", "III", "IV"] }, "note": "The fee schedule region the determination applied for 87635." },
-    { "field": "covid.rvu_applied", "domain": { "kind": "number" }, "note": "The RVU the determination applied to 87635." },
-    { "field": "covid.tests_billed", "domain": { "kind": "list_of_enum", "values": ["molecular", "serological", "antibody", "other"] }, "note": null },
-    { "field": "covid.prior_87635_lines", "domain": { "kind": "list_of_ids" }, "note": "Prior instances of 87635 on the claim." },
-    { "field": "covid.repeat_documentation", "domain": { "kind": "enum", "values": ["change_or_recurrence", "new_exposure", "none"] }, "note": null },
-    { "field": "resident.program_acgme_accredited", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "resident.activity_external_to_program", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "resident.role", "domain": { "kind": "enum", "values": ["non_surgical", "assistant_at_surgery"] }, "note": null },
-    { "field": "surgery.resident_assistants_billed", "domain": { "kind": "list_of_ids" }, "note": "Resident or fellow assistants billed for the procedure under determination." },
-    { "field": "surgery.other_assistants_billed", "domain": { "kind": "list_of_ids" }, "note": "Other physicians, physician assistants or nurse practitioners billed as assistants for the same procedure." },
-    { "field": "surgery.all_assistants_billed", "domain": { "kind": "list_of_ids" }, "note": "STATED LIMIT: supplied separately from the two lists above; consistency between them is not checked." },
-    { "field": "surgery.complexity_requires_multiple", "domain": { "kind": "judgment", "values": ["affirmed", "denied", "not_assessed"] }, "note": null },
-    { "field": "surgery.multiple_documented_contemporaneously", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "surgery.on_same_bill_as_surgery", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "surgery.work_accurately_documented", "domain": { "kind": "judgment", "values": ["affirmed", "denied", "not_assessed"] }, "note": null },
-    { "field": "bills.same_dos_bill_ids", "domain": { "kind": "list_of_ids" }, "note": "Bills submitted by the supervising physician for the patient on the date of service, this one included." },
-    { "field": "bills.services_demonstrably_different", "domain": { "kind": "judgment", "values": ["affirmed", "denied", "not_assessed"] }, "note": "(e)(2)(iv) excludes one ground: the resident-versus-supervisor designation." },
-    { "field": "narrative.resident_name", "domain": { "kind": "string", "nullable": true }, "note": "Synthetic determinations carry placeholder identifiers, never names." },
-    { "field": "narrative.supervising_physician_name", "domain": { "kind": "string", "nullable": true }, "note": null },
-    { "field": "narrative.program_name", "domain": { "kind": "string", "nullable": true }, "note": null },
-    { "field": "telemedicine.per_325_1_8", "domain": { "kind": "boolean" }, "note": "Whether the encounter qualifies as telemedicine under 12 NYCRR 325-1.8, a section outside scope. Supplied." },
-    { "field": "telemedicine.units_same_day", "domain": { "kind": "list_of_ids" }, "note": "Units of the telemedicine code billed for the patient on the day, this line included." },
-    { "field": "proration.unit_fee_specified", "domain": { "kind": "boolean" }, "note": "Whether the schedule specifies a unit fee for the treatment (NY-A9)." },
-    { "field": "proration.transferred", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "proration.unit_fee_amount", "domain": { "kind": "money" }, "note": "The scheduled unit fee; licensed content, supplied." },
-    { "field": "proration.total_paid", "domain": { "kind": "money" }, "note": "Total paid across the concerned physicians." },
-    { "field": "proration.physicians_agreed", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "proration.separate_bills_rendered", "domain": { "kind": "boolean" }, "note": null },
-    { "field": "proration.terminated_by", "domain": { "kind": "enum", "values": ["death", "departure_from_nys", "none"] }, "note": null },
-    { "field": "proration.earned_portion_assessment", "domain": { "kind": "judgment", "values": ["affirmed", "denied", "not_assessed"] }, "note": "affirmed = the fee paid is the earned portion." }
+    {
+      "field": "service.kind",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "medical",
+          "physical_therapy",
+          "occupational_therapy",
+          "acupuncture",
+          "psychology",
+          "podiatry",
+          "chiropractic"
+        ]
+      },
+      "note": "The schedule family the service falls under. PT and OT are distinct from medical because 329-1.1 and 329-4.1(b) both claim them (NY-A1)."
+    },
+    {
+      "field": "service.date",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "note": "The date of service. The clock every date-of-service clause reads."
+    },
+    {
+      "field": "accident.date",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "$read_by_no_clause_because": "Every date-of-service clause says `regardless of the date of accident`. The field is declared so a determination carries it and the derived read_by shows, per version, that no clause consults it."
+    },
+    {
+      "field": "schedule.cited.kind",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "medical",
+          "acu_pt_ot",
+          "behavioral_health",
+          "podiatry",
+          "chiropractic"
+        ]
+      },
+      "note": "Which schedule the determination says it applied."
+    },
+    {
+      "field": "schedule.cited.edition_date",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "2018-12-26",
+          "2019-12-04",
+          "2019-12-11",
+          "2025-12-30",
+          "2026-08"
+        ]
+      },
+      "note": "The edition identifier the determination cites. The five values are every edition date any retrieved text names, including the two the Board's revised proposal and its bracketed current text name (NY-A3)."
+    },
+    {
+      "field": "schedule.cited.publisher",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "OptumInsight",
+          "RefMed"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "schedule.cited.code_source",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "medical_physical_medicine_section",
+          "medical_other_section",
+          "acu_pt_ot_schedule",
+          "behavioral_health_schedule",
+          "podiatry_schedule",
+          "chiropractic_schedule"
+        ]
+      },
+      "note": "The schedule, and for the medical schedule the section, the code was selected from. 329-1.3(c)(1) and (2) name the required source and the name changes between versions."
+    },
+    {
+      "field": "applied_bound.code",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "note": "A code IDENTIFIER. Synthetic determinations use opaque identifiers except where the regulation itself names a code (87635, 99441, 99442, 99443)."
+    },
+    {
+      "field": "applied_bound.amount",
+      "domain": {
+        "kind": "money"
+      },
+      "note": "The scheduled amount the determination applied: the amount payable for the service had it been performed directly by the billing PT, OT or physician. Licensed content; arrives on the determination, never held by the register."
+    },
+    {
+      "field": "payment.amount",
+      "domain": {
+        "kind": "money"
+      },
+      "note": "The amount the determination pays."
+    },
+    {
+      "field": "provider.rendering_class",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "physician",
+          "pt",
+          "ot",
+          "pta",
+          "ota",
+          "acupuncturist",
+          "psychologist",
+          "lcsw",
+          "podiatrist",
+          "chiropractor",
+          "resident",
+          "fellow",
+          "physician_assistant",
+          "nurse_practitioner"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "provider.billing_class",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "physician",
+          "pt",
+          "ot",
+          "pta",
+          "ota",
+          "acupuncturist",
+          "psychologist",
+          "lcsw",
+          "podiatrist",
+          "chiropractor",
+          "resident",
+          "fellow",
+          "physician_assistant",
+          "nurse_practitioner"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "provider.supervising_class",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "physician",
+          "pt",
+          "ot"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "provider.supervision_present",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "provider.supervision_direct",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": "329-1.3(c) requires DIRECT supervision; (e) requires supervision."
+    },
+    {
+      "field": "bill.modifiers",
+      "domain": {
+        "kind": "list_of_enum",
+        "values": [
+          "CQ",
+          "CO",
+          "1R",
+          "84",
+          "1B",
+          "other"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "bill.notes_cosigned_by",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "supervising_pt",
+          "supervising_ot",
+          "supervising_physician",
+          "none"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "bill.supervision_billed_separately",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "assistant.mixed_same_dos",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": "PT and PTA (or OT and OTA) services on the same date of service."
+    },
+    {
+      "field": "assistant.priority_given_to",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "pt",
+          "pta",
+          "ot",
+          "ota"
+        ]
+      },
+      "note": "Which class the determination applied to the daily RVU maximum first."
+    },
+    {
+      "field": "covid.claim_basis",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "workplace_exposure_claim",
+          "preop_protocol",
+          "routine_screening",
+          "other"
+        ]
+      },
+      "note": "`preop_protocol` is the basis the determination asserts; whether the protocol qualifies under Department of Health guidance is the MEANING of an uncited term, supplied separately (see meanings)."
+    },
+    {
+      "field": "covid.rvu_applied",
+      "domain": {
+        "kind": "number"
+      },
+      "note": "The RVU the determination applied to 87635."
+    },
+    {
+      "field": "covid.tests_billed",
+      "domain": {
+        "kind": "list_of_enum",
+        "values": [
+          "molecular",
+          "serological",
+          "antibody",
+          "other"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "covid.prior_87635_lines",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "Prior instances of 87635 on the claim."
+    },
+    {
+      "field": "covid.repeat_documentation",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "change_or_recurrence",
+          "new_exposure",
+          "none"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "resident.program_acgme_accredited",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "resident.activity_external_to_program",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "resident.role",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "non_surgical",
+          "assistant_at_surgery"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "surgery.resident_assistants_billed",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "Resident or fellow assistants billed for the procedure under determination."
+    },
+    {
+      "field": "surgery.other_assistants_billed",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "Other physicians, physician assistants or nurse practitioners billed as assistants for the same procedure."
+    },
+    {
+      "field": "surgery.all_assistants_billed",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "STATED LIMIT: supplied separately from the two lists above; consistency between them is not checked."
+    },
+    {
+      "field": "surgery.complexity_requires_multiple",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "affirmed",
+          "denied",
+          "not_assessed"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "surgery.multiple_documented_contemporaneously",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "surgery.on_same_bill_as_surgery",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "surgery.work_accurately_documented",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "affirmed",
+          "denied",
+          "not_assessed"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "bills.same_dos_bill_ids",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "Bills submitted by the supervising physician for the patient on the date of service, this one included."
+    },
+    {
+      "field": "bills.services_demonstrably_different",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "affirmed",
+          "denied",
+          "not_assessed"
+        ]
+      },
+      "note": "(e)(2)(iv) excludes one ground: the resident-versus-supervisor designation."
+    },
+    {
+      "field": "narrative.resident_name",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "note": "Synthetic determinations carry placeholder identifiers, never names."
+    },
+    {
+      "field": "narrative.supervising_physician_name",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "note": null
+    },
+    {
+      "field": "narrative.program_name",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "note": null
+    },
+    {
+      "field": "telemedicine.per_325_1_8",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": "Whether the encounter qualifies as telemedicine under 12 NYCRR 325-1.8, a section outside scope. Supplied."
+    },
+    {
+      "field": "telemedicine.units_same_day",
+      "domain": {
+        "kind": "list_of_ids"
+      },
+      "note": "Units of the telemedicine code billed for the patient on the day, this line included."
+    },
+    {
+      "field": "proration.transferred",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "proration.total_paid",
+      "domain": {
+        "kind": "money"
+      },
+      "note": "Total paid across the concerned physicians."
+    },
+    {
+      "field": "proration.physicians_agreed",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "proration.separate_bills_rendered",
+      "domain": {
+        "kind": "boolean"
+      },
+      "note": null
+    },
+    {
+      "field": "proration.terminated_by",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "death",
+          "departure_from_nys",
+          "none"
+        ]
+      },
+      "note": null
+    },
+    {
+      "field": "proration.earned_portion_assessment",
+      "domain": {
+        "kind": "judgment",
+        "values": [
+          "affirmed",
+          "denied",
+          "not_assessed"
+        ]
+      },
+      "note": "affirmed = the fee paid is the earned portion."
+    }
   ],
   "resolutions": [
-    { "key": "pt_ot_governing_schedule", "ambiguity": "NY-A1", "domain": { "kind": "enum", "values": ["medical_physical_medicine_section", "acu_pt_ot_schedule"] } },
-    { "key": "proposed_effective_date", "ambiguity": "NY-A2", "domain": { "kind": "timestamp", "precision": "day", "timezone": "required" }, "note": "Meaningful only under the proposed version." }
+    {
+      "key": "pt_ot_governing_schedule",
+      "ambiguity": "NY-A1",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "medical_physical_medicine_section",
+          "acu_pt_ot_schedule"
+        ]
+      }
+    },
+    {
+      "key": "proposed_effective_date",
+      "ambiguity": "NY-A2",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "day",
+        "timezone": "required"
+      },
+      "note": "Meaningful only under the proposed version."
+    }
+  ],
+  "$amendment_2026_08_24": "Five fields removed (covid.region, provider.supervising_authorized, proration.unit_fee_specified, proration.unit_fee_amount, assistant.service_reserved_for_pt_ot): each carried, as a fact, the meaning of a term the regulation defines only in a document the section does not cite for it. They are now meanings under resolutions.ungrounded_terms, declared below, and the projector checks the declared keys against the shapes build-register derives from the evaluation trees.",
+  "meanings": [
+    {
+      "term": "Region I to IV",
+      "clauses": [
+        "12nycrr/329-1.3/d/1/regional-fee"
+      ],
+      "keys": {
+        "region": {
+          "kind": "enum",
+          "values": [
+            "I",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "missing_citation": "the section names no document for the regions; their assignment sits in the ground rules of the schedule incorporated by 329-1.3(a), which the section does not cite for it"
+    },
+    {
+      "term": "required pre-operative testing protocol in accordance with Department of Health guidance",
+      "clauses": [
+        "12nycrr/329-1.3/d/2/billable-basis"
+      ],
+      "keys": {
+        "preop_protocol_qualifies_under_doh_guidance": {
+          "kind": "boolean"
+        }
+      },
+      "missing_citation": "`Department of Health guidance` with no title, date or locator (NY-A8)"
+    },
+    {
+      "term": "services or activities otherwise reserved for PTs and OTs",
+      "clauses": [
+        "12nycrr/329-1.3/c/6/scope-not-expanded"
+      ],
+      "keys": {
+        "service_reserved_to_pt_ot": {
+          "kind": "boolean"
+        }
+      },
+      "missing_citation": "`by statute, and/or any applicable regulations promulgated by` three agencies, a class; one section, Education Law 6738(a), cited in (c)(6)(i) as an example only"
+    },
+    {
+      "term": "authorized",
+      "clauses": [
+        "12nycrr/329-1.3/c/supervision",
+        "12nycrr/329-1.3/e/supervision"
+      ],
+      "keys": {
+        "supervising_provider_authorized": {
+          "kind": "boolean"
+        }
+      },
+      "missing_citation": "Board authorization is under WCL 13-b and 13-k and 12 NYCRR Parts 324 and 325, none cited in these sections"
+    },
+    {
+      "term": "unit fee for a definite treatment and period of aftercare",
+      "clauses": [
+        "12nycrr/329-1.2/unit-fee-on-transfer",
+        "12nycrr/329-1.2/agreed-proration-separate-bills",
+        "12nycrr/329-1.2/death-no-proration"
+      ],
+      "keys": {
+        "unit_fee_specified": {
+          "kind": "boolean"
+        },
+        "unit_fee_amount": {
+          "kind": "money"
+        }
+      },
+      "missing_citation": "`the schedule`, a gesture with no rule located; whether the current schedule specifies any unit fee is NY-A9"
+    }
   ]
 }

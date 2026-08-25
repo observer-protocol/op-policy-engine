@@ -10,7 +10,7 @@ An instrument that cannot fail is not evidence. Before any divergence figure fro
 
 ```
 COMPARE  in-force (unmutated)  vs  in-force MUTATED: 85 -> 80 at 12nycrr/329-1.3/c/3/eighty-five-percent
-POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)
 POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
 state is a choice the reader cannot discount):
   N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
@@ -35,15 +35,22 @@ state is a choice the reader cannot discount):
   dates                    service dates on a ladder around the edition effective dates the
                            register declares (2019-04-01, 2020-01-01) and the two assumed
                            proposed effective dates; never composed from the clock
+  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+                           uniform over I to IV; DOH-guidance qualification, reserved-service and
+                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+                           by type. The interpreter never supplies one. The supply rate is a
+                           population parameter and is NOT chosen to land any waiting rate
 denominator: 600 determinations; 74 clauses in the union of both runs
 clauses on which at least one determination diverges: 1 of 74
-determinations diverging on at least one clause: 33/600 (5.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header] (on a result token: 33/600 (5.5%); the rest only on clause absence)
-  12nycrr/329-1.3/c/3/eighty-five-percent              diverge 33/600 (5.5%); agree 567/600 (94.5%)
-        33  equal -> not_equal
+determinations diverging on at least one clause: 38/600 (6.3%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history] (on a result token: 38/600 (6.3%); the rest only on clause absence)
+  12nycrr/329-1.3/c/3/eighty-five-percent              diverge 38/600 (6.3%); agree 562/600 (93.7%)
+        37  equal -> not_equal
+         1  not_equal -> equal
 RESULT: DIVERGENT. [exit 1]
 ```
 
-Determinations changed on the mutated clause: **33 of 600**. Determinations changed on any OTHER clause: **none**.
+Determinations changed on the mutated clause: **38/600 (6.3%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]**; unchanged on it: 562/600 (93.7%). Determinations changed on any OTHER clause: **none**.
 
 Comparator exit status on the mutated comparison: **1 (nonzero, as required)**.
 
@@ -51,7 +58,7 @@ Comparator exit status on the mutated comparison: **1 (nonzero, as required)**.
 
 ```
 COMPARE  in-force (unmutated)  vs  in-force (unmutated, second run)
-POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)
 POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
 state is a choice the reader cannot discount):
   N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
@@ -76,9 +83,15 @@ state is a choice the reader cannot discount):
   dates                    service dates on a ladder around the edition effective dates the
                            register declares (2019-04-01, 2020-01-01) and the two assumed
                            proposed effective dates; never composed from the clock
+  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+                           uniform over I to IV; DOH-guidance qualification, reserved-service and
+                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+                           by type. The interpreter never supplies one. The supply rate is a
+                           population parameter and is NOT chosen to land any waiting rate
 denominator: 600 determinations; 74 clauses in the union of both runs
 clauses on which at least one determination diverges: 0 of 74
-determinations diverging on at least one clause: 0/600 (0.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header] (on a result token: 0/600 (0.0%); the rest only on clause absence)
+determinations diverging on at least one clause: 0/600 (0.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history] (on a result token: 0/600 (0.0%); the rest only on clause absence)
 RESULT: IDENTICAL on every clause of every determination. [exit 0]
 ```
 
@@ -86,4 +99,6 @@ Comparator exit status on the unmutated comparison: **0 (as required)**.
 
 ## Verdict
 
-**SHOWN FAILING, THEN CLEAN.** The comparator detects a single-constant mutation on the clause that carries it (33/600 determinations) and exits nonzero, and reports zero divergence on an identical re-run. The divergence figures in DIVERGENCE.md may be read.
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+
+**SHOWN FAILING, THEN CLEAN.** The comparator detects a single-constant mutation on the clause that carries it (38/600 determinations) and exits nonzero, and reports zero divergence on an identical re-run. The divergence figures in DIVERGENCE.md may be read.

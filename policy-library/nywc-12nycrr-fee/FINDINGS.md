@@ -26,12 +26,13 @@ What that leaves the register able to do, stated positively:
   CQ or CO and is paid at 85 percent of the direct-therapist amount; that a resident's non-surgical
   service carries 1R at the same amount and an assistant-at-surgery service carries 84 at 16 percent;
   the one-unit-per-day telemedicine limits; the COVID-19 testing code's regional fees, which the
-  regulation states to the cent. Those three amounts are the one bound in this register a party
-  holding no schedule text can verify completely, **given the region**: `Region I` to `Region IV`
-  are used by 329-1.3(d)(1) and defined nowhere in 12 NYCRR; a provider's region is assigned by the
-  schedule's ground rules, which the section incorporates and does not cite by location. Corrected
-  2026-08-24 from a first draft that claimed the bound without the qualification; see
-  `INCORPORATION-COMPARISON.md`.
+  regulation states to the cent. Those three amounts are verifiable to the cent by a party holding no schedule
+  text. The region is not a fact: `Region I` to `Region IV` are used by 329-1.3(d)(1) and defined
+  nowhere in 12 NYCRR, a provider's region is assigned by the schedule's ground rules the section
+  does not cite for it, and since the amendment of 2026-08-24 the region is the institution's
+  supplied MEANING of the term, which the determination carries in its result token
+  (`equal_on_supplied_meaning`) or waits on (`undetermined, waiting: meaning`). See
+  `INCORPORATION-COMPARISON.md` and the amendment section below.
 - **The scheduled amount itself arrives on the determination as the applied bound**
   (`applied_bound.amount`, `applied_bound.code`), supplied by the payer that holds the schedule. The
   register never holds it and never needs it: it tests the RELATIONS the regulation states between
@@ -110,12 +111,12 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 
 ## Harness self-check, before any divergence figure
 
-[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
-`harness-selfcheck.mjs`, recorded verbatim in `HARNESS-SELF-CHECK.md`:
+`harness-selfcheck.mjs`, recorded verbatim in `HARNESS-SELF-CHECK.md` (re-run after the amendment):
 
 > **Mutation:** `12nycrr/329-1.3/c/3/eighty-five-percent`, constant 85 set to 80, in memory.
-> **Detected:** 33 of 600 determinations diverge, all on that clause (`equal -> not_equal`), no
+> **Detected:** 38 of 600 determinations diverge, all on that clause (`equal -> not_equal`), no
 > other clause moves; comparator exit 1. **Unmutated re-run:** 0 of 600 diverge on 0 of 74
 > clauses; comparator exit 0. **Verdict: SHOWN FAILING, THEN CLEAN.**
 
@@ -123,30 +124,32 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 
 ## Divergence by clause (denominator 600 determinations)
 
-[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 `compare.mjs out/in-force.jsonl out/proposed-2026-01-14.jsonl`, rendered in full in
 `DIVERGENCE.md`:
 
 - **35 of 74 clauses** carry at least one diverging determination.
-- **600 of 600 determinations diverge on at least one clause**; 443 of 600 on a result token, the
-  other 157 only on clause absence. The 600/600 is a direct consequence of 27 clauses being
+- **600 of 600 determinations diverge on at least one clause**; 437 of 600 on a result token, the
+  other 163 only on clause absence. The 600/600 is a direct consequence of 27 clauses being
   absent from one version: every determination has, under the proposed version, 27 clauses it
   cannot rest on.
 - The eight clauses that diverge on a token, with counts over 600:
 
 | clause | diverge | largest transition |
 |---|---|---|
-| `12nycrr/329-1.1/schedule-in-effect-on-dos` | 95 | 33 `cited_edition_not_the_one_in_force -> undetermined` |
-| `12nycrr/348.1/chiropractic-dos` | 83 | 27 `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` |
-| `12nycrr/329-4.1/a/acupuncture-dos` | 69 | 18 `cited_edition_not_the_one_in_force -> undetermined` |
-| `12nycrr/333.1/psychology-dos` | 58 | 17 `cited_edition_not_the_one_in_force -> undetermined` |
-| `12nycrr/343.1/podiatry-dos` | 53 | 15 `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` |
-| `12nycrr/329-4.1/b/pt-ot-dos` | 50 | 27 `cited_edition_not_the_one_in_force -> undetermined` |
-| `12nycrr/329-1.3/c/1/pta-code-source` | 35 | 23 `codes_from_required_schedule -> codes_not_from_required_schedule` |
+| `12nycrr/329-1.1/schedule-in-effect-on-dos` | 98 | 35 `cited_edition_not_the_one_in_force -> undetermined` |
+| `12nycrr/343.1/podiatry-dos` | 72 | 22 `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` |
+| `12nycrr/333.1/psychology-dos` | 68 | 23 `cited_edition_not_the_one_in_force -> undetermined` |
+| `12nycrr/348.1/chiropractic-dos` | 61 | 18 `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` |
+| `12nycrr/329-4.1/a/acupuncture-dos` | 59 | 25 `cited_edition_not_the_one_in_force -> undetermined` |
+| `12nycrr/329-1.3/c/1/pta-code-source` | 43 | 22 `codes_from_required_schedule -> codes_not_from_required_schedule` |
+| `12nycrr/329-4.1/b/pt-ot-dos` | 41 | 22 `cited_edition_not_the_one_in_force -> undetermined` |
 | `12nycrr/329-1.3/c/2/ota-code-source` | 34 | 18 `codes_from_required_schedule -> codes_not_from_required_schedule` |
 
 - The other 27 diverging clauses are the absent ones: `absent in proposed-2026-01-14 600/600` each.
+- The eight ungrounded clauses do NOT diverge between versions: the meaning is supplied or not per
+  determination, identically under both.
 
 **Every divergence is attached to a clause by construction**: the comparator has no record-level
 "differs" that does not name the clause.
@@ -155,27 +158,33 @@ supplies one on 60% of determinations (2026-07-01 or 2027-07-01, the Board's own
 
 ## Defensibility (denominator 600)
 
-[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
-`defensibility.mjs out/in-force.jsonl`, verbatim:
+`defensibility.mjs out/in-force.jsonl` (re-run after the amendment; the population moved, see below):
 
 ```
-  carry NO APPLIED BOUND:                         57/600 (9.5%)
-  CITE A VERSION NOT IN FORCE (union):            435/600 (72.5%)
-    (a) cite a register version other than in-force: 160/600 (26.7%)
-    (b) cite a schedule edition not in force on DOS:  368/600 (61.3%)   [read off the replay's date-of-service clauses]
-    both (a) and (b):                                 93/600 (15.5%)
-  date-of-service clauses undetermined (NY-A1/NY-A2 unresolved, or DOS unsupplied): 29/600 (4.8%)  [counted under neither]
-  no edition cited at all:                         26/600 (4.3%)  [counted under neither; it is a missing citation, not a wrong one]
+  carry NO APPLIED BOUND:                         70/600 (11.7%)
+  CITE A VERSION NOT IN FORCE (union):            444/600 (74.0%)
+    (a) cite a register version other than in-force: 198/600 (33.0%)
+    (b) cite a schedule edition not in force on DOS:  371/600 (61.8%)   [read off the replay's date-of-service clauses]
+    both (a) and (b):                                 125/600 (20.8%)
+  date-of-service clauses undetermined (NY-A1/NY-A2 unresolved, or DOS unsupplied): 25/600 (4.2%)  [counted under neither]
+  no edition cited at all:                         31/600 (5.2%)  [counted under neither; it is a missing citation, not a wrong one]
 ```
 
-**These figures describe the synthetic population and nothing else, and the caveat is structural:** every figure is built with `figure(k, n, population)` and rendered only through `renderFigure`, which refuses a figure without the population block or with a stale one; `check-figures.mjs` fails any surface in this directory carrying one of these figures without the marker above in its section (`FIGURE-CAVEAT.md` shows it refusing). The generator cites the
-proposed register version on 30% of determinations, cites a non-in-force edition on 40%, and
-draws dates of service from a ladder that includes dates before the 2020-01-01 effective date;
-the 72.5% is the product of those parameters, and quoting it as an operational rate would be a
-count under the wrong population. What the figure demonstrates is that the register can COUNT
-the failure mode: a determination that cites a version not in force is identified per
-determination, per clause, with the token that says why.
+**These figures describe the synthetic population and nothing else, and the caveat is structural:**
+every figure is built with `figure(k, n, population)` and rendered only through `renderFigure`,
+which refuses a figure without the population block or with a stale one; the marker every figure
+carries also says REPOSITORY-INTERNAL, ruled 2026-08-24: no synthetic defensibility figure leaves
+op-policy-engine in any form until an equivalent is computed over a real history. `check-figures.mjs`
+fails any surface in this directory carrying one of these figures without the marker in its
+section, or carrying a count over 600 that no current report produces (`FIGURE-CAVEAT.md` shows it
+refusing). The generator cites the proposed register version on 30% of determinations, cites a
+non-in-force edition on 40%, and draws dates of service from a ladder that includes dates before
+the 2020-01-01 effective date; the 74.0% is the product of those parameters, and quoting it as an
+operational rate would be a count under the wrong population. What the figure demonstrates is that
+the register can COUNT the failure mode: a determination that cites a version not in force is
+identified per determination, per clause, with the token that says why.
 
 ---
 
@@ -220,9 +229,7 @@ disposition of the ambiguity, not as unknown.
 
 ## Harness and gates, what ran
 
-[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
-
-The scanner found the paragraph below rendered bare on its first run over this file (`FINDINGS.md:237`, the `600 of 600` of the unreached clauses) and refused the render; the marker above is the fix, and the refusal is recorded in `FIGURE-CAVEAT.md`'s history rather than hidden by it.
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 - `_interpreter/validate.mjs` on both projected registers: **PASS, no rule failed** (R1 to R18);
   four R7 notes on structurally unreachable `conditional_requirement` tokens, which are facts about
@@ -231,17 +238,88 @@ The scanner found the paragraph below rendered bare on its first run over this f
   ids emitted, nothing missing, nothing extra.
 - `_phase0/parity.mjs --candidate=interpreter` over the three existing domains, after the
   interpreter gained `amount_fraction_of`: **PARITY: IDENTICAL, 120,052 record comparisons, exit 0.**
-  The frozen oracle did not move.
-- Replay: 600 x 74 = 44,400 records in force (waiting: none 44,196, fact 170, judgment 34);
-  600 x 47 = 28,200 as proposed (none 27,829, fact 345, judgment 26). The higher `fact` count as
-  proposed is the unsupplied effective date falling to `fact` through the waiting axis's stated
-  limit: an unresolved resolution is not one of the five values.
+  The frozen oracle did not move. (Run before the amendment; the amendment changed no shared file.)
+- Replay after the amendment: 600 x 74 = 44,400 records in force (waiting: none 41,783, meaning
+  2,458, fact 152, judgment 7); 600 x 47 = 28,200 as proposed (none 25,725, meaning 2,143, fact
+  332). `out/tally.json` carries every per-clause count.
 
-**Clauses never reached on this population:** `12nycrr/329-1.2/unit-fee-on-transfer` and
-`12nycrr/329-1.2/agreed-proration-separate-bills` are `not_applicable` on 600 of 600; the
-proration branch is 10% of physician services and both preconditions must hold. Every other
-with-result clause reaches at least one decided token. Reported so the count of clauses is not
-read as a count of clauses exercised.
+**Clause never reaching a decided token on this population:** `12nycrr/329-1.2/departure-earned-portion`,
+`not_applicable` on 600 of 600 (the proration branch is 10% of physician services and departure is
+one of three termination values). Every other with-result clause reaches at least one decided or
+attributed token. Reported so the count of clauses is not read as a count of clauses exercised.
+
+---
+
+## Amendment 2026-08-24: five uncited-definition terms re-encoded as ungrounded
+
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+
+Boyd's ruling: a term defined only in a document the section does not cite for it is stated
+elsewhere and waiting on a meaning, not a fact the record supplies; encoding it as a supplied fact
+computes an affirmative determination independently of the check that would justify it. Applied
+to the sixteen operative terms of `INCORPORATION-COMPARISON.md` with the test "the citation is
+missing, not the definition":
+
+| term | clauses re-encoded | the citation that is missing |
+|---|---|---|
+| Region I to IV | `329-1.3/d/1/regional-fee` | the section names no document for the regions; their assignment is in the ground rules of the schedule incorporated by 329-1.3(a), which the section does not cite for it |
+| required pre-operative testing protocol in accordance with Department of Health guidance | `329-1.3/d/2/billable-basis` | "Department of Health guidance", no title, date or locator (NY-A8) |
+| services or activities otherwise reserved for PTs and OTs | `329-1.3/c/6/scope-not-expanded` | "by statute, and/or any applicable regulations promulgated by" three agencies, a class; Education Law 6738(a) cited in (c)(6)(i) as an example only |
+| authorized | `329-1.3/c/supervision`, `329-1.3/e/supervision` | WCL 13-b and 13-k and 12 NYCRR Parts 324 and 325, none cited in these sections |
+| unit fee for a definite treatment and period of aftercare | `329-1.2/unit-fee-on-transfer`, `agreed-proration-separate-bills`, `death-no-proration` | "the schedule", a gesture with no rule located; whether any unit fee exists is NY-A9 |
+
+Five terms, eight clauses. **The sixth term of the comparison, the RVU maximum, was not a supplied
+fact anywhere**: its only consuming clause, (c)(4), was already INCORPORATED_BY_REFERENCE, and
+(c)(5) decides on the recorded priority without the cap's value. Nothing on it moved. **No seventh
+term surfaced under the test**: the three terms defined nowhere retrieved (routine screening,
+reliable testing, demonstrably different services) fail the test's premise, since there is no
+defining document to be uncited; they are Molina's no-pointer class and are reported, not
+re-encoded. Terms defined in a document the section does cite for them (the direct amount, the
+Physical Medicine Section, Ground Rule 9 / Modifier 1B, Ground Rule 12(B), section 325-1.8, ACGME)
+stay supplied facts.
+
+Five fields left the fact schema (`covid.region`, `provider.supervising_authorized`,
+`proration.unit_fee_specified`, `proration.unit_fee_amount`, `assistant.service_reserved_for_pt_ot`)
+and became meanings under `resolutions.ungrounded_terms[term]`, declared in `facts.json` and checked
+by the projector against the keys the evaluation trees consult, both directions. The generator
+supplies each meaning 50% of the time, independently per term, a stated parameter.
+
+**The split, over the eight clauses x 600 = 4,800 records (in force):** decided on facts alone 7;
+`_on_supplied_meaning` 96; `undetermined` 2,461; `not_applicable` 2,236. Of the 2,461
+undetermined, 122 are records where the clause would have applied, and 2,339 are records where the
+interpreter's `ungrounded` emitter returned `undetermined` before testing applicability, which is
+its ruled order (an unsupplied meaning is refused first; `_interpreter/interpret.mjs`, the
+`ungrounded` emitter). The shared interpreter was not changed.
+
+**The waiting-on-a-meaning rate:** 2,458 of 44,400 records in force (5.54%); 8.03% of the 30,600
+records with a result domain; 583 of 600 determinations carry at least one record waiting on a
+meaning. As proposed: 2,143 of 28,200 (7.60%). Molina's corpus rate was 2.8%; the figures are
+reported as they came and were not reconciled to it. The NY rate is dominated by the emitter's
+order and by the 50% supply parameter, not by the reach of the eight clauses: 122 of the 2,461
+undetermined are on records where the clause applied.
+
+**The population moved.** Removing five fields changed the generator's draw sequence, so this is a
+different population (parameters sha256 ceb49c4d590d against 2268173b241c before), and the
+pre-amendment expectation of roughly 139 records moving is not measurable on it. On this
+population the records that the old encoding would have decided on a supplied fact are the 7
+decided + 96 attributed + 122 would-have-applied undetermined = 225 of the 4,800.
+
+**The three corrected claims, final wording.** (1) `clauses.json`, `12nycrr/329-1.3/d/1/regional-fee`,
+`disposition_basis`: "The AMOUNTS are verifiable to the cent by a party holding zero schedule text.
+The REGION is not a fact the record can supply: `Region I` to `Region IV` are used here and defined
+nowhere in 12 NYCRR, and a provider's region is assigned by the schedule's ground rules, which the
+section incorporates and does not cite for it. The region is the institution's supplied MEANING of
+the term; unsupplied, the clause is undetermined and waits on a meaning; supplied, the record says
+`equal_on_supplied_meaning` and names what it rests on." (2) The evaluation note no longer exists:
+the `ungrounded` emitter carries no note, and the record's own sentences replace it, verbatim from
+`evaluation.json ungrounded_terms`: unsupplied, "the regulation decides this outcome with
+`Region I to IV`, a term it does not define and whose definition sits in a document the section
+does not cite for it; no meaning has been supplied"; supplied, `rests_on: a meaning supplied by the
+institution, not by the regulation or by any document it cites for the term`. (3) This file, the
+property section above: the amounts are verifiable to the cent by a party holding no schedule text;
+the region is the institution's meaning of a term the regulation uses once and never defines, and
+the determination carries that in its result token. The direction changed twice: from "verifiable
+to the cent" to "given the region" to "the region is a supplied meaning the record attributes".
 
 ---
 

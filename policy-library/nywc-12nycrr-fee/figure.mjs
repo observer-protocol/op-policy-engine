@@ -37,7 +37,11 @@ export function populationOf(det) {
   return p;
 }
 
-export const populationMarker = (pop) => `[population: ${pop.count} synthetic determinations, seed ${pop.seed}, parameters sha256 ${pop.parameters_sha256.slice(0, 12)} from generate-determinations.mjs header]`;
+/** The marker every figure carries. TWO restrictions ride in it, so neither can be dropped without
+ *  dropping the other: the population, and REPOSITORY-INTERNAL, ruled 2026-08-24: no synthetic
+ *  defensibility figure leaves op-policy-engine in any form until an equivalent is computed over a
+ *  real history. check-figures.mjs matches the whole marker, restriction included. */
+export const populationMarker = (pop) => `[population: ${pop.count} synthetic determinations, seed ${pop.seed}, parameters sha256 ${pop.parameters_sha256.slice(0, 12)} from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]`;
 
 export function figure(k, n, pop) {
   if (pop === undefined || pop === null) throw new Error(`figure ${k}/${n} built without a population; a figure over a synthetic set is not a figure without its population`);

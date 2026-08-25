@@ -2,10 +2,10 @@
 
 Rendered by `report.mjs` from `out/divergence.json`, `out/version-diff.json` and `out/defensibility.json`. Do not edit by hand.
 
-**Population:** 600 synthetic determinations (`determinations.json`, seed 20260825); every figure below is over that denominator unless it says otherwise. The population's parameters are stated in the header of `generate-determinations.mjs` and reproduced here, adjacent, because a figure that travels without them becomes an operational claim; `check-figures.mjs` refuses any surface in this directory that carries one of these figures without the marker [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header].
+**Population:** 600 synthetic determinations (`determinations.json`, seed 20260825); every figure below is over that denominator unless it says otherwise. The population's parameters are stated in the header of `generate-determinations.mjs` and reproduced here, adjacent, because a figure that travels without them becomes an operational claim; `check-figures.mjs` refuses any surface in this directory that carries one of these figures without the marker [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history].
 
 ```
-POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)
 POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
 state is a choice the reader cannot discount):
   N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
@@ -30,6 +30,12 @@ state is a choice the reader cannot discount):
   dates                    service dates on a ladder around the edition effective dates the
                            register declares (2019-04-01, 2020-01-01) and the two assumed
                            proposed effective dates; never composed from the clock
+  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+                           uniform over I to IV; DOH-guidance qualification, reserved-service and
+                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+                           by type. The interpreter never supplies one. The supply rate is a
+                           population parameter and is NOT chosen to land any waiting rate
 ```
 
 **Read only after `HARNESS-SELF-CHECK.md`**, which shows the comparator catching a single-constant mutation on the clause that carries it and reporting zero on an identical re-run.
@@ -97,7 +103,7 @@ Per-version data whose definition differs: `v_edition_acu`, `v_edition_bh`, `v_e
 
 ```
 COMPARE  in-force  vs  proposed-2026-01-14
-POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)
 POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
 state is a choice the reader cannot discount):
   N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
@@ -122,22 +128,27 @@ state is a choice the reader cannot discount):
   dates                    service dates on a ladder around the edition effective dates the
                            register declares (2019-04-01, 2020-01-01) and the two assumed
                            proposed effective dates; never composed from the clock
+  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+                           uniform over I to IV; DOH-guidance qualification, reserved-service and
+                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+                           by type. The interpreter never supplies one. The supply rate is a
+                           population parameter and is NOT chosen to land any waiting rate
 denominator: 600 determinations; 74 clauses in the union of both runs
 clauses on which at least one determination diverges: 35 of 74
-determinations diverging on at least one clause: 600/600 (100.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header] (on a result token: 443/600 (73.8%); the rest only on clause absence)
-  12nycrr/329-1.1/schedule-in-effect-on-dos            diverge 95/600 (15.8%); agree 505/600 (84.2%)
-        33  cited_edition_not_the_one_in_force -> undetermined
-        23  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
-        12  cited_edition_in_force_on_dos -> undetermined
-        10  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
-         7  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
-         4  dos_precedes_edition_effect -> undetermined
-         3  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
-         2  missing_operand -> undetermined
-         1  missing_operand -> cited_edition_not_the_one_in_force
-  12nycrr/329-1.3/c/1/pta-code-source                  diverge 35/600 (5.8%); agree 565/600 (94.2%)
-        23  codes_from_required_schedule -> codes_not_from_required_schedule
-        12  codes_not_from_required_schedule -> codes_from_required_schedule
+determinations diverging on at least one clause: 600/600 (100.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history] (on a result token: 437/600 (72.8%); the rest only on clause absence)
+  12nycrr/329-1.1/schedule-in-effect-on-dos            diverge 98/600 (16.3%); agree 502/600 (83.7%)
+        35  cited_edition_not_the_one_in_force -> undetermined
+        29  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+        15  cited_edition_in_force_on_dos -> undetermined
+         7  dos_precedes_edition_effect -> undetermined
+         6  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         4  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
+         1  missing_operand -> undetermined
+         1  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+  12nycrr/329-1.3/c/1/pta-code-source                  diverge 43/600 (7.2%); agree 557/600 (92.8%)
+        22  codes_from_required_schedule -> codes_not_from_required_schedule
+        21  codes_not_from_required_schedule -> codes_from_required_schedule
   12nycrr/329-1.3/c/2/ota-code-source                  diverge 34/600 (5.7%); agree 566/600 (94.3%)
         18  codes_from_required_schedule -> codes_not_from_required_schedule
         16  codes_not_from_required_schedule -> codes_from_required_schedule
@@ -161,65 +172,68 @@ determinations diverging on at least one clause: 600/600 (100.0%) [population: 6
   12nycrr/329-1.3/e/no-independent-billing             absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/329-1.3/e/no-separate-supervision-fee        absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/329-1.3/e/supervision                        absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
-  12nycrr/329-4.1/a/acupuncture-dos                    diverge 69/600 (11.5%); agree 531/600 (88.5%)
-        18  cited_edition_not_the_one_in_force -> undetermined
-        15  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
-        11  cited_edition_in_force_on_dos -> undetermined
-         9  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
-         7  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
-         5  dos_precedes_edition_effect -> undetermined
-         4  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
-  12nycrr/329-4.1/b/pt-ot-dos                          diverge 50/600 (8.3%); agree 550/600 (91.7%)
-        27  cited_edition_not_the_one_in_force -> undetermined
-        10  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+  12nycrr/329-4.1/a/acupuncture-dos                    diverge 59/600 (9.8%); agree 541/600 (90.2%)
+        25  cited_edition_not_the_one_in_force -> undetermined
+        12  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+         8  cited_edition_in_force_on_dos -> undetermined
+         6  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         6  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
+         1  dos_precedes_edition_effect -> undetermined
+         1  missing_operand -> undetermined
+  12nycrr/329-4.1/b/pt-ot-dos                          diverge 41/600 (6.8%); agree 559/600 (93.2%)
+        22  cited_edition_not_the_one_in_force -> undetermined
+         5  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+         4  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
          4  cited_edition_in_force_on_dos -> undetermined
-         3  dos_precedes_edition_effect -> undetermined
-         3  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
+         2  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
          2  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
-         1  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         1  missing_operand -> cited_edition_not_the_one_in_force
+         1  dos_precedes_edition_effect -> undetermined
   12nycrr/329-4.2/d/one-unit-per-day                   absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/329-4.2/d/telemedicine-code                  absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
-  12nycrr/333.1/psychology-dos                         diverge 58/600 (9.7%); agree 542/600 (90.3%)
-        17  cited_edition_not_the_one_in_force -> undetermined
-        12  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
-        12  cited_edition_in_force_on_dos -> undetermined
-         5  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
-         4  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
-         4  dos_precedes_edition_effect -> undetermined
-         2  missing_operand -> undetermined
-         2  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+  12nycrr/333.1/psychology-dos                         diverge 68/600 (11.3%); agree 532/600 (88.7%)
+        23  cited_edition_not_the_one_in_force -> undetermined
+        14  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+        10  cited_edition_in_force_on_dos -> undetermined
+         9  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         6  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
+         4  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+         2  dos_precedes_edition_effect -> undetermined
   12nycrr/333.2/c/no-1b-enhancement                    absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/333.2/c/one-unit-per-day                     absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/333.2/c/telemedicine-codes                   absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
-  12nycrr/343.1/podiatry-dos                           diverge 53/600 (8.8%); agree 547/600 (91.2%)
-        15  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
-        14  cited_edition_not_the_one_in_force -> undetermined
-        10  cited_edition_in_force_on_dos -> undetermined
-         5  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
-         4  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
-         2  missing_operand -> undetermined
-         2  cited_edition_not_the_one_in_force -> missing_operand
+  12nycrr/343.1/podiatry-dos                           diverge 72/600 (12.0%); agree 528/600 (88.0%)
+        22  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+        18  cited_edition_not_the_one_in_force -> undetermined
+        17  cited_edition_in_force_on_dos -> undetermined
+         9  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         2  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
          1  missing_operand -> cited_edition_not_the_one_in_force
-  12nycrr/348.1/chiropractic-dos                       diverge 83/600 (13.8%); agree 517/600 (86.2%)
-        27  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
-        18  cited_edition_in_force_on_dos -> undetermined
-        17  cited_edition_not_the_one_in_force -> undetermined
-         7  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
-         6  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
-         5  dos_precedes_edition_effect -> undetermined
-         3  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+         1  missing_operand -> undetermined
+         1  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+         1  dos_precedes_edition_effect -> undetermined
+  12nycrr/348.1/chiropractic-dos                       diverge 61/600 (10.2%); agree 539/600 (89.8%)
+        18  cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force
+        15  cited_edition_not_the_one_in_force -> undetermined
+        12  cited_edition_in_force_on_dos -> undetermined
+         7  dos_precedes_edition_effect -> cited_edition_not_the_one_in_force
+         4  cited_edition_not_the_one_in_force -> dos_precedes_edition_effect
+         2  dos_precedes_edition_effect -> undetermined
+         1  missing_operand -> cited_edition_not_the_one_in_force
+         1  cited_edition_not_the_one_in_force -> cited_edition_in_force_on_dos
+         1  missing_operand -> undetermined
   12nycrr/348.2/c/one-unit-per-day                     absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
   12nycrr/348.2/c/telemedicine-code                    absent in proposed-2026-01-14 600/600 (100.0%); agree 0/600 (0.0%)
 RESULT: DIVERGENT. [exit 1]
 ```
 
-**Reading the transitions.** `X -> Y` is the token under in-force, then under proposed, for one determination. `-> undetermined` on a date-of-service clause is the proposed version's effective date being unsupplied (NY-A2) on that determination; the register refuses to decide a date test against a date the source does not state. `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` is a determination citing the 2019 OptumInsight edition, correct today, wrong under the proposal. The reverse transition is a determination citing the 2025 RefMed edition, wrong today, right under the proposal on the effective date it assumed. `absent in proposed-2026-01-14 600/600` is a clause the proposal's restatement does not carry (NY-A7): a determination applying it under the proposed version has no clause to rest on. [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+**Reading the transitions.** `X -> Y` is the token under in-force, then under proposed, for one determination. `-> undetermined` on a date-of-service clause is the proposed version's effective date being unsupplied (NY-A2) on that determination; the register refuses to decide a date test against a date the source does not state. `cited_edition_in_force_on_dos -> cited_edition_not_the_one_in_force` is a determination citing the 2019 OptumInsight edition, correct today, wrong under the proposal. The reverse transition is a determination citing the 2025 RefMed edition, wrong today, right under the proposal on the effective date it assumed. `absent in proposed-2026-01-14 600/600` is a clause the proposal's restatement does not carry (NY-A7): a determination applying it under the proposed version has no clause to rest on. [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ## 3. Defensibility
 
 ```
 DEFENSIBILITY over 600 synthetic determinations (denominator 600; in-force register, replay in-force.jsonl)
-POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 2268173b241c is checked against it at render time)
+POPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)
 POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not
 state is a choice the reader cannot discount):
   N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N
@@ -244,13 +258,19 @@ state is a choice the reader cannot discount):
   dates                    service dates on a ladder around the edition effective dates the
                            register declares (2019-04-01, 2020-01-01) and the two assumed
                            proposed effective dates; never composed from the clock
-  carry NO APPLIED BOUND:                         57/600 (9.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
-  CITE A VERSION NOT IN FORCE (union):            435/600 (72.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
-    (a) cite a register version other than in-force: 160/600 (26.7%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
-    (b) cite a schedule edition not in force on DOS:  368/600 (61.3%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]   [read off the replay's date-of-service clauses]
-    both (a) and (b):                                 93/600 (15.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
-  date-of-service clauses undetermined (NY-A1/NY-A2 unresolved, or DOS unsupplied): 29/600 (4.8%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]  [counted under neither]
-  no edition cited at all:                         26/600 (4.3%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]  [counted under neither; it is a missing citation, not a wrong one]
+  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+                           uniform over I to IV; DOH-guidance qualification, reserved-service and
+                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+                           by type. The interpreter never supplies one. The supply rate is a
+                           population parameter and is NOT chosen to land any waiting rate
+  carry NO APPLIED BOUND:                         70/600 (11.7%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+  CITE A VERSION NOT IN FORCE (union):            444/600 (74.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+    (a) cite a register version other than in-force: 198/600 (33.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+    (b) cite a schedule edition not in force on DOS:  371/600 (61.8%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]   [read off the replay's date-of-service clauses]
+    both (a) and (b):                                 125/600 (20.8%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
+  date-of-service clauses undetermined (NY-A1/NY-A2 unresolved, or DOS unsupplied): 25/600 (4.2%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]  [counted under neither]
+  no edition cited at all:                         31/600 (5.2%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]  [counted under neither; it is a missing citation, not a wrong one]
 ```
 
 The union is the figure. Its two parts are independent facts about a determination and are both reported because they fail differently: (a) is a claim the determination makes about itself (which register version it says it was decided under) and is checked by string equality; (b) is read off the in-force replay and inherits the replay's limits, which is why the undetermined and no-edition rows sit beside it and are counted under neither.

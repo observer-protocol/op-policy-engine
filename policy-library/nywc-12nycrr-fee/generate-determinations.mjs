@@ -28,6 +28,12 @@
  *   dates                    service dates on a ladder around the edition effective dates the
  *                            register declares (2019-04-01, 2020-01-01) and the two assumed
  *                            proposed effective dates; never composed from the clock
+ *   meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the
+ *                            institution supplies a meaning 50% / leaves it unsupplied 50%. Region
+ *                            uniform over I to IV; DOH-guidance qualification, reserved-service and
+ *                            authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn
+ *                            by type. The interpreter never supplies one. The supply rate is a
+ *                            population parameter and is NOT chosen to land any waiting rate
  *
  * A determination that CARRIES NO APPLIED BOUND, and one that CITES A VERSION NOT IN FORCE, are
  * both in the population by these parameters, not by construction of individual records; the
@@ -94,7 +100,7 @@ for (let i = 1; i <= N; i++) {
     schedule: { cited: { kind: maybe(schedKind), edition_date: maybe(edition), publisher: maybe(publisher), code_source: undefined } },
     applied_bound: { code: hasBound ? `SYN-${String(1000 + Math.floor(rnd() * 9000))}` : undefined, amount: hasBound ? money(boundCents) : undefined },
     payment: { amount: undefined },
-    provider: { rendering_class: rendering, billing_class: undefined, supervising_class: undefined, supervision_present: undefined, supervising_authorized: undefined, supervision_direct: undefined },
+    provider: { rendering_class: rendering, billing_class: undefined, supervising_class: undefined, supervision_present: undefined, supervision_direct: undefined },
     bill: { modifiers: undefined, notes_cosigned_by: undefined, supervision_billed_separately: undefined },
   };
   let percent = 100;
@@ -107,11 +113,10 @@ for (let i = 1; i <= N; i++) {
     f.provider.billing_class = maybe(weighted([[supervisor, 0.85], [rendering, 0.15]]));
     f.provider.supervising_class = maybe(weighted([[supervisor, 0.85], [supervisor === 'pt' ? 'ot' : 'pt', 0.15]]));
     f.provider.supervision_present = maybe(chance(0.9));
-    f.provider.supervising_authorized = maybe(chance(0.9));
     f.provider.supervision_direct = maybe(chance(0.8));
     f.bill.notes_cosigned_by = maybe(weighted([[`supervising_${supervisor}`, 0.75], ['none', 0.15], [`supervising_${supervisor === 'pt' ? 'ot' : 'pt'}`, 0.1]]));
     f.schedule.cited.code_source = maybe(weighted([['medical_physical_medicine_section', 0.5], ['acu_pt_ot_schedule', 0.35], [pick(enumOf('schedule.cited.code_source')), 0.15]]));
-    f.assistant = { mixed_same_dos: maybe(chance(0.4)), priority_given_to: maybe(pick(enumOf('assistant.priority_given_to'))), service_reserved_for_pt_ot: maybe(pick(enumOf('assistant.service_reserved_for_pt_ot'))) };
+    f.assistant = { mixed_same_dos: maybe(chance(0.4)), priority_given_to: maybe(pick(enumOf('assistant.priority_given_to'))) };
   } else if (isResident) {
     const role = pick(enumOf('resident.role'));
     const mod = role === 'non_surgical' ? '1R' : '84';
@@ -120,7 +125,6 @@ for (let i = 1; i <= N; i++) {
     f.provider.billing_class = maybe(weighted([['physician', 0.85], [rendering, 0.15]]));
     f.provider.supervising_class = maybe(weighted([['physician', 0.9], ['pt', 0.1]]));
     f.provider.supervision_present = maybe(chance(0.9));
-    f.provider.supervising_authorized = maybe(chance(0.9));
     f.provider.supervision_direct = maybe(chance(0.7));
     f.bill.supervision_billed_separately = maybe(chance(0.15));
     f.resident = { program_acgme_accredited: maybe(chance(0.9)), activity_external_to_program: maybe(chance(0.1)), role: maybe(role) };
@@ -135,7 +139,7 @@ for (let i = 1; i <= N; i++) {
     f.provider.billing_class = maybe(rendering);
     if (kind === 'medical' && chance(0.10)) {
       const unit = pick(BOUND_CENTS);
-      f.proration = { unit_fee_specified: maybe(chance(0.8)), transferred: maybe(chance(0.7)), unit_fee_amount: maybe(money(unit)), total_paid: maybe(chance(0.7) ? money(unit) : money(pick(BOUND_CENTS))),
+      f.proration = { transferred: maybe(chance(0.7)), total_paid: maybe(chance(0.7) ? money(unit) : money(pick(BOUND_CENTS))),
         physicians_agreed: maybe(chance(0.5)), separate_bills_rendered: maybe(chance(0.6)), terminated_by: maybe(pick(enumOf('proration.terminated_by'))), earned_portion_assessment: maybe(pick(enumOf('proration.earned_portion_assessment'))) };
     }
   }
@@ -143,11 +147,11 @@ for (let i = 1; i <= N; i++) {
   // COVID-19 testing branch, medical only
   if (kind === 'medical' && !isAssistant && chance(0.15)) {
     const basis = pick(enumOf('covid.claim_basis'));
-    const region = pick(enumOf('covid.region'));
+    const region = pick(['I', 'II', 'III', 'IV']);   // the REGION is a meaning, drawn below; the fee paid is drawn against a region
     const fee = { IV: 5133, III: 4741, II: 4153, I: 4153 }[region];
     f.applied_bound.code = hasBound ? weighted([['87635', 0.85], [f.applied_bound.code, 0.15]]) : undefined;
     f.applied_bound.amount = hasBound ? money(fee) : undefined;
-    f.covid = { claim_basis: maybe(basis), region: maybe(region), rvu_applied: maybe(weighted([[39.18, 0.8], [pick([38.5, 40, 39.2]), 0.2]])),
+    f.covid = { claim_basis: maybe(basis), rvu_applied: maybe(weighted([[39.18, 0.8], [pick([38.5, 40, 39.2]), 0.2]])),
       tests_billed: maybe(weighted([[['molecular'], 0.5], [['serological'], 0.25], [['antibody'], 0.15], [['molecular', 'antibody'], 0.1]])),
       prior_87635_lines: maybe(weighted([[[], 0.7], [['L-01'], 0.3]])), repeat_documentation: maybe(pick(enumOf('covid.repeat_documentation'))) };
     f.payment.amount = weighted([[money(fee), 0.75], [money(fee + pick([-100, 100, 250])), 0.25]]);
@@ -168,6 +172,15 @@ for (let i = 1; i <= N; i++) {
   if (a1 !== undefined) resolutions.pt_ot_governing_schedule = a1;
   const a2 = weighted([[undefined, 0.4], ['2026-07-01T00:00:00Z', 0.3], ['2027-07-01T00:00:00Z', 0.3]]);
   if (a2 !== undefined) resolutions.proposed_effective_date = a2;
+  // MEANINGS of the five ungrounded terms, each supplied or not by the stated parameter, never
+  // by the interpreter and never chosen to reach a result. Keys as facts.json declares them.
+  const meanings = {};
+  if (chance(0.5)) meanings['Region I to IV'] = { region: pick(['I', 'II', 'III', 'IV']) };
+  if (chance(0.5)) meanings['required pre-operative testing protocol in accordance with Department of Health guidance'] = { preop_protocol_qualifies_under_doh_guidance: chance(0.5) };
+  if (chance(0.5)) meanings['services or activities otherwise reserved for PTs and OTs'] = { service_reserved_to_pt_ot: chance(0.5) };
+  if (chance(0.5)) meanings['authorized'] = { supervising_provider_authorized: chance(0.9) };
+  if (chance(0.5)) meanings['unit fee for a definite treatment and period of aftercare'] = { unit_fee_specified: chance(0.8), unit_fee_amount: money(pick(BOUND_CENTS)) };
+  if (Object.keys(meanings).length) resolutions.ungrounded_terms = meanings;
 
   determinations.push({ id: `NYWC-SYN-${String(i).padStart(4, '0')}`, cites: { register_version_id: citedVersion }, facts: f, resolutions });
 }
@@ -185,3 +198,4 @@ console.log(`generated ${N} synthetic determinations (seed ${SEED}) -> determina
 console.log(`by service kind: ${JSON.stringify(tally)}`);
 console.log(`citing register version: ${JSON.stringify(determinations.reduce((a, d) => { a[d.cites.register_version_id] = (a[d.cites.register_version_id] ?? 0) + 1; return a; }, {}))}`);
 console.log(`with no applied bound: ${determinations.filter((d) => d.facts.applied_bound.amount === undefined).length}`);
+console.log(`meanings supplied per term: ${JSON.stringify(determinations.reduce((a, d) => { for (const t of Object.keys(d.resolutions.ungrounded_terms ?? {})) a[t] = (a[t] ?? 0) + 1; return a; }, {}))}`);

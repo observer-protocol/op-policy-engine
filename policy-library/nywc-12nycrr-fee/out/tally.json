@@ -1,0 +1,553 @@
+{
+ "$derived_by": "tally.mjs",
+ "population": {
+  "$source": "the POPULATION PARAMETERS block of generate-determinations.mjs, one copy; this is a derived copy checked by digest",
+  "seed": 20260825,
+  "count": 600,
+  "parameters_sha256": "ceb49c4d590dda7043e81f85ef0c6d97a92b7f3966d273629074650ef5730085",
+  "parameters_text": "POPULATION PARAMETERS (stated here because they are choices, and a choice a report does not\nstate is a choice the reader cannot discount):\n  N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N\n                           or seed is a different population with a different digest\n  service.kind             uniform over the seven declared kinds\n  rendering class          uniform over the classes the kind admits (a physician, resident, fellow,\n                           PA or NP for medical; PT or PTA; OT or OTA; one class for the others)\n  cited register version   in-force 70%, proposed-2026-01-14 30%\n  cited edition            the in-force edition for the kind 60%, the proposed edition 25%,\n                           another declared edition 15%; publisher matches the edition 90%\n  cited schedule kind      the natural schedule for the kind 85%, another 15%; for PT and OT the\n                           natural schedule is itself split, medical 50% / acu_pt_ot 50% (NY-A1)\n  applied bound            present 90%, absent 10% (code and amount both unsupplied)\n  payment relation         see paymentFor(): exact fraction 65%, an off-by-one-cent rounding 15%,\n                           unrelated 20%\n  branch facts             COVID-19 testing on 15% of medical; telemedicine on 20% of the five\n                           kinds the telemedicine subdivisions cover; proration on 10% of physician\n                           services; each optional fact unsupplied (undefined) 5% of the time\n  resolutions              NY-A1 pt_ot_governing_schedule: medical 40% / acu_pt_ot 40% / unsupplied\n                           20%. NY-A2 proposed_effective_date: unsupplied 40% / 2026-07-01 30% /\n                           2027-07-01 30% (the Board's anticipated July 2027 and a placeholder)\n  dates                    service dates on a ladder around the edition effective dates the\n                           register declares (2019-04-01, 2020-01-01) and the two assumed\n                           proposed effective dates; never composed from the clock\n  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the\n                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region\n                           uniform over I to IV; DOH-guidance qualification, reserved-service and\n                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn\n                           by type. The interpreter never supplies one. The supply rate is a\n                           population parameter and is NOT chosen to land any waiting rate"
+ },
+ "denominator": 600,
+ "versions": {
+  "in-force": {
+   "records": 44400,
+   "with_result": 30600,
+   "waiting": {
+    "none": 41783,
+    "meaning": 2458,
+    "fact": 152,
+    "judgment": 7
+   },
+   "meaning_rate_all_records": 0.05536036036036036,
+   "meaning_rate_with_result": 0.08032679738562092,
+   "ungrounded_clauses": [
+    "12nycrr/329-1.2/unit-fee-on-transfer",
+    "12nycrr/329-1.2/agreed-proration-separate-bills",
+    "12nycrr/329-1.2/death-no-proration",
+    "12nycrr/329-1.3/c/supervision",
+    "12nycrr/329-1.3/c/6/scope-not-expanded",
+    "12nycrr/329-1.3/d/1/regional-fee",
+    "12nycrr/329-1.3/d/2/billable-basis",
+    "12nycrr/329-1.3/e/supervision"
+   ],
+   "ungrounded_split": {
+    "decided": 7,
+    "undetermined": 2461,
+    "on_supplied_meaning": 96,
+    "not_applicable": 2236,
+    "denominator": 4800
+   },
+   "undetermined_decomposition": {
+    "would_have_applied": 122,
+    "applicability_never_tested": 2339
+   },
+   "determinations_with_a_record_waiting_on_a_meaning": 583,
+   "clauses_never_reaching_a_decided_token": [
+    "12nycrr/329-1.2/departure-earned-portion"
+   ],
+   "per_clause": {
+    "12nycrr/329-1.1/schedule-in-effect-on-dos": {
+     "not_applicable": 417,
+     "cited_edition_not_the_one_in_force": 94,
+     "no_edition_cited": 8,
+     "missing_operand": 1,
+     "cited_edition_in_force_on_dos": 44,
+     "undetermined": 25,
+     "dos_precedes_edition_effect": 11
+    },
+    "12nycrr/329-1.2/unit-fee-on-transfer": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/agreed-proration-separate-bills": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/death-no-proration": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/departure-earned-portion": {
+     "not_applicable": 600
+    },
+    "12nycrr/329-1.3/c/supervision": {
+     "not_applicable": 250,
+     "undetermined": 318,
+     "direct_supervision_by_authorized_therapist_on_supplied_meaning": 14,
+     "supervision_requirement_not_met": 2,
+     "supervision_requirement_not_met_on_supplied_meaning": 16
+    },
+    "12nycrr/329-1.3/c/1/pta-code-source": {
+     "not_applicable": 552,
+     "codes_not_from_required_schedule": 24,
+     "codes_from_required_schedule": 22,
+     "undetermined": 2
+    },
+    "12nycrr/329-1.3/c/1/pta-modifier": {
+     "not_applicable": 552,
+     "modifier_present": 38,
+     "modifier_absent": 7,
+     "undetermined": 3
+    },
+    "12nycrr/329-1.3/c/2/ota-code-source": {
+     "not_applicable": 561,
+     "codes_from_required_schedule": 18,
+     "undetermined": 4,
+     "codes_not_from_required_schedule": 17
+    },
+    "12nycrr/329-1.3/c/2/ota-modifier": {
+     "not_applicable": 561,
+     "modifier_present": 31,
+     "modifier_absent": 8
+    },
+    "12nycrr/329-1.3/c/3/eighty-five-percent": {
+     "not_applicable": 520,
+     "not_equal": 35,
+     "equal": 37,
+     "missing_operand": 8
+    },
+    "12nycrr/329-1.3/c/3/cosign": {
+     "not_applicable": 513,
+     "cosigned_by_supervising_therapist": 72,
+     "undetermined": 4,
+     "not_cosigned_by_supervising_therapist": 11
+    },
+    "12nycrr/329-1.3/c/3/no-independent-billing": {
+     "not_applicable": 513,
+     "billed_by_supervising_therapist": 68,
+     "billed_independently": 16,
+     "undetermined": 3
+    },
+    "12nycrr/329-1.3/c/5/priority": {
+     "not_applicable": 569,
+     "breached": 16,
+     "satisfied": 14,
+     "outstanding": 1
+    },
+    "12nycrr/329-1.3/c/6/scope-not-expanded": {
+     "not_applicable": 253,
+     "undetermined": 301,
+     "reserved_service_billed_by_assistant_on_supplied_meaning": 23,
+     "not_reserved_on_supplied_meaning": 23
+    },
+    "12nycrr/329-1.3/d/covid-testing-code": {
+     "not_applicable": 598,
+     "satisfied": 1,
+     "breached": 1
+    },
+    "12nycrr/329-1.3/d/1/rvu": {
+     "not_applicable": 593,
+     "rvu_as_regulated": 4,
+     "rvu_not_as_regulated": 3
+    },
+    "12nycrr/329-1.3/d/1/regional-fee": {
+     "undetermined": 291,
+     "not_applicable": 306,
+     "not_equal_on_supplied_meaning": 2,
+     "equal_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.3/d/2/billable-basis": {
+     "not_applicable": 312,
+     "undetermined": 285,
+     "member_on_supplied_meaning": 1,
+     "not_member": 2
+    },
+    "12nycrr/329-1.3/d/3/no-routine-screening": {
+     "not_applicable": 593,
+     "not_routine_screening": 5,
+     "undetermined": 1,
+     "billed_for_routine_screening": 1
+    },
+    "12nycrr/329-1.3/d/4/no-antibody": {
+     "not_applicable": 589,
+     "clear": 9,
+     "prohibited_present": 2
+    },
+    "12nycrr/329-1.3/d/5/single-instance": {
+     "not_applicable": 593,
+     "first_instance": 7
+    },
+    "12nycrr/329-1.3/e/supervision": {
+     "not_applicable": 269,
+     "undetermined": 315,
+     "supervised_by_authorized_physician_on_supplied_meaning": 12,
+     "supervision_requirement_not_met": 3,
+     "supervision_requirement_not_met_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.3/e/acgme-program": {
+     "not_applicable": 567,
+     "within_accredited_program": 26,
+     "outside_program_requirement": 7
+    },
+    "12nycrr/329-1.3/e/no-independent-billing": {
+     "not_applicable": 567,
+     "billed_by_supervising_physician": 26,
+     "billed_independently": 6,
+     "undetermined": 1
+    },
+    "12nycrr/329-1.3/e/no-separate-supervision-fee": {
+     "not_applicable": 567,
+     "supervision_not_billed_separately": 24,
+     "supervision_billed_separately": 5,
+     "undetermined": 4
+    },
+    "12nycrr/329-1.3/e/1/uses-medical-schedule": {
+     "not_applicable": 582,
+     "medical_schedule_cited": 16,
+     "other_schedule_cited": 1,
+     "undetermined": 1
+    },
+    "12nycrr/329-1.3/e/1/non-surgical-modifier": {
+     "not_applicable": 582,
+     "modifier_absent": 5,
+     "modifier_present": 12,
+     "undetermined": 1
+    },
+    "12nycrr/329-1.3/e/1/same-amount": {
+     "not_applicable": 586,
+     "equal": 7,
+     "not_equal": 5,
+     "missing_operand": 2
+    },
+    "12nycrr/329-1.3/e/2/uses-medical-schedule": {
+     "not_applicable": 585,
+     "other_schedule_cited": 2,
+     "medical_schedule_cited": 12,
+     "undetermined": 1
+    },
+    "12nycrr/329-1.3/e/2/assistant-modifier": {
+     "not_applicable": 585,
+     "modifier_present": 12,
+     "modifier_absent": 3
+    },
+    "12nycrr/329-1.3/e/2/work-documented": {
+     "not_applicable": 586,
+     "denied": 6,
+     "affirmed": 3,
+     "not_assessed": 5
+    },
+    "12nycrr/329-1.3/e/2/sixteen-percent": {
+     "not_applicable": 586,
+     "not_equal": 8,
+     "equal": 4,
+     "missing_operand": 2
+    },
+    "12nycrr/329-1.3/e/2/ii/one-per-procedure": {
+     "not_applicable": 586,
+     "at_most_one_resident_billed": 10,
+     "undetermined": 3,
+     "more_than_one_resident_billed": 1
+    },
+    "12nycrr/329-1.3/e/2/i/one-resident-unless-complex": {
+     "not_applicable": 596,
+     "undetermined": 3,
+     "breached": 1
+    },
+    "12nycrr/329-1.3/e/2/iii/other-assistants": {
+     "not_applicable": 594,
+     "breached": 3,
+     "satisfied": 1,
+     "undetermined": 2
+    },
+    "12nycrr/329-1.3/e/2/iv/same-bill-84": {
+     "not_applicable": 586,
+     "on_same_bill_as_surgery": 11,
+     "undetermined": 3
+    },
+    "12nycrr/329-1.3/e/2/iv/single-bill-1R": {
+     "not_applicable": 586,
+     "undetermined": 1,
+     "single_bill": 12,
+     "separate_bills_not_permitted": 1
+    },
+    "12nycrr/329-1.3/e/3/narrative-names": {
+     "not_applicable": 567,
+     "all_present": 19,
+     "some_absent": 14
+    },
+    "12nycrr/329-4.1/a/acupuncture-dos": {
+     "not_applicable": 516,
+     "cited_edition_not_the_one_in_force": 53,
+     "cited_edition_in_force_on_dos": 20,
+     "dos_precedes_edition_effect": 7,
+     "no_edition_cited": 3,
+     "missing_operand": 1
+    },
+    "12nycrr/329-4.1/b/pt-ot-dos": {
+     "not_applicable": 508,
+     "cited_edition_not_the_one_in_force": 49,
+     "no_edition_cited": 3,
+     "dos_precedes_edition_effect": 5,
+     "undetermined": 25,
+     "cited_edition_in_force_on_dos": 9,
+     "missing_operand": 1
+    },
+    "12nycrr/329-4.2/d/telemedicine-code": {
+     "not_applicable": 571,
+     "telemedicine_code_used": 23,
+     "other_code_used": 4,
+     "undetermined": 2
+    },
+    "12nycrr/329-4.2/d/one-unit-per-day": {
+     "not_applicable": 577,
+     "more_than_one_unit_per_day": 7,
+     "within_one_unit_per_day": 16
+    },
+    "12nycrr/333.1/psychology-dos": {
+     "not_applicable": 506,
+     "cited_edition_not_the_one_in_force": 52,
+     "cited_edition_in_force_on_dos": 24,
+     "no_edition_cited": 10,
+     "dos_precedes_edition_effect": 8
+    },
+    "12nycrr/333.2/c/telemedicine-codes": {
+     "not_applicable": 580,
+     "telemedicine_code_used": 14,
+     "other_code_used": 3,
+     "undetermined": 3
+    },
+    "12nycrr/333.2/c/one-unit-per-day": {
+     "not_applicable": 586,
+     "within_one_unit_per_day": 6,
+     "more_than_one_unit_per_day": 7,
+     "undetermined": 1
+    },
+    "12nycrr/333.2/c/no-1b-enhancement": {
+     "not_applicable": 586,
+     "no_enhancement_claimed": 14
+    },
+    "12nycrr/343.1/podiatry-dos": {
+     "not_applicable": 505,
+     "cited_edition_not_the_one_in_force": 46,
+     "cited_edition_in_force_on_dos": 39,
+     "dos_precedes_edition_effect": 3,
+     "no_edition_cited": 5,
+     "missing_operand": 2
+    },
+    "12nycrr/348.1/chiropractic-dos": {
+     "cited_edition_in_force_on_dos": 30,
+     "not_applicable": 523,
+     "no_edition_cited": 2,
+     "cited_edition_not_the_one_in_force": 34,
+     "dos_precedes_edition_effect": 9,
+     "missing_operand": 2
+    },
+    "12nycrr/348.2/c/telemedicine-code": {
+     "telemedicine_code_used": 12,
+     "not_applicable": 579,
+     "other_code_used": 7,
+     "undetermined": 2
+    },
+    "12nycrr/348.2/c/one-unit-per-day": {
+     "within_one_unit_per_day": 9,
+     "not_applicable": 588,
+     "undetermined": 2,
+     "more_than_one_unit_per_day": 1
+    }
+   }
+  },
+  "proposed-2026-01-14": {
+   "records": 28200,
+   "with_result": 16200,
+   "waiting": {
+    "none": 25725,
+    "meaning": 2143,
+    "fact": 332
+   },
+   "meaning_rate_all_records": 0.07599290780141844,
+   "meaning_rate_with_result": 0.13228395061728396,
+   "ungrounded_clauses": [
+    "12nycrr/329-1.2/unit-fee-on-transfer",
+    "12nycrr/329-1.2/agreed-proration-separate-bills",
+    "12nycrr/329-1.2/death-no-proration",
+    "12nycrr/329-1.3/c/supervision",
+    "12nycrr/329-1.3/c/6/scope-not-expanded",
+    "12nycrr/329-1.3/d/1/regional-fee",
+    "12nycrr/329-1.3/d/2/billable-basis"
+   ],
+   "ungrounded_split": {
+    "decided": 4,
+    "undetermined": 2146,
+    "on_supplied_meaning": 83,
+    "not_applicable": 1967,
+    "denominator": 4200
+   },
+   "undetermined_decomposition": {
+    "would_have_applied": 105,
+    "applicability_never_tested": 2041
+   },
+   "determinations_with_a_record_waiting_on_a_meaning": 583,
+   "clauses_never_reaching_a_decided_token": [
+    "12nycrr/329-1.2/departure-earned-portion"
+   ],
+   "per_clause": {
+    "12nycrr/329-1.1/schedule-in-effect-on-dos": {
+     "not_applicable": 417,
+     "cited_edition_not_the_one_in_force": 85,
+     "no_edition_cited": 8,
+     "undetermined": 83,
+     "dos_precedes_edition_effect": 6,
+     "cited_edition_in_force_on_dos": 1
+    },
+    "12nycrr/329-1.2/unit-fee-on-transfer": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/agreed-proration-separate-bills": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/death-no-proration": {
+     "not_applicable": 282,
+     "undetermined": 317,
+     "not_applicable_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.2/departure-earned-portion": {
+     "not_applicable": 600
+    },
+    "12nycrr/329-1.3/c/supervision": {
+     "not_applicable": 250,
+     "undetermined": 318,
+     "direct_supervision_by_authorized_therapist_on_supplied_meaning": 14,
+     "supervision_requirement_not_met": 2,
+     "supervision_requirement_not_met_on_supplied_meaning": 16
+    },
+    "12nycrr/329-1.3/c/1/pta-code-source": {
+     "not_applicable": 552,
+     "codes_from_required_schedule": 21,
+     "codes_not_from_required_schedule": 25,
+     "undetermined": 2
+    },
+    "12nycrr/329-1.3/c/1/pta-modifier": {
+     "not_applicable": 552,
+     "modifier_present": 38,
+     "modifier_absent": 7,
+     "undetermined": 3
+    },
+    "12nycrr/329-1.3/c/2/ota-code-source": {
+     "not_applicable": 561,
+     "codes_not_from_required_schedule": 19,
+     "undetermined": 4,
+     "codes_from_required_schedule": 16
+    },
+    "12nycrr/329-1.3/c/2/ota-modifier": {
+     "not_applicable": 561,
+     "modifier_present": 31,
+     "modifier_absent": 8
+    },
+    "12nycrr/329-1.3/c/3/eighty-five-percent": {
+     "not_applicable": 520,
+     "not_equal": 35,
+     "equal": 37,
+     "missing_operand": 8
+    },
+    "12nycrr/329-1.3/c/3/cosign": {
+     "not_applicable": 513,
+     "cosigned_by_supervising_therapist": 72,
+     "undetermined": 4,
+     "not_cosigned_by_supervising_therapist": 11
+    },
+    "12nycrr/329-1.3/c/3/no-independent-billing": {
+     "not_applicable": 513,
+     "billed_by_supervising_therapist": 68,
+     "billed_independently": 16,
+     "undetermined": 3
+    },
+    "12nycrr/329-1.3/c/5/priority": {
+     "not_applicable": 569,
+     "breached": 16,
+     "satisfied": 14,
+     "outstanding": 1
+    },
+    "12nycrr/329-1.3/c/6/scope-not-expanded": {
+     "not_applicable": 253,
+     "undetermined": 301,
+     "reserved_service_billed_by_assistant_on_supplied_meaning": 23,
+     "not_reserved_on_supplied_meaning": 23
+    },
+    "12nycrr/329-1.3/d/covid-testing-code": {
+     "not_applicable": 598,
+     "satisfied": 1,
+     "breached": 1
+    },
+    "12nycrr/329-1.3/d/1/rvu": {
+     "not_applicable": 593,
+     "rvu_as_regulated": 4,
+     "rvu_not_as_regulated": 3
+    },
+    "12nycrr/329-1.3/d/1/regional-fee": {
+     "undetermined": 291,
+     "not_applicable": 306,
+     "not_equal_on_supplied_meaning": 2,
+     "equal_on_supplied_meaning": 1
+    },
+    "12nycrr/329-1.3/d/2/billable-basis": {
+     "not_applicable": 312,
+     "undetermined": 285,
+     "member_on_supplied_meaning": 1,
+     "not_member": 2
+    },
+    "12nycrr/329-1.3/d/3/no-routine-screening": {
+     "not_applicable": 593,
+     "not_routine_screening": 5,
+     "undetermined": 1,
+     "billed_for_routine_screening": 1
+    },
+    "12nycrr/329-1.3/d/4/no-antibody": {
+     "not_applicable": 589,
+     "clear": 9,
+     "prohibited_present": 2
+    },
+    "12nycrr/329-1.3/d/5/single-instance": {
+     "not_applicable": 593,
+     "first_instance": 7
+    },
+    "12nycrr/329-4.1/a/acupuncture-dos": {
+     "not_applicable": 516,
+     "dos_precedes_edition_effect": 6,
+     "cited_edition_not_the_one_in_force": 40,
+     "undetermined": 35,
+     "no_edition_cited": 3
+    },
+    "12nycrr/329-4.1/b/pt-ot-dos": {
+     "not_applicable": 508,
+     "cited_edition_not_the_one_in_force": 33,
+     "no_edition_cited": 3,
+     "undetermined": 52,
+     "dos_precedes_edition_effect": 2,
+     "cited_edition_in_force_on_dos": 2
+    },
+    "12nycrr/333.1/psychology-dos": {
+     "not_applicable": 506,
+     "cited_edition_not_the_one_in_force": 36,
+     "undetermined": 35,
+     "cited_edition_in_force_on_dos": 4,
+     "dos_precedes_edition_effect": 9,
+     "no_edition_cited": 10
+    },
+    "12nycrr/343.1/podiatry-dos": {
+     "not_applicable": 505,
+     "dos_precedes_edition_effect": 9,
+     "cited_edition_not_the_one_in_force": 43,
+     "undetermined": 37,
+     "no_edition_cited": 5,
+     "cited_edition_in_force_on_dos": 1
+    },
+    "12nycrr/348.1/chiropractic-dos": {
+     "cited_edition_not_the_one_in_force": 40,
+     "not_applicable": 523,
+     "undetermined": 30,
+     "no_edition_cited": 2,
+     "dos_precedes_edition_effect": 4,
+     "cited_edition_in_force_on_dos": 1
+    }
+   }
+  }
+ },
+ "rendered": "TALLY over 600 synthetic determinations\nPOPULATION (the source is the header of generate-determinations.mjs; this copy's sha256 ceb49c4d590d is checked against it at render time)\nPOPULATION PARAMETERS (stated here because they are choices, and a choice a report does not\nstate is a choice the reader cannot discount):\n  N                        600 determinations, seed 20260825 (a seeded PRNG; rerunning reproduces); a different N\n                           or seed is a different population with a different digest\n  service.kind             uniform over the seven declared kinds\n  rendering class          uniform over the classes the kind admits (a physician, resident, fellow,\n                           PA or NP for medical; PT or PTA; OT or OTA; one class for the others)\n  cited register version   in-force 70%, proposed-2026-01-14 30%\n  cited edition            the in-force edition for the kind 60%, the proposed edition 25%,\n                           another declared edition 15%; publisher matches the edition 90%\n  cited schedule kind      the natural schedule for the kind 85%, another 15%; for PT and OT the\n                           natural schedule is itself split, medical 50% / acu_pt_ot 50% (NY-A1)\n  applied bound            present 90%, absent 10% (code and amount both unsupplied)\n  payment relation         see paymentFor(): exact fraction 65%, an off-by-one-cent rounding 15%,\n                           unrelated 20%\n  branch facts             COVID-19 testing on 15% of medical; telemedicine on 20% of the five\n                           kinds the telemedicine subdivisions cover; proration on 10% of physician\n                           services; each optional fact unsupplied (undefined) 5% of the time\n  resolutions              NY-A1 pt_ot_governing_schedule: medical 40% / acu_pt_ot 40% / unsupplied\n                           20%. NY-A2 proposed_effective_date: unsupplied 40% / 2026-07-01 30% /\n                           2027-07-01 30% (the Board's anticipated July 2027 and a placeholder)\n  dates                    service dates on a ladder around the edition effective dates the\n                           register declares (2019-04-01, 2020-01-01) and the two assumed\n                           proposed effective dates; never composed from the clock\n  meanings (amendment 2026-08-24)  five ungrounded terms; for EACH term, independently, the\n                           institution supplies a meaning 50% / leaves it unsupplied 50%. Region\n                           uniform over I to IV; DOH-guidance qualification, reserved-service and\n                           authorized true 50% / 50% / 90%; unit fee specified 80%, amount drawn\n                           by type. The interpreter never supplies one. The supply rate is a\n                           population parameter and is NOT chosen to land any waiting rate\n\nin-force: 44400 records (30600 with a result domain); waiting {\"none\":41783,\"meaning\":2458,\"fact\":152,\"judgment\":7}\n  waiting on a meaning: 2458 of 44400 records (5.54%); of the 30600 with a result domain, 8.03%\n  determinations with at least one record waiting on a meaning: 583/600 (97.2%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]\n  ungrounded split over 8 clauses x 600 = 4800 records: {\"decided\":7,\"undetermined\":2461,\"on_supplied_meaning\":96,\"not_applicable\":2236}\n  of the undetermined: 122 on records where the clause would have applied; 2339 where the emitter refused the unsupplied meaning before testing applicability\n    12nycrr/329-1.2/unit-fee-on-transfer               {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.2/agreed-proration-separate-bills    {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.2/death-no-proration                 {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.3/c/supervision                      {\"not_applicable\":250,\"undetermined\":318,\"direct_supervision_by_authorized_therapist_on_supplied_meaning\":14,\"supervision_requirement_not_met\":2,\"supervision_requirement_not_met_on_supplied_meaning\":16}\n    12nycrr/329-1.3/c/6/scope-not-expanded             {\"not_applicable\":253,\"undetermined\":301,\"reserved_service_billed_by_assistant_on_supplied_meaning\":23,\"not_reserved_on_supplied_meaning\":23}\n    12nycrr/329-1.3/d/1/regional-fee                   {\"undetermined\":291,\"not_applicable\":306,\"not_equal_on_supplied_meaning\":2,\"equal_on_supplied_meaning\":1}\n    12nycrr/329-1.3/d/2/billable-basis                 {\"not_applicable\":312,\"undetermined\":285,\"member_on_supplied_meaning\":1,\"not_member\":2}\n    12nycrr/329-1.3/e/supervision                      {\"not_applicable\":269,\"undetermined\":315,\"supervised_by_authorized_physician_on_supplied_meaning\":12,\"supervision_requirement_not_met\":3,\"supervision_requirement_not_met_on_supplied_meaning\":1}\n  clauses never reaching a decided token: 12nycrr/329-1.2/departure-earned-portion\n\nproposed-2026-01-14: 28200 records (16200 with a result domain); waiting {\"none\":25725,\"meaning\":2143,\"fact\":332}\n  waiting on a meaning: 2143 of 28200 records (7.60%); of the 16200 with a result domain, 13.23%\n  determinations with at least one record waiting on a meaning: 583/600 (97.2%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]\n  ungrounded split over 7 clauses x 600 = 4200 records: {\"decided\":4,\"undetermined\":2146,\"on_supplied_meaning\":83,\"not_applicable\":1967}\n  of the undetermined: 105 on records where the clause would have applied; 2041 where the emitter refused the unsupplied meaning before testing applicability\n    12nycrr/329-1.2/unit-fee-on-transfer               {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.2/agreed-proration-separate-bills    {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.2/death-no-proration                 {\"not_applicable\":282,\"undetermined\":317,\"not_applicable_on_supplied_meaning\":1}\n    12nycrr/329-1.3/c/supervision                      {\"not_applicable\":250,\"undetermined\":318,\"direct_supervision_by_authorized_therapist_on_supplied_meaning\":14,\"supervision_requirement_not_met\":2,\"supervision_requirement_not_met_on_supplied_meaning\":16}\n    12nycrr/329-1.3/c/6/scope-not-expanded             {\"not_applicable\":253,\"undetermined\":301,\"reserved_service_billed_by_assistant_on_supplied_meaning\":23,\"not_reserved_on_supplied_meaning\":23}\n    12nycrr/329-1.3/d/1/regional-fee                   {\"undetermined\":291,\"not_applicable\":306,\"not_equal_on_supplied_meaning\":2,\"equal_on_supplied_meaning\":1}\n    12nycrr/329-1.3/d/2/billable-basis                 {\"not_applicable\":312,\"undetermined\":285,\"member_on_supplied_meaning\":1,\"not_member\":2}\n  clauses never reaching a decided token: 12nycrr/329-1.2/departure-earned-portion"
+}

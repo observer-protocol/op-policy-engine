@@ -32,6 +32,8 @@
    "disposition": "CONDITIONAL",
    "disposition_basis": "Arises only where a unit fee is specified and a transfer occurred. The scheduled amount is licensed text; the determination supplies it as the applied bound and the register tests the total paid against it.",
    "in_force_from": "2015-12-30",
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: `the schedule`, a gesture with no rule located; whether the current schedule specifies any unit fee is NY-A9. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -42,6 +44,8 @@
    "disposition": "CONDITIONAL",
    "disposition_basis": "Arises only on an agreement.",
    "in_force_from": "2015-12-30",
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: `the schedule`, a gesture with no rule located; whether the current schedule specifies any unit fee is NY-A9. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -62,6 +66,8 @@
    "disposition": "CONDITIONAL",
    "disposition_basis": "Arises only on termination by death.",
    "in_force_from": "2015-12-30",
+   "rests_on_ungrounded_term": "unit fee for a definite treatment and period of aftercare",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: `the schedule`, a gesture with no rule located; whether the current schedule specifies any unit fee is NY-A9. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -120,6 +126,8 @@
    "disposition": "CONDITIONAL",
    "disposition_basis": "Arises only where the rendering provider is a PTA or OTA.",
    "in_force_from": "2025-03-22",
+   "rests_on_ungrounded_term": "authorized",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: Board authorization is under WCL 13-b and 13-k and 12 NYCRR Parts 324 and 325, none cited in these sections. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -226,6 +234,8 @@
    "disposition": "JUDGMENT",
    "disposition_basis": "Whether a service is `otherwise reserved` is decided by external statute and regulation the register does not hold; it arrives as a held assessment.",
    "in_force_from": "2025-03-22",
+   "rests_on_ungrounded_term": "services or activities otherwise reserved for PTs and OTs",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: `by statute, and/or any applicable regulations promulgated by` three agencies, a class; one section, Education Law 6738(a), cited in (c)(6)(i) as an example only. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -265,8 +275,10 @@
    "text": "and the total fee for such test shall be 51.33 for Region IV, 47.41 for Region III, and 41.53 for Regions I and II.",
    "assertion": "The fee for 87635 is fixed by region.",
    "disposition": "MECHANICAL",
-   "disposition_basis": "Amounts stated in the regulation itself, selected by region. The AMOUNTS are verifiable to the cent by a party holding zero schedule text; the REGION is not: `Region I` to `Region IV` are used here and defined nowhere in 12 NYCRR, and which region a provider falls in is stated in the schedule's ground rules, a document this section incorporates and does not cite by location. The register takes the region as a supplied fact (covid.region). See INCORPORATION-COMPARISON.md.",
+   "disposition_basis": "Amounts stated in the regulation itself, selected by region. The AMOUNTS are verifiable to the cent by a party holding zero schedule text. The REGION is not a fact the record can supply: `Region I` to `Region IV` are used here and defined nowhere in 12 NYCRR, and a provider's region is assigned by the schedule's ground rules, which the section incorporates and does not cite for it. The region is the institution's supplied MEANING of the term; unsupplied, the clause is undetermined and waits on a meaning; supplied, the record says `equal_on_supplied_meaning` and names what it rests on.",
    "in_force_from": null,
+   "rests_on_ungrounded_term": "Region I to IV",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: the section names no document for the regions; their assignment sits in the ground rules of the schedule incorporated by 329-1.3(a), which the section does not cite for it. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -277,6 +289,8 @@
    "disposition": "MECHANICAL",
    "disposition_basis": "Membership of the recorded claim basis in a closed two-value set.",
    "in_force_from": null,
+   "rests_on_ungrounded_term": "required pre-operative testing protocol in accordance with Department of Health guidance",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: `Department of Health guidance` with no title, date or locator (NY-A8). Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {
@@ -318,6 +332,8 @@
    "disposition_basis": "Arises only where the rendering provider is a resident or fellow.",
    "in_force_from": "2026-04-22",
    "$in_force_from_basis": "Notice of Adoption published State Register 2026-04-22; effective on publication per the Board's notice",
+   "rests_on_ungrounded_term": "authorized",
+   "$ungrounded_because": "AMENDMENT 2026-08-24: the term is defined only in a document the section does not cite for it: Board authorization is under WCL 13-b and 13-k and 12 NYCRR Parts 324 and 325, none cited in these sections. Taken as a supplied fact until this amendment, which computed an affirmative determination independently of the check that would justify it.",
    "register_version_id": "in-force"
   },
   {

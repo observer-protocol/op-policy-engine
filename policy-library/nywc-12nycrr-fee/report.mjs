@@ -58,6 +58,8 @@ The union is the figure. Its two parts are independent facts about a determinati
 `;
 writeFileSync(`${HERE}/DIVERGENCE.md`, md);
 console.log('DIVERGENCE.md rendered');
+// The tally report is regenerated first, so every per-clause count a document quotes exists in a derived report.
+const ty = spawnSync('node', [`${HERE}/tally.mjs`], { encoding: 'utf8' }); if (ty.status !== 0) { process.stderr.write(ty.stderr); process.exit(ty.status); }
 // A bare figure anywhere in the directory fails the render.
 const chk = spawnSync('node', [`${HERE}/check-figures.mjs`], { encoding: 'utf8' });
 process.stdout.write(chk.stdout);

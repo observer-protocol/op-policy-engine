@@ -7,28 +7,28 @@ The figures over the synthetic set (`defensibility.mjs`, `compare.mjs`) are buil
 ## 1. A figure built or rendered without its population
 
 ```
-figure(435, 600, undefined)          -> threw: figure 435/600 built without a population; a figure over a synthetic set is not a figure without its population
-renderFigure({ k: 435, n: 600 })     -> threw: renderFigure: figure 435/600 carries no population; refusing to render it bare
-renderFigure(figure(435, 600, pop)) -> 435/600 (72.5%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+figure(444, 600, undefined)          -> threw: figure 444/600 built without a population; a figure over a synthetic set is not a figure without its population
+renderFigure({ k: 444, n: 600 })     -> threw: renderFigure: figure 444/600 carries no population; refusing to render it bare
+renderFigure(figure(444, 600, pop)) -> 444/600 (74.0%) [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 ```
 
 ## 2. A surface carrying one figure bare (temporary file, removed afterwards)
 
-The file contained the line: `The register found 435/600 (72.5%) cite a version not in force.` [population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+The file contained the line: `The register found 444/600 (74.0%) cite a version not in force.` [population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ```
-check-figures: 17 figure values over 600, 59 occurrence(s) scanned in 28 file(s), live parameters sha256 2268173b241c
-  FAIL  /out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 435/600 (72.5%) cite a version not in force.
+check-figures: 113 figure values over 600, 69 occurrence(s) scanned in 31 file(s), live parameters sha256 ceb49c4d590d
+  FAIL  /out/bare-figure-demo.md:3: figure rendered BARE, no population marker in its section: The register found 444/600 (74.0%) cite a version not in force.
 RESULT: 1 bare or stale figure(s). [exit 1]
 [exit 1]
 ```
 
 ## 3. The directory as committed
 
-[population: 600 synthetic determinations, seed 20260825, parameters sha256 2268173b241c from generate-determinations.mjs header]
+[population: 600 synthetic determinations, seed 20260825, parameters sha256 ceb49c4d590d from generate-determinations.mjs header; REPOSITORY-INTERNAL: does not leave op-policy-engine in any form until an equivalent is computed over a real history]
 
 ```
-check-figures: 17 figure values over 600, 58 occurrence(s) scanned in 27 file(s), live parameters sha256 2268173b241c
+check-figures: 113 figure values over 600, 68 occurrence(s) scanned in 30 file(s), live parameters sha256 ceb49c4d590d
 RESULT: every figure carries its population. [exit 0]
 [exit 0]
 ```

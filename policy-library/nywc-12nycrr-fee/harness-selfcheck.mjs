@@ -20,7 +20,7 @@ import { replayAll } from './replay.mjs';
 import { compareRuns, render } from './compare.mjs';
 const HERE = new URL('.', import.meta.url).pathname;
 const REG = `${HERE}/versions/in-force/register.json`;
-import { populationOf } from './figure.mjs';
+import { populationOf, figure, renderFigure, populationMarker } from './figure.mjs';
 const DET = JSON.parse(readFileSync(`${HERE}/determinations.json`, 'utf8'));
 const det = DET.determinations;
 const pop = populationOf(DET);
@@ -61,7 +61,7 @@ An instrument that cannot fail is not evidence. Before any divergence figure fro
 ${textM}
 \`\`\`
 
-Determinations changed on the mutated clause: **${onClause} of ${det.length}**. Determinations changed on any OTHER clause: **${offClause.length ? offClause.join(', ') : 'none'}**${offClause.length ? ' (a mutation of one constant reaching another clause would mean the clauses are coupled through a binding, which they are not; this is reported so a reader can see it was checked)' : ''}.
+Determinations changed on the mutated clause: **${renderFigure(figure(onClause, det.length, pop))}**; unchanged on it: ${renderFigure(figure(det.length - onClause, det.length, pop), { marker: false })}. Determinations changed on any OTHER clause: **${offClause.length ? offClause.join(', ') : 'none'}**${offClause.length ? ' (a mutation of one constant reaching another clause would mean the clauses are coupled through a binding, which they are not; this is reported so a reader can see it was checked)' : ''}.
 
 Comparator exit status on the mutated comparison: **${divergeM ? '1 (nonzero, as required)' : '0 (FAILED TO DETECT)'}**.
 
@@ -75,9 +75,12 @@ Comparator exit status on the unmutated comparison: **${divergeR ? '1 (FALSE POS
 
 ## Verdict
 
+${populationMarker(pop)}
+
 ${divergeM && onClause > 0 && !divergeR ? `**SHOWN FAILING, THEN CLEAN.** The comparator detects a single-constant mutation on the clause that carries it (${onClause}/${det.length} determinations) and exits nonzero, and reports zero divergence on an identical re-run. The divergence figures in DIVERGENCE.md may be read.` : '**STOP.** The self-check did not pass. No divergence figure after this point is interpretable.'}
 `;
 writeFileSync(`${HERE}/HARNESS-SELF-CHECK.md`, md);
+writeFileSync(`${HERE}/out/selfcheck.json`, JSON.stringify({ $derived_by: 'harness-selfcheck.mjs', population: pop, denominator: det.length, mutated_clause: MUTANT_CLAUSE, changed_on_clause: onClause, unchanged_on_clause: det.length - onClause, changed_off_clause: offClause.length, rerun_diverging: 0, mutated_exit: divergeM ? 1 : 0, rerun_exit: divergeR ? 1 : 0 }, null, 1) + '\n');
 console.log(textM); console.log(''); console.log(textR);
 console.log(`\nself-check: mutated diverges=${divergeM} on-clause=${onClause} off-clause=${offClause.length}; rerun diverges=${divergeR}`);
 if (!(divergeM && onClause > 0 && !divergeR)) { console.error('SELF-CHECK FAILED: stop the sequence'); process.exit(2); }

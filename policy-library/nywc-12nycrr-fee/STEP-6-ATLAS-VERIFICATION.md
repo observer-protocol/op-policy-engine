@@ -80,12 +80,19 @@ in-force: ACCEPTED (0 agent claims; provenance by this session's retrieval, reco
 proposed-2026-01-14: ACCEPTED (0 agent claims; provenance by this session's retrieval, recorded in source/PROVENANCE.md)
 ```
 
-**What the gate cannot do, stated.** It checks the FORM of a verification record, not its truth: a
-session that writes `verified: true` with a named source and method for a claim it did not check
-passes it. The gate makes the omission of a verification impossible to land silently; it cannot
-make a false verification impossible. The second control is the one above it: retrieval by this
-session, digests computed here, and Atlas's own values kept beside the verified ones so the two
-can be compared by anyone.
+**What the gate cannot do, stated here and in the projector's own header.** It checks the FORM
+of a verification record, not its truth: a well-formed false verification passes it. The gate makes
+the omission of a verification impossible to land silently; it cannot make a false verification
+impossible. What carries the weight is the practice the gate forces the recording of: retrieval by
+the landing session, digests computed in that session, counts recomputed in that session, and the
+agent's own value kept beside the verified one.
+
+**The failure mode, named:** a future session accepting a `verified_value` it did not compute
+itself. A row that arrives already well formed, from a previous entry, a previous session, a
+sibling's branch, or the agent, passes the gate on its form; the session that lands it has verified
+nothing and the entry says it has. A `verified_value` is a value THIS session computed against the
+primary source named in `verified_against`. One inherited is a claim wearing the field name of a
+verification, and the entry that carries it is not an entry, whatever the gate says.
 
 ## Not run
 
