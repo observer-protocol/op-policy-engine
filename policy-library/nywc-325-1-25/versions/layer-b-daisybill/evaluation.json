@@ -1,0 +1,1821 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version layer-b-daisybill. DO NOT EDIT. The authored source is the parent directory.",
+ "$note": "The evaluation layer for 12 NYCRR 325-1.25. `clauses` is the REGULATION (the reference). `clauses_by_version` carries each restatement layer's OWN reading of the clauses it states, on the same clause ids, so the comparator attaches every divergence to a clause. The reference direction never reverses.",
+ "evaluation_version": "0.1.0",
+ "$emit_order_note": "Instrument order; (b)(1)'s two tests precede the eligibility clause that composes them, and the eligibility clause precedes (d)(1) and (e)(1), which read it. project-versions.mjs derives the order from clauses.json.",
+ "register_version_id": "layer-b-daisybill",
+ "emit_order": [
+  "325-1.25/b/1/format-prescribed",
+  "325-1.25/b/1/120-days",
+  "325-1.25/b/1/ineligible-if-late-or-wrong-format",
+  "325-1.25/b/3/good-cause-late-submission",
+  "325-1.25/c/1/pay-or-notify-45",
+  "325-1.25/c/1/notice-recipients",
+  "325-1.25/c/1/legal-objection-format",
+  "325-1.25/c/1/valuation-objection-format",
+  "325-1.25/c/1/eob-alternative",
+  "325-1.25/c/1/mtg-objection-format",
+  "325-1.25/c/3/no-timely-objection-liable-full",
+  "325-1.25/c/3/late-objection-barred",
+  "325-1.25/c/5/valuation-categories",
+  "325-1.25/c/5/valuation-ground-enumerated",
+  "325-1.25/c/6/legal-categories",
+  "325-1.25/c/6/legal-ground-enumerated",
+  "325-1.25/c/7/mtg-categories",
+  "325-1.25/c/7/mtg-ground-member",
+  "325-1.25/e/1/arbitration-availability",
+  "325-1.25/f/1/adjudication-of-legal-mtg",
+  "325-1.25/B/electronic-only-after-2025-08-01"
+ ],
+ "resolution_keys": {},
+ "no_result_emission": {
+  "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE.",
+  "DEFINITIONAL": {
+   "no_result": {
+    "op": "const",
+    "value": "DEFINITIONAL"
+   },
+   "supplies": {
+    "op": "coalesce",
+    "value": {
+     "op": "clause_field",
+     "name": "operative_weight"
+    },
+    "fallback": {
+     "op": "const",
+     "value": "a meaning other clauses consume"
+    }
+   }
+  },
+  "INSTRUCTION": {
+   "refused": {
+    "op": "const",
+    "value": "INSTRUCTION"
+   },
+   "why": {
+    "op": "const",
+    "value": "directs an act of the Board; no fact of the bill makes it true or false, so it has no result domain"
+   }
+  }
+ },
+ "ungrounded_terms": {
+  "$note": "A term the regulation decides an outcome with and defines only in a document the section does not cite for it (TERMS.md). The interpreter NEVER supplies a meaning; an institution does, under resolutions.ungrounded_terms[term].",
+  "undetermined_because": {
+   "op": "concat",
+   "parts": [
+    {
+     "op": "const",
+     "value": "the regulation decides this outcome with `"
+    },
+    {
+     "op": "ungrounded_term"
+    },
+    {
+     "op": "const",
+     "value": "`, a term it does not define and whose definition sits in a document the section does not cite for it; no meaning has been supplied"
+    }
+   ]
+  },
+  "attribution": {
+   "rests_on": {
+    "op": "const",
+    "value": "a meaning supplied by the institution, not by the regulation or by any document it cites for the term"
+   },
+   "term": {
+    "op": "ungrounded_term"
+   }
+  }
+ },
+ "$bindings_from_version": [
+  "eligible",
+  "format_state",
+  "late_state"
+ ],
+ "bindings": {
+  "bill_present": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.submitted_at"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "paid_full": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "carrier.action"
+   },
+   "right": {
+    "op": "const",
+    "value": "paid_full"
+   }
+  },
+  "notified": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "carrier.action"
+     },
+     {
+      "op": "const",
+      "value": [
+       "objected",
+       "paid_partial"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "no_action": {
+   "op": "eq",
+   "left": {
+    "op": "fact",
+    "path": "carrier.action"
+   },
+   "right": {
+    "op": "const",
+    "value": "none"
+   }
+  },
+  "legal_objected": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "legal"
+     },
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "objection.kinds"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "valuation_objected": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "valuation"
+     },
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "objection.kinds"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "mtg_objected": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_register",
+    "args": [
+     {
+      "op": "const",
+      "value": "mtg"
+     },
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "objection.kinds"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "member"
+   }
+  },
+  "legal_or_mtg_objected": {
+   "op": "or",
+   "operands": [
+    {
+     "op": "binding",
+     "name": "legal_objected"
+    },
+    {
+     "op": "binding",
+     "name": "mtg_objected"
+    }
+   ]
+  },
+  "action_within_45_of_receipt": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "elapsed_within",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.received_at"
+     },
+     {
+      "op": "fact",
+      "path": "carrier.action_at"
+     },
+     {
+      "op": "const",
+      "value": 45
+     },
+     {
+      "op": "const",
+      "value": "calendar_days"
+     },
+     {
+      "op": "fact",
+      "path": "clock.now"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "within"
+   }
+  },
+  "action_within_45_of_submission": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "elapsed_within",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.submitted_at"
+     },
+     {
+      "op": "fact",
+      "path": "carrier.action_at"
+     },
+     {
+      "op": "const",
+      "value": 45
+     },
+     {
+      "op": "const",
+      "value": "calendar_days"
+     },
+     {
+      "op": "fact",
+      "path": "clock.now"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "within"
+   }
+  },
+  "valuation_notice_timely": {
+   "op": "and",
+   "operands": [
+    {
+     "op": "binding",
+     "name": "notified"
+    },
+    {
+     "op": "binding",
+     "name": "valuation_objected"
+    },
+    {
+     "op": "binding",
+     "name": "action_within_45_of_submission"
+    }
+   ]
+  },
+  "recipients_required_regulation": {
+   "op": "and",
+   "operands": [
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_register",
+      "args": [
+       {
+        "op": "const",
+        "value": "provider"
+       },
+       {
+        "op": "coalesce",
+        "value": {
+         "op": "fact",
+         "path": "carrier.notice_recipients"
+        },
+        "fallback": {
+         "op": "const",
+         "value": []
+        }
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    },
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_register",
+      "args": [
+       {
+        "op": "const",
+        "value": "claimant"
+       },
+       {
+        "op": "coalesce",
+        "value": {
+         "op": "fact",
+         "path": "carrier.notice_recipients"
+        },
+        "fallback": {
+         "op": "const",
+         "value": []
+        }
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    },
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_register",
+      "args": [
+       {
+        "op": "const",
+        "value": "board"
+       },
+       {
+        "op": "coalesce",
+        "value": {
+         "op": "fact",
+         "path": "carrier.notice_recipients"
+        },
+        "fallback": {
+         "op": "const",
+         "value": []
+        }
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    },
+    {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "claimant.has_attorney"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "member_of_register",
+       "args": [
+        {
+         "op": "const",
+         "value": "claimant_attorney"
+        },
+        {
+         "op": "coalesce",
+         "value": {
+          "op": "fact",
+          "path": "carrier.notice_recipients"
+         },
+         "fallback": {
+          "op": "const",
+          "value": []
+         }
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "member"
+      }
+     },
+     "else": {
+      "op": "const",
+      "value": true
+     }
+    }
+   ]
+  },
+  "recipients_required_layer_b": {
+   "op": "and",
+   "operands": [
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_register",
+      "args": [
+       {
+        "op": "const",
+        "value": "provider"
+       },
+       {
+        "op": "coalesce",
+        "value": {
+         "op": "fact",
+         "path": "carrier.notice_recipients"
+        },
+        "fallback": {
+         "op": "const",
+         "value": []
+        }
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    },
+    {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "member_of_register",
+      "args": [
+       {
+        "op": "const",
+        "value": "board"
+       },
+       {
+        "op": "coalesce",
+        "value": {
+         "op": "fact",
+         "path": "carrier.notice_recipients"
+        },
+        "fallback": {
+         "op": "const",
+         "value": []
+        }
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "member"
+     }
+    }
+   ]
+  },
+  "simultaneous": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "distinct_members_at_least",
+    "args": [
+     {
+      "op": "coalesce",
+      "value": {
+       "op": "fact",
+       "path": "objection.made_at_list"
+      },
+      "fallback": {
+       "op": "const",
+       "value": []
+      }
+     },
+     {
+      "op": "const",
+      "value": 2
+     },
+     {
+      "op": "const",
+      "value": "distinct_values"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "not_met"
+   }
+  },
+  "request_present": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "field_present",
+    "args": [
+     {
+      "op": "fact",
+      "path": "request.submitted_at"
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "present"
+   }
+  },
+  "later_of_notice_or_deadline": {
+   "op": "cond",
+   "if": {
+    "op": "eq",
+    "left": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [
+      {
+       "op": "fact",
+       "path": "request.nonpayment_notice_received_at"
+      }
+     ]
+    },
+    "right": {
+     "op": "const",
+     "value": "absent"
+    }
+   },
+   "then": {
+    "op": "fact",
+    "path": "carrier.notice_deadline_at"
+   },
+   "else": {
+    "op": "cond",
+    "if": {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "ordered_before",
+      "args": [
+       {
+        "op": "fact",
+        "path": "request.nonpayment_notice_received_at"
+       },
+       {
+        "op": "fact",
+        "path": "carrier.notice_deadline_at"
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "before"
+     }
+    },
+    "then": {
+     "op": "fact",
+     "path": "carrier.notice_deadline_at"
+    },
+    "else": {
+     "op": "fact",
+     "path": "request.nonpayment_notice_received_at"
+    }
+   }
+  },
+  "a_causal_required": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.provider_class"
+     },
+     {
+      "op": "const",
+      "value": [
+       "acupuncturist",
+       "occupational_therapist",
+       "physical_therapist",
+       "physician_assistant"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "not_member"
+   }
+  },
+  "a_impairment_required": {
+   "op": "eq",
+   "left": {
+    "op": "primitive",
+    "name": "member_of_enumeration",
+    "args": [
+     {
+      "op": "fact",
+      "path": "bill.provider_class"
+     },
+     {
+      "op": "const",
+      "value": [
+       "acupuncturist",
+       "occupational_therapist",
+       "physical_therapist"
+      ]
+     }
+    ]
+   },
+   "right": {
+    "op": "const",
+    "value": "not_member"
+   }
+  },
+  "a_elements_missing": {
+   "op": "or",
+   "operands": [
+    {
+     "op": "not",
+     "operand": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "report.work_status_present"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     }
+    },
+    {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "a_causal_required"
+      },
+      {
+       "op": "not",
+       "operand": {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "report.causal_relationship_present"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      }
+     ]
+    },
+    {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "a_impairment_required"
+      },
+      {
+       "op": "not",
+       "operand": {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "report.temporary_impairment_present"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      }
+     ]
+    }
+   ]
+  },
+  "late_state": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "325-1.25/b/1/120-days"
+   },
+   "mapping": {
+    "submitted_within_120": {
+     "op": "const",
+     "value": "ok"
+    },
+    "not_yet_due": {
+     "op": "const",
+     "value": "ok"
+    },
+    "submitted_after_120": {
+     "op": "const",
+     "value": "late"
+    },
+    "out_of_order": {
+     "op": "const",
+     "value": "unknown"
+    },
+    "no_end_event": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "not_applicable": {
+     "op": "const",
+     "value": "unknown"
+    }
+   }
+  },
+  "format_state": {
+   "op": "remap_result_domain",
+   "value": {
+    "op": "clause",
+    "id": "325-1.25/b/1/format-prescribed"
+   },
+   "mapping": {
+    "format_prescribed": {
+     "op": "const",
+     "value": "ok"
+    },
+    "format_prescribed_on_supplied_meaning": {
+     "op": "const",
+     "value": "ok"
+    },
+    "format_not_prescribed": {
+     "op": "const",
+     "value": "bad"
+    },
+    "format_not_prescribed_on_supplied_meaning": {
+     "op": "const",
+     "value": "bad"
+    },
+    "provider_not_authorized": {
+     "op": "const",
+     "value": "bad"
+    },
+    "provider_not_authorized_on_supplied_meaning": {
+     "op": "const",
+     "value": "bad"
+    },
+    "undetermined": {
+     "op": "const",
+     "value": "undetermined"
+    },
+    "not_applicable": {
+     "op": "const",
+     "value": "unknown"
+    },
+    "$unmapped": {
+     "op": "const",
+     "value": "undetermined"
+    }
+   }
+  },
+  "eligible": {
+   "op": "eq",
+   "left": {
+    "op": "clause",
+    "id": "325-1.25/b/1/ineligible-if-late-or-wrong-format"
+   },
+   "right": {
+    "op": "const",
+    "value": "eligible"
+   }
+  }
+ },
+ "clauses": {
+  "325-1.25/b/1/format-prescribed": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "binding",
+    "name": "bill_present"
+   },
+   "compute": {
+    "op": "cond",
+    "if": {
+     "op": "eq",
+     "left": {
+      "op": "meaning",
+      "key": "provider_authorized"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "then": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "bill.electronic"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "format_prescribed"
+     },
+     "else": {
+      "op": "const",
+      "value": "format_not_prescribed"
+     }
+    },
+    "else": {
+     "op": "const",
+     "value": "provider_not_authorized"
+    }
+   }
+  },
+  "325-1.25/b/1/120-days": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "bill_present"
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "elapsed_within",
+      "args": [
+       {
+        "op": "fact",
+        "path": "bill.care_rendered_at"
+       },
+       {
+        "op": "fact",
+        "path": "bill.submitted_at"
+       },
+       {
+        "op": "const",
+        "value": 120
+       },
+       {
+        "op": "const",
+        "value": "calendar_days"
+       },
+       {
+        "op": "fact",
+        "path": "clock.now"
+       }
+      ]
+     },
+     "mapping": {
+      "within": {
+       "op": "const",
+       "value": "submitted_within_120"
+      },
+      "exceeded": {
+       "op": "const",
+       "value": "submitted_after_120"
+      },
+      "not_yet_due": {
+       "op": "const",
+       "value": "not_yet_due"
+      },
+      "overdue": {
+       "op": "const",
+       "value": "submitted_after_120"
+      },
+      "out_of_order": {
+       "op": "const",
+       "value": "out_of_order"
+      },
+      "no_end_event": {
+       "op": "const",
+       "value": "no_end_event"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "calendar_days assumed from the (b)(1) worked example; NY25-A2."
+   }
+  },
+  "325-1.25/b/1/ineligible-if-late-or-wrong-format": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "bill_present"
+    },
+    "compute": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "not",
+        "operand": {
+         "op": "eq",
+         "left": {
+          "op": "binding",
+          "name": "late_state"
+         },
+         "right": {
+          "op": "const",
+          "value": "unknown"
+         }
+        }
+       },
+       {
+        "op": "not",
+        "operand": {
+         "op": "eq",
+         "left": {
+          "op": "binding",
+          "name": "late_state"
+         },
+         "right": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       },
+       {
+        "op": "not",
+        "operand": {
+         "op": "eq",
+         "left": {
+          "op": "binding",
+          "name": "format_state"
+         },
+         "right": {
+          "op": "const",
+          "value": "unknown"
+         }
+        }
+       },
+       {
+        "op": "not",
+        "operand": {
+         "op": "eq",
+         "left": {
+          "op": "binding",
+          "name": "format_state"
+         },
+         "right": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "binding",
+        "name": "late_state"
+       },
+       "right": {
+        "op": "const",
+        "value": "late"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "ineligible_late"
+      },
+      "else": {
+       "op": "cond",
+       "if": {
+        "op": "eq",
+        "left": {
+         "op": "binding",
+         "name": "format_state"
+        },
+        "right": {
+         "op": "const",
+         "value": "bad"
+        }
+       },
+       "then": {
+        "op": "const",
+        "value": "ineligible_format"
+       },
+       "else": {
+        "op": "const",
+        "value": "eligible"
+       }
+      }
+     }
+    }
+   }
+  },
+  "325-1.25/b/3/good-cause-late-submission": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "request.written_application_for_delay"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "clause",
+        "id": "325-1.25/b/1/120-days"
+       },
+       "right": {
+        "op": "const",
+        "value": "submitted_after_120"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "chair.good_cause_found"
+      }
+     ]
+    }
+   }
+  },
+  "325-1.25/c/1/pay-or-notify-45": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "bill_present"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "paid_full"
+     },
+     "then": {
+      "op": "remap_result_domain",
+      "value": {
+       "op": "primitive",
+       "name": "elapsed_within",
+       "args": [
+        {
+         "op": "fact",
+         "path": "bill.submitted_at"
+        },
+        {
+         "op": "fact",
+         "path": "carrier.action_at"
+        },
+        {
+         "op": "const",
+         "value": 45
+        },
+        {
+         "op": "const",
+         "value": "calendar_days"
+        },
+        {
+         "op": "fact",
+         "path": "clock.now"
+        }
+       ]
+      },
+      "mapping": {
+       "within": {
+        "op": "const",
+        "value": "paid_within_45"
+       },
+       "exceeded": {
+        "op": "const",
+        "value": "paid_after_45"
+       },
+       "not_yet_due": {
+        "op": "const",
+        "value": "not_yet_due"
+       },
+       "overdue": {
+        "op": "const",
+        "value": "paid_after_45"
+       },
+       "out_of_order": {
+        "op": "const",
+        "value": "out_of_order"
+       },
+       "no_end_event": {
+        "op": "const",
+        "value": "no_end_event"
+       }
+      }
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "binding",
+       "name": "notified"
+      },
+      "then": {
+       "op": "cond",
+       "if": {
+        "op": "binding",
+        "name": "action_within_45_of_submission"
+       },
+       "then": {
+        "op": "cond",
+        "if": {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "carrier.notice_reasons_stated"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        "then": {
+         "op": "const",
+         "value": "notified_within_45"
+        },
+        "else": {
+         "op": "const",
+         "value": "notified_within_45_not_in_prescribed_manner"
+        }
+       },
+       "else": {
+        "op": "const",
+        "value": "notified_after_45"
+       }
+      },
+      "else": {
+       "op": "remap_result_domain",
+       "value": {
+        "op": "primitive",
+        "name": "elapsed_within",
+        "args": [
+         {
+          "op": "fact",
+          "path": "bill.submitted_at"
+         },
+         {
+          "op": "absent"
+         },
+         {
+          "op": "const",
+          "value": 45
+         },
+         {
+          "op": "const",
+          "value": "calendar_days"
+         },
+         {
+          "op": "fact",
+          "path": "clock.now"
+         }
+        ]
+       },
+       "mapping": {
+        "not_yet_due": {
+         "op": "const",
+         "value": "not_yet_due"
+        },
+        "overdue": {
+         "op": "const",
+         "value": "neither_within_45"
+        },
+        "no_end_event": {
+         "op": "const",
+         "value": "no_end_event"
+        },
+        "within": {
+         "op": "const",
+         "value": "neither_within_45"
+        },
+        "exceeded": {
+         "op": "const",
+         "value": "neither_within_45"
+        },
+        "out_of_order": {
+         "op": "const",
+         "value": "out_of_order"
+        }
+       }
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: clock from SUBMISSION; `object ... and notify the provider of the reasons`; no format condition stated."
+   }
+  },
+  "325-1.25/c/1/notice-recipients": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "notified"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "recipients_required_layer_b"
+     },
+     "then": {
+      "op": "const",
+      "value": "all_required_recipients"
+     },
+     "else": {
+      "op": "const",
+      "value": "recipient_missing"
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: the treating provider and the WCB only."
+   }
+  },
+  "325-1.25/c/1/legal-objection-format": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "legal_objected"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "objection.legal_form"
+      },
+      "right": {
+       "op": "const",
+       "value": "C-81.B"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "conforming"
+     },
+     "else": {
+      "op": "const",
+      "value": "nonconforming"
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: `on Form C-81.B`, encoded literally; NY25-A7."
+   }
+  },
+  "325-1.25/c/1/valuation-objection-format": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "valuation_objected"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "objection.valuation_form"
+        },
+        "right": {
+         "op": "const",
+         "value": "C-8.4"
+        }
+       },
+       {
+        "op": "binding",
+        "name": "recipients_required_layer_b"
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "conforming"
+     },
+     "else": {
+      "op": "const",
+      "value": "nonconforming"
+     }
+    }
+   }
+  },
+  "325-1.25/c/1/eob-alternative": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "eq",
+     "left": {
+      "op": "fact",
+      "path": "objection.only_fee_schedule_excess"
+     },
+     "right": {
+      "op": "const",
+      "value": true
+     }
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "objection.eob_filed"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "eob_in_lieu_of_form"
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "objection.valuation_form"
+       },
+       "right": {
+        "op": "const",
+        "value": "C-8.4"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "form_filed"
+      },
+      "else": {
+       "op": "const",
+       "value": "no_objection_document"
+      }
+     }
+    }
+   }
+  },
+  "325-1.25/c/1/mtg-objection-format": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "mtg_objected"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "objection.mtg_form"
+        },
+        "right": {
+         "op": "const",
+         "value": "C-81.B"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "objection.basis_stated"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "conforming"
+     },
+     "else": {
+      "op": "const",
+      "value": "nonconforming"
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: `on Form C-81.B`, encoded literally; NY25-A7."
+   }
+  },
+  "325-1.25/c/3/no-timely-objection-liable-full": {
+   "op": "ungrounded",
+   "applies": {
+    "op": "not",
+    "operand": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "notified"
+      },
+      {
+       "op": "binding",
+       "name": "action_within_45_of_submission"
+      }
+     ]
+    }
+   },
+   "compute": {
+    "op": "cond",
+    "if": {
+     "op": "eq",
+     "left": {
+      "op": "primitive",
+      "name": "field_present",
+      "args": [
+       {
+        "op": "meaning",
+        "key": "maximum_amount"
+       }
+      ]
+     },
+     "right": {
+      "op": "const",
+      "value": "present"
+     }
+    },
+    "then": {
+     "op": "const",
+     "value": "liable_full_amount_up_to_maximum"
+    },
+    "else": {
+     "op": "const",
+     "value": "liable_maximum_unstated"
+    }
+   }
+  },
+  "325-1.25/c/3/late-objection-barred": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "notified"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "action_within_45_of_submission"
+     },
+     "then": {
+      "op": "const",
+      "value": "reviewable"
+     },
+     "else": {
+      "op": "const",
+      "value": "barred"
+     }
+    }
+   }
+  },
+  "325-1.25/c/5/valuation-ground-enumerated": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "valuation_objected"
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "objection.valuation_ground"
+       },
+       {
+        "op": "const",
+        "value": [
+         "proration",
+         "concurrent_duplicative",
+         "improper_cpt",
+         "ground_rules",
+         "frequency",
+         "hospitalization",
+         "scope_of_practice"
+        ]
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "enumerated"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "not_a_listed_ground"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B lists seven grounds with no `not limited to`; fee_schedule_excess is moved to the EOB exception."
+   }
+  },
+  "325-1.25/c/6/legal-ground-enumerated": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "legal_objected"
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "objection.legal_ground"
+       },
+       {
+        "op": "const",
+        "value": [
+         "controverted",
+         "no_prior_authorization",
+         "not_causally_related",
+         "outside_ppo",
+         "report_untimely_or_defective",
+         "not_authorized",
+         "evidentiary_only"
+        ]
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "enumerated"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "not_enumerated_open_set"
+      }
+     }
+    }
+   }
+  },
+  "325-1.25/c/7/mtg-ground-member": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "mtg_objected"
+    },
+    "compute": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "objection.mtg_ground"
+       },
+       {
+        "op": "const",
+        "value": [
+         "not_consistent_no_variance",
+         "outside_variance",
+         "misapplied"
+        ]
+       }
+      ]
+     },
+     "mapping": {
+      "member": {
+       "op": "const",
+       "value": "member"
+      },
+      "not_member": {
+       "op": "const",
+       "value": "not_enumerated_open_set"
+      }
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: `Examples of valid MTG objections include`, an open set where the regulation closes it."
+   }
+  },
+  "325-1.25/e/1/arbitration-availability": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "valuation_notice_timely"
+    },
+    "compute": {
+     "op": "const",
+     "value": "arbitration_available"
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B: a timely valuation objection is resolved through arbitration; no agreement check, no eligibility check."
+   }
+  },
+  "325-1.25/f/1/adjudication-of-legal-mtg": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "binding",
+     "name": "legal_or_mtg_objected"
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "binding",
+      "name": "action_within_45_of_submission"
+     },
+     "then": {
+      "op": "const",
+      "value": "reviewed_by_board"
+     },
+     "else": {
+      "op": "const",
+      "value": "untimely"
+     }
+    }
+   },
+   "note": {
+    "op": "const",
+    "value": "Layer B conditions review on TIMELINESS where the regulation conditions it on the prescribed FORMAT."
+   }
+  },
+  "325-1.25/B/electronic-only-after-2025-08-01": {
+   "op": "emit",
+   "result": {
+    "op": "applicability_gate",
+    "applies": {
+     "op": "and",
+     "operands": [
+      {
+       "op": "binding",
+       "name": "bill_present"
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "ordered_before",
+        "args": [
+         {
+          "op": "const",
+          "value": "2025-08-01T00:00:00Z"
+         },
+         {
+          "op": "fact",
+          "path": "bill.submitted_at"
+         }
+        ]
+       },
+       "right": {
+        "op": "const",
+        "value": "before"
+       }
+      }
+     ]
+    },
+    "compute": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "fact",
+       "path": "bill.electronic"
+      },
+      "right": {
+       "op": "const",
+       "value": true
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "electronic"
+     },
+     "else": {
+      "op": "const",
+      "value": "no_payment_obligation_non_electronic"
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version layer-b-daisybill. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Points where 12 NYCRR 325-1.25, or a restatement of it, leaves a reading open. REGISTERED, NOT RESOLVED. Each names who would have to settle it. Entries tagged to a restatement version are that restatement's own ambiguity, not the regulation's.",
+ "$method_note": "Nine registered from the regulation and the two layers read against each other. None gates an evaluation with a resolution key: the register encodes each text as it reads and lets the replay show where the readings part.",
+ "register_version_id": "layer-b-daisybill",
+ "ambiguities": [
+  {
+   "id": "NY25-A1",
+   "clause_id": "325-1.25/c/1/pay-or-notify-45",
+   "versions": [
+    "regulation",
+    "layer-b-daisybill"
+   ],
+   "question": "Does the carrier's 45-day clock start at receipt or at submission?",
+   "competing_readings": [
+    {
+     "reading": "Receipt",
+     "basis": "(c)(1): `within 45 days after the bill has been received`."
+    },
+    {
+     "reading": "Submission",
+     "basis": "(c)(3): `within 45 days of submission`; (d)(1): `no earlier than 45 days from the date of the submission`; (d)(4)(ii): `within 45 days after the bill was submitted`. Layer B says `submitted` throughout, and its quoted (c)(1) says `submitted` where the compilation says `received`."
+    }
+   ],
+   "textual_basis": "(c)(1) against (c)(3), (d)(1), (d)(4)(ii).",
+   "materiality": "Every timeliness determination in (c) and (d) turns on which day is day zero; a bill received days after submission moves the deadline by that many days.",
+   "who_settles": "The Board, by amendment or on a disputed bill.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A7",
+   "clause_id": "325-1.25/c/1/legal-objection-format",
+   "versions": [
+    "layer-b-daisybill"
+   ],
+   "question": "Layer B requires legal and MTG objections `on Form C-81.B`. No Board form carries that identifier; the Board's legal-objection form is C-8.1B. Typo, or a form this session did not find?",
+   "competing_readings": [
+    {
+     "reading": "A typo for C-8.1B",
+     "basis": "One transposed character; the same article names C-8.4 correctly."
+    },
+    {
+     "reading": "A form not retrieved",
+     "basis": "This session did not retrieve the Board's form index."
+    }
+   ],
+   "textual_basis": "Layer B, Reimbursement Disputes, twice.",
+   "materiality": "Encoded literally, every legal and MTG objection is nonconforming under layer B. The divergence on those clauses is the typo's.",
+   "who_settles": "daisyBill, as author; the Board's form index would show whether C-81.B exists.",
+   "required_resolution": null
+  }
+ ]
+}

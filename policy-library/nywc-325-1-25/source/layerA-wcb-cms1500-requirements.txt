@@ -1,0 +1,143 @@
+Back to menu 
+ Back to menu -->
+ CMS-1500 Initiative Requirements Title Small --> 
+ Sections 
+ Skip Left Menu 
+ Menu Sections 
+ Field Matrix 
+ Examples 
+ Medical billing forms crosswalk 
+ Medical narrative requirements 
+ Attachment requirements 
+ CMS-1500 electronic forms submissions 
+ Resource 
+ Related pages 
+ -->
+ -->
+ -->
+ CMS-1500 Requirements -->
+ CMS-1500 field matrix and examples 
+ Field Matrix 
+ As set forth in 12 NYCRR 325-1.25(b), medical providers must submit medical bills in the format prescribed by the Chair. The format for electronic medical bills is below: 
+ CMS-1500 Field Table Matrix for Electronic Submission (MS Excel) (Updated 05/18/2026)
+ Mapping of CMS-1500 Element Names to Form PDF 
+ Additionally, HP-1.0s (Request for Decision on Unpaid Medical Bills) will be denied if the bill sent to the payer does not match the bill in the Board file. 
+ CMS-1500 examples 
+ Services provided by authorized physician PDF 
+ Services provided by self-employed, authorized physical therapist PDF (referred by authorized physician).
+ Services provided by authorized physical therapist in physician’s office PDF (referred by authorized physician).
+ Services provided by authorized physician assistant PDF (under the supervision of an authorized physician).
+ Services provided by authorized nurse practitioner PDF 
+ DME product ordered by authorized physician PDF 
+ Services provided by psychologist PDF (referred by authorized physician)
+ Services provided by radiologist PDF (referred by authorized physician)
+ Surgery bill with surgeon and assistant procedure codes PDF 
+ Services provided by behavior health provider eligible for enhanced reimbursement PDF (modifier 1B, 20% reimbursement increase)
+ Services provided by physician assistant supervised by designated provider eligible for enhanced reimbursement PDF (modifier 1D, 20% reimbursement increase)
+ Medical billing forms crosswalk 
+ C-4.0 to CMS-1500 PDF 
+ C-4.2 to CMS-1500 PDF 
+ C-4AMR to CMS-1500 PDF 
+ C-5 to CMS-1500 PDF 
+ EC-4NARR to CMS-1500 PDF 
+ PS-4 to CMS-1500 PDF 
+ PT-4/OT-4 to CMS-1500 PDF 
+ Medical narrative requirements 
+ All CMS-1500 submissions require a medical narrative and/or attachment. 
+ The Board has developed a medical narrative report template that can be used to create the medical narrative report that accompanies provider submissions of the Form CMS-1500 . 
+ The template includes at the top of the page the three elements to include with most narratives: the patient’s work status, causal relationship of the injury to the patient's work activities, and temporary impairment percentage. A medical narrative report may be found legally defective if these elements are missing. 
+ Medical Narrative Report Template PDF 
+ A chart outlining the legally required elements providers may comment on, according to their specialty, is shown below. 
+ Provider Type 
+ Causal Relationship 
+ Temporary Impairment Percentage 
+ Work Status 
+ Acupuncturists 
+ NO* 
+ NO 
+ YES 
+ Chiropractors 
+ YES 
+ YES 
+ YES 
+ Nurse Practitioners 
+ YES 
+ YES 
+ YES 
+ Occupational Therapists 
+ NO* 
+ NO 
+ YES 
+ Physical Therapists 
+ NO* 
+ NO 
+ YES 
+ Physicians 
+ YES 
+ YES 
+ YES 
+ Physician Assistants 
+ NO* 
+ YES** 
+ YES 
+ Podiatrists 
+ YES 
+ YES 
+ YES 
+ Psychologists 
+ YES 
+ YES 
+ YES 
+ Social Workers 
+ YES 
+ YES 
+ YES 
+ * A record, report or opinion of a physical therapist, occupational therapist, acupuncturist or physician assistant shall not be considered as evidence of the causal relationship of any condition to a work-related accident or occupational disease. Nor may a record, report or opinion of a physician assistant be considered evidence of the presence of a permanent or initial disability or the degree thereof. 
+ ** PA services may only be provided under the direct supervision of a physician. 
+ Providers must attach a narrative report with examination findings to the template. The additional narrative should include the history of the injury/illness, any objective findings based on the clinical evaluation, plan of care and your diagnosis(es)/assessment of the patient. In lieu of using the template, the provider’s own medical narrative report is acceptable, if it includes work status, causal relationship and temporary impairment percentage. Examples of narrative reports are shown below. 
+ Initial Narrative Report 
+ Subsequent Narrative Report 
+ Psychology Narrative Report 
+ Subsequent Psychology Narrative Report 
+ PT/OT Narrative Report 
+ Ophthalmology Narrative Report 
+ Attachment requirements 
+ CMS-1500 Required Attachments 
+ Type of CMS-1500 Medical Bill 
+ Required Attachment 
+ DME 
+ A copy of the physician's prescription (order) for the item(s) and proof of certification of enrollment in the NYS Medicaid program including the Medicaid Management Information System (MMIS) number of the DME supplier. 
+ Pharmacy-Drugs 
+ Bill or invoice for the medication(s) dispensed and a copy of the physician's prescription (order) for the medication(s) 
+ Radiology 
+ Bill or invoice for service and copy of radiologic report 
+ Laboratory 
+ Bill or invoice for services and lab report (with the exception of UDS lab results, which by regulation can't be released to the Board, payer or employer) 
+ Audiology 
+ Documentation of audiologic test battery results. (based on Record of Percentage Hearing Loss ( Form C-72.1 ) PDF ) 
+ Dental 
+ Detailed SOAP note reflecting history, exam, assessment and plan of care consistent with accepted dental documentation standards. 
+ Optometry 
+ Detailed SOAP note reflecting history, exam, assessment and plan of care consistent with accepted optometry documentation standards. 
+ Anesthesia 
+ Anesthesia record indicating the exact time the anesthesia services were started, ended, all of the anesthesia team members who participated in the care, surgeon, procedure, patient vital signs, etc. 
+ CMS-1500 electronic forms submissions 
+ Providers and electronic submission partners will be required to follow specific technical processes and XML submission formats. Review the CMS-1500 Electronic Forms Submission section of this website to obtain the detailed submission requirements. The Board followed the National Uniform Claim Committee's ( NUCC ) July 2018 Instruction Manual PDF for the CMS-1500 form . 
+ Resource 
+ CMS-1500 Fact Sheet PDF 
+ Related pages 
+ Overview -->
+ CMS-1500 
+ CMS-1500 Form Requirements 
+ FAQs 
+ Important Tips and Reminders 
+ Electronic Submission Information 
+ Electronic Submission Prerequisites 
+ Electronic Submission Partners 
+ Electronic Submission Cost Offset 
+ CMS-1500 Payers 
+ News Archive 
+ CMS-1500 Webinars 
+ CMS-1500 Fact Sheet -->
+ --> 
+ 

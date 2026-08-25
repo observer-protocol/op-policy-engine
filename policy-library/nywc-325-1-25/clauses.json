@@ -1,0 +1,961 @@
+{
+  "$schema_note": "12 NYCRR 325-1.25, Payment of and objections to medical bills, in force (compiled by LII; latest amendment effective 2021-11-01). ONE SOURCE, THREE VERSIONS: the regulation is the REFERENCE; two restatement layers are UNDER TEST and never the other way round. A restatement version carries, for each clause it restates, the restatement's own text (text_by_version) and its own reading (evaluation.json clauses_by_version); clauses the restatement does not state are absent_in_versions; rules a restatement states that the regulation does not are only_in_versions. project-versions.mjs (--dir) projects each version; build-register assembles it.",
+  "$licensing_constraint": "No clause text from any Official New York Workers' Compensation fee schedule, no CPT descriptor, code text or table. 325-1.25 names CPT codes and the fee schedule as objection CATEGORIES; the register tests category membership and never a code's meaning or a scheduled amount, which arrive, where consumed, as institution-supplied meanings of terms the section does not cite.",
+  "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION, INCORPORATED_BY_REFERENCE (none used here: nothing 325-1.25 points at is purchase-only; the fee schedule is reached by an UNGROUNDED TERM instead, because the section does not cite it).",
+  "scope_note": "IN: 325-1.25 (a) to (g) in full. OUT, named: 12 NYCRR 325-1.3 (report and bill format, cited), 324.2 and 324.3 (Medical Treatment Guidelines and variances, cited), 325-1.4 and Part 441 (authorization, cited), 300.19 (interest, cited), 10 NYCRR 400.18 (hospital data set, cited), WCL 13-g, 13-k, 13-l, 13-m, 13(a), 23, 25-a (cited by section). All cited and public; their content arrives as supplied facts under the missing-citation test. NOT cited and consumed: Part 329 (the fee schedule and its regions), WCL 13-b (provider authorization), WCL 25(2) (controversion), Article 10-A (PPOs), the Chair's prescribed objection forms.",
+  "register_versions": {
+    "$note": "The id is what a determination's register_version_id is compared against. role and publishable are closed vocabularies. currency_disposition is the CV7 undated-restatement disposition carried over, a DISTINCT VALUE: an undated restatement of a regulation that changes cannot be checked for currency by anyone.",
+    "regulation": {
+      "role": "reference",
+      "publishable": true,
+      "status": "in_force",
+      "as_of": "2026-08-25T05:18:13Z",
+      "$as_of_is": "the retrieval instant read from the environment clock",
+      "compiled_text_source": "LII (law.cornell.edu) 12-NYCRR-325-1.25, sha256 of raw HTML in source/PROVENANCE.md; history: amended State Register 2020-01-29 eff. 2020-01-29, 2021-10-27 eff. 2021-11-01; (g) says effective 2020-01-01",
+      "cross_check": "NOT DONE. Westlaw (govt.westlaw.com) returned HTTP 403 to curl and is blocked to the session's fetcher; no archive capture exists; Justia 403; Casetext 410. LII is the one rendering this session can cite. The specimen CSV's line that LII and Westlaw agree is an agent claim this session could not verify.",
+      "currency_disposition": "dated_by_compilation_history"
+    },
+    "layer-a-wcb": {
+      "role": "restatement_under_test",
+      "publishable": true,
+      "author": "New York State Workers' Compensation Board (state regulator)",
+      "documents": [
+        {
+          "title": "What Providers Need to Know",
+          "url": "https://www.wcb.ny.gov/content/main/hcpp/what-providers-need-to-know.jsp",
+          "dated": false,
+          "retrieved": "2026-08-25T05:18:13Z"
+        },
+        {
+          "title": "CMS-1500 Requirements",
+          "url": "https://www.wcb.ny.gov/CMS-1500/requirements.jsp",
+          "dated": "field matrix only: `Updated 05/18/2026` on the Excel link; the narrative is undated",
+          "retrieved": "2026-08-25T05:18:13Z"
+        }
+      ],
+      "currency_disposition": "UNDATED_RESTATEMENT",
+      "$currency": "The hub page carries no date. The CMS-1500 page dates its field matrix and not its narrative. Neither can be checked for currency against a regulation amended in 2020 and 2021 by anyone; the disposition is a value on this version, not a footnote."
+    },
+    "layer-b-daisybill": {
+      "role": "restatement_under_test",
+      "publishable": false,
+      "$why_unpublishable": "Commercial vendor, not a claims administrator, so in scope to MEASURE. Held internal: a divergence finding naming a live vendor reads as an error claim against them. Nothing from this version leaves the repository.",
+      "author": "daisyBill (bill-review and revenue-cycle software vendor)",
+      "documents": [
+        {
+          "title": "Timely Payment Requirements",
+          "url": "https://kb.daisybill.com/articles/timely-payment-abc780c1-004b-42f9-b6da-16dcdf84eb24",
+          "dated": "Last update December 16, 2025 (self-published)",
+          "retrieved": "2026-08-25T05:18:13Z"
+        },
+        {
+          "title": "Timely Filing",
+          "url": "https://kb.daisybill.com/articles/billing-guides-a7397df4-a566-403f-8bf3-51218b621be8",
+          "dated": "Last update December 4, 2025 (self-published)",
+          "retrieved": "2026-08-25T05:18:13Z"
+        },
+        {
+          "title": "Reimbursement Disputes",
+          "url": "https://kb.daisybill.com/articles/payment-guides-be5200b6-d23a-4f04-a93c-d3bb930f8e34",
+          "dated": "Last update December 16, 2025 (self-published)",
+          "retrieved": "2026-08-25T05:18:13Z"
+        }
+      ],
+      "currency_disposition": "DATED_BY_PUBLISHER_ONLY",
+      "$currency": "Dates are self-published with no independent corroboration (the specimen CSV's own self-check found none). Distinct from undated and from dated-by-compilation.",
+      "$quoted_regulation_text": "Each article ends with a `Subsection Text` block quoting 325-1.25. The quoted (c)(1) is NOT the in-force text: it says `submitted` where the compilation says `received`, `placed on the chair prescribed form` where the compilation says `made in the format prescribed by the Chair`, and omits the claimant, the claimant's attorney and the simultaneity sentences. 57 word deletions, 24 insertions against 426 words (source/PROVENANCE.md). The register encodes the restatement's OWN prose, not its quotation."
+    }
+  },
+  "clauses": [
+    {
+      "id": "325-1.25/a/1/provide-promptly",
+      "source_locator": "325-1.25(a)(1) sentence 1",
+      "text": "The employer or insurance carrier (or third-party administrator) is required to promptly provide the claimant with such Medical Care, for such period as the nature of the injury, illness, or occupational disease, or process of recovery may require.",
+      "assertion": "The carrier must promptly provide medical care for as long as the condition requires.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`promptly` and `as the nature ... may require` name standards and no test.",
+      "in_force_from": "2021-11-01",
+      "$in_force_from_basis": "the compilation dates the section's latest amendment 2021-11-01 and does not attribute it by paragraph; applies to every clause below",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/1/medical-care-defined",
+      "source_locator": "325-1.25(a)(1) sentence 2",
+      "text": "Medical Care means symptomatic, palliative, maintenance treatment, services, or supplies.",
+      "assertion": "Defines Medical Care.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Defines a term the section consumes.",
+      "operative_weight": "Medical Care: symptomatic, palliative, maintenance treatment, services, or supplies.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/1/mtg-consistent-care",
+      "source_locator": "325-1.25(a)(1) sentence 3",
+      "text": "When the Medical Care is to or for a part of the body or condition covered by the Medical Treatment Guidelines as set forth in section 324.2 (a) of this Title, the employer or insurance carrier (or third-party administrator) is required to provide such Medical Care which is consistent with the Medical Treatment Guidelines or, if applicable, an approved variance from such guidelines.",
+      "assertion": "For MTG-covered body parts, the care provided must be MTG-consistent or under an approved variance.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where the body part is MTG-covered (324.2(a), cited: supplied fact).",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/liable-when-accepted",
+      "source_locator": "325-1.25(a)(2) sentence 1",
+      "text": "The employer or insurance carrier (or third-party administrator) is liable for the payment of medically necessary care, services, and supplies to the claimant when it has accepted the claim or the claim has been established as compensable by the Board.",
+      "assertion": "Liability for medically necessary care attaches on acceptance or establishment.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on acceptance or establishment; `medically necessary` is a held judgment.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/i/within-mtg",
+      "source_locator": "325-1.25(a)(2)(i)",
+      "text": "within the criteria of the medical treatment guidelines incorporated by reference pursuant to section 324.2 (a) of this Title and is based on correct application of such guidelines;",
+      "assertion": "Limb (i): care within MTG criteria and correctly applied.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`correct application` is an assessment.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/ii/variance-or-authorized",
+      "source_locator": "325-1.25(a)(2)(ii)",
+      "text": "within a proper variance from the Medical Treatment Guidelines in accordance with the requirements of section 324.3 (a) (2) , or has been authorized pursuant to section 325-1.4 or Part 441of this Title;",
+      "assertion": "Limb (ii): a proper variance under 324.3(a)(2), or authorization under 325-1.4 or Part 441.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded facts, each defined in a section the clause cites.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/iii/agreed",
+      "source_locator": "325-1.25(a)(2)(iii)",
+      "text": "agreed to by the employer or insurance carrier (or third-party administrator); or",
+      "assertion": "Limb (iii): agreed by the carrier.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded agreement.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/iv/ordered",
+      "source_locator": "325-1.25(a)(2)(iv)",
+      "text": "as ordered by the Board pursuant to statute or regulation.",
+      "assertion": "Limb (iv): ordered by the Board.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded order.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/obligation-to-pay",
+      "source_locator": "325-1.25(a)(2) sentence 2, chapeau",
+      "text": "When the Medical Care is to or for a part of the body covered by the Medical Treatment Guidelines and the claim has been accepted or established as compensable, the employer or insurance carrier (or third-party administrator) shall be obligated to pay for all Medical Care, in the amount set forth in the applicable fee schedule, or in any other amount as agreed to by the Treating Medical Provider and payor, that is: [limbs (i) to (iv)]",
+      "assertion": "For MTG-covered accepted claims the carrier must pay for care that satisfies any of the four limbs.",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the four limbs under the covered-and-accepted gate; reads no fact of its own.",
+      "reads": [
+        "325-1.25/a/2/i/within-mtg",
+        "325-1.25/a/2/ii/variance-or-authorized",
+        "325-1.25/a/2/iii/agreed",
+        "325-1.25/a/2/iv/ordered"
+      ],
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/amount-fee-schedule-or-agreed",
+      "source_locator": "325-1.25(a)(2), `in the amount set forth in the applicable fee schedule, or in any other amount as agreed`",
+      "text": "[pay] in the amount set forth in the applicable fee schedule, or in any other amount as agreed to by the Treating Medical Provider and payor",
+      "assertion": "The amount payable is the fee schedule amount unless another amount is agreed.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where the obligation to pay holds. `applicable fee schedule` is defined in Part 329, which this section does not cite: the scheduled amount is the institution's supplied meaning.",
+      "rests_on_ungrounded_term": "applicable fee schedule",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/a/2/not-obligated-outside-mtg",
+      "source_locator": "325-1.25(a)(2) sentence 3",
+      "text": "The employer or insurance carrier (or third-party administrator) shall not be obligated to pay for any Medical Care that is not within the criteria of the Medical Treatment Guidelines or is not based on correct application of the Medical Treatment Guidelines, except if a variance has been approved by the employer, insurance carrier (or third-party administrator), or Board in accordance with section 324.3 of this Title or as ordered by the Board pursuant to statute or regulation.",
+      "assertion": "No obligation for non-MTG care absent an approved variance or a Board order.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where care is outside the MTGs (held judgment); the exceptions are recorded facts under cited sections.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/b/1/format-prescribed",
+      "source_locator": "325-1.25(b)(1) sentence 1",
+      "text": "Physicians, podiatrists, chiropractors, psychologists, nurse practitioners, physician assistants, licensed clinical social workers, physical therapists, occupational therapists and acupuncturists authorized by the Chair to provide treatment and care under the Workers' Compensation Law to a claimant or other legally permitted providers of Medical Care shall submit bills for Medical Care in the format prescribed by the Chair (which may be electronic) and as set forth in section 325-1.3 of this Subpart.",
+      "text_by_version": {
+        "layer-a-wcb": "As set forth in 12 NYCRR 325-1.25(b), medical providers must submit medical bills in the format prescribed by the Chair. The format for electronic medical bills is below: CMS-1500 Field Table Matrix for Electronic Submission (MS Excel) (Updated 05/18/2026)",
+        "layer-b-daisybill": "As of August 1, 2025, authorized providers must submit all medical bills electronically through one of six 'Electronic Submission Partners' that meet the WCB's performance standards."
+      },
+      "assertion": "Authorized providers submit bills in the Chair's prescribed format per 325-1.3.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "The format is set forth in 325-1.3, cited: supplied fact. `authorized by the Chair` is defined under WCL 13-b, not cited: ungrounded (as CV7).",
+      "rests_on_ungrounded_term": "authorized",
+      "in_force_from": "2021-11-01",
+      "rests_on_ungrounded_term_by_version": {
+        "layer-a-wcb": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/b/1/120-days",
+      "source_locator": "325-1.25(b)(1) sentence 2",
+      "text": "Bills shall be submitted to the employer or insurance carrier (or third-party administrator) within 120 days from the day the Medical Care was rendered.",
+      "text_by_version": {
+        "layer-b-daisybill": "Providers and hospitals must submit all bills within 120 days from the date of service."
+      },
+      "assertion": "Bills are submitted within 120 days of the care.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "An interval against a limit. The unit of `days` is not stated (NY25-A2).",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/b/1/ineligible-if-late-or-wrong-format",
+      "source_locator": "325-1.25(b)(1) sentence 3",
+      "text": "Bills submitted in any other format or outside this time requirement shall not be eligible for an award by the Chair under the provisions of the Workers' Compensation Law as described herein.",
+      "text_by_version": {
+        "layer-b-daisybill": "Providers must submit bills within 120 days or risk losing the right to payment."
+      },
+      "assertion": "A late or wrongly formatted bill is ineligible for an award.",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the format and timing clauses.",
+      "reads": [
+        "325-1.25/b/1/format-prescribed",
+        "325-1.25/b/1/120-days"
+      ],
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/b/1/pre-2020-care",
+      "source_locator": "325-1.25(b)(1) sentence 4",
+      "text": "When Medical Care was rendered prior to January 1, 2020, the bill for such care shall be submitted within 120 days from January 1, 2020 (April 30, 2020).",
+      "assertion": "Pre-2020 care: 120 days from 2020-01-01.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only for care before 2020-01-01.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/b/2/hospital-format",
+      "source_locator": "325-1.25(b)(2) sentence 1",
+      "text": "Hospitals shall submit bills for out-patient hospital services to the employer or insurance carrier (or third-party administrator) using the New York State Universal Data Set specification as described in 10 NYCRR section 400.18 and Appendices C-2 and C-3 and such additional specifications as are approved by the Commissioner of Health.",
+      "assertion": "Outpatient hospital bills use the UDS specification.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises for outpatient hospital bills; the specification is cited (10 NYCRR 400.18): supplied fact.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/b/2/hospital-120-days",
+      "source_locator": "325-1.25(b)(2) sentences 2 and 3",
+      "text": "Bills shall be submitted within 120 days from the last day of Medical Care. Bills submitted in any other format or outside this time requirement shall not be eligible for an award by the Chair under the provisions of the Workers' Compensation Law as described herein.",
+      "assertion": "Hospital bills within 120 days of the last day of care, else ineligible.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises for hospital bills.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/b/3/good-cause-late-submission",
+      "source_locator": "325-1.25(b)(3)",
+      "text": "Notwithstanding the foregoing, upon an application in writing to the Chair, the Chair may for good cause shown excuse a delay in the submission of the bill to the insurance carrier or employer (or third-party administrator).",
+      "text_by_version": {
+        "layer-b-daisybill": "If a bill cannot be filed on time, providers may apply in writing to the WCB Chair. The Chair may excuse late filing for good cause."
+      },
+      "assertion": "The Chair may excuse late submission for good cause on written application.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`good cause` is the Chair's assessment; the application is a recorded fact.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/1/pay-or-notify-45",
+      "source_locator": "325-1.25(c)(1) sentence 1",
+      "text": "The employer or insurance carrier (or third-party administrator), within 45 days after the bill has been received shall pay the bill or shall notify the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital, or other provider of Medical Care, the claimant and claimant's attorney if applicable, and the Board in the format prescribed by the Chair (which may be electronic) for such purpose that the bill is not being paid and the reasons for non-payment.",
+      "text_by_version": {
+        "layer-b-daisybill": "Within 45 days after a bill is submitted, the employer or insurance carrier must do one of the following: Pay the bill, or Object to the bill and notify the provider of the reasons for non-payment."
+      },
+      "assertion": "Within 45 days of receipt the carrier pays or notifies non-payment with reasons.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "An action and an interval. The clock starts at RECEIPT here and at SUBMISSION in (c)(3) and (d)(1): NY25-A1. The notice format `prescribed by the Chair for such purpose` is prescribed in Board forms the section does not cite: ungrounded.",
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-b-daisybill": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/c/1/notice-recipients",
+      "source_locator": "325-1.25(c)(1) sentence 1, recipients",
+      "text": "[notify] the physician ... or other provider of Medical Care, the claimant and claimant's attorney if applicable, and the Board",
+      "text_by_version": {
+        "layer-b-daisybill": "[objections must] Be sent to the treating provider and the (Workers' Compensation Board) WCB"
+      },
+      "assertion": "The non-payment notice goes to the provider, the claimant, the claimant's attorney if any, and the Board.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a notice was given; the attorney is required only if applicable.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/1/legal-objection-format",
+      "source_locator": "325-1.25(c)(1) sentence 2",
+      "text": "If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for reasons concerning its legal liability for payment, the legal objections shall be made in the format prescribed by the Chair for such purpose and submitted to the physician, ... the claimant and claimant's attorney if applicable, and the Board simultaneously with any other objections to the bill.",
+      "text_by_version": {
+        "layer-b-daisybill": "If an employer or their insurance carrier objects to paying all or part of a medical bill because they dispute legal liability, the objection must: Be submitted electronically on Form C-81.B; Be sent to the treating provider and the (Workers' Compensation Board) WCB"
+      },
+      "assertion": "A legal objection is made in the prescribed format, to the same recipients, simultaneously with other objections.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a legal objection. The format is ungrounded (uncited Board form; the restatement names `C-81.B`, which is not a Board form identifier this session can resolve).",
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-b-daisybill": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/c/1/valuation-objection-format",
+      "source_locator": "325-1.25(c)(1) sentence 3",
+      "text": "If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for reasons concerning the value of the treatment performed or the amount billed, the valuation objections shall be made in the format prescribed by the Chair for that purpose and submitted to the physician, ... the claimant and claimant's attorney if applicable, and the Board simultaneously with any other objections to the bill.",
+      "text_by_version": {
+        "layer-b-daisybill": "If an employer or their insurance carrier objects to a medical bill because of the value of treatment or the amount billed: The objection must be submitted on Form C-8.4; The form must be sent to both the treating provider and the WCB"
+      },
+      "assertion": "A valuation objection is made in the prescribed format, to the same recipients, simultaneously.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a valuation objection; format ungrounded.",
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-b-daisybill": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/c/1/eob-alternative",
+      "source_locator": "325-1.25(c)(1) sentence 4",
+      "text": "However, if the only objection is that the amount billed for the particular Current Procedural Terminology (CPT) code is in excess of the appropriate fee schedule for the region where the services were provided, the insurance carrier or employer (or third-party administrator) may instead file its explanation of benefits form.",
+      "text_by_version": {
+        "layer-b-daisybill": "Exception: If the only issue is that the bill exceeds the fee schedule for the CPT code used, the claims administrator may instead submit an Explanation of Benefits (EOB)."
+      },
+      "assertion": "Where the only objection is fee-schedule excess for the region, an EOB may stand in for the valuation form.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where the only objection is fee-schedule excess. Whether the amount exceeds the schedule for the region rests on the uncited fee schedule and its regions; the register tests only that the objection is the sole one and an EOB was filed, so no meaning is consumed here.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/1/mtg-objection-format",
+      "source_locator": "325-1.25(c)(1) sentence 5",
+      "text": "If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for one or more of the Medical Treatment Guidelines objections set forth in paragraph (7) of this subdivision, the objections shall be placed in the format prescribed by the Chair (which may be electronic), along with the basis for the objection, and submitted to the physician, ... the claimant and claimant's attorney if applicable, and the Board simultaneously with any other objections to the bill.",
+      "text_by_version": {
+        "layer-b-daisybill": "If the employer or their insurance carrier objects to paying all or part of a medical bill because of reasons related to the MTGs, the objection must: Be submitted electronically on Form C-81.B; Include the form citing the reason for the objection; Be sent to both the treating provider and the WCB"
+      },
+      "assertion": "An MTG objection is in the prescribed format with its basis, to the same recipients, simultaneously.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on an MTG objection; format ungrounded; the basis is a recorded field.",
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-b-daisybill": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/c/2/pay-uncontested-portion",
+      "source_locator": "325-1.25(c)(2)",
+      "text": "If the employer or insurance carrier (or third-party administrator) objects to only a portion of the bill submitted, it shall pay the uncontested portion within 45 days and file objections to the remaining portion as indicated herein.",
+      "assertion": "A partial objection pays the uncontested portion within 45 days.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a partial objection.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/c/3/no-timely-objection-liable-full",
+      "source_locator": "325-1.25(c)(3) sentence 1",
+      "text": "If the employer or insurance carrier (or third-party administrator) has not objected in the manner described herein to the payment of the bill within 45 days of submission, it shall be liable for payment of the full amount billed up to the maximum amount established in the applicable fee schedule.",
+      "text_by_version": {
+        "layer-b-daisybill": "If the bill is not paid or objected to within 45 days, the employer or their insurance carrier must pay the bill in full up to the maximum amount established in the applicable fee schedule."
+      },
+      "assertion": "No timely objection in the prescribed manner: liable for the full amount up to the schedule maximum.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where no objection was made in the manner described within 45 days of SUBMISSION (NY25-A1). The maximum is the uncited fee schedule's: ungrounded. `in full` against `up to the maximum` is NY25-A3.",
+      "rests_on_ungrounded_term": "applicable fee schedule",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/3/late-objection-barred",
+      "source_locator": "325-1.25(c)(3) sentence 2",
+      "text": "The Board shall not review any objection made thereafter.",
+      "text_by_version": {
+        "layer-b-daisybill": "The New York Workers' Compensation Board (WCB) will not uphold late objections."
+      },
+      "assertion": "An objection after 45 days is not reviewed.",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "An objection's date against the 45-day point from submission.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/4/objections-simultaneous",
+      "source_locator": "325-1.25(c)(4)",
+      "text": "Legal, valuation, and Medical Treatment Guidelines objections shall be made simultaneously in the format prescribed by the Chair (which may be electronic).",
+      "assertion": "All objection kinds are made at once.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where more than one objection was made; distinct making-times breach it.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/c/5/valuation-categories",
+      "source_locator": "325-1.25(c)(5)",
+      "text": "Valuation objections as to the amount of the bill include, but are not limited to, contentions that the bill is excessive and not in accordance with the pertinent fee schedule; has not been properly pro-rated or apportioned between providers; involves concurrent, duplicative, or overlapping services; uses improper current procedural terminology codes; is not in accordance with the Ground Rules limitation in the appropriate official workers' compensation fee schedule; is rendered too frequently; involves unnecessary or excessive hospitalization; or involves a physician, ... or acupuncturist treating outside the scope of practice.",
+      "text_by_version": {
+        "layer-b-daisybill": "Employers or their insurance carriers may raise a valuation objection if the bill is: Not properly pro-rated or apportioned between providers; For duplicate, overlapping, or concurrent services; Submitted the wrong CPT codes; Outside the ground rules of the fee schedule; For services billed too frequently; For unnecessary or excessive hospitalization; For treatment outside the provider's scope of practice"
+      },
+      "assertion": "An open set of valuation grounds, eight enumerated.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "`include, but are not limited to`: supplies the enumerated grounds the membership clause tests; decides nothing.",
+      "operative_weight": "Valuation grounds, enumerated (open set): fee_schedule_excess, proration, concurrent_duplicative, improper_cpt, ground_rules, frequency, hospitalization, scope_of_practice.",
+      "operative_weight_by_version": {
+        "layer-b-daisybill": "Valuation grounds as restated (closed list of seven; fee_schedule_excess moved to the EOB exception): proration, concurrent_duplicative, improper_cpt, ground_rules, frequency, hospitalization, scope_of_practice."
+      },
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/5/valuation-ground-enumerated",
+      "source_locator": "325-1.25(c)(5), applied",
+      "text": "[whether a valuation objection's stated ground is among the enumerated grounds]",
+      "assertion": "A valuation objection's ground is enumerated or not; a non-enumerated ground is not thereby invalid.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a valuation objection. Open set: `not_enumerated` is not `invalid`. Several grounds rest on the uncited fee schedule (pertinent fee schedule, Ground Rules limitation, improper CPT codes); the register tests the category token only and consumes no meaning.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/6/legal-categories",
+      "source_locator": "325-1.25(c)(6) sentence 1",
+      "text": "Legal objections as to the liability of the employer or insurance carrier (or third-party administrator) to pay include, but are not limited to, contentions that the claim has been controverted and liability has not been resolved; prior authorization for the special medical service was not granted; treatment was not causally related to the compensable injury; treatment provided was outside of the preferred provider organization; the medical report was not timely filed or was legally defective; the medical appliance, program, or provider is not authorized under the Workers' Compensation Law; or the bill is for evidentiary purposes and not for treatment.",
+      "text_by_version": {
+        "layer-b-daisybill": "Examples of valid legal liability objections include: The claim itself is still in dispute (controverted); Prior authorization was required but not obtained; Treatment was not related to the work injury; Treatment was outside a Preferred Provider Organization (PPO); The medical report was late or legally defective; The provider, treatment, or equipment is not authorized; The bill was submitted only for evidence, not treatment"
+      },
+      "assertion": "An open set of legal grounds, seven enumerated.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the enumerated grounds; decides nothing.",
+      "operative_weight": "Legal grounds, enumerated (open set): controverted, no_prior_authorization, not_causally_related, outside_ppo, report_untimely_or_defective, not_authorized, evidentiary_only.",
+      "operative_weight_by_version": {
+        "layer-b-daisybill": "Legal grounds as restated (`Examples of valid legal liability objections include`, seven): controverted, no_prior_authorization, not_causally_related, outside_ppo, report_untimely_or_defective, not_authorized, evidentiary_only."
+      },
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/6/legal-ground-enumerated",
+      "source_locator": "325-1.25(c)(6), applied",
+      "text": "[whether a legal objection's stated ground is among the enumerated grounds]",
+      "assertion": "A legal objection's ground is enumerated or not.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a legal objection; open set. `controverted` (WCL 25(2)), `preferred provider organization` (WCL Art. 10-A) and `authorized` (WCL 13-b) are category tokens here and consume no meaning.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/6/legally-defective-report",
+      "source_locator": "325-1.25(c)(6), `the medical report was not timely filed or was legally defective`, applied",
+      "text": "[whether the medical report accompanying the bill was legally defective]",
+      "text_by_version": {
+        "layer-a-wcb": "The template includes at the top of the page the three elements to include with most narratives: the patient's work status, causal relationship of the injury to the patient's work activities, and temporary impairment percentage. A medical narrative report may be found legally defective if these elements are missing. However, payers should not use the absence of these three elements as the sole basis for denying reimbursement as there are some instances in which they are not required."
+      },
+      "assertion": "Whether the report is legally defective.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a legal objection on this ground was made. The regulation defines `legally defective` nowhere; 325-1.3 is cited in (b)(1) for the BILL format, not for report defectiveness, and WCL 13-a(4) is uncited: ungrounded, the institution supplies the meaning. LAYER A SUPPLIES A MEANING (three elements) and then withdraws it as a sole basis: encoded as the restatement reads.",
+      "rests_on_ungrounded_term": "legally defective",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-b-daisybill"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-a-wcb": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/c/6/25a-not-valid",
+      "source_locator": "325-1.25(c)(6) sentence 2",
+      "text": "Pursuant to Workers' Compensation Law section 13(a), raising the issue of liability under Workers' Compensation Law section 25-a is not a valid legal objection to payment of a bill for treatment.",
+      "assertion": "A 25-a liability objection is not a valid legal objection.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a legal objection; a recorded ground.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/c/6/par-not-raised-denied",
+      "source_locator": "325-1.25(c)(6) sentence 3",
+      "text": "A legal objection that was not properly raised in response to any applicable prior authorization request will be denied.",
+      "assertion": "A legal objection not raised in the PAR response is denied.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a PAR applied.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/c/6/attach-par-denial",
+      "source_locator": "325-1.25(c)(6) sentence 4",
+      "text": "The employer or insurance carrier (or third-party administrator) shall attach or identify the denial made to any applicable prior authorization request to its legal objection.",
+      "assertion": "The PAR denial is attached or identified.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a PAR applied and a legal objection was made.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/c/7/mtg-categories",
+      "source_locator": "325-1.25(c)(7)(i) to (iii)",
+      "text": "The Medical Treatment Guidelines objections as to the liability of the employer or insurance carrier (or third-party administrator) to pay are: (i) the treatment is not consistent with the Medical Treatment Guidelines and a variance was not requested or approved ... before the Medical Care was rendered; (ii) the [provider] varied from the Medical Treatment Guidelines, ... requested and received approval for a variance ... but provided Medical Care other than what was covered by the variance; or (iii) the [provider] misapplied the Medical Treatment Guidelines.",
+      "text_by_version": {
+        "layer-b-daisybill": "Examples of valid MTG objections include: The treatment does not follow the MTGs, and the provider did not request or receive an approved variance before furnishing care; The provider received a variance approval, but delivered a different treatment than what the variance allowed; The provider misapplied the MTGs when furnishing treatment"
+      },
+      "assertion": "A closed set of three MTG grounds.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "`are:`, closed at three. The restatement introduces them as `Examples ... include`, an open set: NY25-A4 is not an ambiguity of the regulation but a divergence of the restatement, measured on the membership clause.",
+      "operative_weight": "MTG grounds, CLOSED at three: not_consistent_no_variance, outside_variance, misapplied.",
+      "operative_weight_by_version": {
+        "layer-b-daisybill": "MTG grounds as restated, introduced as examples (open): not_consistent_no_variance, outside_variance, misapplied."
+      },
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/7/mtg-ground-member",
+      "source_locator": "325-1.25(c)(7), applied",
+      "text": "[whether an MTG objection's stated ground is one of the three]",
+      "assertion": "An MTG objection on a ground outside the three is not an MTG objection.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on an MTG objection; closed set, so `not_member` is `not_an_mtg_objection`. Under layer B the set is open and `not_member` is only `not_enumerated`.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/c/7/iv/par-not-raised-denied",
+      "source_locator": "325-1.25(c)(7)(iv)",
+      "text": "A Medical Treatment Guideline objection that was not properly raised in response to any applicable prior authorization request will be denied. The employer or insurance carrier (or third-party administrator) shall attach or identify the denial made to any applicable prior authorization request to its legal objection.",
+      "assertion": "An MTG objection not raised in the PAR response is denied; the PAR denial is attached.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a PAR applied and an MTG objection was made.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/1/award-availability",
+      "source_locator": "325-1.25(d)(1) sentence 1",
+      "text": "Chair authorized physicians, ... or hospitals providing services to claimants who have timely submitted bills for payment to the insurance carrier or employer (or third-party administrator) and who have not been paid in full or in part or received notice in the format prescribed by the Chair (which may be electronic) for the purpose of advising of a valuation reason for non-payment within the time prescribed above, may apply to the Chair the prescribed format (which may be electronic) for an administrative award pursuant to the provisions of Workers' Compensation Law sections 13-g(1), 13-k(6), 13-l(6) and 13-m(7).",
+      "text_by_version": {
+        "layer-a-wcb": "If an insurance carrier has not paid your bill in full within 45 days of submission, you may be able to request the Board's assistance by filing Form HP-1.0 through OnBoard."
+      },
+      "assertion": "The administrative award is available to a provider who timely submitted, was not paid in full or in part, and received no timely valuation notice.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "THE HYPOTHESIS CLAUSE. Three conjuncts in the regulation: timely submission, non-payment (in full or in part), and NO timely valuation notice. The restatement states one: not paid in full within 45 days. A carrier that objected on day 40 satisfies the regulation's third conjunct in the negative and the restatement's only condition in the affirmative. `in full` is NY25-A3. The regulation's third conjunct is a valuation notice `in the format prescribed by the Chair`: the format is the uncited term, consumed only where a timely valuation notice exists (E17). Layer A's reading consumes no meaning.",
+      "reads": [
+        "325-1.25/b/1/ineligible-if-late-or-wrong-format"
+      ],
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-b-daisybill"
+      ],
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "rests_on_ungrounded_term_by_version": {
+        "layer-a-wcb": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/d/1/request-window",
+      "source_locator": "325-1.25(d)(1) sentence 2",
+      "text": "Such request shall be submitted no earlier than 45 days from the date of the submission of the bill or 30 days from the date of the Workers' Compensation Law Judge or conciliation decision, or if appeal, Board Panel decision establishing the insurance carrier's or employer's (or third-party administrator's) liability for the bill, and within 120 days from the later of: (i) the date of receipt of notification of nonpayment; or (ii) the expiration of the time within which the insurance carrier or employer (or third-party administrator) is required to notify the physician, ... or hospital of nonpayment.",
+      "assertion": "The request is no earlier than 45 days from submission (or 30 from a liability decision) and within 120 days of the later of the nonpayment notice and the notice deadline.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request; two intervals against limits.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/2/good-cause-late-request",
+      "source_locator": "325-1.25(d)(2)",
+      "text": "Notwithstanding the foregoing, upon a written application of the physician, ... or other provider of Medical Care, the Chair may for good cause shown excuse a delay in the submission of the request for an administrative award",
+      "assertion": "The Chair may excuse a late request for good cause.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`good cause` is the Chair's assessment.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/3/i/not-before-legal-determined",
+      "source_locator": "325-1.25(d)(3)(i)",
+      "text": "The Board will not accept any request for an administrative award until thirty days after all issues duly and timely raised by the employer or insurance carrier (or third-party administrator) with respect to its legal liability for payment and/or any Medical Treatment Guidelines objections set forth in paragraph (c)(7) of this section have been finally determined adversely to it.",
+      "assertion": "No award request is accepted until 30 days after timely legal or MTG objections are finally determined against the carrier.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises where a timely legal or MTG objection exists. `finally determined adversely` is a recorded decision date.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/3/ii/one-request-per-dos",
+      "source_locator": "325-1.25(d)(3)(ii)",
+      "text": "A provider may only submit one request for an administrative award for each date of service. A request for administrative award that includes a date of service that was included on a previously submitted request for administrative award will be rejected.",
+      "assertion": "One award request per date of service; a repeat is rejected.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request; a recorded prior request.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/4/certifications",
+      "source_locator": "325-1.25(d)(4)(i) to (v)",
+      "text": "All requests for administrative awards shall be submitted to the Chair or his or her designee in the format prescribed for such purpose and certifies the following information: (i) the bill was timely submitted ... and the bill was not returned; (ii) the employer or insurance carrier (or third-party administrator) did not submit payment within 45 days after the bill was submitted or within 30 days after all questions duly and timely raised related to ... liability therefore was finally determined adversely to it; (iii) the employer or insurance carrier (or third-party administrator) did not raise valuation issues in the format prescribed by the Chair objecting to payment of the bill; (iv) the bill conforms to the fee schedule, if any, promulgated by the chair for treatment rendered; and (v) the bill was submitted in the format prescribed by the Chair (which may be electronic) and as set forth in section 325-1.3 of this Subpart, or the form prescribed for outpatient hospital bills by the Commissioner of Health.",
+      "assertion": "The request certifies five facts.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request. Certification (iv), conformity to the fee schedule, rests on the uncited schedule: ungrounded. The other four are recorded facts.",
+      "rests_on_ungrounded_term": "applicable fee schedule",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/5/reject-incomplete-or-mismatch",
+      "source_locator": "325-1.25(d)(5)",
+      "text": "The Board will reject incomplete requests for an administrative award. When information regarding a workers' compensation claim that is included on a request for administrative award does not match the information in the Board's electronic case system, the request may be rejected by the Board and the provider will be directed to review such information with his or her patient.",
+      "text_by_version": {
+        "layer-a-wcb": "Additionally, HP-1.0s (Request for Decision on Unpaid Medical Bills) will be denied if the bill sent to the payer does not match the bill in the Board file."
+      },
+      "assertion": "An incomplete request is rejected; a mismatched one MAY be rejected.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request. The regulation's `may be rejected` on mismatch is a discretion; the restatement's `will be denied` is not. Encoded as each reads.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/6/proposed-award-process",
+      "source_locator": "325-1.25(d)(6)",
+      "text": "Upon receipt by the Chair or his or her designee of a completed request for an administrative award, the request shall be examined to determine if it is in compliance with the requirements of this section. If the request is not in compliance ..., the request will be rejected by the Board with an explanation of why the request is being rejected. If the request is in full compliance ..., a notice of decision on the Chair prescribed form signed by the Chair or the Chair's designee will propose an administrative award for the Medical Care rendered not in excess of the fee schedule, if any, ... The Chair prescribed form for the notice of decision will be sent to all parties of interest, notifying them of the proposed administrative award and the proposed filing date.",
+      "assertion": "The Board examines, rejects with reasons, or proposes an award not exceeding the fee schedule.",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs the Board's acts; no fact of the bill makes it true or false.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/6/proposed-filing-date-30",
+      "source_locator": "325-1.25(d)(6) last sentence",
+      "text": "The proposed filing date shall be at least 30 days after the date of the proposed administrative award.",
+      "assertion": "The proposed filing date is at least 30 days after the proposed award.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a proposed award; two dates.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/7/objection-to-proposed-award",
+      "source_locator": "325-1.25(d)(7)",
+      "text": "Any party in interest may submit a written objection in the format prescribed by the Chair (which may be electronic) to the proposed award on or before the proposed filing date. All documents or other evidence supporting the objection shall be submitted together with the written objection. If there is no written objection received prior to the proposed filing date, the proposed award will become final on the proposed filing date. If an objection is received from any party before the proposed filing date, the objection shall be reviewed by the Chair or the Chair's designee, who shall make a decision on the request for an award based upon the documents and other evidence submitted. Upon review, a determination on reconsideration shall be sent to all parties in interest.",
+      "assertion": "No objection by the filing date: the award is final; an objection: reconsideration.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a proposed award; the objection's date against the filing date.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/d/8/interest",
+      "source_locator": "325-1.25(d)(8)",
+      "text": "Interest on any administrative award made to a physician, ... or other provider of Medical Care, pursuant to this section shall be paid in accordance with the provisions of section 300.19 of this Title.",
+      "assertion": "Interest on an award is paid per 300.19.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on an award; 300.19 is cited and public: supplied fact.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/e/1/arbitration-availability",
+      "source_locator": "325-1.25(e)(1)",
+      "text": "Chair authorized physicians, ... or other legally permitted providers of Medical Care providing services to claimants who have timely submitted bills for payment to the employer or insurance carrier (or third-party administrator) in compliance with the provisions herein and have received a response in the format prescribed by the Chair (which may be electronic) from the employer or insurance carrier (or third-party administrator) advising of a valuation reason for non-payment of the bill in full or in part within the time prescribed in this section, may apply to the Chair for arbitration the format prescribed if the parties cannot agree as to the value of the services rendered.",
+      "text_by_version": {
+        "layer-b-daisybill": "If an employer or their insurance carrier raises a timely valuation objection, the dispute over payment can be resolved through arbitration, which serves as the remedy for non-payment of bills."
+      },
+      "assertion": "Arbitration is available where a timely valuation notice was received and the parties cannot agree on value.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a timely valuation notice; the failure to agree is a recorded fact.",
+      "reads": [
+        "325-1.25/b/1/ineligible-if-late-or-wrong-format"
+      ],
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ]
+    },
+    {
+      "id": "325-1.25/e/2/provider-option",
+      "source_locator": "325-1.25(e)(2)",
+      "text": "Arbitration shall be requested solely at the option of the authorized physician, ... or other provider of Medical Care.",
+      "assertion": "Only the provider may request arbitration.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Fixes who may request; tests nothing of a bill.",
+      "operative_weight": "Arbitration is requested by the provider only.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/e/3/good-cause-late-arbitration",
+      "source_locator": "325-1.25(e)(3)",
+      "text": "Notwithstanding the foregoing, upon a written application of the authorized physician, ... or other provider of Medical Care, the Chair may for good cause shown excuse a delay in the submission of the request for arbitration.",
+      "assertion": "The Chair may excuse a late arbitration request for good cause.",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`good cause` is the Chair's assessment.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/e/4/not-before-legal-determined",
+      "source_locator": "325-1.25(e)(4)",
+      "text": "The Chair will not accept any request for an arbitration award until thirty days after all issues duly and timely raised by the employer or insurance carrier (or third-party administrator) with respect to its legal liability for payment and/or any Medical Treatment Guidelines objections set forth in paragraph (c)(7) of this section have been finally determined adversely to it.",
+      "assertion": "No arbitration request is accepted until 30 days after timely legal or MTG objections are finally determined against the carrier.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "As (d)(3)(i), for arbitration.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/f/1/adjudication-of-legal-mtg",
+      "source_locator": "325-1.25(f)(1)",
+      "text": "If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for Medical Care rendered for reasons concerning its legal liability for payment and/or the Medical Treatment Guidelines as set forth in paragraph (c)(7) of this section and raises legal and/or Medical Treatment Guidelines objections in the format prescribed by the Chair (which may be electronic) for such purpose as indicated herein, the objection will be reviewed by the Board and a decision rendered on the issue of legal liability and/or the Medical Treatment Guidelines objections. The decision shall be filed with the parties ...",
+      "text_by_version": {
+        "layer-b-daisybill": "If an employer or their insurance carrier raises a timely legal objection, the dispute over non-payment is resolved through an adjudication decision. [and, for MTG:] If an employer or their insurance carrier raises a timely MTG objection, the dispute over non-payment is resolved through an adjudication decision."
+      },
+      "assertion": "A legal or MTG objection in the prescribed format is reviewed and decided by the Board.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a legal or MTG objection in the prescribed format (ungrounded format). The regulation conditions review on the FORMAT; the restatement conditions it on TIMELINESS.",
+      "rests_on_ungrounded_term": "format prescribed by the Chair for such purpose",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb"
+      ],
+      "rests_on_ungrounded_term_by_version": {
+        "layer-b-daisybill": null
+      },
+      "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it."
+    },
+    {
+      "id": "325-1.25/f/2/pay-within-30-of-decision",
+      "source_locator": "325-1.25(f)(2)",
+      "text": "If legal liability and/or Medical Treatment Guidelines objection for the service is found in favor of the physician, ... or other provider of Medical Care, the employer, insurance carrier (or third-party administrator) shall pay the bill within 30 days from the filing of the proposed decision or Notice of Decision unless the employer or insurance carrier (or third-party administrator) timely submitted a valuation objection simultaneously with its legal objection(s) to the medical provider's bill.",
+      "assertion": "A decision for the provider: pay within 30 days of filing, unless a timely simultaneous valuation objection stands.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a decision for the provider.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/f/3/withhold-pending-review",
+      "source_locator": "325-1.25(f)(3) sentences 1 and 2",
+      "text": "If the employer or insurance carrier (or third-party administrator) files an application for review pursuant to Workers' Compensation Law section 23 from the Notice of Decision finding legal liability and/or Medical Treatment Guidelines objection in favor of the [provider], the employer or insurance carrier (or third-party administrator) may withhold payment of the bills up to the amount in dispute until a Workers' Compensation Law Judge or conciliation decision, or if appealed, a Board Panel decision is rendered by the Board. If a Workers' Compensation Law Judge or conciliation decision, or if appealed, a Board Panel decision is filed finding legal liability and/or Medical Treatment Guidelines objection in favor of the [provider], the employer or insurance carrier (or third-party administrator) shall pay the bill within 30 days from the filing ... unless the employer or insurance carrier (or third-party administrator) timely submitted a valuation objection simultaneously with its legal objection(s) to the medical provider's bill .",
+      "assertion": "On a section 23 application the carrier may withhold the disputed amount until the judge's decision, then pays within 30 days unless a timely simultaneous valuation objection stands.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a review application (WCL 23, cited).",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/f/3/no-stay-on-further-appeal",
+      "source_locator": "325-1.25(f)(3) sentence 3",
+      "text": "A subsequent application to the Full Board, except for review by the Full Board of a Board Panel decision which one member dissented from, or to the Appellate Division of the Supreme Court, Third Department, or to the Court of Appeals on the issue of legal liability/or Medical Treatment Guidelines objection shall not operate as a stay of the payment of the bills for medical or hospital services.",
+      "assertion": "Further appeal does not stay payment, with one exception.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Bounds the withholding permission; supplies a meaning (`no stay`) the payment clause consumes.",
+      "operative_weight": "A further appeal is not a stay, except Full Board review of a dissented Panel decision.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/g/effective-date",
+      "source_locator": "325-1.25(g)",
+      "text": "This regulation shall be effective on January 1, 2020.",
+      "assertion": "Effective 2020-01-01.",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the section's effective date; the compilation's history shows later amendments (2020-01-29, 2021-11-01): NY25-A5.",
+      "operative_weight": "Effective 2020-01-01 by its own terms; amended effective 2020-01-29 and 2021-11-01 per the compilation.",
+      "in_force_from": "2021-11-01",
+      "absent_in_versions": [
+        "layer-a-wcb",
+        "layer-b-daisybill"
+      ]
+    },
+    {
+      "id": "325-1.25/B/electronic-only-after-2025-08-01",
+      "source_locator": "layer B, Timely Filing, `Timely Filing Rules`",
+      "text": "The payer is under no obligation to send reimbursement for non-electronic bills submitted after August 1, 2025. Instead, the payer can send an Explanation of Review/Benefits (EOR/EOB) that indicates your practice sent the bill non-electronically. From there, you have 120 days from the date of service to resubmit the bill electronically for payment.",
+      "assertion": "A non-electronic bill after 2025-08-01 need not be paid; resubmit electronically within 120 days of service.",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "STATED BY THE RESTATEMENT AND NOT BY 325-1.25. The regulation says `in the format prescribed by the Chair (which may be electronic)`; the electronic mandate and the payer's release from the obligation are stated elsewhere (Board notices) and are not in this section. A rule the restatement adds is a divergence by addition, attached to this clause.",
+      "in_force_from": null,
+      "only_in_versions": [
+        "layer-b-daisybill"
+      ]
+    }
+  ]
+}

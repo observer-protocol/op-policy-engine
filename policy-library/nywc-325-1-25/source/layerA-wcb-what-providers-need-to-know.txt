@@ -1,0 +1,115 @@
+Back to menu 
+ Back to menu -->
+ What Providers Need to Know Title Small --> 
+ Sections 
+ Skip Left Menu 
+ Menu Sections 
+ Getting started 
+ Treating injured workers 
+ Billing for services 
+ Provider updates 
+ Resources 
+ Contact 
+ -->
+ -->
+ -->
+ -->
+ Health care providers are a critical partner in helping the injured workers of New York State get better and back to their lives! Here are important resources and requirements for treating health care providers to be aware of regarding the workers' compensation system. 
+ Getting started 
+ Signing up for the Medical Portal 
+ The Medical Portal is a web-based application that enables users to submit medical information and view the NYS Workers' Compensation Board (Board) information electronically. The Medical Portal is intended to create more efficient processes and enable greater levels of self-service and tracking, and ultimately improve the performance of New York's workers' compensation system overall. 
+ Health care providers who would like to request or renew Board authorization, or use the Medical Portal to access OnBoard, MTG Lookup Tool, Drug Formulary Lookup Tool, or training will need to request a Board-assigned NY.gov user ID and password. This is separate and apart from any NY.gov account that the health care provider has created for themselves or may have for another NYS agency (for example, Department of Motor Vehicles, Tax and Finance, etc.). 
+ Read more about the Medical Portal for Health Care Providers. 
+ Board authorization 
+ Health care providers who are eligible to become authorized must do so prior to providing clinical services for injured/ill workers. Learn which health care providers can become authorized and how to apply for authorization . Certain providers, such as dentists, are not eligible for Board authorization, but may nevertheless provide clinical services to injured/ill workers. Learn who can do what in the workers' compensation system. 
+ Once authorized, you must renew your Board authorization at intervals which coincide with your professional license registration. Be sure to also update your authorization information whenever there is a change to your address, telephone or fax numbers, board certification status (if applicable) or professional specialty. 
+ Providers authorized by the NYS Workers' Compensation Board to treat injured workers who wish to cease treating injured workers must submit a signed letter of resignation to the Board together with a transition plan to ensure continuity of care for injured workers under their care. Read more about what to include in the letter and where to send it . 
+ Treating injured workers 
+ Injured Worker 
+ Treatment 
+ Medications 
+ New York Medical Treatment Guidelines (MTGs) 
+ The Workers' Compensation Board's New York Medical Treatment Guidelines (MTGs) are the standard of care for treating individuals with work-related injuries and illnesses in New York State (NYS) and are based on the best available medical evidence and the consensus of experienced medical professionals. 
+ You can view the current MTGs as well as FAQs and other MTG resources , including training (with CME credit for MDs and DOs), and an easy-to-use MTG Lookup Tool. 
+ New York Workers' Compensation Drug Formulary (Drug Formulary) 
+ Legislation enacted in April 2017 required the NYS Workers' Compensation Board (Board) to establish a drug formulary. The New York Workers' Compensation Drug Formulary (Drug Formulary) is based on a medication's effectiveness and appropriateness for the treatment of illnesses and injuries covered under the Workers' Compensation Law. 
+ The Drug Formulary list designates drugs as either "Phase A," "Phase B," or "Perioperative." Additionally, some drugs are listed as second-line therapy and may only be used when other drugs associated with the phase of treatment have been deemed ineffective or are otherwise determined to be clinically contraindicated for a particular patient. Drugs not listed on the Drug Formulary are considered non-formulary. 
+ Read more about the New York Workers' Compensation Drug Formulary , including application of the Drug Formulary and special considerations. 
+ Requesting prior authorization for medical treatment/tests through OnBoard 
+ A prior authorization request (PAR) is a request by an injured worker's health care provider to obtain prior approval from the claim administrator (e.g., insurance carrier, self-insured employer, or third-party administrator) to cover costs associated with a specific treatment under workers' compensation insurance. All PARs are submitted and reviewed online through the Board's business information system, OnBoard. Health care providers need to log into the Medical Portal to access OnBoard. 
+ Read more about OnBoard access and administration . Read more about PAR types and how to submit a PAR . Learn more about online administration and how to assign delegate roles for OnBoard by visiting New User Access and Administration for Health Care Providers . 
+ The Board has created OnBoard trainings to assist providers in all aspects of using OnBoard. 
+ Treating via telehealth 
+ Effective July 11, 2023, the Board adopted permanent regulations for telehealth appointments in certain situations for workers who sustain a work-related injury or illness. While telehealth was permitted during the COVID-19 pandemic, it was only allowed because of the institution of several emergency regulations. Now, telehealth is a permanent option within the workers' compensation system. For more information, including which provider specialties can treat via telehealth and under what conditions, see the Telehealth page . 
+ New York State guidelines for permanent impairment and loss of wage-earning capacity 
+ The Board has published two separate guidance documents ( 2012 PDF 
+ and 2018 PDF 
+) related to the determination of permanent impairment and/or loss of wage-earning capacity. The Board has created trainings on the NYS Guidelines for Determining Impairment and Loss of Wage-Earning Capacity. 
+ Billing for services 
+ Medical Fees 
+ Forms 
+ Medical billing 
+ Who can bill? 
+ Board-authorized providers can bill for services in treating injured workers. Certain specialties can treat, but must bill through their supervising provider. Please visit the Who can bill webpage for full details. 
+ Medical fee schedules 
+ Recent changes to the Board's medical fee schedules have brought workers' compensation rates more in line with other insurances. The Official New York Workers' Compensation Medical Fee Schedule may be purchased or can be reviewed in person at the Office of the Department of State, 162 Washington Ave., Albany, NY 12231, the Legislative Library, the libraries of the New York State Supreme Court, and the Workers' Compensation Board District Offices . 
+ CMS-1500 form 
+ The New York State workers' compensation system now uses the universal billing form, CMS-1500 , for medical billing. The Board has developed a Medical Narrative Report Template PDF 
+ that can be used to create the medical narrative report that accompanies provider submissions of the CMS-1500 form. The template includes at the top of the page the three elements to include with most narratives: the patient's work status, causal relationship of the injury to the patient's work activities, and temporary impairment percentage. A medical narrative report may be found legally defective if these elements are missing. However, payers should not use the absence of these three elements as the sole basis for denying reimbursement announcement - distributed via GovDelivery email 
+ as there are some instances in which they are not required. 
+ Effective August 1, 2025, providers are required to partner with a CMS-1500 electronic submission partner who will ensure that the medical bill and narrative attachment are sent and accepted by the correct payer. Read more about the CMS-1500 submission process . 
+ Medical billing issues/disputes 
+ If an insurance carrier has not paid your bill in full within 45 days of submission, you may be able to request the Board's assistance by filing Form HP-1.0 through OnBoard . 
+ Read more about requesting assistance with unpaid medical bills, filing Enforcement on Failure to Pay Award or Judgment (Form HP-J1) , and billing for medical testimony on the Medical Billing Disputes page . 
+ For more information on medical bill disputes, please call (800) 781-2362. 
+ Provider updates 
+ Webinar series: What Providers Need to Know 
+ The Board is pleased to continue our webinar series for health care providers who treat New York State's injured workers. The sessions cover legislative and regulatory updates, recent and planned improvements, and more. For those who were unable to attend the previous sessions, you can view the recording on our Recorded Webinars section of the website. 
+ The next provider webinar is scheduled for August 18, 2026. Read more in notification announcement - distributed via GovDelivery email dated July 31, 2026 or visit the Upcoming Webinars page on our website to register. 
+ NYS Workers' Compensation Board 2026 Conference 
+ The Board is hosting a Conference on Friday, October 16, 2026, at the Empire State Plaza Convention Center in Albany, New York. This full-day program is targeted to all who have a professional interest in the New York State workers' compensation system. Multiple CMEs and CLEs will be available! 
+ Full details can be found on the conference page on the Board's website. Additional conference information will be added as it becomes available. Email Outreach@wcb.ny.gov with any questions. 
+ Read more in notification announcement - distributed via GovDelivery email dated June 1, 2026. 
+ Adoption of Amendments to Section 300.22 of Title 12 of the NYCRR (Regarding Changes to Workers' Compensation Law Section 21-a) 
+ Effective January 1, 2027, Governor Kathy Hochul has signed into law an amendment to New York State Workers' Compensation Law (NYS WCL) Section 21-a. New York State Workers' Compensation Law (NYS WCL) Section 21-a currently allows payers to initiate compensation payments and payments for prescribed medicine for up to one year without admitting liability. The amendment to NYS WCL Section 21-a will also permit payers to provisionally pay for medical care. 
+ The Chair has adopted the amendments to Section 300.22 of Title 12 of the NYCRR to implement and provide guidance on this change to the law. 
+ The Notice of Proposed Rule Making was published in the March 18, 2026, edition of the State Register. The Notice of Adoption was published in the August 5, 2026, edition of the State Register. The amendments will take effect January 1, 2027. 
+ Read more in notification dated July 21, 2026. 
+ Historic change to increase injured workers' access to medical treatment 
+ Today, most provider disciplines must be Board-authorized to treat injured workers. Of the more than 200,000 eligible providers statewide, only about 10 percent have taken the steps to become Board-authorized, which significantly limits access to care, especially in rural areas. 
+ Universal Authorization, which will take effect January 1, 2028, will allow every eligible licensed health care provider in good standing to treat New York's injured workers. No longer will the Board need to authorize those who wish to participate. Injured workers will be able to get care from their primary physicians or other providers they know and trust, as long as the provider is willing to treat them. This will be game-changing in terms of access to care, especially for rural areas and certain specialties where finding authorized providers has been difficult. For more information about universal authorization, visit 2026 State of the State Proposal: Universal Authorization . 
+ Updated process for requesting Board records 
+ The New York State Workers' Compensation Board (Board) has updated the authorization process for unrelated parties-of-interest to request and receive Board records related to a claim. A new Case Copies Request Form (Form OC-RR) has been created to request specific records, and Claimant's Authorization to Disclose Workers' Compensation Records (Form OC-110A), used for requesting authorization, has been updated. 
+ Read more in notification announcement - distributed via GovDelivery email dated May 11, 2026. 
+ Reminders 
+ Electronic submission of the CMS-1500 form is mandatory . Visit the CMS-1500 initiative page for more details and send your questions to CMS1500@wcb.ny.gov . 
+ Interested in treating injured workers? If you are interested in applying for Board authorization to treat injured workers, the process is easy and is done online. Read more about becoming authorized on the Board's website . 
+ The What Providers Need to Know section of the Board's website features a one-stop-shop that walks health care providers through getting started in the workers' compensation system, treating injured workers, billing for services, and more. 
+ Visit the Board's website for OnBoard training guides , webinar recordings, and other resources. 
+ Efficiency Enhancements is a quarterly bulletin with tips and best practices on using Board systems, processes, and forms in the most efficient, effective manner. Sign up opens external website to receive these, and other updates, straight to your inbox. 
+ The latest versions of several Paid Family Leave presentations are available , including family care, foster care/adoption, military leave, and bonding. Visit the Paid Family Leave website opens external website for more information. 
+ Stay informed! 
+ Check out Recorded Webinars for health care providers on the Board's website. Health Care Providers Recorded Webinars web page for past webinars. 
+ To receive notifications from the Board straight to your inbox, subscribe for Board updates announcement - distributed via GovDelivery email . 
+ Archived Updates 
+ Resources 
+ Webpages 
+ Health care providers 
+ Paid Family Leave Information for Health Care Providers opens external website 
+ What providers need to know webinars 
+ The Board regularly offers webinars for providers, to share important updates related to treating injured workers in the NYS workers' compensation system. Visit the Upcoming Webinars page to view the schedule of planned events or visit Recorded Webinars to view a recently recorded session. 
+ Inbox for health care provider feedback 
+ The Board established an email for provider feedback, giving you a direct and convenient way to share your experiences, concerns, and suggestions: HCPFeedback@wcb.ny.gov 
+ Note this email account is different from the providers@wcb.ny.gov email that health care providers can use for help with specific issues, or to reply to credentialling and or compliance-related communications. 
+ Whether you have input or questions regarding Board processes, training resources, or ideas for how we can improve your overall provider experience, your feedback is extremely valuable to us, and we want to hear from you. 
+ Your submissions may be shared with appropriate internal teams to review and address trends or reoccurring concerns. Individual responses will be provided when follow-up is requested, and contact information is included. 
+ WCB notifications 
+ To stay informed on important updates from the Board, sign up to receive WCB notifications announcement - distributed via GovDelivery email 
+. This will send Board news straight to your email inbox. You can choose to subscribe for alerts on the topics you care most about. 
+ Contact 
+ Contact the Medical Director's Office (MDO) 
+ If you have a question for the MDO, you can quickly reach us via: 
+ Helpline: (800) 781-2362 
+ Email: MDO@wcb.ny.gov 
+ --> 
+ 

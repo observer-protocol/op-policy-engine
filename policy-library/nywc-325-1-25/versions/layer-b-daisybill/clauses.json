@@ -1,0 +1,297 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version layer-b-daisybill. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "12 NYCRR 325-1.25, Payment of and objections to medical bills, in force (compiled by LII; latest amendment effective 2021-11-01). ONE SOURCE, THREE VERSIONS: the regulation is the REFERENCE; two restatement layers are UNDER TEST and never the other way round. A restatement version carries, for each clause it restates, the restatement's own text (text_by_version) and its own reading (evaluation.json clauses_by_version); clauses the restatement does not state are absent_in_versions; rules a restatement states that the regulation does not are only_in_versions. project-versions.mjs (--dir) projects each version; build-register assembles it.",
+ "$licensing_constraint": "No clause text from any Official New York Workers' Compensation fee schedule, no CPT descriptor, code text or table. 325-1.25 names CPT codes and the fee schedule as objection CATEGORIES; the register tests category membership and never a code's meaning or a scheduled amount, which arrive, where consumed, as institution-supplied meanings of terms the section does not cite.",
+ "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION, INCORPORATED_BY_REFERENCE (none used here: nothing 325-1.25 points at is purchase-only; the fee schedule is reached by an UNGROUNDED TERM instead, because the section does not cite it).",
+ "scope_note": "IN: 325-1.25 (a) to (g) in full. OUT, named: 12 NYCRR 325-1.3 (report and bill format, cited), 324.2 and 324.3 (Medical Treatment Guidelines and variances, cited), 325-1.4 and Part 441 (authorization, cited), 300.19 (interest, cited), 10 NYCRR 400.18 (hospital data set, cited), WCL 13-g, 13-k, 13-l, 13-m, 13(a), 23, 25-a (cited by section). All cited and public; their content arrives as supplied facts under the missing-citation test. NOT cited and consumed: Part 329 (the fee schedule and its regions), WCL 13-b (provider authorization), WCL 25(2) (controversion), Article 10-A (PPOs), the Chair's prescribed objection forms.",
+ "register_version": {
+  "id": "layer-b-daisybill",
+  "role": "restatement_under_test",
+  "publishable": false,
+  "$why_unpublishable": "Commercial vendor, not a claims administrator, so in scope to MEASURE. Held internal: a divergence finding naming a live vendor reads as an error claim against them. Nothing from this version leaves the repository.",
+  "author": "daisyBill (bill-review and revenue-cycle software vendor)",
+  "documents": [
+   {
+    "title": "Timely Payment Requirements",
+    "url": "https://kb.daisybill.com/articles/timely-payment-abc780c1-004b-42f9-b6da-16dcdf84eb24",
+    "dated": "Last update December 16, 2025 (self-published)",
+    "retrieved": "2026-08-25T05:18:13Z"
+   },
+   {
+    "title": "Timely Filing",
+    "url": "https://kb.daisybill.com/articles/billing-guides-a7397df4-a566-403f-8bf3-51218b621be8",
+    "dated": "Last update December 4, 2025 (self-published)",
+    "retrieved": "2026-08-25T05:18:13Z"
+   },
+   {
+    "title": "Reimbursement Disputes",
+    "url": "https://kb.daisybill.com/articles/payment-guides-be5200b6-d23a-4f04-a93c-d3bb930f8e34",
+    "dated": "Last update December 16, 2025 (self-published)",
+    "retrieved": "2026-08-25T05:18:13Z"
+   }
+  ],
+  "currency_disposition": "DATED_BY_PUBLISHER_ONLY",
+  "$currency": "Dates are self-published with no independent corroboration (the specimen CSV's own self-check found none). Distinct from undated and from dated-by-compilation.",
+  "$quoted_regulation_text": "Each article ends with a `Subsection Text` block quoting 325-1.25. The quoted (c)(1) is NOT the in-force text: it says `submitted` where the compilation says `received`, `placed on the chair prescribed form` where the compilation says `made in the format prescribed by the Chair`, and omits the claimant, the claimant's attorney and the simultaneity sentences. 57 word deletions, 24 insertions against 426 words (source/PROVENANCE.md). The register encodes the restatement's OWN prose, not its quotation."
+ },
+ "clauses": [
+  {
+   "id": "325-1.25/b/1/format-prescribed",
+   "source_locator": "325-1.25(b)(1) sentence 1",
+   "text": "As of August 1, 2025, authorized providers must submit all medical bills electronically through one of six 'Electronic Submission Partners' that meet the WCB's performance standards.",
+   "assertion": "Authorized providers submit bills in the Chair's prescribed format per 325-1.3.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The format is set forth in 325-1.3, cited: supplied fact. `authorized by the Chair` is defined under WCL 13-b, not cited: ungrounded (as CV7).",
+   "rests_on_ungrounded_term": "authorized",
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/b/1/120-days",
+   "source_locator": "325-1.25(b)(1) sentence 2",
+   "text": "Providers and hospitals must submit all bills within 120 days from the date of service.",
+   "assertion": "Bills are submitted within 120 days of the care.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "An interval against a limit. The unit of `days` is not stated (NY25-A2).",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/b/1/ineligible-if-late-or-wrong-format",
+   "source_locator": "325-1.25(b)(1) sentence 3",
+   "text": "Providers must submit bills within 120 days or risk losing the right to payment.",
+   "assertion": "A late or wrongly formatted bill is ineligible for an award.",
+   "disposition": "DERIVED",
+   "disposition_basis": "Composes the format and timing clauses.",
+   "reads": [
+    "325-1.25/b/1/format-prescribed",
+    "325-1.25/b/1/120-days"
+   ],
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/b/3/good-cause-late-submission",
+   "source_locator": "325-1.25(b)(3)",
+   "text": "If a bill cannot be filed on time, providers may apply in writing to the WCB Chair. The Chair may excuse late filing for good cause.",
+   "assertion": "The Chair may excuse late submission for good cause on written application.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`good cause` is the Chair's assessment; the application is a recorded fact.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/pay-or-notify-45",
+   "source_locator": "325-1.25(c)(1) sentence 1",
+   "text": "Within 45 days after a bill is submitted, the employer or insurance carrier must do one of the following: Pay the bill, or Object to the bill and notify the provider of the reasons for non-payment.",
+   "assertion": "Within 45 days of receipt the carrier pays or notifies non-payment with reasons.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "An action and an interval. The clock starts at RECEIPT here and at SUBMISSION in (c)(3) and (d)(1): NY25-A1. The notice format `prescribed by the Chair for such purpose` is prescribed in Board forms the section does not cite: ungrounded.",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/notice-recipients",
+   "source_locator": "325-1.25(c)(1) sentence 1, recipients",
+   "text": "[objections must] Be sent to the treating provider and the (Workers' Compensation Board) WCB",
+   "assertion": "The non-payment notice goes to the provider, the claimant, the claimant's attorney if any, and the Board.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises where a notice was given; the attorney is required only if applicable.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/legal-objection-format",
+   "source_locator": "325-1.25(c)(1) sentence 2",
+   "text": "If an employer or their insurance carrier objects to paying all or part of a medical bill because they dispute legal liability, the objection must: Be submitted electronically on Form C-81.B; Be sent to the treating provider and the (Workers' Compensation Board) WCB",
+   "assertion": "A legal objection is made in the prescribed format, to the same recipients, simultaneously with other objections.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a legal objection. The format is ungrounded (uncited Board form; the restatement names `C-81.B`, which is not a Board form identifier this session can resolve).",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/valuation-objection-format",
+   "source_locator": "325-1.25(c)(1) sentence 3",
+   "text": "If an employer or their insurance carrier objects to a medical bill because of the value of treatment or the amount billed: The objection must be submitted on Form C-8.4; The form must be sent to both the treating provider and the WCB",
+   "assertion": "A valuation objection is made in the prescribed format, to the same recipients, simultaneously.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a valuation objection; format ungrounded.",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/eob-alternative",
+   "source_locator": "325-1.25(c)(1) sentence 4",
+   "text": "Exception: If the only issue is that the bill exceeds the fee schedule for the CPT code used, the claims administrator may instead submit an Explanation of Benefits (EOB).",
+   "assertion": "Where the only objection is fee-schedule excess for the region, an EOB may stand in for the valuation form.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises where the only objection is fee-schedule excess. Whether the amount exceeds the schedule for the region rests on the uncited fee schedule and its regions; the register tests only that the objection is the sole one and an EOB was filed, so no meaning is consumed here.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/1/mtg-objection-format",
+   "source_locator": "325-1.25(c)(1) sentence 5",
+   "text": "If the employer or their insurance carrier objects to paying all or part of a medical bill because of reasons related to the MTGs, the objection must: Be submitted electronically on Form C-81.B; Include the form citing the reason for the objection; Be sent to both the treating provider and the WCB",
+   "assertion": "An MTG objection is in the prescribed format with its basis, to the same recipients, simultaneously.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on an MTG objection; format ungrounded; the basis is a recorded field.",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/3/no-timely-objection-liable-full",
+   "source_locator": "325-1.25(c)(3) sentence 1",
+   "text": "If the bill is not paid or objected to within 45 days, the employer or their insurance carrier must pay the bill in full up to the maximum amount established in the applicable fee schedule.",
+   "assertion": "No timely objection in the prescribed manner: liable for the full amount up to the schedule maximum.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises where no objection was made in the manner described within 45 days of SUBMISSION (NY25-A1). The maximum is the uncited fee schedule's: ungrounded. `in full` against `up to the maximum` is NY25-A3.",
+   "rests_on_ungrounded_term": "applicable fee schedule",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/3/late-objection-barred",
+   "source_locator": "325-1.25(c)(3) sentence 2",
+   "text": "The New York Workers' Compensation Board (WCB) will not uphold late objections.",
+   "assertion": "An objection after 45 days is not reviewed.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "An objection's date against the 45-day point from submission.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/5/valuation-categories",
+   "source_locator": "325-1.25(c)(5)",
+   "text": "Employers or their insurance carriers may raise a valuation objection if the bill is: Not properly pro-rated or apportioned between providers; For duplicate, overlapping, or concurrent services; Submitted the wrong CPT codes; Outside the ground rules of the fee schedule; For services billed too frequently; For unnecessary or excessive hospitalization; For treatment outside the provider's scope of practice",
+   "assertion": "An open set of valuation grounds, eight enumerated.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "`include, but are not limited to`: supplies the enumerated grounds the membership clause tests; decides nothing.",
+   "operative_weight": "Valuation grounds as restated (closed list of seven; fee_schedule_excess moved to the EOB exception): proration, concurrent_duplicative, improper_cpt, ground_rules, frequency, hospitalization, scope_of_practice.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "$operative_weight_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/5/valuation-ground-enumerated",
+   "source_locator": "325-1.25(c)(5), applied",
+   "text": "[whether a valuation objection's stated ground is among the enumerated grounds]",
+   "assertion": "A valuation objection's ground is enumerated or not; a non-enumerated ground is not thereby invalid.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a valuation objection. Open set: `not_enumerated` is not `invalid`. Several grounds rest on the uncited fee schedule (pertinent fee schedule, Ground Rules limitation, improper CPT codes); the register tests the category token only and consumes no meaning.",
+   "in_force_from": "2021-11-01",
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/6/legal-categories",
+   "source_locator": "325-1.25(c)(6) sentence 1",
+   "text": "Examples of valid legal liability objections include: The claim itself is still in dispute (controverted); Prior authorization was required but not obtained; Treatment was not related to the work injury; Treatment was outside a Preferred Provider Organization (PPO); The medical report was late or legally defective; The provider, treatment, or equipment is not authorized; The bill was submitted only for evidence, not treatment",
+   "assertion": "An open set of legal grounds, seven enumerated.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the enumerated grounds; decides nothing.",
+   "operative_weight": "Legal grounds as restated (`Examples of valid legal liability objections include`, seven): controverted, no_prior_authorization, not_causally_related, outside_ppo, report_untimely_or_defective, not_authorized, evidentiary_only.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "$operative_weight_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/6/legal-ground-enumerated",
+   "source_locator": "325-1.25(c)(6), applied",
+   "text": "[whether a legal objection's stated ground is among the enumerated grounds]",
+   "assertion": "A legal objection's ground is enumerated or not.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a legal objection; open set. `controverted` (WCL 25(2)), `preferred provider organization` (WCL Art. 10-A) and `authorized` (WCL 13-b) are category tokens here and consume no meaning.",
+   "in_force_from": "2021-11-01",
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/7/mtg-categories",
+   "source_locator": "325-1.25(c)(7)(i) to (iii)",
+   "text": "Examples of valid MTG objections include: The treatment does not follow the MTGs, and the provider did not request or receive an approved variance before furnishing care; The provider received a variance approval, but delivered a different treatment than what the variance allowed; The provider misapplied the MTGs when furnishing treatment",
+   "assertion": "A closed set of three MTG grounds.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "`are:`, closed at three. The restatement introduces them as `Examples ... include`, an open set: NY25-A4 is not an ambiguity of the regulation but a divergence of the restatement, measured on the membership clause.",
+   "operative_weight": "MTG grounds as restated, introduced as examples (open): not_consistent_no_variance, outside_variance, misapplied.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "$operative_weight_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/c/7/mtg-ground-member",
+   "source_locator": "325-1.25(c)(7), applied",
+   "text": "[whether an MTG objection's stated ground is one of the three]",
+   "assertion": "An MTG objection on a ground outside the three is not an MTG objection.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on an MTG objection; closed set, so `not_member` is `not_an_mtg_objection`. Under layer B the set is open and `not_member` is only `not_enumerated`.",
+   "in_force_from": "2021-11-01",
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/e/1/arbitration-availability",
+   "source_locator": "325-1.25(e)(1)",
+   "text": "If an employer or their insurance carrier raises a timely valuation objection, the dispute over payment can be resolved through arbitration, which serves as the remedy for non-payment of bills.",
+   "assertion": "Arbitration is available where a timely valuation notice was received and the parties cannot agree on value.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a timely valuation notice; the failure to agree is a recorded fact.",
+   "reads": [
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format"
+   ],
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/f/1/adjudication-of-legal-mtg",
+   "source_locator": "325-1.25(f)(1)",
+   "text": "If an employer or their insurance carrier raises a timely legal objection, the dispute over non-payment is resolved through an adjudication decision. [and, for MTG:] If an employer or their insurance carrier raises a timely MTG objection, the dispute over non-payment is resolved through an adjudication decision.",
+   "assertion": "A legal or MTG objection in the prescribed format is reviewed and decided by the Board.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a legal or MTG objection in the prescribed format (ungrounded format). The regulation conditions review on the FORMAT; the restatement conditions it on TIMELINESS.",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-b-daisybill"
+  },
+  {
+   "id": "325-1.25/B/electronic-only-after-2025-08-01",
+   "source_locator": "layer B, Timely Filing, `Timely Filing Rules`",
+   "text": "The payer is under no obligation to send reimbursement for non-electronic bills submitted after August 1, 2025. Instead, the payer can send an Explanation of Review/Benefits (EOR/EOB) that indicates your practice sent the bill non-electronically. From there, you have 120 days from the date of service to resubmit the bill electronically for payment.",
+   "assertion": "A non-electronic bill after 2025-08-01 need not be paid; resubmit electronically within 120 days of service.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "STATED BY THE RESTATEMENT AND NOT BY 325-1.25. The regulation says `in the format prescribed by the Chair (which may be electronic)`; the electronic mandate and the payer's release from the obligation are stated elsewhere (Board notices) and are not in this section. A rule the restatement adds is a divergence by addition, attached to this clause.",
+   "in_force_from": null,
+   "register_version_id": "layer-b-daisybill"
+  }
+ ]
+}

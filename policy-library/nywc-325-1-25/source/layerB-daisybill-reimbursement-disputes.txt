@@ -1,0 +1,153 @@
+View Other Articles 
+ Reimbursement Disputes 
+ Last update 
+ December 16, 2025 
+ This article explains the three allowable reasons for non-payment of a medical bill in New York workers’ compensation: legal liability objections, Medical Treatment Guideline (MTG) Objections, and valuation objections, along with the required forms and procedures for each. 
+ Reasons for Non-Payment 
+ Within 45 days after a bill is submitted, the employer or their insurance carrier   must do one of the following: 
+ Pay the bil l , or 
+ Object to the bill and notify the provider of the reasons for non-payment . 
+ The reasons for non-payment include: 
+ Legal liability objections 
+ Medical Treatment Guidelines (MTG) objections, and 
+ Valuation objections 
+ Legal Liability Objections 
+ If an employer or their insurance carrier objects to paying all or part of a medical bill because they dispute legal liability , the objection must: 
+ Be submitted electronically on   Form C-81.B 
+ Be sent to the treating provider and the (Workers’ Compensation Board) WCB 
+ Examples of valid legal liability objections  include: 
+ The claim itself is still in dispute (controverted) 
+ Prior authorization was required but not obtained 
+ Treatment was not related to the work injury 
+ Treatment was outside a Preferred Provider Organization (PPO) 
+ The medical report was late or legally defective 
+ The provider, treatment, or equipment is not authorized 
+ The bill was submitted only for evidence, not treatment 
+ If an employer or their insurance carrier raises a timely legal objection , the dispute over non-payment is resolved through an adjudication decision . 
+ MTG Objections 
+ In New York, workers’ compensation providers must follow the state’s Medical Treatment Guidelines (MTGs)  to ensure compliant, reimbursable care for injured workers. 
+ If the employer or their insurance carrier objects to paying all or part of a medical bill because of reasons related to the MTGs, the objection must:   
+ Be submitted electronically on Form C-81.B   
+ Include the form citing the reason for the objection 
+ Be sent to both the treating provider and the WCB 
+ Examples of valid MTG objections  include: 
+ The treatment does not follow the MTGs , and the provider did not request or receive an approved variance before furnishing care 
+ The provider received a variance approval , but delivered a different treatment  than what the variance allowed 
+ The provider misapplied the MTGs when furnishing treatment 
+ If an employer or their insurance carrier raises a timely MTG objection , the dispute over non-payment is resolved through an adjudication decision . 
+ Valuation Objections 
+ If an employer or their insurance carrier objects to a medical bill because of the value of treatment or the amount billed : 
+ The objection must be submitted on Form C-8.4 
+ The form must be sent to both the treating provider  and the WCB 
+ Exception:  If the only issue is that the bill exceeds the fee schedule for the CPT code used, the claims administrator may instead submit an Explanation of Benefits (EOB). 
+ Employers or their insurance carriers may raise a valuation objection  if the bill is: 
+ Not properly pro-rated or apportioned  between providers 
+ For duplicate, overlapping, or concurrent services 
+ Submitted the wrong CPT codes 
+ Outside the ground rules of the fee schedule 
+ For services billed too frequently 
+ For unnecessary or excessive hospitalization 
+ For treatment outside the provider’s scope of practice 
+ If an employer or their insurance carrier raises a timely valuation objection , the dispute over payment can be resolved through arbitration , which serves as the remedy for non-payment of bills. 
+ New York 
+ Rule 
+ Rule 
+ New York Codes, Rules, and Regulations, Title 12, Chapter V 
+ Section 
+ 325-1.25 Payment of and Objections to Medical Bills 
+ Subsection Text 
+ 325-1.25 (c) (1) The employer or insurance carrier (or third-party administrator), within 45 days after the bill has been submitted shall pay the bill or shall notify the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital, or other provider of medical care, and the board in the format prescribed by the chair (which may be electronic) for such purpose that the bill is not being paid and the reasons for non-payment. If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for reasons concerning its legal liability for payment, the legal objections shall be placed on the chair prescribed form for such purpose and submitted to the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital, or other provider of medical care, and the board. If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for reasons concerning the value of the treatment performed or the amount billed, the valuation objections shall be placed on the chair prescribed form for that purpose and submitted to the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital, or other provider of medical care, and the board, except if the only objection is that the amount billed for the particular Current Procedural Terminology (CPT) code is in excess of the appropriate fee schedule for the region where the services were provided then the insurance carrier or employer (or third-party administrator) may file its explanation of benefits form. If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for one or more of the medical treatment guidelines objections set forth in paragraph (7) of this subdivision, the objections shall be placed in the format prescribed by the chair (which may be electronic), along with the basis for the objection, and submitted to the physician, occupational or physical therapist, podiatrist, chiropractor, or psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital, or other provider of medical care, and the board. 
+ (2) If the employer or insurance carrier (or third-party administrator) objects to only a portion of the bill submitted, it shall pay the uncontested portion within 45 days and file objections to the remaining portion as indicated herein. 
+ (3) If the employer or insurance carrier (or third-party administrator) has not objected in the manner described herein to the payment of the bill within 45 days of submission, it shall be liable for payment of the full amount billed up to the maximum amount established in applicable fee schedule. The board shall not review any objection made thereafter. 
+ (4) Legal, valuation, and medical treatment guidelines objections shall be made in the format prescribed by the chair (which may be electronic). 
+ (5) Valuation objections as to the amount of the bill include, but are not limited to, contentions that the bill is excessive and not in accordance with the pertinent fee schedule; has not been properly pro-rated or apportioned between providers; involves concurrent, duplicative, or overlapping services; uses improper current procedural terminology codes; is not in accordance with the ground rules limitation in the appropriate official workers’ compensation fee schedule; is rendered too frequently; involves unnecessary or excessive hospitalization; or involves a physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker or acupuncturist treating outside the scope of practice. 
+ (6) Legal objections as to the liability of the employer or insurance carrier (or third-party administrator) to pay include, but are not limited to, contentions that the claim has been controverted and liability has not been resolved; prior authorization for the special medical service was not granted; treatment was not causally related to the compensable injury; treatment provided was outside of the preferred provider organization; the medical report was not timely filed or was legally defective; the medical appliance, program, or provider is not authorized under the Workers’ Compensation Law; or the bill is for evidentiary purposes and not for treatment. Pursuant to Workers’ Compensation Law section 13(a), raising the issue of liability under Workers’ Compensation Law section 25-a is not a valid legal objection to payment of a bill for treatment. 
+ (7) The medical treatment guidelines objections as to the liability of the employer or insurance carrier (or third-party administrator) to pay are: 
+ (i) the treatment is not consistent with the medical treatment guidelines and a variance was not requested or approved by the employer or insurance carrier (or third-party administrator), or the board before the medical care was rendered; 
+ (ii) the physician, podiatrist, chiropractor, psychologist, nurse practitioner, licensed clinical social worker, or hospital varied from the medical treatment guidelines, the physician, podiatrist, chiropractor, psychologist, nurse practitioner, licensed clinical social worker, hospital, or other provider of medical care, requested and received approval for a variance from the employer or insurance carrier (or third-party administrator) or the board before the medical care was rendered but provided medical care other than what was covered by the variance; or 
+ (iii) the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other legally permitted medical care provider misapplied the medical treatment guidelines. 
+ (d) Administrative award: a remedy for non-payment of bills when no timely valuation objections are raised. 
+ (1) Chair authorized physicians, podiatrists, chiropractors, psychologists, nurse practitioners, physician assistants, licensed clinical social workers, acupuncturists, occupational or physical therapists, and other legally permitted providers of medical care, or hospitals providing services to claimants who have timely submitted bills for payment to the insurance carrier or employer (or third-party administrator) and who have not been paid in full or in part or received notice in the format prescribed by the chair (which may be electronic) for the purpose of advising of a valuation reason for non-payment within the time prescribed above, may apply to the chair the prescribed format (which may be electronic) for an administrative award pursuant to the provisions of Workers’ Compensation Law sections 13-g (1), 13-k (6), 13-l (6) and 13-m (7). Such request shall be submitted no earlier than 45 days from the date of the submission of the bill or 30 days from the date of the Workers’ Compensation Law judge or conciliation decision, or if appeal, board panel decision establishing the insurance carrier’s or employer’s (or third-party administrator’s) liability for the bill, and within 120 days from the later of: 
+ (i) the date of receipt of notification of nonpayment; or 
+ (ii) the expiration of the time within which the insurance carrier or employer (or third-party administrator) is required to notify the physician, self-employed occupational or physical therapist, podiatrist, chiropractor, psychologist, or hospital of nonpayment. 
+ (2) Notwithstanding the foregoing, upon a written application of the physician, occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioners, physician assistants, licensed clinical social workers, acupuncturists, hospital, or other provider of medical care, the chair may for good cause shown excuse a delay in the submission of the request for an administrative award. 
+ (3) 
+ (i) The board will not accept any request for an administrative award until all issues duly and timely raised by the employer or insurance carrier (or third-party administrator) with respect to its legal liability for payment and/or any medical treatment guidelines objections set forth in paragraph (c)(7) of this section have been finally determined adversely to it. 
+ (ii) A provider may only submit one request for an administrative award for each date of service. A request for administrative award that includes a date of service that was included on a previously submitted request for administrative award will be rejected. 
+ (4) All requests for administrative awards shall be submitted to the chair or his or her designee in the format prescribed for such purpose and certifies the following information: 
+ (i) the bill was timely submitted to the employer or insurance carrier (or third-party administrator) and the bill was not returned; 
+ (ii) the employer or insurance carrier (or third-party administrator) did not submit payment within 45 days after the bill was submitted or within 30 days after all questions duly and timely raised related to the employer or insurance carrier (or third-party administrator)’s liability therefore was finally determined adversely to it; 
+ (iii) the employer or insurance carrier (or third-party administrator) did not raise valuation issues in the format prescribed by the chair objecting to payment of the bill; 
+ (iv) the bill conforms to the fee schedule, if any, promulgated by the chair for treatment rendered; and 
+ (v) the bill was submitted in the format prescribed by the chair (which may be electronic) and as set forth in section 325-1.3 of this Subpart, or the form prescribed for outpatient hospital bills by the Commissioner of Health. 
+ (5) The board will reject incomplete requests for an administrative award. When information regarding a workers’ compensation claim that is included on a request for administrative award does not match the information in the board’s electronic case system, the request may be rejected by the board and the provider will be directed to review such information with his or her patient. 
+ (6) Upon receipt by the chair or his or her designee of a completed request for an administrative award, the request shall be examined to determine if it is in compliance with the requirements of this section. If the request is not in compliance with the requirements of this section, the request will be rejected by the board with an explanation of why the request is being rejected. If the request is in full compliance with the requirement of this section, a notice of decision on the chair prescribed form signed by the chair or the chair’s designee will propose an administrative award for the medical care rendered not in excess of the fee schedule, if any, to the authorized physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care. The chair prescribed form for the notice of decision will be sent to all parties of interest, notifying them of the proposed administrative award and the proposed filing date. The proposed filing date shall be at least 30 days after the date of the proposed administrative award. 
+ (7) Any party in interest may submit a written objection in the format prescribed by the chair (which may be electronic) to the proposed award on or before the proposed filing date. All documents or other evidence supporting the objection shall be submitted together with the written objection. If there is no written objection received prior to the proposed filing date, the proposed award will become final on the proposed filing date. If an objection is received from any party before the proposed filing date, the objection shall be reviewed by the chair or the chair’s designee, who shall make a decision on the request for an award based upon the documents and other evidence submitted. Upon review, a determination on reconsideration shall be sent to all parties in interest. 
+ (8) Interest on any administrative award made to a physician, self-employed occupational or physical therapist, podiatrist, chiropractor, psychologist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, or other provider of medical care, pursuant to this section shall be paid in accordance with the provisions of section 300.19 of this Title. 
+ (e) Arbitration award: a remedy for non-payment of bills when timely valuation objections are raised. 
+ (1) Chair authorized physicians, podiatrists, chiropractors, or psychologists, occupational or physical therapists, nurse practitioners, physician assistants, licensed clinical social workers, acupuncturists, hospitals or other legally permitted providers of medical care providing services to claimants who have timely submitted bills for payment to the employer or insurance carrier (or third-party administrator) in compliance with the provisions herein and have received a response in the format prescribed by the chair (which may be electronic) from the employer or insurance carrier (or third-party administrator) advising of a valuation reason for non-payment of the bill in full or in part within the time prescribed in this section, may apply to the chair for arbitration the format prescribed if the parties cannot agree as to the value of the services rendered. 
+ (2) Arbitration shall be requested solely at the option of the authorized physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care. 
+ (3) Notwithstanding the foregoing, upon a written application of the authorized physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care, the chair may for good cause shown excuse a delay in the submission of the request for arbitration. 
+ (4) The chair will not accept any request for an arbitration award until all issues duly and timely raised by the employer or insurance carrier (or third-party administrator) with respect to its legal liability for payment and/or any medical treatment guidelines objections set forth in paragraph (c)(7) of this section have been finally determined adversely to it. 
+ (f) Adjudication decision: a resolution for non-payment of bills when legal objections and medical treatment guidelines are raised. 
+ (1) If the employer or insurance carrier (or third-party administrator) objects to payment of all or part of the bill for medical care rendered for reasons concerning its legal liability for payment and/or the medical treatment guidelines as set forth in paragraph (c)(7) of this section and raises legal and/or medical treatment guidelines objections in the format prescribed by the chair (which may be electronic) for such purpose as indicated herein, the objection will be reviewed by the board and a decision rendered on the issue of legal liability and/or the medical treatment guidelines objections. The decision shall be filed with the parties including the authorized physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care. 
+ (2) If legal liability and/or medical treatment guidelines objection for the service is found in favor of the physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care, the employer, insurance carrier (or third-party administrator) shall pay the bill within 30 days from the filing of the Notice of Decision or may raise valuation issues as to all or part of the bill within 30 days in the format prescribed by the chair (which may be electronic) for such purpose as indicated herein. 
+ (3) If the employer or insurance carrier (or third-party administrator) files an application for review pursuant to Workers’ Compensation Law section 23 from the Notice of Decision finding legal liability and/or medical treatment guidelines objection in favor of the physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care, the employer or insurance carrier (or third-party administrator) may withhold payment of the bills up to the amount in dispute until a Workers’ Compensation Law judge or conciliation decision, or if appealed, a board panel decision is rendered by the board. If a Workers’ Compensation Law judge or conciliation decision, or if appealed, a board panel decision is filed finding legal liability and/or medical treatment guidelines objection in favor of the physician, podiatrist, chiropractor, psychologist, occupational or physical therapist, nurse practitioner, physician assistant, licensed clinical social worker, acupuncturist, hospital or other provider of medical care, the employer or insurance carrier (or third-party administrator) shall pay the bill within 30 days from the filing of the Workers’ Compensation Law judge or conciliation decision, or if appealed, board panel decision or may raise valuation issues as to all or part of the bill within 30 days by submitting such valuation issues in the format prescribed by the chair (which may be electronic) for such purpose as indicated herein. A subsequent application to the full board, except for review by the full board of a board panel decision which one member dissented from, or to the Appellate Division of the Supreme Court, Third Department, or to the Court of Appeals on the issue of legal liability and/or medical treatment guidelines objection shall not operate as a stay of the payment of the bills for medical or hospital services. 
+ daisyBill Solution 
+ Thousands of workers’ comp professionals use daisyBill’s Revenue Cycle Management software to compliantly process electronic bills and track disputes. To learn more, schedule a no-pressure demo with one of our billing experts. 
+ REQUEST DEMO 
+ How did you like the article ? 
+ Try the daisyWizard OMFS Calculator 
+ Hands down the best way to quickly determine up-to-date reimbursements and past dates of service. 
+ Start Free Trial
+ Questions? 
+ Call us at 646-847-7711 
+ hello@daisybill.com 
+ Monday - Friday 9am - 6pm EST 
+ Solutions 
+ daisyBill 
+ daisyAuth 
+ daisyWizard 
+ daisyCollect 
+ daisyIntegration 
+ Resources 
+ daisyNews 
+ daisyWebinars 
+ daisyHelp 
+ State Resources 
+ Workers' Comp Help 
+ Analytics 
+ Claims Admin Directory 
+ CA State Fee Schedule vs Provider Reimbursement 
+ Company 
+ About Us 
+ Careers 
+ Contact 
+ Team 
+ Solutions 
+ daisyBill 
+ daisyAuth 
+ daisyWizard 
+ daisyCollect 
+ daisyIntegration 
+ Resources 
+ daisyNews 
+ daisyWebinars 
+ daisyHelp 
+ State Resources 
+ Workers' Comp Help 
+ Analytics 
+ Claims Admin Directory 
+ CA State Fee Schedule vs Provider Reimbursement 
+ Company 
+ About Us 
+ Careers 
+ Contact 
+ Team 
+ Questions? 
+ Call us at 646-847-7711 
+ hello@daisybill.com 
+ Monday - Friday 9am - 6pm EST 
+© daisyBill 2026
+ Terms of Service 
+ Privacy 

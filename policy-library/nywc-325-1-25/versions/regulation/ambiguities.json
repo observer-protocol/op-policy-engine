@@ -1,0 +1,165 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version regulation. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Points where 12 NYCRR 325-1.25, or a restatement of it, leaves a reading open. REGISTERED, NOT RESOLVED. Each names who would have to settle it. Entries tagged to a restatement version are that restatement's own ambiguity, not the regulation's.",
+ "$method_note": "Nine registered from the regulation and the two layers read against each other. None gates an evaluation with a resolution key: the register encodes each text as it reads and lets the replay show where the readings part.",
+ "register_version_id": "regulation",
+ "ambiguities": [
+  {
+   "id": "NY25-A1",
+   "clause_id": "325-1.25/c/1/pay-or-notify-45",
+   "versions": [
+    "regulation",
+    "layer-b-daisybill"
+   ],
+   "question": "Does the carrier's 45-day clock start at receipt or at submission?",
+   "competing_readings": [
+    {
+     "reading": "Receipt",
+     "basis": "(c)(1): `within 45 days after the bill has been received`."
+    },
+    {
+     "reading": "Submission",
+     "basis": "(c)(3): `within 45 days of submission`; (d)(1): `no earlier than 45 days from the date of the submission`; (d)(4)(ii): `within 45 days after the bill was submitted`. Layer B says `submitted` throughout, and its quoted (c)(1) says `submitted` where the compilation says `received`."
+    }
+   ],
+   "textual_basis": "(c)(1) against (c)(3), (d)(1), (d)(4)(ii).",
+   "materiality": "Every timeliness determination in (c) and (d) turns on which day is day zero; a bill received days after submission moves the deadline by that many days.",
+   "who_settles": "The Board, by amendment or on a disputed bill.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A2",
+   "clause_id": "325-1.25/b/1/120-days",
+   "versions": [
+    "regulation"
+   ],
+   "question": "Are the section's `days` (120, 45, 30) calendar days or business days?",
+   "competing_readings": [
+    {
+     "reading": "Calendar days",
+     "basis": "No qualifier; the (b)(1) example `120 days from January 1, 2020 (April 30, 2020)` is 120 calendar days."
+    },
+    {
+     "reading": "Business days",
+     "basis": "Nothing in the text excludes it."
+    }
+   ],
+   "textual_basis": "(b)(1)'s worked example.",
+   "materiality": "Every interval clause. The register uses calendar_days, on the strength of the (b)(1) example, and marks it as an assumption.",
+   "who_settles": "The Board.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A3",
+   "clause_id": "325-1.25/d/1/award-availability",
+   "versions": [
+    "regulation",
+    "layer-a-wcb"
+   ],
+   "question": "What is payment `in full`: the full amount billed, or the full amount up to the fee schedule maximum?",
+   "competing_readings": [
+    {
+     "reading": "The amount billed",
+     "basis": "(c)(3): `the full amount billed`; (d)(1): `not been paid in full or in part`."
+    },
+    {
+     "reading": "The fee schedule maximum",
+     "basis": "(c)(3) continues `up to the maximum amount established in the applicable fee schedule`; (d)(6): an award `not in excess of the fee schedule`."
+    }
+   ],
+   "textual_basis": "(c)(3), (d)(1), (d)(6); layer A `has not paid your bill in full`; layer B `pay the bill in full up to the maximum`.",
+   "materiality": "Whether a carrier that paid the schedule amount on a bill above it has paid `in full` decides the (d)(1) remedy under layer A's reading.",
+   "who_settles": "The Board; the maximum itself sits in the licensed schedule (stated_elsewhere_purchase_required).",
+   "required_resolution": null,
+   "$anchored_on": "(d)(1), which the regulation and layer A both carry; the same phrase in (c)(3) and in layer B's restatement of it is the same question and is noted in textual_basis rather than anchored twice."
+  },
+  {
+   "id": "NY25-A4",
+   "clause_id": "325-1.25/d/1/award-availability",
+   "versions": [
+    "regulation"
+   ],
+   "question": "`have not been paid in full or in part`: not paid in full (partial payment counts as unpaid), or not paid at all in any part?",
+   "competing_readings": [
+    {
+     "reading": "Any shortfall",
+     "basis": "`in full or in part` qualifies `paid`: a partial payment leaves the bill not paid in full."
+    },
+    {
+     "reading": "No payment at all",
+     "basis": "The phrase could mean no payment was made, in full or in part."
+    }
+   ],
+   "textual_basis": "(d)(1).",
+   "materiality": "Whether a partially paid bill can go to an administrative award or only to arbitration.",
+   "who_settles": "The Board.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A5",
+   "clause_id": "325-1.25/g/effective-date",
+   "versions": [
+    "regulation"
+   ],
+   "question": "(g) says the regulation is effective 2020-01-01; the compilation records amendments effective 2020-01-29 and 2021-11-01. Which text was in force on a given date?",
+   "competing_readings": [
+    {
+     "reading": "(g) dates the 2020 text; the amendments date themselves",
+     "basis": "The compilation's history."
+    },
+    {
+     "reading": "(g) is stale and was not updated",
+     "basis": "(g) was not amended when the section was."
+    }
+   ],
+   "textual_basis": "(g) against the LII notes block.",
+   "materiality": "Which version of (c)(1) governs a 2020 or 2021 bill; layer B quotes a text that is not the current one.",
+   "who_settles": "The Department of State's compilation (not retrieved) and the Board.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A8",
+   "clause_id": "325-1.25/c/3/no-timely-objection-liable-full",
+   "versions": [
+    "regulation"
+   ],
+   "question": "`has not objected in the manner described herein`: does the manner include the prescribed format, so that a timely objection in the wrong format leaves the carrier liable in full?",
+   "competing_readings": [
+    {
+     "reading": "Yes",
+     "basis": "`in the manner described herein` points at (c)(1), which prescribes the format."
+    },
+    {
+     "reading": "No, timing only",
+     "basis": "(c)(3) is headed by the 45-day figure and the Board's own restatement (layer B) reads it as timing."
+    }
+   ],
+   "textual_basis": "(c)(3) against (c)(1).",
+   "materiality": "The register's (c)(3) tests timing and kinds only and does not consume the format meaning: a stated limit chosen because a clause rests on one ungrounded term.",
+   "who_settles": "The Board.",
+   "required_resolution": null
+  },
+  {
+   "id": "NY25-A9",
+   "clause_id": "325-1.25/d/3/i/not-before-legal-determined",
+   "versions": [
+    "regulation"
+   ],
+   "question": "When is a legal or MTG issue `finally determined adversely` to the carrier, given that (f)(3) lets a section 23 review stay payment and then says further appeals do not?",
+   "competing_readings": [
+    {
+     "reading": "At the judge's or Panel decision",
+     "basis": "(f)(3) names those decisions as the ones that end withholding."
+    },
+    {
+     "reading": "At the exhaustion of all appeals",
+     "basis": "`finally` in its ordinary sense."
+    }
+   ],
+   "textual_basis": "(d)(3)(i), (e)(4), (f)(3).",
+   "materiality": "When the 30-day count to an award or arbitration request begins.",
+   "who_settles": "The Board.",
+   "required_resolution": null
+  }
+ ]
+}

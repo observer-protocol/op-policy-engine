@@ -1,0 +1,87 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version layer-a-wcb. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "12 NYCRR 325-1.25, Payment of and objections to medical bills, in force (compiled by LII; latest amendment effective 2021-11-01). ONE SOURCE, THREE VERSIONS: the regulation is the REFERENCE; two restatement layers are UNDER TEST and never the other way round. A restatement version carries, for each clause it restates, the restatement's own text (text_by_version) and its own reading (evaluation.json clauses_by_version); clauses the restatement does not state are absent_in_versions; rules a restatement states that the regulation does not are only_in_versions. project-versions.mjs (--dir) projects each version; build-register assembles it.",
+ "$licensing_constraint": "No clause text from any Official New York Workers' Compensation fee schedule, no CPT descriptor, code text or table. 325-1.25 names CPT codes and the fee schedule as objection CATEGORIES; the register tests category membership and never a code's meaning or a scheduled amount, which arrive, where consumed, as institution-supplied meanings of terms the section does not cite.",
+ "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION, INCORPORATED_BY_REFERENCE (none used here: nothing 325-1.25 points at is purchase-only; the fee schedule is reached by an UNGROUNDED TERM instead, because the section does not cite it).",
+ "scope_note": "IN: 325-1.25 (a) to (g) in full. OUT, named: 12 NYCRR 325-1.3 (report and bill format, cited), 324.2 and 324.3 (Medical Treatment Guidelines and variances, cited), 325-1.4 and Part 441 (authorization, cited), 300.19 (interest, cited), 10 NYCRR 400.18 (hospital data set, cited), WCL 13-g, 13-k, 13-l, 13-m, 13(a), 23, 25-a (cited by section). All cited and public; their content arrives as supplied facts under the missing-citation test. NOT cited and consumed: Part 329 (the fee schedule and its regions), WCL 13-b (provider authorization), WCL 25(2) (controversion), Article 10-A (PPOs), the Chair's prescribed objection forms.",
+ "register_version": {
+  "id": "layer-a-wcb",
+  "role": "restatement_under_test",
+  "publishable": true,
+  "author": "New York State Workers' Compensation Board (state regulator)",
+  "documents": [
+   {
+    "title": "What Providers Need to Know",
+    "url": "https://www.wcb.ny.gov/content/main/hcpp/what-providers-need-to-know.jsp",
+    "dated": false,
+    "retrieved": "2026-08-25T05:18:13Z"
+   },
+   {
+    "title": "CMS-1500 Requirements",
+    "url": "https://www.wcb.ny.gov/CMS-1500/requirements.jsp",
+    "dated": "field matrix only: `Updated 05/18/2026` on the Excel link; the narrative is undated",
+    "retrieved": "2026-08-25T05:18:13Z"
+   }
+  ],
+  "currency_disposition": "UNDATED_RESTATEMENT",
+  "$currency": "The hub page carries no date. The CMS-1500 page dates its field matrix and not its narrative. Neither can be checked for currency against a regulation amended in 2020 and 2021 by anyone; the disposition is a value on this version, not a footnote."
+ },
+ "clauses": [
+  {
+   "id": "325-1.25/b/1/format-prescribed",
+   "source_locator": "325-1.25(b)(1) sentence 1",
+   "text": "As set forth in 12 NYCRR 325-1.25(b), medical providers must submit medical bills in the format prescribed by the Chair. The format for electronic medical bills is below: CMS-1500 Field Table Matrix for Electronic Submission (MS Excel) (Updated 05/18/2026)",
+   "assertion": "Authorized providers submit bills in the Chair's prescribed format per 325-1.3.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The format is set forth in 325-1.3, cited: supplied fact. `authorized by the Chair` is defined under WCL 13-b, not cited: ungrounded (as CV7).",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-a-wcb"
+  },
+  {
+   "id": "325-1.25/c/6/legally-defective-report",
+   "source_locator": "325-1.25(c)(6), `the medical report was not timely filed or was legally defective`, applied",
+   "text": "The template includes at the top of the page the three elements to include with most narratives: the patient's work status, causal relationship of the injury to the patient's work activities, and temporary impairment percentage. A medical narrative report may be found legally defective if these elements are missing. However, payers should not use the absence of these three elements as the sole basis for denying reimbursement as there are some instances in which they are not required.",
+   "assertion": "Whether the report is legally defective.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises where a legal objection on this ground was made. The regulation defines `legally defective` nowhere; 325-1.3 is cited in (b)(1) for the BILL format, not for report defectiveness, and WCL 13-a(4) is uncited: ungrounded, the institution supplies the meaning. LAYER A SUPPLIES A MEANING (three elements) and then withdraws it as a sole basis: encoded as the restatement reads.",
+   "rests_on_ungrounded_term": null,
+   "in_force_from": "2021-11-01",
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-a-wcb"
+  },
+  {
+   "id": "325-1.25/d/1/award-availability",
+   "source_locator": "325-1.25(d)(1) sentence 1",
+   "text": "If an insurance carrier has not paid your bill in full within 45 days of submission, you may be able to request the Board's assistance by filing Form HP-1.0 through OnBoard.",
+   "assertion": "The administrative award is available to a provider who timely submitted, was not paid in full or in part, and received no timely valuation notice.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "THE HYPOTHESIS CLAUSE. Three conjuncts in the regulation: timely submission, non-payment (in full or in part), and NO timely valuation notice. The restatement states one: not paid in full within 45 days. A carrier that objected on day 40 satisfies the regulation's third conjunct in the negative and the restatement's only condition in the affirmative. `in full` is NY25-A3. The regulation's third conjunct is a valuation notice `in the format prescribed by the Chair`: the format is the uncited term, consumed only where a timely valuation notice exists (E17). Layer A's reading consumes no meaning.",
+   "reads": [
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format"
+   ],
+   "in_force_from": "2021-11-01",
+   "rests_on_ungrounded_term": null,
+   "$term_by_version_note": "The restatement's reading of this clause consumes no meaning of the term (it names a form, a date, or three elements instead), so under that version the clause does not rest on it.",
+   "$text_differs_from_in_force": true,
+   "$rests_on_ungrounded_term_differs_from_in_force": true,
+   "register_version_id": "layer-a-wcb"
+  },
+  {
+   "id": "325-1.25/d/5/reject-incomplete-or-mismatch",
+   "source_locator": "325-1.25(d)(5)",
+   "text": "Additionally, HP-1.0s (Request for Decision on Unpaid Medical Bills) will be denied if the bill sent to the payer does not match the bill in the Board file.",
+   "assertion": "An incomplete request is rejected; a mismatched one MAY be rejected.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises on a request. The regulation's `may be rejected` on mismatch is a discretion; the restatement's `will be denied` is not. Encoded as each reads.",
+   "in_force_from": "2021-11-01",
+   "$text_differs_from_in_force": true,
+   "register_version_id": "layer-a-wcb"
+  }
+ ]
+}

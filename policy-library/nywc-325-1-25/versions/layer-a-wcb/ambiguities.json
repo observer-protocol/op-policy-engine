@@ -1,0 +1,54 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version layer-a-wcb. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Points where 12 NYCRR 325-1.25, or a restatement of it, leaves a reading open. REGISTERED, NOT RESOLVED. Each names who would have to settle it. Entries tagged to a restatement version are that restatement's own ambiguity, not the regulation's.",
+ "$method_note": "Nine registered from the regulation and the two layers read against each other. None gates an evaluation with a resolution key: the register encodes each text as it reads and lets the replay show where the readings part.",
+ "register_version_id": "layer-a-wcb",
+ "ambiguities": [
+  {
+   "id": "NY25-A3",
+   "clause_id": "325-1.25/d/1/award-availability",
+   "versions": [
+    "regulation",
+    "layer-a-wcb"
+   ],
+   "question": "What is payment `in full`: the full amount billed, or the full amount up to the fee schedule maximum?",
+   "competing_readings": [
+    {
+     "reading": "The amount billed",
+     "basis": "(c)(3): `the full amount billed`; (d)(1): `not been paid in full or in part`."
+    },
+    {
+     "reading": "The fee schedule maximum",
+     "basis": "(c)(3) continues `up to the maximum amount established in the applicable fee schedule`; (d)(6): an award `not in excess of the fee schedule`."
+    }
+   ],
+   "textual_basis": "(c)(3), (d)(1), (d)(6); layer A `has not paid your bill in full`; layer B `pay the bill in full up to the maximum`.",
+   "materiality": "Whether a carrier that paid the schedule amount on a bill above it has paid `in full` decides the (d)(1) remedy under layer A's reading.",
+   "who_settles": "The Board; the maximum itself sits in the licensed schedule (stated_elsewhere_purchase_required).",
+   "required_resolution": null,
+   "$anchored_on": "(d)(1), which the regulation and layer A both carry; the same phrase in (c)(3) and in layer B's restatement of it is the same question and is noted in textual_basis rather than anchored twice."
+  },
+  {
+   "id": "NY25-A6",
+   "clause_id": "325-1.25/d/1/award-availability",
+   "versions": [
+    "layer-a-wcb"
+   ],
+   "question": "Layer A says the provider `may be able to` request the Board's assistance. Is that a statement of the remedy's condition or a hedge that leaves the condition unstated?",
+   "competing_readings": [
+    {
+     "reading": "The stated condition is the condition",
+     "basis": "The sentence gives one condition, non-payment in full within 45 days."
+    },
+    {
+     "reading": "A hedge",
+     "basis": "`may be able to` concedes other conditions exist without naming them."
+    }
+   ],
+   "textual_basis": "Layer A hub page, `Medical billing issues/disputes`.",
+   "materiality": "The pay-or-object hypothesis: the register encodes the stated condition and records the hedge here.",
+   "who_settles": "The Board, as author of the page.",
+   "required_resolution": null
+  }
+ ]
+}

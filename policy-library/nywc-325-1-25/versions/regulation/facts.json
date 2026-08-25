@@ -1,0 +1,1108 @@
+{
+ "$projected": "PROJECTED by project-versions.mjs from ../../clauses.json for register version regulation. DO NOT EDIT. The authored source is the parent directory.",
+ "$schema_note": "Every fact a clause of any version reads, with its declared kind; read_by is DERIVED per version by the projector. The missing-citation test was applied at encoding time (TERMS.md): a term defined in a document the section cites for it is a fact here; a term defined only in a document the section does not cite for it is a MEANING below, never a fact; a term with no defining document retrievable is reported in TERMS.md as the third state.",
+ "$what_a_determination_is": "One bill for Medical Care under the New York workers' compensation system, from submission through the carrier's 45-day action and, where it arises, the provider's remedy (administrative award, arbitration, adjudication). Synthetic; no real claim, provider or name.",
+ "register_version_id": "regulation",
+ "fields": [
+  {
+   "field": "bill.care_rendered_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The date of service; the 120-day clock of (b)(1) starts here.",
+   "read_by": [
+    "325-1.25/b/1/120-days",
+    "325-1.25/b/1/pre-2020-care"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.care_last_day_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "Hospital outpatient bills: the last day of care, (b)(2).",
+   "read_by": [
+    "325-1.25/b/2/hospital-120-days"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.submitted_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The clock start for (c)(3) and (d)(1) (`submission`).",
+   "read_by": [
+    "325-1.25/a/1/provide-promptly",
+    "325-1.25/a/2/i/within-mtg",
+    "325-1.25/a/2/ii/variance-or-authorized",
+    "325-1.25/a/2/iii/agreed",
+    "325-1.25/a/2/iv/ordered",
+    "325-1.25/b/1/120-days",
+    "325-1.25/b/1/format-prescribed",
+    "325-1.25/b/1/ineligible-if-late-or-wrong-format",
+    "325-1.25/b/1/pre-2020-care",
+    "325-1.25/b/2/hospital-120-days",
+    "325-1.25/c/3/late-objection-barred",
+    "325-1.25/c/3/no-timely-objection-liable-full",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/d/1/request-window",
+    "325-1.25/e/1/arbitration-availability"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.received_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The clock start for (c)(1) (`received`). NY25-A1.",
+   "read_by": [
+    "325-1.25/c/1/pay-or-notify-45"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.format_per_325_1_3",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Whether the bill is in the format set forth in 325-1.3, which (b)(1) cites: a fact.",
+   "read_by": [
+    "325-1.25/b/1/format-prescribed"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.electronic",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Read by layer B's added rule and by its reading of (b)(1).",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-b-daisybill and by no clause this version carries"
+  },
+  {
+   "field": "bill.matches_cms1500_matrix",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Layer A's reading of (b)(1): the CMS-1500 field matrix (Updated 05/18/2026).",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "bill.hospital_outpatient",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/b/2/hospital-120-days",
+    "325-1.25/b/2/hospital-format"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.uds_format",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "10 NYCRR 400.18, cited: a fact.",
+   "read_by": [
+    "325-1.25/b/2/hospital-format"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": null,
+   "$read_by_no_clause_because": "(c)(3) makes the carrier liable for `the full amount billed up to the maximum amount established in the applicable fee schedule`; the register has no at-most primitive to place the amount billed against the maximum, so the clause records liability up to the maximum without computing it and reads neither. Declared so a determination carries the amount billed and the derived read_by shows, per version, that nothing consults it. A stated limit.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "bill.provider_class",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "physician",
+     "podiatrist",
+     "chiropractor",
+     "psychologist",
+     "nurse_practitioner",
+     "physician_assistant",
+     "lcsw",
+     "physical_therapist",
+     "occupational_therapist",
+     "acupuncturist",
+     "hospital"
+    ]
+   },
+   "note": "Layer A's narrative-element table keys on it.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "claim.accepted_or_established",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/2/liable-when-accepted",
+    "325-1.25/a/2/obligation-to-pay"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "claim.body_part_mtg_covered",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "324.2(a), cited: a fact.",
+   "read_by": [
+    "325-1.25/a/1/mtg-consistent-care",
+    "325-1.25/a/2/obligation-to-pay"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "claim.medically_necessary",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/2/liable-when-accepted"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.within_mtg_criteria",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": "`correct application` of the MTGs, an assessment.",
+   "read_by": [
+    "325-1.25/a/1/mtg-consistent-care",
+    "325-1.25/a/2/i/within-mtg",
+    "325-1.25/a/2/not-obligated-outside-mtg"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.provided_promptly",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/1/provide-promptly"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.variance_proper_324_3",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "324.3, cited: a fact.",
+   "read_by": [
+    "325-1.25/a/1/mtg-consistent-care",
+    "325-1.25/a/2/ii/variance-or-authorized",
+    "325-1.25/a/2/not-obligated-outside-mtg"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.authorized_325_1_4_or_441",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "325-1.4 and Part 441, cited: a fact.",
+   "read_by": [
+    "325-1.25/a/2/ii/variance-or-authorized"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.agreed_by_carrier",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/2/iii/agreed"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.ordered_by_board",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/2/iv/ordered",
+    "325-1.25/a/2/not-obligated-outside-mtg"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "care.agreed_amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": "An amount agreed between provider and payor, (a)(2).",
+   "read_by": [
+    "325-1.25/a/2/amount-fee-schedule-or-agreed"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.action",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "paid_full",
+     "paid_partial",
+     "objected",
+     "none"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/notice-recipients",
+    "325-1.25/c/1/pay-or-notify-45",
+    "325-1.25/c/2/pay-uncontested-portion",
+    "325-1.25/c/3/late-objection-barred",
+    "325-1.25/c/3/no-timely-objection-liable-full",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/e/1/arbitration-availability"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.action_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The payment or the notice date.",
+   "read_by": [
+    "325-1.25/c/1/pay-or-notify-45",
+    "325-1.25/c/3/late-objection-barred",
+    "325-1.25/c/3/no-timely-objection-liable-full",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/e/1/arbitration-availability"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.paid_amount",
+   "domain": {
+    "kind": "money"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/a/2/amount-fee-schedule-or-agreed"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.notice_reasons_stated",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/pay-or-notify-45"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.notice_recipients",
+   "domain": {
+    "kind": "list_of_enum",
+    "values": [
+     "provider",
+     "claimant",
+     "claimant_attorney",
+     "board"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/notice-recipients"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.notice_deadline_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The expiry of the carrier's time to notify, (d)(1)(ii). STATED LIMIT: derivable from received_at + 45 days, supplied because the expression language has no date arithmetic.",
+   "read_by": [
+    "325-1.25/d/1/request-window"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "carrier.uncontested_portion_paid_within_45",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/2/pay-uncontested-portion"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "claimant.has_attorney",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/notice-recipients"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.kinds",
+   "domain": {
+    "kind": "list_of_enum",
+    "values": [
+     "legal",
+     "valuation",
+     "mtg"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/legal-objection-format",
+    "325-1.25/c/1/mtg-objection-format",
+    "325-1.25/c/1/valuation-objection-format",
+    "325-1.25/c/4/objections-simultaneous",
+    "325-1.25/c/5/valuation-ground-enumerated",
+    "325-1.25/c/6/25a-not-valid",
+    "325-1.25/c/6/attach-par-denial",
+    "325-1.25/c/6/legal-ground-enumerated",
+    "325-1.25/c/6/legally-defective-report",
+    "325-1.25/c/6/par-not-raised-denied",
+    "325-1.25/c/7/iv/par-not-raised-denied",
+    "325-1.25/c/7/mtg-ground-member",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/e/1/arbitration-availability",
+    "325-1.25/f/1/adjudication-of-legal-mtg"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.made_at_list",
+   "domain": {
+    "kind": "list_of_ids"
+   },
+   "note": "The distinct dates on which objections were made; more than one is not simultaneous, (c)(4).",
+   "read_by": [
+    "325-1.25/c/1/legal-objection-format",
+    "325-1.25/c/1/mtg-objection-format",
+    "325-1.25/c/1/valuation-objection-format",
+    "325-1.25/c/4/objections-simultaneous"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.legal_ground",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "controverted",
+     "no_prior_authorization",
+     "not_causally_related",
+     "outside_ppo",
+     "report_untimely_or_defective",
+     "not_authorized",
+     "evidentiary_only",
+     "s25a_liability",
+     "other"
+    ]
+   },
+   "note": "Category tokens. controverted (WCL 25(2)), outside_ppo (Art. 10-A) and not_authorized (WCL 13-b) are defined in uncited statutes; the register tests the token and consumes no meaning of them here.",
+   "read_by": [
+    "325-1.25/c/6/25a-not-valid",
+    "325-1.25/c/6/legal-ground-enumerated",
+    "325-1.25/c/6/legally-defective-report"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.valuation_ground",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "fee_schedule_excess",
+     "proration",
+     "concurrent_duplicative",
+     "improper_cpt",
+     "ground_rules",
+     "frequency",
+     "hospitalization",
+     "scope_of_practice",
+     "other"
+    ]
+   },
+   "note": "Category tokens; the fee schedule, its Ground Rules and CPT are uncited and licensed; no meaning consumed.",
+   "read_by": [
+    "325-1.25/c/5/valuation-ground-enumerated"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.mtg_ground",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "not_consistent_no_variance",
+     "outside_variance",
+     "misapplied",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/7/mtg-ground-member"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.legal_form",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "C-8.1B",
+     "C-8.4",
+     "EOB",
+     "other"
+    ]
+   },
+   "note": "The form identifier the objection was made on, as recorded. Layer B names `C-81.B`, which is no form in this enumeration (NY25-A7).",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-b-daisybill and by no clause this version carries"
+  },
+  {
+   "field": "objection.valuation_form",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "C-8.1B",
+     "C-8.4",
+     "EOB",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/eob-alternative"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.mtg_form",
+   "domain": {
+    "kind": "enum",
+    "values": [
+     "C-8.1B",
+     "C-8.4",
+     "EOB",
+     "other"
+    ]
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-b-daisybill and by no clause this version carries"
+  },
+  {
+   "field": "objection.only_fee_schedule_excess",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/eob-alternative"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.eob_filed",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/1/eob-alternative"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "objection.basis_stated",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "The MTG objection's basis, (c)(1).",
+   "read_by": [
+    "325-1.25/c/1/mtg-objection-format"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "par.applicable",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/6/attach-par-denial",
+    "325-1.25/c/6/par-not-raised-denied",
+    "325-1.25/c/7/iv/par-not-raised-denied"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "par.objection_raised_in_response",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/6/par-not-raised-denied",
+    "325-1.25/c/7/iv/par-not-raised-denied"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "par.denial_attached",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/c/6/attach-par-denial",
+    "325-1.25/c/7/iv/par-not-raised-denied"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "report.work_status_present",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Layer A's three narrative elements.",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "report.causal_relationship_present",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "report.temporary_impairment_present",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "request.submitted_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "The administrative award request (HP-1.0).",
+   "read_by": [
+    "325-1.25/d/1/request-window",
+    "325-1.25/d/3/i/not-before-legal-determined",
+    "325-1.25/d/3/ii/one-request-per-dos",
+    "325-1.25/d/4/certifications",
+    "325-1.25/d/5/reject-incomplete-or-mismatch"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.nonpayment_notice_received_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/1/request-window"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.liability_decision_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/1/request-window"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.prior_request_same_dos",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/3/ii/one-request-per-dos"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.complete",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/5/reject-incomplete-or-mismatch"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.info_matches_ecase",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/5/reject-incomplete-or-mismatch"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.bill_matches_board_file",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "Layer A's condition on (d)(5).",
+   "read_by": [],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version",
+   "$unread_in_this_version": "read by layer-a-wcb and by no clause this version carries"
+  },
+  {
+   "field": "request.cert_timely_not_returned",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/4/certifications"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.cert_no_payment_45_or_30",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/4/certifications"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.cert_no_valuation_issues",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/4/certifications"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.cert_format",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/4/certifications"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "request.written_application_for_delay",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/b/3/good-cause-late-submission",
+    "325-1.25/d/2/good-cause-late-request",
+    "325-1.25/e/3/good-cause-late-arbitration"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "chair.good_cause_found",
+   "domain": {
+    "kind": "judgment",
+    "values": [
+     "affirmed",
+     "denied",
+     "not_assessed"
+    ]
+   },
+   "note": "One assessment field shared by (b)(3), (d)(2), (e)(3); which application it answers is the determination's.",
+   "read_by": [
+    "325-1.25/b/3/good-cause-late-submission",
+    "325-1.25/d/2/good-cause-late-request",
+    "325-1.25/e/3/good-cause-late-arbitration"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "legal_issues.timely_raised",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/3/i/not-before-legal-determined",
+    "325-1.25/e/4/not-before-legal-determined"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "legal_issues.finally_determined_adversely_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "NY25-A9.",
+   "read_by": [
+    "325-1.25/d/3/i/not-before-legal-determined",
+    "325-1.25/e/4/not-before-legal-determined"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proposed_award.date",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/6/proposed-filing-date-30",
+    "325-1.25/d/7/objection-to-proposed-award"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proposed_award.filing_date",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/6/proposed-filing-date-30",
+    "325-1.25/d/7/objection-to-proposed-award"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proposed_award.objection_received_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/7/objection-to-proposed-award"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proposed_award.award_made",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/d/8/interest"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "proposed_award.interest_paid_per_300_19",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "300.19, cited: a fact.",
+   "read_by": [
+    "325-1.25/d/8/interest"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "arbitration.parties_agree_on_value",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/e/1/arbitration-availability"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "arbitration.request_submitted_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/e/3/good-cause-late-arbitration",
+    "325-1.25/e/4/not-before-legal-determined"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.found_for_provider",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/f/2/pay-within-30-of-decision",
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.filed_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/f/2/pay-within-30-of-decision"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.carrier_paid_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/f/2/pay-within-30-of-decision",
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.simultaneous_valuation_objection",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/f/2/pay-within-30-of-decision",
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.review_application_filed",
+   "domain": {
+    "kind": "boolean"
+   },
+   "note": "WCL 23, cited: a fact.",
+   "read_by": [
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "decision.wclj_decision_filed_at",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": null,
+   "read_by": [
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  },
+  {
+   "field": "clock.now",
+   "domain": {
+    "kind": "timestamp",
+    "precision": "day",
+    "timezone": "required"
+   },
+   "note": "Never Date.now(); a fact.",
+   "read_by": [
+    "325-1.25/b/1/120-days",
+    "325-1.25/b/1/pre-2020-care",
+    "325-1.25/b/2/hospital-120-days",
+    "325-1.25/c/1/pay-or-notify-45",
+    "325-1.25/c/3/late-objection-barred",
+    "325-1.25/c/3/no-timely-objection-liable-full",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/d/1/request-window",
+    "325-1.25/d/3/i/not-before-legal-determined",
+    "325-1.25/d/6/proposed-filing-date-30",
+    "325-1.25/e/1/arbitration-availability",
+    "325-1.25/e/4/not-before-legal-determined",
+    "325-1.25/f/2/pay-within-30-of-decision",
+    "325-1.25/f/3/withhold-pending-review"
+   ],
+   "$read_by_derived": "by project-versions.mjs from the evaluation trees of this version"
+  }
+ ],
+ "resolutions": [],
+ "meanings": [
+  {
+   "term": "authorized",
+   "clauses": [
+    "325-1.25/b/1/format-prescribed"
+   ],
+   "keys": {
+    "provider_authorized": {
+     "kind": "boolean"
+    }
+   },
+   "missing_citation": "`authorized by the Chair to provide treatment and care under the Workers' Compensation Law`: authorization is under WCL 13-b and 12 NYCRR Part 324 and Subpart 325-1 provisions this section does not cite for it (it cites 325-1.4 and Part 441 for authorization of SERVICES, a different thing)",
+   "$keys_checked": "against the meaning leaves of this version's evaluation trees, both directions, by project-versions.mjs"
+  },
+  {
+   "term": "format prescribed by the Chair for such purpose",
+   "clauses": [
+    "325-1.25/c/1/pay-or-notify-45",
+    "325-1.25/c/1/legal-objection-format",
+    "325-1.25/c/1/valuation-objection-format",
+    "325-1.25/c/1/mtg-objection-format",
+    "325-1.25/d/1/award-availability",
+    "325-1.25/f/1/adjudication-of-legal-mtg"
+   ],
+   "keys": {
+    "notice_in_prescribed_format": {
+     "kind": "boolean"
+    }
+   },
+   "missing_citation": "the Chair's prescribed objection forms (C-8.1B, C-8.4, the EOB) are prescribed in Board form instructions the section does not cite; contrast (b)(1), which cites 325-1.3 for the BILL format and is therefore a fact",
+   "$keys_checked": "against the meaning leaves of this version's evaluation trees, both directions, by project-versions.mjs"
+  },
+  {
+   "term": "applicable fee schedule",
+   "clauses": [
+    "325-1.25/a/2/amount-fee-schedule-or-agreed",
+    "325-1.25/c/3/no-timely-objection-liable-full",
+    "325-1.25/d/4/certifications"
+   ],
+   "keys": {
+    "scheduled_amount": {
+     "kind": "money"
+    },
+    "maximum_amount": {
+     "kind": "money"
+    },
+    "bill_conforms": {
+     "kind": "boolean"
+    }
+   },
+   "missing_citation": "the fee schedules are adopted by 12 NYCRR Part 329, 333, 343, 348, which this section never cites; and they are licensed, which is why the amount is a meaning the institution supplies and never a value the register holds",
+   "$keys_checked": "against the meaning leaves of this version's evaluation trees, both directions, by project-versions.mjs"
+  },
+  {
+   "term": "legally defective",
+   "clauses": [
+    "325-1.25/c/6/legally-defective-report"
+   ],
+   "keys": {
+    "report_legally_defective": {
+     "kind": "boolean"
+    }
+   },
+   "missing_citation": "`the medical report was ... legally defective`: report requirements are in 325-1.3 (cited in (b)(1) for the bill format, not for this) and WCL 13-a(4), uncited. Layer A supplies a meaning (three narrative elements) and then withdraws it as a sole basis",
+   "$keys_checked": "against the meaning leaves of this version's evaluation trees, both directions, by project-versions.mjs"
+  }
+ ]
+}
