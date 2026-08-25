@@ -15,7 +15,14 @@
  */
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { relative, resolve } from 'node:path';
 const HERE = new URL('.', import.meta.url).pathname;
+// The repository root, so a population block can name its register by a path that is the same in
+// every worktree. A derived file whose content depends on where it was generated is not
+// reproducible, and the replay check compares digests (2026-08-25).
+const ROOT = new URL('../../', import.meta.url).pathname;
+const registerPathOf = (dir) => relative(ROOT, resolve(dir));
+const dirOfRegister = (register) => `${resolve(ROOT, register)}/`;
 const sha = (s) => createHash('sha256').update(s).digest('hex');
 
 /** The population parameters, parsed from the generator's header comment. ONE SOURCE. */
@@ -34,7 +41,7 @@ export function populationOf(det, dir = HERE) {
   const p = det.population;
   if (p === undefined) throw new Error('determinations.json carries no population block; regenerate it');
   const live = parametersFromGeneratorHeader(dir);
-  p.$dir = dir;
+  p.$register = registerPathOf(dir);   // repository-relative, never the worktree's absolute path
   if (p.parameters_sha256 !== live.sha256) throw new Error(`determinations.json population is STALE: its parameters digest ${p.parameters_sha256.slice(0, 12)} is not the generator header's ${live.sha256.slice(0, 12)}; regenerate`);
   return p;
 }
@@ -58,7 +65,7 @@ export function renderFigure(f, { marker = true } = {}) {
   if (f === undefined || f === null || typeof f !== 'object' || !('k' in f) || !('n' in f)) throw new Error('renderFigure: not a figure; build it with figure(k, n, population)');
   const pop = f.population;
   if (pop === undefined || pop === null) throw new Error(`renderFigure: figure ${f.k}/${f.n} carries no population; refusing to render it bare`);
-  const live = parametersFromGeneratorHeader(pop.$dir ?? HERE);
+  const live = parametersFromGeneratorHeader(pop.$register ? dirOfRegister(pop.$register) : HERE);
   if (pop.parameters_sha256 !== live.sha256) throw new Error(`renderFigure: figure ${f.k}/${f.n} carries a population whose parameters digest is stale against the generator header; refusing`);
   const s = `${f.k}/${f.n} (${f.pct.toFixed(1)}%)`;
   return marker ? `${s} ${populationMarker(pop)}` : s;
