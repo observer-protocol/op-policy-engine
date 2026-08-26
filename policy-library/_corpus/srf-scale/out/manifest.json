@@ -1,0 +1,51 @@
+{
+ "$note": "SYNTHETIC corpus manifest. The signing key is ephemeral; its private half was never written and was released before this manifest was written.",
+ "labels": [
+  "SYNTHETIC",
+  "DEMONSTRATION-KEY"
+ ],
+ "created": "2026-08-26T04:50:45Z",
+ "register": {
+  "domain": "srf",
+  "version": "0.1.0",
+  "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+  "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+  "accepted_tag": "srf-register-accepted-v1"
+ },
+ "recordVersion": 7,
+ "seed": 20260825,
+ "key": {
+  "did": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+  "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+  "publicKeyMultibase": "z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+  "algorithm": "Ed25519",
+  "cryptosuite": "eddsa-jcs-2022",
+  "labels": [
+   "SYNTHETIC",
+   "DEMONSTRATION-KEY"
+  ],
+  "custody": "ephemeral, in-process; no production custody contact",
+  "ledger": "SCALE signing, 2026-08-25",
+  "private_half": {
+   "written_to_disk": false,
+   "released": true,
+   "destroyed_at": "2026-08-26T04:51:05.952Z"
+  }
+ },
+ "files": {
+  "corpus.jsonl (uncompressed bytes)": "aabcb162983eb575682205035c311884637379cc8708415c2af96eb126710e14",
+  "corpus.jsonl.gz": "0225d7c7fe03cd0e459b2777bb05b1eccf59b5d1bd8083f389171cb8bbd8379f",
+  "records.jsonl (uncompressed bytes)": "5db184ec87c2947dbefa3a72f34bd3aca89c78e66f2c8bade55e715f529199fe",
+  "records.jsonl.gz": "161c796585e5f6186128d8d972d13bdea754e9b938238f50046a96c3164f0793",
+  "measurement.json": "c1a911dcb3298eda52bb74168e7813a70bf5176fe84e1da07a15b27377bfc52f"
+ },
+ "bytes": {
+  "corpus_jsonl": 41448933,
+  "records_jsonl": 143256106
+ },
+ "counts": {
+  "claims": 42188,
+  "records": 42188,
+  "exhibits": 7
+ }
+}

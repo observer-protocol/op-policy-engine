@@ -1,0 +1,392 @@
+{
+ "$note": "TAMPERED COPIES, SYNTHETIC. These records are deliberately altered after signing and must NOT verify.",
+ "cases": [
+  {
+   "tamper": "outcome token changed",
+   "record": {
+    "payloadType": "op.policy.claim-determination.mas-srf-2024.scale.v1",
+    "labels": [
+     "SYNTHETIC",
+     "DEMONSTRATION-KEY"
+    ],
+    "synthetic": true,
+    "claimId": "SRF-SCALE-SYN-000001",
+    "population": "single-clause",
+    "variedClause": "srf/4.2.1/cooling-off",
+    "register": {
+     "domain": "srf",
+     "version": "0.1.0",
+     "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+     "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+     "accepted_tag": "srf-register-accepted-v1"
+    },
+    "recordVersion": 7,
+    "factsDigest": "86daefbea26507c186e89aa45c499228bcfc1673a7a49a8eefe846cafa45b541",
+    "resolutionsDigest": "e7123ffae205eea08cb6f3555baeb81bb9d4211ac73065fd896c2fab72c9f46c",
+    "recordSetSha256": "ab3061f59b663b95bbe83e7573bfeb89233e002736dcc39dea9ac5c3ff7b9f61",
+    "outcome": "fi_bears",
+    "tier": {
+     "reached": "fi",
+     "state": "closed",
+     "closer": "srf/6/fi-tier"
+    },
+    "open": [],
+    "duties": {
+     "srf/4.2.1/cooling-off": "affirmative",
+     "srf/4.2.2/i/token-activation-alert": "affirmative",
+     "srf/4.2.2/ii/new-device-login-alert": "not_applicable",
+     "srf/4.2.2/iii/high-risk-activity-alert": "affirmative",
+     "srf/4.2.2/alerts": "affirmative",
+     "srf/4.2.3/outgoing-transaction-notification": "affirmative",
+     "srf/4.2.4/reporting-channel": "affirmative",
+     "srf/4.2.4/kill-switch": "affirmative",
+     "srf/4.2.4/duty": "affirmative",
+     "srf/4.2.5/surveillance-in-place": "affirmative",
+     "srf/4.2.5/response": "not_applicable",
+     "srf/4.2.5/duty": "affirmative",
+     "srf/5.2.1/deliver-only-from-authorised-aggregators": "affirmative",
+     "srf/5.2.2/block-unauthorised-sender-id": "not_applicable",
+     "srf/5.2.3/filter-implemented": "affirmative",
+     "srf/5.2.3/designated-database": "affirmative",
+     "srf/5.2.3/this-sms-blocked": "not_applicable",
+     "srf/5.2.3/duty": "affirmative",
+     "srf/7.2/explain-workflow": "affirmative",
+     "srf/7.5/transaction-information-on-enquiry": "affirmative",
+     "srf/7.6/out-of-scope-route": "not_applicable",
+     "srf/7.7/inform-telco": "affirmative",
+     "srf/7.8/fi-independent-governance": "affirmative",
+     "srf/7.8/telco-independent-governance": "affirmative",
+     "srf/7.9/investigation-timeline": "affirmative",
+     "srf/7.10/written-outcome": "affirmative",
+     "eupg/8.1/withhold-charges": "affirmative",
+     "srf/7.13/fi-credits": "not_applicable",
+     "srf/7.14/telco-credits": "not_applicable",
+     "eupg/4.14/kill-switch-characteristics": "affirmative",
+     "eupg/4.20/reporting-channel-characteristics": "affirmative",
+     "eupg/4.21/detection-and-blocking": "affirmative"
+    },
+    "tiers": {
+     "srf/6.4/a/fi-complied-all": "satisfied",
+     "srf/6.2/any-fi-breach": false,
+     "srf/6.2/fi-bears": "fi_not_liable_under_6.2",
+     "eupg/5.5/a/fraud-or-negligence": "denied",
+     "eupg/5.5/b/mas-requirement-noncompliance": "denied",
+     "srf/6.3/fi-responsible-notwithstanding": "not_satisfied",
+     "srf/6/fi-tier": "fi_not_liable",
+     "srf/7.7/perpetrated-through-sms": "sms",
+     "srf/6.4/b/any-telco-breach": false,
+     "srf/6.4/telco-bears": "telco_not_liable",
+     "srf/7.1.1/relevant-claim": "relevant_claim",
+     "srf/6.7/outcome": "account_holder_bears"
+    },
+    "proof": {
+     "type": "DataIntegrityProof",
+     "cryptosuite": "eddsa-jcs-2022",
+     "created": "2026-08-26T04:50:45Z",
+     "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+     "proofPurpose": "assertionMethod",
+     "proofValue": "z2F1WRoFTdahnDqoghdXQeCNTksHMWLMcX9XdSKPi6rZ8hyGZYimyWsbrAQL1s21ETTUvzP156rBe2Z2wMiVGfMGx"
+    }
+   }
+  },
+  {
+   "tamper": "one duty status changed",
+   "record": {
+    "payloadType": "op.policy.claim-determination.mas-srf-2024.scale.v1",
+    "labels": [
+     "SYNTHETIC",
+     "DEMONSTRATION-KEY"
+    ],
+    "synthetic": true,
+    "claimId": "SRF-SCALE-SYN-000017",
+    "population": "single-clause",
+    "variedClause": "srf/4.2.1/cooling-off",
+    "register": {
+     "domain": "srf",
+     "version": "0.1.0",
+     "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+     "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+     "accepted_tag": "srf-register-accepted-v1"
+    },
+    "recordVersion": 7,
+    "factsDigest": "a58557d3210cac2c2c5a5742fe1af28fbd532d5bff5fd7024444572e7cd8f1f3",
+    "resolutionsDigest": "e7123ffae205eea08cb6f3555baeb81bb9d4211ac73065fd896c2fab72c9f46c",
+    "recordSetSha256": "3db74ae0018553e05f7abf3ee892fd4f955c67a5d1f68f36e50fb2758d6762eb",
+    "outcome": "account_holder_bears",
+    "tier": {
+     "reached": "consumer",
+     "state": "closed",
+     "closer": "srf/6.7/outcome"
+    },
+    "open": [],
+    "duties": {
+     "srf/4.2.1/cooling-off": "affirmative",
+     "srf/4.2.2/i/token-activation-alert": "affirmative",
+     "srf/4.2.2/ii/new-device-login-alert": "not_applicable",
+     "srf/4.2.2/iii/high-risk-activity-alert": "affirmative",
+     "srf/4.2.2/alerts": "affirmative",
+     "srf/4.2.3/outgoing-transaction-notification": "affirmative",
+     "srf/4.2.4/reporting-channel": "affirmative",
+     "srf/4.2.4/kill-switch": "affirmative",
+     "srf/4.2.4/duty": "affirmative",
+     "srf/4.2.5/surveillance-in-place": "affirmative",
+     "srf/4.2.5/response": "not_applicable",
+     "srf/4.2.5/duty": "affirmative",
+     "srf/5.2.1/deliver-only-from-authorised-aggregators": "affirmative",
+     "srf/5.2.2/block-unauthorised-sender-id": "not_applicable",
+     "srf/5.2.3/filter-implemented": "affirmative",
+     "srf/5.2.3/designated-database": "affirmative",
+     "srf/5.2.3/this-sms-blocked": "not_applicable",
+     "srf/5.2.3/duty": "affirmative",
+     "srf/7.2/explain-workflow": "affirmative",
+     "srf/7.5/transaction-information-on-enquiry": "affirmative",
+     "srf/7.6/out-of-scope-route": "not_applicable",
+     "srf/7.7/inform-telco": "affirmative",
+     "srf/7.8/fi-independent-governance": "affirmative",
+     "srf/7.8/telco-independent-governance": "affirmative",
+     "srf/7.9/investigation-timeline": "affirmative",
+     "srf/7.10/written-outcome": "affirmative",
+     "eupg/8.1/withhold-charges": "affirmative",
+     "srf/7.13/fi-credits": "not_applicable",
+     "srf/7.14/telco-credits": "not_applicable",
+     "eupg/4.14/kill-switch-characteristics": "affirmative",
+     "eupg/4.20/reporting-channel-characteristics": "affirmative",
+     "eupg/4.21/detection-and-blocking": "affirmative"
+    },
+    "tiers": {
+     "srf/6.4/a/fi-complied-all": "not_satisfied",
+     "srf/6.2/any-fi-breach": true,
+     "srf/6.2/fi-bears": "fi_not_liable_under_6.2",
+     "eupg/5.5/a/fraud-or-negligence": "denied",
+     "eupg/5.5/b/mas-requirement-noncompliance": "denied",
+     "srf/6.3/fi-responsible-notwithstanding": "not_satisfied",
+     "srf/6/fi-tier": "fi_not_liable",
+     "srf/7.7/perpetrated-through-sms": "sms",
+     "srf/6.4/b/any-telco-breach": false,
+     "srf/6.4/telco-bears": "telco_not_liable",
+     "srf/7.1.1/relevant-claim": "relevant_claim",
+     "srf/6.7/outcome": "account_holder_bears"
+    },
+    "proof": {
+     "type": "DataIntegrityProof",
+     "cryptosuite": "eddsa-jcs-2022",
+     "created": "2026-08-26T04:50:45Z",
+     "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+     "proofPurpose": "assertionMethod",
+     "proofValue": "z3zLq9quV421EtxgoUrrL85iCDk5E7S9kNRsppxpM893HWwMdzNrSRyFfmy95KCPzMbQeJbkDohUpqC2eqTcRKEsp"
+    }
+   }
+  },
+  {
+   "tamper": "claim id changed",
+   "record": {
+    "payloadType": "op.policy.claim-determination.mas-srf-2024.scale.v1",
+    "labels": [
+     "SYNTHETIC",
+     "DEMONSTRATION-KEY"
+    ],
+    "synthetic": true,
+    "claimId": "SRF-SCALE-SYN-999999",
+    "population": "random",
+    "register": {
+     "domain": "srf",
+     "version": "0.1.0",
+     "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+     "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+     "accepted_tag": "srf-register-accepted-v1"
+    },
+    "recordVersion": 7,
+    "factsDigest": "0695a21290e069c33e29c91f74397f347c3c00df4112a8075cbc301d4c0122e3",
+    "resolutionsDigest": "5ebfe881ecd3b17be9b027fe99db03a9746da9dc56382eb34b32d1dbad3e0639",
+    "recordSetSha256": "9464c222fa74f2fe8a2a0632d6ec113b4594b60c5ad143634396bfb16736e918",
+    "outcome": "out_of_scope",
+    "tier": {
+     "reached": "scope",
+     "state": "closed",
+     "closer": "srf/7.1.1/relevant-claim"
+    },
+    "open": [],
+    "duties": {
+     "srf/4.2.1/cooling-off": "undetermined",
+     "srf/4.2.2/i/token-activation-alert": "undetermined",
+     "srf/4.2.2/ii/new-device-login-alert": "not_applicable",
+     "srf/4.2.2/iii/high-risk-activity-alert": "not_applicable",
+     "srf/4.2.2/alerts": "undetermined",
+     "srf/4.2.3/outgoing-transaction-notification": "undetermined",
+     "srf/4.2.4/reporting-channel": "affirmative",
+     "srf/4.2.4/kill-switch": "undetermined",
+     "srf/4.2.4/duty": "undetermined",
+     "srf/4.2.5/surveillance-in-place": "undetermined",
+     "srf/4.2.5/response": "undetermined",
+     "srf/4.2.5/duty": "undetermined",
+     "srf/5.2.1/deliver-only-from-authorised-aggregators": "not_applicable",
+     "srf/5.2.2/block-unauthorised-sender-id": "not_applicable",
+     "srf/5.2.3/filter-implemented": "not_applicable",
+     "srf/5.2.3/designated-database": "not_applicable",
+     "srf/5.2.3/this-sms-blocked": "not_applicable",
+     "srf/5.2.3/duty": "not_applicable",
+     "srf/7.2/explain-workflow": "undetermined",
+     "srf/7.5/transaction-information-on-enquiry": "undetermined",
+     "srf/7.6/out-of-scope-route": "undetermined",
+     "srf/7.7/inform-telco": "not_applicable",
+     "srf/7.8/fi-independent-governance": "breach",
+     "srf/7.8/telco-independent-governance": "not_applicable",
+     "srf/7.9/investigation-timeline": "breach",
+     "srf/7.10/written-outcome": "undetermined",
+     "eupg/8.1/withhold-charges": "undetermined",
+     "srf/7.13/fi-credits": "not_applicable",
+     "srf/7.14/telco-credits": "not_applicable",
+     "eupg/4.14/kill-switch-characteristics": "breach",
+     "eupg/4.20/reporting-channel-characteristics": "undetermined",
+     "eupg/4.21/detection-and-blocking": "undetermined"
+    },
+    "tiers": {
+     "srf/6.4/a/fi-complied-all": "undetermined",
+     "srf/6.2/any-fi-breach": "undetermined",
+     "srf/6.2/fi-bears": "undetermined",
+     "eupg/5.5/a/fraud-or-negligence": "awaiting:person",
+     "eupg/5.5/b/mas-requirement-noncompliance": "awaiting:person",
+     "srf/6.3/fi-responsible-notwithstanding": "undetermined",
+     "srf/6/fi-tier": "undetermined",
+     "srf/7.7/perpetrated-through-sms": "not_sms",
+     "srf/6.4/b/any-telco-breach": false,
+     "srf/6.4/telco-bears": "not_applicable",
+     "srf/7.1.1/relevant-claim": "not_relevant",
+     "srf/6.7/outcome": "out_of_scope"
+    },
+    "proof": {
+     "type": "DataIntegrityProof",
+     "cryptosuite": "eddsa-jcs-2022",
+     "created": "2026-08-26T04:50:45Z",
+     "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+     "proofPurpose": "assertionMethod",
+     "proofValue": "z5UQvTURBEhqxN94r9cWf6vLYD6NmxFGGkLWmv7J44oPjqzipuQ2CZoYUdhsfU3ENu7rhwgJzQHCpfcFBGdqCQatC"
+    }
+   }
+  },
+  {
+   "tamper": "proofValue altered by one character",
+   "record": {
+    "payloadType": "op.policy.claim-determination.mas-srf-2024.scale.v1",
+    "labels": [
+     "SYNTHETIC",
+     "DEMONSTRATION-KEY"
+    ],
+    "synthetic": true,
+    "claimId": "SRF-SCALE-SYN-000003",
+    "population": "single-clause",
+    "variedClause": "srf/4.2.1/cooling-off",
+    "register": {
+     "domain": "srf",
+     "version": "0.1.0",
+     "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+     "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+     "accepted_tag": "srf-register-accepted-v1"
+    },
+    "recordVersion": 7,
+    "factsDigest": "504c7d004a1a8107769220e3c2e3790e8cc8283ce5414c14f2ad8803c3386cb0",
+    "resolutionsDigest": "e7123ffae205eea08cb6f3555baeb81bb9d4211ac73065fd896c2fab72c9f46c",
+    "recordSetSha256": "c696641e6c4e68310da919a9ffc85f112d2db0493ce15291c62605771971ae7f",
+    "outcome": "undetermined",
+    "tier": {
+     "reached": "fi",
+     "state": "undetermined",
+     "stoppedAt": "srf/6/fi-tier"
+    },
+    "open": [
+     {
+      "clause": "srf/4.2.1/cooling-off",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/4.2.2/i/token-activation-alert",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/4.2.2/alerts",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/6.4/a/fi-complied-all",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/6.2/any-fi-breach",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/6.2/fi-bears",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     },
+     {
+      "clause": "srf/6/fi-tier",
+      "duty_holder": "fi",
+      "waiting": "fact"
+     }
+    ],
+    "duties": {
+     "srf/4.2.1/cooling-off": "undetermined",
+     "srf/4.2.2/i/token-activation-alert": "undetermined",
+     "srf/4.2.2/ii/new-device-login-alert": "not_applicable",
+     "srf/4.2.2/iii/high-risk-activity-alert": "affirmative",
+     "srf/4.2.2/alerts": "undetermined",
+     "srf/4.2.3/outgoing-transaction-notification": "affirmative",
+     "srf/4.2.4/reporting-channel": "affirmative",
+     "srf/4.2.4/kill-switch": "affirmative",
+     "srf/4.2.4/duty": "affirmative",
+     "srf/4.2.5/surveillance-in-place": "affirmative",
+     "srf/4.2.5/response": "not_applicable",
+     "srf/4.2.5/duty": "affirmative",
+     "srf/5.2.1/deliver-only-from-authorised-aggregators": "affirmative",
+     "srf/5.2.2/block-unauthorised-sender-id": "not_applicable",
+     "srf/5.2.3/filter-implemented": "affirmative",
+     "srf/5.2.3/designated-database": "affirmative",
+     "srf/5.2.3/this-sms-blocked": "not_applicable",
+     "srf/5.2.3/duty": "affirmative",
+     "srf/7.2/explain-workflow": "affirmative",
+     "srf/7.5/transaction-information-on-enquiry": "affirmative",
+     "srf/7.6/out-of-scope-route": "not_applicable",
+     "srf/7.7/inform-telco": "affirmative",
+     "srf/7.8/fi-independent-governance": "affirmative",
+     "srf/7.8/telco-independent-governance": "affirmative",
+     "srf/7.9/investigation-timeline": "affirmative",
+     "srf/7.10/written-outcome": "affirmative",
+     "eupg/8.1/withhold-charges": "affirmative",
+     "srf/7.13/fi-credits": "undetermined",
+     "srf/7.14/telco-credits": "undetermined",
+     "eupg/4.14/kill-switch-characteristics": "affirmative",
+     "eupg/4.20/reporting-channel-characteristics": "affirmative",
+     "eupg/4.21/detection-and-blocking": "affirmative"
+    },
+    "tiers": {
+     "srf/6.4/a/fi-complied-all": "undetermined",
+     "srf/6.2/any-fi-breach": "undetermined",
+     "srf/6.2/fi-bears": "undetermined",
+     "eupg/5.5/a/fraud-or-negligence": "denied",
+     "eupg/5.5/b/mas-requirement-noncompliance": "denied",
+     "srf/6.3/fi-responsible-notwithstanding": "not_satisfied",
+     "srf/6/fi-tier": "undetermined",
+     "srf/7.7/perpetrated-through-sms": "sms",
+     "srf/6.4/b/any-telco-breach": false,
+     "srf/6.4/telco-bears": "undetermined",
+     "srf/7.1.1/relevant-claim": "relevant_claim",
+     "srf/6.7/outcome": "undetermined"
+    },
+    "proof": {
+     "type": "DataIntegrityProof",
+     "cryptosuite": "eddsa-jcs-2022",
+     "created": "2026-08-26T04:50:45Z",
+     "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+     "proofPurpose": "assertionMethod",
+     "proofValue": "z4adF51qpUF2PTbdNpuZFYKPZKqLDWZkEisSV7cn4Si8TjXHBuDXiYjJNvwNXz4x7suuDBmS5MoAiw1NKtxjJjK21"
+    }
+   }
+  }
+ ]
+}

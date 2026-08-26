@@ -1,0 +1,71 @@
+{
+ "$note": "SYNTHETIC. Post-signing modification of one field per case; the published verifier must pass the original and fail the copy.",
+ "verifier": {
+  "package": "@observer-protocol/policy-engine",
+  "version": "1.0.0-rc.22"
+ },
+ "key": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+ "cases": [
+  {
+   "tamper": "outcome token changed",
+   "claimId": "SRF-SCALE-SYN-000001",
+   "original": {
+    "digest": "1fea3a2cdabf6db00327b95a966f0a4231dd7e623ad88d29b783b74f5f42f15c",
+    "verifies": true,
+    "reason": "ok"
+   },
+   "tampered": {
+    "digest": "f82c99655cb455c65b629734b14981b89990ed0268c492a22069393d09cf95ae",
+    "verifies": false,
+    "reason": "eddsa-jcs-2022 signature does not verify against the issuer key"
+   },
+   "outcome_as_expected": true
+  },
+  {
+   "tamper": "one duty status changed",
+   "claimId": "SRF-SCALE-SYN-000017",
+   "original": {
+    "digest": "04741b2c69c7a6db379c87211ba4673bd9d1e3fc0ee2ff73735e4de1fcde4918",
+    "verifies": true,
+    "reason": "ok"
+   },
+   "tampered": {
+    "digest": "a37412e922a5714c245e1cc97af4d246162a85c936c225e9068e6f23a4a379a2",
+    "verifies": false,
+    "reason": "eddsa-jcs-2022 signature does not verify against the issuer key"
+   },
+   "outcome_as_expected": true
+  },
+  {
+   "tamper": "claim id changed",
+   "claimId": "SRF-SCALE-SYN-037415",
+   "original": {
+    "digest": "6d79d4ccb30f0ab32e0cdb232728d9d3d38e5546f967e2030fd20bf45622a9d5",
+    "verifies": true,
+    "reason": "ok"
+   },
+   "tampered": {
+    "digest": "beea1b2a8cbf34fdfc0141d7d73c5af8fc44acf1d94727f9ddd7f612d3c93b89",
+    "verifies": false,
+    "reason": "eddsa-jcs-2022 signature does not verify against the issuer key"
+   },
+   "outcome_as_expected": true
+  },
+  {
+   "tamper": "proofValue altered by one character",
+   "claimId": "SRF-SCALE-SYN-000003",
+   "original": {
+    "digest": "efa3c17cee2c7c7246d7897afbd61b2461de442a045ebcabb60595ce894f6100",
+    "verifies": true,
+    "reason": "ok"
+   },
+   "tampered": {
+    "digest": "44a0dbdfb50ad5c9b534f6ffa05e0efd64e4f1202a93aa5a466fa529f17ace63",
+    "verifies": false,
+    "reason": "eddsa-jcs-2022 signature does not verify against the issuer key"
+   },
+   "outcome_as_expected": true
+  }
+ ],
+ "verdict": "ALL 4 TAMPERED COPIES FAIL VERIFICATION; ALL 4 ORIGINALS PASS"
+}
