@@ -1,0 +1,61 @@
+{
+ "$note": "One artifact per scenario; sha256 over the artifact bytes. SYNTHETIC, UNSIGNED.",
+ "recordVersion": 7,
+ "register_sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+ "artifacts": [
+  {
+   "claimId": "SRF-SYN-2026-0001",
+   "scenario": "FI breach: no 12-hour cooling-off after token activation",
+   "outcome": "fi_bears",
+   "stoppedAt": null,
+   "tier": "fi",
+   "open": 0,
+   "sha256": "41fb112d9003f770e477e356c880057041b81e649724daa6dfbc7e7e6f458bda"
+  },
+  {
+   "claimId": "SRF-SYN-2026-0002",
+   "scenario": "Telco breach: Sender ID SMS delivered from an unauthorised aggregator",
+   "outcome": "telco_bears",
+   "stoppedAt": null,
+   "tier": "telco",
+   "open": 0,
+   "sha256": "62c4f725d08f50dafaa1ef8b2e2e6d3ebbb8148ee7fee506d9ccc8c1a1bbe6ab"
+  },
+  {
+   "claimId": "SRF-SYN-2026-0003",
+   "scenario": "Clean waterfall: both tiers affirmatively not liable, the account holder bears",
+   "outcome": "account_holder_bears",
+   "stoppedAt": null,
+   "tier": "consumer",
+   "open": 0,
+   "sha256": "10e33e70741b62590c13aee2a238651e42c13a18a656c30a26437941332e5bd8"
+  },
+  {
+   "claimId": "SRF-SYN-2026-0004",
+   "scenario": "Undetermined at the FI tier: cooling-off not assessed",
+   "outcome": "undetermined",
+   "stoppedAt": "srf/6/fi-tier",
+   "tier": "fi",
+   "open": 5,
+   "sha256": "beea061f207a2cd201bbc7a4b46a6db524dda0bbcd90d12f0888326035e18f4b"
+  },
+  {
+   "claimId": "SRF-SYN-2026-0005",
+   "scenario": "Undetermined at the Telco tier: A5 unresolved",
+   "outcome": "undetermined",
+   "stoppedAt": "srf/6.4/telco-bears",
+   "tier": "telco",
+   "open": 3,
+   "sha256": "d34abf08ea8d7b7d69c6a6fd1422ccf8d619e16adf34bf6afde6f09794439e84"
+  },
+  {
+   "claimId": "SRF-SYN-2026-0006",
+   "scenario": "Out of scope: corporate account holder",
+   "outcome": "out_of_scope",
+   "stoppedAt": null,
+   "tier": "scope",
+   "open": 0,
+   "sha256": "c4fba1ed4d05fff5b9a841f430ae352a8646a9dbacc878171b780c2ab6f7c539"
+  }
+ ]
+}

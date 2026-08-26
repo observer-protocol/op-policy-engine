@@ -121,9 +121,11 @@ a derived record. LOGGED, NOT EXTENDED.
 The waiting axis has five values and none is "an institution must choose a reading"; the
 interpreter's stated fallback lands it on `fact` (`_interpreter/WAITING-AXIS.md`, a known limit).
 Here it matters more than elsewhere: the two guards that decide whether the waterfall can advance
-(A3 on `srf/6.4/a/fi-complied-all`, A5 on `srf/5.2.3/duty`) are exactly this state, and scenario 5's
-record says `undetermined, waiting: fact` when nothing gatherable would change it. LOGGED, NOT
-EXTENDED.
+(A3 on `srf/6.4/a/fi-complied-all`, A5 on `srf/5.2.3/duty`) are exactly this state. Measured on
+scenario 5 (A5 unresolved): `srf/5.2.3/duty` reads no fact of its own, so the fallback lands on
+`clause`, and the record says `undetermined, waiting: clause` when what is missing is an
+institution's choice between two registered readings. Neither `fact` nor `clause` names it.
+LOGGED, NOT EXTENDED.
 
 **F-10. Pipeline: `$decided_on_absence` on a decision-table row was dropped by the builder.** R15
 requires the annotation on any row keyed on an absence-class input that yields a decided outcome,
