@@ -1,7 +1,7 @@
 {
  "$note": "Frozen output of the three hand-written evaluators. This file records WHAT was frozen and OVER WHICH POPULATION. It is not the oracle; the .out.jsonl and .digests.txt files are.",
- "captured_at_commit": "e5d257bf6b1ce6dd90f88a9f257dcf113ae19698",
- "captured_on_branch": "agent/rationale",
+ "captured_at_commit": "64abe3c779f6b38d9a0f1ca5ad34e94673678398",
+ "captured_on_branch": "session/srf-corpus",
  "freeze_discipline": {
   "scope": "policy-library, ignored files included",
   "status_command": "git status --porcelain=v1 -uall --ignored=matching -- policy-library",
@@ -128,6 +128,31 @@
      "input_stream_sha256": "cbaf5422233b8e7dbaf146ad3ff8cdb1ff3b4099dff5b1b9ca6cc473cfb18295"
     }
    }
+  },
+  "srf": {
+   "clauses": 104,
+   "populations": {
+    "fixtures": {
+     "records": 6,
+     "source": "policy-library/mas-srf-2024/cases.mjs, read through a spy",
+     "json_replay_mismatches": []
+    },
+    "corpus": {
+     "records": 0,
+     "source": "NOT_FOUND: _corpus/corpus.json carries banxico and psr only. Looked, and there is no FECA slice to freeze."
+    },
+    "sample-full": {
+     "records": 250,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..249",
+     "frozen_as": "the exact output bytes"
+    },
+    "sample-wide": {
+     "records": 40000,
+     "source": "_corpus/space.mjs, seed 20260822, records 0..39999",
+     "frozen_as": "sha256 of the exact output bytes, first 16 hex characters",
+     "input_stream_sha256": "85eb546202d5d16bd89a7d16eb7c72580f48b805dc8327091685b3ad1333a472"
+    }
+   }
   }
  },
  "files": {
@@ -186,6 +211,22 @@
   "feca.sample.digests.txt": {
    "bytes": 640000,
    "sha256": "493d20cb095e47c6d814c712b42b83226a9d49c410e8b7c23864e92eb0956a9f"
+  },
+  "srf.fixtures.inputs.json": {
+   "bytes": 27760,
+   "sha256": "9aad57e2bcbc47e9906fb0d49d352c03f36aac2556531824c15d3a1e33437f3e"
+  },
+  "srf.fixtures.out.jsonl": {
+   "bytes": 119264,
+   "sha256": "2b6fa6f044a16c5dfd7a8f3bdc173220cb73ecc8437aa1623c15a64bfdd9fad0"
+  },
+  "srf.sample.out.jsonl": {
+   "bytes": 4996733,
+   "sha256": "aa5c6a261730eebf7ca60a674fcdf105069422222f090ca7ec0131e8d61cac8d"
+  },
+  "srf.sample.digests.txt": {
+   "bytes": 640000,
+   "sha256": "d84ec3515be8dd3e4ee9c34a7e2feb88b5ee35125c3a9872bc091b72122032c3"
   }
  }
 }

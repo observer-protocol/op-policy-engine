@@ -40,11 +40,15 @@ asserted:
    `fi_bears` closes the waterfall even if another FI duty is undetermined (6.5), which is the
    tier terminating, not advancing.
 
-**Parity.** The hand evaluator (`evaluate.mjs`) and the interpreter over `register.json` agree on
-every record, waiting axis included, over the 6 scenarios plus 40,000 sampled fact sets
-(`_corpus/space.mjs` SRF_FIELDS, seed 20260822): 40,006 inputs, 0 disagreements, after F-11.
-[population: synthetic; the sampler varies every declared fact path over its declared domain and
-no outcome was targeted]
+**Parity and the gate.** The hand evaluator (`evaluate.mjs`) and the interpreter over
+`register.json` agree on every record, waiting axis included, over the oracle frozen at commit
+64abe3c (`_phase0/oracle/MANIFEST.json`): fixtures 6, sample-full 250, sample-wide 40,000
+(`_corpus/space.mjs` SRF_FIELDS and SRF_RESOLUTIONS, seed 20260822); `parity.mjs
+--candidate=interpreter --domain=srf`: 40,006 record comparisons, IDENTICAL. `_phase0/gate.mjs`
+with the fourth register added: ALL SEVEN STEPS PASS (validator over four registers, every rule
+shown firing, E17, the adoption chain, every fact path varied, hand-vs-oracle identity,
+interpreter-vs-oracle). Reached after F-11 and F-16. [population: synthetic; the sampler varies
+every declared fact path over its declared domain and no outcome was targeted]
 
 ## Numbered findings
 
@@ -135,6 +139,15 @@ both held judgments before composing where the register's `or` stops at the firs
 all on the waiting axis of a decided `breached` (`judgment` against `none`). Fixed to evaluate
 lazily in the register's order; 0 of 40,006 after. The control fired on the real condition before
 it was trusted.
+
+**F-16. The scratch parity harness counted identical throws as agreement.** Before the oracle
+freeze, a session harness compared the two implementations over 40,000 samples and reported 0
+disagreements while both were THROWING on the same input class (`undetermined_on_supplied_meaning`
+reaching a remap with no such key: a `not_assessed` judgment under a supplied baseline meaning).
+The capture (`capture-oracle.mjs`, sample-full population) refused to freeze it. Fixed in the
+register (the meaning is consulted only inside the decided arms of the judgment) and in the
+harness (any throw is a defect). A comparison that treats "both failed the same way" as agreement
+is a gate that cannot trip on the failure it was built to catch.
 
 **F-12. Source: a one-day date difference between the EUPG landing page and its PDF.** "Last
 Revised Date: 25 October 2024" against "[Amended on 24 October 2024]". Not a version ambiguity

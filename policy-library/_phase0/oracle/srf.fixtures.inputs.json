@@ -1,0 +1,955 @@
+[
+ {
+  "facts": {
+   "account": {
+    "holder_type": "individual",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": false
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-alpha",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "denied",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "affirmed",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": false,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": true,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "A5_filter_duty_reading": "filter_in_place",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ },
+ {
+  "facts": {
+   "account": {
+    "holder_type": "individual",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "affirmed",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": true
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-rogue",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "affirmed",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": false,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": false,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "A5_filter_duty_reading": "filter_in_place",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ },
+ {
+  "facts": {
+   "account": {
+    "holder_type": "individual",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": false
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-alpha",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "affirmed",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": false,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": false,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "A5_filter_duty_reading": "filter_in_place",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ },
+ {
+  "facts": {
+   "account": {
+    "holder_type": "individual",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": false
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-alpha",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "not_assessed",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": false,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": false,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "A5_filter_duty_reading": "filter_in_place",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ },
+ {
+  "facts": {
+   "account": {
+    "holder_type": "individual",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": false
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-alpha",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "affirmed",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": false,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": false,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ },
+ {
+  "facts": {
+   "account": {
+    "holder_type": "corporate",
+    "issuer_type": "bank",
+    "card_transaction": false,
+    "balance_capable_over_1000_sgd": true,
+    "credit_facility": false,
+    "electronic_payments_capable": true,
+    "stores_specified_emoney": false
+   },
+   "scam": {
+    "impersonated_entity_type": "sg_incorporated_entity",
+    "contact_platform": "sms",
+    "credentials_entered_on_fabricated_platform": true,
+    "transactions_unintended": "affirmed"
+   },
+   "transaction": {
+    "executed_at": "2026-03-02T10:00:00+08:00",
+    "above_holder_threshold": null,
+    "above_baseline_threshold": "affirmed"
+   },
+   "telco": {
+    "operator_type": "mno",
+    "authorised_aggregators": [
+     "agg-alpha",
+     "agg-beta"
+    ],
+    "filter": {
+     "implemented_for_all_sms": true,
+     "database": "sg-scamshield-url-db"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "subscriber_is_account_holder": true,
+    "number_designated_for_notifications": null,
+    "number_received_phishing_sms": null,
+    "governance": {
+     "independent": true
+    },
+    "credited_total_loss": false
+   },
+   "sms": {
+    "sender_id_type": "alphanumeric_sender_id",
+    "received_from": "aggregator",
+    "aggregator": "agg-alpha",
+    "delivered_to_subscriber": true,
+    "url_listed_at_delivery": "denied"
+   },
+   "fi": {
+    "events": {
+     "token_activated": true,
+     "new_device_login": false,
+     "high_risk_activity": true
+    },
+    "cooling_off": {
+     "at_least_12h_imposed": "affirmed",
+     "high_risk_prevented": "affirmed"
+    },
+    "alerts": {
+     "token_activation_real_time": "affirmed",
+     "new_device_login_real_time": null,
+     "high_risk_activity_real_time": "affirmed",
+     "outgoing_transaction_real_time": "affirmed",
+     "first_sent_at": "2026-03-02T10:01:00+08:00"
+    },
+    "reporting_channel": {
+     "available_at_all_times": true
+    },
+    "kill_switch": {
+     "self_service": true,
+     "blocks_mobile_and_online": true,
+     "disallows_non_biller_transfers": true,
+     "terminates_sessions": true,
+     "prominent": true
+    },
+    "surveillance": {
+     "real_time_in_place": true,
+     "rapid_drain_criteria_met": "denied",
+     "response": "none"
+    },
+    "loss_arises_from_noncompliance": "denied",
+    "fraud_or_negligence": "denied",
+    "mas_requirement_noncompliance": "denied",
+    "loss_arises_from_action_or_omission": "denied",
+    "requested_delay_reasons": false,
+    "provided_transaction_information": true,
+    "communicated_out_of_scope_assessment": true,
+    "informed_telco": true,
+    "workflow_explained_at_report": true,
+    "governance": {
+     "independent": true
+    },
+    "investigation": {
+     "completed_at": "2026-03-20T15:00:00+08:00",
+     "complexity": "straightforward"
+    },
+    "outcome": {
+     "written_reply_given": true,
+     "acknowledgement_sought": true
+    },
+    "charges_withheld": true,
+    "credited_total_loss": false,
+    "requested_3_18_information": true,
+    "police_report_requested": true,
+    "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+    "report_acknowledged_in_writing": true,
+    "report_fee_charged": false,
+    "detection": {
+     "capability_at_all_times": true,
+     "annual_review": true
+    }
+   },
+   "holder": {
+    "instructed_transaction_notifications": true,
+    "notification_threshold_set": false,
+    "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+    "provided_3_18_information_in_reasonable_time": "affirmed",
+    "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+    "recklessness_primary_cause": "denied",
+    "kill_switch_activated_promptly": "affirmed"
+   },
+   "user": {
+    "referred_to_official_sources": "denied",
+    "clicked_unexpected_link": "affirmed"
+   },
+   "claim": {
+    "reported_at": "2026-03-03T09:00:00+08:00",
+    "submission_at": "2026-03-04T09:00:00+08:00",
+    "email_provided": true,
+    "delay_reasons_provided": null,
+    "records": {
+     "show_impersonation": "affirmed",
+     "show_credential_intent": "affirmed",
+     "show_platform_direction": "affirmed"
+    },
+    "telco_named": true,
+    "mobile_number_provided": true,
+    "sms_details_provided": true,
+    "holder_enquired": true
+   },
+   "clock": {
+    "now": "2026-04-01T09:00:00+08:00"
+   }
+  },
+  "resolutions": {
+   "A3_not_applicable_duty": "counts_as_complied",
+   "A5_filter_duty_reading": "filter_in_place",
+   "ungrounded_terms": {
+    "designated database": {
+     "designated_databases": [
+      "sg-scamshield-url-db"
+     ]
+    },
+    "default industry-baseline transaction notification threshold": {
+     "baseline_sgd": 0.01
+    }
+   }
+  }
+ }
+]
