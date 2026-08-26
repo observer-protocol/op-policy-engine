@@ -1,11 +1,7 @@
 {
- "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
  "register_version": "0.1.0",
  "domain": "psr",
- "source": {
-  "$schema_note": "Payment Services Regulations 2017 (SI 2017/752), regulation 76 and the provisions it depends on. Derived from the XML at legislation.gov.uk, digests in source/PROVENANCE.md. Decomposed WITHOUT consulting the Banxico clause register; primitive attribution was made afterwards, against banxico-34-2010/primitives.json.",
-  "decomposition_note": "Boundary set by the source. Reg 76 is `subject to regulations 74 and 75` and turns on whether a transaction was authorised `in accordance with regulation 67`, so 74, 75 and 67 are in. Regulation 72 is referenced BY 75(3) and 75(4) as the subject of a proof burden, two hops from 76 and never as a condition of the refund, so it is excluded and named here rather than silently dropped. Section 333A(2) of the Proceeds of Crime Act 2002 is external primary legislation, not part of this instrument."
- },
+ "source": {},
  "dispositions": {
   "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, EVIDENTIAL. See ../_primitives/EVIDENTIAL.md for the last.",
   "with_result_domain": [
@@ -148,7 +144,6 @@
  "defined_terms": null,
  "undefined_terms": null,
  "waiting": {
-  "$note": "The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.",
   "values": [
    "fact",
    "judgment",
@@ -222,7 +217,6 @@
   }
  },
  "lanes": {
-  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
   "lanes": [
    "engine",
    "agent",
