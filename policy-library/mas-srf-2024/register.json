@@ -5014,43 +5014,21 @@
     "compute": {
      "op": "guard_on_unresolved",
      "usable": {
-      "op": "and",
-      "operands": [
-       {
-        "op": "eq",
-        "left": {
-         "op": "primitive",
-         "name": "field_present",
-         "args": [
-          {
-           "op": "fact",
-           "path": "holder.notification_threshold_set"
-          }
-         ]
-        },
-        "right": {
-         "op": "const",
-         "value": "present"
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "holder.notification_threshold_set"
         }
-       },
-       {
-        "op": "eq",
-        "left": {
-         "op": "primitive",
-         "name": "field_present",
-         "args": [
-          {
-           "op": "meaning",
-           "key": "baseline_sgd"
-          }
-         ]
-        },
-        "right": {
-         "op": "const",
-         "value": "present"
-        }
-       }
-      ]
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
      },
      "compute": {
       "op": "remap_result_domain",
@@ -5066,12 +5044,52 @@
       },
       "mapping": {
        "affirmed": {
-        "op": "const",
-        "value": "above"
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "meaning",
+            "key": "baseline_sgd"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        "compute": {
+         "op": "const",
+         "value": "above"
+        }
        },
        "denied": {
-        "op": "const",
-        "value": "not_above"
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "meaning",
+            "key": "baseline_sgd"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        "compute": {
+         "op": "const",
+         "value": "not_above"
+        }
        },
        "not_assessed": {
         "op": "const",

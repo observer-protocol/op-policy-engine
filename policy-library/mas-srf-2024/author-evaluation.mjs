@@ -190,8 +190,15 @@ put('eupg/2.1/transaction-notification-threshold/a/holder-set', emit(cr([pres('h
 clauses['eupg/2.1/transaction-notification-threshold/b/industry-baseline'] = {
   op: 'ungrounded',
   applies: or(eq(F('holder.notification_threshold_set'), C(false)), not(pres('holder.notification_threshold_set'))),
-  compute: guard(and(pres('holder.notification_threshold_set'), eq(prim('field_present', { op: 'meaning', key: 'baseline_sgd' }), C('present'))),
-    remap(prim('held_judgment', F('transaction.above_baseline_threshold')), { affirmed: C('above'), denied: C('not_above'), not_assessed: C('undetermined'), $unmapped: C('undetermined') })),
+  // THE MEANING IS CONSULTED ONLY ONCE THE JUDGMENT IS DECIDED. Consulting it first produced
+  // `undetermined_on_supplied_meaning` on a not_assessed judgment (found by the oracle capture's
+  // sample-full population): an undetermined rests on nothing, and the next clause's remap
+  // rightly refused the token.
+  compute: guard(pres('holder.notification_threshold_set'),
+    remap(prim('held_judgment', F('transaction.above_baseline_threshold')), {
+      affirmed: guard(eq(prim('field_present', { op: 'meaning', key: 'baseline_sgd' }), C('present')), C('above')),
+      denied: guard(eq(prim('field_present', { op: 'meaning', key: 'baseline_sgd' }), C('present')), C('not_above')),
+      not_assessed: C('undetermined'), $unmapped: C('undetermined') })),
 };
 order.push('eupg/2.1/transaction-notification-threshold/b/industry-baseline');
 put('srf/4.2.3/above-threshold', emit(guard(pres('holder.notification_threshold_set'),

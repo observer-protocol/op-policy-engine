@@ -304,8 +304,13 @@ export function evaluate(facts, resolutions = {}) {
   put('eupg/2.1/transaction-notification-threshold/a/holder-set', cr(pres(H.notification_threshold_set), () => H.notification_threshold_set === true, () => jr(T.above_holder_threshold)));
   ungrounded('eupg/2.1/transaction-notification-threshold/b/industry-baseline',
     () => H.notification_threshold_set === false || !pres(H.notification_threshold_set),
-    (meaning) => guard_on_unresolved(pres(H.notification_threshold_set) && field_present(meaning('baseline_sgd')) === 'present',
-      () => remap_result_domain(held_judgment(T.above_baseline_threshold), { affirmed: 'above', denied: 'not_above', not_assessed: 'undetermined', $unmapped: 'undetermined' })));
+    // the meaning is consulted only once the judgment is decided (see author-evaluation.mjs)
+    (meaning) => guard_on_unresolved(pres(H.notification_threshold_set), () => {
+      const j = held_judgment(T.above_baseline_threshold);
+      if (j === 'affirmed') return guard_on_unresolved(field_present(meaning('baseline_sgd')) === 'present', () => 'above');
+      if (j === 'denied') return guard_on_unresolved(field_present(meaning('baseline_sgd')) === 'present', () => 'not_above');
+      return 'undetermined';
+    }));
   put('srf/4.2.3/above-threshold', guard_on_unresolved(pres(H.notification_threshold_set), () => (H.notification_threshold_set === true
     ? remap_result_domain(res('eupg/2.1/transaction-notification-threshold/a/holder-set'), { satisfied: 'above', breached: 'not_above', not_applicable: 'undetermined', outstanding: 'undetermined', undetermined: 'undetermined' })
     : remap_result_domain(res('eupg/2.1/transaction-notification-threshold/b/industry-baseline'), { above: 'above', not_above: 'not_above', above_on_supplied_meaning: 'above_on_supplied_meaning', not_above_on_supplied_meaning: 'not_above_on_supplied_meaning', not_applicable: 'undetermined', undetermined: 'undetermined' }))),
