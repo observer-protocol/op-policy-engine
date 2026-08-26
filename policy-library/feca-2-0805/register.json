@@ -1,11 +1,7 @@
 {
- "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
  "register_version": "0.1.0",
  "domain": "feca",
- "source": {
-  "$schema_note": "FECA PM Part 2 Chapter 2-0805, RE-DERIVED FROM SOURCE 2026-08-23 under the extended schema. Not reworked from the first pass, which was made under a schema that did not describe the document. The first pass is kept at clauses.first-pass.json for comparison.",
-  "decomposition_note": null
- },
+ "source": {},
  "dispositions": {
   "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION. ILLUSTRATIVE is NOT in the schema and any clause carrying it fits no category.",
   "with_result_domain": [
@@ -16,7 +12,6 @@
    "EVIDENTIAL"
   ],
   "no_result_emission": {
-   "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE, so a category cannot acquire a result by a clause author forgetting. The interpreter refuses to evaluate any clause in one of these categories and refuses to read a result from one.",
    "DEFINITIONAL": {
     "no_result": {
      "op": "const",
@@ -216,7 +211,6 @@
   ]
  },
  "waiting": {
-  "$note": "The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.",
   "values": [
    "fact",
    "judgment",
@@ -290,7 +284,6 @@
   }
  },
  "lanes": {
-  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
   "lanes": [
    "engine",
    "agent",
@@ -322,7 +315,6 @@
   }
  },
  "ungrounded_terms": {
-  "$note": "A term the chapter decides outcomes with and supplies no meaning for. The interpreter NEVER supplies one. Declared once for the domain rather than once per clause.",
   "undetermined_because": {
    "op": "concat",
    "parts": [
@@ -1055,7 +1047,6 @@
    "evaluate": {
     "op": "ungrounded",
     "term": "rationalized medical opinion",
-    "$term_from": "clauses.json rests_on_ungrounded_term",
     "applies": {
      "op": "eq",
      "left": {
@@ -1265,7 +1256,6 @@
    "evaluate": {
     "op": "ungrounded",
     "term": "rationalized medical opinion",
-    "$term_from": "clauses.json rests_on_ungrounded_term",
     "applies": {
      "op": "eq",
      "left": {
@@ -2098,7 +2088,6 @@
    "evaluate": {
     "op": "ungrounded",
     "term": "independent intervening cause",
-    "$term_from": "clauses.json rests_on_ungrounded_term",
     "applies": {
      "op": "eq",
      "left": {
@@ -2188,7 +2177,6 @@
    "evaluate": {
     "op": "ungrounded",
     "term": "chain of causation",
-    "$term_from": "clauses.json rests_on_ungrounded_term",
     "applies": {
      "op": "eq",
      "left": {

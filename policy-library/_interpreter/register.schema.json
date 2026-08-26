@@ -1,5 +1,4 @@
 {
- "$note": "The schema a register validates against. NOT PUBLISHED, and neither is the validator. Publication is a separate decision and is not taken in this block.",
  "$what_this_file_is": "The closed vocabularies are DATA here and are read by validate.mjs rather than restated in it, so there is one copy of each enumeration. The checking algorithm lives in validate.mjs; the vocabulary lives here; and validate.mjs derives a third copy from the interpreter's own implementation and compares all three, so a vocabulary that drifts from the code is reported rather than believed.",
  "schema_version": "0.1.0",
  "dispositions": {

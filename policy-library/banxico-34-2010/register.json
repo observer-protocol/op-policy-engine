@@ -1,11 +1,7 @@
 {
- "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
  "register_version": "0.1.0",
  "domain": "banxico",
- "source": {
-  "$schema_note": "Clause register for Banxico Circular 34/2010 numeral 3.6 and its referenced dependencies. Derived from source/circular-34-2010.pdf sha256 1312c3fd…, retrieved 2026-08-21.",
-  "decomposition_note": "19 addressable units. The restatement in the estate frames numeral 3.6 as a four-element table (incisos a-d). That count omits the chapeau requirements (channel, signatory, language, the `por lo menos` floor), splits none of inciso a) into its three components, and carries no unit for paragraphs 5, 6 or 7. The difference is not a matter of granularity preference: the four-element framing has no place to record the requirements identified as D1, D2 and D5 in DIVERGENCE.md."
- },
+ "source": {},
  "dispositions": {
   "$declared_in_source_register": null,
   "with_result_domain": [
@@ -765,7 +761,6 @@
  "defined_terms": null,
  "undefined_terms": null,
  "waiting": {
-  "$note": "The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.",
   "values": [
    "fact",
    "judgment",
@@ -839,7 +834,6 @@
   }
  },
  "lanes": {
-  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
   "lanes": [
    "engine",
    "agent",
@@ -2045,7 +2039,6 @@
    "governs": null,
    "evaluate": {
     "op": "decision_table",
-    "$from": "clauses.json decision_table on this clause",
     "inputs": [
      {
       "name": "deadline",
@@ -2267,7 +2260,6 @@
     ],
     "subtables": {
      "conformance_subtest": {
-      "$from": "clauses.json decision_table.conformance_subtest",
       "input": {
        "op": "conjunction_over_results",
        "undetermined_is": "undetermined",
