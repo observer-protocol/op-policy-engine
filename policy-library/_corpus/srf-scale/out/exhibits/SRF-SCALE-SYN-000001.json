@@ -1,0 +1,995 @@
+{
+ "payloadType": "op.policy.determination.mas-srf-2024.scale-exhibit.v1",
+ "labels": [
+  "SYNTHETIC",
+  "DEMONSTRATION-KEY"
+ ],
+ "synthetic": true,
+ "claimId": "SRF-SCALE-SYN-000001",
+ "population": "single-clause",
+ "register": {
+  "domain": "srf",
+  "version": "0.1.0",
+  "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+  "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+  "accepted_tag": "srf-register-accepted-v1"
+ },
+ "recordVersion": 7,
+ "facts": {
+  "account": {
+   "holder_type": "individual",
+   "issuer_type": "bank",
+   "card_transaction": false,
+   "balance_capable_over_1000_sgd": true,
+   "credit_facility": false,
+   "electronic_payments_capable": true,
+   "stores_specified_emoney": false
+  },
+  "scam": {
+   "impersonated_entity_type": "sg_incorporated_entity",
+   "contact_platform": "sms",
+   "credentials_entered_on_fabricated_platform": true,
+   "transactions_unintended": "affirmed"
+  },
+  "transaction": {
+   "executed_at": "2026-03-02T10:00:00+08:00",
+   "above_holder_threshold": null,
+   "above_baseline_threshold": "affirmed"
+  },
+  "telco": {
+   "operator_type": "mno",
+   "authorised_aggregators": [
+    "agg-alpha",
+    "agg-beta"
+   ],
+   "filter": {
+    "implemented_for_all_sms": true,
+    "database": "sg-scamshield-url-db"
+   },
+   "loss_arises_from_noncompliance": "denied",
+   "subscriber_is_account_holder": true,
+   "number_designated_for_notifications": null,
+   "number_received_phishing_sms": null,
+   "governance": {
+    "independent": true
+   },
+   "credited_total_loss": false
+  },
+  "sms": {
+   "sender_id_type": "alphanumeric_sender_id",
+   "received_from": "aggregator",
+   "aggregator": "agg-alpha",
+   "delivered_to_subscriber": true,
+   "url_listed_at_delivery": "denied"
+  },
+  "fi": {
+   "events": {
+    "token_activated": true,
+    "new_device_login": true,
+    "high_risk_activity": true
+   },
+   "cooling_off": {
+    "at_least_12h_imposed": "affirmed",
+    "high_risk_prevented": "affirmed"
+   },
+   "alerts": {
+    "token_activation_real_time": "affirmed",
+    "new_device_login_real_time": null,
+    "high_risk_activity_real_time": "affirmed",
+    "outgoing_transaction_real_time": "affirmed",
+    "first_sent_at": "2026-03-02T10:01:00+08:00"
+   },
+   "reporting_channel": {
+    "available_at_all_times": true
+   },
+   "kill_switch": {
+    "self_service": true,
+    "blocks_mobile_and_online": true,
+    "disallows_non_biller_transfers": true,
+    "terminates_sessions": true,
+    "prominent": true
+   },
+   "surveillance": {
+    "real_time_in_place": true,
+    "rapid_drain_criteria_met": "denied",
+    "response": "none"
+   },
+   "loss_arises_from_noncompliance": "denied",
+   "fraud_or_negligence": "denied",
+   "mas_requirement_noncompliance": "denied",
+   "loss_arises_from_action_or_omission": "denied",
+   "requested_delay_reasons": false,
+   "provided_transaction_information": true,
+   "communicated_out_of_scope_assessment": false,
+   "informed_telco": true,
+   "workflow_explained_at_report": true,
+   "governance": {
+    "independent": true
+   },
+   "investigation": {
+    "completed_at": "2026-03-20T15:00:00+08:00",
+    "complexity": "straightforward"
+   },
+   "outcome": {
+    "written_reply_given": true,
+    "acknowledgement_sought": true
+   },
+   "charges_withheld": true,
+   "credited_total_loss": false,
+   "requested_3_18_information": true,
+   "police_report_requested": true,
+   "police_report_requested_at": "2026-03-03T10:00:00+08:00",
+   "report_acknowledged_in_writing": true,
+   "report_fee_charged": false,
+   "detection": {
+    "capability_at_all_times": true,
+    "annual_review": true
+   }
+  },
+  "holder": {
+   "instructed_transaction_notifications": true,
+   "notification_threshold_set": false,
+   "first_alert_received_at": "2026-03-02T10:01:00+08:00",
+   "provided_3_18_information_in_reasonable_time": "affirmed",
+   "police_report_furnished_at": "2026-03-04T09:00:00+08:00",
+   "recklessness_primary_cause": "denied",
+   "kill_switch_activated_promptly": "affirmed"
+  },
+  "user": {
+   "referred_to_official_sources": "denied",
+   "clicked_unexpected_link": "affirmed"
+  },
+  "claim": {
+   "reported_at": "2026-03-03T09:00:00+08:00",
+   "submission_at": "2026-03-04T09:00:00+08:00",
+   "email_provided": true,
+   "delay_reasons_provided": null,
+   "records": {
+    "show_impersonation": "affirmed",
+    "show_credential_intent": "affirmed",
+    "show_platform_direction": "affirmed"
+   },
+   "telco_named": true,
+   "mobile_number_provided": true,
+   "sms_details_provided": true,
+   "holder_enquired": true
+  },
+  "clock": {
+   "now": "2026-04-01T09:00:00+08:00"
+  }
+ },
+ "resolutions": {
+  "A3_not_applicable_duty": "counts_as_complied",
+  "A5_filter_duty_reading": "filter_in_place",
+  "ungrounded_terms": {
+   "designated database": {
+    "designated_databases": [
+     "sg-scamshield-url-db"
+    ]
+   },
+   "default industry-baseline transaction notification threshold": {
+    "baseline_sgd": 0.01
+   }
+  }
+ },
+ "records": {
+  "srf/1.1/a/responsible-fi": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "srf/1.1/b/responsible-telco": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member",
+   "note": "not_member for an MVNO subscriber (A18). Recorded beside the Telco tier; the tier gates on 7.7, not on this."
+  },
+  "srf/1.1/fn1/card-exclusion": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_excluded"
+  },
+  "srf/1.4/read-with-legislation": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/2.1/protected-account/a/individuals": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member",
+   "note": "The SRF's limb: individuals only. A sole proprietor is not_member here and a member under the EUPG (A1)."
+  },
+  "srf/2.1/protected-account/b/balance-or-credit": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "met"
+  },
+  "srf/2.1/protected-account/c/electronic": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "met"
+  },
+  "srf/2.1/protected-account/d/psp-emoney": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable means the issuer is not a relevant payment service provider, where limb (d) never arises."
+  },
+  "srf/2.1/protected-account": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "One failing limb decides not_satisfied; satisfied needs all four affirmative (limb (d) may be not_applicable by its own words)."
+  },
+  "srf/2.1/seemingly-authorised/a/impersonation": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "srf/2.1/seemingly-authorised/b/digital-messaging": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "srf/2.1/seemingly-authorised/c/fabricated-platform": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "met"
+  },
+  "srf/2.1/seemingly-authorised/d/unintended": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "affirmed",
+   "note": "affirmed means the account user did not intend the transactions. not_assessed is a person's absence, not a finding."
+  },
+  "srf/2.1/seemingly-authorised": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/7.1.1/relevant-claim": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "relevant_claim",
+   "note": "One affirmative scope failure is not_relevant whatever the others; relevant_claim needs all four affirmative."
+  },
+  "srf/2.1/high-risk-activities": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "An activity outside the four is not a high-risk activity for the cooling-off and alert duties under the SRF, though it may be one under the EUPG (ambiguity A13)."
+  },
+  "srf/2.1/money": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "Excludes digital payment tokens from every clause that says `payment transaction`."
+  },
+  "srf/2.1/sms": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "Only `sms` in the contact-platform enumeration is an SMS; `whatsapp`, `social_media` and `other_digital` are not."
+  },
+  "srf/2.1/sender-id-sms": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "5.2.1 and 5.2.2 arise only when the phishing SMS carried an alphanumeric sender ID."
+  },
+  "srf/2.1/subscriber": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "The Telco's duty runs to its subscriber; whether the subscriber is the account holder is a separate fact 6.6 tests."
+  },
+  "srf/2.2/undefined-expressions": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "eupg/2.1/unauthorised-transaction": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "Limb (d) carries footnote 4(a): an intended payment is outside the SRF even where every other limb holds."
+  },
+  "eupg/2.1/access-code": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "A one-time password sent by SMS is an access code; a card security number printed on the card is not."
+  },
+  "eupg/2.1/protected-account/a/sole-proprietors": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "A sole proprietor's claim is inside the EUPG and, on the SRF's words, outside the SRF."
+  },
+  "srf/4.1/eupg-s4-applies": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/4.2.1/cooling-off": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "The 12-hour floor and the block on high-risk activities are the FI's recorded assessments (F-05). not_applicable: no token activated and no PSP new-device login."
+  },
+  "srf/4.2.1/fn5/non-stp-activation": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "The cooling-off clock may start before activation completes."
+  },
+  "srf/4.2.2/i/token-activation-alert": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/4.2.2/ii/new-device-login-alert": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable for a bank-issued account, or a PSP-issued account with no new-device login."
+  },
+  "srf/4.2.2/iii/high-risk-activity-alert": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/4.2.2/alerts": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "breached if any limb was; not_applicable only if all three never arose; satisfied needs every limb satisfied or never arisen; else undetermined."
+  },
+  "eupg/3.1/instructed-notifications": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "instructed"
+  },
+  "eupg/2.1/transaction-notification-threshold/a/holder-set": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable"
+  },
+  "eupg/2.1/transaction-notification-threshold/b/industry-baseline": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "above_on_supplied_meaning",
+   "rests_on": "a meaning supplied by the institution, not by the Guidelines",
+   "term": "default industry-baseline transaction notification threshold"
+  },
+  "srf/4.2.3/above-threshold": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "above_on_supplied_meaning",
+   "note": "Selects the limb by whether the holder set a threshold. The _on_supplied_meaning tokens are carried, not laundered (F-08: the attribution stops at 4.2.3)."
+  },
+  "srf/4.2.3/outgoing-transaction-notification": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "not_applicable: the holder did not instruct notifications, or the transaction was below the applicable threshold (A20). Whether the threshold rested on a supplied meaning is visible on srf/4.2.3/above-threshold, not here (F-08)."
+  },
+  "srf/4.2.4/reporting-channel": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "available"
+  },
+  "srf/4.2.4/kill-switch": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "provided"
+  },
+  "srf/4.2.4/duty": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "No precondition: this duty is never not_applicable."
+  },
+  "srf/4.4/fraud-surveillance-commencement": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "in_force",
+   "note": "in_force when the transaction executed on or after 16 June 2025 (Singapore time). missing_operand: no execution instant recorded."
+  },
+  "srf/4.2.5/fn8/rapid-drain": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied",
+   "note": "Footnote 8, held rather than measured (F-05)."
+  },
+  "srf/4.2.5/surveillance-in-place": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "in_place"
+  },
+  "srf/4.2.5/response": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable: the account was not rapidly drained of a material sum. undetermined: nobody assessed whether it was."
+  },
+  "srf/4.2.5/duty": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "not_applicable before 16 June 2025 (4.4). From commencement: surveillance in place is unconditional and the response is required only on a rapid drain."
+  },
+  "srf/4.3/scheduled-downtime": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/6.4/a/fi-complied-all": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "satisfied only on five affirmative results; a never-arisen duty composes under A3's supplied resolution and blocks the tier unresolved."
+  },
+  "srf/6.2/any-fi-breach": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": false,
+   "note": "true on one established breach whatever the others; false only on five affirmative non-breach results."
+  },
+  "srf/6.2/loss-arises-from-fi-noncompliance": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied"
+  },
+  "srf/6.2/fi-bears": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "fi_not_liable_under_6.2"
+  },
+  "eupg/5.5/a/fraud-or-negligence": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied"
+  },
+  "eupg/5.5/b/mas-requirement-noncompliance": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied"
+  },
+  "eupg/5.5/c/section-4-duties": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "6.3 reaches (a) and (b) only."
+  },
+  "srf/6.3/loss-arises-from-action-or-omission": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied"
+  },
+  "srf/6.3/fi-responsible-notwithstanding": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_satisfied",
+   "note": "satisfied: 5.5(a) or (b) affirmed AND the loss arose from it. not_satisfied on an affirmative denial of both, or of causation."
+  },
+  "srf/6/fi-tier": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "fi_not_liable"
+  },
+  "srf/7.7/perpetrated-through-sms": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "sms",
+   "note": "The Telco tier arises only on `sms`. An OTT message is not_sms (2.1 `SMS`)."
+  },
+  "srf/5.1/imda-directions-prevail": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/5.2.1/deliver-only-from-authorised-aggregators": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "not_applicable: not perpetrated through SMS, or the SMS carried a telephone number rather than a Sender ID."
+  },
+  "srf/5.2.2/block-unauthorised-sender-id": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "Arises only for a Sender ID SMS from an unauthorised source; breached when it was delivered. One unauthorised delivery breaches 5.2.1 and 5.2.2 together (A25)."
+  },
+  "srf/5.2.3/filter-implemented": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "implemented"
+  },
+  "srf/5.2.3/designated-database": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "designated_on_supplied_meaning",
+   "rests_on": "a meaning supplied by the institution, not by the Guidelines",
+   "term": "designated database"
+  },
+  "srf/5.2.3/this-sms-blocked": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "A5's second reading, as its own record. not_applicable: the URL was not listed at delivery (A6)."
+  },
+  "srf/5.2.3/duty": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "Guarded on A5; unresolved, undetermined. `designated` on a supplied meaning composes as designated (the attribution is on srf/5.2.3/designated-database; F-08)."
+  },
+  "srf/6.4/b/any-telco-breach": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": false,
+   "note": "Outside the Telco tier every input is not_applicable and this is false; srf/6.4/telco-bears gates on 7.7 before reading it."
+  },
+  "srf/6.4/loss-arises-from-telco-noncompliance": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied"
+  },
+  "srf/6.6/subscriber-not-account-holder": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable: the subscriber is the account holder. breached: the subscriber differs and (a) or (b) fails, so the Telco does not bear under 6.6."
+  },
+  "srf/6.4/telco-bears": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "telco_not_liable",
+   "note": "not_applicable: not perpetrated through SMS. telco_not_liable when the FI did not comply with all of 4.2 (6.5), or on five affirmative non-breach findings, or on an affirmative denial of causation or of 6.6 AFTER a breach is established. An undetermined 5.2 duty blocks the tier before causation is read. telco_bears on affirmative findings only."
+  },
+  "srf/6.5/fi-first": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "fi_bears dominates every Telco-tier result, including undetermined."
+  },
+  "srf/6.7/outcome": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "account_holder_bears",
+   "note": "6.7: two affirmative non-liability findings."
+  },
+  "srf/6.1/fn11/loss-excludes-consequential": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "`total loss` in 7.13 and 7.14 is the sum of the seemingly authorised transactions."
+  },
+  "srf/6.8/redress": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/6.9/joint-accounts": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "One outcome for the account, binding all holders."
+  },
+  "srf/3.1/official-sources": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied",
+   "note": "Not read by Section 6 (A19)."
+  },
+  "srf/3.1/no-links": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "affirmed",
+   "note": "affirmed means the user clicked an unexpected link. Not read by Section 6 (A19)."
+  },
+  "eupg/3.17/kill-switch-activated-promptly": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "affirmed",
+   "note": "Not read by Section 6 (A19)."
+  },
+  "eupg/5.2/recklessness": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "denied",
+   "note": "EUPG liability, not SRF allocation. Not read by Section 6 (A19)."
+  },
+  "srf/7.1/four-stage-workflow": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/7.2/explain-workflow": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "explained"
+  },
+  "srf/7.3/report-within-30-days": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "within",
+   "note": "The SRF clock: from the FI sending the first alert (A8a). No Section 6 consequence is encoded (A8)."
+  },
+  "srf/7.3/fn14/reasons-for-delay": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable: the report was in time, or the FI did not ask."
+  },
+  "srf/7.3/email-and-information-within-3-days": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "within",
+   "note": "no_email: no valid email address was furnished. Otherwise elapsed_within's tokens over the 3 days from the report."
+  },
+  "srf/7.4/communication-records": {
+   "v": 7,
+   "lane": "person",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "demonstrated",
+   "note": "Not read by 7.1.1 (A26)."
+  },
+  "srf/7.4/fn15/telco-details": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "supplied"
+  },
+  "srf/7.5/transaction-information-on-enquiry": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/7.6/out-of-scope-route": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "not_applicable: a relevant claim, which Section 6 allocates."
+  },
+  "srf/7.7/inform-telco": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/7.7.1/concurrent-investigation": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/7.8/fi-independent-governance": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "independent"
+  },
+  "srf/7.8/telco-independent-governance": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "srf/7.9/investigation-timeline": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "within",
+   "note": "The limit is selected by the FI's recorded classification; unrecorded is undetermined, never 21. Weekdays only (A28)."
+  },
+  "srf/7.9/fn16/retention": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "srf/7.10/written-outcome": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "given"
+  },
+  "srf/7.11/recourse": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "refused": "INSTRUCTION",
+   "why": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+  },
+  "eupg/1.5/deferred-commencement": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "in_force",
+   "note": "in_force when the transaction executed on or after 16 June 2025 (Singapore time)."
+  },
+  "eupg/8.1/withhold-charges": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "withheld",
+   "note": "not_applicable before 16 June 2025 (EUPG 1.5)."
+  },
+  "srf/7.13/fi-credits": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "Arises only on an fi_bears outcome."
+  },
+  "srf/7.14/telco-credits": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "Arises only on a telco_bears outcome."
+  },
+  "eupg/3.14/report-within-30-days-of-receipt": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "within",
+   "note": "The EUPG clock: from receipt (A8a)."
+  },
+  "eupg/3.18/information-on-request": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied"
+  },
+  "eupg/3.20/police-report-within-3-days": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "outstanding: requested, not yet furnished, 3 days still running. out_of_order (furnished before the request) satisfies."
+  },
+  "eupg/4.11/holder-preference": {
+   "v": 7,
+   "lane": "none",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "no_result": "DEFINITIONAL",
+   "supplies": "A transaction the holder instructed the FI not to notify is outside 4.2.3."
+  },
+  "eupg/4.14/kill-switch-characteristics": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "conforming",
+   "note": "Not read by SRF 4.2.4 (A21)."
+  },
+  "eupg/4.20/reporting-channel-characteristics": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "conforming",
+   "note": "Not read by SRF 4.2.4 (A21)."
+  },
+  "eupg/4.21/detection-and-blocking": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "in_place",
+   "note": "Not read by SRF 4.2.5 (A21)."
+  }
+ },
+ "mapping": {
+  "outcome": "account_holder_bears",
+  "closedBy": "consumer",
+  "closer": "srf/6.7/outcome",
+  "stoppedAt": null,
+  "open": []
+ },
+ "proof": {
+  "type": "DataIntegrityProof",
+  "cryptosuite": "eddsa-jcs-2022",
+  "created": "2026-08-26T04:50:45Z",
+  "verificationMethod": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+  "proofPurpose": "assertionMethod",
+  "proofValue": "z5QpbqWY2BawG2jsvj56cYQgJYVWos34JqW3ZQumNYzmnMUXPRpqEHocRJbB5yBR4PS5hVjzuUQfHFbkLQwRr6yQR"
+ }
+}

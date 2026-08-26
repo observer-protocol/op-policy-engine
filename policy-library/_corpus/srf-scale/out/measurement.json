@@ -1,0 +1,1849 @@
+{
+ "$note": "Derived by build.mjs from the run; every count names its population. SYNTHETIC.",
+ "created": "2026-08-26T04:50:45Z",
+ "seed": 20260825,
+ "register": {
+  "domain": "srf",
+  "version": "0.1.0",
+  "sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+  "clauses_json_sha256": "16f478853a16716a5a5511d35c391ec17afb43af7268c27d36aa5505d6dc7b1b",
+  "accepted_tag": "srf-register-accepted-v1"
+ },
+ "recordVersion": 7,
+ "N": {
+  "constructed": 42188,
+  "ran": 42188,
+  "did_not_run": 0
+ },
+ "by_population": {
+  "single-clause": 36294,
+  "scope": 1056,
+  "resolutions": 64,
+  "random": 2000,
+  "pairwise": 420,
+  "tier-judgments": 1922,
+  "credits": 432
+ },
+ "by_population_ran": {
+  "single-clause": 36294,
+  "scope": 1056,
+  "resolutions": 64,
+  "random": 2000,
+  "pairwise": 420,
+  "tier-judgments": 1922,
+  "credits": 432
+ },
+ "construction": {
+  "single_clause": [
+   {
+    "clause": "srf/4.2.1/cooling-off",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.new_device_login",
+     "fi.events.token_activated"
+    ],
+    "product": 2000,
+    "method": "full product",
+    "claims": 2000
+   },
+   {
+    "clause": "srf/4.2.2/i/token-activation-alert",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "fi.alerts.token_activation_real_time",
+     "fi.events.token_activated"
+    ],
+    "product": 20,
+    "method": "full product",
+    "claims": 20
+   },
+   {
+    "clause": "srf/4.2.2/ii/new-device-login-alert",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.new_device_login_real_time",
+     "fi.events.new_device_login"
+    ],
+    "product": 100,
+    "method": "full product",
+    "claims": 100
+   },
+   {
+    "clause": "srf/4.2.2/iii/high-risk-activity-alert",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.events.high_risk_activity"
+    ],
+    "product": 20,
+    "method": "full product",
+    "claims": 20
+   },
+   {
+    "clause": "srf/4.2.2/alerts",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated"
+    ],
+    "product": 40000,
+    "method": "seeded sample of 5000 distinct tuples (cap 5000)",
+    "claims": 5000
+   },
+   {
+    "clause": "srf/4.2.3/outgoing-transaction-notification",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "fi.alerts.outgoing_transaction_real_time",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold"
+    ],
+    "product": 2000,
+    "method": "full product",
+    "claims": 2000
+   },
+   {
+    "clause": "srf/4.2.4/reporting-channel",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.reporting_channel.available_at_all_times"
+    ],
+    "product": 4,
+    "method": "full product",
+    "claims": 4
+   },
+   {
+    "clause": "srf/4.2.4/kill-switch",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service"
+    ],
+    "product": 16,
+    "method": "full product",
+    "claims": 16
+   },
+   {
+    "clause": "srf/4.2.4/duty",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.reporting_channel.available_at_all_times"
+    ],
+    "product": 64,
+    "method": "full product",
+    "claims": 64
+   },
+   {
+    "clause": "srf/4.2.5/surveillance-in-place",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.surveillance.real_time_in_place"
+    ],
+    "product": 4,
+    "method": "full product",
+    "claims": 4
+   },
+   {
+    "clause": "srf/4.2.5/response",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.response"
+    ],
+    "product": 30,
+    "method": "full product",
+    "claims": 30
+   },
+   {
+    "clause": "srf/4.2.5/duty",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "transaction.executed_at"
+    ],
+    "product": 1920,
+    "method": "full product",
+    "claims": 1920
+   },
+   {
+    "clause": "srf/6.4/a/fi-complied-all",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 245760000000000,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/6.2/any-fi-breach",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 245760000000000,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/6.2/fi-bears",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.loss_arises_from_noncompliance",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 1228800000000000,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "eupg/5.5/a/fraud-or-negligence",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "JUDGMENT",
+    "read_paths": [
+     "fi.fraud_or_negligence"
+    ],
+    "product": 5,
+    "method": "full product",
+    "claims": 5
+   },
+   {
+    "clause": "eupg/5.5/b/mas-requirement-noncompliance",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "JUDGMENT",
+    "read_paths": [
+     "fi.mas_requirement_noncompliance"
+    ],
+    "product": 5,
+    "method": "full product",
+    "claims": 5
+   },
+   {
+    "clause": "srf/6.3/fi-responsible-notwithstanding",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "fi.fraud_or_negligence",
+     "fi.loss_arises_from_action_or_omission",
+     "fi.mas_requirement_noncompliance"
+    ],
+    "product": 125,
+    "method": "full product",
+    "claims": 125
+   },
+   {
+    "clause": "srf/6/fi-tier",
+    "duty_holder": "fi",
+    "tier": "fi",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.fraud_or_negligence",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.loss_arises_from_action_or_omission",
+     "fi.loss_arises_from_noncompliance",
+     "fi.mas_requirement_noncompliance",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 153600000000000000,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.7/perpetrated-through-sms",
+    "duty_holder": "fi",
+    "tier": "telco",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "scam.contact_platform"
+    ],
+    "product": 9,
+    "method": "full product",
+    "claims": 9
+   },
+   {
+    "clause": "srf/5.2.1/deliver-only-from-authorised-aggregators",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "sms.aggregator",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "telco.authorised_aggregators"
+    ],
+    "product": 4500,
+    "method": "full product",
+    "claims": 4500
+   },
+   {
+    "clause": "srf/5.2.2/block-unauthorised-sender-id",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "sms.aggregator",
+     "sms.delivered_to_subscriber",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "telco.authorised_aggregators"
+    ],
+    "product": 18000,
+    "method": "seeded sample of 5000 distinct tuples (cap 5000)",
+    "claims": 5000
+   },
+   {
+    "clause": "srf/5.2.3/filter-implemented",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "telco.filter.implemented_for_all_sms"
+    ],
+    "product": 36,
+    "method": "full product",
+    "claims": 36
+   },
+   {
+    "clause": "srf/5.2.3/designated-database",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms"
+    ],
+    "product": 180,
+    "method": "full product",
+    "claims": 180
+   },
+   {
+    "clause": "srf/5.2.3/this-sms-blocked",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "sms.delivered_to_subscriber",
+     "sms.url_listed_at_delivery"
+    ],
+    "product": 180,
+    "method": "full product",
+    "claims": 180
+   },
+   {
+    "clause": "srf/5.2.3/duty",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "scam.contact_platform",
+     "sms.delivered_to_subscriber",
+     "sms.url_listed_at_delivery",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms"
+    ],
+    "product": 3600,
+    "method": "full product",
+    "claims": 3600
+   },
+   {
+    "clause": "srf/6.4/b/any-telco-breach",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "scam.contact_platform",
+     "sms.aggregator",
+     "sms.delivered_to_subscriber",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "sms.url_listed_at_delivery",
+     "telco.authorised_aggregators",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms"
+    ],
+    "product": 1800000,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/6.4/telco-bears",
+    "duty_holder": "telco",
+    "tier": "telco",
+    "disposition": "DERIVED",
+    "read_paths": [
+     "account.issuer_type",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "scam.contact_platform",
+     "sms.aggregator",
+     "sms.delivered_to_subscriber",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "sms.url_listed_at_delivery",
+     "telco.authorised_aggregators",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms",
+     "telco.loss_arises_from_noncompliance",
+     "telco.number_designated_for_notifications",
+     "telco.number_received_phishing_sms",
+     "telco.subscriber_is_account_holder",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 1.4155776e+23,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.2/explain-workflow",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.workflow_explained_at_report"
+    ],
+    "product": 4,
+    "method": "full product",
+    "claims": 4
+   },
+   {
+    "clause": "srf/7.5/transaction-information-on-enquiry",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "claim.holder_enquired",
+     "fi.provided_transaction_information"
+    ],
+    "product": 16,
+    "method": "full product",
+    "claims": 16
+   },
+   {
+    "clause": "srf/7.6/out-of-scope-route",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.balance_capable_over_1000_sgd",
+     "account.card_transaction",
+     "account.credit_facility",
+     "account.electronic_payments_capable",
+     "account.holder_type",
+     "account.issuer_type",
+     "account.stores_specified_emoney",
+     "fi.communicated_out_of_scope_assessment",
+     "scam.contact_platform",
+     "scam.credentials_entered_on_fabricated_platform",
+     "scam.impersonated_entity_type",
+     "scam.transactions_unintended"
+    ],
+    "product": 154828800,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.7/inform-telco",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.balance_capable_over_1000_sgd",
+     "account.card_transaction",
+     "account.credit_facility",
+     "account.electronic_payments_capable",
+     "account.holder_type",
+     "account.issuer_type",
+     "account.stores_specified_emoney",
+     "fi.informed_telco",
+     "scam.contact_platform",
+     "scam.credentials_entered_on_fabricated_platform",
+     "scam.impersonated_entity_type",
+     "scam.transactions_unintended"
+    ],
+    "product": 154828800,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.8/fi-independent-governance",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.governance.independent"
+    ],
+    "product": 4,
+    "method": "full product",
+    "claims": 4
+   },
+   {
+    "clause": "srf/7.8/telco-independent-governance",
+    "duty_holder": "telco",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "scam.contact_platform",
+     "telco.governance.independent"
+    ],
+    "product": 36,
+    "method": "full product",
+    "claims": 36
+   },
+   {
+    "clause": "srf/7.9/investigation-timeline",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "claim.reported_at",
+     "clock.now",
+     "fi.investigation.completed_at",
+     "fi.investigation.complexity"
+    ],
+    "product": 20480,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.10/written-outcome",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.outcome.acknowledgement_sought",
+     "fi.outcome.written_reply_given"
+    ],
+    "product": 16,
+    "method": "full product",
+    "claims": 16
+   },
+   {
+    "clause": "eupg/8.1/withhold-charges",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.charges_withheld",
+     "transaction.executed_at"
+    ],
+    "product": 64,
+    "method": "full product",
+    "claims": 64
+   },
+   {
+    "clause": "srf/7.13/fi-credits",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.balance_capable_over_1000_sgd",
+     "account.card_transaction",
+     "account.credit_facility",
+     "account.electronic_payments_capable",
+     "account.holder_type",
+     "account.issuer_type",
+     "account.stores_specified_emoney",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.credited_total_loss",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.fraud_or_negligence",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.loss_arises_from_action_or_omission",
+     "fi.loss_arises_from_noncompliance",
+     "fi.mas_requirement_noncompliance",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "scam.contact_platform",
+     "scam.credentials_entered_on_fabricated_platform",
+     "scam.impersonated_entity_type",
+     "scam.transactions_unintended",
+     "sms.aggregator",
+     "sms.delivered_to_subscriber",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "sms.url_listed_at_delivery",
+     "telco.authorised_aggregators",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms",
+     "telco.loss_arises_from_noncompliance",
+     "telco.number_designated_for_notifications",
+     "telco.number_received_phishing_sms",
+     "telco.subscriber_is_account_holder",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 3.0440580710400003e+32,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "srf/7.14/telco-credits",
+    "duty_holder": "telco",
+    "tier": "process",
+    "disposition": "CONDITIONAL",
+    "read_paths": [
+     "account.balance_capable_over_1000_sgd",
+     "account.card_transaction",
+     "account.credit_facility",
+     "account.electronic_payments_capable",
+     "account.holder_type",
+     "account.issuer_type",
+     "account.stores_specified_emoney",
+     "fi.alerts.high_risk_activity_real_time",
+     "fi.alerts.new_device_login_real_time",
+     "fi.alerts.outgoing_transaction_real_time",
+     "fi.alerts.token_activation_real_time",
+     "fi.cooling_off.at_least_12h_imposed",
+     "fi.cooling_off.high_risk_prevented",
+     "fi.events.high_risk_activity",
+     "fi.events.new_device_login",
+     "fi.events.token_activated",
+     "fi.fraud_or_negligence",
+     "fi.kill_switch.blocks_mobile_and_online",
+     "fi.kill_switch.self_service",
+     "fi.loss_arises_from_action_or_omission",
+     "fi.loss_arises_from_noncompliance",
+     "fi.mas_requirement_noncompliance",
+     "fi.reporting_channel.available_at_all_times",
+     "fi.surveillance.rapid_drain_criteria_met",
+     "fi.surveillance.real_time_in_place",
+     "fi.surveillance.response",
+     "holder.instructed_transaction_notifications",
+     "holder.notification_threshold_set",
+     "scam.contact_platform",
+     "scam.credentials_entered_on_fabricated_platform",
+     "scam.impersonated_entity_type",
+     "scam.transactions_unintended",
+     "sms.aggregator",
+     "sms.delivered_to_subscriber",
+     "sms.received_from",
+     "sms.sender_id_type",
+     "sms.url_listed_at_delivery",
+     "telco.authorised_aggregators",
+     "telco.credited_total_loss",
+     "telco.filter.database",
+     "telco.filter.implemented_for_all_sms",
+     "telco.loss_arises_from_noncompliance",
+     "telco.number_designated_for_notifications",
+     "telco.number_received_phishing_sms",
+     "telco.subscriber_is_account_holder",
+     "transaction.above_baseline_threshold",
+     "transaction.above_holder_threshold",
+     "transaction.executed_at"
+    ],
+    "product": 3.0440580710400003e+32,
+    "method": "seeded sample of 1000 distinct tuples (cap 1000)",
+    "claims": 1000
+   },
+   {
+    "clause": "eupg/4.14/kill-switch-characteristics",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.kill_switch.disallows_non_biller_transfers",
+     "fi.kill_switch.prominent",
+     "fi.kill_switch.terminates_sessions"
+    ],
+    "product": 64,
+    "method": "full product",
+    "claims": 64
+   },
+   {
+    "clause": "eupg/4.20/reporting-channel-characteristics",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.report_acknowledged_in_writing",
+     "fi.report_fee_charged"
+    ],
+    "product": 16,
+    "method": "full product",
+    "claims": 16
+   },
+   {
+    "clause": "eupg/4.21/detection-and-blocking",
+    "duty_holder": "fi",
+    "tier": "process",
+    "disposition": "MECHANICAL",
+    "read_paths": [
+     "fi.detection.annual_review",
+     "fi.detection.capability_at_all_times",
+     "transaction.executed_at"
+    ],
+    "product": 256,
+    "method": "full product",
+    "claims": 256
+   }
+  ],
+  "scope": {
+   "read_paths": [
+    "account.balance_capable_over_1000_sgd",
+    "account.card_transaction",
+    "account.credit_facility",
+    "account.electronic_payments_capable",
+    "account.holder_type",
+    "account.issuer_type",
+    "account.stores_specified_emoney",
+    "scam.contact_platform",
+    "scam.credentials_entered_on_fabricated_platform",
+    "scam.impersonated_entity_type",
+    "scam.transactions_unintended"
+   ],
+   "product": 38707200,
+   "single_path_variations": 56,
+   "sampled_from_product": 1000
+  },
+  "resolutions": {
+   "axes": [
+    "A3_not_applicable_duty",
+    "A5_filter_duty_reading",
+    "ungrounded_terms"
+   ],
+   "grid": 64
+  },
+  "pairwise": {
+   "duties": [
+    "srf/4.2.1/cooling-off",
+    "srf/4.2.2/alerts",
+    "srf/4.2.3/outgoing-transaction-notification",
+    "srf/4.2.4/duty",
+    "srf/4.2.5/duty",
+    "srf/5.2.1/deliver-only-from-authorised-aggregators",
+    "srf/5.2.2/block-unauthorised-sender-id",
+    "srf/5.2.3/duty"
+   ],
+   "witnesses_per_duty": {
+    "srf/4.2.1/cooling-off": [
+     "satisfied",
+     "not_applicable",
+     "undetermined",
+     "breached"
+    ],
+    "srf/4.2.2/alerts": [
+     "undetermined",
+     "not_applicable",
+     "breached",
+     "satisfied"
+    ],
+    "srf/4.2.3/outgoing-transaction-notification": [
+     "satisfied",
+     "not_applicable",
+     "undetermined",
+     "breached"
+    ],
+    "srf/4.2.4/duty": [
+     "satisfied",
+     "breached",
+     "undetermined"
+    ],
+    "srf/4.2.5/duty": [
+     "not_applicable",
+     "satisfied",
+     "undetermined",
+     "breached"
+    ],
+    "srf/5.2.1/deliver-only-from-authorised-aggregators": [
+     "breached",
+     "satisfied",
+     "undetermined",
+     "not_applicable"
+    ],
+    "srf/5.2.2/block-unauthorised-sender-id": [
+     "not_applicable",
+     "undetermined",
+     "satisfied",
+     "breached"
+    ],
+    "srf/5.2.3/duty": [
+     "satisfied",
+     "breached",
+     "undetermined",
+     "not_applicable"
+    ]
+   },
+   "pairs": 28,
+   "claims": 420,
+   "merge_rule": "the second duty's witness delta is applied after the first; on a shared path the second wins"
+  },
+  "random": {
+   "fields_varied": 92,
+   "resolutions_varied": 3,
+   "sample": 2000,
+   "seed": 20260825
+  },
+  "tier_judgments": {
+   "paths": [
+    "fi.loss_arises_from_noncompliance",
+    "fi.fraud_or_negligence",
+    "fi.mas_requirement_noncompliance",
+    "fi.loss_arises_from_action_or_omission",
+    "telco.loss_arises_from_noncompliance",
+    "telco.subscriber_is_account_holder",
+    "telco.number_designated_for_notifications",
+    "telco.number_received_phishing_sms"
+   ],
+   "witnesses": 31,
+   "single_path_claims": 1147,
+   "causation_cross_claims": 775
+  },
+  "credits": {
+   "rule": "every claim of an earlier population whose outcome is fi_bears or telco_bears, with the crediting flag of that party varied over its domain",
+   "claims": 432
+  }
+ },
+ "outcome": {
+  "all": {
+   "account_holder_bears": 10509,
+   "undetermined": 16177,
+   "out_of_scope": 14962,
+   "fi_bears": 420,
+   "telco_bears": 120
+  },
+  "in_scope": {
+   "account_holder_bears": 10509,
+   "undetermined": 7396,
+   "fi_bears": 420,
+   "telco_bears": 120
+  },
+  "by_population": {
+   "single-clause": {
+    "account_holder_bears": 9421,
+    "undetermined": 14944,
+    "out_of_scope": 11869,
+    "fi_bears": 60
+   },
+   "scope": {
+    "account_holder_bears": 23,
+    "out_of_scope": 956,
+    "undetermined": 77
+   },
+   "resolutions": {
+    "account_holder_bears": 8,
+    "undetermined": 56
+   },
+   "random": {
+    "out_of_scope": 1870,
+    "undetermined": 130
+   },
+   "pairwise": {
+    "undetermined": 150,
+    "out_of_scope": 81,
+    "account_holder_bears": 189
+   },
+   "tier-judgments": {
+    "account_holder_bears": 868,
+    "undetermined": 820,
+    "fi_bears": 24,
+    "out_of_scope": 186,
+    "telco_bears": 24
+   },
+   "credits": {
+    "fi_bears": 336,
+    "telco_bears": 96
+   }
+  }
+ },
+ "tier": {
+  "stopped_or_closed": {
+   "account_holder_bears@consumer": 10509,
+   "undetermined@srf/6/fi-tier": 5643,
+   "out_of_scope@scope": 14962,
+   "undetermined@srf/7.1.1/relevant-claim": 8781,
+   "undetermined@srf/6.4/telco-bears": 1753,
+   "fi_bears@fi": 420,
+   "telco_bears@telco": 120
+  }
+ },
+ "headline": {
+  "definition": "claims whose outcome is undetermined with the waterfall stopped at the FI or Telco tier: the consumer-bears outcome (account_holder_bears) requires affirmative non-liability findings on both tiers, and one was not computable",
+  "numerator": 7396,
+  "denominators": {
+   "all_claims_ran": 42188,
+   "in_scope": 18445,
+   "in_scope_not_closed_by_breach": 17905
+  },
+  "by_tier": {
+   "fi": 5643,
+   "telco": 1753
+  },
+  "by_waiting": {
+   "fact": 37774,
+   "judgment": 11473,
+   "meaning": 264,
+   "clause": 48
+  },
+  "open_clauses": {
+   "srf/4.2.1/cooling-off": 1217,
+   "srf/4.2.2/i/token-activation-alert": 1285,
+   "srf/4.2.2/alerts": 1624,
+   "srf/6.4/a/fi-complied-all": 5262,
+   "srf/6.2/any-fi-breach": 5103,
+   "srf/6.2/fi-bears": 5321,
+   "srf/6/fi-tier": 5643,
+   "srf/4.2.2/iii/high-risk-activity-alert": 1037,
+   "srf/6.4/telco-bears": 1753,
+   "eupg/2.1/transaction-notification-threshold/a/holder-set": 1715,
+   "srf/4.2.3/above-threshold": 2138,
+   "srf/4.2.3/outgoing-transaction-notification": 2431,
+   "eupg/2.1/transaction-notification-threshold/b/industry-baseline": 1683,
+   "srf/4.2.4/reporting-channel": 420,
+   "srf/4.2.4/duty": 569,
+   "srf/4.2.4/kill-switch": 498,
+   "srf/4.2.5/surveillance-in-place": 1129,
+   "srf/4.2.5/duty": 1837,
+   "srf/4.2.5/response": 1354,
+   "srf/4.2.5/fn8/rapid-drain": 1229,
+   "srf/6.2/loss-arises-from-fi-noncompliance": 391,
+   "eupg/5.5/a/fraud-or-negligence": 257,
+   "srf/6.3/fi-responsible-notwithstanding": 491,
+   "eupg/5.5/b/mas-requirement-noncompliance": 255,
+   "srf/6.3/loss-arises-from-action-or-omission": 260,
+   "srf/5.2.1/deliver-only-from-authorised-aggregators": 699,
+   "srf/5.2.2/block-unauthorised-sender-id": 996,
+   "srf/6.4/b/any-telco-breach": 1367,
+   "srf/5.2.3/filter-implemented": 341,
+   "srf/5.2.3/designated-database": 440,
+   "srf/5.2.3/duty": 448,
+   "srf/5.2.3/this-sms-blocked": 238,
+   "srf/6.6/subscriber-not-account-holder": 13,
+   "srf/6.4/loss-arises-from-telco-noncompliance": 115
+  },
+  "by_population": {
+   "single-clause": 6540,
+   "resolutions": 56,
+   "pairwise": 104,
+   "tier-judgments": 696
+  }
+ },
+ "duty_status_vocabulary": {
+  "affirmative": [
+   "satisfied",
+   "available",
+   "provided",
+   "in_place",
+   "implemented",
+   "designated",
+   "explained",
+   "independent",
+   "within",
+   "given",
+   "withheld",
+   "conforming"
+  ],
+  "breach": [
+   "breached",
+   "not_available",
+   "not_provided",
+   "not_in_place",
+   "not_implemented",
+   "not_designated",
+   "not_explained",
+   "not_independent",
+   "exceeded",
+   "overdue",
+   "not_given",
+   "not_withheld",
+   "not_conforming"
+  ],
+  "undetermined": [
+   "undetermined",
+   "not_assessed",
+   "no_end_event",
+   "not_yet_due",
+   "outstanding",
+   "out_of_order",
+   "missing_operand",
+   "no_candidate"
+  ],
+  "not_applicable": [
+   "not_applicable"
+  ],
+  "not_evaluated": [
+   "(record carries no result: refused, no result domain, or awaiting a person)"
+  ],
+  "note": "not_applicable is carried as its own class: a duty that never arose is neither discharged nor breached (register: CONDITIONAL), and the brief's four classes have no slot for it."
+ },
+ "per_duty_single_clause": {
+  "srf/4.2.1/cooling-off": {
+   "affirmative": 11,
+   "not_applicable": 225,
+   "undetermined": 1665,
+   "breach": 99
+  },
+  "srf/4.2.2/i/token-activation-alert": {
+   "affirmative": 1,
+   "not_applicable": 5,
+   "undetermined": 13,
+   "breach": 1
+  },
+  "srf/4.2.2/ii/new-device-login-alert": {
+   "not_applicable": 45,
+   "affirmative": 1,
+   "undetermined": 53,
+   "breach": 1
+  },
+  "srf/4.2.2/iii/high-risk-activity-alert": {
+   "affirmative": 1,
+   "not_applicable": 5,
+   "undetermined": 13,
+   "breach": 1
+  },
+  "srf/4.2.2/alerts": {
+   "undetermined": 4285,
+   "not_applicable": 130,
+   "breach": 525,
+   "affirmative": 60
+  },
+  "srf/4.2.3/outgoing-transaction-notification": {
+   "affirmative": 10,
+   "not_applicable": 150,
+   "undetermined": 1830,
+   "breach": 10
+  },
+  "srf/4.2.4/reporting-channel": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 2
+  },
+  "srf/4.2.4/kill-switch": {
+   "affirmative": 1,
+   "breach": 3,
+   "undetermined": 12
+  },
+  "srf/4.2.4/duty": {
+   "affirmative": 1,
+   "breach": 25,
+   "undetermined": 38
+  },
+  "srf/4.2.5/surveillance-in-place": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 2
+  },
+  "srf/4.2.5/response": {
+   "affirmative": 2,
+   "breach": 2,
+   "undetermined": 20,
+   "not_applicable": 6
+  },
+  "srf/4.2.5/duty": {
+   "not_applicable": 120,
+   "affirmative": 96,
+   "undetermined": 1272,
+   "breach": 432
+  },
+  "srf/6.4/a/fi-complied-all": {
+   "undetermined": 1000
+  },
+  "srf/6.2/any-fi-breach": {
+   "undetermined": 420,
+   "true": 580
+  },
+  "srf/6.2/fi-bears": {
+   "undetermined": 762,
+   "fi_not_liable_under_6.2": 121,
+   "fi_bears": 117
+  },
+  "eupg/5.5/a/fraud-or-negligence": {
+   "affirmed": 1,
+   "denied": 1,
+   "awaiting:person": 3
+  },
+  "eupg/5.5/b/mas-requirement-noncompliance": {
+   "affirmed": 1,
+   "denied": 1,
+   "awaiting:person": 3
+  },
+  "srf/6.3/fi-responsible-notwithstanding": {
+   "satisfied": 9,
+   "not_satisfied": 11,
+   "undetermined": 105
+  },
+  "srf/6/fi-tier": {
+   "undetermined": 832,
+   "fi_bears": 153,
+   "fi_not_liable": 15
+  },
+  "srf/7.7/perpetrated-through-sms": {
+   "sms": 1,
+   "not_sms": 6,
+   "undetermined": 2
+  },
+  "srf/5.2.1/deliver-only-from-authorised-aggregators": {
+   "breach": 29,
+   "affirmative": 2,
+   "undetermined": 1269,
+   "not_applicable": 3200
+  },
+  "srf/5.2.2/block-unauthorised-sender-id": {
+   "not_applicable": 3376,
+   "undetermined": 1613,
+   "affirmative": 7,
+   "breach": 4
+  },
+  "srf/5.2.3/filter-implemented": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 10,
+   "not_applicable": 24
+  },
+  "srf/5.2.3/designated-database": {
+   "affirmative": 1,
+   "not_applicable": 125,
+   "undetermined": 53,
+   "breach": 1
+  },
+  "srf/5.2.3/this-sms-blocked": {
+   "breach": 1,
+   "not_applicable": 124,
+   "undetermined": 54,
+   "affirmative": 1
+  },
+  "srf/5.2.3/duty": {
+   "affirmative": 20,
+   "breach": 120,
+   "undetermined": 1060,
+   "not_applicable": 2400
+  },
+  "srf/6.4/b/any-telco-breach": {
+   "false": 653,
+   "undetermined": 304,
+   "true": 43
+  },
+  "srf/6.4/telco-bears": {
+   "undetermined": 336,
+   "not_applicable": 664
+  },
+  "srf/7.2/explain-workflow": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 2
+  },
+  "srf/7.5/transaction-information-on-enquiry": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 10,
+   "not_applicable": 4
+  },
+  "srf/7.6/out-of-scope-route": {
+   "undetermined": 504,
+   "breach": 236,
+   "affirmative": 260
+  },
+  "srf/7.7/inform-telco": {
+   "not_applicable": 752,
+   "undetermined": 248
+  },
+  "srf/7.8/fi-independent-governance": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 2
+  },
+  "srf/7.8/telco-independent-governance": {
+   "affirmative": 1,
+   "breach": 1,
+   "undetermined": 10,
+   "not_applicable": 24
+  },
+  "srf/7.9/investigation-timeline": {
+   "undetermined": 777,
+   "affirmative": 112,
+   "breach": 111
+  },
+  "srf/7.10/written-outcome": {
+   "affirmative": 1,
+   "breach": 3,
+   "undetermined": 12
+  },
+  "eupg/8.1/withhold-charges": {
+   "not_applicable": 4,
+   "affirmative": 12,
+   "undetermined": 36,
+   "breach": 12
+  },
+  "srf/7.13/fi-credits": {
+   "undetermined": 70,
+   "not_applicable": 930
+  },
+  "srf/7.14/telco-credits": {
+   "not_applicable": 927,
+   "undetermined": 73
+  },
+  "eupg/4.14/kill-switch-characteristics": {
+   "affirmative": 1,
+   "breach": 7,
+   "undetermined": 56
+  },
+  "eupg/4.20/reporting-channel-characteristics": {
+   "breach": 3,
+   "affirmative": 1,
+   "undetermined": 12
+  },
+  "eupg/4.21/detection-and-blocking": {
+   "not_applicable": 16,
+   "affirmative": 12,
+   "undetermined": 192,
+   "breach": 36
+  }
+ },
+ "per_duty_all_claims": {
+  "srf/4.2.1/cooling-off": {
+   "affirmative": 24745,
+   "not_applicable": 2126,
+   "undetermined": 14627,
+   "breach": 690
+  },
+  "srf/4.2.2/i/token-activation-alert": {
+   "affirmative": 26712,
+   "not_applicable": 4431,
+   "undetermined": 10331,
+   "breach": 714
+  },
+  "srf/4.2.2/ii/new-device-login-alert": {
+   "not_applicable": 31801,
+   "undetermined": 10104,
+   "affirmative": 134,
+   "breach": 149
+  },
+  "srf/4.2.2/iii/high-risk-activity-alert": {
+   "affirmative": 28381,
+   "not_applicable": 3634,
+   "undetermined": 9374,
+   "breach": 799
+  },
+  "srf/4.2.2/alerts": {
+   "affirmative": 24938,
+   "undetermined": 15148,
+   "breach": 1614,
+   "not_applicable": 488
+  },
+  "srf/4.2.3/outgoing-transaction-notification": {
+   "affirmative": 30710,
+   "not_applicable": 875,
+   "undetermined": 10435,
+   "breach": 168
+  },
+  "srf/4.2.4/reporting-channel": {
+   "affirmative": 35046,
+   "breach": 2457,
+   "undetermined": 4685
+  },
+  "srf/4.2.4/kill-switch": {
+   "affirmative": 33439,
+   "breach": 1746,
+   "undetermined": 7003
+  },
+  "srf/4.2.4/duty": {
+   "affirmative": 32826,
+   "breach": 3762,
+   "undetermined": 5600
+  },
+  "srf/4.2.5/surveillance-in-place": {
+   "affirmative": 33840,
+   "breach": 2752,
+   "undetermined": 5596
+  },
+  "srf/4.2.5/response": {
+   "not_applicable": 32925,
+   "affirmative": 1009,
+   "breach": 832,
+   "undetermined": 7422
+  },
+  "srf/4.2.5/duty": {
+   "affirmative": 31241,
+   "breach": 2600,
+   "undetermined": 7576,
+   "not_applicable": 771
+  },
+  "srf/5.2.1/deliver-only-from-authorised-aggregators": {
+   "affirmative": 19668,
+   "not_applicable": 15904,
+   "undetermined": 6179,
+   "breach": 437
+  },
+  "srf/5.2.2/block-unauthorised-sender-id": {
+   "not_applicable": 35123,
+   "undetermined": 6668,
+   "breach": 267,
+   "affirmative": 130
+  },
+  "srf/5.2.3/filter-implemented": {
+   "affirmative": 20835,
+   "not_applicable": 15168,
+   "undetermined": 5793,
+   "breach": 392
+  },
+  "srf/5.2.3/designated-database": {
+   "affirmative": 20600,
+   "not_applicable": 14887,
+   "undetermined": 6656,
+   "breach": 45
+  },
+  "srf/5.2.3/this-sms-blocked": {
+   "not_applicable": 35905,
+   "undetermined": 5895,
+   "breach": 333,
+   "affirmative": 55
+  },
+  "srf/5.2.3/duty": {
+   "affirmative": 20578,
+   "not_applicable": 15168,
+   "undetermined": 6038,
+   "breach": 404
+  },
+  "srf/7.2/explain-workflow": {
+   "affirmative": 40679,
+   "breach": 510,
+   "undetermined": 999
+  },
+  "srf/7.5/transaction-information-on-enquiry": {
+   "affirmative": 40293,
+   "breach": 119,
+   "undetermined": 1237,
+   "not_applicable": 539
+  },
+  "srf/7.6/out-of-scope-route": {
+   "not_applicable": 18445,
+   "breach": 12895,
+   "undetermined": 10141,
+   "affirmative": 707
+  },
+  "srf/7.7/inform-telco": {
+   "affirmative": 11787,
+   "not_applicable": 20102,
+   "undetermined": 10299
+  },
+  "srf/7.8/fi-independent-governance": {
+   "affirmative": 40684,
+   "breach": 477,
+   "undetermined": 1027
+  },
+  "srf/7.8/telco-independent-governance": {
+   "affirmative": 21729,
+   "not_applicable": 15168,
+   "undetermined": 5231,
+   "breach": 60
+  },
+  "srf/7.9/investigation-timeline": {
+   "affirmative": 39490,
+   "undetermined": 2348,
+   "breach": 350
+  },
+  "srf/7.10/written-outcome": {
+   "affirmative": 40308,
+   "breach": 361,
+   "undetermined": 1519
+  },
+  "eupg/8.1/withhold-charges": {
+   "affirmative": 38027,
+   "not_applicable": 771,
+   "undetermined": 3001,
+   "breach": 389
+  },
+  "srf/7.13/fi-credits": {
+   "not_applicable": 25591,
+   "undetermined": 16345,
+   "breach": 168,
+   "affirmative": 84
+  },
+  "srf/7.14/telco-credits": {
+   "not_applicable": 25891,
+   "undetermined": 16225,
+   "breach": 48,
+   "affirmative": 24
+  },
+  "eupg/4.14/kill-switch-characteristics": {
+   "affirmative": 40152,
+   "breach": 227,
+   "undetermined": 1809
+  },
+  "eupg/4.20/reporting-channel-characteristics": {
+   "affirmative": 40294,
+   "breach": 396,
+   "undetermined": 1498
+  },
+  "eupg/4.21/detection-and-blocking": {
+   "affirmative": 37579,
+   "not_applicable": 771,
+   "undetermined": 3520,
+   "breach": 318
+  }
+ },
+ "results_reached_single_clause": {
+  "srf/4.2.1/cooling-off": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.2/i/token-activation-alert": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.2/ii/new-device-login-alert": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.2/iii/high-risk-activity-alert": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.2/alerts": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.3/outgoing-transaction-notification": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.4/reporting-channel": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/4.2.4/kill-switch": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/4.2.4/duty": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/4.2.5/surveillance-in-place": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/4.2.5/response": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/4.2.5/duty": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/6.4/a/fi-complied-all": [
+   "undetermined"
+  ],
+  "srf/6.2/any-fi-breach": [
+   "true",
+   "undetermined"
+  ],
+  "srf/6.2/fi-bears": [
+   "fi_bears",
+   "fi_not_liable_under_6.2",
+   "undetermined"
+  ],
+  "eupg/5.5/a/fraud-or-negligence": [
+   "affirmed",
+   "awaiting:person",
+   "denied"
+  ],
+  "eupg/5.5/b/mas-requirement-noncompliance": [
+   "affirmed",
+   "awaiting:person",
+   "denied"
+  ],
+  "srf/6.3/fi-responsible-notwithstanding": [
+   "not_satisfied",
+   "satisfied",
+   "undetermined"
+  ],
+  "srf/6/fi-tier": [
+   "fi_bears",
+   "fi_not_liable",
+   "undetermined"
+  ],
+  "srf/7.7/perpetrated-through-sms": [
+   "not_sms",
+   "sms",
+   "undetermined"
+  ],
+  "srf/5.2.1/deliver-only-from-authorised-aggregators": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/5.2.2/block-unauthorised-sender-id": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/5.2.3/filter-implemented": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/5.2.3/designated-database": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/5.2.3/this-sms-blocked": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/5.2.3/duty": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/6.4/b/any-telco-breach": [
+   "false",
+   "true",
+   "undetermined"
+  ],
+  "srf/6.4/telco-bears": [
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.2/explain-workflow": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/7.5/transaction-information-on-enquiry": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.6/out-of-scope-route": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/7.7/inform-telco": [
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.8/fi-independent-governance": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/7.8/telco-independent-governance": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.9/investigation-timeline": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "srf/7.10/written-outcome": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "eupg/8.1/withhold-charges": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.13/fi-credits": [
+   "not_applicable",
+   "undetermined"
+  ],
+  "srf/7.14/telco-credits": [
+   "not_applicable",
+   "undetermined"
+  ],
+  "eupg/4.14/kill-switch-characteristics": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "eupg/4.20/reporting-channel-characteristics": [
+   "affirmative",
+   "breach",
+   "undetermined"
+  ],
+  "eupg/4.21/detection-and-blocking": [
+   "affirmative",
+   "breach",
+   "not_applicable",
+   "undetermined"
+  ]
+ },
+ "consumer_bears_resting_on_non_affirmative_duty_state": {
+  "definition": "account_holder_bears outcomes issued while a waterfall duty (or fi-complied-all) was undetermined, or while a duty breach was established (6.2 row: breach, causation denied). Both are the register's encoded semantics (parity 0), measured in the dangerous direction.",
+  "with_undetermined_duty": {
+   "count": 109,
+   "of_account_holder_bears": 10509,
+   "of_all": 42188,
+   "claimIds_first_10": [
+    "SRF-SCALE-SYN-020159",
+    "SRF-SCALE-SYN-020332",
+    "SRF-SCALE-SYN-020439",
+    "SRF-SCALE-SYN-020447",
+    "SRF-SCALE-SYN-020640",
+    "SRF-SCALE-SYN-020737",
+    "SRF-SCALE-SYN-020739",
+    "SRF-SCALE-SYN-022087",
+    "SRF-SCALE-SYN-022419",
+    "SRF-SCALE-SYN-023056"
+   ]
+  },
+  "with_established_breach": {
+   "count": 1200,
+   "of_account_holder_bears": 10509,
+   "of_all": 42188,
+   "claimIds_first_10": [
+    "SRF-SCALE-SYN-000017",
+    "SRF-SCALE-SYN-000021",
+    "SRF-SCALE-SYN-000025",
+    "SRF-SCALE-SYN-000029",
+    "SRF-SCALE-SYN-000081",
+    "SRF-SCALE-SYN-000085",
+    "SRF-SCALE-SYN-000089",
+    "SRF-SCALE-SYN-000093",
+    "SRF-SCALE-SYN-000097",
+    "SRF-SCALE-SYN-000101"
+   ]
+  }
+ },
+ "duty_status_notes": {
+  "overdue": "the limit passed with no end event (elapsed_within against clock.now): breach",
+  "exceeded": "the end event came after the limit: breach",
+  "not_yet_due": "no end event and the limit has not passed: not decidable yet, classed undetermined",
+  "outstanding": "the obligation arose and is not yet discharged or due: classed undetermined",
+  "out_of_order": "end before start: nothing decided, classed undetermined",
+  "_on_supplied_meaning": "the suffix is stripped before mapping; the record keeps the full token in tiers/exhibits",
+  "not_applicable": "a duty that never arose: its own class. Neither discharged nor breached (register: CONDITIONAL), and the brief's four classes have no slot for it",
+  "not_evaluated": "the record carries no result key: refused (INSTRUCTION), no result domain (DEFINITIONAL), or awaiting a person (JUDGMENT not assessed, after routing)"
+ },
+ "parity": {
+  "compared": 42188,
+  "disagreements": []
+ },
+ "throws": {},
+ "invariant_failures": [],
+ "exhibits": [
+  {
+   "claimId": "SRF-SCALE-SYN-000001",
+   "outcome": "account_holder_bears",
+   "at": "consumer"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-000003",
+   "outcome": "undetermined",
+   "at": "srf/6/fi-tier"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-000401",
+   "outcome": "out_of_scope",
+   "at": "scope"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-001201",
+   "outcome": "undetermined",
+   "at": "srf/7.1.1/relevant-claim"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-002171",
+   "outcome": "undetermined",
+   "at": "srf/6.4/telco-bears"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-013222",
+   "outcome": "fi_bears",
+   "at": "fi"
+  },
+  {
+   "claimId": "SRF-SCALE-SYN-041033",
+   "outcome": "telco_bears",
+   "at": "telco"
+  }
+ ]
+}

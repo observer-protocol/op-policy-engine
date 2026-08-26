@@ -1,0 +1,35 @@
+{
+ "$note": "External verification of the SYNTHETIC SRF SCALE corpus records. Every failure is a numbered finding.",
+ "verifier": {
+  "package": "@observer-protocol/policy-engine",
+  "version": "1.0.0-rc.22",
+  "functions": [
+   "verifyEddsaJcs2022",
+   "decodeEd25519DidKey",
+   "jcsBytes"
+  ],
+  "dir": "/private/tmp/claude-501/-Users-agentic/b1245277-a275-4911-8d57-5ce699707317/scratchpad/verifier/node_modules/@observer-protocol/policy-engine"
+ },
+ "engine_rerun": {
+  "register_sha256": "c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033",
+  "recordVersion": 7
+ },
+ "key": "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW",
+ "counts": {
+  "records": 42188,
+  "signature_ok": 42188,
+  "signature_failed": 0,
+  "rebuild_ok": 42188,
+  "rebuild_failed": 0,
+  "claim_missing_from_corpus": 0,
+  "exhibits": 7,
+  "exhibit_signature_ok": 7,
+  "exhibit_rebuild_ok": 7,
+  "exhibit_failed": 0,
+  "distinct_verification_methods": [
+   "did:key:z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW#z6Mkg4RPWUC5T6d4pSXuYN4cRsBCcQNqBgV6BtUYnTRZBUTW"
+  ]
+ },
+ "findings": [],
+ "verdict": "ALL 42188 RECORDS AND 7 EXHIBITS VERIFY AND REBUILD"
+}
