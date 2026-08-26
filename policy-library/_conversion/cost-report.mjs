@@ -23,6 +23,8 @@ const DOMAINS = [
     prims: { new: 2, basis: 'ordered_before and amounts_equal (REUSE-LOG E2, corrected by INVENTORY-AUDIT: amounts_equal is PARAMETERISED over an undeclared Banxico operation), plus the months unit and open_set_floor at arity one as parameterisations' } },
   { name: 'feca', dir: 'feca-2-0805', cov: 'feca',
     prims: { new: 0, basis: 'ten operations served all 35 evaluable clauses with nothing added (REUSE-LOG, the FECA claim; a statement about FECA, not the inventory)' } },
+  { name: 'srf', dir: 'mas-srf-2024', cov: 'srf',
+    prims: { new: 0, basis: 'seven operations (field_present, member_of_enumeration, member_of_register, held_judgment, elapsed_within, ordered_before, conditional_requirement) served all 80 evaluable clauses; nothing added, and the four measurements the set cannot express (12 hours, S$50,000, 50%, S$1,000) were taken as held judgments or recorded flags rather than adding primitives (mas-srf-2024/FINDINGS.md F-05)' } },
 ];
 
 const coverage = j(`${LIB}/_corpus/coverage.json`);

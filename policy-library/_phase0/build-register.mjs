@@ -102,6 +102,7 @@ const DOMAINS = [
   { name: 'banxico', dir: 'banxico-34-2010', text_field: 'text_es', source_field: 'source_locator' },
   { name: 'psr', dir: 'psr-2017-752', text_field: 'text_en', source_field: 'source' },
   { name: 'feca', dir: 'feca-2-0805', text_field: 'text', source_field: 'source_locator' },
+  { name: 'srf', dir: 'mas-srf-2024', text_field: 'text_en', source_field: 'source_locator' },
 ];
 
 const only = process.argv[2];
@@ -185,6 +186,10 @@ for (const d of DOMAINS) {
             if (r.outcome_from !== undefined) row.outcome_from = r.outcome_from;
             else { row.outcome = r.outcome; if (r.note !== undefined) row.note = r.note; }
             if (r.reading !== undefined) row.reading = r.reading;
+            // R15's annotation on a ROW: a row keyed on an absence-class input that yields a decided
+            // outcome carries its reason here, and the validator reads it from the register. Copied,
+            // not retyped (added 2026-08-25 for mas-srf-2024; no earlier register carried one).
+            if (r.$decided_on_absence !== undefined) row.$decided_on_absence = r.$decided_on_absence;
             return row;
           }),
           subtables,

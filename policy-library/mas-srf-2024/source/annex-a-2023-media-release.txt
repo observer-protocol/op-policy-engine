@@ -1,0 +1,19 @@
+                                                                                    Annex A
+
+SRF Duties of Financial Institutions
+        i. Impose minimally a 12-hour cooling period after activation of digital token
+             during which high-risk activities cannot be carried out.
+       ii. Send notification alerts for activation of digital token and conduct of high-risk
+             activities.
+      iii. Provide outgoing transaction notifications by way of SMS, email or in-app
+             notification selected by consumer.
+      iv. Provide a 24/7 reporting channel and a self-service feature for consumer to
+             promptly block online payment transfers from their accounts.
+SRF Duties of Telecommunication Companies
+        i. Connect only to authorised aggregators for delivery of Sender ID SMS to
+             ensure these SMS originate from bona fide senders registered with the SSIR.
+       ii. Block Sender ID SMS which are not from authorised aggregators to prevent
+             delivery of Sender ID SMS originating from unauthorised SMS networks.
+      iii. Implement an anti-scam filter over all SMS to block SMS with known phishing
+             links.
+

@@ -17,10 +17,10 @@
  * looks like.
  */
 import { readFileSync } from 'node:fs';
-import { BX_FIELDS, PSR_FIELDS, FECA_FIELDS } from '../_corpus/space.mjs';
+import { BX_FIELDS, PSR_FIELDS, FECA_FIELDS, SRF_FIELDS } from '../_corpus/space.mjs';
 
 const LIB = new URL('..', import.meta.url).pathname;
-const DOMAINS = [['banxico', 'banxico-34-2010', BX_FIELDS], ['psr', 'psr-2017-752', PSR_FIELDS], ['feca', 'feca-2-0805', FECA_FIELDS]];
+const DOMAINS = [['banxico', 'banxico-34-2010', BX_FIELDS], ['psr', 'psr-2017-752', PSR_FIELDS], ['feca', 'feca-2-0805', FECA_FIELDS], ['srf', 'mas-srf-2024', SRF_FIELDS]];
 
 const collect = (node, reg, acc, seenBindings) => {
   if (node === null || typeof node !== 'object') return acc;

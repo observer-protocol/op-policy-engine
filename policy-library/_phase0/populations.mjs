@@ -13,7 +13,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
-import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS } from '../_corpus/space.mjs';
+import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS, SRF_FIELDS, SRF_RESOLUTIONS } from '../_corpus/space.mjs';
 
 export const LIB = new URL('..', import.meta.url).pathname;
 // PER-RUN, ISOLATED, INSIDE THE REPOSITORY, IGNORED. This defaulted to /tmp until 2026-08-23 (the commit's date; the written date was invented, not observed),
@@ -32,6 +32,7 @@ export const DOMAINS = [
   { name: 'banxico', dir: 'banxico-34-2010', fields: BX_FIELDS,   resolutions: BX_RESOLUTIONS,   corpusKey: 'banxico' },
   { name: 'psr',     dir: 'psr-2017-752',    fields: PSR_FIELDS,  resolutions: PSR_RESOLUTIONS,  corpusKey: 'psr' },
   { name: 'feca',    dir: 'feca-2-0805',     fields: FECA_FIELDS, resolutions: FECA_RESOLUTIONS, corpusKey: null },
+  { name: 'srf',     dir: 'mas-srf-2024',    fields: SRF_FIELDS,  resolutions: SRF_RESOLUTIONS,  corpusKey: null },
 ];
 
 export const SEED = 20260822;

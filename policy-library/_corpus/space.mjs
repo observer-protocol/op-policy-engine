@@ -181,3 +181,131 @@ export const FECA_RESOLUTIONS = {
       'chain of causation': { breaks: ['broken'] } },
   ],
 };
+
+// ─── SRF (mas-srf-2024) ─────────────────────────────────────────────────────────────────────────
+// Derived from facts.json's declared kinds. Instants are laddered against the periods the register
+// declares (3 and 30 calendar days from the report or the first alert; 21 and 45 business days from
+// the report; the 16 June 2025 commencement), plus the absent and malformed states. Singapore time.
+export const SRF_INSTANTS = [
+  '2025-06-01T09:00:00+08:00',   // before the 4.2.5 / EUPG 4.21 commencement
+  '2025-06-16T00:00:00+08:00',   // at commencement
+  '2026-03-02T10:00:00+08:00',   // the transaction (anchor)
+  '2026-03-02T10:01:00+08:00',   // first alert sent / received
+  '2026-03-04T09:00:00+08:00',   // inside 3 days of the anchor
+  '2026-03-05T10:01:00+08:00',   // 3 days exactly from 10:01
+  '2026-03-06T09:00:00+08:00',   // just past 3 days
+  '2026-03-31T09:00:00+08:00',   // inside 30 days; about 20 business days from 03-03
+  '2026-04-01T10:01:00+08:00',   // 30 days exactly from 10:01
+  '2026-04-02T09:00:00+08:00',   // just past 30 days; 22 business days from 03-03
+  '2026-04-10T09:00:00+08:00',   // about 28 business days
+  '2026-05-06T09:00:00+08:00',   // about 46 business days
+  '2026-06-01T09:00:00+08:00',
+  null, undefined, 'not-a-timestamp',
+];
+const SRF_JUDG = ['affirmed', 'denied', 'not_assessed', null, undefined];
+const SRF_BOOL = [true, false, null, undefined];
+export const SRF_FIELDS = {
+  'account.holder_type':                          ['individual', 'sole_proprietor', 'corporate', 'other', null, undefined],
+  'account.issuer_type':                          ['bank', 'relevant_psp', 'other', null, undefined],
+  'account.card_transaction':                     SRF_BOOL,
+  'account.balance_capable_over_1000_sgd':        SRF_BOOL,
+  'account.credit_facility':                      SRF_BOOL,
+  'account.electronic_payments_capable':          SRF_BOOL,
+  'account.stores_specified_emoney':              SRF_BOOL,
+  'scam.impersonated_entity_type':                ['sg_government_agency', 'sg_incorporated_entity', 'foreign_entity_serving_sg_residents', 'individual', 'other', null, undefined],
+  'scam.contact_platform':                        ['sms', 'email', 'whatsapp', 'social_media', 'other_digital', 'phone_call', 'in_person', null, undefined],
+  'scam.credentials_entered_on_fabricated_platform': SRF_BOOL,
+  'scam.transactions_unintended':                 SRF_JUDG,
+  'transaction.executed_at':                      SRF_INSTANTS,
+  'telco.operator_type':                          ['mno', 'mvno', 'none', 'unknown', null, undefined],
+  'fi.events.token_activated':                    SRF_BOOL,
+  'fi.events.new_device_login':                   SRF_BOOL,
+  'fi.events.high_risk_activity':                 SRF_BOOL,
+  'fi.cooling_off.at_least_12h_imposed':          SRF_JUDG,
+  'fi.cooling_off.high_risk_prevented':           SRF_JUDG,
+  'fi.alerts.token_activation_real_time':         SRF_JUDG,
+  'fi.alerts.new_device_login_real_time':         SRF_JUDG,
+  'fi.alerts.high_risk_activity_real_time':       SRF_JUDG,
+  'holder.instructed_transaction_notifications':  SRF_BOOL,
+  'holder.notification_threshold_set':            SRF_BOOL,
+  'transaction.above_holder_threshold':           SRF_JUDG,
+  'transaction.above_baseline_threshold':         SRF_JUDG,
+  'fi.alerts.outgoing_transaction_real_time':     SRF_JUDG,
+  'fi.reporting_channel.available_at_all_times':  SRF_BOOL,
+  'fi.kill_switch.self_service':                  SRF_BOOL,
+  'fi.kill_switch.blocks_mobile_and_online':      SRF_BOOL,
+  'fi.surveillance.real_time_in_place':           SRF_BOOL,
+  'fi.surveillance.rapid_drain_criteria_met':     SRF_JUDG,
+  'fi.surveillance.response':                     ['blocked_until_verified', 'notified_and_held_24h', 'none', 'something_else', null, undefined],
+  'fi.loss_arises_from_noncompliance':            SRF_JUDG,
+  'fi.fraud_or_negligence':                       SRF_JUDG,
+  'fi.mas_requirement_noncompliance':             SRF_JUDG,
+  'fi.loss_arises_from_action_or_omission':       SRF_JUDG,
+  'sms.sender_id_type':                           ['alphanumeric_sender_id', 'local_number', 'overseas_number', null, undefined],
+  'sms.received_from':                            ['aggregator', 'other_source', null, undefined],
+  'sms.aggregator':                               ['agg-alpha', 'agg-rogue', '', null, undefined],
+  'sms.delivered_to_subscriber':                  SRF_BOOL,
+  'sms.url_listed_at_delivery':                   SRF_JUDG,
+  'telco.authorised_aggregators':                 [[], ['agg-alpha'], ['agg-alpha', 'agg-beta'], null, undefined],
+  'telco.filter.implemented_for_all_sms':         SRF_BOOL,
+  'telco.filter.database':                        ['sg-scamshield-url-db', 'vendor-db', '', null, undefined],
+  'telco.loss_arises_from_noncompliance':         SRF_JUDG,
+  'telco.subscriber_is_account_holder':           SRF_BOOL,
+  'telco.number_designated_for_notifications':    SRF_BOOL,
+  'telco.number_received_phishing_sms':           SRF_BOOL,
+  'claim.reported_at':                            SRF_INSTANTS,
+  'claim.submission_at':                          SRF_INSTANTS,
+  'claim.email_provided':                         SRF_BOOL,
+  'fi.alerts.first_sent_at':                      SRF_INSTANTS,
+  'holder.first_alert_received_at':               SRF_INSTANTS,
+  'fi.requested_delay_reasons':                   SRF_BOOL,
+  'claim.delay_reasons_provided':                 SRF_BOOL,
+  'claim.records.show_impersonation':             SRF_JUDG,
+  'claim.records.show_credential_intent':         SRF_JUDG,
+  'claim.records.show_platform_direction':        SRF_JUDG,
+  'claim.telco_named':                            SRF_BOOL,
+  'claim.mobile_number_provided':                 SRF_BOOL,
+  'claim.sms_details_provided':                   SRF_BOOL,
+  'claim.holder_enquired':                        SRF_BOOL,
+  'fi.provided_transaction_information':          SRF_BOOL,
+  'fi.communicated_out_of_scope_assessment':      SRF_BOOL,
+  'fi.informed_telco':                            SRF_BOOL,
+  'fi.workflow_explained_at_report':              SRF_BOOL,
+  'fi.governance.independent':                    SRF_BOOL,
+  'telco.governance.independent':                 SRF_BOOL,
+  'fi.investigation.completed_at':                SRF_INSTANTS,
+  'fi.investigation.complexity':                  ['straightforward', 'complex', 'other', null, undefined],
+  'fi.outcome.written_reply_given':               SRF_BOOL,
+  'fi.outcome.acknowledgement_sought':            SRF_BOOL,
+  'fi.charges_withheld':                          SRF_BOOL,
+  'fi.credited_total_loss':                       SRF_BOOL,
+  'telco.credited_total_loss':                    SRF_BOOL,
+  'fi.requested_3_18_information':                SRF_BOOL,
+  'holder.provided_3_18_information_in_reasonable_time': SRF_JUDG,
+  'fi.police_report_requested':                   SRF_BOOL,
+  'fi.police_report_requested_at':                SRF_INSTANTS,
+  'holder.police_report_furnished_at':            SRF_INSTANTS,
+  'fi.kill_switch.disallows_non_biller_transfers': SRF_BOOL,
+  'fi.kill_switch.terminates_sessions':           SRF_BOOL,
+  'fi.kill_switch.prominent':                     SRF_BOOL,
+  'fi.report_acknowledged_in_writing':            SRF_BOOL,
+  'fi.report_fee_charged':                        SRF_BOOL,
+  'fi.detection.capability_at_all_times':         SRF_BOOL,
+  'fi.detection.annual_review':                   SRF_BOOL,
+  'holder.recklessness_primary_cause':            SRF_JUDG,
+  'user.referred_to_official_sources':            SRF_JUDG,
+  'user.clicked_unexpected_link':                 SRF_JUDG,
+  'holder.kill_switch_activated_promptly':        SRF_JUDG,
+  'clock.now':                                    SRF_INSTANTS,
+};
+export const SRF_RESOLUTIONS = {
+  A3_not_applicable_duty: ['counts_as_complied', 'not_a_compliance_finding', 'something_else', undefined],
+  A5_filter_duty_reading: ['filter_in_place', 'specific_sms_blocked', 'something_else', undefined],
+  // supplied meanings for the two ungrounded terms: both, one, the other, none
+  ungrounded_terms: [
+    { 'designated database': { designated_databases: ['sg-scamshield-url-db'] }, 'default industry-baseline transaction notification threshold': { baseline_sgd: 0.01 } },
+    { 'designated database': { designated_databases: ['sg-scamshield-url-db', 'vendor-db'] } },
+    { 'default industry-baseline transaction notification threshold': { baseline_sgd: 100 } },
+    undefined,
+  ],
+};

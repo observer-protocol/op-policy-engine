@@ -26,6 +26,8 @@ const DOMAINS = [
     at_conversion: { count: 4, basis: 'AUTHORED FROM THE LOG, cited: the whole of reg 75 fit no category until EVIDENTIAL was added on its account (_primitives/EVIDENTIAL.md). Four clauses, one new category.' } },
   { name: 'feca', dir: 'feca-2-0805',
     at_conversion: { count: 24, basis: 'AUTHORED FROM THE ARTIFACTS, cited: 12 DEFINITIONAL + 11 INSTRUCTION + 1 ILLUSTRATIVE had no category until the extended schema; the first pass, made under the old schema, is on disk as clauses.first-pass.json.' } },
+  { name: 'srf', dir: 'mas-srf-2024',
+    at_conversion: { count: 0, basis: 'AUTHORED, 2026-08-25: converted under the extended schema from the start; every clause took one of MECHANICAL, CONDITIONAL, DERIVED, JUDGMENT, DEFINITIONAL, INSTRUCTION on first assignment. Zero says the schema already had the categories, not that the document was easy: nine clauses that are mechanical in nature are JUDGMENT because the primitive set has no ordered comparison or hours unit (mas-srf-2024/FINDINGS.md F-05).' } },
 ];
 
 console.log('MISFITS, per domain. Population: the clauses of each committed register.\n');

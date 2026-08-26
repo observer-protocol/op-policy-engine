@@ -1,5 +1,5 @@
 // What do the committed worked cases reach, against what the registers can produce?
-import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS } from './space.mjs';
+import { BX_FIELDS, BX_RESOLUTIONS, PSR_FIELDS, PSR_RESOLUTIONS, FECA_FIELDS, FECA_RESOLUTIONS, SRF_FIELDS, SRF_RESOLUTIONS } from './space.mjs';
 import { explore } from './explore-lib.mjs';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 const LIB = new URL('..', import.meta.url).pathname;
@@ -44,7 +44,8 @@ const N = Number(process.env.N || 40000);
 const out = {};
 for (const [name, dir, fields, res] of [['banxico','banxico-34-2010',BX_FIELDS,BX_RESOLUTIONS],
                                         ['psr','psr-2017-752',PSR_FIELDS,PSR_RESOLUTIONS],
-                                        ['feca','feca-2-0805',FECA_FIELDS,FECA_RESOLUTIONS]]) {
+                                        ['feca','feca-2-0805',FECA_FIELDS,FECA_RESOLUTIONS],
+                                        ['srf','mas-srf-2024',SRF_FIELDS,SRF_RESOLUTIONS]]) {
   const ev = (await import(`${LIB}/${dir}/evaluate.mjs`)).evaluate;
   const { seen } = explore(fields, res, ev, N, 20260822);
   const fix = await fixtureResults(dir, name);

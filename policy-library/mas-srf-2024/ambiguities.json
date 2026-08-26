@@ -1,0 +1,396 @@
+{
+  "$schema_note": "Ambiguities registered, never resolved. `required_resolution` is null on every entry by design: choosing a reading is an institutional decision, and the evaluation layer takes it as an input under `resolution_keys` (evaluation.json) where a clause's result turns on it. Readings are listed under `competing_readings` (the Banxico field name, which build-register.mjs reconciles). Numbering is the order found, not materiality.",
+  "method_note": "Each entry names the clause it sits on, quotes the text, states what turns on it, and lists the readings the words permit. Three entries (A3, A5, A29) are wired into the evaluation as guards: unresolved, the clause is undetermined. The rest are recorded and the register evaluates one reading, named in the entry.",
+  "ambiguities": [
+    {
+      "id": "A1",
+      "clause_id": "srf/2.1/protected-account/a/individuals",
+      "question": "The SRF's limb (a) says `all of whom are individuals`; the EUPG's says `either individuals or sole proprietors`. Is a sole proprietor's account a protected account for an SRF claim?",
+      "competing_readings": [
+        { "reading": "SRF wording governs an SRF claim: individuals only", "basis": "The SRF defines `protected account` itself at 2.1 rather than importing the EUPG's definition, and 2.2 defers to the Acts only for expressions the SRF does not define." },
+        { "reading": "EUPG wording governs: sole proprietors included", "basis": "SRF 1.1(a) applies the Guidelines to issuers of `a protected account` and 4.1 draws the FI duties from the EUPG, whose protected account admits sole proprietors; the EUPG was amended on the same day, and the narrower SRF limb may be an omission." }
+      ],
+      "textual_basis": "SRF 2.1 `protected account` (a), p.3: `all of whom are individuals`. EUPG 2.1 `protected account` (a), p.5: `all of whom are either individuals or sole proprietors` [Amended on 24 October 2024].",
+      "materiality": "Decisive for every sole-proprietor claim: in or out of scope.",
+      "evaluated_reading": "SRF wording (individuals only). eupg/2.1/protected-account/a/sole-proprietors records the other.",
+      "required_resolution": null
+    },
+    {
+      "id": "A2",
+      "clause_id": "srf/4.2.2/i/token-activation-alert",
+      "question": "`on a real-time basis` (4.2.2, 4.2.3) is not defined. How late can an alert be and still be real-time?",
+      "competing_readings": [
+        { "reading": "Sent at the moment of the event, by an automated path", "basis": "EUPG 4.10(b): `sent on a real time basis for each transaction`, which reads as per-event automation rather than a latency figure." },
+        { "reading": "Sent within a period short enough for the holder to act before the loss", "basis": "The duties exist so the holder can report and block (4.2.4); an alert that arrives after the funds have left serves nothing." }
+      ],
+      "textual_basis": "SRF 4.2.2, p.6; 4.2.3, p.6; EUPG 4.9, 4.10(b), p.17.",
+      "materiality": "Decides whether a delayed alert is a breach. The register takes the FI's recorded assessment of real-timeness as the fact; it cannot measure latency against an undefined limit.",
+      "evaluated_reading": "Neither; the fact is the FI's assessment. Also on srf/4.2.2/ii, srf/4.2.2/iii, srf/4.2.3/outgoing-transaction-notification.",
+      "required_resolution": null
+    },
+    {
+      "id": "A3",
+      "clause_id": "srf/6.4/a/fi-complied-all",
+      "question": "6.4(a) requires that the FI `has complied with all of its duties set out in paragraph 4.2`. Where a duty never arose (no token was activated; the account was not rapidly drained; the holder declined notifications), has the FI complied with it?",
+      "competing_readings": [
+        { "reading": "counts_as_complied", "basis": "A conditional duty whose condition did not occur cannot have been breached, and `complied with all` is satisfied by the absence of any breach. This is the reading under which 6.7 is reachable in the ordinary case." },
+        { "reading": "not_a_compliance_finding", "basis": "`has complied` is an affirmative finding about conduct; a duty that never arose produced no conduct to find compliant, and the session brief requires the consumer outcome to rest on affirmative per-duty findings on both tiers. Under this reading a claim with any never-arisen duty cannot reach 6.7." }
+      ],
+      "textual_basis": "SRF 6.4(a), p.9; 6.7, p.10: `Where the responsible FI is not expected to bear the loss under paragraph 6.2`.",
+      "materiality": "Decisive for the Telco tier and for 6.7 in nearly every claim, since at least one of the five duties has a precondition. WIRED AS A GUARD: unresolved, srf/6.4/a/fi-complied-all is undetermined wherever a duty is not_applicable, and the waterfall stops at the FI tier.",
+      "evaluated_reading": "None by default. Resolution key A3_not_applicable_duty.",
+      "required_resolution": null
+    },
+    {
+      "id": "A4",
+      "clause_id": "srf/6.2/fi-bears",
+      "question": "6.2 puts the loss on the FI `if the loss arises from any non-compliance`, while 6.4(a) asks only whether the FI `has complied with all of its duties`. Where a 4.2 duty was breached but the loss did not arise from it, who bears?",
+      "competing_readings": [
+        { "reading": "Causation required: the FI does not bear under 6.2, the Telco does not bear under 6.4 (6.4(a) fails), and 6.7 puts the loss on the account holder", "basis": "The words of 6.2 and 6.4 read together. The register encodes this." },
+        { "reading": "Any breach suffices: `arises from` is satisfied by the breach's existence", "basis": "The consultation response and the infographic speak of the FI bearing the loss `if FI breaches SRF duties`, without a causal step; and the alternative leaves the consumer bearing a loss after an FI breach, which the framework's stated purpose cannot intend." }
+      ],
+      "textual_basis": "SRF 6.2, p.9; 6.4(a), p.9; 6.7, p.10; infographic (Outcome Stage): `If FI breaches SRF duties`.",
+      "materiality": "Decisive whenever a breach is found and causation is denied: row (true, denied) of srf/6.2/fi-bears yields fi_not_liable_under_6.2 and, through 6.4(a), account_holder_bears.",
+      "evaluated_reading": "Causation required.",
+      "required_resolution": null
+    },
+    {
+      "id": "A5",
+      "clause_id": "srf/5.2.3/duty",
+      "question": "5.2.3 requires the Telco to `implement an anti-scam filter ... to determine if it contains any URL that matches that of a known malicious URL in a designated database`. Is the duty breached when a filter exists but the phishing SMS, whose URL was in the database, was delivered?",
+      "competing_readings": [
+        { "reading": "filter_in_place: the duty is to implement the filter; a delivery despite it is a performance question, not a breach", "basis": "The verb is `implement`; the sentence describes what the filter determines, not a guarantee of blocking." },
+        { "reading": "specific_sms_blocked: the duty is to block SMS containing listed URLs; a listed URL delivered is a breach", "basis": "The heading of 5.2.3 is `implements an anti-scam filter over SMS to block SMS containing malicious URLs`, and a filter that does not block listed URLs is not the filter described." }
+      ],
+      "textual_basis": "SRF 5.2.3, p.8, heading and text.",
+      "materiality": "Decisive for the Telco tier in every SMS case where the URL was listed. WIRED AS A GUARD: unresolved, srf/5.2.3/duty is undetermined. Resolution key A5_filter_duty_reading.",
+      "evaluated_reading": "None by default.",
+      "required_resolution": null
+    },
+    {
+      "id": "A6",
+      "clause_id": "srf/5.2.3/designated-database",
+      "question": "Once an institution supplies which database is `designated`, is the SMS's URL tested against the database's contents at the instant of delivery or at the time of assessment?",
+      "competing_readings": [
+        { "reading": "At delivery", "basis": "The duty is to block SMS as they pass through the network; the database's later contents could not have been consulted." },
+        { "reading": "At assessment", "basis": "The investigation (7.7.1) is the point at which the Telco `has fulfilled` the duty is judged, and the database is what it is then." }
+      ],
+      "textual_basis": "SRF 5.2.3, p.8; footnote 10: `new malicious URLs can emerge rapidly`.",
+      "materiality": "Decides srf/5.2.3/this-sms-blocked's precondition. The register's fact `sms.url_listed_at_delivery` takes the first reading in its name.",
+      "evaluated_reading": "At delivery.",
+      "required_resolution": null
+    },
+    {
+      "id": "A7",
+      "clause_id": "srf/5.2.1/deliver-only-from-authorised-aggregators",
+      "question": "Footnote 9 grounds `authorised aggregators` to the SGNIC list. Is membership tested against the list as it stood when the SMS was delivered, or as it stands when the claim is assessed?",
+      "competing_readings": [
+        { "reading": "As at delivery", "basis": "The Telco's connection decision was made then." },
+        { "reading": "As at assessment", "basis": "The list is published without history; the assessor can only read it now." }
+      ],
+      "textual_basis": "SRF footnote 9, p.8: `The list of authorised aggregators can be found on SGNIC's website`.",
+      "materiality": "Decides srf/5.2.1 where an aggregator was added or removed between delivery and assessment. The register takes the list as a supplied fact and does not date it.",
+      "evaluated_reading": "Whichever list the institution supplies as `telco.authorised_aggregators`.",
+      "required_resolution": null
+    },
+    {
+      "id": "A8",
+      "clause_id": "srf/7.3/report-within-30-days",
+      "question": "7.3 says the holder `should report ... no later than 30 calendar days`. What is the consequence of a later report for the Section 6 outcome?",
+      "competing_readings": [
+        { "reading": "None stated: the claim proceeds and Section 6 allocates loss on the duties alone", "basis": "Section 6 names no timeliness condition; footnote 14 contemplates a late report with reasons." },
+        { "reading": "A late claim is outside the workflow and the FI treats it under 7.6", "basis": "`must furnish ... within 3 calendar days ... in order to facilitate the claims investigation process` reads as a condition of the process." }
+      ],
+      "textual_basis": "SRF 7.3 and footnote 14, p.11.",
+      "materiality": "Decides whether a late claimant can reach 6.7 at all. The register evaluates the first reading: the waterfall reads no 7.3 result.",
+      "evaluated_reading": "No consequence encoded.",
+      "required_resolution": null
+    },
+    {
+      "id": "A8a",
+      "clause_id": "srf/7.3/report-within-30-days",
+      "question": "SRF 7.3 counts 30 days `from when the responsible FI sends the notification alerts`; EUPG 3.14 counts `after receipt of any notification alert`. Which clock?",
+      "competing_readings": [
+        { "reading": "Sending (SRF)", "basis": "The SRF is the later and more specific instrument for a seemingly authorised transaction." },
+        { "reading": "Receipt (EUPG)", "basis": "SRF 3.1 applies EUPG Section 3 `accordingly`, and receipt is what the holder can act on." }
+      ],
+      "textual_basis": "SRF 7.3, p.11; EUPG 3.14, p.11-12.",
+      "materiality": "Days between sending and receipt. Two clauses, two clocks: srf/7.3/report-within-30-days and eupg/3.14/report-within-30-days-of-receipt.",
+      "evaluated_reading": "Both, as separate records.",
+      "required_resolution": null
+    },
+    {
+      "id": "A9",
+      "clause_id": "srf/6.6/subscriber-not-account-holder",
+      "question": "Where the subscriber who received the SMS is not the account holder and is on a different operator from the holder, which operator is the `responsible Telco`?",
+      "competing_readings": [
+        { "reading": "The subscriber's operator", "basis": "6.6 speaks of `the responsible Telco's subscriber` and the duties in 5.2 are about SMS delivered to subscribers." },
+        { "reading": "The account holder's operator", "basis": "7.4 asks for `the name of the responsible Telco whose services the account holder had subscribed to`." }
+      ],
+      "textual_basis": "SRF 6.6, p.9; 7.4, p.11.",
+      "materiality": "Decides which Telco investigates and may bear. The register records one Telco's facts and does not name which operator they belong to.",
+      "evaluated_reading": "Not decided; the facts describe whichever Telco the institution treats as responsible.",
+      "required_resolution": null
+    },
+    {
+      "id": "A10",
+      "clause_id": "srf/4.2.5/fn8/rapid-drain",
+      "question": "Footnote 8(b): `more than 50% of such account balance is transferred out within the last 24 hours`. The last 24 hours before what instant?",
+      "competing_readings": [
+        { "reading": "Before the transaction that would cross the 50% threshold", "basis": "4.2.5(a) speaks of `the online banking payment transaction that would result in the crossing of the threshold`." },
+        { "reading": "A rolling window ending at each transaction to the scammer", "basis": "`rapidly drained` describes a pattern, and each transaction re-tests it." }
+      ],
+      "textual_basis": "SRF footnote 8, p.7; 4.2.5(a), p.7.",
+      "materiality": "Decides when the block-or-hold duty triggers. The register takes the FI's recorded assessment.",
+      "evaluated_reading": "The FI's assessment.",
+      "required_resolution": null
+    },
+    {
+      "id": "A11",
+      "clause_id": "srf/4.2.5/response",
+      "question": "4.2.5(a): block `until it is able to obtain further verification from the account holder`. Is a block released on any contact with the holder, or on a verification that the transactions are intended?",
+      "competing_readings": [
+        { "reading": "Any further verification step", "basis": "The words." },
+        { "reading": "Verification that the holder intends the payments", "basis": "The duty is `directed at detecting seemingly authorised transactions`; a verification that does not test intent detects nothing." }
+      ],
+      "textual_basis": "SRF 4.2.5(a), p.7.",
+      "materiality": "Decides whether a block released on a scripted call-back satisfies (a). The register records the FI's response as a named alternative and does not test what the verification was.",
+      "evaluated_reading": "Not tested.",
+      "required_resolution": null
+    },
+    {
+      "id": "A12",
+      "clause_id": "srf/4.2.1/fn5/non-stp-activation",
+      "question": "Where activation is non-straight-through, does the 12 hours run from the start of the process (e.g. the mailing) or from the holder's first step?",
+      "competing_readings": [
+        { "reading": "From the start of the process", "basis": "`the duration of the non-straight through process counts towards fulfilling the cooling off period`." },
+        { "reading": "From the holder's request", "basis": "A period the FI controls the start of is not a cooling-off period for the holder." }
+      ],
+      "textual_basis": "SRF footnote 5, p.6.",
+      "materiality": "Hours. The register does not measure the period (F-05).",
+      "evaluated_reading": "Not measured.",
+      "required_resolution": null
+    },
+    {
+      "id": "A13",
+      "clause_id": "srf/2.1/high-risk-activities",
+      "question": "The SRF's `high-risk activities` list is closed (`means`); the EUPG's is open (`include, but are not limited to`). For 4.2.1 and 4.2.2, is an activity outside the four a high-risk activity?",
+      "competing_readings": [
+        { "reading": "Closed: the four only", "basis": "The SRF's own definition and the duties assessed are the SRF's." },
+        { "reading": "Open: the SRF duties are `drawn from` the EUPG (4.1), whose list is open", "basis": "4.2.1 and 4.2.2 are `[From paragraph 4.7/4.9 of the EUPG]`." }
+      ],
+      "textual_basis": "SRF 2.1, p.2-3; EUPG 2.1, p.4; SRF 4.1, p.5.",
+      "materiality": "Decides whether, e.g., a change of login method triggers the alert duty. The register's fact `fi.events.high_risk_activity` is recorded against the SRF's closed list.",
+      "evaluated_reading": "Closed.",
+      "required_resolution": null
+    },
+    {
+      "id": "A14",
+      "clause_id": "srf/2.1/seemingly-authorised/a/impersonation",
+      "question": "`legitimate business or government entity` includes `entities incorporated outside Singapore that offer services to Singapore residents`. Who decides that a foreign entity offers such services, and what of an impersonated individual (a relative, a bank officer by name)?",
+      "competing_readings": [
+        { "reading": "Entity class only: an impersonated individual is outside limb (a) whatever their role", "basis": "The definition lists agencies and entities." },
+        { "reading": "Impersonating an officer of an entity is impersonating the entity", "basis": "Limb (a)'s examples (`FIs, non-banks and government agencies`) are impersonated through people." }
+      ],
+      "textual_basis": "SRF 2.1 `legitimate business or government entity`, p.3; `seemingly authorised transaction` (a), p.4.",
+      "materiality": "Decisive for scope in officer-impersonation cases. The register's enumeration classifies the recorded impersonated entity; the classifier is whoever records the fact.",
+      "evaluated_reading": "The recorded class.",
+      "required_resolution": null
+    },
+    {
+      "id": "A15",
+      "clause_id": "srf/4.2.5/fn8/rapid-drain",
+      "question": "Footnote 8 excludes recurring instructions, GIRO, bill payments, debit card transactions and intrabank transfers `for the avoidance of doubt`. Are the excluded flows removed from the 50% numerator only, or from the opening balance too?",
+      "competing_readings": [
+        { "reading": "Numerator only", "basis": "The exclusion is of what `is transferred out`." },
+        { "reading": "Both, so the balance is the balance available to the scammer", "basis": "`rapidly drained ... to a scammer` is a statement about the scammer's take." }
+      ],
+      "textual_basis": "SRF footnote 8, p.7.",
+      "materiality": "Can move an account across the 50% line. Not measured (F-05).",
+      "evaluated_reading": "The FI's assessment.",
+      "required_resolution": null
+    },
+    {
+      "id": "A16",
+      "clause_id": "eupg/5.5/b/mas-requirement-noncompliance",
+      "question": "`any requirement imposed by the Authority on the responsible FI in respect of its provision of any financial service` is an open class. Does it include the EUPG's own `should` expectations, or only Notices and Directions?",
+      "competing_readings": [
+        { "reading": "Binding requirements only", "basis": "`imposed` and `requirement`; Guidelines are expectations (SRF 1.4, EUPG 1.4)." },
+        { "reading": "Includes Guidelines", "basis": "EUPG 5.5(c) separately names Section 4 duties, which would be redundant under the first reading only if Guidelines were already in (b)." }
+      ],
+      "textual_basis": "EUPG 5.5(b), p.26; SRF footnote 12, p.9.",
+      "materiality": "Decides how wide 6.3 reaches. Taken as a held judgment.",
+      "evaluated_reading": "The assessor's.",
+      "required_resolution": null
+    },
+    {
+      "id": "A17",
+      "clause_id": "srf/4.3/scheduled-downtime",
+      "question": "4.3 applies 4.2 during scheduled downtime `where relevant` and requires alternatives `where applicable`. When is a downtime failure of an alert a breach of 4.2.2 or 4.2.3?",
+      "competing_readings": [
+        { "reading": "Always: 4.2 applies during downtime", "basis": "`paragraph 4.2 of these Guidelines applies during a scheduled system downtime`." },
+        { "reading": "Only where an alternative was applicable and not provided", "basis": "`where relevant` and `where applicable` qualify both sentences." }
+      ],
+      "textual_basis": "SRF 4.3, p.7; EUPG 4.29, p.24.",
+      "materiality": "Decides breach in a downtime case. The register records no downtime fact and evaluates 4.2 the same way regardless.",
+      "evaluated_reading": "Always (no downtime carve-out is encoded).",
+      "required_resolution": null
+    },
+    {
+      "id": "A18",
+      "clause_id": "srf/1.1/b/responsible-telco",
+      "question": "A responsible Telco is an MNO that deploys, owns or controls infrastructure. An MVNO subscriber's SMS passes through an MNO's network. In an MVNO case, is the host MNO the responsible Telco, or is there none?",
+      "competing_readings": [
+        { "reading": "The host MNO", "basis": "The 5.2 duties are about SMS passing through `the responsible Telcos' network`, which is the MNO's." },
+        { "reading": "None: the subscriber's operator is not an MNO and 5.2 binds an operator in respect of its subscribers", "basis": "2.1 `subscriber ... in relation to a responsible Telco` means a subscriber of that Telco's services." }
+      ],
+      "textual_basis": "SRF 1.1(b), p.1; 2.1 `responsible Telco`, `subscriber`, p.4; 5.2.3, p.8.",
+      "materiality": "Decides whether the Telco tier arises at all in an MVNO case. The register records `telco.operator_type` and srf/1.1/b answers not_member for `mvno`; the Telco-tier clauses read 7.7 (SMS or not), not 1.1(b), so an MVNO case still evaluates the Telco's duties against whatever Telco's facts are supplied (recorded as a limit, not a reading).",
+      "evaluated_reading": "Neither; 1.1(b) is a record beside the tier.",
+      "required_resolution": null
+    },
+    {
+      "id": "A19",
+      "clause_id": "srf/6.7/outcome",
+      "question": "Section 6 allocates loss on FI and Telco duties only; Section 3 duties of the account user and EUPG 5.2 recklessness appear nowhere in 6.2 to 6.7. Does an account user's own breach affect the SRF outcome?",
+      "competing_readings": [
+        { "reading": "No: the SRF waterfall has no consumer-duty tier; the consumer bears only residually", "basis": "6.7's condition is the two prior tiers' non-liability and nothing else; the consultation response describes the consumer tier as residual." },
+        { "reading": "Yes, through 6.3 and EUPG 5.4: an FI is not liable under EUPG 5.4 where the loss `does not arise from any failure by any account user to comply with any duty in Section 3`", "basis": "6.3 incorporates 5.5(a) and (b), which 5.4 frames; a Section 3 failure could defeat 6.3 though not 6.2." }
+      ],
+      "textual_basis": "SRF 6.2 to 6.7, p.9-10; SRF 3.1, p.5; EUPG 5.2, 5.4, p.25-26.",
+      "materiality": "Decides whether srf/3.1/*, eupg/3.17 and eupg/5.2 should feed the waterfall. The register emits them and reads none of them in Section 6.",
+      "evaluated_reading": "No consumer-duty input to the waterfall.",
+      "required_resolution": null
+    },
+    {
+      "id": "A20",
+      "clause_id": "srf/4.2.3/outgoing-transaction-notification",
+      "question": "4.2.3 is owed to an account holder `that the responsible FI has been instructed to send transaction notification alerts to`. Where the holder never instructed, or instructed a narrower preference (EUPG 4.11), the duty never arises. Is the FI then to be found `complied` for 6.4(a)?",
+      "competing_readings": [
+        { "reading": "Yes: the duty is defined by the instruction", "basis": "Footnote 6 and EUPG 3.1 and 4.11." },
+        { "reading": "No: 4.2.3 as headed (`provides outgoing transaction notification alerts on a real-time basis`) is a capability duty the FI either has or lacks", "basis": "The heading and the infographic speak of the duty without the instruction condition." }
+      ],
+      "textual_basis": "SRF 4.2.3 and footnote 6, p.6; EUPG 3.1, p.8; 4.11, p.18.",
+      "materiality": "A3's question, arising for this duty in particular. Follows A3's resolution.",
+      "evaluated_reading": "Instruction-conditioned; composes under A3.",
+      "required_resolution": null
+    },
+    {
+      "id": "A21",
+      "clause_id": "srf/4.2.3/outgoing-transaction-notification",
+      "question": "Each SRF 4.2 duty is `[From paragraph N of the EUPG]` and then restated more narrowly (4.2.3 omits EUPG 4.10(a)-(d)'s content criteria; 4.2.4 omits 4.14's channels and 4.20's characteristics; 4.2.5 narrows 4.21 to a threshold trigger). Is the SRF duty assessed on the SRF's restatement or on the EUPG paragraph it is drawn from?",
+      "competing_readings": [
+        { "reading": "The SRF restatement", "basis": "4.2 says `The following duties from the EUPG are assessed under Section 6` and then states each; the statement is what is assessed." },
+        { "reading": "The EUPG paragraph in full", "basis": "`[From paragraph N]` is a citation, and 4.1 expects adherence to all of EUPG Section 4." }
+      ],
+      "textual_basis": "SRF 4.2, 4.2.1 to 4.2.5, p.5-7; EUPG 4.7, 4.9, 4.10, 4.14, 4.19, 4.21.",
+      "materiality": "Decides whether a notification lacking EUPG 4.10(d)'s content, or a kill switch not on an ATM, is a 4.2 breach. The register evaluates the restatement and emits the EUPG detail as separate `process` records (eupg/4.14, eupg/4.20, eupg/4.21) that the waterfall does not read.",
+      "evaluated_reading": "The SRF restatement.",
+      "required_resolution": null
+    },
+    {
+      "id": "A22",
+      "clause_id": "srf/4.2.4/reporting-channel",
+      "question": "`a reporting channel that is available at all times`: is the test whether the channel is generally available, or whether it was available when this account holder tried to use it?",
+      "competing_readings": [
+        { "reading": "General availability", "basis": "`provide ... a reporting channel that is available at all times` describes the channel." },
+        { "reading": "Availability at the material time", "basis": "The duty exists for `prompt reporting and blocking of further seemingly authorised transactions`, which is a moment." }
+      ],
+      "textual_basis": "SRF 4.2.4, p.6; EUPG 4.19, p.21.",
+      "materiality": "Decides breach in an outage case. The register's fact is the FI's recorded flag without a time.",
+      "evaluated_reading": "Whatever the flag records.",
+      "required_resolution": null
+    },
+    {
+      "id": "A23",
+      "clause_id": "srf/4.4/fraud-surveillance-commencement",
+      "question": "4.2.5 `will take effect 6 months from the date these Guidelines are effective`. For a scam spanning the commencement date, which instant is ordered against 16 June 2025: the first transaction, the threshold-crossing one, or the report?",
+      "competing_readings": [
+        { "reading": "Each transaction separately", "basis": "The duty is triggered per transaction (4.2.5(a): `the online banking payment transaction that would result in the crossing`)." },
+        { "reading": "The claim as a whole, by its first transaction", "basis": "Section 6 allocates one loss per claim." }
+      ],
+      "textual_basis": "SRF 4.4, p.7; media release 24 October 2024, para 3: `a 6-month transition period`.",
+      "materiality": "Only for claims spanning 16 June 2025. The register orders one instant, `transaction.executed_at`, and the same instant for EUPG 1.5.",
+      "evaluated_reading": "One recorded instant per claim.",
+      "required_resolution": null
+    },
+    {
+      "id": "A24",
+      "clause_id": "eupg/5.5/c/section-4-duties",
+      "question": "SRF footnote 12 quotes EUPG 5.5(a) and (b) and omits (c) (non-compliance with any Section 4 duty). Was the omission deliberate, so that an EUPG Section 4 breach outside SRF 4.2 does not shift loss under the SRF?",
+      "competing_readings": [
+        { "reading": "Deliberate: 6.2 already covers the 4.2 duties and (c) would sweep in the rest of Section 4, which 4.2 deliberately excludes", "basis": "The structure of 4.2 (`The following duties ... are assessed`)." },
+        { "reading": "An oversight, and (c) applies through 4.1's expectation of adherence to all of Section 4", "basis": "6.3 is `notwithstanding 6.2` and exists to widen it." }
+      ],
+      "textual_basis": "SRF 6.3 and footnote 12, p.9; EUPG 5.5, p.26.",
+      "materiality": "Decides whether, e.g., a missing EUPG 4.16 warning shifts loss. The register encodes the footnote as written: (a) and (b) only.",
+      "evaluated_reading": "(a) and (b) only.",
+      "required_resolution": null
+    },
+    {
+      "id": "A25",
+      "clause_id": "srf/5.2.2/block-unauthorised-sender-id",
+      "question": "5.2.1 (deliver only from authorised aggregators) and 5.2.2 (block those not from authorised aggregators) are one rule stated twice. For `any duty set out in paragraph 5.2` (6.4(b)), does one unauthorised delivery breach one duty or two?",
+      "competing_readings": [
+        { "reading": "One rule, two statements; breached together", "basis": "There is no delivery of an unauthorised Sender ID SMS that breaches one and not the other." },
+        { "reading": "Two duties: 5.2.1 is about connections, 5.2.2 about blocking", "basis": "The 2023 consultation annex lists them separately with different verbs (`Connect only to`, `Block`)." }
+      ],
+      "textual_basis": "SRF 5.2.1, 5.2.2, p.8; Annex A to the 25 October 2023 media release (superseded; SOURCES.md).",
+      "materiality": "None for the outcome (a disjunction is the same either way); matters for what the record says was breached. The register emits both.",
+      "evaluated_reading": "Both records emitted.",
+      "required_resolution": null
+    },
+    {
+      "id": "A26",
+      "clause_id": "srf/7.4/communication-records",
+      "question": "7.4 says the records `should sufficiently demonstrate` limbs matching 2.1(a)-(c). Is a claim whose records do not demonstrate them outside scope (not a relevant claim), or in scope but unproven?",
+      "competing_readings": [
+        { "reading": "Evidential only: scope is 2.1's four limbs; 7.4 is what the holder supplies", "basis": "7.1.1 assesses scope; 7.4 sits in the Claim Stage as an information request (`may request`)." },
+        { "reading": "Constitutive: a claim not demonstrated is not a relevant claim", "basis": "`in order to facilitate the claims investigation process` (7.3)." }
+      ],
+      "textual_basis": "SRF 7.4, p.11-12; 7.1.1, p.10.",
+      "materiality": "Decides whether a poorly documented claim reaches Section 6. The register keeps 7.4 out of scope (srf/7.1.1 does not read it).",
+      "evaluated_reading": "Evidential only.",
+      "required_resolution": null
+    },
+    {
+      "id": "A27",
+      "clause_id": "srf/7.7/inform-telco",
+      "question": "Footnote 13: the Telco's involvement `shall be based on any mutually agreed arrangement between the responsible FI and responsible Telco`. Where there is no arrangement, does the FI's duty to inform the Telco (7.7) arise?",
+      "competing_readings": [
+        { "reading": "Yes: 7.7 is unconditional; the footnote governs 7.1.3 (the Outcome Stage) only", "basis": "Footnote 13 is attached to `paragraph 7.1.3`." },
+        { "reading": "No arrangement, no referral", "basis": "The Telco cannot `commence its investigation` without a channel to receive it." }
+      ],
+      "textual_basis": "SRF 7.7, p.12; footnote 13, p.10.",
+      "materiality": "Decides srf/7.7/inform-telco where no arrangement exists. The register does not record the arrangement.",
+      "evaluated_reading": "Unconditional.",
+      "required_resolution": null
+    },
+    {
+      "id": "A28",
+      "clause_id": "srf/7.9/investigation-timeline",
+      "question": "`21 business days` and `45 business days`: are Singapore public holidays business days?",
+      "competing_readings": [
+        { "reading": "Weekdays excluding public holidays", "basis": "Ordinary Singapore usage; the Interpretation Act's `business day` excludes public holidays for some purposes." },
+        { "reading": "Weekdays", "basis": "Neither instrument defines the term." }
+      ],
+      "textual_basis": "SRF 7.9, p.13; EUPG 4.26, p.23.",
+      "materiality": "Up to a few days per period. The register's business_days unit counts weekdays only, and this is a stated limit of the primitive, not a reading of the text.",
+      "evaluated_reading": "Weekdays (the primitive's limit).",
+      "required_resolution": null
+    },
+    {
+      "id": "A29",
+      "clause_id": "srf/6.4/telco-bears",
+      "question": "6.4(a) requires the FI to have `complied with all of its duties`. Where the FI tier closed `fi_not_liable` because a breach caused no loss (A4, causation denied), 6.4(a) is nonetheless unmet. Does the Telco escape because of an FI breach that shifted no loss?",
+      "competing_readings": [
+        { "reading": "Yes, on the words: 6.4(a) is about compliance, not liability", "basis": "6.4(a) and 6.7 use different predicates (`complied with all`, `not expected to bear`)." },
+        { "reading": "No: 6.4(a) should be read as `is not expected to bear under 6.2`, so the tiers chain", "basis": "Otherwise a non-causal FI breach leaves the consumer bearing a Telco-caused loss." }
+      ],
+      "textual_basis": "SRF 6.2, 6.4(a), 6.7, p.9-10.",
+      "materiality": "Reachable only through A4's causation-denied row. The register encodes the words: srf/6.4/telco-bears reads srf/6.4/a/fi-complied-all, not srf/6/fi-tier.",
+      "evaluated_reading": "The words.",
+      "required_resolution": null
+    }
+  ]
+}

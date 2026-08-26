@@ -1,0 +1,1634 @@
+{
+  "$schema_note": "Clause register for the MAS/IMDA Guidelines on Shared Responsibility Framework (issued 24 October 2024, effective 16 December 2024) and the paragraphs of the E-Payments User Protection Guidelines (amended 24 October 2024, effective 16 December 2024) that the SRF incorporates. Every clause carries a source pin (document, paragraph, page of the retrieved PDF), a duty holder, a tier of the loss waterfall, a disposition and its basis. `duty_holder` and `tier` are fields of THIS register; _phase0/build-register.mjs does not copy them into register.json (FINDINGS.md F-03). Ambiguities are registered in ambiguities.json and never resolved here.",
+  "$dispositions": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION, as _interpreter/register.schema.json declares them. No EVIDENTIAL clause: the SRF frames no burden of proof. No ILLUSTRATIVE clause.",
+  "$duty_holders": "fi | telco | account_holder | account_user | none. `none` is the scope, definitional and allocation clauses, which bind nobody to an act.",
+  "$tiers": "scope | fi | telco | consumer | process | none. The waterfall of Section 6 is evaluated scope -> fi -> telco -> consumer, in that emit order; `process` is the Section 7 workflow, whose results the waterfall never reads.",
+  "scope_note": "ENCODED: SRF sections 1 (application and the card exclusion), 2 (the two scope definitions as evaluable limbs; the rest as DEFINITIONAL), 3 (two account-user duties), 4.1 to 4.4, 5.1 to 5.2.3, 6.1 to 6.9, 7.1 to 7.14 and footnotes 1, 5, 7, 8, 9, 11, 14, 15, 16. EUPG: only the paragraphs the SRF names or depends on (1.5, 2.1 four terms, 3.1, 3.14, 3.17, 3.18, 3.20, 4.11, 4.14, 4.20, 4.21, 5.2, 5.5, 8.1). NOT ENCODED: SRF 1.2 and 1.3 (descriptive, no requirement); the whole of EUPG sections 4 (other than the paragraphs above), 6 (erroneous transactions), 7 (disputed investigations) and 8.2 to 8.6, deferred by ruling of the session brief (register over ~150 clauses trims EUPG detail; FINDINGS.md F-02). Where the SRF says a duty is `[From paragraph N of the EUPG]` the SRF clause carries both pins and the EUPG paragraph is not a second clause: the SRF text restates the operative content and Section 6 assesses the SRF wording.",
+  "clauses": [
+    {
+      "id": "srf/1.1/a/responsible-fi",
+      "source_locator": "SRF 1.1(a), p.1; definition of `responsible FI` at 2.1, p.4",
+      "text_en": "banks and relevant payment service providers that have issued a protected account (\"responsible financial institutions\" or \"responsible FIs\")",
+      "assertion": "The Guidelines apply to the issuer of the protected account only if it is a bank or a relevant payment service provider (a major payment institution licensed for account issuance).",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Membership of the issuer in a closed two-member class recorded as a fact. A finance company or a non-bank card issuer is a responsible FI under the EUPG (2.1) but not under the SRF; the difference is decided by this clause.",
+      "in_force_from": "2024-12-16"
+    },
+    {
+      "id": "srf/1.1/b/responsible-telco",
+      "source_locator": "SRF 1.1(b), p.1; definition of `responsible Telco` at 2.1, p.4",
+      "text_en": "mobile network operators under the Telecommunications Act 1999 which provide cellular mobile telephone services",
+      "assertion": "A responsible Telco is a Mobile Network Operator that deploys, owns or controls cellular network infrastructure and holds spectrum rights. Nothing else is one.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Membership of the subscriber's operator in a one-member class. An MVNO subscriber has no responsible Telco under this definition (ambiguity A18).",
+      "in_force_from": "2024-12-16"
+    },
+    {
+      "id": "srf/1.1/fn1/card-exclusion",
+      "source_locator": "SRF footnote 1, p.2; EUPG footnote 3, p.1",
+      "text_en": "the responsibility sharing set out in these Guidelines do not apply to transactions on credit cards, charge cards and debit cards issued in Singapore",
+      "assertion": "A claim about a transaction on a Singapore-issued credit, charge or debit card is outside the SRF's responsibility sharing whatever else is true of it.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean about the transaction. Absent is not `not a card transaction`: the clause is undetermined until the fact is recorded.",
+      "in_force_from": "2024-12-16"
+    },
+    {
+      "id": "srf/1.4/read-with-legislation",
+      "source_locator": "SRF 1.4, p.2",
+      "text_en": "They should be read in conjunction with the provisions of the relevant legislation ... written directions, notices, codes and other guidelines that MAS or IMDA (as the case may be) may issue",
+      "assertion": "The Guidelines neither replace nor override legislation and are not comprehensive.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs how to read the instrument. No fact of a claim makes it true or false."
+    },
+    {
+      "id": "srf/2.1/protected-account/a/individuals",
+      "source_locator": "SRF 2.1 `protected account` limb (a), p.3, and footnote 2",
+      "text_en": "is held in the name of one or more persons, all of whom are individuals",
+      "assertion": "Every holder of the account is an individual. A corporate, partnership or sole-proprietorship account is not a protected account under the SRF.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Membership of the recorded holder type in a one-member enumeration. The EUPG's limb (a) admits sole proprietors; the SRF's does not (ambiguity A1). The register evaluates the SRF's wording and registers the divergence."
+    },
+    {
+      "id": "srf/2.1/protected-account/b/balance-or-credit",
+      "source_locator": "SRF 2.1 `protected account` limb (b), p.3",
+      "text_en": "is capable of having a balance of more than S$1,000 (or equivalent amount expressed in any other currency) at any one time, or is a credit facility",
+      "assertion": "Either the account can hold more than S$1,000 or it is a credit facility.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A disjunction of two recorded booleans. The S$1,000 capability is recorded as a boolean because the register has no ordered comparison over amounts (F-05); the fact records the FI's own capability flag, not a balance."
+    },
+    {
+      "id": "srf/2.1/protected-account/c/electronic",
+      "source_locator": "SRF 2.1 `protected account` limb (c), p.3",
+      "text_en": "is capable of being used for electronic payment transactions",
+      "assertion": "The account can be used for electronic payment transactions.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean."
+    },
+    {
+      "id": "srf/2.1/protected-account/d/psp-emoney",
+      "source_locator": "SRF 2.1 `protected account` limb (d), p.3",
+      "text_en": "where issued by a relevant payment service provider is a payment account that stores specified e-money",
+      "assertion": "If the issuer is a relevant payment service provider, the account must store specified e-money. For a bank-issued account the limb does not arise.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "An obligation on the account's shape that arises only for one issuer type. `not_applicable` for a bank-issued account is not a pass of limb (d); it is limb (d) never arising."
+    },
+    {
+      "id": "srf/2.1/protected-account",
+      "source_locator": "SRF 2.1 `protected account`, chapeau, p.3",
+      "text_en": "\"protected account\" means any payment account that— (a) ... (b) ... (c) ... and (d) ...",
+      "assertion": "All four limbs must hold for the account to be a protected account.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the four limb results. Reads no fact of its own. Limb (d)'s `not_applicable` composes as holding because the limb is conditional by its own words (`where issued by a relevant payment service provider`).",
+      "depends_on": [
+        "srf/2.1/protected-account/a/individuals",
+        "srf/2.1/protected-account/b/balance-or-credit",
+        "srf/2.1/protected-account/c/electronic",
+        "srf/2.1/protected-account/d/psp-emoney"
+      ]
+    },
+    {
+      "id": "srf/2.1/seemingly-authorised/a/impersonation",
+      "source_locator": "SRF 2.1 `seemingly authorised transaction` limb (a), p.4; `legitimate business or government entity`, p.3",
+      "text_en": "perpetrated through the impersonation of a legitimate business or government entity, e.g., FIs, non-banks and government agencies (\"impersonated entity\")",
+      "assertion": "The scammer impersonated a Singapore Government agency, an entity incorporated in Singapore, or a foreign entity that offers services to Singapore residents. Impersonation of an individual is outside limb (a).",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Membership of the recorded impersonated-entity class in the three-member enumeration the definition gives. Whether a foreign entity `offers services to Singapore residents` is a classification made when the fact is recorded, not here (ambiguity A14)."
+    },
+    {
+      "id": "srf/2.1/seemingly-authorised/b/digital-messaging",
+      "source_locator": "SRF 2.1 `seemingly authorised transaction` limb (b), p.4, and footnote 3",
+      "text_en": "the scammer, pretending to be the impersonated entity, uses a digital messaging platform (e.g., SMS, email, WhatsApp, social media platforms) to obtain the account user's account credentials",
+      "assertion": "The contact that obtained the credentials was over a digital messaging platform. A phone call or a letter is not one.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Membership of the recorded contact platform in the digital-messaging class. The list in the text is illustrative (`e.g.`); the register's enumeration adds `other_digital` so an unlisted digital platform is a member rather than a gap."
+    },
+    {
+      "id": "srf/2.1/seemingly-authorised/c/fabricated-platform",
+      "source_locator": "SRF 2.1 `seemingly authorised transaction` limb (c), p.4; `fabricated digital platform`, p.2",
+      "text_en": "the account user enters his account credentials on a fabricated digital platform (e.g., website, application) (\"fraudulently obtained credentials\")",
+      "assertion": "The credentials were entered by the account user on a platform resembling one operated by the FI or the impersonated entity.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean. A credential given over the phone, or a device compromised by malware, does not satisfy limb (c) and the claim is outside the SRF."
+    },
+    {
+      "id": "srf/2.1/seemingly-authorised/d/unintended",
+      "source_locator": "SRF 2.1 `seemingly authorised transaction` limb (d), p.4; EUPG footnote 4(a), p.6",
+      "text_en": "the fraudulently obtained credentials are used to perform transactions that the account user did not intend to be performed",
+      "assertion": "The account user did not intend the transactions. A payment the user knew of and meant to make, however induced (EUPG footnote 4(a): investment, job, love scams), is not one.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Intention is assessed, not read off a record. Taken as an input; never inferred from the other limbs."
+    },
+    {
+      "id": "srf/2.1/seemingly-authorised",
+      "source_locator": "SRF 2.1 `seemingly authorised transaction`, chapeau, p.4",
+      "text_en": "any payment transaction which fulfils limbs (a) to (d)",
+      "assertion": "All four limbs must hold.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the four limbs. Reads no fact of its own.",
+      "depends_on": [
+        "srf/2.1/seemingly-authorised/a/impersonation",
+        "srf/2.1/seemingly-authorised/b/digital-messaging",
+        "srf/2.1/seemingly-authorised/c/fabricated-platform",
+        "srf/2.1/seemingly-authorised/d/unintended"
+      ]
+    },
+    {
+      "id": "srf/7.1.1/relevant-claim",
+      "source_locator": "SRF 7.1.1, p.10 (`relevant claim`); 1.1, footnote 1, 2.1",
+      "text_en": "It will assess if the claim falls within the SRF's scope (\"relevant claim\")",
+      "assertion": "A claim is a relevant claim when the issuer is a responsible FI, the transaction is not a card transaction, the account is a protected account and the transaction is a seemingly authorised transaction.",
+      "duty_holder": "none",
+      "tier": "scope",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the scope clauses. The responsible-Telco question is not part of scope: a claim with no responsible Telco is still a relevant claim, and the Telco tier answers `not_applicable` (6.4 is confined to scams perpetrated through SMS).",
+      "depends_on": [
+        "srf/1.1/a/responsible-fi",
+        "srf/1.1/fn1/card-exclusion",
+        "srf/2.1/protected-account",
+        "srf/2.1/seemingly-authorised"
+      ]
+    },
+    {
+      "id": "srf/2.1/high-risk-activities",
+      "source_locator": "SRF 2.1 `high-risk activities`, p.2-3; EUPG 2.1 `high-risk activities`, p.4",
+      "text_en": "\"high-risk activities\" means— (a) adding of payees ... (b) increasing the transaction limits ... (c) disabling transaction notifications ... and (d) changes in the account holder's contact information",
+      "assertion": "The SRF's list is closed (`means`); the EUPG's is open (`include, but are not limited to`). The SRF's closed list is what 4.2.1 and 4.2.2 are assessed against.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies a meaning to 4.2.1 and 4.2.2. Tests nothing.",
+      "operative_weight": "An activity outside the four is not a high-risk activity for the cooling-off and alert duties under the SRF, though it may be one under the EUPG (ambiguity A13)."
+    },
+    {
+      "id": "srf/2.1/money",
+      "source_locator": "SRF 2.1 `money`, p.3",
+      "text_en": "\"money\" includes currency and e-money but does not include digital payment tokens",
+      "assertion": "A transfer of digital payment tokens is not a payment transaction and is outside the SRF.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies a meaning to `payment transaction`. The register records no DPT fact; an institution applying it must classify before recording the transaction.",
+      "operative_weight": "Excludes digital payment tokens from every clause that says `payment transaction`."
+    },
+    {
+      "id": "srf/2.1/sms",
+      "source_locator": "SRF 2.1 `SMS`, p.4",
+      "text_en": "\"SMS\" means a text message sent using an electronic service to an end-user on a mobile telephone through a telecommunication service, and excludes text messages sent over social media platforms and those that rely on Over-The-Top (\"OTT\") applications such as WhatsApp, iMessage, and Rich Communication Services (\"RCS\")",
+      "assertion": "A WhatsApp, iMessage or RCS message is not an SMS. A scam over those platforms is inside limb (b) but is not `perpetrated through SMS`, so the Telco tier never arises.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning `perpetrated through SMS` (7.7) rests on.",
+      "operative_weight": "Only `sms` in the contact-platform enumeration is an SMS; `whatsapp`, `social_media` and `other_digital` are not."
+    },
+    {
+      "id": "srf/2.1/sender-id-sms",
+      "source_locator": "SRF 2.1 `Sender ID SMS`, p.4",
+      "text_en": "\"Sender ID SMS\" means an SMS with an alphanumeric sender identification",
+      "assertion": "An SMS from a local or overseas telephone number is not a Sender ID SMS, and 5.2.1 and 5.2.2 do not reach it; 5.2.3 does.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the precondition of 5.2.1 and 5.2.2.",
+      "operative_weight": "5.2.1 and 5.2.2 arise only when the phishing SMS carried an alphanumeric sender ID."
+    },
+    {
+      "id": "srf/2.1/subscriber",
+      "source_locator": "SRF 2.1 `subscriber`, p.4",
+      "text_en": "\"subscriber\", in relation to a responsible Telco, means— (a) a subscriber of telecommunication services provided by the responsible Telco; or (b) any other person who is authorised ... to use the telecommunication services",
+      "assertion": "The subscriber may be a person other than the account holder; 6.6 governs that case.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning 6.6 rests on.",
+      "operative_weight": "The Telco's duty runs to its subscriber; whether the subscriber is the account holder is a separate fact 6.6 tests."
+    },
+    {
+      "id": "srf/2.2/undefined-expressions",
+      "source_locator": "SRF 2.2, p.5",
+      "text_en": "The expressions used in these Guidelines shall, except where expressly defined in these Guidelines, have the same meanings as in the applicable Acts",
+      "assertion": "Undefined expressions take their statutory meaning.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs where to look for meanings. Tests nothing."
+    },
+    {
+      "id": "srf/3.1/official-sources",
+      "source_locator": "SRF 3.1, p.5; EUPG 3.9 and 3.10, p.10-11",
+      "text_en": "account users should only refer to official sources for information on the website addresses and phone numbers of their responsible FIs",
+      "assertion": "The account user used official sources for the FI's contact details.",
+      "duty_holder": "account_user",
+      "tier": "consumer",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Whether a source was `official` is assessed from the account of the incident. NOT READ BY THE WATERFALL: Section 6 allocates loss on FI and Telco duties only; an account user's breach of Section 3 changes nothing in 6.7 (ambiguity A19)."
+    },
+    {
+      "id": "srf/3.1/no-links",
+      "source_locator": "SRF 3.1, p.5; EUPG 3.11, p.11",
+      "text_en": "account users should not click on links provided in SMS or emails, unless these are informational links that the account user is expecting to receive from the responsible FI",
+      "assertion": "The account user did not click an unexpected link.",
+      "duty_holder": "account_user",
+      "tier": "consumer",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Expectation is assessed. Not read by the waterfall (A19)."
+    },
+    {
+      "id": "srf/4.1/eupg-s4-applies",
+      "source_locator": "SRF 4.1, p.5",
+      "text_en": "Responsible FIs are expected to adhere to all the duties set out under Section 4 of the EUPG.",
+      "assertion": "All EUPG Section 4 duties bind the responsible FI, but only those in 4.2 are assessed under Section 6.",
+      "duty_holder": "fi",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Incorporates a section of another instrument without stating a testable fact of the claim. The EUPG paragraphs the SRF assesses are encoded as the 4.2 clauses; the rest of EUPG Section 4 is not encoded (F-02)."
+    },
+    {
+      "id": "srf/4.2.1/cooling-off",
+      "source_locator": "SRF 4.2.1, p.5-6; EUPG 4.7, p.16",
+      "text_en": "the responsible FI must impose a cooling off period of at least 12 hours where high-risk activities cannot be performed, when a digital security token is activated on a device, or when there is a login to a protected account issued by a relevant payment service provider on a new device",
+      "assertion": "When a digital security token was activated, or (for a PSP-issued account) a login occurred on a new device, the FI imposed a cooling-off period of at least 12 hours during which high-risk activities could not be performed.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "An obligation that arises on an event. The 12-hour floor is a mechanical test the register cannot express: elapsed_within has no hours unit and no primitive orders two durations (F-05), so the floor and the prevention of high-risk activities are taken as the FI's recorded assessments. `not_applicable` means no token was activated and no new-device login occurred; whether that counts as compliance for 6.4(a) is ambiguity A3.",
+      "depends_on": [
+        "srf/2.1/high-risk-activities"
+      ]
+    },
+    {
+      "id": "srf/4.2.1/fn5/non-stp-activation",
+      "source_locator": "SRF footnote 5, p.6; EUPG footnote 13, p.16",
+      "text_en": "If the security token is activated via a non-straight through process (e.g. mailing of registration code), the duration of the non-straight through process counts towards fulfilling the cooling off period.",
+      "assertion": "Time spent in a non-straight-through activation process counts toward the 12 hours.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the measurement rule 4.2.1 rests on. Where the period starts within the non-straight-through process is ambiguity A12.",
+      "operative_weight": "The cooling-off clock may start before activation completes."
+    },
+    {
+      "id": "srf/4.2.2/i/token-activation-alert",
+      "source_locator": "SRF 4.2.2(i), p.6; EUPG 4.9, p.17",
+      "text_en": "the responsible FI must provide notification alerts on a real-time basis to the account holder of a protected account, when (i) his digital security token is activated",
+      "assertion": "When a digital security token was activated, a real-time alert was sent to the account holder.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on the activation event. `real-time` is undefined in both instruments (ambiguity A2); the fact records the FI's assessment that the alert was real-time, which is why the requirement is a held judgment rather than a timestamp comparison."
+    },
+    {
+      "id": "srf/4.2.2/ii/new-device-login-alert",
+      "source_locator": "SRF 4.2.2(ii), p.6; EUPG 4.9, p.17",
+      "text_en": "(ii) there is a login to a protected account issued by a relevant payment service provider on a new device",
+      "assertion": "For a PSP-issued account, when a login occurred on a new device, a real-time alert was sent.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only for a PSP-issued account and only on a new-device login. For a bank-issued account the limb never arises."
+    },
+    {
+      "id": "srf/4.2.2/iii/high-risk-activity-alert",
+      "source_locator": "SRF 4.2.2(iii), p.6; EUPG 4.9, p.17",
+      "text_en": "(iii) any high-risk activities are performed on a protected account",
+      "assertion": "When a high-risk activity was performed, a real-time alert was sent.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a high-risk activity as the SRF defines it (closed list).",
+      "depends_on": [
+        "srf/2.1/high-risk-activities"
+      ]
+    },
+    {
+      "id": "srf/4.2.2/alerts",
+      "source_locator": "SRF 4.2.2, chapeau, p.6",
+      "text_en": "The responsible FI provides notification alerts on a real-time basis, when a digital security token is activated or when there is a login ... on a new device, and for the conduct of high-risk activities",
+      "assertion": "The 4.2.2 duty is discharged when each of its three limbs is satisfied or never arose.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the three limbs into the one duty Section 6 counts. A limb that never arose composes as holding (the limb is conditional by its words); whether a duty ALL of whose limbs never arose counts as complied with is A3, and the composition keeps `not_applicable` distinct from `satisfied` for that reason.",
+      "depends_on": [
+        "srf/4.2.2/i/token-activation-alert",
+        "srf/4.2.2/ii/new-device-login-alert",
+        "srf/4.2.2/iii/high-risk-activity-alert"
+      ]
+    },
+    {
+      "id": "eupg/3.1/instructed-notifications",
+      "source_locator": "EUPG 3.1, p.8; SRF footnote 6, p.6, and footnote 17, p.13",
+      "text_en": "The duties of the account holders in this Section 3 will apply to all the account holders that the responsible FI has been instructed to send transaction notifications to.",
+      "assertion": "The account holder instructed the FI to send transaction notifications and provided the contact information for them.",
+      "duty_holder": "account_holder",
+      "tier": "consumer",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded instruction. 4.2.3 arises only for an account holder the FI `has been instructed to send transaction notification alerts to`; an account holder who declined notifications has no 4.2.3 duty owed to them (ambiguity A20)."
+    },
+    {
+      "id": "eupg/2.1/transaction-notification-threshold/a/holder-set",
+      "source_locator": "EUPG 2.1 `transaction notification threshold` limb (a), p.5; SRF footnote 7, p.6",
+      "text_en": "(a) the threshold for transaction alerts set by the account holder",
+      "assertion": "Where the account holder set a threshold, the seemingly authorised transaction was above it.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where the holder set a threshold. The comparison of the amount against the threshold is mechanical in nature and the register has no ordered amount comparison (F-05), so it is taken as the FI's recorded assessment."
+    },
+    {
+      "id": "eupg/2.1/transaction-notification-threshold/b/industry-baseline",
+      "source_locator": "EUPG 2.1 `transaction notification threshold` limb (b), p.5; SRF footnote 7, p.6",
+      "text_en": "(b) if the account holder did not set any threshold for transaction alerts, the default industry-baseline transaction notification threshold",
+      "assertion": "Where the holder set no threshold, the transaction was above the default industry-baseline threshold.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Neither instrument states the baseline's value or who sets it. The term is ungrounded: the clause is undetermined until an institution supplies the baseline, and a determination made with a supplied baseline is marked as resting on it.",
+      "rests_on_ungrounded_term": "default industry-baseline transaction notification threshold"
+    },
+    {
+      "id": "srf/4.2.3/above-threshold",
+      "source_locator": "SRF footnote 7, p.6; EUPG 2.1 `transaction notification threshold`, p.5",
+      "text_en": "In line with the default industry-baseline transaction notification threshold or threshold for transaction alerts set by the account holder.",
+      "assertion": "The transaction was one 4.2.3 requires an alert for: above whichever threshold applies.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "Selects limb (a) or (b) by whether the holder set a threshold, and reads that limb's result. Reads no fact of its own.",
+      "depends_on": [
+        "eupg/2.1/transaction-notification-threshold/a/holder-set",
+        "eupg/2.1/transaction-notification-threshold/b/industry-baseline"
+      ]
+    },
+    {
+      "id": "srf/4.2.3/outgoing-transaction-notification",
+      "source_locator": "SRF 4.2.3, p.6, with footnotes 6 and 7; EUPG 4.10, p.17-18",
+      "text_en": "the responsible FI must provide transaction notification alerts to each account holder of a protected account that the responsible FI has been instructed to send transaction notification alerts to, in respect of all outgoing payment transactions made from the account holder's protected account",
+      "assertion": "Where the account holder had instructed notifications and the transaction was above the applicable threshold, a real-time outgoing transaction alert was sent.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on two preconditions (instruction, threshold) and requires a real-time alert, which is the FI's recorded assessment (A2). The content criteria of EUPG 4.10(a)-(d) are not assessed by SRF 4.2.3, which names only provision on a real-time basis (ambiguity A21).",
+      "depends_on": [
+        "eupg/3.1/instructed-notifications",
+        "srf/4.2.3/above-threshold"
+      ]
+    },
+    {
+      "id": "srf/4.2.4/reporting-channel",
+      "source_locator": "SRF 4.2.4, p.6; EUPG 4.19, p.21",
+      "text_en": "the responsible FI must provide account holders of protected accounts with a reporting channel that is available at all times for the purposes of prompt reporting and blocking of further seemingly authorised transactions",
+      "assertion": "A reporting channel available at all times was provided.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean about the channel's availability. Whether it was available at the moment of THIS claim, as opposed to in general, is ambiguity A22."
+    },
+    {
+      "id": "srf/4.2.4/kill-switch",
+      "source_locator": "SRF 4.2.4, p.6; EUPG 4.14, p.19",
+      "text_en": "The reporting channel must include a self-service feature to promptly block further mobile and online access to the account holder's protected account.",
+      "assertion": "The channel included a self-service feature that blocks further mobile and online access.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded booleans, both required. `promptly` is undefined (A2's class) and is not tested."
+    },
+    {
+      "id": "srf/4.2.4/duty",
+      "source_locator": "SRF 4.2.4, p.6",
+      "text_en": "The responsible FI provides a reporting channel and self-service feature for the account holder to promptly block further access to the protected account",
+      "assertion": "The 4.2.4 duty is discharged when both the channel and the self-service feature were provided.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "Composes the two halves into the one duty Section 6 counts. This duty has no precondition, so it is never `not_applicable`.",
+      "depends_on": [
+        "srf/4.2.4/reporting-channel",
+        "srf/4.2.4/kill-switch"
+      ]
+    },
+    {
+      "id": "srf/4.4/fraud-surveillance-commencement",
+      "source_locator": "SRF 4.4, p.7; media release of 24 October 2024, para 3",
+      "text_en": "Paragraph 4.2.5 will take effect 6 months from the date these Guidelines are effective.",
+      "assertion": "4.2.5 applies to a seemingly authorised transaction executed on or after 16 June 2025.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Orders the transaction's execution instant against a date. The date is derived (16 December 2024 plus six months) and the instrument does not state it as a calendar date; the media release says `a 6-month transition period` (ambiguity A23: which instant of a multi-transaction scam is the one ordered).",
+      "in_force_from": "2025-06-16"
+    },
+    {
+      "id": "srf/4.2.5/fn8/rapid-drain",
+      "source_locator": "SRF footnote 8, p.7",
+      "text_en": "A protected account is considered to be rapidly drained of a material sum if (a) the protected account has account balance of S$50,000 or more immediately prior to the seemingly authorised transaction and (b) more than 50% of such account balance is transferred out within the last 24 hours.",
+      "assertion": "The account held S$50,000 or more immediately before the transaction and more than half of it left within 24 hours, excluding the listed recurring and intrabank flows.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Mechanical in nature and unexpressible here: no ordered comparison over amounts, no fraction, no hours unit (F-05). Taken as the FI's recorded assessment and routed to a person. `within the last 24 hours` is measured from an unstated instant (ambiguity A10)."
+    },
+    {
+      "id": "srf/4.2.5/surveillance-in-place",
+      "source_locator": "SRF 4.2.5, p.7; EUPG 4.21, p.22",
+      "text_en": "the responsible FI must have in place real-time fraud surveillance directed at detecting seemingly authorised transactions to a scammer(s)",
+      "assertion": "Real-time fraud surveillance directed at seemingly authorised transactions was in place.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean. Applies only from the commencement date, which srf/4.2.5/duty gates."
+    },
+    {
+      "id": "srf/4.2.5/response",
+      "source_locator": "SRF 4.2.5(a) and (b), p.7",
+      "text_en": "In a scenario where a protected account is rapidly drained of a material sum to a scammer, the responsible FI must: (a) Block the online banking payment transaction that would result in the crossing of the threshold ... until it is able to obtain further verification from the account holder; or (b) Send notification to the account holder, and block or hold for at least 24 hours",
+      "assertion": "Where the account was rapidly drained of a material sum, the FI either blocked the crossing transaction and all subsequent ones to the scammer until verified, or notified the holder and held them for at least 24 hours.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on the footnote 8 condition, which is a held judgment; a judgment of `not_assessed` leaves the precondition unresolved and the clause undetermined rather than not applicable. The response is recorded as one of two named alternatives or `none`. The 24-hour minimum of (b) is not measured (F-05).",
+      "depends_on": [
+        "srf/4.2.5/fn8/rapid-drain"
+      ]
+    },
+    {
+      "id": "srf/4.2.5/duty",
+      "source_locator": "SRF 4.2.5 with 4.4, p.7",
+      "text_en": "The responsible FI puts in place real-time fraud surveillance directed at detecting unauthorised transactions in a phishing scam",
+      "assertion": "From 16 June 2025, the 4.2.5 duty is discharged when surveillance was in place and, where the account was rapidly drained, the required response was made.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "Gates the two halves on the commencement clause. Before commencement the duty never arose (`not_applicable`); an unknown execution date leaves it undetermined.",
+      "depends_on": [
+        "srf/4.4/fraud-surveillance-commencement",
+        "srf/4.2.5/surveillance-in-place",
+        "srf/4.2.5/response"
+      ]
+    },
+    {
+      "id": "srf/4.3/scheduled-downtime",
+      "source_locator": "SRF 4.3, p.7; EUPG 4.29, p.24",
+      "text_en": "Where relevant, paragraph 4.2 of these Guidelines applies during a scheduled system downtime. The responsible FI is to ensure continued delivery of key services and alternatives, where applicable.",
+      "assertion": "Scheduled downtime does not suspend the 4.2 duties.",
+      "duty_holder": "fi",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs continued delivery `where relevant` and `where applicable`, neither of which the text defines (ambiguity A17). No fact of a claim makes it true or false; the 4.2 clauses are evaluated the same way whether or not downtime was scheduled."
+    },
+    {
+      "id": "srf/6.4/a/fi-complied-all",
+      "source_locator": "SRF 6.4(a), p.9; 6.1, p.8",
+      "text_en": "the responsible FI has complied with all of its duties set out in paragraph 4.2 of these Guidelines",
+      "assertion": "Each of the five 4.2 duties was complied with.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "A conjunction over the five duty results. A duty that never arose (`not_applicable`) is composed under ambiguity A3: with the resolution `counts_as_complied` it holds; with `not_a_compliance_finding` the conjunction is undetermined; unresolved, undetermined. NO DEFAULT: an absent resolution blocks the tier rather than reading the duty as discharged.",
+      "depends_on": [
+        "srf/4.2.1/cooling-off",
+        "srf/4.2.2/alerts",
+        "srf/4.2.3/outgoing-transaction-notification",
+        "srf/4.2.4/duty",
+        "srf/4.2.5/duty"
+      ]
+    },
+    {
+      "id": "srf/6.2/any-fi-breach",
+      "source_locator": "SRF 6.2, p.9",
+      "text_en": "any non-compliance by the responsible FI with any duty set out in paragraph 4.2",
+      "assertion": "At least one of the five 4.2 duties was breached.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "A disjunction over breach flags: one established breach decides it even if another duty is undetermined; no breach and one undetermined leaves it undetermined; five affirmative non-breach findings make it false.",
+      "depends_on": [
+        "srf/4.2.1/cooling-off",
+        "srf/4.2.2/alerts",
+        "srf/4.2.3/outgoing-transaction-notification",
+        "srf/4.2.4/duty",
+        "srf/4.2.5/duty"
+      ]
+    },
+    {
+      "id": "srf/6.2/loss-arises-from-fi-noncompliance",
+      "source_locator": "SRF 6.2, p.9",
+      "text_en": "if the loss arises from any non-compliance by the responsible FI",
+      "assertion": "The loss arose from the FI's non-compliance.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Causation is assessed, never inferred from the breach. Whether 6.2 requires it at all, given 6.4(a)'s wording, is ambiguity A4; the register takes the words `arises from` as a condition and registers the reading that would drop it."
+    },
+    {
+      "id": "srf/6.2/fi-bears",
+      "source_locator": "SRF 6.2, p.9",
+      "text_en": "The responsible FI is expected to bear any loss arising from a seemingly authorised transaction if the loss arises from any non-compliance by the responsible FI with any duty set out in paragraph 4.2 of these Guidelines.",
+      "assertion": "The FI bears the loss under 6.2 when a 4.2 duty was breached and the loss arose from that breach.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "A decision table over the breach disjunction and the causation judgment. Every combination is a row; a missing row throws.",
+      "depends_on": [
+        "srf/6.2/any-fi-breach",
+        "srf/6.2/loss-arises-from-fi-noncompliance"
+      ],
+      "decision_table": {
+        "$source": "SRF 6.2, p.9",
+        "inputs": [
+          {
+            "name": "any_breach",
+            "source": "clause srf/6.2/any-fi-breach",
+            "domain": [
+              true,
+              false,
+              "undetermined"
+            ]
+          },
+          {
+            "name": "causation",
+            "source": "clause srf/6.2/loss-arises-from-fi-noncompliance remapped to a closed domain",
+            "domain": [
+              "affirmed",
+              "denied",
+              "undetermined"
+            ]
+          }
+        ],
+        "cross_product": 9,
+        "rows": [
+          {
+            "any_breach": true,
+            "causation": "affirmed",
+            "outcome": "fi_bears",
+            "note": "A 4.2 duty was breached and the loss arose from it."
+          },
+          {
+            "any_breach": true,
+            "causation": "denied",
+            "outcome": "fi_not_liable_under_6.2",
+            "note": "A breach the loss did not arise from. Under A4's other reading this row would be fi_bears; the register encodes the words."
+          },
+          {
+            "any_breach": true,
+            "causation": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "any_breach": false,
+            "causation": "affirmed",
+            "outcome": "fi_not_liable_under_6.2",
+            "note": "No breach; a causation finding has nothing to attach to."
+          },
+          {
+            "any_breach": false,
+            "causation": "denied",
+            "outcome": "fi_not_liable_under_6.2"
+          },
+          {
+            "any_breach": false,
+            "causation": "undetermined",
+            "outcome": "fi_not_liable_under_6.2",
+            "$decided_on_absence": "Five affirmative non-breach findings make causation moot: 6.2 attaches liability to non-compliance, and there is none to arise from.",
+            "note": "Decided on five affirmative findings; the unassessed causation could not change it."
+          },
+          {
+            "any_breach": "undetermined",
+            "causation": "affirmed",
+            "outcome": "undetermined"
+          },
+          {
+            "any_breach": "undetermined",
+            "causation": "denied",
+            "outcome": "undetermined"
+          },
+          {
+            "any_breach": "undetermined",
+            "causation": "undetermined",
+            "outcome": "undetermined"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eupg/5.5/a/fraud-or-negligence",
+      "source_locator": "EUPG 5.5(a), p.26; SRF 6.3 and footnote 12, p.9",
+      "text_en": "fraud or negligence by the responsible FI, its employee, its agent or any outsourcing service provider contracted by the responsible FI",
+      "assertion": "The FI, an employee, agent or outsourcing provider was fraudulent or negligent.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Negligence is assessed. Taken as an input."
+    },
+    {
+      "id": "eupg/5.5/b/mas-requirement-noncompliance",
+      "source_locator": "EUPG 5.5(b), p.26; SRF 6.3 and footnote 12, p.9",
+      "text_en": "non-compliance by the responsible FI or its employee with any requirement imposed by the Authority on the responsible FI in respect of its provision of any financial service",
+      "assertion": "The FI or an employee failed to comply with a requirement MAS imposed.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`any requirement imposed by the Authority` is an open class the register cannot enumerate (ambiguity A16). Taken as an input."
+    },
+    {
+      "id": "eupg/5.5/c/section-4-duties",
+      "source_locator": "EUPG 5.5(c), p.26; SRF 6.3 and footnote 12, p.9",
+      "text_en": "(c) non-compliance by the responsible FI with any duty set out in Section 4.",
+      "assertion": "The SRF's footnote 12 incorporates 5.5(a) and (b) and NOT (c). A breach of an EUPG Section 4 duty outside SRF 4.2 does not shift loss under the SRF.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the boundary of 6.3. Tests nothing; the SRF's selective incorporation is ambiguity A24 (whether the omission of (c) was deliberate).",
+      "operative_weight": "6.3 reaches (a) and (b) only."
+    },
+    {
+      "id": "srf/6.3/loss-arises-from-action-or-omission",
+      "source_locator": "SRF 6.3, p.9",
+      "text_en": "if the loss arises from any action or omission by the responsible FI as defined in paragraphs 5.5(a) and 5.5(b) of the EUPG",
+      "assertion": "The loss arose from the fraud, negligence or MAS-requirement non-compliance found.",
+      "duty_holder": "none",
+      "tier": "fi",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Causation, assessed."
+    },
+    {
+      "id": "srf/6.3/fi-responsible-notwithstanding",
+      "source_locator": "SRF 6.3 with footnote 12, p.9",
+      "text_en": "Notwithstanding paragraph 6.2 of these Guidelines, the responsible FI will be responsible for losses arising from a seemingly authorised transaction if the loss arises from any action or omission by the responsible FI as defined in paragraphs 5.5(a) and 5.5(b) of the EUPG",
+      "assertion": "The FI is responsible under 6.3 when 5.5(a) or 5.5(b) is affirmed and the loss arose from it, whatever 6.2 says.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "A conjunction of (a disjunction over the two judgments) and the causation judgment. Reads no fact of its own.",
+      "depends_on": [
+        "eupg/5.5/a/fraud-or-negligence",
+        "eupg/5.5/b/mas-requirement-noncompliance",
+        "srf/6.3/loss-arises-from-action-or-omission"
+      ]
+    },
+    {
+      "id": "srf/6/fi-tier",
+      "source_locator": "SRF 6.2, 6.3 and 6.5, p.9",
+      "text_en": "6.5 For avoidance of doubt, where the responsible FI is expected to bear the loss under paragraph 6.2 of these Guidelines, the responsible FI will do so notwithstanding that the responsible Telco may have also failed to comply",
+      "assertion": "The FI tier closes with `fi_bears` if either 6.2 or 6.3 attaches the loss to the FI; `fi_not_liable` only when both affirmatively do not; otherwise undetermined.",
+      "duty_holder": "fi",
+      "tier": "fi",
+      "disposition": "DERIVED",
+      "disposition_basis": "A decision table over 6.2 and 6.3. `fi_not_liable` requires two affirmative findings; an undetermined on either side with no `fi_bears` on the other blocks the waterfall here.",
+      "depends_on": [
+        "srf/6.2/fi-bears",
+        "srf/6.3/fi-responsible-notwithstanding"
+      ],
+      "decision_table": {
+        "$source": "SRF 6.2, 6.3, 6.5, p.9",
+        "inputs": [
+          {
+            "name": "under_6_2",
+            "source": "clause srf/6.2/fi-bears",
+            "domain": [
+              "fi_bears",
+              "fi_not_liable_under_6.2",
+              "undetermined"
+            ]
+          },
+          {
+            "name": "under_6_3",
+            "source": "clause srf/6.3/fi-responsible-notwithstanding",
+            "domain": [
+              "satisfied",
+              "not_satisfied",
+              "undetermined"
+            ]
+          }
+        ],
+        "cross_product": 9,
+        "rows": [
+          {
+            "under_6_2": "fi_bears",
+            "under_6_3": "satisfied",
+            "outcome": "fi_bears"
+          },
+          {
+            "under_6_2": "fi_bears",
+            "under_6_3": "not_satisfied",
+            "outcome": "fi_bears"
+          },
+          {
+            "under_6_2": "fi_bears",
+            "under_6_3": "undetermined",
+            "outcome": "fi_bears",
+            "$decided_on_absence": "6.2 alone attaches the loss to the FI; 6.3 is `notwithstanding 6.2` and can only add, never subtract.",
+            "note": "6.2 decided it; 6.3 could not change it."
+          },
+          {
+            "under_6_2": "fi_not_liable_under_6.2",
+            "under_6_3": "satisfied",
+            "outcome": "fi_bears",
+            "note": "6.3: notwithstanding 6.2."
+          },
+          {
+            "under_6_2": "fi_not_liable_under_6.2",
+            "under_6_3": "not_satisfied",
+            "outcome": "fi_not_liable"
+          },
+          {
+            "under_6_2": "fi_not_liable_under_6.2",
+            "under_6_3": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "under_6_2": "undetermined",
+            "under_6_3": "satisfied",
+            "outcome": "fi_bears",
+            "$decided_on_absence": "6.3 alone attaches the loss to the FI; the unresolved 6.2 question could only reach the same answer.",
+            "note": "6.3 decided it; 6.2 could not change it."
+          },
+          {
+            "under_6_2": "undetermined",
+            "under_6_3": "not_satisfied",
+            "outcome": "undetermined"
+          },
+          {
+            "under_6_2": "undetermined",
+            "under_6_3": "undetermined",
+            "outcome": "undetermined"
+          }
+        ]
+      }
+    },
+    {
+      "id": "srf/7.7/perpetrated-through-sms",
+      "source_locator": "SRF 7.7, p.12; 2.1 `SMS`, p.4",
+      "text_en": "the responsible FI next assesses if the seemingly authorised transaction resulted from a scammer impersonating an entity and contacting the account holder using SMS (\"perpetrated through SMS\")",
+      "assertion": "The contact platform was SMS as the SRF defines it.",
+      "duty_holder": "fi",
+      "tier": "telco",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Equality of the recorded contact platform with `sms`. The Telco tier arises only on this result.",
+      "depends_on": [
+        "srf/2.1/sms"
+      ]
+    },
+    {
+      "id": "srf/5.1/imda-directions-prevail",
+      "source_locator": "SRF 5.1, p.7",
+      "text_en": "Responsible Telcos' duties are a specific subset of IMDA's directions to Telcos under section 31 of the Telecommunications Act 1999 (\"IMDA's Directions\"). For the avoidance of doubt, IMDA's Directions will prevail if there is any inconsistency",
+      "assertion": "The 5.2 duties are read subject to IMDA's Directions, which are not retrieved.",
+      "duty_holder": "telco",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs which instrument prevails. IMDA's Directions are outside the retrieved sources (SOURCES.md); the register evaluates the SRF's wording of the three duties and cannot see an inconsistency (F-06)."
+    },
+    {
+      "id": "srf/5.2.1/deliver-only-from-authorised-aggregators",
+      "source_locator": "SRF 5.2.1 with footnote 9, p.8",
+      "text_en": "The responsible Telco must deliver Sender ID SMS to subscribers only if it is received from authorised aggregators",
+      "assertion": "Where the phishing SMS was a Sender ID SMS, it was received from an aggregator on the SGNIC list of authorised aggregators.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only for a Sender ID SMS and only in the Telco tier. Footnote 9 grounds `authorised aggregator` to the SGNIC list, which the register takes as a supplied register of names (ambiguity A7: membership at delivery time or at assessment time).",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms",
+        "srf/2.1/sender-id-sms"
+      ]
+    },
+    {
+      "id": "srf/5.2.2/block-unauthorised-sender-id",
+      "source_locator": "SRF 5.2.2, p.8",
+      "text_en": "The responsible Telco must block Sender ID SMS which are received from sources other than authorised aggregators.",
+      "assertion": "Where the phishing SMS was a Sender ID SMS from a source other than an authorised aggregator, it was blocked.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only for a Sender ID SMS from an unauthorised source. In a claim about an SMS the subscriber received the requirement is breached by construction; 5.2.1 and 5.2.2 describe one rule from two sides and a single unauthorised delivery breaches both (ambiguity A25: one duty or two for the purpose of `any duty`).",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms",
+        "srf/2.1/sender-id-sms"
+      ]
+    },
+    {
+      "id": "srf/5.2.3/filter-implemented",
+      "source_locator": "SRF 5.2.3, p.8",
+      "text_en": "The responsible Telco must implement an anti-scam filter for all SMS that pass through the responsible Telcos' network ... applies regardless of whether the SMS originates locally or from overseas",
+      "assertion": "An anti-scam filter over all SMS was implemented.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean, in the Telco tier only."
+    },
+    {
+      "id": "srf/5.2.3/designated-database",
+      "source_locator": "SRF 5.2.3 with footnote 10, p.8",
+      "text_en": "to determine if it contains any URL that matches that of a known malicious URL in a designated database",
+      "assertion": "The database the filter matches against is the designated one.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "The text names no database and no designating authority; footnote 10 is a warning to the public. The term is ungrounded: undetermined until an institution supplies which database(s) are designated, and a determination made with a supplied meaning is marked as resting on it.",
+      "rests_on_ungrounded_term": "designated database",
+      "depends_on": [
+        "srf/5.2.3/filter-implemented"
+      ]
+    },
+    {
+      "id": "srf/5.2.3/this-sms-blocked",
+      "source_locator": "SRF 5.2.3, p.8",
+      "text_en": "to block SMS containing malicious URLs in designated database",
+      "assertion": "Where the phishing SMS's URL was in the designated database at delivery, the SMS was blocked.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only where the URL was listed at delivery, which is a held judgment about the database's state at an instant. Whether 5.2.3 is breached by a filter that exists but let a listed URL through is ambiguity A5; this clause carries the reading that it is.",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms"
+      ]
+    },
+    {
+      "id": "srf/5.2.3/duty",
+      "source_locator": "SRF 5.2.3, p.8",
+      "text_en": "Responsible Telco implements an anti-scam filter over SMS to block SMS containing malicious URLs in designated database",
+      "assertion": "The 5.2.3 duty is discharged on the reading the institution resolves A5 to: filter in place over the designated database, or that plus the specific SMS blocked.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "DERIVED",
+      "disposition_basis": "Guarded on A5. Unresolved, the duty is undetermined and the Telco tier cannot close. Reads no fact of its own.",
+      "depends_on": [
+        "srf/5.2.3/filter-implemented",
+        "srf/5.2.3/designated-database",
+        "srf/5.2.3/this-sms-blocked"
+      ]
+    },
+    {
+      "id": "srf/6.4/b/any-telco-breach",
+      "source_locator": "SRF 6.4(b), p.9",
+      "text_en": "the loss arises from the responsible Telco's non-compliance with any duty set out in paragraph 5.2",
+      "assertion": "At least one 5.2 duty was breached.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "DERIVED",
+      "disposition_basis": "A disjunction over breach flags, as for the FI. Outside the Telco tier every input is `not_applicable` and the disjunction is false, which the tier clause never reads because it gates on 7.7 first.",
+      "depends_on": [
+        "srf/5.2.1/deliver-only-from-authorised-aggregators",
+        "srf/5.2.2/block-unauthorised-sender-id",
+        "srf/5.2.3/duty"
+      ]
+    },
+    {
+      "id": "srf/6.4/loss-arises-from-telco-noncompliance",
+      "source_locator": "SRF 6.4(b), p.9",
+      "text_en": "the loss arises from the responsible Telco's non-compliance",
+      "assertion": "The loss arose from the Telco's non-compliance.",
+      "duty_holder": "none",
+      "tier": "telco",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Causation, assessed (A4's class)."
+    },
+    {
+      "id": "srf/6.6/subscriber-not-account-holder",
+      "source_locator": "SRF 6.6, p.9",
+      "text_en": "In cases where the responsible Telco's subscriber is not the same as the account holder, the responsible Telco is expected to bear the loss under paragraph 6.4 of these Guidelines if: (a) the subscriber's mobile number is designated to receive SMS notifications pertaining to the protected account; and (b) the subscriber's mobile number which received the phishing SMS led to the seemingly authorised transaction",
+      "assertion": "Where the subscriber is not the account holder, both (a) and (b) hold.",
+      "duty_holder": "none",
+      "tier": "telco",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only when subscriber and account holder differ. `breached` here means the Telco does not bear under 6.6, not that anyone breached a duty; the token is the primitive's and the reading is at the composition. Which Telco is responsible when the subscriber's operator differs from the holder's is ambiguity A9."
+    },
+    {
+      "id": "srf/6.4/telco-bears",
+      "source_locator": "SRF 6.4, 6.5 and 6.6, p.9",
+      "text_en": "The responsible Telco is expected to bear losses arising from a seemingly authorised transaction perpetrated through SMS if: (a) the responsible FI has complied with all of its duties set out in paragraph 4.2 of these Guidelines; and (b) the loss arises from the responsible Telco's non-compliance with any duty set out in paragraph 5.2",
+      "assertion": "The Telco tier closes `telco_bears` only on: perpetrated through SMS, the FI complied with all 4.2 duties, a 5.2 duty was breached, the loss arose from it, and (where the subscriber differs) 6.6 holds. `not_applicable` when the scam was not perpetrated through SMS. An undetermined 5.2 duty blocks the tier before causation or 6.6 is read.",
+      "duty_holder": "telco",
+      "tier": "telco",
+      "disposition": "DERIVED",
+      "disposition_basis": "Gates on 7.7, then decides in order: 6.4(a) affirmatively failing closes the tier not liable (6.5); an undetermined duty question blocks it; five affirmative non-breach findings close it not liable; only then are causation and 6.6 read, an affirmative denial closing it not liable and affirmative findings closing it telco_bears. Reads no fact of its own.",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms",
+        "srf/6.4/a/fi-complied-all",
+        "srf/6.4/b/any-telco-breach",
+        "srf/6.4/loss-arises-from-telco-noncompliance",
+        "srf/6.6/subscriber-not-account-holder"
+      ]
+    },
+    {
+      "id": "srf/6.5/fi-first",
+      "source_locator": "SRF 6.5, p.9",
+      "text_en": "where the responsible FI is expected to bear the loss under paragraph 6.2 of these Guidelines, the responsible FI will do so notwithstanding that the responsible Telco may have also failed to comply",
+      "assertion": "The FI tier is evaluated first and `fi_bears` closes the waterfall whatever the Telco tier finds.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the ordering that srf/6.7/outcome's table encodes. Tests nothing of its own.",
+      "operative_weight": "fi_bears dominates every Telco-tier result, including undetermined."
+    },
+    {
+      "id": "srf/6.7/outcome",
+      "source_locator": "SRF 6.7 with 6.2 to 6.6, p.9-10; 7.6, p.12",
+      "text_en": "Where the responsible FI is not expected to bear the loss under paragraph 6.2 of these Guidelines, and the responsible Telco is not expected to bear the loss under paragraph 6.4 of these Guidelines, the account holder of a protected account should bear any loss arising from a seemingly authorised transaction.",
+      "assertion": "The account holder bears the loss only on two affirmative findings: the FI tier closed `fi_not_liable` and the Telco tier closed `telco_not_liable` or never arose. An out-of-scope claim leaves the SRF (`out_of_scope`, 7.6). Undetermined scope or an undetermined tier is undetermined here.",
+      "duty_holder": "account_holder",
+      "tier": "consumer",
+      "disposition": "DERIVED",
+      "disposition_basis": "Gated on scope, then a decision table over the two tiers. The only path to `account_holder_bears` is through affirmative non-liability findings on both prior tiers; no row defaults to it.",
+      "depends_on": [
+        "srf/7.1.1/relevant-claim",
+        "srf/6/fi-tier",
+        "srf/6.4/telco-bears",
+        "srf/6.5/fi-first"
+      ],
+      "decision_table": {
+        "$source": "SRF 6.2 to 6.7, p.9-10",
+        "$note": "Scope is the first input so that an out-of-scope claim leaves the SRF (7.6) whatever the tiers found, and an undetermined scope blocks the outcome. 3 x 3 x 4 = 36 rows; every combination is a row and a missing row throws.",
+        "inputs": [
+          {
+            "name": "scope",
+            "source": "clause srf/7.1.1/relevant-claim",
+            "domain": [
+              "relevant_claim",
+              "not_relevant",
+              "undetermined"
+            ]
+          },
+          {
+            "name": "fi_tier",
+            "source": "clause srf/6/fi-tier",
+            "domain": [
+              "fi_bears",
+              "fi_not_liable",
+              "undetermined"
+            ]
+          },
+          {
+            "name": "telco_tier",
+            "source": "clause srf/6.4/telco-bears",
+            "domain": [
+              "telco_bears",
+              "telco_not_liable",
+              "not_applicable",
+              "undetermined"
+            ]
+          }
+        ],
+        "cross_product": 36,
+        "rows": [
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_bears",
+            "outcome": "fi_bears",
+            "note": "Unreachable in a consistent run (telco_bears requires 6.4(a)), listed because a missing row is a defect."
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_not_liable",
+            "outcome": "fi_bears"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_bears",
+            "telco_tier": "not_applicable",
+            "outcome": "fi_bears"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_bears",
+            "telco_tier": "undetermined",
+            "outcome": "fi_bears",
+            "$decided_on_absence": "6.5: the FI bears notwithstanding whatever the Telco tier would find.",
+            "note": "6.5 makes the Telco question moot."
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_bears",
+            "outcome": "telco_bears"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_not_liable",
+            "outcome": "account_holder_bears",
+            "note": "6.7: two affirmative non-liability findings."
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "not_applicable",
+            "outcome": "account_holder_bears",
+            "note": "6.7 with 6.4 never arising (not perpetrated through SMS). The Telco tier's not_applicable is an affirmative finding that 7.7 answered `not_sms`, never an absent fact."
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_bears",
+            "outcome": "undetermined",
+            "note": "Inconsistent (telco_bears needs the FI tier closed); undetermined rather than trusted."
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_not_liable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "undetermined",
+            "telco_tier": "not_applicable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "relevant_claim",
+            "fi_tier": "undetermined",
+            "telco_tier": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_bears",
+            "outcome": "out_of_scope",
+            "note": "Out of scope whatever the tiers computed: the tiers are evaluated for the record and allocate nothing under the SRF."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_not_liable",
+            "outcome": "out_of_scope"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_bears",
+            "telco_tier": "not_applicable",
+            "outcome": "out_of_scope"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_bears",
+            "telco_tier": "undetermined",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_bears",
+            "outcome": "out_of_scope"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_not_liable",
+            "outcome": "out_of_scope"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "not_applicable",
+            "outcome": "out_of_scope"
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "undetermined",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_bears",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_not_liable",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "undetermined",
+            "telco_tier": "not_applicable",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "not_relevant",
+            "fi_tier": "undetermined",
+            "telco_tier": "undetermined",
+            "outcome": "out_of_scope",
+            "$decided_on_absence": "7.1.1 answered not_relevant on affirmative scope findings; the tiers were never the question (7.6 routes the claim to the FI's existing process)."
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_bears",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_bears",
+            "telco_tier": "telco_not_liable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_bears",
+            "telco_tier": "not_applicable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_bears",
+            "telco_tier": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_bears",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "telco_not_liable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "not_applicable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "fi_not_liable",
+            "telco_tier": "undetermined",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_bears",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "undetermined",
+            "telco_tier": "telco_not_liable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "undetermined",
+            "telco_tier": "not_applicable",
+            "outcome": "undetermined"
+          },
+          {
+            "scope": "undetermined",
+            "fi_tier": "undetermined",
+            "telco_tier": "undetermined",
+            "outcome": "undetermined"
+          }
+        ]
+      }
+    },
+    {
+      "id": "srf/6.1/fn11/loss-excludes-consequential",
+      "source_locator": "SRF footnote 11, p.8; EUPG footnote 19, p.23",
+      "text_en": "losses arising from unauthorised transactions exclude any loss of business or profit, special, punitive, indirect or consequential loss and any other losses",
+      "assertion": "The loss the waterfall allocates is the transaction amount, not consequential loss.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning of `loss` in 7.13 and 7.14.",
+      "operative_weight": "`total loss` in 7.13 and 7.14 is the sum of the seemingly authorised transactions."
+    },
+    {
+      "id": "srf/6.8/redress",
+      "source_locator": "SRF 6.8, p.10",
+      "text_en": "Notwithstanding paragraph 6.7 of these Guidelines where the account holder is deemed responsible, the account holder may seek alternative channels for redress as explained in Section 7.",
+      "assertion": "An account_holder_bears outcome is not final against the account holder.",
+      "duty_holder": "account_holder",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Permits an act. No fact makes it true or false."
+    },
+    {
+      "id": "srf/6.9/joint-accounts",
+      "source_locator": "SRF 6.9, p.10; EUPG 5.9, p.27",
+      "text_en": "Where the protected account is a joint account, the responsibility for losses set out in this Section apply jointly to each account holder in a joint account.",
+      "assertion": "An account_holder_bears outcome binds every joint holder.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning of `account holder` in 6.7 for a joint account. The register records `account.joint` and nothing reads it: the outcome token does not change per holder.",
+      "operative_weight": "One outcome for the account, binding all holders."
+    },
+    {
+      "id": "srf/7.1/four-stage-workflow",
+      "source_locator": "SRF 7.1 to 7.1.4, p.10-11",
+      "text_en": "the account holder, responsible FI and responsible Telco (where applicable) should adhere to the following four-stage workflow: (a) Claim Stage ... (b) Investigation Stage ... (c) Outcome Stage ... (d) Recourse Stage",
+      "assertion": "The workflow has four stages in this order.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs a sequence. The stages' own requirements are the 7.2 to 7.14 clauses."
+    },
+    {
+      "id": "srf/7.2/explain-workflow",
+      "source_locator": "SRF 7.2, p.11",
+      "text_en": "A responsible FI should explain the operational workflow to the account holder ... at the time the account holder reports the seemingly authorised transaction to the responsible FI, and inform the account holder of the timeline for investigation",
+      "assertion": "At the time of the report, the FI explained the workflow and the investigation timeline.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean."
+    },
+    {
+      "id": "srf/7.3/report-within-30-days",
+      "source_locator": "SRF 7.3, p.11; EUPG 3.14, p.11-12",
+      "text_en": "The account holder should report any unauthorised activity to the responsible FI as soon as practicable, and no later than 30 calendar days from when the responsible FI sends the notification alerts",
+      "assertion": "The report reached the FI within 30 calendar days of the FI sending the first alert.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "An interval against a limit. The SRF counts from when the FI SENDS; EUPG 3.14 counts from RECEIPT (ambiguity A8a). The effect of a late report on the Section 6 outcome is not stated (ambiguity A8); nothing in the waterfall reads this clause."
+    },
+    {
+      "id": "srf/7.3/fn14/reasons-for-delay",
+      "source_locator": "SRF footnote 14, p.11; EUPG 3.15, p.12",
+      "text_en": "Where the account holder is not able to report ... within the stipulated time period, the account holder should, if the responsible FI so requests, provide the responsible FI with reasons for the delayed report.",
+      "assertion": "Where the report was late and the FI asked for reasons, reasons were given.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on two preconditions, one of which is the result of the 30-day clause.",
+      "depends_on": [
+        "srf/7.3/report-within-30-days"
+      ]
+    },
+    {
+      "id": "srf/7.3/email-and-information-within-3-days",
+      "source_locator": "SRF 7.3, p.11",
+      "text_en": "The account holder must furnish a valid email address, and any other supporting information such as a police report and digital communication trail(s), within 3 calendar days from the date of notification of the seemingly authorised transaction to the responsible FI",
+      "assertion": "A valid email address and the supporting information were furnished within 3 calendar days of the report.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A presence test and an interval. `any other supporting information such as` is open; the register records the instant the holder's submission was made and the email flag, not the sufficiency of the submission."
+    },
+    {
+      "id": "srf/7.4/communication-records",
+      "source_locator": "SRF 7.4(a) to (c), p.11-12",
+      "text_en": "The communication records should sufficiently demonstrate that: (a) the scammer posed as an impersonated entity; (b) there is an intent to obtain account credentials under false pretences; and (c) the scammer directed the account holder to a digital platform of the impersonated entity to enter his account credentials.",
+      "assertion": "The records supplied demonstrate each of (a), (b) and (c).",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`sufficiently demonstrate` is assessed. Three held judgments composed by conjunction; a `not_assessed` on any leaves the clause undetermined. NOT read by the scope clauses: whether the scam WAS a seemingly authorised transaction (2.1) and whether the records DEMONSTRATE it (7.4) are different questions (ambiguity A26)."
+    },
+    {
+      "id": "srf/7.4/fn15/telco-details",
+      "source_locator": "SRF 7.4 with footnote 15, p.11",
+      "text_en": "the name of the responsible Telco whose services the account holder had subscribed to and associated mobile phone number ... (a) the mobile number of the account user; and (b) the details and screenshot of the purported SMS",
+      "assertion": "Where the scam was perpetrated through SMS, the Telco's name, the mobile number and the SMS details were supplied.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only in an SMS case.",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms"
+      ]
+    },
+    {
+      "id": "srf/7.5/transaction-information-on-enquiry",
+      "source_locator": "SRF 7.5, p.12; EUPG 4.25, p.22-23",
+      "text_en": "Upon enquiry by an account holder, the responsible FI is expected to provide the account holder with relevant information that the responsible FI has of all the seemingly authorised transactions ... including transaction dates, transaction timestamps and parties to the transaction.",
+      "assertion": "Where the account holder enquired, the FI provided the transaction information.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on an enquiry."
+    },
+    {
+      "id": "srf/7.6/out-of-scope-route",
+      "source_locator": "SRF 7.6, p.12; EUPG 4.23, p.22",
+      "text_en": "Where the responsible FI has assessed that a claim brought by an account holder does not involve a seemingly authorised transaction, the responsible FI investigates the claim based on its existing investigation and claim resolution process ... The responsible FI should communicate its assessment and claim resolution process to the account holder in a timely and transparent manner.",
+      "assertion": "Where the claim is not a relevant claim, the FI communicated its assessment and its claim resolution process.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only on a `not_relevant` scope result. `timely and transparent` is not tested.",
+      "depends_on": [
+        "srf/7.1.1/relevant-claim"
+      ]
+    },
+    {
+      "id": "srf/7.7/inform-telco",
+      "source_locator": "SRF 7.7, p.12, with footnote 13, p.10",
+      "text_en": "If so, the responsible FI should inform the responsible Telco, for the responsible Telco to commence its investigation. The responsible FI should obtain from the account holder relevant information on the scam perpetrated through SMS before referring the claim",
+      "assertion": "In an SMS case that is a relevant claim, the FI informed the responsible Telco.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on two clause results. Footnote 13 makes the Telco's involvement depend on a mutually agreed arrangement the register cannot see (ambiguity A27).",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms",
+        "srf/7.1.1/relevant-claim"
+      ]
+    },
+    {
+      "id": "srf/7.7.1/concurrent-investigation",
+      "source_locator": "SRF 7.7.1 and 7.7.2, p.12",
+      "text_en": "(a) Scam was perpetrated through SMS: The responsible FI and responsible Telco investigate concurrently whether each of them has fulfilled their duties under paragraphs 4.2 and 5.2, respectively. (b) Scam was not perpetrated through SMS: The responsible FI investigates whether it has fulfilled its duties under paragraph 4.2.",
+      "assertion": "Investigation is concurrent, not sequential; the allocation in Section 6 is what is ordered.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Directs who investigates. The register's emit order is the Section 6 allocation order, not an investigation order."
+    },
+    {
+      "id": "srf/7.8/fi-independent-governance",
+      "source_locator": "SRF 7.8, p.13; EUPG 4.22, p.22",
+      "text_en": "A responsible FI and a responsible Telco should have governance structures and investigations processes, involving representatives who are independent from business units, to assess and determine whether duties have been breached.",
+      "assertion": "The FI's assessment involved representatives independent from business units.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean about the process."
+    },
+    {
+      "id": "srf/7.8/telco-independent-governance",
+      "source_locator": "SRF 7.8, p.13",
+      "text_en": "A responsible FI and a responsible Telco should have governance structures and investigations processes, involving representatives who are independent from business units",
+      "assertion": "In an SMS case, the Telco's assessment involved representatives independent from business units.",
+      "duty_holder": "telco",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises only in an SMS case.",
+      "depends_on": [
+        "srf/7.7/perpetrated-through-sms"
+      ]
+    },
+    {
+      "id": "srf/7.9/investigation-timeline",
+      "source_locator": "SRF 7.9, p.13; EUPG 4.26, p.23",
+      "text_en": "The responsible FI, and responsible Telco where applicable, should complete an investigation of any relevant claim within 21 business days for straightforward cases or 45 business days for complex cases.",
+      "assertion": "The investigation was completed within 21 business days (straightforward) or 45 business days (complex) of the report.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "An interval against a limit selected by the recorded complexity classification. The classification is the FI's (the SRF gives one example); an unrecorded classification leaves the clause undetermined rather than defaulting to 21. Business days are counted as weekdays; Singapore public holidays are not excluded (ambiguity A28)."
+    },
+    {
+      "id": "srf/7.9/fn16/retention",
+      "source_locator": "SRF footnote 16, p.13",
+      "text_en": "All relevant logs or documentation to assess SRF claims and demonstrate compliance with the SRF duties are expected to be retained for a reasonable period of time.",
+      "assertion": "Logs and documentation are retained.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "`a reasonable period` is not a limit the register can measure against; directs retention."
+    },
+    {
+      "id": "srf/7.10/written-outcome",
+      "source_locator": "SRF 7.10 with footnote 17, p.13",
+      "text_en": "The responsible FI should within the stipulated periods in paragraph 7.9 provide each account holder ... a written reply of the investigation outcome and the assessment of the account holder's responsibility. The responsible FI should seek acknowledgement, which need not be an agreement",
+      "assertion": "A written reply was given and acknowledgement sought.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded booleans. Whether the reply was within the 7.9 period is the 7.9 clause's question, not repeated here."
+    },
+    {
+      "id": "srf/7.11/recourse",
+      "source_locator": "SRF 7.11, p.13",
+      "text_en": "the account holder may pursue further action through existing avenues of recourse as appropriate ... such as FIDReC ... or through writing to IMDA",
+      "assertion": "Recourse is available; the SRF outcome is not final.",
+      "duty_holder": "account_holder",
+      "tier": "none",
+      "disposition": "INSTRUCTION",
+      "disposition_basis": "Permits an act."
+    },
+    {
+      "id": "eupg/1.5/deferred-commencement",
+      "source_locator": "EUPG 1.5, p.2",
+      "text_en": "A longer implementation timeline will be provided for amendments to paragraphs 4.21, 6.4, 6.5, and Section 8 of these Guidelines, which will take effect on 16 June 2025.",
+      "assertion": "EUPG 4.21 and Section 8 apply to a transaction executed on or after 16 June 2025.",
+      "duty_holder": "none",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Orders the execution instant against a stated date. Same instant question as A23.",
+      "in_force_from": "2025-06-16"
+    },
+    {
+      "id": "eupg/8.1/withhold-charges",
+      "source_locator": "EUPG 8.1, p.35; SRF 7.12 with footnote 18, p.14",
+      "text_en": "Where an account holder reports a suspected unauthorised transaction (\"disputed transaction\"), the responsible FI should withhold and/or waive the requirement for the account holder to settle the outstanding amount of the disputed transaction and the charges directly relating to the disputed transaction until the responsible FI completes its investigation",
+      "assertion": "From 16 June 2025, charges relating to the disputed transaction were withheld or waived pending investigation.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "A recorded boolean, gated on the deferred commencement. SRF 7.12 applies Section 8 `where relevant`; 8.2 to 8.6 are not encoded (F-02).",
+      "depends_on": [
+        "eupg/1.5/deferred-commencement"
+      ]
+    },
+    {
+      "id": "srf/7.13/fi-credits",
+      "source_locator": "SRF 7.13, p.14; EUPG 4.28, p.23",
+      "text_en": "The responsible FI should credit the account holder's protected account with the total loss arising from any seemingly authorised transaction in accordance with the framework on assessment of responsibilities for losses set out in Section 6",
+      "assertion": "Where the outcome is fi_bears, the FI credited the total loss.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on the waterfall outcome. The register does not compare the credited amount to the loss (F-05); the fact is the FI's recorded flag.",
+      "depends_on": [
+        "srf/6.7/outcome",
+        "srf/6.1/fn11/loss-excludes-consequential"
+      ]
+    },
+    {
+      "id": "srf/7.14/telco-credits",
+      "source_locator": "SRF 7.14, p.14",
+      "text_en": "The responsible Telco should credit the account holder with the total loss (as verified by the responsible FI) ... based on a mutually agreed payment modality with the account holder.",
+      "assertion": "Where the outcome is telco_bears, the Telco credited the total loss.",
+      "duty_holder": "telco",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on the waterfall outcome. `mutually agreed payment modality` is not tested.",
+      "depends_on": [
+        "srf/6.7/outcome",
+        "srf/6.1/fn11/loss-excludes-consequential"
+      ]
+    },
+    {
+      "id": "eupg/2.1/unauthorised-transaction",
+      "source_locator": "EUPG 2.1 `unauthorised transaction` with footnote 4, p.6",
+      "text_en": "\"unauthorised transaction\" ... means any payment transaction initiated by any person without the actual or imputed knowledge and implied or express consent of an account user of the protected account. This includes \"seemingly authorised transactions\" as defined in the Guidelines to the Shared Responsibility Framework.",
+      "assertion": "A seemingly authorised transaction is an unauthorised transaction under the EUPG; a payment the user intended, however induced, is neither.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning limb (d) of the SRF definition rests on, and the EUPG's own exclusions (footnote 4).",
+      "operative_weight": "Limb (d) carries footnote 4(a): an intended payment is outside the SRF even where every other limb holds."
+    },
+    {
+      "id": "eupg/2.1/access-code",
+      "source_locator": "EUPG 2.1 `access code`, p.3; SRF footnote 3, p.4",
+      "text_en": "\"access code\" means a password, code or any other arrangement that the account user must keep secret, that may be required to authenticate any payment transaction or account user",
+      "assertion": "`account credentials` in the SRF definition includes an access code and the user ID.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning limb (b) rests on.",
+      "operative_weight": "A one-time password sent by SMS is an access code; a card security number printed on the card is not."
+    },
+    {
+      "id": "eupg/2.1/protected-account/a/sole-proprietors",
+      "source_locator": "EUPG 2.1 `protected account` limb (a), p.5",
+      "text_en": "(a) is held in the name of one or more persons, all of whom are either individuals or sole proprietors",
+      "assertion": "The EUPG admits sole proprietors where the SRF admits individuals only.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Registered for the divergence (A1). The SRF's limb is what srf/2.1/protected-account/a/individuals evaluates; this clause supplies the competing meaning and evaluates nothing.",
+      "operative_weight": "A sole proprietor's claim is inside the EUPG and, on the SRF's words, outside the SRF."
+    },
+    {
+      "id": "eupg/3.14/report-within-30-days-of-receipt",
+      "source_locator": "EUPG 3.14, p.11-12",
+      "text_en": "The account holder of a protected account should report any unauthorised activity to the responsible FI as soon as practicable, and no later than 30 calendar days after receipt of any notification alert for any unauthorised activity",
+      "assertion": "The report was made within 30 calendar days of the holder receiving the first alert.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "The same 30 days as SRF 7.3, measured from receipt rather than sending (A8a). Encoded separately so the two clocks are two records."
+    },
+    {
+      "id": "eupg/3.17/kill-switch-activated-promptly",
+      "source_locator": "EUPG 3.17, p.12",
+      "text_en": "The account holder of a protected account should activate the kill switch provided by the responsible FI ... as soon as practicable, after he is notified of any unauthorised transactions and has reason to believe that the account has been compromised, or if he is unable to contact the responsible FI.",
+      "assertion": "The account holder activated the kill switch as soon as practicable after notice.",
+      "duty_holder": "account_holder",
+      "tier": "consumer",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "`as soon as practicable` and `reason to believe` are assessed. Not read by the waterfall (A19)."
+    },
+    {
+      "id": "eupg/3.18/information-on-request",
+      "source_locator": "EUPG 3.18, p.12-13; SRF 7.4, p.11",
+      "text_en": "The account holder of a protected account should within a reasonable time provide the responsible FI with any of the following information as requested by the responsible FI",
+      "assertion": "Where the FI requested 3.18 information, the holder provided it within a reasonable time.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request. `reasonable time` is assessed, so the requirement is a held judgment."
+    },
+    {
+      "id": "eupg/3.20/police-report-within-3-days",
+      "source_locator": "EUPG 3.20, p.14; SRF 7.3, p.11",
+      "text_en": "The account holder should also furnish the police report to the responsible FI within 3 calendar days of the responsible FI's request to do so",
+      "assertion": "Where the FI requested a police report, it was furnished within 3 calendar days.",
+      "duty_holder": "account_holder",
+      "tier": "process",
+      "disposition": "CONDITIONAL",
+      "disposition_basis": "Arises on a request; the requirement is an interval. A report not yet furnished with the 3 days still running is `outstanding`, which is neither breach nor satisfaction."
+    },
+    {
+      "id": "eupg/4.11/holder-preference",
+      "source_locator": "EUPG 4.11 with footnote 14, p.18",
+      "text_en": "Notwithstanding paragraph 4.10, a responsible FI can elect to comply with an account holder's transaction notification alert preferences.",
+      "assertion": "An account holder's instruction to receive fewer notifications narrows 4.10, and so 4.2.3.",
+      "duty_holder": "none",
+      "tier": "none",
+      "disposition": "DEFINITIONAL",
+      "disposition_basis": "Supplies the meaning of `has been instructed` in 4.2.3 (A20).",
+      "operative_weight": "A transaction the holder instructed the FI not to notify is outside 4.2.3."
+    },
+    {
+      "id": "eupg/4.14/kill-switch-characteristics",
+      "source_locator": "EUPG 4.14 with footnotes 15 and 16, p.19",
+      "text_en": "A responsible FI should provide a kill switch for an account holder to promptly block further mobile and online access to his protected account. This includes disallowing mobile and online payment transfers to third parties who are not authorised billers. The kill switch should be made available in a prominent manner via the mobile application ... the automated teller machines ... or the reporting channel",
+      "assertion": "The kill switch disallowed transfers to non-billers, terminated existing sessions and was available prominently through a listed channel.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Three recorded booleans. NOT read by SRF 4.2.4, which names only the self-service feature and the block (ambiguity A21's class); this is an EUPG duty the SRF does not assess."
+    },
+    {
+      "id": "eupg/4.20/reporting-channel-characteristics",
+      "source_locator": "EUPG 4.20(b) and (c), p.21",
+      "text_en": "(b) Any person who makes a report through the reporting channel should receive a written acknowledgement of his report through SMS, email, or in-app notification. (c) The responsible FI should not charge a fee",
+      "assertion": "The report was acknowledged in writing and no fee was charged.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded booleans. Not read by SRF 4.2.4."
+    },
+    {
+      "id": "eupg/4.21/detection-and-blocking",
+      "source_locator": "EUPG 4.21, p.22; EUPG 1.5, p.2",
+      "text_en": "A responsible FI should have in place capabilities to detect and block suspected unauthorised transactions at all times ... A responsible FI should review the effectiveness of its detection parameters for suspected unauthorised transactions on an annual basis, or as and when there are material triggers.",
+      "assertion": "From 16 June 2025, detection-and-blocking capability was in place at all times and its parameters were reviewed annually.",
+      "duty_holder": "fi",
+      "tier": "process",
+      "disposition": "MECHANICAL",
+      "disposition_basis": "Two recorded booleans gated on the deferred commencement. SRF 4.2.5 is `[From paragraph 4.21]` but states a narrower, threshold-triggered duty; the EUPG's general capability duty is not what Section 6 assesses (A21's class).",
+      "depends_on": [
+        "eupg/1.5/deferred-commencement"
+      ]
+    },
+    {
+      "id": "eupg/5.2/recklessness",
+      "source_locator": "EUPG 5.2 with footnote 20, p.25",
+      "text_en": "The account holder of a protected account is liable for actual loss arising from an unauthorised transaction where any account user's recklessness was the primary cause of the loss.",
+      "assertion": "An account user's recklessness was the primary cause of the loss.",
+      "duty_holder": "account_user",
+      "tier": "consumer",
+      "disposition": "JUDGMENT",
+      "disposition_basis": "Assessed. NOT read by the SRF waterfall: Section 6 allocates loss without a recklessness test, and 6.7 reaches the account holder only through the FI's and Telco's compliance (A19). Encoded so the divergence between the two instruments' consumer tiers is a record, not a remark."
+    }
+  ]
+}

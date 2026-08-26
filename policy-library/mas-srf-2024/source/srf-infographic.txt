@@ -1,0 +1,69 @@
+        SHARED RESPONSIBILTY FRAMEWORK
+               Operational Workflow
+                                                             1. Claim Stage
+
+                                                  Consumer must furnish a valid email
+                                                    address and any other supporting                                Existing Investigation
+                                                   information such as a police report                             and Dispute Resolution
+                                                    and digital communication trail(s).                                    Process
+                                                                                                                        Responsible FI should
+                                                                                             No                      investigate the claim per its
+                                                         Does the claim involve a
+                                                                                                                      existing investigation and
+                                                         covered phishing scam?
+                                                                                                                     dispute resolution process.
+                                                              Yes
+                                                                                                                   If consumer is dissatisfied with
+                                                                                                                         the responsible FI’s
+                                                      2. Investigation Stage
+                                                                                                                      assessment / investigation
+                                                                                                                       outcome, consumer may
+                                                              Was the scam                                                approach FIDReC
+                                                           perpetrated via SMS?
+                                                   Yes                                No
+
+
+                                            Responsible FI to                Responsible FI to
+                                          investigate SRF claim            investigate SRF claim
+                                           Responsible Telco to
+                                          investigate SRF claim
+
+
+
+
+For scams perpetrated via SMS                               3. Outcome Stage                        For scams not perpetrated via SMS
+                                               Responsible FI                                                               Responsible FI
+Responsible FI
+                                             expected to bear the                                                          expected to bear
+ / Telco inform     If FI breaches                                                                 If FI breaches
+                                                 loss in full                                      SRF duties               the loss in full
+     victim of      SRF duties
+                                              Responsible Telco               Responsible FI
+   outcome of
+                    If FI has not            expected to bear the            informs victim of
+ investigation,
+                    breached, and Telco          loss in full                   outcome of
+     keeping
+                    has breached SRF                                           investigation
+   responsible      duties
+                                             Consumer bears the                                                           Consumer bears
+Telco / FI in the
+                    If neither FI nor            loss in full                                      If FI has not           the loss in full
+       loop                                                                                        breached its
+                    Telco have
+                    breached                                                                       SRF duties
+
+                                     If consumer is dissatisfied
+                                             with the outcome
+                                             4. Recourse Stage (existing avenues of
+                                                      dispute resolution)
+                                            Victim complains to          Victim complains to MAS
+                                                   IMDA                   or appeals to FIDReC
+
+
+                                        IMDA assesses whether             FIDReC’s assessment includes
+                                         responsible Telco has           non-SRF related obligations, e.g.,
+                                          breached SRF duties            obligations under statute, common
+                                                                           law, or duties under the EUPG
+                                                                          (specific to FIs and consumers)
+

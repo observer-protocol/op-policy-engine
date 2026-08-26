@@ -1,0 +1,957 @@
+{
+  "$schema_note": "The fact vocabulary the SRF register evaluates against: one claim, its account, the scam, the FI's conduct, the Telco's conduct, the workflow. Every field declares its kind; `judgment` fields hold `affirmed | denied | not_assessed` and are the assessments of whoever recorded the claim, never inferred here. `read_by` is documentation of intent and is NOT a coverage list (see banxico-34-2010/facts.json `integrity` for why stored coverage lists were withdrawn); _phase0/reads-graph.mjs derives which paths the register actually reads.",
+  "integrity": {
+    "$note": "No stored coverage list. The population that varies every path is _corpus/space.mjs SRF_FIELDS, checked by _phase0/reads-graph.mjs against the register's fact reads."
+  },
+  "fields": [
+    {
+      "field": "account.holder_type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "individual",
+          "sole_proprietor",
+          "corporate",
+          "other"
+        ]
+      },
+      "read_by": [
+        "srf/2.1/protected-account/a/individuals"
+      ],
+      "note": "The SRF admits `individual` only (A1)."
+    },
+    {
+      "field": "account.issuer_type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "bank",
+          "relevant_psp",
+          "other"
+        ]
+      },
+      "read_by": [
+        "srf/1.1/a/responsible-fi",
+        "srf/2.1/protected-account/d/psp-emoney",
+        "srf/4.2.1/cooling-off",
+        "srf/4.2.2/ii/new-device-login-alert"
+      ]
+    },
+    {
+      "field": "account.card_transaction",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/1.1/fn1/card-exclusion"
+      ],
+      "note": "True when the seemingly authorised transaction was on a Singapore-issued credit, charge or debit card."
+    },
+    {
+      "field": "account.balance_capable_over_1000_sgd",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/2.1/protected-account/b/balance-or-credit"
+      ],
+      "note": "The FI's capability flag, not a balance (F-05)."
+    },
+    {
+      "field": "account.credit_facility",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/2.1/protected-account/b/balance-or-credit"
+      ]
+    },
+    {
+      "field": "account.electronic_payments_capable",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/2.1/protected-account/c/electronic"
+      ]
+    },
+    {
+      "field": "account.stores_specified_emoney",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/2.1/protected-account/d/psp-emoney"
+      ]
+    },
+    {
+      "field": "scam.impersonated_entity_type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "sg_government_agency",
+          "sg_incorporated_entity",
+          "foreign_entity_serving_sg_residents",
+          "individual",
+          "other"
+        ]
+      },
+      "read_by": [
+        "srf/2.1/seemingly-authorised/a/impersonation"
+      ],
+      "note": "Classified when recorded (A14)."
+    },
+    {
+      "field": "scam.contact_platform",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "sms",
+          "email",
+          "whatsapp",
+          "social_media",
+          "other_digital",
+          "phone_call",
+          "in_person"
+        ]
+      },
+      "read_by": [
+        "srf/2.1/seemingly-authorised/b/digital-messaging",
+        "srf/7.7/perpetrated-through-sms"
+      ],
+      "note": "`sms` is SMS as SRF 2.1 defines it; OTT messages are `whatsapp` or `other_digital`."
+    },
+    {
+      "field": "scam.credentials_entered_on_fabricated_platform",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/2.1/seemingly-authorised/c/fabricated-platform"
+      ]
+    },
+    {
+      "field": "scam.transactions_unintended",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/2.1/seemingly-authorised/d/unintended"
+      ]
+    },
+    {
+      "field": "transaction.executed_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/4.4/fraud-surveillance-commencement",
+        "eupg/1.5/deferred-commencement"
+      ],
+      "note": "One instant per claim (A23)."
+    },
+    {
+      "field": "telco.operator_type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "mno",
+          "mvno",
+          "none",
+          "unknown"
+        ]
+      },
+      "read_by": [
+        "srf/1.1/b/responsible-telco"
+      ],
+      "note": "`none`: the account holder has no Singapore mobile subscription on record."
+    },
+    {
+      "field": "fi.events.token_activated",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.1/cooling-off",
+        "srf/4.2.2/i/token-activation-alert"
+      ]
+    },
+    {
+      "field": "fi.events.new_device_login",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.1/cooling-off",
+        "srf/4.2.2/ii/new-device-login-alert"
+      ],
+      "note": "Read only where the issuer is a relevant payment service provider."
+    },
+    {
+      "field": "fi.events.high_risk_activity",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.2/iii/high-risk-activity-alert"
+      ],
+      "note": "Against the SRF's closed list (A13)."
+    },
+    {
+      "field": "fi.cooling_off.at_least_12h_imposed",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.1/cooling-off"
+      ],
+      "note": "Mechanical in nature; held as a judgment because the register has no hours unit (F-05)."
+    },
+    {
+      "field": "fi.cooling_off.high_risk_prevented",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.1/cooling-off"
+      ]
+    },
+    {
+      "field": "fi.alerts.token_activation_real_time",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.2/i/token-activation-alert"
+      ],
+      "note": "`real-time` is A2."
+    },
+    {
+      "field": "fi.alerts.new_device_login_real_time",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.2/ii/new-device-login-alert"
+      ]
+    },
+    {
+      "field": "fi.alerts.high_risk_activity_real_time",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.2/iii/high-risk-activity-alert"
+      ]
+    },
+    {
+      "field": "holder.instructed_transaction_notifications",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/3.1/instructed-notifications"
+      ]
+    },
+    {
+      "field": "holder.notification_threshold_set",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/2.1/transaction-notification-threshold/a/holder-set",
+        "eupg/2.1/transaction-notification-threshold/b/industry-baseline",
+        "srf/4.2.3/above-threshold"
+      ]
+    },
+    {
+      "field": "transaction.above_holder_threshold",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/2.1/transaction-notification-threshold/a/holder-set"
+      ],
+      "note": "Mechanical in nature (F-05)."
+    },
+    {
+      "field": "transaction.above_baseline_threshold",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/2.1/transaction-notification-threshold/b/industry-baseline"
+      ],
+      "note": "Consulted only under a supplied meaning for the baseline."
+    },
+    {
+      "field": "fi.alerts.outgoing_transaction_real_time",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.3/outgoing-transaction-notification"
+      ]
+    },
+    {
+      "field": "fi.reporting_channel.available_at_all_times",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.4/reporting-channel"
+      ],
+      "note": "A22."
+    },
+    {
+      "field": "fi.kill_switch.self_service",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.4/kill-switch"
+      ]
+    },
+    {
+      "field": "fi.kill_switch.blocks_mobile_and_online",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.4/kill-switch"
+      ]
+    },
+    {
+      "field": "fi.surveillance.real_time_in_place",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/4.2.5/surveillance-in-place"
+      ]
+    },
+    {
+      "field": "fi.surveillance.rapid_drain_criteria_met",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/4.2.5/fn8/rapid-drain"
+      ],
+      "note": "Footnote 8 thresholds; mechanical in nature (F-05, A10, A15)."
+    },
+    {
+      "field": "fi.surveillance.response",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "blocked_until_verified",
+          "notified_and_held_24h",
+          "none"
+        ]
+      },
+      "read_by": [
+        "srf/4.2.5/response"
+      ]
+    },
+    {
+      "field": "fi.loss_arises_from_noncompliance",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/6.2/loss-arises-from-fi-noncompliance"
+      ]
+    },
+    {
+      "field": "fi.fraud_or_negligence",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/5.5/a/fraud-or-negligence"
+      ]
+    },
+    {
+      "field": "fi.mas_requirement_noncompliance",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/5.5/b/mas-requirement-noncompliance"
+      ]
+    },
+    {
+      "field": "fi.loss_arises_from_action_or_omission",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/6.3/loss-arises-from-action-or-omission"
+      ]
+    },
+    {
+      "field": "sms.sender_id_type",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "alphanumeric_sender_id",
+          "local_number",
+          "overseas_number"
+        ]
+      },
+      "read_by": [
+        "srf/5.2.1/deliver-only-from-authorised-aggregators",
+        "srf/5.2.2/block-unauthorised-sender-id"
+      ]
+    },
+    {
+      "field": "sms.received_from",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "aggregator",
+          "other_source"
+        ]
+      },
+      "read_by": [
+        "srf/5.2.1/deliver-only-from-authorised-aggregators",
+        "srf/5.2.2/block-unauthorised-sender-id"
+      ],
+      "note": "Whether the Telco received the SMS from an aggregator at all; `other_source` is an unauthorised source by construction (footnote 9)."
+    },
+    {
+      "field": "sms.aggregator",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "read_by": [
+        "srf/5.2.1/deliver-only-from-authorised-aggregators",
+        "srf/5.2.2/block-unauthorised-sender-id"
+      ],
+      "note": "The aggregator the Telco received the SMS from; null when received from a source that is not an aggregator."
+    },
+    {
+      "field": "sms.delivered_to_subscriber",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/5.2.2/block-unauthorised-sender-id",
+        "srf/5.2.3/this-sms-blocked"
+      ],
+      "note": "True in every claim about an SMS the holder read; recorded rather than assumed."
+    },
+    {
+      "field": "sms.url_listed_at_delivery",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/5.2.3/this-sms-blocked"
+      ],
+      "note": "A6."
+    },
+    {
+      "field": "telco.authorised_aggregators",
+      "domain": {
+        "kind": "list_of_strings"
+      },
+      "read_by": [
+        "srf/5.2.1/deliver-only-from-authorised-aggregators",
+        "srf/5.2.2/block-unauthorised-sender-id"
+      ],
+      "note": "The SGNIC list as supplied (A7)."
+    },
+    {
+      "field": "telco.filter.implemented_for_all_sms",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/5.2.3/filter-implemented"
+      ]
+    },
+    {
+      "field": "telco.filter.database",
+      "domain": {
+        "kind": "string",
+        "nullable": true
+      },
+      "read_by": [
+        "srf/5.2.3/designated-database"
+      ],
+      "note": "Tested against the supplied meaning of `designated database`."
+    },
+    {
+      "field": "telco.loss_arises_from_noncompliance",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/6.4/loss-arises-from-telco-noncompliance"
+      ]
+    },
+    {
+      "field": "telco.subscriber_is_account_holder",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/6.6/subscriber-not-account-holder"
+      ]
+    },
+    {
+      "field": "telco.number_designated_for_notifications",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/6.6/subscriber-not-account-holder"
+      ]
+    },
+    {
+      "field": "telco.number_received_phishing_sms",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/6.6/subscriber-not-account-holder"
+      ]
+    },
+    {
+      "field": "claim.reported_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/7.3/report-within-30-days",
+        "srf/7.3/email-and-information-within-3-days",
+        "srf/7.9/investigation-timeline",
+        "eupg/3.14/report-within-30-days-of-receipt"
+      ]
+    },
+    {
+      "field": "claim.submission_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/7.3/email-and-information-within-3-days"
+      ],
+      "note": "When the email address and supporting information were furnished."
+    },
+    {
+      "field": "claim.email_provided",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.3/email-and-information-within-3-days"
+      ]
+    },
+    {
+      "field": "fi.alerts.first_sent_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/7.3/report-within-30-days"
+      ],
+      "note": "The SRF's clock (A8a)."
+    },
+    {
+      "field": "holder.first_alert_received_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "eupg/3.14/report-within-30-days-of-receipt"
+      ],
+      "note": "The EUPG's clock (A8a)."
+    },
+    {
+      "field": "fi.requested_delay_reasons",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.3/fn14/reasons-for-delay"
+      ]
+    },
+    {
+      "field": "claim.delay_reasons_provided",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.3/fn14/reasons-for-delay"
+      ]
+    },
+    {
+      "field": "claim.records.show_impersonation",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/7.4/communication-records"
+      ]
+    },
+    {
+      "field": "claim.records.show_credential_intent",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/7.4/communication-records"
+      ]
+    },
+    {
+      "field": "claim.records.show_platform_direction",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/7.4/communication-records"
+      ]
+    },
+    {
+      "field": "claim.telco_named",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.4/fn15/telco-details"
+      ]
+    },
+    {
+      "field": "claim.mobile_number_provided",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.4/fn15/telco-details"
+      ]
+    },
+    {
+      "field": "claim.sms_details_provided",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.4/fn15/telco-details"
+      ]
+    },
+    {
+      "field": "claim.holder_enquired",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.5/transaction-information-on-enquiry"
+      ]
+    },
+    {
+      "field": "fi.provided_transaction_information",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.5/transaction-information-on-enquiry"
+      ]
+    },
+    {
+      "field": "fi.communicated_out_of_scope_assessment",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.6/out-of-scope-route"
+      ]
+    },
+    {
+      "field": "fi.informed_telco",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.7/inform-telco"
+      ]
+    },
+    {
+      "field": "fi.workflow_explained_at_report",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.2/explain-workflow"
+      ]
+    },
+    {
+      "field": "fi.governance.independent",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.8/fi-independent-governance"
+      ]
+    },
+    {
+      "field": "telco.governance.independent",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.8/telco-independent-governance"
+      ]
+    },
+    {
+      "field": "fi.investigation.completed_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/7.9/investigation-timeline"
+      ]
+    },
+    {
+      "field": "fi.investigation.complexity",
+      "domain": {
+        "kind": "enum",
+        "values": [
+          "straightforward",
+          "complex"
+        ]
+      },
+      "read_by": [
+        "srf/7.9/investigation-timeline"
+      ],
+      "note": "The FI's classification; unrecorded leaves 7.9 undetermined, never 21 by default."
+    },
+    {
+      "field": "fi.outcome.written_reply_given",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.10/written-outcome"
+      ]
+    },
+    {
+      "field": "fi.outcome.acknowledgement_sought",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.10/written-outcome"
+      ]
+    },
+    {
+      "field": "fi.charges_withheld",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/8.1/withhold-charges"
+      ]
+    },
+    {
+      "field": "fi.credited_total_loss",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.13/fi-credits"
+      ],
+      "note": "The FI's flag; the amount is not compared (F-05)."
+    },
+    {
+      "field": "telco.credited_total_loss",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "srf/7.14/telco-credits"
+      ]
+    },
+    {
+      "field": "fi.requested_3_18_information",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/3.18/information-on-request"
+      ]
+    },
+    {
+      "field": "fi.police_report_requested",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/3.20/police-report-within-3-days"
+      ],
+      "note": "Explicit, so an absent request timestamp is never read as `no request was made`."
+    },
+    {
+      "field": "holder.provided_3_18_information_in_reasonable_time",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/3.18/information-on-request"
+      ]
+    },
+    {
+      "field": "fi.police_report_requested_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "eupg/3.20/police-report-within-3-days"
+      ]
+    },
+    {
+      "field": "holder.police_report_furnished_at",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "eupg/3.20/police-report-within-3-days"
+      ]
+    },
+    {
+      "field": "fi.kill_switch.disallows_non_biller_transfers",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.14/kill-switch-characteristics"
+      ]
+    },
+    {
+      "field": "fi.kill_switch.terminates_sessions",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.14/kill-switch-characteristics"
+      ]
+    },
+    {
+      "field": "fi.kill_switch.prominent",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.14/kill-switch-characteristics"
+      ]
+    },
+    {
+      "field": "fi.report_acknowledged_in_writing",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.20/reporting-channel-characteristics"
+      ]
+    },
+    {
+      "field": "fi.report_fee_charged",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.20/reporting-channel-characteristics"
+      ]
+    },
+    {
+      "field": "fi.detection.capability_at_all_times",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.21/detection-and-blocking"
+      ]
+    },
+    {
+      "field": "fi.detection.annual_review",
+      "domain": {
+        "kind": "boolean"
+      },
+      "read_by": [
+        "eupg/4.21/detection-and-blocking"
+      ]
+    },
+    {
+      "field": "holder.recklessness_primary_cause",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/5.2/recklessness"
+      ]
+    },
+    {
+      "field": "user.referred_to_official_sources",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/3.1/official-sources"
+      ]
+    },
+    {
+      "field": "user.clicked_unexpected_link",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "srf/3.1/no-links"
+      ],
+      "note": "`affirmed` means the user clicked, which is the breach."
+    },
+    {
+      "field": "holder.kill_switch_activated_promptly",
+      "domain": {
+        "kind": "judgment"
+      },
+      "read_by": [
+        "eupg/3.17/kill-switch-activated-promptly"
+      ]
+    },
+    {
+      "field": "clock.now",
+      "domain": {
+        "kind": "timestamp",
+        "precision": "minute",
+        "timezone": "required"
+      },
+      "read_by": [
+        "srf/7.3/report-within-30-days",
+        "srf/7.3/email-and-information-within-3-days",
+        "srf/7.9/investigation-timeline",
+        "eupg/3.14/report-within-30-days-of-receipt",
+        "eupg/3.20/police-report-within-3-days"
+      ],
+      "note": "The clock supplied by the run, so an absent end event can be told from a late one."
+    }
+  ]
+}

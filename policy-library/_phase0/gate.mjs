@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 const HERE = new URL('.', import.meta.url).pathname;
 const LIB = `${HERE}..`;
 const steps = [
-  ['register validator, three registers', ['node', `${LIB}/_interpreter/validate.mjs`, `${LIB}/banxico-34-2010/register.json`, `${LIB}/psr-2017-752/register.json`, `${LIB}/feca-2-0805/register.json`]],
+  ['register validator, four registers', ['node', `${LIB}/_interpreter/validate.mjs`, `${LIB}/banxico-34-2010/register.json`, `${LIB}/psr-2017-752/register.json`, `${LIB}/feca-2-0805/register.json`, `${LIB}/mas-srf-2024/register.json`]],
   ['every validator rule shown firing', ['node', `${HERE}show-validator.mjs`]],
   ['E17 conditions on the interpreter', ['node', `${HERE}show-e17.mjs`]],
   ['the adoption chain completes and its refusals fire', ['node', `${HERE}show-adoption.mjs`]],
