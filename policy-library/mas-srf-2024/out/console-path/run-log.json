@@ -1,0 +1,207 @@
+{
+ "base": "http://127.0.0.1:9095",
+ "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+ "evaluator": "did:key:z6MkgHhvQ1L3pmsMhscS9kXZft6BddfiVLbiwEtpFT1X3RB7",
+ "mandate": "urn:uuid:srf-demo-fi-payout-mandate",
+ "vocabulary": {
+  "id": "urn:op:vocab:mas-srf-2024:srf-6.7-outcome",
+  "version": "0.1.0",
+  "hashMethod": "sha256",
+  "source": "client-defined",
+  "values": [
+   "account_holder_bears",
+   "fi_bears",
+   "out_of_scope",
+   "telco_bears",
+   "undetermined"
+  ],
+  "hash": "sha256:5b263fdf184e33df4662ac2b3ac545cbf3ce088204f1048ebe8a1fb4602e7571"
+ },
+ "determinations": [
+  {
+   "claimId": "SRF-SYN-2026-0001",
+   "scenario": "FI breach: no 12-hour cooling-off after token activation",
+   "decisionId": "SRF-DET-2026-0001",
+   "outcome": "fi_bears",
+   "artifact": "SRF-SYN-2026-0001.json",
+   "artifactDigest": "sha256:41fb112d9003f770e477e356c880057041b81e649724daa6dfbc7e7e6f458bda",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-1",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0001",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.713Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0002",
+   "scenario": "Telco breach: Sender ID SMS delivered from an unauthorised aggregator",
+   "decisionId": "SRF-DET-2026-0002",
+   "outcome": "telco_bears",
+   "artifact": "SRF-SYN-2026-0002.json",
+   "artifactDigest": "sha256:62c4f725d08f50dafaa1ef8b2e2e6d3ebbb8148ee7fee506d9ccc8c1a1bbe6ab",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-2",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0002",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.727Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0003",
+   "scenario": "Clean waterfall: both tiers affirmatively not liable, the account holder bears",
+   "decisionId": "SRF-DET-2026-0003",
+   "outcome": "account_holder_bears",
+   "artifact": "SRF-SYN-2026-0003.json",
+   "artifactDigest": "sha256:10e33e70741b62590c13aee2a238651e42c13a18a656c30a26437941332e5bd8",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-3",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0003",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.733Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0004",
+   "scenario": "Undetermined at the FI tier: cooling-off not assessed",
+   "decisionId": "SRF-DET-2026-0004",
+   "outcome": "undetermined",
+   "artifact": "SRF-SYN-2026-0004.json",
+   "artifactDigest": "sha256:beea061f207a2cd201bbc7a4b46a6db524dda0bbcd90d12f0888326035e18f4b",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-4",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0004",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.739Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0005",
+   "scenario": "Undetermined at the Telco tier: A5 unresolved",
+   "decisionId": "SRF-DET-2026-0005",
+   "outcome": "undetermined",
+   "artifact": "SRF-SYN-2026-0005.json",
+   "artifactDigest": "sha256:d34abf08ea8d7b7d69c6a6fd1422ccf8d619e16adf34bf6afde6f09794439e84",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-5",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0005",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.745Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0006",
+   "scenario": "Out of scope: corporate account holder",
+   "decisionId": "SRF-DET-2026-0006",
+   "outcome": "out_of_scope",
+   "artifact": "SRF-SYN-2026-0006.json",
+   "artifactDigest": "sha256:c4fba1ed4d05fff5b9a841f430ae352a8646a9dbacc878171b780c2ab6f7c539",
+   "http": 201,
+   "response": {
+    "kind": "ingested",
+    "determinationId": "determination-6",
+    "decider": "did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM",
+    "decisionId": "SRF-DET-2026-0006",
+    "grantId": "decider-grant-1",
+    "judgedAt": "2026-08-26T01:34:29.750Z"
+   }
+  }
+ ],
+ "payments": [
+  {
+   "claimId": "SRF-SYN-2026-0001",
+   "decisionId": "SRF-DET-2026-0001",
+   "outcome": "fi_bears",
+   "amount": "4200.00",
+   "asset": "SGD",
+   "http": 200,
+   "response": {
+    "kind": "instructed",
+    "reservationId": "res-srf-0001",
+    "at": "2026-08-26T01:34:29.754Z",
+    "instructionId": "oi_c9f84142d04ac08fa825bf3c0a153020",
+    "executorRef": "did:key:z6MknkLmZ9UyRXH4CMK232SKhfW6xYqrbGiYjdST7ybzhqz1",
+    "notAfter": "2026-08-27T01:34:29.754Z"
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0002",
+   "decisionId": "SRF-DET-2026-0002",
+   "outcome": "telco_bears",
+   "amount": "8800.00",
+   "asset": "SGD",
+   "http": 422,
+   "response": {
+    "kind": "refused",
+    "code": "OUTCOME_NOT_AUTHORIZING",
+    "reason": "The attestation verified and its outcome, 'telco_bears', is not one this mandate treats as authorising a payment. Membership in the decider's declared vocabulary is checked elsewhere and is a different question: nothing in verification reads an outcome as permitting anything, so without this a requirement to cite a decision is satisfied by citing a signed DENIAL."
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0003",
+   "decisionId": "SRF-DET-2026-0003",
+   "outcome": "account_holder_bears",
+   "amount": "2500.00",
+   "asset": "SGD",
+   "http": 422,
+   "response": {
+    "kind": "refused",
+    "code": "OUTCOME_NOT_AUTHORIZING",
+    "reason": "The attestation verified and its outcome, 'account_holder_bears', is not one this mandate treats as authorising a payment. Membership in the decider's declared vocabulary is checked elsewhere and is a different question: nothing in verification reads an outcome as permitting anything, so without this a requirement to cite a decision is satisfied by citing a signed DENIAL."
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0004",
+   "decisionId": "SRF-DET-2026-0004",
+   "outcome": "undetermined",
+   "amount": "3100.00",
+   "asset": "SGD",
+   "http": 422,
+   "response": {
+    "kind": "refused",
+    "code": "OUTCOME_NOT_AUTHORIZING",
+    "reason": "The attestation verified and its outcome, 'undetermined', is not one this mandate treats as authorising a payment. Membership in the decider's declared vocabulary is checked elsewhere and is a different question: nothing in verification reads an outcome as permitting anything, so without this a requirement to cite a decision is satisfied by citing a signed DENIAL."
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0005",
+   "decisionId": "SRF-DET-2026-0005",
+   "outcome": "undetermined",
+   "amount": "6600.00",
+   "asset": "SGD",
+   "http": 422,
+   "response": {
+    "kind": "refused",
+    "code": "OUTCOME_NOT_AUTHORIZING",
+    "reason": "The attestation verified and its outcome, 'undetermined', is not one this mandate treats as authorising a payment. Membership in the decider's declared vocabulary is checked elsewhere and is a different question: nothing in verification reads an outcome as permitting anything, so without this a requirement to cite a decision is satisfied by citing a signed DENIAL."
+   }
+  },
+  {
+   "claimId": "SRF-SYN-2026-0006",
+   "decisionId": "SRF-DET-2026-0006",
+   "outcome": "out_of_scope",
+   "amount": "1900.00",
+   "asset": "SGD",
+   "http": 422,
+   "response": {
+    "kind": "refused",
+    "code": "OUTCOME_NOT_AUTHORIZING",
+    "reason": "The attestation verified and its outcome, 'out_of_scope', is not one this mandate treats as authorising a payment. Membership in the decider's declared vocabulary is checked elsewhere and is a different question: nothing in verification reads an outcome as permitting anything, so without this a requirement to cite a decision is satisfied by citing a signed DENIAL."
+   }
+  }
+ ]
+}

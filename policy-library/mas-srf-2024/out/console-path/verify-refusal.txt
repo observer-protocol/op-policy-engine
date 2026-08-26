@@ -1,0 +1,90 @@
+
+── THE FILE ──────────────────────────────────────────────────────────────────
+  /private/tmp/claude-501/-Users-agentic/4883a36c-f005-4764-b14d-41fe6a236de7/scratchpad/srf-9095/store.jsonl
+  33 records, 5 refusals, 5 of them signed
+
+── REFUSAL refusal-1 ─────────────────────────────────────────────────────────
+  code        OUTCOME_NOT_AUTHORIZING
+  authority   mandate
+  constraint  actionScope.requiresDecisionAttestation
+  agent       did:web:srf-demo-fi.example:agents:srf-payout-0001
+  mandate     urn:uuid:srf-demo-fi-payout-mandate
+  would move  880000 (2 dp) SGD on demo:srf:fi-credit
+  signed by   did:key:z6Mkv2ztCQN6zL52bCehZBKHx5BaNuHnfWAmMVVRUjdQWRSJ
+
+  signature   VERIFIED
+  control     amountRaw 880000 -> 880001: correctly REJECTED
+
+── REFUSAL refusal-2 ─────────────────────────────────────────────────────────
+  code        OUTCOME_NOT_AUTHORIZING
+  authority   mandate
+  constraint  actionScope.requiresDecisionAttestation
+  agent       did:web:srf-demo-fi.example:agents:srf-payout-0001
+  mandate     urn:uuid:srf-demo-fi-payout-mandate
+  would move  250000 (2 dp) SGD on demo:srf:fi-credit
+  signed by   did:key:z6Mkv2ztCQN6zL52bCehZBKHx5BaNuHnfWAmMVVRUjdQWRSJ
+
+  signature   VERIFIED
+  control     amountRaw 250000 -> 250001: correctly REJECTED
+
+── REFUSAL refusal-3 ─────────────────────────────────────────────────────────
+  code        OUTCOME_NOT_AUTHORIZING
+  authority   mandate
+  constraint  actionScope.requiresDecisionAttestation
+  agent       did:web:srf-demo-fi.example:agents:srf-payout-0001
+  mandate     urn:uuid:srf-demo-fi-payout-mandate
+  would move  310000 (2 dp) SGD on demo:srf:fi-credit
+  signed by   did:key:z6Mkv2ztCQN6zL52bCehZBKHx5BaNuHnfWAmMVVRUjdQWRSJ
+
+  signature   VERIFIED
+  control     amountRaw 310000 -> 310001: correctly REJECTED
+
+── REFUSAL refusal-4 ─────────────────────────────────────────────────────────
+  code        OUTCOME_NOT_AUTHORIZING
+  authority   mandate
+  constraint  actionScope.requiresDecisionAttestation
+  agent       did:web:srf-demo-fi.example:agents:srf-payout-0001
+  mandate     urn:uuid:srf-demo-fi-payout-mandate
+  would move  660000 (2 dp) SGD on demo:srf:fi-credit
+  signed by   did:key:z6Mkv2ztCQN6zL52bCehZBKHx5BaNuHnfWAmMVVRUjdQWRSJ
+
+  signature   VERIFIED
+  control     amountRaw 660000 -> 660001: correctly REJECTED
+
+── REFUSAL refusal-5 ─────────────────────────────────────────────────────────
+  code        OUTCOME_NOT_AUTHORIZING
+  authority   mandate
+  constraint  actionScope.requiresDecisionAttestation
+  agent       did:web:srf-demo-fi.example:agents:srf-payout-0001
+  mandate     urn:uuid:srf-demo-fi-payout-mandate
+  would move  190000 (2 dp) SGD on demo:srf:fi-credit
+  signed by   did:key:z6Mkv2ztCQN6zL52bCehZBKHx5BaNuHnfWAmMVVRUjdQWRSJ
+
+  signature   VERIFIED
+  control     amountRaw 190000 -> 190001: correctly REJECTED
+
+── THE MANDATE IT ENFORCED ───────────────────────────────────────────────────
+  /private/tmp/claude-501/-Users-agentic/4883a36c-f005-4764-b14d-41fe6a236de7/scratchpad/srf-9095/credential.json
+  id          urn:uuid:srf-demo-fi-payout-mandate
+  issuer      did:web:srf-demo-fi.example
+  requires a citation:  YES
+    acceptable deciders   did:key:z6MkoGp6N2XdbUBbinQhYsjnZMMYKxR5wLyyeVzfqV8uNYVM
+    authorizing outcomes  fi_bears
+    policy                urn:op:register:srf:0.1.0
+                          sha256:c27fccb68b7aaae2a13724ac9e0a873f87cc85565e77c19096339666f08bf033
+
+  POLICY DOCUMENT NOT FOUND beside the credential (/private/tmp/claude-501/-Users-agentic/4883a36c-f005-4764-b14d-41fe6a236de7/scratchpad/srf-9095/policy-v1.txt).
+  The commitment cannot be checked. Reported as unchecked, not as a mismatch.
+
+  ISSUER DOCUMENT NOT FOUND beside the credential (/private/tmp/claude-501/-Users-agentic/4883a36c-f005-4764-b14d-41fe6a236de7/scratchpad/srf-9095/issuer-did.json).
+  The proof cannot be checked without the key, and this is NOT reported as a failed check:
+  nothing was checked. An absence and a rejection are different answers.
+
+── RESULT ────────────────────────────────────────────────────────────────────
+  Every signature verified, and every control was correctly rejected.
+
+  This ran with no service, no API key and no network. The bytes that were signed are built by
+  refusalPayload, which is published in @observer-protocol/policy-engine 1.0.0-rc.9 — so this
+  check does not need this repository. It needs the package and the store file. One
+  implementation of those bytes, imported rather than reproduced.
+

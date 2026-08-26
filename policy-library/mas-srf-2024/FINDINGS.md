@@ -172,6 +172,31 @@ and EUPG 5.2 recklessness are emitted (6 records, tier `consumer`) and read by n
 6 (A19). A consumer's own breach changes no SRF outcome under the words. Encoded so the gap is a
 record rather than a remark.
 
+**F-17. Console path: a decision admitted through `POST /v1/determinations` is served without its
+outcome term, and is served twice once a payment cites it.** Over the scratch run (6 decisions,
+6 payments; out/console-path/README.md) `/v1/determinations` returned 12 rows: the six
+determination-route rows (`admission.path: "determination"`, grant held) carry no `outcomeTerm`
+key; the six payment-route rows carry it. A consumer counting rows counts each decision twice and
+a consumer reading the term from the standalone row reads nothing. Measured on op-mcp-payment-server
+main @ e2d35fb. Not fixed (not this session's repository).
+
+**F-18. Console path: the SRF outcome reaches the :3300 console only on a refused payment.** The
+console never calls `/v1/determinations`; the term appears as `refusal.attestation.outcome` on the
+five refused payments and nowhere for the one instructed (`fi_bears`) payment, whose reserved row
+carries no attestation field. The tier and duty that stopped a claim (F-07) are on no served row.
+An `undetermined` and an `out_of_scope` refusal are the same bucket as a `telco_bears` one: the
+store states it cannot classify a decider's terms (`DETERMINATION_OUTCOME_IS_NOT_CLASSIFIED`).
+
+**F-19. The :3300 console was NOT run over this store; skipped, not passed.** Its upstream is
+fixed to 9094 in another repository. The server side of the path was run on a scratch instance on
+9095 with the same endpoints and row shapes (out/console-path/). Pointing the console at 9095 is
+an edit outside this session's scope.
+
+**F-20. Refusal signing on a fresh instance is `op.enforcement.refusal.v3`** (engine rc.22 in the
+main checkout's node_modules), where the live 9094 process still signs v2 from memory (recorded
+in shared memory 2026-08-25). Five v3 refusals verified offline by `scripts/verify-refusal.mjs`;
+the scratch credential carries no `proof`, reported by the verifier as an absence.
+
 ## What this does not cover
 
 - Any bank's terms (excluded by the brief for this session).
@@ -179,3 +204,4 @@ record rather than a remark.
 - EUPG Sections 6, 7 and most of 4 and 5 (F-02).
 - Singapore public holidays in business-day counts (A28).
 - A determination on a real claim. Every figure above is over synthetic inputs.
+- The :3300 console rendering this store (F-19).
