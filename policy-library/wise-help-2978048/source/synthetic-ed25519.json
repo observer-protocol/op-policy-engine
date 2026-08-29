@@ -1,0 +1,7 @@
+{
+ "$label": "SYNTHETIC",
+ "$note": "REPOSITORY-INTERNAL fixture key. Not a secret. Signs only SYNTHETIC sample records. Not an Observer Protocol issuer key.",
+ "alg": "Ed25519",
+ "publicKeySpkiDerHex": "302a300506032b65700321003aa2be2e8f5d307d4eebf63f618746a1841a8c637d604a2258edabf0c3123878",
+ "privateKeyPkcs8DerHex": "302e020100300506032b6570042204200b47f5164a2cfed4adf9f492ad1f5639e55ca857cfbeb3317f3a7b844d275413"
+}

@@ -1,0 +1,139 @@
+{
+ "payloadType": "op.policy.determination.wise-help-2978048.v1",
+ "recordVersion": 7,
+ "synthetic": true,
+ "$label": "SYNTHETIC",
+ "$not_a_finding_about": "Wise",
+ "register": {
+  "domain": "wise-help-2978048",
+  "version": "0.1.0",
+  "sha256": "9f5474fd72174a2fde69c66837f28ca9488d2128cb4b3017cd274a4309035839"
+ },
+ "source": {
+  "pins": [
+   {
+    "url": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 119222,
+    "sha256": "5db3e87aa10515a5f4ac7322db38b76a947e8be9218cdcb623affccaedc08894",
+    "stored": "source/how-do-i-report-fraud-or-a-scam.html",
+    "only_pin": true
+   }
+  ],
+  "paired_instrument": {
+   "name": "policy-library/psr-2017-752",
+   "cv": "CV2",
+   "relation": "reference_only",
+   "not_modified": true
+  },
+  "not_encoded": [
+   {
+    "url_observed_as_related_article": "how-do-i-report-a-fraudulent-wise-card-payment",
+    "reason": "The contract pins this article only. The card-fraud page is not encoded."
+   }
+  ]
+ },
+ "claimId": "WISE-SYN-2026-0008",
+ "scenario": "authorised scam, both Wise channels, no police",
+ "facts": {
+  "payment": {
+   "authorised_to_scammer": true,
+   "card_without_permission": false,
+   "account_without_permission": false
+  },
+  "notice": {
+   "recall": {
+    "stance": "not_guaranteed"
+   },
+   "refund": {
+    "stance": "not_guaranteed"
+   },
+   "loss": {
+    "stance": "sender_responsible_if_completed"
+   },
+   "redirects_to_card_fraud_article": true
+  },
+  "report": {
+   "wise_web_form": true,
+   "wise_app": true
+  },
+  "contact": {}
+ },
+ "records": {
+  "wise/2978048/scope/authorised-scam": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "satisfied",
+   "note": "In-scope when the article's own lead fact holds. W1 is not resolved."
+  },
+  "wise/2978048/exclude/card-unauthorised": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable",
+   "note": "ABSENT-RULED: the destination card-fraud article is not encoded."
+  },
+  "wise/2978048/exclude/account-unauthorised": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "not_applicable"
+  },
+  "wise/2978048/report/wise-channel": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "one_present"
+  },
+  "wise/2978048/report/police": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "fact",
+   "result": "absent"
+  },
+  "wise/2978048/outcome/recall-not-guaranteed": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "wise/2978048/outcome/no-guaranteed-refund": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "wise/2978048/loss/authorised-sender-responsible": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member"
+  },
+  "wise/2978048/citation/psr-app": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "fact",
+   "result": "absent",
+   "note": "WIRED absence of a citation of the PSR APP requirement. Pairing is by reference to policy-library/psr-2017-752 (CV2) only."
+  }
+ },
+ "signature": {
+  "state": "signed",
+  "alg": "Ed25519",
+  "over": "sha256(jcs(payload without signature))",
+  "digest": "4568f5d44ca1474cea0ba1583388458cac6db504bb5643bced1ebffd36f20495",
+  "publicKeySpkiDerHex": "302a300506032b65700321003aa2be2e8f5d307d4eebf63f618746a1841a8c637d604a2258edabf0c3123878",
+  "value": "ad87811d4cfd9d3d899a4973770a34c77ca18386db99dbab5dd9ad7626b922fe0da31dd31dada656a1299779f05ab0dc8b3abfc99dbe7bf00c17f9264f8d280e",
+  "$label": "SYNTHETIC"
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "$derived_by": "check.mjs",
+ "population": {
+  "count": 6,
+  "seed": "enumerated-not-random",
+  "parameters_text": "POPULATION PARAMETERS\ncount: 6\nseed: enumerated-not-random\ncases: informed×path (2×3), notice-level facts fixed\ninformed: [set, unset]\nhelp path: [all four steps, none, partial]\nnotice.credit.stance: always \"may\" (the verb on the page)\nnotice.citations.srf: never supplied (WIRED absence)",
+  "parameters_sha256": "345115dc4be755a2f5eb6d568dcd2f0867aeb4b70774fec0a51432ff88814c73",
+  "$generator_label": "generate-determinations.mjs",
+  "$register": "policy-library/gxs-card-terms-4-7"
+ },
+ "mutant_clause": "gxs/notice/srf-citation",
+ "mutant_shown_failing": true,
+ "wired_absence_green": true,
+ "changed_on_clause": 6,
+ "rerun_diverging": 0,
+ "completeness_gap": 0,
+ "completeness_denominator": 7,
+ "paired_missing_citation": 5,
+ "paired_denominator": 5
+}

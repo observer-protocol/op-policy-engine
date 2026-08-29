@@ -1,0 +1,62 @@
+{
+ "$note": "SYNTHETIC signed sample records. REPOSITORY-INTERNAL. Not a finding about Wise.",
+ "recordVersion": 7,
+ "register_sha256": "9f5474fd72174a2fde69c66837f28ca9488d2128cb4b3017cd274a4309035839",
+ "population": {
+  "count": 8,
+  "seed": "enumerated-not-random",
+  "parameters_text": "POPULATION PARAMETERS\ncount: 8\nseed: enumerated-not-random\ncases: 8 named rows (not a generated cross-product count)\nnotice.recall.stance: always \"not_guaranteed\"\nnotice.refund.stance: always \"not_guaranteed\"\nnotice.loss.stance: always \"sender_responsible_if_completed\"\nnotice.citations.psr_app: never supplied (WIRED absence)\nnotice.redirects_to_card_fraud_article: always true (the page points away; that page is not encoded)",
+  "parameters_sha256": "48f824ec585fc1c11402edcd68a1e05ef2dbf344e0bc7ce8ad7854b8aa19522e",
+  "$generator_label": "generate-determinations.mjs"
+ },
+ "artifacts": [
+  {
+   "claimId": "WISE-SYN-2026-0001",
+   "scenario": "authorised scam, web form and police",
+   "sha256": "d3154c30aaa3bd37fa8315dcf2ba5a6d13ec8bf70e1e72c7f008ba60846ea18a",
+   "signature_digest": "cf84005b738068e1839bf07f8e954b6677c27cb7a07b68e30f402e5df291bb53"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0002",
+   "scenario": "authorised scam, app and police",
+   "sha256": "b4e83b7c433b86adbf466229bf12e0dda0e37941fbf8ce915f28e1a54becfb66",
+   "signature_digest": "8a001d1bb78d9c9cac7b53f96813ecef3cd1c8cccb56c1ceff96f1756be8d2df"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0003",
+   "scenario": "authorised scam, web form only",
+   "sha256": "5707e941bde35bad62b6a74222dc0d4b04e5a8b1043344cda8bc44a61167b8e4",
+   "signature_digest": "173b3d911bea5bfc1350c1785df3bdc6c62c1a1cc577dd284e187fce4850f455"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0004",
+   "scenario": "authorised scam, neither report",
+   "sha256": "1f0f83cd007e69ca7d0c48b932cb3c12b4535fd6d0f7676d5e125c107c598a71",
+   "signature_digest": "b742d7048466cc0d72f0d2661a11ae4eff3340199ca9d83a79625901102d9400"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0005",
+   "scenario": "card without permission (redirect, page not encoded)",
+   "sha256": "96c415ffa7c657a0f59a498a3377cb05895ba237d5f45d313e3617af7c1bb313",
+   "signature_digest": "93ef95c8b465d819e05409c0f7277a54d829e65c82b2b96324760d4e959863e0"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0006",
+   "scenario": "account without permission, contacted",
+   "sha256": "35ccfd5391c857acb71920495e5b7da5a5c5cf6e07f78d7f95a01ec002032fe0",
+   "signature_digest": "64c961db83b37fd9066ec62cfebe94f63f3df3e7a5c9625ef2f89813883daee5"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0007",
+   "scenario": "account without permission, not contacted",
+   "sha256": "6b33e6d967e39a2c5941c245f993ea33a0885cebd97680140644e13ce77699a1",
+   "signature_digest": "9ad188ddce188a5ac6a339b6f41e0123362414115faf68d2523a0388bdf77daf"
+  },
+  {
+   "claimId": "WISE-SYN-2026-0008",
+   "scenario": "authorised scam, both Wise channels, no police",
+   "sha256": "7de206757e7a5ecd69a04c57d92fbcda177e5965166125a911a971cbd5e0c2db",
+   "signature_digest": "4568f5d44ca1474cea0ba1583388458cac6db504bb5643bced1ebffd36f20495"
+  }
+ ]
+}

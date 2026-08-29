@@ -1,0 +1,323 @@
+{
+ "$label": "SYNTHETIC",
+ "$not_a_finding_about": "GXS",
+ "population": {
+  "count": 6,
+  "seed": "enumerated-not-random",
+  "parameters_text": "POPULATION PARAMETERS\ncount: 6\nseed: enumerated-not-random\ncases: informed×path (2×3), notice-level facts fixed\ninformed: [set, unset]\nhelp path: [all four steps, none, partial]\nnotice.credit.stance: always \"may\" (the verb on the page)\nnotice.citations.srf: never supplied (WIRED absence)",
+  "parameters_sha256": "345115dc4be755a2f5eb6d568dcd2f0867aeb4b70774fec0a51432ff88814c73",
+  "$generator_label": "generate-determinations.mjs"
+ },
+ "determinations": [
+  {
+   "id": "GXS-SYN-2026-0001",
+   "scenario": "informed, full in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {
+     "informed_at": "2026-08-29T12:00:00Z"
+    },
+    "help": {
+     "path": {
+      "flexicredit_tile": true,
+      "specific_transaction": true,
+      "get_help": true,
+      "raising_card_transaction_dispute": true
+     }
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "present",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "all_present"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  },
+  {
+   "id": "GXS-SYN-2026-0002",
+   "scenario": "informed, no in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {
+     "informed_at": "2026-08-29T12:00:00Z"
+    },
+    "help": {
+     "path": {}
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "present",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "some_absent"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  },
+  {
+   "id": "GXS-SYN-2026-0003",
+   "scenario": "informed, partial in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {
+     "informed_at": "2026-08-29T12:00:00Z"
+    },
+    "help": {
+     "path": {
+      "flexicredit_tile": true,
+      "specific_transaction": true
+     }
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "present",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "some_absent"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  },
+  {
+   "id": "GXS-SYN-2026-0004",
+   "scenario": "not informed, full in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {},
+    "help": {
+     "path": {
+      "flexicredit_tile": true,
+      "specific_transaction": true,
+      "get_help": true,
+      "raising_card_transaction_dispute": true
+     }
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "all_present"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  },
+  {
+   "id": "GXS-SYN-2026-0005",
+   "scenario": "not informed, no in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {},
+    "help": {
+     "path": {}
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "some_absent"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  },
+  {
+   "id": "GXS-SYN-2026-0006",
+   "scenario": "not informed, partial in-app path",
+   "facts": {
+    "notice": {
+     "credit": {
+      "stance": "may"
+     }
+    },
+    "dispute": {},
+    "help": {
+     "path": {
+      "flexicredit_tile": true,
+      "get_help": true
+     }
+    }
+   },
+   "records": {
+    "gxs/card-terms/C/4.7/inform-immediately": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    },
+    "gxs/card-terms/C/4.7/credit-permission": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "none",
+     "result": "member",
+     "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    },
+    "gxs/help/unauthorised-refund/in-app-path": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "some_absent"
+    },
+    "gxs/notice/srf-citation": {
+     "v": 7,
+     "lane": "engine",
+     "lane_from": "lookup",
+     "waiting": "fact",
+     "result": "absent",
+     "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  }
+ ]
+}

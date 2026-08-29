@@ -1,0 +1,463 @@
+{
+ "register_version": "0.1.0",
+ "domain": "wise-help-2978048",
+ "source": {
+  "pins": [
+   {
+    "url": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 119222,
+    "sha256": "5db3e87aa10515a5f4ac7322db38b76a947e8be9218cdcb623affccaedc08894",
+    "stored": "source/how-do-i-report-fraud-or-a-scam.html",
+    "only_pin": true
+   }
+  ],
+  "paired_instrument": {
+   "name": "policy-library/psr-2017-752",
+   "cv": "CV2",
+   "relation": "reference_only",
+   "not_modified": true
+  },
+  "not_encoded": [
+   {
+    "url_observed_as_related_article": "how-do-i-report-a-fraudulent-wise-card-payment",
+    "reason": "The contract pins this article only. The card-fraud page is not encoded."
+   }
+  ]
+ },
+ "dispositions": {
+  "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, EVIDENTIAL",
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {}
+ },
+ "primitives": {
+  "$state": "This encode uses only primitives the shared interpreter already implements. No shared-interpreter edit.",
+  "entries": null
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "Fact vocabulary exists as paths inside evaluation. Absent is a state, not an omitted key.",
+  "fields": null
+ },
+ "ambiguities": {
+  "$source_field_name": "readings",
+  "entries": [
+   {
+    "id": "W1",
+    "clause_id": "wise/2978048/scope/authorised-scam",
+    "question": "Does `you authorised a payment to a scammer` include authorised push-payment scams that a UK PSR APP reimbursement requirement would address?",
+    "competing_readings": [
+     {
+      "reading": "Yes: the article's own first sentence is that case",
+      "basis": "`This article is for what to do if you think you authorised a payment to a scammer, such as a fraudulent purchase or fake investment.`"
+     },
+     {
+      "reading": "The article never names APP, PSR, or reimbursement, so the overlap is not established on this page",
+      "basis": "No `authorised push`, no `APP`, no `reimbursement`, no citation of SI 2017/752."
+     }
+    ],
+    "textual_basis": "Lead paragraph vs the WIRED absence of a PSR APP citation.",
+    "materiality": "Whether this notice is silent on a requirement that would apply to its own stated facts.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "W2",
+    "clause_id": "wise/2978048/citation/psr-app",
+    "question": "Does footer copy that Wise Europe SA is responsible for content related to payment services cite the PSR APP requirement?",
+    "competing_readings": [
+     {
+      "reading": "No. It attributes content to a licensed entity.",
+      "basis": "The string sits in footer regulatory copy. It does not name SI 2017/752, APP, or a reimbursement duty."
+     },
+     {
+      "reading": "Any use of `payment services` is a citation",
+      "basis": "The words appear."
+     }
+    ],
+    "textual_basis": "Footer: `Wise Europe SA is responsible for any content related to payment services.`",
+    "materiality": "If the footer were treated as a citation, the WIRED absence would be wrongly filled.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "W3",
+    "clause_id": "wise/2978048/outcome/recall-not-guaranteed",
+    "question": "When does the 40-day silence clock start?",
+    "competing_readings": [
+     {
+      "reading": "From the report to Wise",
+      "basis": "The paragraph follows `What happens after I report it?`"
+     },
+     {
+      "reading": "Unstated",
+      "basis": "The sentence is `If you haven't heard from us about a successful recall after 40 days` and names no start event."
+     }
+    ],
+    "textual_basis": "`If you haven't heard from us about a successful recall after 40 days, it unfortunately means it wasn't successful.`",
+    "materiality": "The only numeric period on the page.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "W4",
+    "clause_id": "wise/2978048/loss/authorised-sender-responsible",
+    "question": "Does `Wise isn't responsible for the loss if the transfer is completed` survive a mandatory APP reimbursement duty?",
+    "competing_readings": [
+     {
+      "reading": "The page states sender responsibility and no guaranteed refund",
+      "basis": "Those sentences are on the page."
+     },
+     {
+      "reading": "A paired public instrument could impose a duty the page does not cite",
+      "basis": "The WIRED absence. Not filled in."
+     }
+    ],
+    "textual_basis": "`when you authorise a payment to be sent, Wise isn't responsible for the loss if the transfer is completed` and `We can't guarantee a refund.`",
+    "materiality": "The notice's stated loss allocation vs the omitted citation.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": null,
+ "undefined_terms": null,
+ "waiting": {
+  "values": ["fact", "judgment", "meaning", "clause", "none"],
+  "priority": ["meaning", "fact", "judgment", "clause"],
+  "absence_result_tokens": {
+   "not_assessed": "judgment",
+   "no_end_event": "fact",
+   "missing_operand": "fact",
+   "no_candidate": "fact",
+   "undetermined": "$composite"
+  },
+  "unsupplied_argument_probes": ["field_present", "all_present", "any_present"],
+  "non_absence_result_tokens": [
+   "within", "exceeded", "not_yet_due", "overdue", "out_of_order",
+   "present", "absent", "all_present", "some_absent", "one_present", "none_present",
+   "member", "not_member", "all_members", "some_not_member",
+   "clear", "prohibited_present", "floor_met", "floor_not_met", "met", "not_met",
+   "satisfied", "breached", "outstanding", "not_applicable",
+   "before", "after", "simultaneous", "equal", "not_equal", "incomparable_currency"
+  ],
+  "decided_overrides": { "not_applicable": "none" },
+  "by_emitter": {
+   "emit": "computed",
+   "decision_table": "computed",
+   "ungrounded": "computed",
+   "no_result": "none",
+   "awaiting": "judgment",
+   "assessment": "judgment",
+   "adoption": "none",
+   "rejection": "none"
+  }
+ },
+ "lanes": {
+  "lanes": ["engine", "agent", "panel", "person"],
+  "lookup": {
+   "CONDITIONAL": { "lane": "engine" },
+   "DERIVED": { "lane": "engine" },
+   "EVIDENTIAL": { "lane": "engine" },
+   "JUDGMENT": { "lane": "person" },
+   "MECHANICAL": { "lane": "engine" }
+  }
+ },
+ "ungrounded_terms": null,
+ "bindings": {},
+ "clauses": [
+  {
+   "id": "wise/2978048/scope/authorised-scam",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam lead paragraph",
+   "text": "This article is for what to do if you think you authorised a payment to a scammer, such as a fraudulent purchase or fake investment.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "The article states its own fact pattern. Applicability is a gate over that pattern.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": { "op": "fact", "path": "payment.authorised_to_scammer" },
+       "right": { "op": "const", "value": true }
+      },
+      { "op": "const", "value": true }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "In-scope when the article's own lead fact holds. W1 is not resolved."
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/exclude/card-unauthorised",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam paragraph redirecting unauthorised card payments",
+   "text": "If a payment was made with your Wise card without your permission, please report a fraudulent card transaction.",
+   "text_language": "en",
+   "assertion": "The card-fraud page is observed as a related article and is not encoded.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "The notice distinguishes this case and points away. This encode stops at that distinction.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": { "op": "fact", "path": "payment.card_without_permission" },
+       "right": { "op": "const", "value": true }
+      },
+      {
+       "op": "eq",
+       "left": { "op": "fact", "path": "notice.redirects_to_card_fraud_article" },
+       "right": { "op": "const", "value": true }
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "ABSENT-RULED: the destination card-fraud article is not encoded."
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/exclude/account-unauthorised",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam paragraph on unrecognised account payments",
+   "text": "If a payment was made from your Wise account without your permission (you don't recognise it and you didn't authorise it), contact us immediately.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "A different fact pattern. The article does not treat it as this article's scam-report path.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "rests_on_ungrounded_term": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "conditional_requirement",
+     "args": [
+      {
+       "op": "eq",
+       "left": { "op": "fact", "path": "payment.account_without_permission" },
+       "right": { "op": "const", "value": true }
+      },
+      {
+       "op": "eq",
+       "left": {
+        "op": "primitive",
+        "name": "field_present",
+        "args": [{ "op": "fact", "path": "contact.immediate" }]
+       },
+       "right": { "op": "const", "value": "present" }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/report/wise-channel",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam heading How to report fraud or a scam / Step 1: Report to Wise",
+   "text": "If you've already sent a transfer to someone you believe is a scammer, report it to us immediately. Report using our web form, or in the Wise app: Transactions list, select the transfer, tap the ? icon (Get help), choose How do I report a fraudulent payment? then Start Report.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Two stated channels. Either present satisfies the page's Step 1 as written.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "any_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        { "op": "fact", "path": "report.wise_web_form" },
+        { "op": "fact", "path": "report.wise_app" }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/report/police",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam heading Step 2: File a police report",
+   "text": "File a report with your local police or authorities. Wise always cooperates with law enforcement when they contact us as part of an investigation.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The page states a police-report step. Regional how-to links are not this pin and are not encoded.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [{ "op": "fact", "path": "report.police" }]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/outcome/recall-not-guaranteed",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam heading What happens after I report it?",
+   "text": "We may try to issue a recall for your money, but recalls aren't guaranteed and can be a long process. If you haven't heard from us about a successful recall after 40 days, it unfortunately means it wasn't successful.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The page states recall as attempted and not guaranteed. W3 is not resolved.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      { "op": "fact", "path": "notice.recall.stance" },
+      { "op": "const", "value": ["not_guaranteed"] }
+     ]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/outcome/no-guaranteed-refund",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam same heading, bold sentence",
+   "text": "We can't guarantee a refund.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The page's refund sentence. It is not a citation of any public instrument.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      { "op": "fact", "path": "notice.refund.stance" },
+      { "op": "const", "value": ["not_guaranteed"] }
+     ]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/loss/authorised-sender-responsible",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam paragraph after the refund sentence",
+   "text": "Keep in mind that when you authorise a payment to be sent, Wise isn't responsible for the loss if the transfer is completed. This is because you're responsible for making sure the recipient is legitimate before you make a transfer.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The page's stated allocation for a completed authorised transfer. W4 is not resolved.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      { "op": "fact", "path": "notice.loss.stance" },
+      { "op": "const", "value": ["sender_responsible_if_completed"] }
+     ]
+    }
+   }
+  },
+  {
+   "id": "wise/2978048/citation/psr-app",
+   "source_locator": "https://wise.com/help/articles/2978048/how-do-i-report-fraud-or-a-scam full retrieved body. Search: APP, authorised push, reimbursement, Payment Services Regulations, SI 2017/752, psr-2017-752. Zero citation matches. Footer `payment services` is W2.",
+   "text": "This notice does not cite the PSR APP requirement.",
+   "text_language": "en",
+   "assertion": "WIRED absence. The missing citation is the gap. It is not filled in.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Citation is a presence question over the pinned bytes. Encoding this clause as `present` is the failing mutant the completeness gate shows first.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [{ "op": "fact", "path": "notice.citations.psr_app" }]
+    },
+    "note": {
+     "op": "const",
+     "value": "WIRED absence of a citation of the PSR APP requirement. Pairing is by reference to policy-library/psr-2017-752 (CV2) only."
+    }
+   }
+  }
+ ]
+}

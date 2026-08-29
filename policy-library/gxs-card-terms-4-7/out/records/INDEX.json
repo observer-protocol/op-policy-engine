@@ -1,0 +1,50 @@
+{
+ "$note": "SYNTHETIC signed sample records. REPOSITORY-INTERNAL. Not a finding about GXS.",
+ "recordVersion": 7,
+ "register_sha256": "6158f779754c13596d82f8c7b47d1c955da276616ac87ed3df69e3b304ba1fe0",
+ "population": {
+  "count": 6,
+  "seed": "enumerated-not-random",
+  "parameters_text": "POPULATION PARAMETERS\ncount: 6\nseed: enumerated-not-random\ncases: informed×path (2×3), notice-level facts fixed\ninformed: [set, unset]\nhelp path: [all four steps, none, partial]\nnotice.credit.stance: always \"may\" (the verb on the page)\nnotice.citations.srf: never supplied (WIRED absence)",
+  "parameters_sha256": "345115dc4be755a2f5eb6d568dcd2f0867aeb4b70774fec0a51432ff88814c73",
+  "$generator_label": "generate-determinations.mjs"
+ },
+ "artifacts": [
+  {
+   "claimId": "GXS-SYN-2026-0001",
+   "scenario": "informed, full in-app path",
+   "sha256": "93008700fa99cb1cd6fbf9f62640b153ae06c6756ab559706f40bff1c875c2f9",
+   "signature_digest": "1f6d3c884eab0f217988a3f92d97e6d402eb18a97249e7fcb5df586113f6774d"
+  },
+  {
+   "claimId": "GXS-SYN-2026-0002",
+   "scenario": "informed, no in-app path",
+   "sha256": "1298dc213fcef028bef87df845fa14c06959036212ec909aa5a38a830e05fbdc",
+   "signature_digest": "9f26742da63f48b12da1bf625432a8cbc5b5c80697db770ea5101a5cf3d4bad6"
+  },
+  {
+   "claimId": "GXS-SYN-2026-0003",
+   "scenario": "informed, partial in-app path",
+   "sha256": "08868751cb6b8b732e2955882ef0ce19573aaceb3832adecf1048b6ead8aa72b",
+   "signature_digest": "175abb2a0ce1e06fe39897c19ea012c61371add8366526564ff693c3ac471f8c"
+  },
+  {
+   "claimId": "GXS-SYN-2026-0004",
+   "scenario": "not informed, full in-app path",
+   "sha256": "506a71d0ced6c9416175cc6bc868b1e5d3a6ee2db797ab51fc9bd587b1bc51e0",
+   "signature_digest": "9b0e7bef079d97f7f12089f984135becdb97750eb38969dababfa93cc78b5710"
+  },
+  {
+   "claimId": "GXS-SYN-2026-0005",
+   "scenario": "not informed, no in-app path",
+   "sha256": "728baef7efc524384b150111e2524cf298bdb560408ed840cebcd3a6b908c2ae",
+   "signature_digest": "86b1da0c1983b2e5e628f3b3b7e1d4d2e929875cc10dded24b15f3b8aa7e96ac"
+  },
+  {
+   "claimId": "GXS-SYN-2026-0006",
+   "scenario": "not informed, partial in-app path",
+   "sha256": "4edf99cdb67f3a2836272e02e6158bfe084c64f5ab7ad46dc8806a33746907e7",
+   "signature_digest": "337a6b37c33309fecb2ee73fee02d501c7d5f407d0cb7945adffa359e4a2fd53"
+  }
+ ]
+}

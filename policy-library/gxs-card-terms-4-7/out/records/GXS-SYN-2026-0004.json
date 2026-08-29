@@ -1,0 +1,97 @@
+{
+ "payloadType": "op.policy.determination.gxs-card-terms-4-7.v1",
+ "recordVersion": 7,
+ "synthetic": true,
+ "$label": "SYNTHETIC",
+ "$not_a_finding_about": "GXS",
+ "register": {
+  "domain": "gxs-card-terms-4-7",
+  "version": "0.1.0",
+  "sha256": "6158f779754c13596d82f8c7b47d1c955da276616ac87ed3df69e3b304ba1fe0"
+ },
+ "source": {
+  "pins": [
+   {
+    "url": "https://www.gxs.com.sg/card-terms",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 168557,
+    "sha256": "d42dfd6b480280c154ebd3820e5303d79a2b96976934a21bde8c1b71c6efc1b2",
+    "stored": "source/card-terms.html",
+    "last_published_in_source": "Fri Aug 28 2026 07:28:52 GMT+0000"
+   },
+   {
+    "url": "https://help.gxs.com.sg/?title=GXS_FlexiCredit%2FGXS_Credit_Card%2FSecurity_%26_Fraud%2FHow_can_I_request_a_refund_for_unauthorised_transactions_on_my_GXS_Credit_Card%3F",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 64360,
+    "sha256": "4d0d6a06e4e7ab80b53ebd80c2385198eac674d577d3c4327c8b2a1ce0ba7bea",
+    "stored": "source/refund-help.html"
+   }
+  ],
+  "paired_instrument": {
+   "name": "srf-register-accepted-v1",
+   "relation": "reference_only",
+   "not_copied": true,
+   "not_authored_here": true
+  }
+ },
+ "claimId": "GXS-SYN-2026-0004",
+ "scenario": "not informed, full in-app path",
+ "facts": {
+  "notice": {
+   "credit": {
+    "stance": "may"
+   }
+  },
+  "dispute": {},
+  "help": {
+   "path": {
+    "flexicredit_tile": true,
+    "specific_transaction": true,
+    "get_help": true,
+    "raising_card_transaction_dispute": true
+   }
+  }
+ },
+ "records": {
+  "gxs/card-terms/C/4.7/inform-immediately": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "fact",
+   "result": "absent",
+   "note": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+  },
+  "gxs/card-terms/C/4.7/credit-permission": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "member",
+   "note": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+  },
+  "gxs/help/unauthorised-refund/in-app-path": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "none",
+   "result": "all_present"
+  },
+  "gxs/notice/srf-citation": {
+   "v": 7,
+   "lane": "engine",
+   "lane_from": "lookup",
+   "waiting": "fact",
+   "result": "absent",
+   "note": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+  }
+ },
+ "signature": {
+  "state": "signed",
+  "alg": "Ed25519",
+  "over": "sha256(jcs(payload without signature))",
+  "digest": "9b0e7bef079d97f7f12089f984135becdb97750eb38969dababfa93cc78b5710",
+  "publicKeySpkiDerHex": "302a300506032b657003210026f3c2cb30c4f64643453e27d2edbbdda76de8820ae51c219a2dc943404f513b",
+  "value": "0c2bfb1123c1a0299927d06a20d6e373dacc2db3e27da939c873e01820482421e3ccd322005420ed8a34d0aeda1d36e707c71023070d61cdf8cef2c254e0aa04",
+  "$label": "SYNTHETIC"
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "$note": "Statuses are recomputed by check.mjs. A skipped check is never passed.",
+ "denominator": 11,
+ "gap": 0,
+ "items": [
+  {
+   "id": "W-scope",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-card-exclude",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-account-exclude",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-report-wise",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-report-police",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-recall",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-refund",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-loss",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-psr-app-wired-absence",
+   "status": "WIRED",
+   "kind": "absence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-card-fraud-page-absent-ruled",
+   "status": "ABSENT-RULED",
+   "kind": "out-of-scope",
+   "computed": "ABSENT-RULED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "W-banxico-absent-ruled",
+   "status": "ABSENT-RULED",
+   "kind": "out-of-scope",
+   "computed": "ABSENT-RULED",
+   "checked": true,
+   "ok": true
+  }
+ ]
+}

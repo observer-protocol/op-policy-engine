@@ -1,0 +1,21 @@
+{
+ "$derived_by": "check.mjs",
+ "population": {
+  "count": 8,
+  "seed": "enumerated-not-random",
+  "parameters_text": "POPULATION PARAMETERS\ncount: 8\nseed: enumerated-not-random\ncases: 8 named rows (not a generated cross-product count)\nnotice.recall.stance: always \"not_guaranteed\"\nnotice.refund.stance: always \"not_guaranteed\"\nnotice.loss.stance: always \"sender_responsible_if_completed\"\nnotice.citations.psr_app: never supplied (WIRED absence)\nnotice.redirects_to_card_fraud_article: always true (the page points away; that page is not encoded)",
+  "parameters_sha256": "48f824ec585fc1c11402edcd68a1e05ef2dbf344e0bc7ce8ad7854b8aa19522e",
+  "$generator_label": "generate-determinations.mjs",
+  "$register": "policy-library/wise-help-2978048"
+ },
+ "mutant_clause": "wise/2978048/citation/psr-app",
+ "mutant_shown_failing": true,
+ "wired_absence_green": true,
+ "changed_on_clause": 8,
+ "rerun_diverging": 0,
+ "completeness_gap": 0,
+ "completeness_denominator": 11,
+ "paired_missing_citation": 6,
+ "paired_denominator": 6,
+ "psr_sha256": "c605d94f1ce7b1a5e032cb807f461e428c1a43e79e6fed232835a394efd52e86"
+}

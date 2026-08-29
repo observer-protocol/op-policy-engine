@@ -1,0 +1,63 @@
+{
+ "$note": "Statuses are recomputed by check.mjs. A skipped check is never passed.",
+ "denominator": 7,
+ "gap": 0,
+ "items": [
+  {
+   "id": "C-4.7-inform",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-4.7-credit",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-help-path",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-srf-citation-wired-absence",
+   "status": "WIRED",
+   "kind": "absence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-no-gxs-policy-authored",
+   "status": "WIRED",
+   "kind": "presence",
+   "computed": "WIRED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-debit-5.7-absent-ruled",
+   "status": "ABSENT-RULED",
+   "kind": "out-of-scope",
+   "computed": "ABSENT-RULED",
+   "checked": true,
+   "ok": true
+  },
+  {
+   "id": "C-banxico-absent-ruled",
+   "status": "ABSENT-RULED",
+   "kind": "out-of-scope",
+   "computed": "ABSENT-RULED",
+   "checked": true,
+   "ok": true
+  }
+ ]
+}

@@ -1,0 +1,298 @@
+{
+ "register_version": "0.1.0",
+ "domain": "gxs-card-terms-4-7",
+ "source": {
+  "pins": [
+   {
+    "url": "https://www.gxs.com.sg/card-terms",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 168557,
+    "sha256": "d42dfd6b480280c154ebd3820e5303d79a2b96976934a21bde8c1b71c6efc1b2",
+    "stored": "source/card-terms.html",
+    "last_published_in_source": "Fri Aug 28 2026 07:28:52 GMT+0000"
+   },
+   {
+    "url": "https://help.gxs.com.sg/?title=GXS_FlexiCredit%2FGXS_Credit_Card%2FSecurity_%26_Fraud%2FHow_can_I_request_a_refund_for_unauthorised_transactions_on_my_GXS_Credit_Card%3F",
+    "retrieved": "2026-08-29T23:21:16Z",
+    "bytes": 64360,
+    "sha256": "4d0d6a06e4e7ab80b53ebd80c2385198eac674d577d3c4327c8b2a1ce0ba7bea",
+    "stored": "source/refund-help.html"
+   }
+  ],
+  "paired_instrument": {
+   "name": "srf-register-accepted-v1",
+   "relation": "reference_only",
+   "not_copied": true,
+   "not_authored_here": true
+  }
+ },
+ "dispositions": {
+  "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, EVIDENTIAL",
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {}
+ },
+ "primitives": {
+  "$state": "This encode uses only primitives the shared interpreter already implements. No shared-interpreter edit.",
+  "entries": null
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "Fact vocabulary exists as paths inside evaluation. Absent is a state, not an omitted key.",
+  "fields": null
+ },
+ "ambiguities": {
+  "$source_field_name": "readings",
+  "entries": [
+   {
+    "id": "G1",
+    "clause_id": "gxs/card-terms/C/4.7/inform-immediately",
+    "question": "Is the four-step in-app path on the refund-help page `the manner specified` in Section C clause 4.7?",
+    "competing_readings": [
+     {
+      "reading": "Yes: the help page is the specified manner for a GXS Credit Card unauthorised-transaction dispute",
+      "basis": "The help page is titled as the refund request for unauthorised transactions on the GXS Credit Card and names one in-app path."
+     },
+     {
+      "reading": "Not established: 4.7 says `in the manner specified` and does not name the help page or the four steps",
+      "basis": "The terms page and the help page are different pins. 4.7 does not cite the help article."
+     }
+    ],
+    "textual_basis": "C 4.7: `in the manner specified`. Help page: `You may raise a dispute for unauthorised transactions directly through the GXS Bank app` plus four steps.",
+    "materiality": "Decides whether using a channel other than the four-step path satisfies 4.7's inform duty.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "G2",
+    "clause_id": "gxs/card-terms/C/4.7/inform-immediately",
+    "question": "What duration is `immediately`?",
+    "competing_readings": [
+     {
+      "reading": "A judgment with no numeric limit on this page",
+      "basis": "4.7 uses `immediately` and does not state a calendar count."
+     },
+     {
+      "reading": "Read against other notice periods on the same terms page",
+      "basis": "Other clauses on the same page state 7 days and 30 calendar days. 4.7 does not incorporate them by number."
+     }
+    ],
+    "textual_basis": "C 4.7 `must inform us immediately`. The encode does not pull those other periods into 4.7.",
+    "materiality": "Clock start for the only inform duty this encode takes from 4.7.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "G3",
+    "clause_id": "gxs/card-terms/C/4.7/credit-permission",
+    "question": "Does `We may credit` become a duty once investigations complete?",
+    "competing_readings": [
+     {
+      "reading": "No: the verb is `may`, and the timing limb is `or at such time as we may determine`",
+      "basis": "The sentence is a permission plus a residual discretion, not a `must`."
+     },
+     {
+      "reading": "Yes after investigations, the credit is the ordinary sequel",
+      "basis": "The sentence pairs informing a dispute with a credit of the disputed amount."
+     }
+    ],
+    "textual_basis": "C 4.7: `We may credit your FlexiCard with the amount of the disputed transaction after completing our investigations or at such time as we may determine in accordance with our usual practices.`",
+    "materiality": "Whether this notice states a credit duty. It is not resolved here. GXS policy is not authored.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "G4",
+    "clause_id": "gxs/card-terms/C/4.7/credit-permission",
+    "question": "What are `our usual practices`?",
+    "competing_readings": [
+     {
+      "reading": "An ungrounded term: the page gives no practices",
+      "basis": "The phrase appears once; no list or link follows."
+     }
+    ],
+    "textual_basis": "C 4.7 `in accordance with our usual practices`.",
+    "materiality": "The residual timing limb cannot be evaluated from these pins.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": null,
+ "undefined_terms": null,
+ "waiting": {
+  "values": ["fact", "judgment", "meaning", "clause", "none"],
+  "priority": ["meaning", "fact", "judgment", "clause"],
+  "absence_result_tokens": {
+   "not_assessed": "judgment",
+   "no_end_event": "fact",
+   "missing_operand": "fact",
+   "no_candidate": "fact",
+   "undetermined": "$composite"
+  },
+  "unsupplied_argument_probes": ["field_present", "all_present", "any_present"],
+  "non_absence_result_tokens": [
+   "within", "exceeded", "not_yet_due", "overdue", "out_of_order",
+   "present", "absent", "all_present", "some_absent", "one_present", "none_present",
+   "member", "not_member", "all_members", "some_not_member",
+   "clear", "prohibited_present", "floor_met", "floor_not_met", "met", "not_met",
+   "satisfied", "breached", "outstanding", "not_applicable",
+   "before", "after", "simultaneous", "equal", "not_equal", "incomparable_currency"
+  ],
+  "decided_overrides": { "not_applicable": "none" },
+  "by_emitter": {
+   "emit": "computed",
+   "decision_table": "computed",
+   "ungrounded": "computed",
+   "no_result": "none",
+   "awaiting": "judgment",
+   "assessment": "judgment",
+   "adoption": "none",
+   "rejection": "none"
+  }
+ },
+ "lanes": {
+  "lanes": ["engine", "agent", "panel", "person"],
+  "lookup": {
+   "CONDITIONAL": { "lane": "engine" },
+   "DERIVED": { "lane": "engine" },
+   "EVIDENTIAL": { "lane": "engine" },
+   "JUDGMENT": { "lane": "person" },
+   "MECHANICAL": { "lane": "engine" }
+  }
+ },
+ "ungrounded_terms": null,
+ "bindings": {},
+ "clauses": [
+  {
+   "id": "gxs/card-terms/C/4.7/inform-immediately",
+   "source_locator": "https://www.gxs.com.sg/card-terms Section C (GXS FlexiCard) heading 4 Your Obligations, HTML byte offset 125393, element `<strong>4.7</strong>`",
+   "text": "If you dispute any transaction, you must inform us immediately in the manner specified.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The inform limb is a stated requirement. `immediately` and `the manner specified` are registered as G1 and G2 and are not resolved here.",
+   "in_force_from": "2025-11-06",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [{ "op": "fact", "path": "dispute.informed_at" }]
+    },
+    "note": {
+     "op": "const",
+     "value": "Presence of a dispute notice. G1 (manner) and G2 (immediately) are not resolved."
+    }
+   }
+  },
+  {
+   "id": "gxs/card-terms/C/4.7/credit-permission",
+   "source_locator": "https://www.gxs.com.sg/card-terms Section C (GXS FlexiCard) heading 4 Your Obligations, HTML byte offset 125495, same `<strong>4.7</strong>` paragraph",
+   "text": "We may credit your FlexiCard with the amount of the disputed transaction after completing our investigations or at such time as we may determine in accordance with our usual practices.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The verb on the page is `may`. This clause records that stance. It does not author a credit duty.",
+   "in_force_from": "2025-11-06",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "member_of_enumeration",
+     "args": [
+      { "op": "fact", "path": "notice.credit.stance" },
+      { "op": "const", "value": ["may"] }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "The notice's credit verb is `may`. G3 and G4 are not resolved. GXS policy is not authored."
+    }
+   }
+  },
+  {
+   "id": "gxs/help/unauthorised-refund/in-app-path",
+   "source_locator": "https://help.gxs.com.sg/?title=GXS_FlexiCredit%2FGXS_Credit_Card%2FSecurity_%26_Fraud%2FHow_can_I_request_a_refund_for_unauthorised_transactions_on_my_GXS_Credit_Card%3F article body; title `How can I request a refund for unauthorised transactions on my GXS Credit Card?`",
+   "text": "You may raise a dispute for unauthorised transactions directly through the GXS Bank app. Navigate to the FlexiCredit tile; Select the specific transaction; Tap 'Get Help'; Choose 'Raising a card transaction dispute'.",
+   "text_language": "en",
+   "assertion": null,
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The help page states one four-step path. It does not state a credit duty and does not cite the SRF.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "all_present",
+     "args": [
+      {
+       "op": "list",
+       "items": [
+        { "op": "fact", "path": "help.path.flexicredit_tile" },
+        { "op": "fact", "path": "help.path.specific_transaction" },
+        { "op": "fact", "path": "help.path.get_help" },
+        { "op": "fact", "path": "help.path.raising_card_transaction_dispute" }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "gxs/notice/srf-citation",
+   "source_locator": "both pins, full retrieved bodies. Search: Shared Responsibility Framework, SRF, srf-register-accepted-v1. Zero matches.",
+   "text": "These two notices do not cite the MAS Shared Responsibility Framework.",
+   "text_language": "en",
+   "assertion": "WIRED absence. The missing citation is the gap. It is not filled in.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Citation is a presence question over the pinned bytes. The fact path is unsupplied because the notices do not cite. Encoding this clause as `present` is the failing mutant the completeness gate shows first.",
+   "in_force_from": null,
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "field_present",
+     "args": [{ "op": "fact", "path": "notice.citations.srf" }]
+    },
+    "note": {
+     "op": "const",
+     "value": "WIRED absence of a citation of srf-register-accepted-v1. Do not fill it in. Pairing is by reference only."
+    }
+   }
+  }
+ ]
+}
