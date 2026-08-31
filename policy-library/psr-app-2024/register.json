@@ -1,0 +1,4671 @@
+{
+ "$note": "A clause register that an interpreter evaluates. Assembled by _phase0/build-register.mjs from the domain's published registers plus evaluation.json. Do not edit by hand.",
+ "register_version": "0.1.0",
+ "domain": "psrapp",
+ "source": {
+  "$schema_note": "Clause register for the PSR’s mandatory APP reimbursement requirement over Faster Payments: Specific Requirement 1 (July 2024) and its value notices (maximum level, September 2024; maximum excess, December 2023), the Consumer Standard of Caution Exception (December 2023), and Specific Direction 20 (July 2024), pinned by digest with environment-read retrieval instants (SOURCES.md, source/SHA256SUMS, source/RETRIEVAL-MANIFEST.txt). Every clause text is a whitespace-normalised substring of the stored text extractions (check-verbatim.mjs over the concatenation, with the page-image PDFs stored beside them). Locators are the instruments’ own paragraph numbers. Ambiguities are registered in ambiguities.json WITH evaluated readings and never wired. The Pay.UK FPS Reimbursement Rules (Schedule 4 v3.0) and the CHAPS documents are pinned context, not clause sources. NO BANK IS NAMED ANYWHERE IN THIS REGISTER.",
+  "decomposition_note": null
+ },
+ "dispositions": {
+  "$declared_in_source_register": "MECHANICAL, JUDGMENT, CONDITIONAL, DERIVED, DEFINITIONAL, INSTRUCTION, EVIDENTIAL, as _interpreter/register.schema.json declares them. One EVIDENTIAL clause: CSoC 1.6 allocates the demonstration burden to the sending PSP.",
+  "with_result_domain": [
+   "MECHANICAL",
+   "JUDGMENT",
+   "CONDITIONAL",
+   "DERIVED",
+   "EVIDENTIAL"
+  ],
+  "no_result_emission": {
+   "$note": "DECLARED PER DISPOSITION, NOT PER CLAUSE.",
+   "DEFINITIONAL": {
+    "no_result": {
+     "op": "const",
+     "value": "DEFINITIONAL"
+    },
+    "supplies": {
+     "op": "coalesce",
+     "value": {
+      "op": "clause_field",
+      "name": "operative_weight"
+     },
+     "fallback": {
+      "op": "const",
+      "value": "a meaning other clauses consume"
+     }
+    }
+   },
+   "INSTRUCTION": {
+    "refused": {
+     "op": "const",
+     "value": "INSTRUCTION"
+    },
+    "why": {
+     "op": "const",
+     "value": "directs an act; no fact of the claim makes it true or false, so it has no result domain"
+    }
+   }
+  }
+ },
+ "primitives": {
+  "$state": "NOT_FOUND: psr-app-2024 carries no primitives.json. Looked, and there is no primitive register for this domain to derive from.",
+  "entries": null
+ },
+ "facts": {
+  "version": "0.1.0",
+  "$state": "derived from the domain fact register",
+  "fields": [
+   {
+    "field": "payment.executed_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/sd20/3.2/implementation-date"
+    ],
+    "note": "The (first) payment’s execution instant; the implementation-date comparison (UK civil time)."
+   },
+   {
+    "field": "payment.final_executed_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/4.7/time-bar"
+    ],
+    "note": "The FINAL payment of the claim; the 13-month anchor (SR1 4.7). Equal to payment.executed_at for a single payment."
+   },
+   {
+    "field": "payment.scheme",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "faster_payments",
+      "chaps",
+      "bacs",
+      "card_payment",
+      "international_transfer"
+     ]
+    },
+    "read_by": [
+     "psr-app/scope/fps-executed"
+    ],
+    "note": "faster_payments is the one in-scope member; chaps belongs to the SD21 parallel (T-07)."
+   },
+   {
+    "field": "scam.payment_authorised_by_consumer",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/scope/authorised"
+    ],
+    "note": "Explicit consent per the 12.4 Authorisation definition; denied means the unauthorised regime (SI 2017/752 reg 76), not this instrument."
+   },
+   {
+    "field": "payment.executed_in_uk",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/scope/uk-execution"
+    ],
+    "note": "T-08: the sending PSP’s execution locus."
+   },
+   {
+    "field": "account.receiving_uk_relevant",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/scope/uk-receiving-account"
+    ],
+    "note": "The receiving account is a UK relevant account (the 12.4 meaning, exclusions included)."
+   },
+   {
+    "field": "account.receiving_controlled_by_consumer",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/scope/uk-receiving-account"
+    ],
+    "note": "Control per the 12.4 definition (access and payment ability; the name alone is not sufficient)."
+   },
+   {
+    "field": "scam.recipient_not_intended",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/scope/intent-mismatch"
+    ]
+   },
+   {
+    "field": "scam.purpose_not_intended",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/scope/intent-mismatch"
+    ]
+   },
+   {
+    "field": "scam.deception_found",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/scope/deception"
+    ],
+    "note": "A fraudulent or dishonest act or course of conduct induced the transfer."
+   },
+   {
+    "field": "claimant.consumer_type",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "individual",
+      "microenterprise",
+      "charity",
+      "large_business",
+      "public_body"
+     ]
+    },
+    "read_by": [
+     "psr-app/scope/consumer-class"
+    ],
+    "note": "The 12.4 three classes plus two the register must be able to refuse."
+   },
+   {
+    "field": "account.sending_category",
+    "domain": {
+     "kind": "enum",
+     "values": [
+      "standard_bank",
+      "credit_union",
+      "municipal_bank",
+      "national_savings_bank",
+      "other"
+     ]
+    },
+    "read_by": [
+     "psr-app/scope/sending-account-relevant"
+    ],
+    "note": "The three excluded provider categories plus two that are not excluded."
+   },
+   {
+    "field": "account.sending_uk_fps_capable",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/scope/sending-account-relevant"
+    ],
+    "note": "UK-held and FPS-capable (the relevant-account affirmative half)."
+   },
+   {
+    "field": "csoc.warnings_regard",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/1.5.a/warnings-regard"
+    ]
+   },
+   {
+    "field": "csoc.prompt_report",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/1.5.b/prompt-report"
+    ],
+    "note": "`promptly` is the assessor’s judgment (T-02); the 13-month longstop is mechanical elsewhere."
+   },
+   {
+    "field": "csoc.info_requests",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/1.5.c/info-requests"
+    ]
+   },
+   {
+    "field": "csoc.police_consent",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/1.5.d/police-consent"
+    ]
+   },
+   {
+    "field": "csoc.gross_negligence_demonstrated",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/1.6/burden"
+    ],
+    "note": "What the SENDING PSP demonstrated (the burden is its, T-03); not an inference from conduct."
+   },
+   {
+    "field": "consumer.vulnerable",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/vulnerability-carve"
+    ],
+    "note": "The FCA fair-treatment meaning, held."
+   },
+   {
+    "field": "consumer.vulnerability_material_impact",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/csoc/vulnerability-carve"
+    ],
+    "note": "Material impact on self-protection (T-10)."
+   },
+   {
+    "field": "claim.victim_party_to_fraud",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/exception/claimant-fraud"
+    ]
+   },
+   {
+    "field": "claim.fraudulent_claim",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/exception/claimant-fraud"
+    ],
+    "note": "Claiming fraudulently or dishonestly to have been defrauded."
+   },
+   {
+    "field": "claim.made_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/4.7/time-bar",
+     "psr-app/5.1/five-day-clock",
+     "psr-app/5.7/close-bound"
+    ],
+    "note": "The 5.3 deemed-made instant; both clocks and the time bar read it."
+   },
+   {
+    "field": "claim.reimbursed_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/5.1/five-day-clock"
+    ],
+    "note": "When reimbursement was made, if it was."
+   },
+   {
+    "field": "claim.closed_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/5.7/close-bound",
+     "psr-app/5.9/written-explanation"
+    ],
+    "note": "When the claim was closed, if it was."
+   },
+   {
+    "field": "claim.value_exceeds_maximum_level",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/4.4/cap"
+    ],
+    "note": "A RECORDED comparison against the notice figure (T-06); the engine computes no amounts."
+   },
+   {
+    "field": "claim.written_explanation_provided",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.9/written-explanation"
+    ]
+   },
+   {
+    "field": "process.stop_the_clock_invoked",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.1/five-day-clock",
+     "psr-app/5.4/stop-the-clock"
+    ]
+   },
+   {
+    "field": "process.stop_grounds_within_5_4",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/5.4/stop-the-clock"
+    ],
+    "note": "Whether the invocation rested on the closed a-e grounds (T-04)."
+   },
+   {
+    "field": "process.receiving_responded_timely",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/5.6/receiving-respond"
+    ],
+    "note": "Timely and accurate response to the information request (SR1 5.6), held."
+   },
+   {
+    "field": "psp.excess_applied",
+    "domain": {
+     "kind": "judgment"
+    },
+    "read_by": [
+     "psr-app/5.20/excess",
+     "psr-app/5.21/excess-vulnerable-bar"
+    ],
+    "note": "The discretionary excess decision, held."
+   },
+   {
+    "field": "allocation.receiving_notified",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.11/notify-receiving"
+    ],
+    "note": "The operator-period is external (T-05); the register tests that notification happened."
+   },
+   {
+    "field": "allocation.split_requested",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.12/fifty-percent"
+    ]
+   },
+   {
+    "field": "allocation.sending_reimbursed_victim",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.12/fifty-percent"
+    ],
+    "note": "The 5.13 gate: the claim on the receiving PSP arises only after reimbursement."
+   },
+   {
+    "field": "allocation.receiving_paid_specified_amount",
+    "domain": {
+     "kind": "boolean"
+    },
+    "read_by": [
+     "psr-app/5.12/fifty-percent"
+    ]
+   },
+   {
+    "field": "psp.terms_amended_at",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/sd20/6.3/terms-deadline"
+    ],
+    "note": "When the relevant contracts were amended; the 9 April 2025 deadline comparison."
+   },
+   {
+    "field": "clock.now",
+    "domain": {
+     "kind": "timestamp"
+    },
+    "read_by": [
+     "psr-app/4.7/time-bar",
+     "psr-app/5.1/five-day-clock",
+     "psr-app/5.7/close-bound"
+    ],
+    "note": "The evaluation instant, supplied as a fact; the register reads no clock."
+   }
+  ]
+ },
+ "ambiguities": {
+  "$source_field_name": "NONE",
+  "entries": [
+   {
+    "id": "T-01",
+    "clause_id": "psr-app/def/business-day",
+    "question": "Does the engine’s weekend-skipping business_days calendar satisfy the instrument’s definition, which also excludes UK bank holidays?",
+    "competing_readings": [
+     {
+      "reading": "Sanctioned approximation",
+      "basis": "The interpreter’s own elapsed_within states that a real deployment substitutes the supervisor’s calendar; the shape is unchanged."
+     },
+     {
+      "reading": "Not the instrument’s calendar",
+      "basis": "12.4 excludes bank holidays in any part of the UK; a claim spanning one gets a different day count."
+     }
+    ],
+    "textual_basis": "SR1 12.4 `Business day` against the engine’s business_days unit.",
+    "materiality": "Decisive for windows spanning a bank holiday: within under one calendar, exceeded under the other.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-02",
+    "clause_id": "psr-app/csoc/1.5.b/prompt-report",
+    "question": "How fast is `promptly`?",
+    "competing_readings": [
+     {
+      "reading": "Assessor’s judgment",
+      "basis": "No period is stated for promptness; only the 13-month longstop is numeric."
+     },
+     {
+      "reading": "The longstop is the standard",
+      "basis": "`in any event, not more than 13 months` could be read as the whole content."
+     }
+    ],
+    "textual_basis": "CSoC 1.5.b.",
+    "materiality": "Decisive for a report inside 13 months but delayed.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-03",
+    "clause_id": "psr-app/csoc/1.6/burden",
+    "question": "What does `gross negligence` require, and what counts as the sending PSP demonstrating it?",
+    "competing_readings": [
+     {
+      "reading": "Held demonstration",
+      "basis": "The instrument defines neither; 1.7 points to PSR guidance; the burden sits on the sending PSP."
+     },
+     {
+      "reading": "Objective conduct test",
+      "basis": "1.5 reads as conduct standards a machine could test limb by limb."
+     }
+    ],
+    "textual_basis": "CSoC 1.6 and 1.7.",
+    "materiality": "Decisive for every CSoC exception: the exception cannot apply without the demonstration.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-04",
+    "clause_id": "psr-app/5.4/stop-the-clock",
+    "question": "Is an invocation’s fit within the a-e grounds mechanical or assessed?",
+    "competing_readings": [
+     {
+      "reading": "Assessed",
+      "basis": "The grounds turn on purpose (`to gather information ... to assess`), which is not a recorded enum."
+     },
+     {
+      "reading": "Mechanical list",
+      "basis": "The list is closed and could be recorded as a ground code."
+     }
+    ],
+    "textual_basis": "SR1 5.4 (as amended: `in at least one of the following circumstances`).",
+    "materiality": "Decisive for whether a stop was valid, which decides which clock governs.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-05",
+    "clause_id": "psr-app/5.11/notify-receiving",
+    "question": "Where do the `notification period` (5.11) and `the reasonable period of time` (5.14) live?",
+    "competing_readings": [
+     {
+      "reading": "Operator-defined, external",
+      "basis": "Both are set by the Faster Payments Operator in the FPS reimbursement rules; the instrument states no number."
+     },
+     {
+      "reading": "Implied reasonableness test",
+      "basis": "A tribunal could read reasonableness directly."
+     }
+    ],
+    "textual_basis": "SR1 5.11 and 5.14.",
+    "materiality": "Decisive for testing lateness of notification or of the 50% payment.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-06",
+    "clause_id": "psr-app/4.4/cap",
+    "question": "Can the cap and excess comparisons be computed here?",
+    "competing_readings": [
+     {
+      "reading": "Recorded comparisons",
+      "basis": "The engine’s primitive set has amounts_equal only: no ordering over amounts exists."
+     },
+     {
+      "reading": "Computable",
+      "basis": "A less-than primitive could be added."
+     }
+    ],
+    "textual_basis": "The notices’ figures against the interpreter’s primitive list.",
+    "materiality": "Decisive for whether the quantum clauses evaluate or carry supplied meaning.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-07",
+    "clause_id": "psr-app/scope/fps-executed",
+    "question": "Is a CHAPS APP payment out of scope of this register, or of the regime?",
+    "competing_readings": [
+     {
+      "reading": "Of this register only",
+      "basis": "SD21 and the Bank’s CHAPS reimbursement rules run the parallel regime with the same maximum (PS25/5 para 7)."
+     },
+     {
+      "reading": "One combined regime",
+      "basis": "PS25/5 consolidates both and could be encoded as one register."
+     }
+    ],
+    "textual_basis": "SD21 title; PS25/5 paras 2.9 and 7.",
+    "materiality": "Decisive for the scheme limb’s meaning: not_member here is not a statement that no duty exists.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-08",
+    "clause_id": "psr-app/scope/uk-execution",
+    "question": "`It is executed by that PSP in the UK`: which PSP, and what execution locus?",
+    "competing_readings": [
+     {
+      "reading": "The sending PSP’s execution",
+      "basis": "`that PSP` refers back to `authorised by a PSP’s consumer`: the consumer’s PSP executes."
+     },
+     {
+      "reading": "Any executing PSP",
+      "basis": "The clause could reach intermediaries."
+     }
+    ],
+    "textual_basis": "SR1 12.4 `FPS APP scam payment` feature 3.",
+    "materiality": "Decisive for payments routed through non-UK infrastructure.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-09",
+    "clause_id": "psr-app/5.1/five-day-clock",
+    "question": "How does the five-day clock compose with multiple stops and resumptions?",
+    "competing_readings": [
+     {
+      "reading": "Not computable from instants alone",
+      "basis": "5.5 pauses at request and resumes at response, any number of times (5.7); the elapsed pause total is not a recorded instant pair."
+     },
+     {
+      "reading": "Computable from a pause ledger",
+      "basis": "A full request/response event list would allow it."
+     }
+    ],
+    "textual_basis": "SR1 5.1, 5.4, 5.5, 5.7.",
+    "materiality": "Decisive for punctuality on any claim with a stop.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-10",
+    "clause_id": "psr-app/csoc/vulnerability-carve",
+    "question": "What is a `material impact` on the ability to self-protect?",
+    "competing_readings": [
+     {
+      "reading": "Assessor’s judgment",
+      "basis": "Neither the exception nor SR1 defines materiality; vulnerability itself takes the FCA guidance meaning."
+     },
+     {
+      "reading": "Any vulnerability suffices",
+      "basis": "The consumer-page gloss drops the materiality limb."
+     }
+    ],
+    "textual_basis": "CSoC 1.6 second sentence; SR1 4.2 and 5.21.",
+    "materiality": "Decisive for the carve-out and the excess bar.",
+    "required_resolution": null,
+    "resolution_key": null
+   },
+   {
+    "id": "T-11",
+    "clause_id": "psr-app/sd20/3.1/outcome",
+    "question": "`must reimburse the victim in full` against the 5.2 formula (cap, excess): which quantifies the duty?",
+    "competing_readings": [
+     {
+      "reading": "5.2 quantifies",
+      "basis": "The required reimbursement amount is defined as full value up to the maximum, less any permitted excess; 4.4 and 5.20 are express carve-outs."
+     },
+     {
+      "reading": "`In full` is literal",
+      "basis": "3.1’s words alone would exclude any excess or cap."
+     }
+    ],
+    "textual_basis": "SD20 3.1 against SR1 4.4, 5.2, 5.20.",
+    "materiality": "Decisive for the meaning of the reimbursable outcome token.",
+    "required_resolution": null,
+    "resolution_key": null
+   }
+  ]
+ },
+ "defined_terms": null,
+ "undefined_terms": null,
+ "waiting": {
+  "$note": "The second axis beside lane: what this run of the clause is waiting on. Computed at emission, per run, never stored. See _interpreter/WAITING-AXIS.md.",
+  "values": [
+   "fact",
+   "judgment",
+   "meaning",
+   "clause",
+   "none"
+  ],
+  "priority": [
+   "meaning",
+   "fact",
+   "judgment",
+   "clause"
+  ],
+  "absence_result_tokens": {
+   "not_assessed": "judgment",
+   "no_end_event": "fact",
+   "missing_operand": "fact",
+   "no_candidate": "fact",
+   "undetermined": "$composite"
+  },
+  "unsupplied_argument_probes": [
+   "field_present",
+   "all_present",
+   "any_present"
+  ],
+  "non_absence_result_tokens": [
+   "within",
+   "exceeded",
+   "not_yet_due",
+   "overdue",
+   "out_of_order",
+   "present",
+   "absent",
+   "all_present",
+   "some_absent",
+   "one_present",
+   "none_present",
+   "member",
+   "not_member",
+   "all_members",
+   "some_not_member",
+   "clear",
+   "prohibited_present",
+   "floor_met",
+   "floor_not_met",
+   "met",
+   "not_met",
+   "satisfied",
+   "breached",
+   "outstanding",
+   "not_applicable",
+   "before",
+   "after",
+   "simultaneous",
+   "equal",
+   "not_equal",
+   "incomparable_currency"
+  ],
+  "decided_overrides": {
+   "not_applicable": "none"
+  },
+  "by_emitter": {
+   "emit": "computed",
+   "decision_table": "computed",
+   "ungrounded": "computed",
+   "no_result": "none",
+   "awaiting": "judgment",
+   "assessment": "judgment",
+   "adoption": "none",
+   "rejection": "none"
+  }
+ },
+ "lanes": {
+  "$note": "Dispositions become data, so the router is a lookup. Named now; NOTHING READS THEM YET. The lookup is total over the dispositions in use, with an explicit no_lane state: a lane names what produces a determination, and a clause that refuses one or supplies a meaning instead has nothing to route.",
+  "lanes": [
+   "engine",
+   "agent",
+   "panel",
+   "person"
+  ],
+  "lookup": {
+   "CONDITIONAL": {
+    "lane": "engine"
+   },
+   "DEFINITIONAL": {
+    "no_lane": "supplies a meaning; produces no determination to route"
+   },
+   "DERIVED": {
+    "lane": "engine"
+   },
+   "EVIDENTIAL": {
+    "lane": "engine"
+   },
+   "INSTRUCTION": {
+    "no_lane": "refuses; produces no determination to route"
+   },
+   "JUDGMENT": {
+    "lane": "person"
+   },
+   "MECHANICAL": {
+    "lane": "engine"
+   }
+  }
+ },
+ "ungrounded_terms": null,
+ "bindings": {},
+ "clauses": [
+  {
+   "id": "psr-app/def/app",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Authorised push payment (APP)`",
+   "text": "Authorised push payment (APP) means a consumer payment initiated by the sending PSP in accordance with an authorisation given by its consumer.",
+   "text_language": "en",
+   "assertion": "An APP is a consumer payment the sending PSP initiates on the consumer’s authorisation.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the payment kind the requirement governs. Tests nothing.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "APP: consumer payment initiated by the sending PSP on the consumer’s authorisation",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/app-scam",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `APP scam`",
+   "text": "APP scam (authorised push payment scam) means where a person uses a fraudulent or dishonest act or course of conduct to manipulate, deceive or persuade a consumer into transferring funds from the consumer’s relevant account to a relevant account not controlled by the consumer, where: o the recipient is not who the consumer intended to pay, or o the payment is not for the purpose the consumer intended",
+   "text_language": "en",
+   "assertion": "The scam definition: deception, transfer to an uncontrolled account, and an intent mismatch on recipient or purpose.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the definition the scope limbs evaluate (psr-app/scope/deception, psr-app/scope/uk-receiving-account, psr-app/scope/intent-mismatch). The avoidance-of-doubt sentence (consumer party to the fraud) is evaluated at psr-app/exception/claimant-fraud.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "APP scam: deception into transferring funds to an uncontrolled relevant account, with the recipient or the purpose not as intended",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/consumer",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Consumer`",
+   "text": "Consumer, for the purposes of this requirement, refers to service users of PSPs. These are individuals, microenterprises (enterprises that employ fewer than ten persons and have either an annual turnover or an annual balance sheet total that does not exceed €2 million) or charities (a body whose annual income is less than £1 million per year and is a charity as defined by the Charities Act 2011, Charities and Trustees Investment (Scotland) Act 2005 or the Charities Act (Northern Ireland) 2008).",
+   "text_language": "en",
+   "assertion": "The three protected consumer classes.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the class the scope limb psr-app/scope/consumer-class evaluates by membership.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "consumer: individual, microenterprise (fewer than ten persons, EUR 2m bounds) or small charity (income under GBP 1m)",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/relevant-account",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Relevant account`",
+   "text": "Relevant account means an account that is provided to a service user, is held in the UK and can send or receive payments using the Faster Payments Scheme, but excludes accounts provided by credit unions, municipal banks and national savings banks.",
+   "text_language": "en",
+   "assertion": "A UK FPS-capable account, with three excluded provider categories.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies what psr-app/scope/sending-account-relevant and psr-app/scope/uk-receiving-account evaluate.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "relevant account: UK-held, FPS-capable; credit union, municipal bank and national savings accounts excluded",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/vulnerable-consumer",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Vulnerable consumer`",
+   "text": "Vulnerable consumer has the same meaning as when the term is used by the FCA in its Guidance for firms on the fair treatment of vulnerable customers 2, namely that a vulnerable consumer is someone who, due to their personal circumstances, is especially susceptible to harm – particularly when a firm is not acting with appropriate levels of care.",
+   "text_language": "en",
+   "assertion": "Vulnerability takes the FCA guidance meaning.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the meaning held as a judgment at psr-app/csoc/vulnerability-carve (T-10). The FCA guidance itself is OUT OF SCOPE: a locator, not encoded.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "vulnerable consumer: the FCA fair-treatment guidance meaning; especially susceptible to harm due to personal circumstances",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/business-day",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Business day`",
+   "text": "Business day, for the purposes of this requirement, means any day (period of 24 hours beginning at midnight) that is not a Saturday or Sunday, or a bank holiday in any part of the United Kingdom.",
+   "text_language": "en",
+   "assertion": "Business days exclude weekends and UK bank holidays.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the calendar the two clocks run on. THE ENGINE’S business_days UNIT SKIPS WEEKENDS ONLY (its own stated substitution point); bank holidays are the sanctioned difference, registered as T-01 and stated wherever a clock result is read.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "business day: not Saturday, Sunday, or a UK bank holiday; the engine approximates by weekend-skipping (T-01)",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/reimbursable-payment",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Reimbursable FPS APP scam payment`",
+   "text": "Reimbursable FPS APP scam payment means an FPS APP scam payment where the consumer standard of caution exception does not apply, the victim is not party to the fraud or claiming fraudulently or dishonestly to have been defrauded and the claim was made within the time limit set out in the reimbursement rules.",
+   "text_language": "en",
+   "assertion": "Reimbursable = scam payment, minus the three exceptions, in that stated order.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "THE INSTRUMENT’S OWN COMPOSITION and its ordering axis: the exception stage (psr-app/exception/any) mirrors this sentence, CSoC first, claimant fraud second, time limit third.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "reimbursable: an FPS APP scam payment with no CSoC exception, no claimant fraud, and a claim within the time limit",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/sending-psp",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Sending PSP`",
+   "text": "Sending PSP means a PSP that provides a relevant account for a consumer, from which the FPS APP scam payment was made.",
+   "text_language": "en",
+   "assertion": "The duty-holder of the reimbursement requirement.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies who holds the core duty. Tests nothing.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/def/receiving-psp",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Receiving PSP`",
+   "text": "Receiving PSP means a PSP providing a relevant account into which APP scam payments are received. Any references to receiving PSP in the singular may also be read in the plural where an FPS APP scam claim includes payments to more than one receiving PSP.",
+   "text_language": "en",
+   "assertion": "The allocation counterparty; plural where several received.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies who pays the 50% share. Tests nothing.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/sd20/3.2/implementation-date",
+   "source_locator": "Specific Direction 20 (July 2024), para 3.2",
+   "text": "The FPS reimbursement requirement applies to all reimbursable FPS APP scam payments executed on or after the implementation date. The implementation date is 7 October 2024.",
+   "text_language": "en",
+   "assertion": "The requirement reaches payments executed on or after 7 October 2024.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "An ordered comparison of the recorded execution instant against 7 October 2024 (UK civil time): in_force on or after, pre_implementation before, missing_operand when no instant is recorded. A pre-implementation payment is outside the requirement (no routing analog exists in this instrument).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "ordered_before",
+      "args": [
+       {
+        "op": "fact",
+        "path": "payment.executed_at"
+       },
+       {
+        "op": "const",
+        "value": "2024-10-07T00:00:00+01:00"
+       }
+      ]
+     },
+     "mapping": {
+      "before": {
+       "op": "const",
+       "value": "pre_implementation"
+      },
+      "after": {
+       "op": "const",
+       "value": "in_force"
+      },
+      "simultaneous": {
+       "op": "const",
+       "value": "in_force"
+      },
+      "missing_operand": {
+       "op": "const",
+       "value": "missing_operand"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "in_force on or after 7 October 2024 (UK civil time); pre_implementation before it, which leaves the requirement (SD20 3.2). missing_operand: no execution instant recorded."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/fps-executed",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, feature 1",
+   "text": "It is executed through the Faster Payments Scheme.",
+   "text_language": "en",
+   "assertion": "The payment ran over Faster Payments.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Membership of the recorded scheme in the one-member class. A CHAPS payment is not_member HERE: Specific Direction 21 creates the parallel CHAPS regime under the Bank of England’s CHAPS reimbursement rules (psr-app/sd21/parallel, T-07); this register encodes the FPS instrument.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "payment.scheme"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "payment.scheme"
+       },
+       {
+        "op": "const",
+        "value": [
+         "faster_payments"
+        ]
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "faster_payments is the one in-scope member; chaps belongs to the SD21 parallel regime (T-07), out of this register, not of the regime."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/authorised",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, feature 2",
+   "text": "It is authorised by a PSP’s consumer.",
+   "text_language": "en",
+   "assertion": "The consumer authorised the payment.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Authorisation (explicit consent, the 12.4 `Authorisation` definition) is the assessor’s recorded judgment; an unauthorised payment belongs to SI 2017/752 regulation 76, a different instrument this register does not read.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "scam.payment_authorised_by_consumer"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "Explicit consent, held (12.4 Authorisation). denied points at the unauthorised regime (SI 2017/752 reg 76), a different instrument."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/uk-execution",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, feature 3",
+   "text": "It is executed by that PSP in the UK.",
+   "text_language": "en",
+   "assertion": "The sending PSP executed the payment in the UK.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "A recorded boolean, presence-guarded (T-08: read as the sending PSP’s execution locus).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "payment.executed_in_uk"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "payment.executed_in_uk"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "met"
+      },
+      "else": {
+       "op": "const",
+       "value": "not_met"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "The sending PSP’s execution locus (T-08); a recorded boolean, presence-guarded."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/uk-receiving-account",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, feature 4",
+   "text": "The payment is received in a relevant account in the UK that is not controlled by the consumer.",
+   "text_language": "en",
+   "assertion": "Received into a UK relevant account outside the consumer’s control.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Two parts: the receiving account is a UK relevant account (recorded boolean, the psr-app/def/relevant-account meaning) and is NOT controlled by the consumer (a held judgment; `Account controlled by the consumer` is defined at 12.4 and name alone does not decide it). One affirmative failure decides not_met.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "guard_on_unresolved",
+         "usable": {
+          "op": "eq",
+          "left": {
+           "op": "primitive",
+           "name": "field_present",
+           "args": [
+            {
+             "op": "fact",
+             "path": "account.receiving_uk_relevant"
+            }
+           ]
+          },
+          "right": {
+           "op": "const",
+           "value": "present"
+          }
+         },
+         "compute": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "account.receiving_uk_relevant"
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "account.receiving_controlled_by_consumer"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "not_met"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "guard_on_unresolved",
+          "usable": {
+           "op": "eq",
+           "left": {
+            "op": "primitive",
+            "name": "field_present",
+            "args": [
+             {
+              "op": "fact",
+              "path": "account.receiving_uk_relevant"
+             }
+            ]
+           },
+           "right": {
+            "op": "const",
+            "value": "present"
+           }
+          },
+          "compute": {
+           "op": "eq",
+           "left": {
+            "op": "fact",
+            "path": "account.receiving_uk_relevant"
+           },
+           "right": {
+            "op": "const",
+            "value": true
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "account.receiving_controlled_by_consumer"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "met"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "A UK relevant account NOT controlled by the consumer (control is held, 12.4). One affirmative failure decides not_met."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/intent-mismatch",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, feature 5",
+   "text": "The payment is not to the recipient the consumer intended, or is not for the purpose the consumer intended.",
+   "text_language": "en",
+   "assertion": "Recipient or purpose was not as intended.",
+   "disposition": "DERIVED",
+   "disposition_basis": "A disjunction over two held judgments: met on either affirmed; not_met needs both denied; else undetermined.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "scam.recipient_not_intended"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "scam.purpose_not_intended"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "met"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "scam.recipient_not_intended"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "scam.purpose_not_intended"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "not_met"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "met on either affirmed mismatch; not_met needs both denied; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/deception",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `APP scam`, opening words",
+   "text": "a person uses a fraudulent or dishonest act or course of conduct to manipulate, deceive or persuade a consumer into transferring funds",
+   "text_language": "en",
+   "assertion": "Deception induced the transfer.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Whether conduct was fraudulent or dishonest and induced the transfer is the assessor’s held judgment.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "scam.deception_found"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "Fraudulent or dishonest inducement, held."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/consumer-class",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Consumer`, the three classes",
+   "text": "These are individuals, microenterprises (enterprises that employ fewer than ten persons and have either an annual turnover or an annual balance sheet total that does not exceed €2 million) or charities",
+   "text_language": "en",
+   "assertion": "The claimant is an individual, microenterprise or charity.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Membership of the recorded claimant type in the closed three; a large business or public body is not_member.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "claimant.consumer_type"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "member_of_enumeration",
+      "args": [
+       {
+        "op": "fact",
+        "path": "claimant.consumer_type"
+       },
+       {
+        "op": "const",
+        "value": [
+         "individual",
+         "microenterprise",
+         "charity"
+        ]
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "The 12.4 three classes; a large business or public body is not_member."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/sending-account-relevant",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `Relevant account`, the exclusion",
+   "text": "excludes accounts provided by credit unions, municipal banks and national savings banks",
+   "text_language": "en",
+   "assertion": "The sending account is not in an excluded provider category.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "The recorded sending-account category tested against the closed three excluded categories: a member is excluded (scope fails affirmatively); not_member with the UK/FPS-capability boolean affirms relevance.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "guard_on_unresolved",
+         "usable": {
+          "op": "eq",
+          "left": {
+           "op": "primitive",
+           "name": "field_present",
+           "args": [
+            {
+             "op": "fact",
+             "path": "account.sending_category"
+            }
+           ]
+          },
+          "right": {
+           "op": "const",
+           "value": "present"
+          }
+         },
+         "compute": {
+          "op": "primitive",
+          "name": "member_of_enumeration",
+          "args": [
+           {
+            "op": "fact",
+            "path": "account.sending_category"
+           },
+           {
+            "op": "const",
+            "value": [
+             "credit_union",
+             "municipal_bank",
+             "national_savings_bank"
+            ]
+           }
+          ]
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": "member"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "guard_on_unresolved",
+         "usable": {
+          "op": "eq",
+          "left": {
+           "op": "primitive",
+           "name": "field_present",
+           "args": [
+            {
+             "op": "fact",
+             "path": "account.sending_uk_fps_capable"
+            }
+           ]
+          },
+          "right": {
+           "op": "const",
+           "value": "present"
+          }
+         },
+         "compute": {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "account.sending_uk_fps_capable"
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "not_met"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "guard_on_unresolved",
+          "usable": {
+           "op": "eq",
+           "left": {
+            "op": "primitive",
+            "name": "field_present",
+            "args": [
+             {
+              "op": "fact",
+              "path": "account.sending_category"
+             }
+            ]
+           },
+           "right": {
+            "op": "const",
+            "value": "present"
+           }
+          },
+          "compute": {
+           "op": "primitive",
+           "name": "member_of_enumeration",
+           "args": [
+            {
+             "op": "fact",
+             "path": "account.sending_category"
+            },
+            {
+             "op": "const",
+             "value": [
+              "credit_union",
+              "municipal_bank",
+              "national_savings_bank"
+             ]
+            }
+           ]
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": "not_member"
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "guard_on_unresolved",
+          "usable": {
+           "op": "eq",
+           "left": {
+            "op": "primitive",
+            "name": "field_present",
+            "args": [
+             {
+              "op": "fact",
+              "path": "account.sending_uk_fps_capable"
+             }
+            ]
+           },
+           "right": {
+            "op": "const",
+            "value": "present"
+           }
+          },
+          "compute": {
+           "op": "eq",
+           "left": {
+            "op": "fact",
+            "path": "account.sending_uk_fps_capable"
+           },
+           "right": {
+            "op": "const",
+            "value": true
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "met"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Excluded-category membership or a failed capability boolean decides not_met; met needs both affirmative."
+    }
+   }
+  },
+  {
+   "id": "psr-app/scope/payment",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, definition `FPS APP scam payment`, chapeau",
+   "text": "FPS APP scam payment, for the purposes of this requirement, means an APP, authorised by a victim as part of an APP scam, that has all the following features:",
+   "text_language": "en",
+   "assertion": "The scope stage: an FPS APP scam payment, or not, or undetermined.",
+   "disposition": "DERIVED",
+   "disposition_basis": "Conjunction of the features and the scam elements, with the implementation date first (a pre-implementation payment leaves the requirement whatever else holds, per SD20 3.2): one affirmative failure is not_a_scam_payment; fps_app_scam_payment needs every limb affirmative; else undetermined.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "clause",
+       "id": "psr-app/sd20/3.2/implementation-date"
+      },
+      "right": {
+       "op": "const",
+       "value": "pre_implementation"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "not_a_scam_payment"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "not",
+       "operand": {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "psr-app/sd20/3.2/implementation-date"
+        },
+        "right": {
+         "op": "const",
+         "value": "missing_operand"
+        }
+       }
+      },
+      "compute": {
+       "op": "cond",
+       "if": {
+        "op": "or",
+        "operands": [
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/fps-executed"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_member"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "primitive",
+            "name": "held_judgment",
+            "args": [
+             {
+              "op": "fact",
+              "path": "scam.payment_authorised_by_consumer"
+             }
+            ]
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": false
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/uk-execution"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_met"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/uk-receiving-account"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_met"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/intent-mismatch"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_met"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "primitive",
+            "name": "held_judgment",
+            "args": [
+             {
+              "op": "fact",
+              "path": "scam.deception_found"
+             }
+            ]
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": false
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/consumer-class"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_member"
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "clause",
+           "id": "psr-app/scope/sending-account-relevant"
+          },
+          "right": {
+           "op": "const",
+           "value": "not_met"
+          }
+         }
+        ]
+       },
+       "then": {
+        "op": "const",
+        "value": "not_a_scam_payment"
+       },
+       "else": {
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "and",
+         "operands": [
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/fps-executed"
+           },
+           "right": {
+            "op": "const",
+            "value": "member"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "primitive",
+             "name": "held_judgment",
+             "args": [
+              {
+               "op": "fact",
+               "path": "scam.payment_authorised_by_consumer"
+              }
+             ]
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": true
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/uk-execution"
+           },
+           "right": {
+            "op": "const",
+            "value": "met"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/uk-receiving-account"
+           },
+           "right": {
+            "op": "const",
+            "value": "met"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/intent-mismatch"
+           },
+           "right": {
+            "op": "const",
+            "value": "met"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "primitive",
+             "name": "held_judgment",
+             "args": [
+              {
+               "op": "fact",
+               "path": "scam.deception_found"
+              }
+             ]
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": true
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/consumer-class"
+           },
+           "right": {
+            "op": "const",
+            "value": "member"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/scope/sending-account-relevant"
+           },
+           "right": {
+            "op": "const",
+            "value": "met"
+           }
+          }
+         ]
+        },
+        "compute": {
+         "op": "const",
+         "value": "fps_app_scam_payment"
+        }
+       }
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "The implementation date first (SD20 3.2: a pre-implementation payment leaves the requirement whatever else holds); an unrecorded date blocks the stage; then one affirmative limb failure decides not_a_scam_payment; fps_app_scam_payment needs every limb affirmative; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/1.5.a/warnings-regard",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.5.a",
+   "text": "Should have regard to any intervention made by their sending PSP and/or by a CNA.",
+   "text_language": "en",
+   "assertion": "The consumer had regard to interventions.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Whether conduct amounted to `regard` is the assessor’s held judgment (affirmed = complied).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "csoc.warnings_regard"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/1.5.b/prompt-report",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.5.b",
+   "text": "Should, upon learning or suspecting that they have fallen victim to an APP scam, report the FPS APP scam claim promptly to their sending PSP and, in any event, not more than 13 months after the date on which the last FPS APP scam payment forming part of that claim was executed.",
+   "text_language": "en",
+   "assertion": "The consumer reported promptly.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "`promptly` is undefined (T-02): a held judgment. The 13-month longstop is the separately mechanical psr-app/4.7/time-bar; this limb holds the promptness assessment.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "csoc.prompt_report"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "`promptly` held (T-02); the longstop is psr-app/4.7/time-bar."
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/1.5.c/info-requests",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.5.c",
+   "text": "Should respond to any reasonable and proportionate requests for information made by their sending PSP for any of the purposes set out in paragraph 5.4 of the specific requirement.",
+   "text_language": "en",
+   "assertion": "The consumer responded to information requests.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Reasonableness and sufficiency of response are held judgments.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "csoc.info_requests"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/1.5.d/police-consent",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.5.d",
+   "text": "Should, after making an FPS APP scam claim, consent to the PSP reporting to the police on the consumer’s behalf or request they report directly the details of an APP scam to a CNA.",
+   "text_language": "en",
+   "assertion": "The consumer consented to or made the police report.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Either limb discharges; a held judgment over the disjunction as recorded.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "csoc.police_consent"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/vulnerability-carve",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.6, second sentence",
+   "text": "This exception does not apply where the consumer is vulnerable, and this had a material impact on their ability to protect themselves from the scam.",
+   "text_language": "en",
+   "assertion": "The vulnerability carve-out: engaged, not engaged, or undetermined.",
+   "disposition": "DERIVED",
+   "disposition_basis": "Two held judgments (vulnerable, T-10 material impact): engaged needs both affirmed; not_engaged on either denied; else undetermined. Engaged, it defeats the CSoC exception (1.6) and bars any claim excess (SR1 5.21).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "consumer.vulnerable"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "consumer.vulnerability_material_impact"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "not_engaged"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "consumer.vulnerable"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "consumer.vulnerability_material_impact"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "engaged"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "engaged needs both affirmed (vulnerable; material impact, T-10); not_engaged on either denied; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/1.6/burden",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), para 1.6, opening words",
+   "text": "The consumer standard of caution exception applies where a sending PSP can demonstrate that a consumer who has made an FPS APP scam claim has, as a result of gross negligence, not complied with one or more of the standards set out at paragraph 1.5 of this document",
+   "text_language": "en",
+   "assertion": "The burden of demonstrating the exception sits on the sending PSP; gross negligence is the bar.",
+   "disposition": "EVIDENTIAL",
+   "disposition_basis": "Allocates the burden: the SENDING PSP must demonstrate both the non-compliance and that it resulted from gross negligence (T-03). The demonstration is a held judgment about what was shown, not an inference from conduct; absent it, the exception cannot apply.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": "allocates the burden of demonstrating gross-negligent non-compliance with the standard to the sending PSP",
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "csoc.gross_negligence_demonstrated"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "What the SENDING PSP demonstrated (the burden is its, T-03); not an inference from conduct."
+    }
+   }
+  },
+  {
+   "id": "psr-app/csoc/exception",
+   "source_locator": "The Consumer Standard of Caution Exception (December 2023), heading and para 1.6",
+   "text": "The consumer standard of caution exception",
+   "text_language": "en",
+   "assertion": "The exception stage: applies, does not apply, or undetermined.",
+   "disposition": "DERIVED",
+   "disposition_basis": "Applies needs: at least one 1.5 limb denied, the sending PSP’s gross-negligence demonstration affirmed (psr-app/csoc/1.6/burden), and the vulnerability carve-out not engaged. Does not apply on: all four limbs affirmed, or the demonstration denied, or the carve-out engaged. Else undetermined. Only affirmative findings decide either way.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "psr-app/csoc/vulnerability-carve"
+        },
+        "right": {
+         "op": "const",
+         "value": "engaged"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "clause",
+          "id": "psr-app/csoc/1.6/burden"
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       },
+       {
+        "op": "and",
+        "operands": [
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "clause",
+            "id": "psr-app/csoc/1.5.a/warnings-regard"
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "clause",
+            "id": "psr-app/csoc/1.5.b/prompt-report"
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "clause",
+            "id": "psr-app/csoc/1.5.c/info-requests"
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "remap_result_domain",
+           "value": {
+            "op": "clause",
+            "id": "psr-app/csoc/1.5.d/police-consent"
+           },
+           "mapping": {
+            "affirmed": {
+             "op": "const",
+             "value": true
+            },
+            "denied": {
+             "op": "const",
+             "value": false
+            },
+            "not_assessed": {
+             "op": "const",
+             "value": "undetermined"
+            },
+            "$unmapped": {
+             "op": "const",
+             "value": "undetermined"
+            }
+           }
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         }
+        ]
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "not_applies"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "or",
+         "operands": [
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "clause",
+             "id": "psr-app/csoc/1.5.a/warnings-regard"
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": false
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "clause",
+             "id": "psr-app/csoc/1.5.b/prompt-report"
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": false
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "clause",
+             "id": "psr-app/csoc/1.5.c/info-requests"
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": false
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "remap_result_domain",
+            "value": {
+             "op": "clause",
+             "id": "psr-app/csoc/1.5.d/police-consent"
+            },
+            "mapping": {
+             "affirmed": {
+              "op": "const",
+              "value": true
+             },
+             "denied": {
+              "op": "const",
+              "value": false
+             },
+             "not_assessed": {
+              "op": "const",
+              "value": "undetermined"
+             },
+             "$unmapped": {
+              "op": "const",
+              "value": "undetermined"
+             }
+            }
+           },
+           "right": {
+            "op": "const",
+            "value": false
+           }
+          }
+         ]
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "clause",
+           "id": "psr-app/csoc/1.6/burden"
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "clause",
+          "id": "psr-app/csoc/vulnerability-carve"
+         },
+         "right": {
+          "op": "const",
+          "value": "not_engaged"
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "applies"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "not_applies on: the carve-out engaged, or the demonstration denied, or all four limbs affirmed. applies needs: a limb affirmatively denied, the demonstration affirmed, and the carve-out affirmatively not engaged. Else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/exception/claimant-fraud",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, `Reimbursable FPS APP scam payment`, second element",
+   "text": "the victim is not party to the fraud or claiming fraudulently or dishonestly to have been defrauded",
+   "text_language": "en",
+   "assertion": "The claimant-fraud exception: engaged on either held finding.",
+   "disposition": "DERIVED",
+   "disposition_basis": "A disjunction over two held judgments (party to the fraud; fraudulent claim): engaged on either affirmed; clear needs both denied; else undetermined.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "or",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "claim.victim_party_to_fraud"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "claim.fraudulent_claim"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       }
+      ]
+     },
+     "then": {
+      "op": "const",
+      "value": "engaged"
+     },
+     "else": {
+      "op": "guard_on_unresolved",
+      "usable": {
+       "op": "and",
+       "operands": [
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "claim.victim_party_to_fraud"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        },
+        {
+         "op": "eq",
+         "left": {
+          "op": "remap_result_domain",
+          "value": {
+           "op": "primitive",
+           "name": "held_judgment",
+           "args": [
+            {
+             "op": "fact",
+             "path": "claim.fraudulent_claim"
+            }
+           ]
+          },
+          "mapping": {
+           "affirmed": {
+            "op": "const",
+            "value": true
+           },
+           "denied": {
+            "op": "const",
+            "value": false
+           },
+           "not_assessed": {
+            "op": "const",
+            "value": "undetermined"
+           },
+           "$unmapped": {
+            "op": "const",
+            "value": "undetermined"
+           }
+          }
+         },
+         "right": {
+          "op": "const",
+          "value": false
+         }
+        }
+       ]
+      },
+      "compute": {
+       "op": "const",
+       "value": "clear"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "engaged on either affirmed; clear needs both denied; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/4.7/time-bar",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 4.7",
+   "text": "PSPs are not required to reimburse an FPS APP scam claim reported more than 13 months after the date of the final FPS APP scam payment of the claim.",
+   "text_language": "en",
+   "assertion": "The 13-month longstop from the final payment.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "elapsed_within over the final payment’s instant and the claim instant, 13 months (the interpreter’s months unit, calendar arithmetic), with the supplied clock: not_barred within, barred beyond; an unmade claim inside the window is an unsettled limb, not a bar.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "elapsed_within",
+      "args": [
+       {
+        "op": "fact",
+        "path": "payment.final_executed_at"
+       },
+       {
+        "op": "fact",
+        "path": "claim.made_at"
+       },
+       {
+        "op": "const",
+        "value": 13
+       },
+       {
+        "op": "const",
+        "value": "months"
+       },
+       {
+        "op": "fact",
+        "path": "clock.now"
+       }
+      ]
+     },
+     "mapping": {
+      "within": {
+       "op": "const",
+       "value": "not_barred"
+      },
+      "exceeded": {
+       "op": "const",
+       "value": "barred"
+      },
+      "overdue": {
+       "op": "const",
+       "value": "barred"
+      },
+      "not_yet_due": {
+       "op": "const",
+       "value": "window_open"
+      },
+      "no_end_event": {
+       "op": "const",
+       "value": "no_end_event"
+      },
+      "out_of_order": {
+       "op": "const",
+       "value": "out_of_order"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "13 months from the FINAL payment (SR1 4.7) to the claim. window_open: no claim yet, window running."
+    }
+   }
+  },
+  {
+   "id": "psr-app/exception/any",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 12.4, `Reimbursable FPS APP scam payment` (the three elements in order)",
+   "text": "where the consumer standard of caution exception does not apply, the victim is not party to the fraud or claiming fraudulently or dishonestly to have been defrauded and the claim was made within the time limit",
+   "text_language": "en",
+   "assertion": "Which exception, if any, defeats reimbursement.",
+   "disposition": "DERIVED",
+   "disposition_basis": "PRECEDENCE, STATED (the definition’s own order, the ordering axis): an applying CSoC exception reports first; then engaged claimant fraud; then the time bar; none_applies needs all three affirmatively clear; else undetermined. One established exception decides whatever the other two would say.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "cond",
+     "if": {
+      "op": "eq",
+      "left": {
+       "op": "clause",
+       "id": "psr-app/csoc/exception"
+      },
+      "right": {
+       "op": "const",
+       "value": "applies"
+      }
+     },
+     "then": {
+      "op": "const",
+      "value": "csoc_applies"
+     },
+     "else": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "clause",
+        "id": "psr-app/exception/claimant-fraud"
+       },
+       "right": {
+        "op": "const",
+        "value": "engaged"
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "claimant_fraud"
+      },
+      "else": {
+       "op": "cond",
+       "if": {
+        "op": "eq",
+        "left": {
+         "op": "clause",
+         "id": "psr-app/4.7/time-bar"
+        },
+        "right": {
+         "op": "const",
+         "value": "barred"
+        }
+       },
+       "then": {
+        "op": "const",
+        "value": "time_barred"
+       },
+       "else": {
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "and",
+         "operands": [
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/csoc/exception"
+           },
+           "right": {
+            "op": "const",
+            "value": "not_applies"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/exception/claimant-fraud"
+           },
+           "right": {
+            "op": "const",
+            "value": "clear"
+           }
+          },
+          {
+           "op": "eq",
+           "left": {
+            "op": "clause",
+            "id": "psr-app/4.7/time-bar"
+           },
+           "right": {
+            "op": "const",
+            "value": "not_barred"
+           }
+          }
+         ]
+        },
+        "compute": {
+         "op": "const",
+         "value": "none_applies"
+        }
+       }
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "PRECEDENCE, STATED (the 12.4 reimbursable definition’s own order): CSoC, then claimant fraud, then the time bar; none_applies needs all three affirmatively clear; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/sd20/3.1/outcome",
+   "source_locator": "Specific Direction 20 (July 2024), para 3.1",
+   "text": "When a victim reports a reimbursable FPS APP scam payment to their sending PSP, the sending PSP must reimburse the victim in full. This is the FPS reimbursement requirement.",
+   "text_language": "en",
+   "assertion": "The requirement’s outcome on a claim: reimbursable, out of scope, defeated by a named exception, time-barred, or undetermined.",
+   "disposition": "DERIVED",
+   "disposition_basis": "A decision table over the scope stage and the exception stage: 3 x 5 = 15 rows, every combination a row, a missing row an error. SIX outcome tokens (PROPOSED, awaiting the vocabulary ruling): out_of_scope, reimbursable, not_reimbursable_csoc, not_reimbursable_claimant_fraud, time_barred, undetermined. `in full` is quantified by SR1 5.2 (up to the maximum level, less any permitted excess; T-11). Only affirmative findings decide; the rows deciding with an undetermined input carry the rule that makes the input moot.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "decision_table",
+    "$from": "clauses.json decision_table on this clause",
+    "inputs": [
+     {
+      "name": "scope",
+      "expr": {
+       "op": "clause",
+       "id": "psr-app/scope/payment"
+      },
+      "declared_domain": [
+       "fps_app_scam_payment",
+       "not_a_scam_payment",
+       "undetermined"
+      ]
+     },
+     {
+      "name": "exceptions",
+      "expr": {
+       "op": "clause",
+       "id": "psr-app/exception/any"
+      },
+      "declared_domain": [
+       "none_applies",
+       "csoc_applies",
+       "claimant_fraud",
+       "time_barred",
+       "undetermined"
+      ]
+     }
+    ],
+    "cross_product": 15,
+    "rows": [
+     {
+      "match": {
+       "scope": "fps_app_scam_payment",
+       "exceptions": "none_applies"
+      },
+      "outcome": "reimbursable",
+      "note": "In scope, no exception: the sending PSP must reimburse the victim in full (SD20 3.1), subject to the quantum provisions (maximum level, any permitted excess: SR1 5.2)."
+     },
+     {
+      "match": {
+       "scope": "fps_app_scam_payment",
+       "exceptions": "csoc_applies"
+      },
+      "outcome": "not_reimbursable_csoc",
+      "note": "The demonstrated consumer-standard-of-caution exception defeats the requirement (SR1 4.2, CSoC 1.6)."
+     },
+     {
+      "match": {
+       "scope": "fps_app_scam_payment",
+       "exceptions": "claimant_fraud"
+      },
+      "outcome": "not_reimbursable_claimant_fraud",
+      "note": "The victim was party to the fraud or claimed fraudulently: not a reimbursable payment (12.4)."
+     },
+     {
+      "match": {
+       "scope": "fps_app_scam_payment",
+       "exceptions": "time_barred"
+      },
+      "outcome": "time_barred",
+      "note": "Reported more than 13 months after the final payment: the PSP is not required to reimburse (SR1 4.7)."
+     },
+     {
+      "match": {
+       "scope": "fps_app_scam_payment",
+       "exceptions": "undetermined"
+      },
+      "outcome": "undetermined"
+     },
+     {
+      "match": {
+       "scope": "not_a_scam_payment",
+       "exceptions": "none_applies"
+      },
+      "outcome": "out_of_scope",
+      "note": "Not an FPS APP scam payment in scope: the requirement does not reach it."
+     },
+     {
+      "match": {
+       "scope": "not_a_scam_payment",
+       "exceptions": "csoc_applies"
+      },
+      "outcome": "out_of_scope",
+      "note": "Not an FPS APP scam payment in scope: the requirement does not reach it."
+     },
+     {
+      "match": {
+       "scope": "not_a_scam_payment",
+       "exceptions": "claimant_fraud"
+      },
+      "outcome": "out_of_scope",
+      "note": "Not an FPS APP scam payment in scope: the requirement does not reach it."
+     },
+     {
+      "match": {
+       "scope": "not_a_scam_payment",
+       "exceptions": "time_barred"
+      },
+      "outcome": "out_of_scope",
+      "note": "Not an FPS APP scam payment in scope: the requirement does not reach it."
+     },
+     {
+      "match": {
+       "scope": "not_a_scam_payment",
+       "exceptions": "undetermined"
+      },
+      "outcome": "out_of_scope",
+      "note": "Not an FPS APP scam payment in scope: the requirement does not reach it.",
+      "$decided_on_absence": "An affirmative scope failure takes the payment outside the requirement (SD20 3.2 and the 12.4 definition); the exception stage is moot."
+     },
+     {
+      "match": {
+       "scope": "undetermined",
+       "exceptions": "none_applies"
+      },
+      "outcome": "undetermined"
+     },
+     {
+      "match": {
+       "scope": "undetermined",
+       "exceptions": "csoc_applies"
+      },
+      "outcome": "undetermined"
+     },
+     {
+      "match": {
+       "scope": "undetermined",
+       "exceptions": "claimant_fraud"
+      },
+      "outcome": "undetermined"
+     },
+     {
+      "match": {
+       "scope": "undetermined",
+       "exceptions": "time_barred"
+      },
+      "outcome": "undetermined"
+     },
+     {
+      "match": {
+       "scope": "undetermined",
+       "exceptions": "undetermined"
+      },
+      "outcome": "undetermined"
+     }
+    ],
+    "subtables": {}
+   }
+  },
+  {
+   "id": "psr-app/notice/max-level",
+   "source_locator": "SR1 Notice of maximum level of reimbursement (September 2024), the three bullets",
+   "text": "The maximum level of reimbursement is set at £85,000.",
+   "text_language": "en",
+   "assertion": "The cap: £85,000 per FPS APP scam claim.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "THE VALUE INSTRUMENT, as retrieved 2026-08-31: £85,000 per claim, set under SR1 4.5; the notice adds that the level will not automatically change in line with other schemes and is kept under review. No amount arithmetic exists in the engine (amounts_equal only, T-06): the figure is carried as supplied meaning and per-claim comparisons are recorded facts.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "maximum level of reimbursement: GBP 85,000 per FPS APP scam claim (notice of September 2024, in force; variation is the PSR’s, by notice under SR1 4.5)",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/4.4/cap",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 4.4",
+   "text": "PSPs are not required to reimburse APP scam victims above the maximum level of reimbursement. The maximum level of reimbursement applies to each FPS APP scam claim.",
+   "text_language": "en",
+   "assertion": "The cap binds per claim.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "Whether the claim’s value exceeds the maximum level is a RECORDED comparison (presence-guarded boolean; the engine computes no amounts, T-06): exceeds -> the excess part is voluntary (4.6, 5.22); within -> the full value is required (5.2).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "claim.value_exceeds_maximum_level"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "cond",
+      "if": {
+       "op": "eq",
+       "left": {
+        "op": "fact",
+        "path": "claim.value_exceeds_maximum_level"
+       },
+       "right": {
+        "op": "const",
+        "value": true
+       }
+      },
+      "then": {
+       "op": "const",
+       "value": "above_maximum"
+      },
+      "else": {
+       "op": "const",
+       "value": "within_maximum"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "A RECORDED comparison against the notice figure (T-06; the engine computes no amounts): above_maximum means the excess part is voluntary (4.6, 5.22)."
+    }
+   }
+  },
+  {
+   "id": "psr-app/4.5/cap-variation",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 4.5",
+   "text": "The PSR sets the maximum level of reimbursement and publishes it on its website. The PSR may amend the maximum level of reimbursement from time to time.",
+   "text_language": "en",
+   "assertion": "The variation mechanism: PSR notice.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies who may move the figure and how: by published notice, not by scheme drift. The September 2024 notice (psr-app/notice/max-level) is the value in force at retrieval.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "the cap varies only by PSR-published notice",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.2/required-amount",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.2",
+   "text": "The amount to be reimbursed by the sending PSP to the victim is to be known as the ‘required reimbursement amount’. The required reimbursement amount is the full value of the FPS APP scam claim up to the maximum level of reimbursement, less any claim excess imposed under paragraph 5.20 of this specific requirement.",
+   "text_language": "en",
+   "assertion": "The quantum formula.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the formula (full value, capped, less permitted excess) that quantifies `in full` (T-11). The register computes no amounts.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "required reimbursement amount: full claim value up to the cap, less any permitted excess",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/notice/max-excess",
+   "source_locator": "SR1 Notice of maximum excess value (December 2023), the bullet",
+   "text": "Sending PSPs may apply an excess up to a maximum of £100 per claim.",
+   "text_language": "en",
+   "assertion": "The permitted excess: up to £100 per claim.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "The value instrument for the excess, set under SR1 5.20. Carried as supplied meaning (T-06).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "maximum claim excess: GBP 100 per claim (notice of December 2023, in force)",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.20/excess",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.20",
+   "text": "Sending PSPs may apply a single claim excess to each FPS APP scam claim, up to the maximum claim excess value set by the PSR and published on its website. Sending PSPs may deduct the amount of any permitted excess from the amount they would otherwise be required to reimburse to the victim.",
+   "text_language": "en",
+   "assertion": "Whether an excess was applied to this claim.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "A discretionary decision (`may apply`), held as recorded; the permitted ceiling is the notice (psr-app/notice/max-excess). Nothing upstream reads it; the vulnerability bar on it is psr-app/5.21/excess-vulnerable-bar.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "psp.excess_applied"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "The discretionary excess decision, held; the ceiling is the December 2023 notice."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.21/excess-vulnerable-bar",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.21",
+   "text": "PSPs may not apply a claim excess if the victim was a vulnerable consumer when they made a reimbursable FPS APP scam payment, and this had a material impact on their ability to protect themselves from the APP scam.",
+   "text_language": "en",
+   "assertion": "No excess against a materially vulnerable victim.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises when an excess was applied (recorded); breached if the vulnerability carve-out is engaged; satisfied if it is affirmatively not engaged; not_applicable when no excess was applied; else undetermined. A CHECKABLE duty, unlike the discretion it polices.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "not",
+      "operand": {
+       "op": "eq",
+       "left": {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "psp.excess_applied"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       },
+       "right": {
+        "op": "const",
+        "value": "undetermined"
+       }
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "remap_result_domain",
+         "value": {
+          "op": "primitive",
+          "name": "held_judgment",
+          "args": [
+           {
+            "op": "fact",
+            "path": "psp.excess_applied"
+           }
+          ]
+         },
+         "mapping": {
+          "affirmed": {
+           "op": "const",
+           "value": true
+          },
+          "denied": {
+           "op": "const",
+           "value": false
+          },
+          "not_assessed": {
+           "op": "const",
+           "value": "undetermined"
+          },
+          "$unmapped": {
+           "op": "const",
+           "value": "undetermined"
+          }
+         }
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "clause",
+         "id": "psr-app/csoc/vulnerability-carve"
+        },
+        "mapping": {
+         "engaged": {
+          "op": "const",
+          "value": false
+         },
+         "not_engaged": {
+          "op": "const",
+          "value": true
+         },
+         "undetermined": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Arises when an excess was applied: breached if the vulnerability carve-out is engaged; satisfied if affirmatively not engaged; not_applicable when no excess was applied; else undetermined."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.22/voluntary",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.22",
+   "text": "Any reimbursement or part of a reimbursement made by a sending PSP other than as required by paragraphs 4.1 to 4.8, 5.1 to 5.9 and 5.20 to 5.21 above is a ‘voluntary reimbursement’.",
+   "text_language": "en",
+   "assertion": "Payments beyond the requirement are voluntary.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the boundary of the requirement: above-cap and late reimbursements sit outside it (4.6, 4.8), and the allocation provisions do not reach them (5.18).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "voluntary reimbursement: anything beyond the required amount, outside the requirement and the 50-50 allocation",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.3/claim-made",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.3",
+   "text": "An FPS APP scam claim is deemed to be made when the victim tells the sending PSP it has happened with details of the FPS APP scam claim, and specifies at least one FPS APP scam payment.",
+   "text_language": "en",
+   "assertion": "When the clocks start.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the instant the recorded claim-made fact captures; both clocks and the time bar read that instant.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "a claim is made when reported with details and at least one payment specified",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.1/five-day-clock",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.1",
+   "text": "The sending PSP must reimburse any reimbursable FPS APP scam payment to the victim within five business days of the victim making an FPS APP scam claim to the sending PSP, unless the sending PSP exercises the ‘stop the clock’ provision set out in paragraph 5.4 of this specific requirement.",
+   "text_language": "en",
+   "assertion": "Five business days to reimburse, absent a stop.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises when no stop-the-clock was invoked (recorded): the window is elapsed_within over claim-made and reimbursement, five business days (weekend-skipping engine calendar, T-01), with the supplied clock. With a stop invoked the five-day measure is not_applicable and the 35-day close bound (psr-app/5.7/close-bound) governs (T-09). Nothing reads this result at the outcome tier: the page-level outcome is entitlement, not punctuality.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "process.stop_the_clock_invoked"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "process.stop_the_clock_invoked"
+        },
+        "right": {
+         "op": "const",
+         "value": false
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "elapsed_within",
+         "args": [
+          {
+           "op": "fact",
+           "path": "claim.made_at"
+          },
+          {
+           "op": "fact",
+           "path": "claim.reimbursed_at"
+          },
+          {
+           "op": "const",
+           "value": 5
+          },
+          {
+           "op": "const",
+           "value": "business_days"
+          },
+          {
+           "op": "fact",
+           "path": "clock.now"
+          }
+         ]
+        },
+        "mapping": {
+         "within": {
+          "op": "const",
+          "value": true
+         },
+         "exceeded": {
+          "op": "const",
+          "value": false
+         },
+         "overdue": {
+          "op": "const",
+          "value": false
+         },
+         "not_yet_due": {
+          "op": "const",
+          "value": "outstanding"
+         },
+         "no_end_event": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "out_of_order": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Arises when no stop was invoked: five business days (weekend-skipping engine calendar, T-01) from claim to reimbursement. not_applicable when a stop was invoked: the 35-day bound governs (T-09). Nothing reads this result at the outcome tier."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.4/stop-the-clock",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.4",
+   "text": "A PSP can only stop the clock if it has asked for information to assess the claim and is waiting for a response in at least one of the following circumstances:",
+   "text_language": "en",
+   "assertion": "A stop must rest on the five listed grounds.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises when a stop was invoked (recorded): whether the invocation rested on grounds within the closed a-e list is a held judgment (T-04); satisfied on affirmed, breached on denied, not_applicable when never invoked.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "process.stop_the_clock_invoked"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "fact",
+         "path": "process.stop_the_clock_invoked"
+        },
+        "right": {
+         "op": "const",
+         "value": true
+        }
+       },
+       {
+        "op": "remap_result_domain",
+        "value": {
+         "op": "primitive",
+         "name": "held_judgment",
+         "args": [
+          {
+           "op": "fact",
+           "path": "process.stop_grounds_within_5_4"
+          }
+         ]
+        },
+        "mapping": {
+         "affirmed": {
+          "op": "const",
+          "value": true
+         },
+         "denied": {
+          "op": "const",
+          "value": false
+         },
+         "not_assessed": {
+          "op": "const",
+          "value": "undetermined"
+         },
+         "$unmapped": {
+          "op": "const",
+          "value": "undetermined"
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Arises when a stop was invoked: whether it rested on the closed a-e grounds is held (T-04); not_applicable when never invoked."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.6/receiving-respond",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.6",
+   "text": "A receiving PSP that receives a request from a sending PSP to provide information in relation to a reported FPS APP scam claim must respond in a timely and accurate manner.",
+   "text_language": "en",
+   "assertion": "The receiving PSP must answer information requests properly.",
+   "disposition": "JUDGMENT",
+   "disposition_basis": "Timeliness and accuracy are held judgments.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "primitive",
+     "name": "held_judgment",
+     "args": [
+      {
+       "op": "fact",
+       "path": "process.receiving_responded_timely"
+      }
+     ]
+    },
+    "note": {
+     "op": "const",
+     "value": "Timeliness and accuracy, held."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.7/close-bound",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.7",
+   "text": "The sending PSP can stop the clock as many times as necessary. However, it must close the claim before the end of the 35th business day following the reporting of the FPS APP scam claim by the victim (or their agent) to the sending PSP.",
+   "text_language": "en",
+   "assertion": "The absolute 35-business-day close bound.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "elapsed_within over claim-made and close, 35 business days (weekend-skipping engine calendar, T-01), with the supplied clock; the bound pauses for nothing.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "elapsed_within",
+      "args": [
+       {
+        "op": "fact",
+        "path": "claim.made_at"
+       },
+       {
+        "op": "fact",
+        "path": "claim.closed_at"
+       },
+       {
+        "op": "const",
+        "value": 35
+       },
+       {
+        "op": "const",
+        "value": "business_days"
+       },
+       {
+        "op": "fact",
+        "path": "clock.now"
+       }
+      ]
+     },
+     "mapping": {
+      "within": {
+       "op": "const",
+       "value": "met"
+      },
+      "exceeded": {
+       "op": "const",
+       "value": "breached"
+      },
+      "overdue": {
+       "op": "const",
+       "value": "breached"
+      },
+      "not_yet_due": {
+       "op": "const",
+       "value": "outstanding"
+      },
+      "no_end_event": {
+       "op": "const",
+       "value": "no_end_event"
+      },
+      "out_of_order": {
+       "op": "const",
+       "value": "out_of_order"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "The absolute 35-business-day close bound (weekend-skipping engine calendar, T-01); pauses for nothing (5.7)."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.9/written-explanation",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.9",
+   "text": "In either case the consumer must be provided with a written explanation of the reasons for the decision before the claim may be closed.",
+   "text_language": "en",
+   "assertion": "A written explanation precedes closure.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "On a recorded closure: satisfied on the recorded explanation boolean, breached on its affirmative absence. WITH NO CLOSURE RECORDED THE DUTY IS UNSETTLED (undetermined), never not_applicable: an omitted instant is not an affirmative openness (the no-default rule applied to the precondition itself).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "claim.closed_at"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "const",
+        "value": true
+       },
+       {
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "fact",
+            "path": "claim.written_explanation_provided"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        "compute": {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "claim.written_explanation_provided"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "On a recorded closure the requirement is the recorded written explanation; with no closure recorded the duty is unsettled (undetermined), never not_applicable: an omitted instant is not an affirmative openness."
+    }
+   }
+  },
+  {
+   "id": "psr-app/sd20/4.1/comply-rules",
+   "source_locator": "Specific Direction 20 (July 2024), para 4.1",
+   "text": "From 7 October 2024, all directed PSPs must comply with the FPS reimbursement rules.",
+   "text_language": "en",
+   "assertion": "Directed PSPs must comply with the scheme rules.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs compliance with the Pay.UK rules as a body; no single fact of a claim makes it true or false. The rules themselves are pinned sources (SOURCES.md).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/sd20/5.1/inform-consumers",
+   "source_locator": "Specific Direction 20 (July 2024), para 5.1, first sentence",
+   "text": "By 7 October 2024 all directed PSPs which are capable of being sending PSPs must have informed their existing consumers of their rights under the FPS reimbursement requirement and reimbursement rules.",
+   "text_language": "en",
+   "assertion": "Consumers must be told their rights, by a stated date.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "A dated communication duty; nothing in a single claim record decides it. THE DATED COMMITMENT the instrument itself carries.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/sd20/6.3/terms-deadline",
+   "source_locator": "Specific Direction 20 (July 2024), para 6.3",
+   "text": "All directed PSPs which are capable of being sending PSPs must amend their relevant contracts as provided for above at the earliest practicable opportunity, including by reference to contractual amendment cycles. In any event this amendment must be effected by 9 April 2025 at the latest.",
+   "text_language": "en",
+   "assertion": "Terms amended by 9 April 2025 at the latest.",
+   "disposition": "MECHANICAL",
+   "disposition_basis": "An ordered comparison of the recorded amendment instant against 9 April 2025: within_deadline before or on it, late after it, missing_operand when unrecorded. Nothing reads the result; a dated commitment, checkable.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "remap_result_domain",
+     "value": {
+      "op": "primitive",
+      "name": "ordered_before",
+      "args": [
+       {
+        "op": "fact",
+        "path": "psp.terms_amended_at"
+       },
+       {
+        "op": "const",
+        "value": "2025-04-10T00:00:00+01:00"
+       }
+      ]
+     },
+     "mapping": {
+      "before": {
+       "op": "const",
+       "value": "within_deadline"
+      },
+      "simultaneous": {
+       "op": "const",
+       "value": "within_deadline"
+      },
+      "after": {
+       "op": "const",
+       "value": "late"
+      },
+      "missing_operand": {
+       "op": "const",
+       "value": "missing_operand"
+      }
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "The 9 April 2025 latest date (SD20 6.3), compared against the recorded amendment instant. Nothing reads the result."
+    }
+   }
+  },
+  {
+   "id": "psr-app/sd20/8.4/records-five-years",
+   "source_locator": "Specific Direction 20 (July 2024), para 8.4.a, opening words",
+   "text": "Collate and retain for a period of at least five years",
+   "text_language": "en",
+   "assertion": "Five-year record retention.",
+   "disposition": "INSTRUCTION",
+   "disposition_basis": "Directs an ongoing records practice; not decidable from one claim record.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.11/notify-receiving",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.11",
+   "text": "When an FPS APP scam claim is reported to the sending PSP, the sending PSP must tell the receiving PSP within the notification period of any FPS APP scam payments made to it as part of that claim, in order to maximise the opportunity for repatriating stolen funds.",
+   "text_language": "en",
+   "assertion": "The sending PSP must notify the receiving PSP.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "On a made claim: the requirement is the recorded notification. THE NOTIFICATION PERIOD IS THE OPERATOR’S, set in the FPS reimbursement rules, not in this instrument (T-05). With no claim instant recorded the duty is unsettled, never not_applicable.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "eq",
+      "left": {
+       "op": "primitive",
+       "name": "field_present",
+       "args": [
+        {
+         "op": "fact",
+         "path": "claim.made_at"
+        }
+       ]
+      },
+      "right": {
+       "op": "const",
+       "value": "present"
+      }
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "const",
+        "value": true
+       },
+       {
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "fact",
+            "path": "allocation.receiving_notified"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        "compute": {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "allocation.receiving_notified"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "On a made claim the requirement is the recorded notification (the period is the Operator’s, T-05); with no claim instant recorded the duty is unsettled, never not_applicable."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.12/fifty-percent",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.12",
+   "text": "If requested by the sending PSP, the receiving PSP must pay the sending PSP 50% of the lower of: a. the amount the sending PSP has paid to the victim that is attributable to any reimburseable APP scam payments made to that receiving PSP b. the required reimbursement amount that is attributable to any reimburseable APP scam payments made to that receiving PSP, if different.",
+   "text_language": "en",
+   "assertion": "The 50-50 split on request.",
+   "disposition": "CONDITIONAL",
+   "disposition_basis": "Arises when the sending PSP has reimbursed and requested (5.13): the requirement is the recorded payment of the specified amount; the 50%-of-the-lower formula is supplied meaning (no amount arithmetic, T-06). The payment window (`the reasonable period of time`, 5.14) is the Operator’s definition, not this instrument’s (T-05).",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null,
+   "evaluate": {
+    "op": "emit",
+    "result": {
+     "op": "guard_on_unresolved",
+     "usable": {
+      "op": "and",
+      "operands": [
+       {
+        "op": "eq",
+        "left": {
+         "op": "primitive",
+         "name": "field_present",
+         "args": [
+          {
+           "op": "fact",
+           "path": "allocation.split_requested"
+          }
+         ]
+        },
+        "right": {
+         "op": "const",
+         "value": "present"
+        }
+       },
+       {
+        "op": "eq",
+        "left": {
+         "op": "primitive",
+         "name": "field_present",
+         "args": [
+          {
+           "op": "fact",
+           "path": "allocation.sending_reimbursed_victim"
+          }
+         ]
+        },
+        "right": {
+         "op": "const",
+         "value": "present"
+        }
+       }
+      ]
+     },
+     "compute": {
+      "op": "primitive",
+      "name": "conditional_requirement",
+      "args": [
+       {
+        "op": "and",
+        "operands": [
+         {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "allocation.split_requested"
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         },
+         {
+          "op": "eq",
+          "left": {
+           "op": "fact",
+           "path": "allocation.sending_reimbursed_victim"
+          },
+          "right": {
+           "op": "const",
+           "value": true
+          }
+         }
+        ]
+       },
+       {
+        "op": "guard_on_unresolved",
+        "usable": {
+         "op": "eq",
+         "left": {
+          "op": "primitive",
+          "name": "field_present",
+          "args": [
+           {
+            "op": "fact",
+            "path": "allocation.receiving_paid_specified_amount"
+           }
+          ]
+         },
+         "right": {
+          "op": "const",
+          "value": "present"
+         }
+        },
+        "compute": {
+         "op": "eq",
+         "left": {
+          "op": "fact",
+          "path": "allocation.receiving_paid_specified_amount"
+         },
+         "right": {
+          "op": "const",
+          "value": true
+         }
+        }
+       }
+      ]
+     }
+    },
+    "note": {
+     "op": "const",
+     "value": "Arises on a request after reimbursement (5.13): the requirement is the recorded payment; the 50%-of-the-lower formula is supplied meaning (T-06) and the window the Operator’s (T-05)."
+    }
+   }
+  },
+  {
+   "id": "psr-app/5.17/repatriation",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.17",
+   "text": "Where a receiving PSP is able to repatriate funds in an FPS APP scam claim and the sending PSP has already reimbursed the victim, the repatriated funds should be apportioned as follows:",
+   "text_language": "en",
+   "assertion": "Repatriated funds split 50-50, remainder to the victim.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the apportionment formula (50% each, capped by the required and specified amounts, remainder to the victim). The register computes no amounts.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "repatriated funds: 50-50 between sending and receiving PSPs up to their stated maxima, any remainder to the victim",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/5.18/voluntary-carve",
+   "source_locator": "SR1 (July 2024), FPS APP scam reimbursement rules, para 5.18, opening words",
+   "text": "Paragraphs 5.12 to 5.17 do not apply to, and the receiving PSP is not liable to pay any amount in relation to:",
+   "text_language": "en",
+   "assertion": "No receiving-PSP share of voluntary payments.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the allocation boundary: voluntary reimbursements and post-closure payments carry no 50% claim.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": null,
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  },
+  {
+   "id": "psr-app/sd21/parallel",
+   "source_locator": "Specific Direction 21 (September 2024), title",
+   "text": "Specific Direction 21 to PSPs participating in CHAPS that provide relevant CHAPS accounts, to reimburse CHAPS APP scam payments and comply with the CHAPS reimbursement rules",
+   "text_language": "en",
+   "assertion": "The CHAPS parallel regime exists under its own direction and rules.",
+   "disposition": "DEFINITIONAL",
+   "disposition_basis": "Supplies the parallel: CHAPS APP payments are governed by SD21 and the Bank of England’s CHAPS reimbursement rules (final text in the CHAPS Reference Manual, not retrieved; the fetched BoE document is the proposed version), with the same £85,000 maximum per PS25/5 para 7. NOT ENCODED HERE (T-07): a CHAPS payment is out of scope of this register, not of the regime.",
+   "in_force_from": "2024-10-07",
+   "depends_on": null,
+   "reads": null,
+   "operative_weight": "CHAPS parallel: SD21 + the Bank’s CHAPS reimbursement rules; same maximum level per PS25/5",
+   "rests_on_ungrounded_term": null,
+   "lane_override": null,
+   "evidential_role": null,
+   "governs": null
+  }
+ ]
+}

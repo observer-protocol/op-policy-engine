@@ -1,0 +1,103 @@
+Specific Requirement 1:
+Faster Payments APP
+Scam Reimbursement Rules
+The Consumer Standard
+of Caution Exception
+December 2023
+Specific Requirement 1: Faster Payments APP Scam Reimbursement Rules
+The Consumer Standard of Caution Exception
+
+
+
+
+1         Consumer Standard
+          of Caution Exception
+1.1       The Payment Systems Regulator (PSR), under Section 55 of the Financial Services
+          (Banking Reform) Act 2013, and through Specific Requirement 1 (Faster Payments APP
+          scam reimbursement rules) (hereafter, ‘the specific requirement’), has put in place
+          obligations on the operator of the Faster Payments Scheme to change the Faster
+          Payments Scheme rules in the ways set out in the specific requirement.
+
+1.2       All references in the specific requirement to the ‘consumer standard of caution exception’
+          are references to the definition of that term within this document.
+
+1.3       The following terms in this document have the meaning defined in paragraph 10.4 of the
+          specific requirement: authorised push payment; APP scam; FPS APP scam payment; FPS
+          APP scam claim; consumer; payment service provider (PSP); sending PSP; reimbursable
+          FPS APP scam payment; and vulnerable consumer.
+
+1.4       The term ‘competent national authority’ (CNA) means:
+
+            a. Any Police Force within the meaning of the Police Act 1996
+            b. The Police Service of Scotland as defined by the Police and Fire Reform (Scotland)
+               Act 2012
+            c. The Police Service of Northern Ireland as defined by the Police (Northern Ireland)
+               Act 2000
+            d. The National Crime Agency, as defined by the Crime and Courts Act 2013
+            e. Any other authority identified by the PSR through guidance issued under Section 96
+               of the Financial Services (Banking Reform) Act 2013.
+
+
+          The consumer standard of caution
+1.5       A sending PSP, in assessing whether an FPS APP scam payment is a reimbursable FPS
+          APP scam payment, may expect that the consumer:
+
+            a. Should have regard to any intervention made by their sending PSP and/or by a CNA.
+            b. Should, upon learning or suspecting that they have fallen victim to an APP scam,
+               report the FPS APP scam claim promptly to their sending PSP and, in any event,
+               not more than 13 months after the date on which the last FPS APP scam payment
+               forming part of that claim was executed.
+            c. Should respond to any reasonable and proportionate requests for information
+               made by their sending PSP for any of the purposes set out in paragraph 5.4 of
+               the specific requirement.
+            d. Should, after making an FPS APP scam claim, consent to the PSP reporting to
+               the police on the consumer’s behalf or request they report directly the details of
+               an APP scam to a CNA.
+
+
+
+
+Payment Systems Regulator                          December 2023                                       2
+Specific Requirement 1: Faster Payments APP Scam Reimbursement Rules
+The Consumer Standard of Caution Exception
+
+
+
+
+          The consumer standard of caution exception
+1.6       The consumer standard of caution exception applies where a sending PSP can
+          demonstrate that a consumer who has made an FPS APP scam claim has, as a result of
+          gross negligence, not complied with one or more of the standards set out at paragraph 1.5
+          of this document (the consumer standard of caution). This exception does not apply where
+          the consumer is vulnerable, and this had a material impact on their ability to protect
+          themselves from the scam.
+
+1.7       A sending PSP, in seeking to demonstrate that a customer falls within paragraph 1.6 of
+          this document, must have regard to any guidance published by the PSR on the application
+          of this exception.
+
+
+          Commencement and Duration
+1.8       This notice comes into force on 7 October 2024.
+
+1.9       This notice shall continue in force until such time as it is varied or revoked by the PSR.
+
+
+
+
+          Made on 19 December 2023                      Chris Hemsley
+                                                        Managing Director
+                                                        Payment Systems Regulator
+
+
+
+
+Payment Systems Regulator                          December 2023                                       3
+© The Payment Systems Regulator Limited 2023
+12 Endeavour Square
+London E20 1JN
+Telephone: 0300 456 3677
+Website: www.psr.org.uk
+
+All rights reserved
+
