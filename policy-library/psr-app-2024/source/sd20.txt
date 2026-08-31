@@ -1,0 +1,778 @@
+Specific Direction 20 to
+PSPs participating in the
+Faster Payments Scheme that
+provide relevant accounts,
+to reimburse FPS APP scam
+payments and comply with
+the reimbursement rules
+Specific Direction 20 (July 2024) (FPS
+APP scam reimbursement requirement)
+July 2024
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+Specific Direction 20 (July 2024):
+FPS APP scam reimbursement
+requirement
+1          Recitals
+           Whereas:
+
+
+1.1        Authorised push payment (APP) scams happen when a person uses a fraudulent or
+           dishonest course of conduct to manipulate, deceive or persuade someone into sending
+           money to an account outside of their control.
+
+
+1.2        The Financial Services and Markets Act 2023 (FSMA 2023) places a statutory obligation
+           on the Payment Systems Regulator (PSR) to introduce a reimbursement requirement
+           for APP scam payments made over the Faster Payments Scheme by the end of
+           February 2024.
+
+
+1.3        The PSR has decided to implement a policy that requires APP scam victims to be
+           reimbursed by the sending payment service provider (PSP). This is known as the FPS
+           reimbursement requirement.
+
+
+1.4        The PSR has decided to implement this policy by requiring the operator of the Faster
+           Payments Scheme to put the FPS reimbursement requirement into the Faster Payments
+           Scheme rules. The resulting rules will be known as the FPS reimbursement rules.
+
+
+1.5        The PSR has also decided to direct in-scope participants in the Faster Payments Scheme
+           to comply with the FPS reimbursement requirement and the FPS reimbursement rules.
+           This is to ensure that these rules apply to both members and non-members of the Faster
+           Payments Scheme, so that all participants in the Faster Payments Scheme and their
+           consumers are, as far as possible, placed on an equal footing.
+
+
+1.6        The PSR issued the original version of Specific Direction 20 on 19 December 2023. This
+           version of Specific Direction 20 (July 2024) revokes and replaces that version, in order to
+           make the amendments set out in PSR Policy Statement CP24/3: The FPS APP scams
+           reimbursement requirement: compliance and monitoring. These amendments require
+           sending PSPs to amend their terms and conditions and communicate with their consumers
+           about the FPS reimbursement requirement and rules, and to provide information as
+           required for compliance monitoring to the Faster Payments Operator.
+
+
+
+
+Payment Systems Regulator                                July 2024                                       2
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+1.7         The PSR will also specify the information which PSPs must collate, retain, and provide to
+            the Faster Payments Operator for it to undertake its responsibilities under Specific
+            Direction 19. This information will be specified by the PSR in the Compliance Data
+            Reporting Standards (CDRS). PSPs must comply with the requirements of this direction,
+            including the requirement to comply with the provisions of the CDRS.
+
+
+1.8         This Specific Direction 20 (July 2024) is an amended and consolidated version of the
+            original Specific Direction 20. The Schedule of Key Changes to this specific direction sets
+            out the deletions, insertions and amendments to the provisions and definitions. For
+            transparency the PSR has also published a comparite alongside this consolidated direction.
+
+
+
+2           Powers exercised and purpose
+2.1         The Faster Payments Scheme is designated by the Treasury as a regulated payment
+            system under section 43 of Financial Services (Banking Reform) Act 2013 (FSBRA) for
+            the purposes of Part 5 of FSBRA.
+
+
+2.2         The PSR gives this specific direction in accordance with section 54(1) and (2) of FSBRA.
+            In accordance with section 54(3)(c), this direction applies to persons of a specified description.
+
+
+2.3         In making its decision to use its section 54 powers, the PSR had regard to section 62
+            of FSBRA (Duty to consider exercise of powers under the Competition Act 1998).
+
+
+2.4         Under section 72 of FSMA 2023, the PSR must introduce a reimbursement requirement
+            for APP scam payments made over the Faster Payments Scheme. The PSR gives this
+            specific direction to fulfil this duty. It hereby requires all in-scope PSPs to comply with the
+            FPS reimbursement requirement, the FPS reimbursement rules, and any requirements
+            imposed in the CDRS. PSPs must also have regard to any other guidance and / or
+            standards issued by the PSR as regards compliance with the FPS reimbursement
+            requirement.
+
+
+2.5         The PSR gives this specific direction for the reasons and purpose set out in its policy
+            statement PS23/3, Fighting authorised push payment fraud: a new reimbursement
+            requirement (June 2023) 1:
+
+               a. to incentivise the payments industry to invest in fraud prevention, increasing
+                  consumer protections so most victims of APP scams are swiftly reimbursed
+
+               b. to pursue its long-term ambition for the operator of the Faster Payments Scheme
+                  to tackle fraud by improving the Faster Payments Scheme rules
+
+2.6         The PSR also gives this amended and consolidated specific direction for the reasons and
+            purpose set out in its policy statement PS24/3, The Faster Payments APP scams
+            reimbursement requirement: compliance and monitoring (July 2024).
+
+
+1     www.psr.org.uk/publications/policy-statements/ps23-3-fighting-authorised-push-payment-fraud-a-new-
+      reimbursement-requirement/
+
+
+
+Payment Systems Regulator                                July 2024                                               3
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+           Direction
+           NOW the PSR gives the following specific direction to all PSPs participating in the
+           Faster Payments Scheme that provide relevant accounts
+
+
+
+3          The reimbursement requirement
+           The FPS reimbursement requirement
+
+3.1        When a victim reports a reimbursable FPS APP scam payment to their sending PSP, the
+           sending PSP must reimburse the victim in full. This is the FPS reimbursement
+           requirement.
+
+
+           The scope of the FPS reimbursement requirement
+
+3.2        The FPS reimbursement requirement applies to all reimbursable FPS APP scam payments
+           executed on or after the implementation date. The implementation date is 7 October 2024.
+
+
+3.3        The FPS reimbursement requirement applies in line with the exceptions and additional
+           provisions set out at paragraphs 4.2 to 5.23 of Specific Requirement 1 (Faster Payments
+           APP scam reimbursement rules).
+
+
+
+4          Requirement to comply with the FPS
+           reimbursement rules
+4.1        From 7 October 2024, all directed PSPs must comply with the FPS reimbursement rules.
+
+
+
+5          PSPs to inform consumers of their rights
+5.1        By 7 October 2024 all directed PSPs which are capable of being sending PSPs must have
+           informed their existing consumers of their rights under the FPS reimbursement
+           requirement and reimbursement rules. This includes informing consumers of the changes
+           which will be made to their contractual terms and conditions as required by paragraph 6.1.
+
+
+5.2        For the purposes of this specific direction, a directed PSP is capable of being a sending
+           PSP if it:
+
+              a. Provides a relevant account for a consumer
+
+              b. From which it is or will be possible for an FPS APP scam payment to be made
+
+
+
+
+Payment Systems Regulator                                July 2024                                      4
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+5.3        From 7 October 2024 all directed PSPs which are capable of being sending PSPs must
+           have arrangements in place to inform any new consumers of their rights under the FPS
+           reimbursement requirement and reimbursement rules, at the latest by the time they
+           provide those new consumers with their services.
+
+
+5.4        The PSR will publish guidance as to the information which PSPs must provide their
+           consumers under paragraphs 5.1 and 5.3. This guidance may be amended from time to time.
+
+
+5.5        Consumers must be informed in the same manner in which the PSP would notify their
+           consumers of other changes to the way in which they provide their services.
+
+
+
+6           PSPs to amend their terms and conditions
+6.1        All directed PSPs which are capable of being sending PSPs must amend the terms and
+           conditions of their relevant contracts to provide that they will reimburse their consumers as
+           and when required by the FPS reimbursement requirement and FPS reimbursement rules.
+
+
+6.2        A relevant contract is a framework contract between a consumer who holds a relevant
+           account and a directed PSP which is capable of being a sending PSP.
+
+
+6.3        All directed PSPs which are capable of being sending PSPs must amend their relevant
+           contracts as provided for above at the earliest practicable opportunity, including by
+           reference to contractual amendment cycles. In any event this amendment must be
+           effected by 9 April 2025 at the latest.
+
+
+
+7          Indirect access providers to provide information
+           about their indirect PSP customers
+7.1        By 31 March 2024, and annually thereafter, all indirect access providers must give the PSR
+           a complete list of all of their indirect PSP customers for the previous calendar year.
+
+
+7.2        The PSR may specify in guidance additional requirements for the format and content of the
+           list mentioned in paragraph 7.1.
+
+
+7.3        By 30 April 2024, and monthly thereafter, all indirect access providers must give the PSR
+           an update containing any changes to the list they provide under paragraph 7.1. They do not
+           need to provide a report for months where there are no changes since the previous report.
+
+
+7.4        This direction should be read alongside, and interpreted consistently with, any other
+           relevant directions or requirements issued under sections 54 or 55 of FSBRA
+
+
+
+
+Payment Systems Regulator                                July 2024                                         5
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+8          PSP data and information obligations
+           Overarching duties
+
+8.1        All directed PSPs must register with the Faster Payments Operator using the
+           method specified by the Faster Payments Operator in the Faster Payments Scheme rules
+           by 20 August 2024.
+
+
+8.2        Registration requires directed PSPs to provide the information specified by the
+           Faster Payments Operator in its Faster Payments Scheme rules, in the manner established
+           in the Faster Payments Scheme rules.
+
+
+8.3        The obligation at paragraph 8.1 applies as follows:
+
+              a. For directed PSPs participating in the Faster Payments Scheme and that provide
+                 relevant accounts at the time when this direction is given, paragraph 8.1 must be
+                 complied with by 20 August 2024.
+
+              b. For directed PSPs which begin to participate in the Faster Payments Scheme and
+                 provide relevant accounts at any date after this direction is given, and whilst it
+                 continues in force, paragraph 8.1 must be complied with before that PSP sends or
+                 receives live transactions using the Faster Payments Scheme.
+
+8.4        From 7 October 2024, all directed PSPs must
+
+              a. Collate and retain for a period of at least five years
+
+                1. the information identified in the PSR’s CDRS in respect of FPS APP scam claims
+
+                2. any other information relevant to the FPS APP scam claim which is necessary to
+                   enable the Faster Payments Operator to undertake its responsibilities under Specific
+                   Direction 19 and which is specified by the Faster Payments Operator in the Faster
+                   Payments Scheme rules
+
+                3. any information which has been requested by the Faster Payments Operator in
+                   accordance with paragraphs 8.4.d, 8.5 and 8.6.
+
+              b. provide the information specified in the CDRS to the Faster Payments Operator
+
+              c. take appropriate and reasonable steps to assure themselves of the accuracy of any
+                 information provided to the Faster Payments Operator, in the manner required by the
+                 Operator and set out in the Faster Payments Scheme rules, before it is provided to
+                 the Faster Payments Operator
+
+              d. provide timely, complete and accurate responses to reasonable and proportionate
+                 requests for information from the Faster Payments Operator in order to enable it to
+                 undertake its responsibilities under Specific Direction 19 (July 2024)
+
+
+
+
+Payment Systems Regulator                                July 2024                                        6
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+8.5        For the purposes of paragraph 8.4.d the Faster Payments Operator may determine a time
+           frame within which a timely, complete and accurate response must be provided.
+
+
+8.6        A reasonable and proportionate request for information by the Faster Payments Operator is
+           one which:
+
+              a. is made in circumstances where the Faster Payments Operator has reasonable
+                 grounds to suspect that a directed PSP is not compliant, or that there is a reasonable
+                 likelihood that a directed PSP will not be compliant, with a requirement of the FPS
+                 reimbursement rules. The Faster Payments Operator must include its reasoning and
+                 supporting evidence in the request;
+
+              b. is appropriately scoped having regard to the time frame set for the response;
+
+              c. may include, but is not limited to requests that:
+
+                1. enable the Faster Payments Operator to undertake its responsibilities under
+                   Specific Direction 19 (July 2024)
+
+                2. relate to the Faster Payments Operator’s role in monitoring and assuring the
+                   quality, accuracy, completeness and integrity of the data received
+
+                3. enable the Faster Payments Operator to undertake enhanced monitoring in
+                   response to any potential compliance issues identified
+
+8.7        Directed PSPs must ensure that any information collated, retained or provided pursuant to
+           this direction (or any other requirement or direction imposed further to the reimbursement
+           requirement) is retained in a manner which is secure.
+
+
+
+9          PSPs’ reporting obligations
+9.1        All directed PSPs must comply with the reporting requirements specified in this section.
+
+
+9.2        All directed PSPs must comply with the obligations set out in the PSR’s CDRS, as may be
+           amended from time to time.
+
+
+9.3        The PSR will notify in writing the date on which any changes to the CDRS will come into
+           effect. The date will be no sooner than 90 days after the date of notification.
+
+
+           Reporting standard A
+
+9.4        The PSR hereby establishes reporting standard A, pursuant to which information must be
+           collated, retained and provided by sending PSPs to the Faster Payments Operator in
+           accordance with this direction.
+
+
+9.5        The PSR will set out the information which sending PSPs must report to the Faster
+           Payments Operator pursuant to reporting standard A in the CDRS.
+
+
+
+Payment Systems Regulator                                July 2024                                        7
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+9.6        From 7 October 2024 all sending PSPs must collate and retain all information falling within
+           the scope of reporting standard A as required in paragraphs 8.4 – 8.7 of this direction.
+
+
+9.7        All sending PSPs must report to the Faster Payments Operator any information falling
+           within the scope of reporting standard A set out within the CDRS as follows:
+
+              a. Each report must cover all cases closed in the reporting period;
+
+              b. The first report is required to be submitted by 6 January 2025 to cover a reporting
+                 period of 7 October 2024 – 30 November 2024;
+
+              c. Each subsequent report must cover one month (the “reporting period”) ; and
+
+              d. Each subsequent report is due by close of business on the last business day of the
+                 month after each reporting period.
+
+9.8        Directed PSPs must report the information to the Faster Payments Operator under
+           Reporting Standard A using the method set out by the Faster Payments Operator in its
+           Faster Payments Scheme rules, or a reasonable alternative method. The Faster Payments
+           Operator may itself propose a reasonable alternative method. The Faster Payments Operator
+           may refuse to accept an alternative method proposed by a directed PSP if it does not appear
+           to the Faster Payments Operator that the method is reasonable in the circumstances.
+
+
+9.9        A directed PSP which is capable of being a sending PSP must notify the Faster Payments
+           Operator of any reporting period in which it has not received any FPS APP scam claims.
+           This notification must be provided in accordance with paragraphs 9.7.b and d and 9.8.
+
+
+
+10         Application
+10.1       This specific direction applies to all PSPs participating in the Faster Payments Scheme that
+           provide relevant accounts.
+
+
+
+11         Revocation of original Specific Direction 20
+11.1       The original Specific Direction 20, which PSR gave on 19 December 2023, is revoked
+           immediately on the coming into force of this specific direction. It is replaced by this
+           Specific Direction 20 (July 2024), which is a consolidated text including original provisions
+           and amendments as set out in the Schedule of Key Changes
+
+
+
+12         Commencement and duration
+12.1       This specific direction, consolidating changes made to the original Specific Direction 20 and
+           set out in the Schedule of Key Changes, comes into force on 12 July 2024.
+
+
+
+
+Payment Systems Regulator                                July 2024                                         8
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+12.2       Those provisions contained in the original Specific Direction 20 which came into force on
+           19 December 2023 and were not varied or revoked by this consolidated Specific Direction
+           20 (July 2024) continue in force until such time as they are varied or revoked.
+
+
+12.3       This specific direction will continue in force until such time as it is varied or revoked by
+           the PSR.
+
+
+
+13         Citation
+13.1       This direction may be cited as Specific Direction 20 (Faster Payments APP scam
+           reimbursement requirement).
+
+
+
+14         Interpretation
+14.1       The headings and titles used in this specific direction are for convenience and have
+           no legal effect.
+
+
+14.2       The Interpretation Act 1978 applies to this specific direction as if it were an Act
+           of Parliament, except where words and expressions are expressly defined.
+
+
+14.3       References to any statute or statutory provisions must be construed as references
+           to that statute or statutory provision as amended, re-enacted or modified, whether by
+           statute or otherwise.
+
+
+14.4       The following definitions apply in this specific direction:
+
+             • Account controlled by the consumer means a relevant account that a consumer can
+               access and make payments from. It is not sufficient for it to be in the consumer’s name.
+
+             • Authorised push payment (APP) means a consumer payment initiated by the
+               sending PSP in accordance with an authorisation given by its consumer.
+
+             • APP scam (authorised push payment scam) means where a person uses a
+               fraudulent or dishonest act or course of conduct to manipulate, deceive or persuade a
+               consumer into transferring funds from the consumer’s relevant account to a relevant
+               account not controlled by the consumer, where:
+
+                o the recipient is not who the consumer intended to pay, or
+
+                o the payment is not for the purpose the consumer intended
+
+                For the avoidance of doubt, if the consumer is party to the fraud or dishonesty, this is
+                not an APP scam for the purpose of the FPS reimbursement requirement, or the FPS
+                reimbursement rules.
+
+
+
+
+Payment Systems Regulator                                July 2024                                         9
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+             • Authorisation, for the purpose of this direction, in the context of a payment means
+               that the payer has given their explicit consent to:
+
+                o the execution of the payment transaction, or
+
+                o the execution of a series of payment transactions of which that payment
+                  transaction forms part
+
+             • Business day, for the purposes of this requirement, means any day (period of 24
+               hours beginning at midnight) that is not a Saturday or Sunday, or a bank holiday in any
+               part of the United Kingdom.
+
+             • Capable of being a sending PSP means a directed PSP
+
+                o Which provides a relevant account for a consumer (including a prospective
+                  consumer)
+
+                o From which it is or will be possible for an FPS APP scam payment to be made
+
+             • Compliance Data Reporting Standards (CDRS) means the document produced and
+               published by the PSR, as may be amended from time to time, which sets
+               requirements for the specific information which PSPs must collate, retain and provide
+               to the Faster Payments Operator pursuant to obligations imposed by this specific
+               direction and to enable it to fulfil its responsibilities under specific direction 19.
+
+             • Consumer, for the purposes of this direction, refers to service users of PSPs. These
+               are individuals, microenterprises (an enterprise that employs fewer than ten persons
+               and that has either an annual turnover or annual balance sheet total that does not
+               exceed €2 million) or charities (a body whose annual income is less than £1 million
+               per year and is a charity as defined by the Charities Act 2011, Charities and Trustee
+               Investment (Scotland) Act 2005 or the Charities Act (Northern Ireland) 2008).
+
+             • Directed PSP means a PSP participating in the Faster Payments Scheme to which
+               this specific direction applies.
+
+             • Faster Payments Scheme or FPS means the Faster Payments Scheme, a regulated
+               payment system designated by Order from the Treasury on 1 April 2015.
+
+             • FPS APP scam claim means one or more FPS APP scam payments made as part of
+               an APP scam and made to the victim’s PSP.
+
+             • FPS APP scam payment for the purposes of this direction, means an APP, authorised
+               by a victim as part of an APP scam, that has all the following features:
+
+                1. It is executed through the Faster Payments Scheme.
+
+                2. It is authorised by a PSP’s consumer.
+
+                3. It is executed by that PSP in the UK.
+
+
+
+
+Payment Systems Regulator                                July 2024                                       10
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+                4. The payment is received in a relevant account in the UK that is not controlled by
+                   the consumer.
+
+                5. The payment is not to the recipient the consumer intended or is not for the
+                   purpose the consumer intended.
+
+             • FPS reimbursement directory means the list of directed PSPs and their contact details
+               which the Faster Payments Operator maintains for the purposes of managing FPS APP
+               scam claims
+
+             • FPS reimbursement requirement means the obligation conferred on directed PSPs
+               under paragraph 3.1 of this specific direction.
+
+             • FPS reimbursement rules means any rules created as a result of Specific
+               Requirement 1 (Faster Payments APP scam reimbursement rules) imposed on the
+               Faster Payments Operator to create and implement rules on PSPs reimbursing their
+               consumers when they fall victim to APP scams.
+
+             • Faster Payments Scheme rules means all rules created by the Faster Payments
+               Operator which relate to and/or govern the access to and/or participation in the Faster
+               Payments Scheme by PSPs (whether members or non-members)
+
+             • Framework contract means any contract for payment services which governs the
+               future execution of any payments using FPS whether from an existing relevant
+               account or one that may be set up in future
+
+             • Indirect access provider means a PSP with access to the Faster Payments Scheme
+               that has an agreement or arrangements with another person for the purpose of
+               enabling that other person (the ‘indirect PSP customer’) to provide services for the
+               purposes of enabling the transfer of funds using the Faster Payments Scheme or to
+               become a PSP in relation to the Faster Payments Scheme.
+
+             • Information for the purposes of this direction includes any information or data which
+               may be required by either the PSR for the purposes of monitoring compliance with
+               this direction or any other relevant regulatory requirement or the Faster Payments
+               Operator in connection with their responsibilities under specific direction 19.
+
+             • Member of the Faster Payments Scheme means a directly connected settling
+               or directly connected non-settling participant.
+
+             • Notification in writing by the PSR includes by means of publication on the
+               PSR’s website.
+
+             • Operator has the same meaning as under section 42(3) of FSBRA in relation to
+               the Faster Payments Scheme. The term Faster Payments Operator is to be
+               understood accordingly.
+
+             • Participant has the same meaning as under section 42(2) of FSBRA.
+
+             • Payment System has the same meaning as under section 41(1) of FSBRA.
+
+
+
+Payment Systems Regulator                                July 2024                                       11
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+             • Payment Systems Regulator (PSR) is the body corporate established under
+               section 40 of FSBRA.
+
+             • Payment service provider (PSP) has the same meaning as under section 42(5)
+               of FSBRA.
+
+             • Register means providing the information specified by the Faster Payments Operator
+               in the Faster Payments rules as required by paragraphs 8.1 and 8.2 of Specific
+               Direction 20 (July 2024), which may be used to support the creation and maintenance
+               of the FPS reimbursement directory.
+
+             • Reimbursable FPS APP scam payment means an FPS APP scam payment where the
+               consumer standard of caution exception does not apply, the victim is not party to the
+               fraud or claiming fraudulently or dishonestly to have been defrauded and the claim was
+               made within the time limit set out in the reimbursement rules.
+
+             • Relevant account means an account that is provided to a service user, is held in the UK
+               and can send or receive payments using the Faster Payments Scheme, but excludes
+               accounts provided by credit unions, municipal banks and national savings banks.
+
+             • Retain means to keep information for the period specified, in a readily accessible
+               electronic format where possible.
+
+             • Sending PSP means a PSP that provides a relevant account for a consumer,
+               from which one or more FPS APP scam payments were made.
+
+             • Service user means a person who uses a service provided by a payment system
+               and is not a participant in that payment system.
+
+             • Victim means a consumer who has made one or more FPS APP scam payments.
+
+
+
+
+             Made on 12 July 2024                          David Geale
+                                                           Interim Managing Director
+                                                           Payment Systems Regulator
+
+
+
+
+Payment Systems Regulator                                July 2024                                   12
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+           Schedule of Key Changes
+             • Recitals 1.6, 1.7 and 1.8 inserted
+
+             • Wording deleted from paragraph 2.4: and the FPS reimbursement rules
+
+             • Wording inserted into paragraph 2.4: the FPS reimbursement rules, and any
+               requirements imposed in the CDRS. PSPs must also have regard to any other
+               guidance and / or standards issued by the PSR as regards compliance with the FPS
+               reimbursement requirement.
+
+             • New paragraph 2.6 inserted
+
+             • New wording inserted into paragraph 3.2: on or
+
+             • New Section 5 inserted
+
+             • New Section 6 inserted
+
+             • Original Section 5 now Section 7
+
+             • New Section 8 inserted
+
+             • New Section 9 inserted
+
+             • Original Section 6 now Section 10
+
+             • Section 11 inserted
+
+             • Original Section 7 now Section 12, amended as follows:
+
+                o Original paragraph 7.1 (now paragraph 12.1) deleted: This specific direction comes
+                  into force on 19 December 2023
+
+                o New paragraph 12.1 inserted: This specific direction, consolidating changes made
+                  to the original Specific Direction 20 and set out in the Schedule of Key Changes,
+                  comes into force on 12 July 2024.
+
+                o Paragraph 12.2 inserted: Those provisions contained in the original Specific
+                  Direction 20 which came into force on 19 December 2023 and were not varied or
+                  revoked by this consolidated Specific Direction 20 (July 2024) continue in force
+                  until such time as they are varied or revoked.
+
+                o Original paragraph 7.2 now paragraph 12.3
+
+             • Citation amended, now: Specific Direction 20 (July 2024) (Faster Payments APP scam
+               reimbursement requirement).
+
+
+
+
+Payment Systems Regulator                                July 2024                                     13
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+             • New definitions inserted:
+
+                o Business day, for the purposes of this requirement, means any day (period of 24
+                  hours beginning at midnight) that is not a Saturday or Sunday, or a bank holiday in
+                  any part of the United Kingdom.
+
+                o Capable of being a sending PSP means a directed PSP
+
+                      − Which provides a relevant account for a consumer (including a prospective
+                        consumer)
+
+                      − From which it is or will be possible for an FPS APP scam payment to be made
+
+                o Compliance Data Reporting Standards (CDRS) means the document produced
+                  and published by the PSR, as may be amended from time to time, which sets
+                  requirements for the specific information which PSPs must collate, retain and
+                  provide to the Faster Payments Operator pursuant to obligations imposed by this
+                  specific direction and to enable it to fulfil its responsibilities under Specific Direction
+                  19 (July 2024).
+
+                o FPS reimbursement directory means the list of directed PSPs and their contact
+                  details which the Faster Payments Operator maintains for the purposes of
+                  managing FPS APP scam claims
+
+                o Faster Payments Scheme rules means all rules created by the Faster Payments
+                  Operator which relate to and/or govern the access to and/or participation in the
+                  Faster Payments Scheme by PSPs (whether members or non-members)
+
+                o Framework contract means any contract for payment services which governs the
+                  future execution of any payments using FPS whether from an existing relevant
+                  account or one that may be set up in future
+
+                o Information for the purposes of this direction includes any information or data
+                  which may be required by either the PSR for the purposes of monitoring
+                  compliance with this direction or any other relevant regulatory requirement or the
+                  Faster Payments Operator in connection with their responsibilities under specific
+                  direction 19.
+
+                o Notification in writing by the PSR includes by means of publication on the
+                  PSR’s website.
+
+                o Register means providing the information specified by the Faster Payments
+                  Operator in the Faster Payments rules as required by paragraphs 8.1 and 8.2
+                  of Specific Direction 20 (July 2024), which may be used to support the creation
+                  and maintenance of the FPS reimbursement directory..
+
+                o Retain means to keep information for the period specified, in a readily accessible
+                  electronic format where possible.
+
+
+
+
+Payment Systems Regulator                                July 2024                                          14
+Specific Direction 20 (July 2024) (FPS APP scam reimbursement requirement)
+
+
+
+
+Status of directions
+Directions give rise to binding obligations. Breaching a requirement of a direction is a compliance
+failure which makes a party liable to regulatory sanction.
+
+
+
+
+Payment Systems Regulator                                July 2024                                    15
+© The Payment Systems Regulator Limited 2024
+12 Endeavour Square
+London E20 1JN
+Telephone: 0300 456 3677
+Website: www.psr.org.uk
+
+
+All rights reserved
+

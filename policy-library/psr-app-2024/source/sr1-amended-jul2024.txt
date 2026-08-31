@@ -1,0 +1,1039 @@
+Specific Requirement 1 on the
+Faster Payments Operator to
+insert APP scam reimbursement
+rules into the Faster Payments
+Scheme rules
+
+Specific Requirement 1 (July 2024)
+(FPS APP scam reimbursement rules)
+
+
+July 2024
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+           Specific Requirement 1
+           (July 2024): FPS APP scam
+           reimbursement rules
+1          Recitals
+           Whereas:
+
+
+1.1        Authorised push payment (APP) scams happen when a person uses a fraudulent or
+           dishonest course of conduct to manipulate, deceive or persuade someone into sending
+           money to an account outside of their control.
+
+
+1.2        The Financial Services and Markets Act 2023 (FSMA 2023) places a statutory obligation
+           on the Payment Systems Regulator (PSR) to introduce a reimbursement requirement
+           for APP scam payments made over the Faster Payments Scheme by the end of
+           February 2024.
+
+
+1.3        The PSR has decided to implement a policy that requires APP scam victims to be
+           reimbursed by the sending payment service provider (PSP). This is known as the FPS
+           reimbursement requirement.
+
+
+1.4        The PSR has decided to implement this policy by requiring the Faster Payments
+           Operator to put the FPS reimbursement requirement into the Faster Payments Scheme
+           rules. The resulting rules will be known as the FPS reimbursement rules.
+
+
+1.5        The PSR has also decided to direct in-scope participants in the Faster Payments
+           Scheme to comply with the FPS reimbursement rules. This is to ensure that these rules
+           apply to both members and non-members of the Faster Payments Scheme, so that all
+           participants in the Faster Payments Scheme and their consumers are, as far as
+           possible, placed on an equal footing.
+
+
+1.6        The PSR issued the original version of Specific Requirement 1 on 19 December 2023.
+           This version of Specific Requirement 1 (July 2024) revokes and replaces that version, in
+           order to make the amendments set out in PSR Policy Statement CP24/3: The FPS APP
+           scams reimbursement requirement: compliance and monitoring. These amendments
+           clarify certain aspects of the FPS reimbursement rules, and set out clearly those rules
+           the Faster Payments Operator must inform the PSR of changes to in advance.
+
+
+
+
+Payment Systems Regulator                              July 2024                                   2
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+1.7         This Specific Requirement 1 (July 2024) is an amended and consolidated version of the
+            original Specific Requirement 1. The Schedule of Key Changes to this specific requirement
+            sets out the deletions, insertions and amendments to the provisions and definitions. For
+            transparency the PSR has also published a comparite alongside this consolidated
+            requirement. .
+
+
+
+2           Powers exercised and purpose
+2.1         The Faster Payments Scheme is designated by the Treasury as a regulated payment
+            system under section 43 of Financial Services (Banking Reform) Act 2013 (FSBRA) for
+            the purposes of Part 5 of FSBRA.
+
+
+2.2         The PSR imposes this specific requirement in accordance with section 55(1) of FSBRA.
+            In accordance with section 55(2), this requirement applies to a specified person.
+
+
+2.3         Pay.UK is a payment system operator with responsibility for managing and operating
+            the Faster Payments Scheme. This specific requirement refers to the operator of the
+            Faster Payments Scheme as the ‘Faster Payments Operator’.
+
+
+2.4         In making its decision to use its section 55 powers, the PSR had regard to section 62 of
+            FSBRA (Duty to consider exercise of powers under the Competition Act 1998).
+
+
+2.5         Under section 72 of FSMA 2023, the PSR must introduce a reimbursement requirement
+            for APP scam payments made over the Faster Payments Scheme. The PSR imposes
+            this specific requirement to fulfil this duty. It hereby requires the Faster Payments
+            Operator to include a reimbursement requirement for APP scam payments made over
+            FPS in the scheme rules.
+
+
+2.6         The PSR imposes this specific requirement for the reasons and purpose set out in its
+            policy statement PS23/3, Fighting authorised push payment fraud: a new
+            reimbursement requirement (June 2023) 1:
+
+              • to incentivise the payments industry to invest in fraud prevention, increasing
+                consumer protections so most victims of APP scams are swiftly reimbursed
+
+              • to pursue its long-term ambition for the Faster Payments Operator to tackle fraud
+                by improving the Faster Payments Scheme rules
+
+2.7         The PSR also gives this amended and consolidated specific requirement for the reasons
+            and purpose set out in its policy statement PS24/3, The Faster Payments APP scams
+            reimbursement requirement: compliance and monitoring (July 2024).
+
+
+
+
+1     www.psr.org.uk/publications/policy-statements/ps23-3-fighting-authorised-push-payment-fraud-a-new-
+      reimbursement-requirement/
+
+
+
+Payment Systems Regulator                              July 2024                                           3
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+           Requirements
+3          Requirement to change the Faster Payments
+           Scheme rules to introduce the reimbursement
+           requirement for APP scams
+3.1        The PSR requires the Faster Payments Operator to change the Faster Payments
+           Scheme rules by 7 June 2024 (except as otherwise provided for in this specific
+           requirement) in the ways set out in this specific requirement, to achieve the specified
+           purpose of incorporating the reimbursement requirement and additional exceptions
+           and provisions into those rules.
+
+
+3.2        The Faster Payments Operator must implement the rule changes from 7 October 2024.
+
+
+3.3        The Faster Payments Scheme rules must use, refer to and contain definitions of the
+           terms listed below, and the definitions must be taken from the ‘Interpretation’ section
+           of this specific requirement, insofar as that wording is appropriate for the Faster
+           Payments Scheme rule book:
+
+             a. account controlled by the consumer
+
+             b. agent
+
+             c. authorised push payment (APP)
+
+             d. APP scam
+
+             e. FPS APP scam claim
+
+             f. authorisation
+
+             g. business day
+
+             h. consumer
+
+             i. consumer standard of caution exception
+
+             j. Faster Payments Scheme
+
+             k. FPS APP scam payment
+
+             l. FPS reimbursement requirement
+
+             m. FPS reimbursement rules
+
+             n. indirect access provider
+
+
+
+
+Payment Systems Regulator                              July 2024                                     4
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             o. member of the Faster Payments Scheme
+
+             p. operator
+
+             q. payment system
+
+             r. Payment Systems Regulator (PSR)
+
+             s. payment service provider (PSP)
+
+             t. receiving PSP
+
+             u. reimbursable FPS APP scam payment
+
+             v. relevant account
+
+             w. repatriation
+
+             x. service user
+
+             y. sending PSP
+
+             z. victim
+
+             aa. vulnerable consumer
+
+3.4        The Faster Payments Scheme rules must contain reimbursement rules (the FPS
+           reimbursement rules) that produce the outcomes set out in this specific requirement.
+
+
+3.5        The FPS reimbursement rules must apply to all members of the Faster Payments
+           Scheme that provide relevant accounts.
+
+
+3.6        This requirement should be read alongside, and interpreted consistently with, any other
+           relevant directions or requirements issued under sections 54 or 55 of FSBRA.
+
+
+
+4          The FPS reimbursement requirement
+
+           Incorporating the FPS reimbursement requirement into Faster
+           Payments Scheme rules
+
+4.1        The Faster Payments Operator must insert and not alter the FPS reimbursement
+           requirement and its scope as set out in paragraphs 3.1, 3.2 and 3.3 of Specific Direction
+           20 (July 2024) (FPS APP scam reimbursement requirement).
+
+
+
+
+Payment Systems Regulator                              July 2024                                   5
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+           Exceptions to the FPS reimbursement requirement
+
+           The consumer standard of caution exception
+
+4.2        PSPs are not required to reimburse any FPS APP scam payments where the consumer
+           standard of caution exception applies. This exception does not apply if the victim was a
+           vulnerable consumer when they made a FPS APP scam payment and this had a
+           material impact on their ability to protect themselves from the scam.
+
+
+4.3        The PSR sets the consumer standard of caution exception and publishes it on its website.
+           The PSR may amend the consumer standard of caution exception from time to time.
+
+
+           Maximum level of reimbursement
+
+4.4        PSPs are not required to reimburse APP scam victims above the maximum level
+           of reimbursement. The maximum level of reimbursement applies to each FPS APP
+           scam claim.
+
+
+4.5        The PSR sets the maximum level of reimbursement and publishes it on its website.
+           The PSR may amend the maximum level of reimbursement from time to time.
+
+
+4.6        If a sending PSP reimburses its consumer above the maximum level of reimbursement,
+           the part of the reimbursement above the maximum level will be a voluntary
+           reimbursement as described in paragraph 5.22 of this specific requirement.
+
+
+           Time limit for claims
+
+4.7        PSPs are not required to reimburse an FPS APP scam claim reported more than
+           13 months after the date of the final FPS APP scam payment of the claim.
+
+
+4.8        If a sending PSP reimburses a claim reported more than 13 months after the final
+           payment, this will be a voluntary reimbursement as described in paragraph 5.22 of
+           this specific requirement.
+
+
+
+5          Additional provisions to the reimbursement
+           requirement
+
+           Time limit for reimbursement
+
+5.1        The sending PSP must reimburse any reimbursable FPS APP scam payment to the
+           victim within five business days of the victim making an FPS APP scam claim to the
+           sending PSP, unless the sending PSP exercises the ‘stop the clock’ provision set out
+           in paragraph 5.4 of this specific requirement.
+
+
+
+
+Payment Systems Regulator                              July 2024                                      6
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+5.2        The amount to be reimbursed by the sending PSP to the victim is to be known as the
+           ‘required reimbursement amount’. The required reimbursement amount is the full value
+           of the FPS APP scam claim up to the maximum level of reimbursement, less any claim
+           excess imposed under paragraph 5.20 of this specific requirement.
+
+
+5.3        An FPS APP scam claim is deemed to be made when the victim tells the sending PSP it
+           has happened with details of the FPS APP scam claim, and specifies at least one FPS
+           APP scam payment.
+
+
+5.4        The ‘stop the clock’ provision pauses the five business-day reimbursement timescale
+           set out in paragraph 5.1. A PSP can only stop the clock if it has asked for information to
+           assess the claim and is waiting for a response in at least one of the following
+           circumstances:
+
+             a. to gather information from the victim(s) (or their agent) or the receiving PSP to
+                assess whether the claim is a reimbursable FPS APP scam claim
+
+             b. to verify that a claims management company is submitting a legitimate claim – for
+                example, validating that the victim has authorised the company to submit a claim
+
+             c. to gather additional information from a victim to assess their vulnerability
+
+             d. in cases where the sending PSP has evidence of fraud on the part of the person
+                who made the FPS APP scam claim, to gather additional information from the
+                receiving PSP, law enforcement or other relevant parties
+
+             e. for multi-step scams, to gather additional information from the other PSPs involved.
+
+5.5        Where a sending PSP exercises the ‘stop the clock’ provision, the five business-day
+           reimbursement timescale is paused at the point when the sending PSP sends its
+           request for information. The five-day clock resumes as soon as the sending PSP
+           receives a response.
+
+
+5.6        A receiving PSP that receives a request from a sending PSP to provide information in
+           relation to a reported FPS APP scam claim must respond in a timely and accurate manner.
+
+
+5.7        The sending PSP can stop the clock as many times as necessary. However, it must
+           close the claim before the end of the 35th business day following the reporting of the
+           FPS APP scam claim by the victim (or their agent) to the sending PSP.
+
+
+5.8        An FPS APP scam claim may not be closed until it has been assessed by the sending
+           PSP as including one or more reimbursable FPS APP scam payments or not including
+           any reimbursable APP scam payments and either:
+
+              1. the consumer has been reimbursed for any reimbursable FPS APP scam
+                 payments, or
+
+              2. where the assessment has been that the claim did not include any reimbursable
+                 FPS APP scam payments, the claim has been rejected.
+
+
+
+Payment Systems Regulator                              July 2024                                        7
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+5.9        In either case the consumer must be provided with a written explanation of the reasons
+           for the decision before the claim may be closed.
+
+
+5.10       The Faster Payments Operator must include and implement FPS reimbursement rules
+           which achieve the outcomes set out in paragraphs 5.8 and 5.9 by 31 July 2024.
+
+
+           Allocating reimbursement between sending and receiving PSPs
+
+5.11       When an FPS APP scam claim is reported to the sending PSP, the sending PSP must
+           tell the receiving PSP within the notification period of any FPS APP scam payments
+           made to it as part of that claim, in order to maximise the opportunity for repatriating
+           stolen funds. The notification period is to be set by the Faster Payments Operator and
+           included in the FPS reimbursement rules.
+
+
+5.12       If requested by the sending PSP, the receiving PSP must pay the sending PSP 50% of
+           the lower of:
+
+             a. the amount the sending PSP has paid to the victim that is attributable to any
+                reimburseable APP scam payments made to that receiving PSP
+
+             b. the required reimbursement amount that is attributable to any reimburseable APP
+                scam payments made to that receiving PSP, if different.
+
+5.13       The sending PSP may only claim the amount specified in paragraph 5.12 (the ‘specified
+           amount’) from the receiving PSP after the sending PSP has reimbursed the victim.
+
+
+5.14       The receiving PSP must pay the sending PSP the specified amount within the
+           reasonable period of time which is defined by the Faster Payments Operator.
+
+
+5.15       If the sending PSP chooses not to apply the maximum claim excess value
+           (see paragraph 5.20 of this specific requirement), the following provisions apply:
+
+             a. Where there is a single receiving PSP, that receiving PSP may deduct 50% of the
+                maximum claim excess amount from the specified amount.
+
+             b. Where there are two or more receiving PSPs, each may deduct from the specified
+                amount an amount that is calculated as follows:
+
+                  1. 50% of the maximum claim excess amount
+
+                  2. The figure derived under step 1. shall be split between the receiving PSPs in
+                     proportions which equate to the proportionate value of each receiving PSP’s
+                     liability for the reimbursable part of the FPS APP scam claim.
+
+5.16       The proportionate value of each receiving PSP’s liability for the reimburseable part of an
+           FPS APP scam claim shall be calculated in accordance with the method set out by the
+           Faster Payments Operator in the FPS reimbursement rules.
+
+
+
+
+Payment Systems Regulator                              July 2024                                     8
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+5.17       Where a receiving PSP is able to repatriate funds in an FPS APP scam claim and the
+           sending PSP has already reimbursed the victim, the repatriated funds should be
+           apportioned as follows:
+
+             a. 50% each to the sending and receiving PSPs, subject to the following
+                maximum amounts:
+
+                  1. To the sending PSP, the required reimbursement amount, minus the
+                     specified amount.
+
+                  2. To the receiving PSP, the specified amount, not including any amount
+                     deducted under paragraph 5.15.
+
+             b. Any remainder to the victim.
+
+5.18       Paragraphs 5.12 to 5.17 do not apply to, and the receiving PSP is not liable to pay
+           any amount in relation to:
+
+             a. Any voluntary reimbursement (see paragraphs 5.22 and 5.23 of this
+                specific requirement).
+
+             b. Any payment the sending PSP makes to its consumer after it has closed a claim,
+                whether by reimbursement or rejection. This includes any payment made as a
+                result of a court or Alternative Dispute Resolution decision subsequent to the
+                closing of the claim.
+
+5.19       The Faster Payments Operator must include and implement FPS reimbursement rules
+           which achieve the outcomes set out in paragraphs 5.11 to 5.18 by 31 July 2024.
+
+
+           Claim excess
+
+5.20       Sending PSPs may apply a single claim excess to each FPS APP scam claim, up to the
+           maximum claim excess value set by the PSR and published on its website. Sending
+           PSPs may deduct the amount of any permitted excess from the amount they would
+           otherwise be required to reimburse to the victim.
+
+
+5.21       PSPs may not apply a claim excess if the victim was a vulnerable consumer when they
+           made a reimbursable FPS APP scam payment, and this had a material impact on their
+           ability to protect themselves from the APP scam.
+
+
+           Voluntary reimbursement
+
+5.22       Any reimbursement or part of a reimbursement made by a sending PSP other than
+           as required by paragraphs 4.1 to 4.8, 5.1 to 5.9 and 5.20 to 5.21 above is a ‘voluntary
+           reimbursement’.
+
+
+5.23       A voluntary reimbursement is outside the scope of the FPS reimbursement requirement
+           and the FPS reimbursement rules.
+
+
+
+Payment Systems Regulator                              July 2024                                     9
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+6          Requirement to change the Faster Payments
+           Scheme rules to clarify the status of the FPS
+           reimbursement requirement and rules
+6.1        The PSR requires the Faster Payments Operator to include and implement Faster
+           Payments Scheme rules by 9 September 2024 which achieve the following outcomes:
+
+             a. The FPS reimbursement rules are part of the Faster Payments Scheme rules, and
+
+             b. Reimbursement in accordance with the FPS reimbursement requirement and rules
+                is part of the provision of the service of executing in-scope payments over the
+                Faster Payments system to consumers by directed PSPs.
+
+
+7          Notification requirement
+7.1        The PSR will be responsible for the core elements of the policy for the foreseeable
+           future. The Faster Payments Operator is required to include these elements in the
+           Faster Payments Scheme rules but may not make any changes to them.
+
+
+7.2        These core elements are the FPS reimbursement requirement and its scope, as set out
+           in 3.1, 3.2 and 3.3 of Specific Direction 20 (July 2024) (FPS APP scams reimbursement
+           requirement).
+
+
+7.3        The PSR requires the Faster Payments Operator to place all other outcomes (those not
+           fitting into the core elements above) into the Faster Payments Scheme rules as outlined
+           in this specific requirement, and then keep them under review just as with other
+           aspects of the Faster Payments Scheme rules.
+
+
+7.4        The PSR requires the Faster Payments Operator to notify it at least 20 working days in
+           advance of any proposed changes to the FPS reimbursement rules, FPS reimbursement
+           claim management system rule, or any rules included in the Faster Payments Scheme
+           rules as a result of section 6 of this specific requirement. The Faster Payments
+           Operator must send a formal notification before adopting the change. The notification
+           should contain sufficient analysis for the PSR to understand the nature of the change,
+           the reason for it, and its costs and benefits.
+
+
+
+8          Application
+8.1        This specific requirement applies to the Faster Payments Operator.
+
+
+
+
+Payment Systems Regulator                              July 2024                                 10
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+9          Revocation of original Specific Requirement 1
+9.1        The original Specific Requirement 1, which the PSR gave on 19 December 2023, is
+           revoked immediately on the coming into force of this specific requirement. It is replaced
+           by this Specific Requirement 1 (July 2024), which is a consolidated text including
+           original provisions and amendments as set out in the Schedule of Key Changes.
+
+
+
+10         Commencement and duration
+10.1       This specific requirement, consolidating changes made to the original
+           Specific Requirement 1 and set out in the Schedule of Key Changes, comes
+           into force on 12 July 2024.
+
+
+10.2       Those provisions contained in the original Specific Requirement 1 which came
+           into force on 19 December 2023 and are not varied or revoked by this consolidated
+           Specific Requirement 1 (July 2024) continue in force until such time as they are varied
+           or revoked.
+
+
+10.3       This specific requirement shall continue in force until such time as it is varied or revoked
+           by the PSR.
+
+
+
+11         Citation
+11.1       This specific requirement may be cited as Specific Requirement 1 (July 2024)
+           (FPS APP scam reimbursement rules).
+
+
+
+12         Interpretation
+12.1       The headings and titles used in this specific requirement are for convenience and
+           have no legal effect.
+
+
+12.2       The Interpretation Act 1978 applies to this specific requirement as if it were an
+           Act of Parliament, except where words and expressions are expressly defined.
+
+
+12.3       References to any statute or statutory provisions must be construed as references to
+           that statute or statutory provision as amended, re-enacted or modified, whether by
+           statute or otherwise.
+
+
+12.4       The following definitions apply in this specific requirement:
+
+             • Account controlled by the consumer means a relevant account that a consumer
+               can access and make payments from. It is not sufficient for it to be in the
+               consumer’s name.
+
+
+
+Payment Systems Regulator                              July 2024                                     11
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • Agent of the victim includes any claims management company.
+
+             • Authorised push payment (APP) means a consumer payment initiated by the
+               sending PSP in accordance with an authorisation given by its consumer.
+
+             • APP scam (authorised push payment scam) means where a person uses a
+               fraudulent or dishonest act or course of conduct to manipulate, deceive or
+               persuade a consumer into transferring funds from the consumer’s relevant account
+               to a relevant account not controlled by the consumer, where:
+
+                o the recipient is not who the consumer intended to pay, or
+
+                o the payment is not for the purpose the consumer intended
+
+                For the avoidance of doubt, if the consumer is party to the fraud or dishonesty, this
+                is not an APP scam for the purpose of the FPS reimbursement requirement or the
+                FPS reimbursement rules.
+
+             • Authorisation, for the purpose of this requirement, in the context of a payment
+               means that the payer has given their explicit consent to:
+
+                  1. the execution of the payment transaction, or
+
+                  2. the execution of a series of payment transactions of which that payment
+                     transaction forms part
+
+             • Business day, for the purposes of this requirement, means any day (period of 24
+               hours beginning at midnight) that is not a Saturday or Sunday, or a bank holiday in
+               any part of the United Kingdom.
+
+             • Consumer, for the purposes of this requirement, refers to service users of PSPs.
+               These are individuals, microenterprises (enterprises that employ fewer than ten
+               persons and have either an annual turnover or an annual balance sheet total that
+               does not exceed €2 million) or charities (a body whose annual income is less
+               than £1 million per year and is a charity as defined by the Charities Act 2011,
+               Charities and Trustees Investment (Scotland) Act 2005 or the Charities Act
+               (Northern Ireland) 2008).
+
+             • Consumer standard of caution exception is defined by the PSR in its publication:
+               The Consumer Standard of Caution Exception.
+
+             • Directed PSP means a PSP participating in the Faster Payments Scheme to
+               which Specific Direction 20 (July 2024) (FPS APP scams reimbursement
+               requirement) applies.
+
+             • Faster Payments Scheme or FPS means the Faster Payments Scheme, a
+               regulated payment system designated by Order from the Treasury on 1 April 2015.
+
+             • Faster Payments Scheme rules means all rules created by the Faster Payments
+               Operator which relate to and/or govern the access to and/or participation in the
+               Faster Payments Scheme by PSPs (whether members or non-members).
+
+
+
+Payment Systems Regulator                              July 2024                                     12
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • FPS APP scam claim means one or more FPS APP scam payments made as part
+               of an APP scam and made to the victim’s PSP.
+
+             • FPS APP scam payment, for the purposes of this requirement, means an APP,
+               authorised by a victim as part of an APP scam, that has all the following features:
+
+                  1. It is executed through the Faster Payments Scheme.
+
+                  2. It is authorised by a PSP’s consumer.
+
+                  3. It is executed by that PSP in the UK.
+
+                  4. The payment is received in a relevant account in the UK that is not controlled
+                     by the consumer.
+
+                  5. The payment is not to the recipient the consumer intended, or is not for the
+                     purpose the consumer intended.
+
+             • FPS reimbursement claim management system rule means the rule in the
+               Faster Payments Scheme rules which requires the use of the RCMS
+
+             • FPS reimbursement requirement means the obligation conferred on directed
+               PSPs under paragraph 3.1 of Specific Direction 20 (July 2024) (FPS APP scams
+               reimbursement requirement).
+
+             • FPS reimbursement rules means any rules created as a result of this specific
+               requirement, imposed on the Faster Payments operator to create and implement
+               rules on PSPs reimbursing their consumers when they fall victim to APP scams.
+
+             • Indirect access provider means a PSP with access to the Faster Payments
+               Scheme that has an agreement or arrangement with another person for the
+               purpose of enabling that other person (the ‘indirect customer PSP’) to provide
+               services for the purposes of enabling the transfer of funds using the Faster
+               Payments Scheme or to become a PSP in relation to the Faster Payments Scheme.
+
+             • In-scope payment means any payment, authorised by a consumer, that has all the
+               following features:
+
+                  1. It is executed through the Faster Payments Scheme.
+
+                  2. It is authorised by a PSP’s consumer.
+
+                  3. It is executed by that PSP in the UK.
+
+                  4. The payment is received in a relevant account in the UK that is not controlled
+                     by the consumer.
+
+             • Member of the Faster Payments Scheme means a directly connected settling
+               or directly connected non-settling participant.
+
+
+
+
+Payment Systems Regulator                              July 2024                                      13
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • Operator has the same meaning as under section 42(3) of FSBRA in relation to
+               the Faster Payments Scheme. The term Faster Payments operator is to be
+               understood accordingly.
+
+             • Participant has the same meaning as under section 42(2) of FSBRA.
+
+             • Payment system has the same meaning as under section 41(1) of FSBRA.
+
+             • Payment Systems Regulator (PSR) is the body corporate established under
+               section 40 of FSBRA.
+
+             • Payment service provider (PSP) has the same meaning as under section 42(5)
+               of FSBRA.
+
+             • Reimbursement claims management system (RCMS) means the claims
+               management, communication and information reporting IT system which will be
+               provided by the Faster Payments operator for FPS participants to use to
+               communicate, manage claims and report information for FPS APP scam claims
+
+             • Receiving PSP means a PSP providing a relevant account into which APP scam
+               payments are received. Any references to receiving PSP in the singular may also
+               be read in the plural where an FPS APP scam claim includes payments to more
+               than one receiving PSP.
+
+             • Reimbursable FPS APP scam payment means an FPS APP scam payment where
+               the consumer standard of caution exception does not apply, the victim is not party
+               to the fraud or claiming fraudulently or dishonestly to have been defrauded and the
+               claim was made within the time limit set out in the reimbursement rules.
+
+             • Relevant account means an account that is provided to a service user, is held in
+               the UK and can send or receive payments using the Faster Payments Scheme,
+               but excludes accounts provided by credit unions, municipal banks and national
+               savings banks.
+
+             • Repatriation means where a receiving PSP is able to detect, freeze and return
+               funds transferred as part of an FPS APP scam payment.
+
+             • Sending PSP means a PSP that provides a relevant account for a consumer, from
+               which the FPS APP scam payment was made.
+
+             • Service user means a person who uses a service provided by a payment system
+               and is not a participant in that payment system.
+
+             • Victim means a consumer who has made one or more FPS APP scam payments.
+
+
+
+
+Payment Systems Regulator                              July 2024                                 14
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • Vulnerable consumer has the same meaning as when the term is used by the
+               FCA in its Guidance for firms on the fair treatment of vulnerable customers 2,
+               namely that a vulnerable consumer is someone who, due to their personal
+               circumstances, is especially susceptible to harm – particularly when a firm is not
+               acting with appropriate levels of care.
+
+
+
+
+           Made on 12 July 2024                            David Geale
+                                                           Interim Managing Director
+                                                           Payment Systems Regulator
+
+
+
+
+2   www.fca.org.uk/publications/finalised-guidance/guidance-firms-fair-treatment-vulnerable-customers
+
+
+
+
+Payment Systems Regulator                              July 2024                                        15
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+           Schedule of Key Changes
+             • Recitals paragraphs 1.6 and 1.7 inserted
+
+             • New paragraph 2.7 inserted
+
+             • Wording inserted into paragraph 3.1: (except as otherwise provided for in this
+               specific requirement)
+
+             • Wording deleted from paragraph 5.4: A PSP can stop the clock if it has asked for
+               information to assess the claim and is waiting for a response. PSPs can only stop
+               the clock for the following reasons:
+
+             • Wording inserted into paragraph 5.4: A PSP can only stop the clock if it has asked
+               for information to assess the claim and is waiting for a response in at least one of
+               the following circumstances:
+
+             • Paragraph 5.8 deleted: An FPS APP scam claim may be closed either by
+               reimbursement of the consumer where appropriate or by rejection of the claim,
+               with an explanation of the reasons
+
+             • New paragraph 5.8 inserted: An FPS APP scam claim may not be closed until it has
+               been assessed by the sending PSP as including one or more reimbursable FPS APP
+               scam payments or not including any reimbursable APP scam payments and either:
+
+                o the consumer has been reimbursed for any reimbursable FPS APP scam
+                  payments, or
+
+                o where the assessment has been that the claim did not include any reimbursable
+                  FPS APP scam payments, the claim has been rejected.
+
+             • New paragraph 5.9 inserted: In either case the consumer must be provided with a
+               written explanation of the reasons for the decision before the claim may be closed.
+
+             • New paragraph 5.10 inserted: The Faster Payments Operator must include and
+               implement FPS reimbursement rules which achieve the outcomes set out in
+               paragraphs 5.8 and 5.9 by 31 July 2024.
+
+             • Original paragraph 5.9 now paragraph 5.11
+
+             • Paragraph 5.11 amended as follows:
+
+                o It must tell the receiving PSP replaced with the sending PSP must tell the
+                  receiving PSP
+
+                o Wording inserted: of any FPS APP scam payments made to it as part of
+                  that claim
+
+             • Original paragraph 5.10 now paragraph 5.12
+
+
+
+
+Payment Systems Regulator                              July 2024                                      16
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • New wording inserted into paragraph 5.12.a: that is attributable to any
+               reimburseable APP scam payments made to that receiving PSP
+
+             • New wording inserted into paragraph 5.12.b: that is attributable to any
+               reimburseable APP scam payments made to that receiving PSP
+
+             • Original paragraph 5.11 now paragraph 5.13
+
+             • Original paragraph 5.12 now paragraph 5.14
+
+             • Paragraph 5.14 amended as follows:
+
+                o A reasonable period of time replaced by the reasonable period of time
+
+                o This period is to be defined replaced by which is defined by
+
+             • Original paragraph 5.13 now paragraph 5.15
+
+             • Paragraph 5.15 amended as follows:
+
+                o Wording inserted: following provisions apply
+
+                o Wording deleted: the receiving PSP may deduct 50% of the maximum
+                  claim excess amount from the specified amount
+
+                o Paragraph 5.15.a inserted: Where there is a single receiving PSP, that
+                  receiving PSP may deduct 50% of the maximum claim excess amount from
+                  the specified amount
+
+                o Paragraph 5.15.b inserted: Where there are two or more receiving PSPs, each
+                  may deduct from the specified amount an amount that is calculated as follows:
+
+                      − 50% of the maximum claim excess amount
+
+                      − The figure derived under step 1. shall be split between the receiving PSPs
+                        in proportions which equate to the proportionate value of each receiving
+                        PSP’s liability for the reimbursable part of the FPS APP scam claim.
+
+             • Paragraph 5.16 inserted: The proportionate value of each receiving PSP’s liability
+               for the reimburseable part of an FPS APP scam claim shall be calculated in
+               accordance with the method set out by the Faster Payments Operator in the
+               FPS reimbursement rules.
+
+             • Original paragraph 5.14 now paragraph 5.17
+
+             • Original paragraph 5.15 now paragraph 5.18
+
+             • Paragraph 5.19 inserted: The Faster Payments Operator must include and
+               implement FPS reimbursement rules which achieve the outcomes set out
+               in paragraphs 5.11 to 5.18 by 31 July 2024.
+
+
+
+
+Payment Systems Regulator                              July 2024                                     17
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+             • Original paragraph 5.16 now paragraph 5.20
+
+             • Original paragraph 5.17 now paragraph 5.21
+
+             • Original paragraph 5.18 now paragraph 5.22
+
+             • Original paragraph 5.19 now paragraph 5.23
+
+             • New Section 6 inserted
+
+             • Original Section 6 now Section 7
+
+             • Paragraph 7.1 (formerly 6.1) deleted
+
+             • Original paragraph 6.2 now paragraph 7.1
+
+             • Original paragraph 6.3 now paragraph 7.2
+
+             • Original paragraph 6.4 now paragraph 7.3
+
+             • Original paragraph 6.5 now paragraph 7.4
+
+             • Paragraph 7.4 amended as follows:
+
+                o Wording inserted: at least 20 working days in advance
+
+                o Potential replaced by proposed
+
+                o Faster Payments Scheme rules replaced by FPS reimbursement rules,
+                  FPS reimbursement claim management system rule, or any rules included
+                  in the Faster Payments Scheme rules as a result of section 6 of this specific
+                  requirement
+
+             • Section 7 now Section 8
+
+             • New Section 9 inserted
+
+             • Section 10 amended as follows:
+
+                o Original paragraph 8.1 (now paragraph 10.1) deleted: This specific requirement
+                  comes into force on 19 December 2023
+
+                o New paragraph 10.1 inserted: This specific requirement, consolidating changes
+                  made to the original Specific Requirement 1 and set out in the Schedule of Key
+                  Changes, comes into force on 12 July 2024.
+
+                o New paragraph 10.2 inserted: Those provisions contained in the original
+                  Specific Requirement 1 which came into force on 19 December 2023 and
+                  were not varied or revoked by this consolidated Specific Requirement 1
+                  (July 2024) continue in force until such time as they are varied or revoked.
+
+
+
+
+Payment Systems Regulator                              July 2024                                   18
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+                o Original paragraph 8.2 now paragraph 10.3
+
+             • Citation amended, now: Specific Requirement 1 (July 2024) (FPS APP Scam
+               Reimbursement Rules)
+
+             • New definitions inserted:
+
+                o Faster Payments Scheme rules means all rules created by the Faster
+                  Payments Operator which relate to and/or govern the access to and/or
+                  participation in the Faster Payments Scheme by PSPs (whether members or
+                  non-members).
+
+                o FPS reimbursement claim management system rule means the rule in the
+                  Faster Payments Scheme rules which requires the use of the RCMS
+
+                o In-scope payment means any payment, authorised by a consumer, that has all
+                  the following features:
+
+                      − It is executed through the Faster Payments Scheme.
+
+                      − It is authorised by a PSP’s consumer.
+
+                      − It is executed by that PSP in the UK.
+
+                      − The payment is received in a relevant account in the UK that is not
+                        controlled by the consumer.
+
+                o Reimbursement claims management system (RCMS) means the claims
+                  management, communication and information reporting IT system which will be
+                  provided by the Faster Payments operator for FPS participants to use to
+                  communicate, manage claims and report information for FPS APP scam claims
+
+                o Wording inserted into definition of receiving PSP: Any references to receiving
+                  PSP in the singular may also be read in the plural where an FPS APP scam claim
+                  includes payments to more than one receiving PSP.
+
+
+
+
+Payment Systems Regulator                              July 2024                              19
+Specific Requirement 1 (July 2024) (FPS APP scam reimbursement rules)
+
+
+
+
+Status of requirements
+Requirements give rise to binding obligations. Breaching a requirement is a compliance failure
+which makes a party liable to regulatory sanction.
+
+
+
+
+Payment Systems Regulator                              July 2024                                 20
+© The Payment Systems Regulator Limited 2024
+12 Endeavour Square
+London E20 1JN
+Telephone: 0300 456 3677
+Website: www.psr.org.uk
+
+All rights reserved
+
